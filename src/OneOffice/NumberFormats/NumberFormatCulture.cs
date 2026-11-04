@@ -161,7 +161,7 @@ public sealed class NumberFormatCulture
             "January|February|March|April|May|June|July|August|September|October|November|December",
             "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec",
             "Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday", "Sun|Mon|Tue|Wed|Thu|Fri|Sat",
-            "AM", "PM", "$", false, "m/d/yyyy", "dddd, mmmm dd, yyyy", "h:mm:ss AM/PM", EraStyle.Gregorian),
+            "AM", "PM", "$", false, "m/d/yyyy", "dddd, mmmm d, yyyy", "h:mm:ss AM/PM", EraStyle.Gregorian),
         new(0x0809, "en-GB", ".", ",",
             "January|February|March|April|May|June|July|August|September|October|November|December",
             "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec",

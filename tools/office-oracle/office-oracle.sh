@@ -2,7 +2,7 @@
 # Drives desktop Office on a Windows machine and brings the answers back.
 #
 #   office-oracle.sh install
-#   office-oracle.sh run --run NAME [--instance ID] [--out DIR] [--probe] [--pdf] [--saveas]
+#   office-oracle.sh run --run NAME [--instance ID] [--out DIR] [--probe|--grid] [--pdf] [--saveas]
 #                        [--lock-path WINPATH] [--lock-retry SECONDS] [--lock-wait MINUTES] [--timeout SECONDS]
 #                        [--trace] [--no-watcher] [--keep] FILE|DIR...
 #
@@ -32,7 +32,7 @@ cmd=${1:-}; shift || true
 case "$cmd" in
 install)
   remote "mkdir $base_win\\driver 2>nul & mkdir $base_win\\jobs 2>nul & echo ok" >/dev/null
-  scp -q "${ssh_opts[@]}" "$here/laptop/Run-Oracle.ps1" "$here/laptop/Install.ps1" "$OFFICE_ORACLE_SSH:$base_scp/driver/"
+  scp -q "${ssh_opts[@]}" "$here/laptop/Run-Oracle.ps1" "$here/laptop/Install.ps1" "$here/laptop/Start-Run.ps1" "$OFFICE_ORACLE_SSH:$base_scp/driver/"
   remote "powershell -NoProfile -ExecutionPolicy Bypass -File $base_win\\driver\\Install.ps1 -Base $base_win"
   ;;
 run)
@@ -41,7 +41,7 @@ run)
   while [ $# -gt 0 ]; do
     case "$1" in
       --run) run=$2; shift 2;; --instance) instance=$2; shift 2;; --out) out=$2; shift 2;;
-      --probe) mode=probe; shift;; --pdf) pdf=true; shift;; --saveas) saveas=true; shift;;
+      --probe) mode=probe; shift;; --grid) mode=grid; shift;; --pdf) pdf=true; shift;; --saveas) saveas=true; shift;;
       --lock-path) lock=$2; shift 2;; --lock-retry) retry=$2; shift 2;; --lock-wait) wait_min=$2; shift 2;;
       --timeout) timeout=$2; shift 2;; --keep) keep=true; shift;; --trace) trace=true; shift;; --pdf-via) pdfvia=$2; shift 2;; --word-alerts) walerts=$2; shift 2;; --no-watcher) nowatch=true; shift;;
       *) inputs+=("$1"); shift;;
@@ -80,8 +80,7 @@ json.dump(job, open(stage + "/job.json", "w"), indent=1)
 EOF
   remote "rmdir /s /q $base_win\\jobs\\$run 2>nul & mkdir $base_win\\jobs\\$run" >/dev/null
   scp -q -r "${ssh_opts[@]}" "$stage/in" "$stage/job.json" "$OFFICE_ORACLE_SSH:$base_scp/jobs/$run/"
-  remote "powershell -NoProfile -Command \"[IO.File]::WriteAllText('$base_win\\jobs\\current.txt', '$base_win\\jobs\\$run')\"" >/dev/null
-  remote "schtasks /run /tn OneOfficeOracle" >/dev/null
+  remote "powershell -NoProfile -ExecutionPolicy Bypass -File $base_win\\driver\\Start-Run.ps1 -Base $base_win -Run $run" >/dev/null
   echo "started $run on the Windows machine; waiting up to ${timeout}s" >&2
   t=0
   until [ "$(remote "if exist $base_win\\jobs\\$run\\out\\done.json (echo yes) else (echo no)" | tr -d '\r')" = yes ]; do
@@ -89,6 +88,7 @@ EOF
     [ $t -lt "$timeout" ] || { echo "timed out after ${timeout}s; job left in place" >&2; exit 3; }
   done
   scp -q -r "${ssh_opts[@]}" "$OFFICE_ORACLE_SSH:$base_scp/jobs/$run/out/." "$out/"
+  remote "schtasks /delete /tn OneOfficeOracle-$run /f" >/dev/null 2>&1 || true
   $keep || remote "rmdir /s /q $base_win\\jobs\\$run" >/dev/null
   echo "results in $out" >&2
   ;;

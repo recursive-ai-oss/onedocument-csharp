@@ -19,6 +19,11 @@ internal static class DateWriter
     internal static FormatStatus Emit(ref Writer w, NumberFormatSection sec, double value, FormatOptions o, NumberFormatCulture optionCulture)
     {
         NumberFormatCulture culture = sec.LocaleId != 0 ? NumberFormatCulture.Get(sec.LocaleId) : optionCulture;
+        if (IsOnlyElapsed(sec))
+        {
+            return EmitOnlyElapsed(ref w, sec, value);
+        }
+
         int k = sec.FractionSecondDigits;
         int unit = k >= 3 ? 1 : k == 2 ? 10 : k == 1 ? 100 : 1000;
         if (!ExcelDate.TryRoundToMilliseconds(value, unit, o.DateSystem, out long ms) || !ExcelDate.TryFromMilliseconds(ms, o.DateSystem, out ExcelDateTime t))
@@ -138,6 +143,67 @@ internal static class DateWriter
         return FormatStatus.Ok;
     }
 
+    // Observed in Excel: a format whose only date or time part is one elapsed field ([h], [m] or [s]) is just a count, so it has no
+    // date range and a negative value shows a minus sign; with any other date or time part Excel shows # for negative values.
+    private static bool IsOnlyElapsed(NumberFormatSection sec)
+    {
+        int parts = 0;
+        bool elapsed = false;
+        foreach (Element e in sec.Elements)
+        {
+            if (e.Kind is EK.Year or EK.Month or EK.Day or EK.Hour or EK.Minute or EK.Second or EK.FractionSecond or EK.AmPm
+                or EK.EraYear or EK.EraName or EK.BuddhistYear)
+            {
+                parts++;
+            }
+            else if (e.Kind is EK.ElapsedHour or EK.ElapsedMinute or EK.ElapsedSecond)
+            {
+                parts++;
+                elapsed = true;
+            }
+        }
+
+        return parts == 1 && elapsed;
+    }
+
+    private static FormatStatus EmitOnlyElapsed(ref Writer w, NumberFormatSection sec, double value)
+    {
+        double a = Math.Abs(value);
+        if (a >= 1e11)
+        {
+            return FormatStatus.NotRepresentable;
+        }
+
+        long wholeSeconds = (long)Math.Round(a * 86_400.0, MidpointRounding.AwayFromZero);
+        bool wroteSign = false;
+        foreach (Element e in sec.Elements)
+        {
+            switch (e.Kind)
+            {
+                case EK.Literal:
+                    w.Append(e.Text);
+                    break;
+                case EK.Fill:
+                    w.SetFill(e.Ch);
+                    break;
+                case EK.ElapsedHour or EK.ElapsedMinute or EK.ElapsedSecond:
+                    // Observed in Excel: the time is first rounded to whole seconds, as for every time format, then cut to the unit.
+                    long unitSeconds = e.Kind == EK.ElapsedHour ? 3600 : e.Kind == EK.ElapsedMinute ? 60 : 1;
+                    long count = wholeSeconds / unitSeconds;
+                    if (value < 0 && count != 0 && !wroteSign)
+                    {
+                        w.Append('-');
+                        wroteSign = true;
+                    }
+
+                    NumberWriter.AppendPadded(ref w, count, e.N);
+                    break;
+            }
+        }
+
+        return FormatStatus.Ok;
+    }
+
     private static string FirstLetter(string s)
     {
         // The first text element; names are BMP text in every table locale.
@@ -146,19 +212,20 @@ internal static class DateWriter
 
     private static void AmPm(ref Writer w, int style, bool am, NumberFormatCulture c)
     {
+        if (style >= 4)
+        {
+            // A written-out pair such as 上午/下午 shows its own half.
+            string pair = FormatParser.AmPmPairs[style - 4];
+            int slash = pair.IndexOf('/', StringComparison.Ordinal);
+            w.Append(am ? pair.AsSpan(0, slash) : pair.AsSpan(slash + 1));
+            return;
+        }
+
         string full = am ? c.AmDesignator : c.PmDesignator;
         switch (style)
         {
             case 0:
-            case 4:
                 w.Append(full);
-                break;
-            case 1:
-                foreach (char ch in full)
-                {
-                    w.Append(char.ToLowerInvariant(ch));
-                }
-
                 break;
             case 2:
                 w.Append(am ? 'A' : 'P');

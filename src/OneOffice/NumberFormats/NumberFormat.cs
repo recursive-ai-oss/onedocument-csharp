@@ -133,6 +133,9 @@ public enum FormatStatus
 
     /// <summary>The value was NaN or infinite; Excel cannot hold these (the output is <c>#NUM!</c>).</summary>
     InvalidNumber = 4,
+
+    /// <summary>The value does not fit what the format can show (a fraction whose numerator exceeds 32 bits); Excel shows a row of <c>#</c>.</summary>
+    NotRepresentable = 5,
 }
 
 /// <summary>The result of <see cref="NumberFormat.TryFormat(double, Span{char}, FormatOptions)"/>: the status, the length written and the layout hints.</summary>

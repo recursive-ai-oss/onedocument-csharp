@@ -101,20 +101,11 @@ internal static class NumberWriter
         }
     }
 
-    internal static void Emit(ref Writer w, NumberFormatSection sec, double abs, bool neg, NumberFormatCulture culture)
+    internal static FormatStatus Emit(ref Writer w, NumberFormatSection sec, double abs, bool neg, NumberFormatCulture culture)
     {
         if (sec.Kind == NumberFormatSectionKind.Fraction)
         {
-            if (abs < 1e15)
-            {
-                if (neg)
-                {
-                    w.Append('-');
-                }
-
-                EmitFraction(ref w, sec, abs, culture);
-                return;
-            }
+            return EmitFraction(ref w, sec, abs, neg, culture);
         }
 
         // 24 digits: 15 significant plus room for a carry; bounded by Extract.
@@ -148,12 +139,14 @@ internal static class NumberWriter
             RoundTo(d, ref n, ref pt, sec.FractionPlaceholders);
         }
 
-        if (neg)
+        // Observed in Excel: a negative number that rounds to zero shows no minus sign.
+        if (neg && n > 0)
         {
             w.Append('-');
         }
 
         EmitDigits(ref w, sec, d, n, pt, exp, culture);
+        return FormatStatus.Ok;
     }
 
     private static int FloorDiv(int a, int b) => (int)Math.Floor(a / (double)b);
@@ -194,7 +187,8 @@ internal static class NumberWriter
                             }
                         }
 
-                        IntDigit(ref w, sec, d, n, pt, q, e.Kind, culture);
+                        // Observed in Excel: a zero in scientific notation shows every integer placeholder as 0.
+                        IntDigit(ref w, sec, d, n, pt, q, n == 0 && sec.Kind == NumberFormatSectionKind.Scientific ? EK.Zero : e.Kind, culture);
                     }
                     else
                     {
@@ -288,7 +282,68 @@ internal static class NumberWriter
         w.Append(t.Slice(0, len));
     }
 
-    private static void EmitFraction(ref Writer w, NumberFormatSection sec, double abs, NumberFormatCulture culture)
+    // Excel stores fraction numerators as 32-bit signed integers: a larger one cannot be shown.
+    private const long MaxNumerator = int.MaxValue;
+
+    // Observed in Excel: the fraction is the last continued-fraction convergent whose denominator fits the placeholders (and whose
+    // numerator fits 32 bits), not the closest fraction. The expansion runs on the binary double, so 5.3 gives 5 2/7 while 0.1+0.2
+    // gives 1/3. When not even the first step fits, the number is rounded to a whole.
+    private static bool Convergent(double x, long maxDen, out long num, out long den)
+    {
+        num = 0;
+        den = 1;
+        double fl = Math.Floor(x);
+        if (fl > MaxNumerator)
+        {
+            return false;
+        }
+
+        long pPrev = 1, qPrev = 0, p = (long)fl, q = 1;
+        double r = x - fl;
+        double firstRemainder = r;
+        bool advanced = false;
+        while (r > 1e-12)
+        {
+            double inv = 1.0 / r;
+            double a = Math.Floor(inv);
+            r = inv - a;
+            if (a > 1e9)
+            {
+                break;
+            }
+
+            long p2 = ((long)a * p) + pPrev;
+            long q2 = ((long)a * q) + qPrev;
+            if (q2 > maxDen || p2 > MaxNumerator)
+            {
+                break;
+            }
+
+            pPrev = p;
+            qPrev = q;
+            p = p2;
+            q = q2;
+            advanced = true;
+        }
+
+        if (!advanced && firstRemainder > 1e-12)
+        {
+            double rounded = Math.Round(x, MidpointRounding.AwayFromZero);
+            if (rounded > MaxNumerator)
+            {
+                return false;
+            }
+
+            p = (long)rounded;
+            q = 1;
+        }
+
+        num = p;
+        den = q;
+        return true;
+    }
+
+    private static FormatStatus EmitFraction(ref Writer w, NumberFormatSection sec, double abs, bool neg, NumberFormatCulture culture)
     {
         int wholePh = sec.NumeratorStart;
         int numPh = sec.SlashIndex - sec.NumeratorStart;
@@ -302,46 +357,44 @@ internal static class NumberWriter
             }
         }
 
-        long whole = 0;
-        double rem = abs;
+        double wholeD = 0;
         if (hasWhole)
         {
-            whole = (long)Math.Floor(abs);
-            rem = abs - whole;
+            wholeD = Math.Floor(abs);
         }
 
-        int maxDen = sec.FixedDenominator > 0 ? sec.FixedDenominator : (int)Math.Pow(10, sec.DenominatorPlaceholders) - 1;
-        long num = 0;
+        long num;
         long den = 1;
         if (sec.FixedDenominator > 0)
         {
             den = sec.FixedDenominator;
-            num = (long)Math.Round(rem * den, MidpointRounding.AwayFromZero);
+            // The product is taken to 15 significant digits before rounding, as every number Excel shows is: 0.285 over 100 is 29.
+            double product = (hasWhole ? abs - wholeD : abs) * den;
+            if (product > MaxNumerator)
+            {
+                return FormatStatus.NotRepresentable;
+            }
+
+            decimal t = Math.Round((decimal)product, MidpointRounding.AwayFromZero);
+            num = (long)t;
         }
         else
         {
-            // The closest fraction with a denominator of up to the placeholder count; the smaller denominator wins a tie.
-            double best = double.MaxValue;
-            for (int dd = 1; dd <= maxDen; dd++)
+            long maxDen = 1;
+            for (int k = 0; k < sec.DenominatorPlaceholders; k++)
             {
-                double nn = Math.Round(rem * dd, MidpointRounding.AwayFromZero);
-                double err = Math.Abs(rem - (nn / dd));
-                if (err < best - 1e-13)
-                {
-                    best = err;
-                    num = (long)nn;
-                    den = dd;
-                    if (err < 1e-13)
-                    {
-                        break;
-                    }
-                }
+                maxDen *= 10;
+            }
+
+            if (!Convergent(hasWhole ? abs - wholeD : abs, maxDen - 1, out num, out den))
+            {
+                return FormatStatus.NotRepresentable;
             }
         }
 
         if (hasWhole && num >= den)
         {
-            whole += num / den;
+            wholeD += num / den;
             num %= den;
         }
 
@@ -351,29 +404,20 @@ internal static class NumberWriter
             numHasZero |= els[i].Kind == EK.Zero;
         }
 
-        bool blank = hasWhole && num == 0 && sec.FixedDenominator == 0 && !numHasZero;
+        bool blank = hasWhole && num == 0 && !numHasZero;
 
-        // Whole part: the same placement as an integer section.
-        Span<byte> wd = stackalloc byte[24]; // a long has at most 19 digits
-        int wn = 0;
-        // Fixed small buffer: a long or double prints in at most 24 characters.
-        Span<char> tmp = stackalloc char[24];
-        whole.TryFormat(tmp, out int wl, default, CultureInfo.InvariantCulture);
-        if (whole != 0)
+        // Observed in Excel: without a whole part a fraction that is zero shows no minus sign; with one it keeps it.
+        if (neg && (hasWhole || num != 0))
         {
-            for (int i = 0; i < wl; i++)
-            {
-                wd[i] = (byte)(tmp[i] - '0');
-            }
-
-            wn = wl;
-            while (wn > 0 && wd[wn - 1] == 0)
-            {
-                wn--;
-            }
+            w.Append('-');
         }
 
-        int wpt = whole == 0 ? 0 : wl;
+        // Whole part: the same placement as an integer section. At most 24 digits: Extract keeps 15 significant ones.
+        Span<byte> wd = stackalloc byte[24];
+        Extract(wholeD, wd, out int wn, out int wpt);
+        // Fixed small buffer: a long or double prints in at most 24 characters.
+        Span<char> tmp = stackalloc char[24];
+        bool whole0 = wholeD == 0;
         int seen = 0;
         int i2 = 0;
         for (; i2 < wholePh; i2++)
@@ -400,14 +444,14 @@ internal static class NumberWriter
                 }
 
                 // A value of exactly zero still shows its 0.
-                IntDigit(ref w, sec, wd, wn, wpt, q, q == 0 && whole == 0 && num == 0 ? EK.Zero : e.Kind, culture);
+                IntDigit(ref w, sec, wd, wn, wpt, q, q == 0 && whole0 && num == 0 ? EK.Zero : e.Kind, culture);
             }
         }
 
         int denPh = sec.DenominatorPlaceholders;
         if (blank)
         {
-            w.AppendRepeat(' ', numPh + 1 + (sec.FixedDenominator > 0 ? 0 : denPh));
+            w.AppendRepeat(' ', numPh + 1 + (sec.FixedDenominator > 0 ? sec.FixedDenominator.ToString(CultureInfo.InvariantCulture).Length : denPh));
         }
         else
         {
@@ -441,6 +485,8 @@ internal static class NumberWriter
                 w.SetFill(e.Ch);
             }
         }
+
+        return FormatStatus.Ok;
     }
 
     private static void AppendRightAligned(ref Writer w, long value, Element[] els, int start, int count)

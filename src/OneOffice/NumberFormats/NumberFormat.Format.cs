@@ -52,6 +52,7 @@ public sealed partial class NumberFormat
     {
         FormatStatus.Ok => text.ToString(),
         FormatStatus.InvalidNumber => "#NUM!",
+        FormatStatus.NotRepresentable => new string('#', options.MaxWidth > 0 ? options.MaxWidth : 8),
         FormatStatus.DoesNotFit => new string('#', Math.Max(1, options.MaxWidth)),
         _ => new string('#', options.MaxWidth > 0 ? options.MaxWidth : 8),
     };
@@ -138,6 +139,12 @@ public sealed partial class NumberFormat
         switch (sec.Kind)
         {
             case NumberFormatSectionKind.Empty:
+                // Observed in Excel: a section that holds only a colour or a condition shows the number as General does.
+                if (sec.Color is not null || sec.Condition is not null)
+                {
+                    NumberWriter.AppendGeneral(ref w, abs, neg, GeneralWidth(options), culture);
+                }
+
                 break;
             case NumberFormatSectionKind.Literal:
                 EmitLiteral(ref w, sec, value, culture, options);
@@ -148,8 +155,7 @@ public sealed partial class NumberFormat
             case NumberFormatSectionKind.DateTime:
                 return DateWriter.Emit(ref w, sec, value, options, culture);
             default:
-                NumberWriter.Emit(ref w, sec, abs, neg, culture);
-                break;
+                return NumberWriter.Emit(ref w, sec, abs, neg, culture);
         }
 
         return FormatStatus.Ok;
@@ -284,8 +290,19 @@ public sealed partial class NumberFormat
             chosen = count - 1;
         }
 
-        // The minus sign is not shown when the negative section is selected implicitly.
-        dropSign = v < 0 && chosen >= 1 && _sections[chosen].Condition is null;
+        // The minus sign is not shown when the negative section is selected implicitly: a second or third section with no condition
+        // of its own, when no section has one. Observed in Excel: once any section has a condition the leftover sections show the
+        // sign, and a section whose condition says "below zero" supplies the sign itself.
+        bool anyCondition = false;
+        for (int i = 0; i < count; i++)
+        {
+            anyCondition |= _sections[i].Condition is not null;
+        }
+
+        NumberFormatCondition? chosenCondition = _sections[chosen].Condition;
+        dropSign = v < 0 && (chosenCondition is null
+            ? chosen >= 1 && !anyCondition
+            : chosenCondition.Value.Operator is "<" or "<=" && chosenCondition.Value.Operand <= 0);
         return chosen;
     }
 

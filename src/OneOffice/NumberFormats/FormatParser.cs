@@ -126,7 +126,7 @@ internal static class FormatParser
         0x003366, 0x339966, 0x003300, 0x333300, 0x993300, 0x993366, 0x333399, 0x333333,
     ];
 
-    private static readonly string[] AmPmPairs = ["上午/下午", "午前/午後", "오전/오후"];
+    internal static readonly string[] AmPmPairs = ["上午/下午", "午前/午後", "오전/오후"];
 
     private static NumberFormatSection ParseSection(string code, int start, int end)
     {
@@ -392,7 +392,14 @@ internal static class FormatParser
             return i + 6;
         }
 
-        if (lc == 'e' && i + 1 < src.Length && src[i + 1] is '+' or '-')
+        bool expShape = lc == 'e' && i + 1 < src.Length && src[i + 1] is '+' or '-';
+        if (expShape && c == 'e' && i + 2 < src.Length && src[i + 2] is '0' or '#')
+        {
+            // Observed in Excel: only the capital letter starts an exponent; "0.00e+00" is invalid.
+            throw new Fail("numfmt.exponent-without-digits", "The exponent code is a capital E.", i);
+        }
+
+        if (expShape)
         {
             toks.Add(new Element(EK.Exp, src[i + 1] == '+' ? 1 : 0, null, c));
             return i + 1;
@@ -402,7 +409,8 @@ internal static class FormatParser
         {
             if (string.Compare(src, i, "AM/PM", 0, 5, StringComparison.OrdinalIgnoreCase) == 0)
             {
-                toks.Add(new Element(EK.AmPm, c == 'a' ? 1 : 0));
+                // Observed in Excel: "am/pm" in lower case still shows AM and PM in capitals; only "a/p" shows lower case.
+                toks.Add(new Element(EK.AmPm, 0));
                 return i + 4;
             }
 
@@ -413,11 +421,12 @@ internal static class FormatParser
             }
         }
 
-        foreach (string pair in AmPmPairs)
+        for (int pi = 0; pi < AmPmPairs.Length; pi++)
         {
+            string pair = AmPmPairs[pi];
             if (string.CompareOrdinal(src, i, pair, 0, pair.Length) == 0)
             {
-                toks.Add(new Element(EK.AmPm, 4));
+                toks.Add(new Element(EK.AmPm, 4 + pi));
                 return i + pair.Length - 1;
             }
         }
@@ -586,6 +595,12 @@ internal static class FormatParser
         }
         else if (hasDigits || hasPercent || toks.Exists(t => t.Kind == EK.Point))
         {
+            // Observed in Excel: @ beside digit placeholders makes the code invalid.
+            if (hasAt && hasDigits)
+            {
+                throw new Fail("numfmt.mixed-codes", "The text placeholder @ cannot be combined with digit placeholders.", start);
+            }
+
             section = BuildNumeric(src, start, toks);
         }
         else

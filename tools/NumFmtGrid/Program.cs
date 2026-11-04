@@ -9,7 +9,7 @@ using RecursiveAI.OneOffice.NumberFormats;
 
 // Writes the number-format edge-case grid: a workbook of format codes x values for Excel to answer, and a manifest of our answers.
 //
-//   NumFmtGrid write <out dir>                      grid.xlsx, manifest.tsv, readback.md
+//   NumFmtGrid write <out dir> [skip-codes.txt]     grid-text.xlsx, grid-cells-NN.xlsx, manifest.tsv, readback.md (one format code per line to leave out)
 //   NumFmtGrid compare <manifest.tsv> <answers.tsv> [report.tsv]
 //        answers.tsv: id <TAB> text-from-TEXT() <TAB> display-text-of-the-formatted-cell (as read back from an application)
 //        prints the agreement and writes every difference to report.tsv.
@@ -20,7 +20,8 @@ internal static class Program
         if (args.Length >= 2 && args[0] == "write")
         {
             Directory.CreateDirectory(args[1]);
-            return Write(args[1]);
+            HashSet<string>? skip = args.Length > 2 ? File.ReadAllLines(args[2], Encoding.UTF8).Where(l => l.Length > 0).ToHashSet(StringComparer.Ordinal) : null;
+            return Write(args[1], skip);
         }
 
         if (args.Length >= 3 && args[0] == "compare")
@@ -32,7 +33,7 @@ internal static class Program
         return 2;
     }
 
-    private static int Write(string dir)
+    private static int Write(string dir, HashSet<string>? skip)
     {
         List<GridCase> cases = Cases.Build();
         var formats = cases.Select(c => c.Code).Distinct(StringComparer.Ordinal).ToList();
@@ -72,7 +73,13 @@ internal static class Program
         // Two workbooks: formulas first (always safe to open), then the cells with custom number formats in styles.xml, so a
         // format Excel dislikes can only spoil the second.
         WriteWorkbook(Path.Combine(dir, "grid-text.xlsx"), cases, formats, text: true);
-        WriteWorkbook(Path.Combine(dir, "grid-cells.xlsx"), cases, formats.Where(f => nf[f] is not null).ToList(), text: false);
+        // The cell workbooks are small shards of 12 codes each, so one code Excel refuses costs one shard, not the lot.
+        List<string> valid = formats.Where(f => nf[f] is not null && !(skip?.Contains(f) ?? false)).ToList();
+        for (int s = 0; s * 12 < valid.Count; s++)
+        {
+            List<string> part = valid.Skip(s * 12).Take(12).ToList();
+            WriteWorkbook(Path.Combine(dir, $"grid-cells-{s:D2}.xlsx"), cases, part, text: false);
+        }
         File.WriteAllText(Path.Combine(dir, "readback.md"), Readback(cases.Count, formats.Count), new UTF8Encoding(false));
         Console.WriteLine($"{cases.Count} cases, {formats.Count} distinct codes, {nf.Count(x => x.Value is null)} codes our parser rejects");
         return 0;
@@ -162,10 +169,16 @@ internal static class Program
         s1.Append("<row r=\"1\"><c r=\"A1\" t=\"inlineStr\"><is><t>id</t></is></c><c r=\"B1\" t=\"inlineStr\"><is><t>code</t></is></c><c r=\"C1\" t=\"inlineStr\"><is><t>value</t></is></c><c r=\"D1\" t=\"inlineStr\"><is><t>TEXT(value, code)</t></is></c></row>");
         var s2 = new StringBuilder($"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><worksheet xmlns=\"{Main}\"><cols><col min=\"2\" max=\"2\" width=\"60\" customWidth=\"1\"/></cols><sheetData>");
         s2.Append("<row r=\"1\"><c r=\"A1\" t=\"inlineStr\"><is><t>id</t></is></c><c r=\"B1\" t=\"inlineStr\"><is><t>value shown with the code</t></is></c></row>");
+        int row = 0;
         for (int i = 0; i < cases.Count; i++)
         {
             GridCase c = cases[i];
-            int r = i + 2;
+            if (!text && !fmtIndex.ContainsKey(c.Code))
+            {
+                continue;
+            }
+
+            int r = (++row) + 1;
             string val = c.Text is null
                 ? $"<v>{c.Value.ToString("R", CultureInfo.InvariantCulture)}</v>"
                 : $"<is><t xml:space=\"preserve\">{X(c.Text)}</t></is>";
@@ -283,6 +296,32 @@ internal static class Cases
             }
         }
 
+        // Month, weekday and AM/PM names for every locale in the culture table, read back from the application.
+        foreach (int lcid in new[] { 0x409, 0x809, 0x407, 0x40C, 0xC0A, 0x410, 0x416, 0x413, 0x419, 0x411, 0x804, 0x404, 0x412 })
+        {
+            string tag = "[$-" + lcid.ToString("X", CultureInfo.InvariantCulture) + "]";
+            foreach (string code in new[] { "mmmm", "mmm" })
+            {
+                for (int m = 0; m < 12; m++)
+                {
+                    list.Add(new GridCase(tag + code, 45672 + (31 * m), null));
+                }
+            }
+
+            foreach (string code in new[] { "dddd", "ddd" })
+            {
+                for (int d = 0; d < 7; d++)
+                {
+                    list.Add(new GridCase(tag + code, 45671 + d, null));
+                }
+            }
+
+            list.Add(new GridCase(tag + "h:mm AM/PM", 0.25, null));
+            list.Add(new GridCase(tag + "h:mm AM/PM", 0.75, null));
+            list.Add(new GridCase(tag + "d mmmm yyyy", 45000, null));
+            list.Add(new GridCase(tag + "#,##0.00", 1234567.891, null));
+        }
+
         // Built-in IDs written out in their US English form.
         for (int id = 0; id <= 49; id++)
         {
@@ -295,6 +334,40 @@ internal static class Cases
                 }
             }
         }
+
+        // Probes added after the first round of answers: each settles one open question.
+        void Probe(string[] codes, double[] values)
+        {
+            foreach (string code in codes)
+            {
+                foreach (double v in values)
+                {
+                    list.Add(new GridCase(code, v, null));
+                }
+            }
+        }
+
+        // Which fraction is chosen, and how large a numerator or number is accepted.
+        Probe(["# ?/?", "# ??/??", "# ???/???", "?/?", "??/??", "# ?/4", "# ??/10", "0/0"],
+            [0.9, 0.7, 0.45, 0.6, 0.95, 0.99, 0.123, 0.0625, 0.333, 0.667, 0.875, 2.9, 0.05, 0.04, 0.02, 0.51, 0.4, 0.14, 3.14159265358979, 0.001, 0.999]);
+        // Whether a condition makes the section responsible for the minus sign.
+        Probe(["[<=0]\"n\";0", "[<-3]\"a\";0", "[<5]\"s\";0.0", "[<5]0;0.0", "[=-5]\"x\";0", "[<0]0;[>=0]0", "[<0]0.0;0.00", "[<=-3]0;0.0", "[<>-5]0;0.0", "[>0]0;[<0]0", "[<0]0;[<0]0.0;0.00"],
+            [-5, -3, -1, -0.2, 0, 1, 5]);
+        // The largest numbers each kind of format accepts.
+        Probe(["0", "#,##0", "0.00", "General", "0.00E+00", "@", "yyyy", "[h]", "0%", "0.0,,", "# ?/?", "0 0/0"],
+            [1e14, 9.99999999999999e14, 1e15, 1e16, 1e20, 1e22, 1e27, 1e28, 1e29, 1e30, 1e50, 1e100, 1e300, -1e20, 99999999999999999.0]);
+        // Where General turns to scientific notation.
+        Probe(["General", "0.###############"],
+            [1e-4, 1.5e-4, 1e-5, 1e-8, 1e-9, 1.2345e-8, 1.2345e-9, 1.2e-10, 0.00012345678, 0.123456789012345, 0.0123456789012345, 0.00123456789012345,
+             1234567890123, 123456789012, 12345678901, 1234567890.12345, -0.00001, 1e10, 1e11, 123456.789012345678]);
+        // Calendars and eras given by a locale tag.
+        Probe(["[$-41E]yyyy", "[$-41E]bbbb", "[$-41E]bb", "[$-41E]d/m/yyyy", "[$-1041E]bbbb", "[$-D07041E]d mmmm yyyy", "[$-404]yyyy", "[$-404]ee", "[$-404]ggg e", "[$-404]e",
+              "[$-411]e", "[$-411]ge", "[$-411]gggee", "[$-804]e", "[$-412]e", "[$-412]yyyy", "[$-404]gge\"年\"", "[$-11]yyyy", "[$-F800]d mmmm yyyy", "[$-409]yyyy"],
+            [1, 45000, 36526, 28000, 43585, 43586, 15000]);
+        // Chinese numerals.
+        Probe(["[DBNum1][$-411]0", "[DBNum2][$-411]0", "[DBNum1][$-404]0", "[DBNum2][$-404]0", "[DBNum3][$-804]0", "[DBNum3][$-404]0", "[DBNum1][$-412]0", "[DBNum2][$-412]0",
+              "[DBNum3][$-411]0", "[DBNum1][$-804]0.00", "[DBNum2][$-804]0.0", "[DBNum1][$-804]#,##0", "[DBNum1][$-804]h:mm", "[DBNum1][$-804]d", "[DBNum2][$-804]d", "[DBNum1][$-411]d", "[DBNum2][$-804]yyyy"],
+            [0, 5, 12, 105, 10, 100, 1000, 10000, 100000000, 1234.5678, -12, 20, 11, 45000.5]);
 
         return list;
     }

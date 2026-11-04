@@ -1,3 +1,4 @@
+using System;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Jobs;
@@ -16,7 +17,7 @@ namespace RecursiveAI.OneOffice.Bench;
 [MemoryDiagnoser]
 [JsonExporterAttribute.Full]
 [SimpleJob(RunStrategy.Throughput, launchCount: 1, warmupCount: 1, iterationCount: 5)]
-public class NumFmtBenchmarks
+public class NumFmtBenchmarks : IDisposable
 {
     private const int Count = 1000;
     private const string NumberCode = "#,##0.00";
@@ -53,11 +54,15 @@ public class NumFmtBenchmarks
         _dateCell.Style.NumberFormat.Format = DateCode;
     }
 
-    [GlobalCleanup]
-    public void Cleanup() => _book.Dispose();
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        _book.Dispose();
+        GC.SuppressFinalize(this);
+    }
 
     [Benchmark(OperationsPerInvoke = Count)]
-    public long OneOffice_Number_String()
+    public long OneOfficeNumberString()
     {
         long n = 0;
         foreach (double v in _numbers)
@@ -69,7 +74,7 @@ public class NumFmtBenchmarks
     }
 
     [Benchmark(OperationsPerInvoke = Count)]
-    public long OneOffice_Number_Span()
+    public long OneOfficeNumberSpan()
     {
         long n = 0;
         foreach (double v in _numbers)
@@ -81,7 +86,7 @@ public class NumFmtBenchmarks
     }
 
     [Benchmark(OperationsPerInvoke = Count)]
-    public long OneOffice_Date_String()
+    public long OneOfficeDateString()
     {
         long n = 0;
         foreach (double v in _dates)
@@ -93,7 +98,7 @@ public class NumFmtBenchmarks
     }
 
     [Benchmark(OperationsPerInvoke = Count)]
-    public long OneOffice_Date_Span()
+    public long OneOfficeDateSpan()
     {
         long n = 0;
         foreach (double v in _dates)
@@ -105,7 +110,7 @@ public class NumFmtBenchmarks
     }
 
     [Benchmark(OperationsPerInvoke = Count)]
-    public long Npoi_Number()
+    public long NpoiNumber()
     {
         long n = 0;
         foreach (double v in _numbers)
@@ -117,7 +122,7 @@ public class NumFmtBenchmarks
     }
 
     [Benchmark(OperationsPerInvoke = Count)]
-    public long Npoi_Date()
+    public long NpoiDate()
     {
         long n = 0;
         foreach (double v in _dates)
@@ -129,7 +134,7 @@ public class NumFmtBenchmarks
     }
 
     [Benchmark(OperationsPerInvoke = Count)]
-    public long ClosedXml_Number()
+    public long ClosedXmlNumber()
     {
         long n = 0;
         foreach (double v in _numbers)
@@ -142,7 +147,7 @@ public class NumFmtBenchmarks
     }
 
     [Benchmark(OperationsPerInvoke = Count)]
-    public long ClosedXml_Date()
+    public long ClosedXmlDate()
     {
         long n = 0;
         foreach (double v in _dates)

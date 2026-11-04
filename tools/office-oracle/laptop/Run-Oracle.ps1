@@ -3,9 +3,9 @@
 # This script is started by a scheduled task that is registered to run only while the user is logged on,
 # because Office automation needs an interactive desktop session. It is the only thing that touches Office.
 #
-# Input : <base>\jobs\current.txt names the job directory; <job>\job.json describes the batch:
+# Input : -Job names the job directory (or, without it, <base>\jobs\current.txt does); <job>\job.json describes the batch:
 #   { "run": "name", "instance": "who", "maxMinutes": 25, "lockPath": null, "lockRetrySeconds": 60,
-#     "lockWaitMinutes": 20, "items": [ { "file": "in\\a.docx", "mode": "open|probe",
+#     "lockWaitMinutes": 20, "items": [ { "file": "in\\a.docx", "mode": "open|probe|grid",
 #                                          "exportPdf": false, "saveAs": false } ] }
 # Output: <job>\out\results.jsonl, any exported files beside it, and <job>\out\done.json when finished.
 #
@@ -15,7 +15,7 @@
 # Close, OK, in that order), so the open call fails instead of repairing. A prompt whose text mentions
 # unreadable/corrupt/problem-with-content/recover/repair is classified "repair-prompt".
 
-param([string]$Base = (Join-Path $env:USERPROFILE 'oneoffice'))
+param([string]$Base = (Join-Path $env:USERPROFILE 'oneoffice'), [string]$Job = '')
 
 $ErrorActionPreference = 'Stop'
 $utf8 = New-Object System.Text.UTF8Encoding($false)
@@ -264,6 +264,26 @@ function Invoke-Excel($app, $item, $path, $outDir, $res) {
             }
             $res.cells = $cells
         }
+        if ($item.mode -eq 'grid') {
+            # Grid mode: column A holds an id; the answer is column D (sheet "text", the TEXT() result) or column B
+            # (sheet "cells", the displayed text of a cell with a custom number format). Written as id<TAB>answer lines,
+            # tabs, newlines and backslashes escaped, to <workbook>.answers.tsv beside the results.
+            $app.CalculateFull()
+            $ws = $wb.Worksheets.Item(1)
+            $col = if ($ws.Name -eq 'text') { 4 } else { 2 }
+            $ws.Columns.Item($col).ColumnWidth = 100
+            $last = $ws.Cells.Item($ws.Rows.Count, 1).End(-4162).Row
+            $lines = New-Object System.Collections.Generic.List[string]
+            for ($r = 2; $r -le $last; $r++) {
+                $c = $ws.Cells.Item($r, $col)
+                $v = $c.Value2
+                $t = if ($ws.Name -eq 'text' -and $v -is [string]) { $v } else { [string]$c.Text }
+                $t = $t.Replace('\', '\\').Replace("`t", '\t').Replace("`n", '\n').Replace("`r", '\r')
+                $lines.Add(([string]$ws.Cells.Item($r, 1).Value2) + "`t" + $t)
+            }
+            [IO.File]::WriteAllLines((Join-Path $outDir ([IO.Path]::GetFileNameWithoutExtension($path) + '.answers.tsv')), $lines, $utf8)
+            $res.grid = @{ sheet = $ws.Name; rows = $lines.Count; decimal = [string]$app.International(3); thousands = [string]$app.International(4); country = [string]$app.International(1); excelVersion = [string]$app.Version; build = [string]$app.Build }
+        }
         $base = [IO.Path]::GetFileNameWithoutExtension($path)
         if ($item.exportPdf) {
             $pdf = Join-Path $outDir ($base + '.excel.pdf')
@@ -296,7 +316,8 @@ function Invoke-PowerPoint($app, $item, $path, $outDir, $res) {
 # ---- main ----------------------------------------------------------------------------------------------
 
 try {
-    $jobRoot = (Get-Content (Join-Path $Base 'jobs\current.txt') -Raw).Trim()
+    # -Job names the run's own directory; the old shared pointer file is only a fallback for manual starts.
+    $jobRoot = if ($Job) { $Job } else { (Get-Content (Join-Path $Base 'jobs\current.txt') -Raw).Trim() }
     $out = Join-Path $jobRoot 'out'
     New-Item -ItemType Directory -Force -Path $out | Out-Null
     $job = Get-Content (Join-Path $jobRoot 'job.json') -Raw | ConvertFrom-Json
