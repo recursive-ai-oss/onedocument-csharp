@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <RootNamespace>RecursiveAI.OneOffice.Tools.SchemaValidate</RootNamespace>
-    <AssemblyName>SchemaValidate</AssemblyName>
+    <RootNamespace>RecursiveAI.OneOffice.Tools.MarkupProbe</RootNamespace>
+    <AssemblyName>MarkupProbe</AssemblyName>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
