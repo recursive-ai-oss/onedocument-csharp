@@ -42,6 +42,10 @@ An edit changes the part of its sheet, and the following, only when required:
 | bit 3 | a formula is attached (the value is its cached result) |
 | bit 4 | the text is an ISO 8601 date (`t="d"`), written back as such |
 
+### Allocation
+
+The store itself allocates nothing per cell: a row is five parallel arrays (columns, kinds, values, styles, formula indices), so a cell costs about 15 bytes (19 with a formula). `Cell` is a class and `sheet["B2"]` makes a transient handle for convenience; iteration (`EnumerateRows`, `EnumerateColumn`, `CellRowView.ValueAt`/`CopyValues`) uses only structs and allocates nothing, which a test asserts. Parsing a sheet allocates about one extra byte per live byte (rows' arrays grow by doubling), not per-cell objects. A saved sheet is built in memory before it replaces the part, so one sheet part larger than about 2 GB of XML cannot be written until the streaming writer exists.
+
 ### The value representation
 
 `CellValue` is a 16-byte value type: a kind, a double (numbers; 0 or 1 for booleans) and an int. Reading a cell allocates nothing. The calculation layer builds its array value model on it.

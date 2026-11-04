@@ -120,6 +120,7 @@ internal static class Program
         GC.WaitForPendingFinalizers();
         GC.Collect();
         long before = GC.GetTotalMemory(true);
+        long allocBefore = GC.GetTotalAllocatedBytes(true);
         var sw = Stopwatch.StartNew();
         using Workbook wb = Workbook.Open(path);
         long cells = 0;
@@ -132,6 +133,7 @@ internal static class Program
         }
 
         double loadMs = sw.Elapsed.TotalMilliseconds;
+        long allocLoad = GC.GetTotalAllocatedBytes(true) - allocBefore;
         GC.Collect();
         GC.WaitForPendingFinalizers();
         GC.Collect();
@@ -155,7 +157,7 @@ internal static class Program
         Console.WriteLine(JsonSerializer.Serialize(new Dictionary<string, object?>
         {
             ["file"] = Path.GetFileName(path), ["cells"] = cells, ["managedBytes"] = after - before, ["bytesPerCell"] = cells == 0 ? 0 : Math.Round((double)(after - before) / cells, 2),
-            ["storeBytesEstimate"] = modelBytes, ["loadMs"] = Math.Round(loadMs), ["saveMs"] = Math.Round(saveMs), ["fileBytes"] = new FileInfo(path).Length, ["outBytes"] = outBytes,
+            ["storeBytesEstimate"] = modelBytes, ["loadMs"] = Math.Round(loadMs), ["allocatedDuringLoad"] = allocLoad, ["saveMs"] = Math.Round(saveMs), ["fileBytes"] = new FileInfo(path).Length, ["outBytes"] = outBytes,
             ["peakWorkingSetMB"] = Process.GetCurrentProcess().PeakWorkingSet64 >> 20,
         }));
         GC.KeepAlive(wb);
