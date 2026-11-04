@@ -77,6 +77,10 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `text.part-missing` | dropped | A relationship of the main part (a header, footer, notes, comments, sheet or slide) names a part the package does not have; its text is left out. |
 | `text.part-unreadable` | dropped | A part other than the main one is damaged (malformed XML or a damaged archive entry); the text before the damage was kept and the rest of that part is left out. The location is the part and offset. |
 | `text.shared-string-out-of-range` | dropped | A worksheet cell names a shared string the table does not have; the cell is left out. The location is the part and the cell's offset. |
+| `docx.revision-id-invalid` | repaired | A tracked change has no `w:id`, or one that is not a non-negative integer. The revision is listed with id -1 and works as any other. |
+| `docx.revision-author-missing` | repaired | A tracked change has no `w:author`. It is listed with an empty author. |
+| `docx.revision-date-invalid` | repaired | A tracked change has a `w:date` that is not a date. It is listed without a date. |
+| `docx.revision-unresolvable` | dropped | A tracked change could not be accepted or rejected because the markup around it is not what the schema allows (a row marker outside a row, content that cannot be moved without an unbound prefix). The change is left in place; the location is the change element. |
 | `docx.no-main-part` | fatal | No `officeDocument` relationship of the package points at a part that exists. |
 | `docx.wrong-root` | fatal | The main document part does not start with `w:document`. |
 | `docx.part-missing` | fatal | A part the reader must have is not in the package. |
@@ -90,6 +94,14 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.num-abstract-missing` | repaired | A `w:num` names an abstract definition that does not exist; its paragraphs are not numbered. |
 | `docx.num-level-missing` | repaired | The paragraph's level is not defined by the list; the paragraph is not numbered. |
 | `docx.num-link-broken` | repaired | A `w:numStyleLink` does not lead to a list definition (missing style, no list, or nested too deeply); the definition's own levels are used. |
+| `docx.table-merge-orphan` | repaired | A `w:vMerge` (or legacy `w:hMerge`) continuation has no merged cell above (to the left) to continue; it is read as a plain cell. |
+| `docx.table-merge-span-mismatch` | repaired | A vertically merged continuation spans a different number of grid columns than the cell above; the region keeps the upper cell's width. |
+| `docx.table-grid-mismatch` | repaired | A row covers more grid columns than `w:tblGrid` declares; the logical grid is widened to the widest row. |
+| `docx.table-span-invalid` | repaired | A `w:gridSpan` is below 1 or above 16384; it reads as 1. |
+| `docx.section-page-size-invalid` | repaired | `w:pgSz` lacks a positive width or height; Letter portrait is used. |
+| `docx.section-columns-mismatch` | repaired | `w:cols` names a count that differs from the number of `w:col` entries of an unequal layout; the entries win. |
+| `docx.header-missing` | repaired | A header or footer reference names a relationship that does not lead to a readable part; the reference is ignored. |
+| `docx.header-reference-duplicate` | repaired | A section has two header (or footer) references of one type; the first is used. |
 
 The XML layer repairs nothing: Office refuses an ill-formed part, and so does this layer. The limits it enforces (`MaxXmlDepth`, `MaxXmlAttributeCount`, `MaxXmlNameLength`, and `MaxPartSize` for a part held whole) raise `limit.*` as above.
 
