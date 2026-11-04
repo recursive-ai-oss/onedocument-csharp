@@ -248,8 +248,8 @@ public readonly struct GvmlContentPart : global::RecursiveAI.OneOffice.Schema.IE
     /// <summary>Attribute <c>bwMode</c> (a:ST_BlackWhiteMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwModeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValue? BwMode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwMode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwMode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwMode"u8, global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwMode"u8, global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwMode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>bwMode</c>, whatever it is.</summary>

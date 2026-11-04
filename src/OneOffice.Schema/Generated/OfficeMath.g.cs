@@ -1129,8 +1129,8 @@ public readonly struct BreakBin : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>m:val</c> (m:ST_BreakBin). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.OfficeMath.BreakBinValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.OfficeMath.BreakBinValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.BreakBinValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.OfficeMath.BreakBinValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.BreakBinValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.OfficeMath.BreakBinValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>m:val</c>, whatever it is.</summary>
@@ -1185,8 +1185,8 @@ public readonly struct BreakBinSub : global::RecursiveAI.OneOffice.Schema.IEleme
     /// <summary>Attribute <c>m:val</c> (m:ST_BreakBinSub). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.OfficeMath.BreakBinSubValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.OfficeMath.BreakBinSubValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.BreakBinSubValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.OfficeMath.BreakBinSubValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.BreakBinSubValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.OfficeMath.BreakBinSubValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>m:val</c>, whatever it is.</summary>
@@ -1914,8 +1914,8 @@ public readonly struct FType : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>m:val</c> (m:ST_FType, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.OfficeMath.FTypeValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.OfficeMath.FTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.FTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.OfficeMath.FTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.FTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.OfficeMath.FTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>m:val</c>, whatever it is.</summary>
@@ -2380,8 +2380,8 @@ public readonly struct LimLoc : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>m:val</c> (m:ST_LimLoc, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.OfficeMath.LimLocValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.OfficeMath.LimLocValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.LimLocValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.OfficeMath.LimLocValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.LimLocValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.OfficeMath.LimLocValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>m:val</c>, whatever it is.</summary>
@@ -5095,8 +5095,8 @@ public readonly struct OMathJc : global::RecursiveAI.OneOffice.Schema.IElementVi
     /// <summary>Attribute <c>m:val</c> (m:ST_Jc). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.OfficeMath.JcValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.OfficeMath.JcValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.JcValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.OfficeMath.JcValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.JcValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.OfficeMath.JcValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>m:val</c>, whatever it is.</summary>
@@ -6895,8 +6895,8 @@ public readonly struct Script : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>m:val</c> (m:ST_Script). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.OfficeMath.ScriptValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.OfficeMath.ScriptValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.ScriptValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.OfficeMath.ScriptValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.ScriptValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.OfficeMath.ScriptValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>m:val</c>, whatever it is.</summary>
@@ -6951,8 +6951,8 @@ public readonly struct Shp : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>m:val</c> (m:ST_Shp, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.OfficeMath.ShpValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.OfficeMath.ShpValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.ShpValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.OfficeMath.ShpValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.ShpValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.OfficeMath.ShpValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>m:val</c>, whatever it is.</summary>
@@ -7105,8 +7105,8 @@ public readonly struct Style : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>m:val</c> (m:ST_Style). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.OfficeMath.StyleValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.OfficeMath.StyleValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.StyleValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.OfficeMath.StyleValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.StyleValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.OfficeMath.StyleValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>m:val</c>, whatever it is.</summary>
@@ -7213,8 +7213,8 @@ public readonly struct TopBot : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>m:val</c> (m:ST_TopBot, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.OfficeMath.TopBotValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.OfficeMath.TopBotValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.TopBotValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.OfficeMath.TopBotValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.OfficeMath.TopBotValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.OfficeMath.TopBotValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>m:val</c>, whatever it is.</summary>
@@ -7370,8 +7370,8 @@ public readonly struct XAlign : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>m:val</c> (s:ST_XAlign, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.XAlignValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.XAlignValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.XAlignValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.XAlignValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.XAlignValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.XAlignValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>m:val</c>, whatever it is.</summary>
@@ -7426,8 +7426,8 @@ public readonly struct YAlign : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>m:val</c> (s:ST_YAlign, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.YAlignValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.YAlignValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.YAlignValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.YAlignValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.YAlignValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.OfficeMath, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.YAlignValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>m:val</c>, whatever it is.</summary>

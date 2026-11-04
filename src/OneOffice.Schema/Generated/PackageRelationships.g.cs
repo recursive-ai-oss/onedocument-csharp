@@ -85,8 +85,8 @@ public readonly struct Relationship : global::RecursiveAI.OneOffice.Schema.IElem
     /// <summary>Attribute <c>TargetMode</c> (rel:ST_TargetMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="TargetModeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.PackageRelationships.TargetModeValue? TargetMode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "TargetMode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.PackageRelationships.TargetModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "TargetMode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "TargetMode"u8, global::RecursiveAI.OneOffice.Schema.PackageRelationships.TargetModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.PackageRelationships.TargetModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "TargetMode"u8, global::RecursiveAI.OneOffice.Schema.PackageRelationships.TargetModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "TargetMode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.PackageRelationships.TargetModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>TargetMode</c>, whatever it is.</summary>

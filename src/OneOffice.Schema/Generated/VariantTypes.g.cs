@@ -279,8 +279,8 @@ public readonly struct Array : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>baseType</c> (vt:ST_ArrayBaseType, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BaseTypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VariantTypes.ArrayBaseTypeValue? BaseType
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "baseType"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VariantTypes.ArrayBaseTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "baseType"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "baseType"u8, global::RecursiveAI.OneOffice.Schema.VariantTypes.ArrayBaseTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VariantTypes.ArrayBaseTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "baseType"u8, global::RecursiveAI.OneOffice.Schema.VariantTypes.ArrayBaseTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "baseType"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VariantTypes.ArrayBaseTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>baseType</c>, whatever it is.</summary>
@@ -1091,8 +1091,8 @@ public readonly struct Vector : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>baseType</c> (vt:ST_VectorBaseType, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BaseTypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VariantTypes.VectorBaseTypeValue? BaseType
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "baseType"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VariantTypes.VectorBaseTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "baseType"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "baseType"u8, global::RecursiveAI.OneOffice.Schema.VariantTypes.VectorBaseTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VariantTypes.VectorBaseTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "baseType"u8, global::RecursiveAI.OneOffice.Schema.VariantTypes.VectorBaseTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "baseType"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VariantTypes.VectorBaseTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>baseType</c>, whatever it is.</summary>

@@ -64,7 +64,7 @@ public sealed class WalkTests
             }
         }
         var sb = new StringBuilder();
-        sb.AppendLine($"docx files: {files}, parts walked: {parts}, stub tree re-serialisation differences: {roundTripDiffs}");
+        sb.AppendLine($"docx files: {files}, parts walked: {parts}, tree re-serialisation differences: {roundTripDiffs}");
         sb.AppendLine($"elements seen: {counts.Seen}");
         sb.AppendLine($"  typed (a generated view): {counts.Typed}");
         sb.AppendLine($"  declared with a simple type (no view): {counts.Simple}");

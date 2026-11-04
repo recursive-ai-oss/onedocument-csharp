@@ -157,8 +157,8 @@ public readonly struct SizeRelH : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>relativeFrom</c> (wp14:ST_SizeRelFromH, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="RelativeFromText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.WordprocessingDrawing2010.SizeRelFromHValue? RelativeFrom
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "relativeFrom"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.WordprocessingDrawing2010.SizeRelFromHValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "relativeFrom"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "relativeFrom"u8, global::RecursiveAI.OneOffice.Schema.WordprocessingDrawing2010.SizeRelFromHValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.WordprocessingDrawing2010.SizeRelFromHValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "relativeFrom"u8, global::RecursiveAI.OneOffice.Schema.WordprocessingDrawing2010.SizeRelFromHValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "relativeFrom"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.WordprocessingDrawing2010.SizeRelFromHValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>relativeFrom</c>, whatever it is.</summary>
@@ -228,8 +228,8 @@ public readonly struct SizeRelV : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>relativeFrom</c> (wp14:ST_SizeRelFromV, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="RelativeFromText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.WordprocessingDrawing2010.SizeRelFromVValue? RelativeFrom
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "relativeFrom"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.WordprocessingDrawing2010.SizeRelFromVValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "relativeFrom"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "relativeFrom"u8, global::RecursiveAI.OneOffice.Schema.WordprocessingDrawing2010.SizeRelFromVValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.WordprocessingDrawing2010.SizeRelFromVValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "relativeFrom"u8, global::RecursiveAI.OneOffice.Schema.WordprocessingDrawing2010.SizeRelFromVValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "relativeFrom"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.WordprocessingDrawing2010.SizeRelFromVValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>relativeFrom</c>, whatever it is.</summary>

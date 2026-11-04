@@ -184,6 +184,17 @@ internal sealed class Emitter
         sb.Append("        if (uri.SequenceEqual(").Append(Naming.Lit(Library.XmlNs)).Append(")) return SchemaNamespace.Xml;\n");
         sb.Append("        if (uri.SequenceEqual(\"http://schemas.openxmlformats.org/markup-compatibility/2006\"u8)) return SchemaNamespace.MarkupCompatibility;\n");
         sb.Append("        return SchemaNamespace.Unknown;\n    }\n\n");
+        sb.Append("    /// <summary>Maps a namespace URI to its member, like the UTF-8 overload.</summary>\n    /// <param name=\"uri\">The namespace URI.</param>\n    /// <returns>The member.</returns>\n");
+        sb.Append("    public static SchemaNamespace Resolve(string uri)\n    {\n        if (uri.Length == 0) return SchemaNamespace.None;\n");
+        foreach (var d in _lib.Docs.OrderBy(d => d.Entry.Path.StartsWith("ecma376/transitional/wml", StringComparison.Ordinal) ? 0 : 1))
+        {
+            sb.Append("        if (uri == ").Append(Naming.Str(d.Ns)).Append(") return SchemaNamespace.").Append(d.EnumName).Append(";\n");
+            if (d.StrictNs is not null)
+                sb.Append("        if (uri == ").Append(Naming.Str(d.StrictNs)).Append(") return SchemaNamespace.").Append(d.EnumName).Append(";\n");
+        }
+        sb.Append("        if (uri == ").Append(Naming.Str(Library.XmlNs)).Append(") return SchemaNamespace.Xml;\n");
+        sb.Append("        if (uri == \"http://schemas.openxmlformats.org/markup-compatibility/2006\") return SchemaNamespace.MarkupCompatibility;\n");
+        sb.Append("        return SchemaNamespace.Unknown;\n    }\n\n");
         sb.Append("    /// <summary>The URI of a namespace in Transitional or Strict spelling (vocabularies without a Strict form return the same URI).</summary>\n");
         sb.Append("    /// <param name=\"ns\">The namespace.</param>\n    /// <param name=\"strict\">True for the ISO/IEC 29500 Strict spelling.</param>\n    /// <returns>The URI as UTF-8; empty for <see cref=\"SchemaNamespace.None\"/> and <see cref=\"SchemaNamespace.Unknown\"/>.</returns>\n");
         sb.Append("    public static ReadOnlySpan<byte> Uri(SchemaNamespace ns, bool strict)\n    {\n        switch (ns)\n        {\n");
@@ -203,7 +214,7 @@ internal sealed class Emitter
         foreach (var d in _lib.Docs) sb.Append("            case SchemaNamespace.").Append(d.EnumName).Append(": return ").Append(Naming.Lit(d.Entry.Prefix)).Append(";\n");
         sb.Append("            default: return default;\n        }\n    }\n\n");
         sb.Append("    /// <summary>True when the URI is in the ISO/IEC 29500 Strict family.</summary>\n    /// <param name=\"uri\">The namespace URI.</param>\n    /// <returns>True for the Strict spelling.</returns>\n");
-        sb.Append("    public static bool IsStrict(ReadOnlySpan<byte> uri) => uri.StartsWith(\"http://purl.oclc.org/ooxml/\"u8);\n}\n");
+        sb.Append("    public static bool IsStrict(ReadOnlySpan<byte> uri) => uri.StartsWith(\"http://purl.oclc.org/ooxml/\"u8);\n\n    /// <summary>True when the URI is in the ISO/IEC 29500 Strict family.</summary>\n    /// <param name=\"uri\">The namespace URI.</param>\n    /// <returns>True for the Strict spelling.</returns>\n    public static bool IsStrict(string uri) => uri.StartsWith(\"http://purl.oclc.org/ooxml/\", StringComparison.Ordinal);\n}\n");
         Files["Generated/SchemaNamespace.g.cs"] = sb.ToString();
     }
 
@@ -405,8 +416,7 @@ internal sealed class Emitter
             {
                 var et = EnumType(a.Info);
                 sb.Append("    /// <summary>").Append(doc).Append(" A value the schema does not list reads as <c>Unrecognized</c>; <see cref=\"").Append(m).Append("Text\"/> keeps it.</summary>\n    public ").Append(et).Append("? ").Append(m)
-                  .Append("\n    {\n        get => _markup.TryGetRaw(").Append(ns).Append(", ").Append(local).Append(", out var raw) ? ").Append(et).Append("Text.Parse(raw) : null;\n        set { if (value is null) _markup.RemoveAttribute(")
-                  .Append(ns).Append(", ").Append(local).Append("); else _markup.SetRaw(").Append(ns).Append(", ").Append(local).Append(", ").Append(et).Append("Text.ToText(value.Value)); }\n    }\n\n");
+                  .Append("\n    {\n        get => _markup.GetEnum<").Append(et).Append(">(").Append(ns).Append(", ").Append(local).Append(", ").Append(et).Append("Text.Parse);\n        set => _markup.SetString(").Append(ns).Append(", ").Append(local).Append(", value is null ? null : ").Append(et).Append("Text.ToText(value.Value));\n    }\n\n");
                 sb.Append("    /// <summary>The raw text of <c>").Append(Naming.Esc(qn)).Append("</c>, whatever it is.</summary>\n    public string? ").Append(m)
                   .Append("Text { get => _markup.GetString(").Append(ns).Append(", ").Append(local).Append("); set => _markup.SetString(").Append(ns).Append(", ").Append(local).Append(", value); }\n\n");
                 break;

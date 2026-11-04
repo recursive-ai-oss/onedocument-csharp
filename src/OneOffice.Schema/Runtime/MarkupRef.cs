@@ -1,53 +1,58 @@
 using System.Globalization;
 using System.Text;
+using RecursiveAI.OneOffice.Markup;
 
 namespace RecursiveAI.OneOffice.Schema;
 
+/// <summary>Parses attribute text (UTF-8, entity references still in place) into an enumeration member.</summary>
+/// <typeparam name="T">The enumeration.</typeparam>
+/// <param name="raw">The raw attribute value.</param>
+/// <returns>The member.</returns>
+public delegate T SpanParser<out T>(ReadOnlySpan<byte> raw);
+
 /// <summary>
-/// A reference to one element in a markup tree: the tree and the node handle. This is the hop between the hub and the typed
-/// views: every view has a <c>Markup</c> property returning one, and every view is built from one.
+/// One element in a markup tree: the hop between the hub and the typed views. Every view has a <c>Markup</c> property returning
+/// one, and every view is built from one. It is the only place the views touch the markup layer.
 /// </summary>
-/// <remarks>Views hold nothing else, so copying a view or a reference is free and reading through it allocates nothing.</remarks>
+/// <remarks>Views hold nothing else, so copying a view or a reference is free and reading through it allocates nothing it does not return.</remarks>
 public readonly struct MarkupRef : IEquatable<MarkupRef>
 {
-    /// <summary>Wraps a node of <paramref name="tree"/>.</summary>
-    /// <param name="tree">The tree that owns the node.</param>
-    /// <param name="node">The node handle, which must be an element of that tree.</param>
-    public MarkupRef(IMarkupTree tree, int node)
+    /// <summary>Wraps an element of a markup document.</summary>
+    /// <param name="node">The element.</param>
+    public MarkupRef(MarkupNode node)
     {
-        Tree = tree;
         Node = node;
     }
 
-    /// <summary>The tree that owns the element; null for <c>default</c>.</summary>
-    public IMarkupTree Tree { get; }
-
-    /// <summary>The element's handle in <see cref="Tree"/>; 0 for <c>default</c>.</summary>
-    public int Node { get; }
+    /// <summary>The markup node: the way back to the markup layer.</summary>
+    public MarkupNode Node { get; }
 
     /// <summary>True when this refers to an element.</summary>
-    public bool IsValid => Tree is not null && Node != 0;
+    public bool IsValid => !Node.IsNull && Node.Kind == MarkupNodeKind.Element;
 
     /// <summary>The element's namespace, or <see cref="SchemaNamespace.Unknown"/> when no loaded schema uses its URI.</summary>
-    public SchemaNamespace Namespace => SchemaNamespaces.Resolve(Tree.NamespaceUri(Node));
+    public SchemaNamespace Namespace => SchemaNamespaces.Resolve(Node.NamespaceUri);
 
-    /// <summary>The element's local name as UTF-8.</summary>
-    public ReadOnlySpan<byte> LocalName => Tree.LocalName(Node);
+    /// <summary>The element's local name as UTF-8. Valid until the document is next edited.</summary>
+    public ReadOnlySpan<byte> LocalName => Node.LocalName;
 
     /// <summary>The element's local name.</summary>
-    public string LocalNameText => Encoding.UTF8.GetString(Tree.LocalName(Node));
+    public string LocalNameText => Node.LocalNameString;
 
     /// <summary>The element's namespace URI.</summary>
-    public string NamespaceUriText => Encoding.UTF8.GetString(Tree.NamespaceUri(Node));
+    public string NamespaceUriText => Node.NamespaceUri;
 
     /// <summary>All child elements, known or not, in document order.</summary>
     public ChildElements Children => new(this);
 
     /// <summary>The first child element that is <c>ns:local</c>, or null. Strict and Transitional namespaces both match.</summary>
+    /// <param name="ns">The child's namespace.</param>
+    /// <param name="local">The child's local name, UTF-8.</param>
+    /// <returns>The child, or null.</returns>
     public MarkupRef? FindChild(SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        for (var c = Tree.FirstChildElement(Node); c != 0; c = Tree.NextSiblingElement(c))
-            if (NameIs(c, ns, local)) return new MarkupRef(Tree, c);
+        for (var c = Node.FirstChild; !c.IsNull; c = c.NextSibling)
+            if (c.Kind == MarkupNodeKind.Element && NameIs(c, ns, local)) return new MarkupRef(c);
         return null;
     }
 
@@ -58,13 +63,13 @@ public readonly struct MarkupRef : IEquatable<MarkupRef>
         => IsValid && T.Accepts(Namespace, LocalName) ? T.Create(this) : null;
 
     /// <inheritdoc/>
-    public bool Equals(MarkupRef other) => ReferenceEquals(Tree, other.Tree) && Node == other.Node;
+    public bool Equals(MarkupRef other) => Node == other.Node;
 
     /// <inheritdoc/>
     public override bool Equals(object? obj) => obj is MarkupRef r && Equals(r);
 
     /// <inheritdoc/>
-    public override int GetHashCode() => HashCode.Combine(System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(Tree), Node);
+    public override int GetHashCode() => Node.GetHashCode();
 
     /// <summary>Equality of two references.</summary>
     public static bool operator ==(MarkupRef left, MarkupRef right) => left.Equals(right);
@@ -72,84 +77,112 @@ public readonly struct MarkupRef : IEquatable<MarkupRef>
     /// <summary>Inequality of two references.</summary>
     public static bool operator !=(MarkupRef left, MarkupRef right) => !left.Equals(right);
 
-    // ---- helpers for the generated views ----
+    // ---- names ----
 
-    internal bool NameIs(int node, SchemaNamespace ns, ReadOnlySpan<byte> local)
-        => Tree.LocalName(node).SequenceEqual(local) && SchemaNamespaces.Resolve(Tree.NamespaceUri(node)) == ns;
-
-    private bool IsStrictFamily => SchemaNamespaces.IsStrict(Tree.NamespaceUri(Node));
-
-    internal bool TryGetRaw(SchemaNamespace ns, ReadOnlySpan<byte> local, out ReadOnlySpan<byte> raw)
+    internal static bool NameIs(MarkupNode node, SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (Tree.TryGetAttribute(Node, SchemaNamespaces.Uri(ns, false), local, out raw)) return true;
+        var plain = SchemaNamespaces.Uri(ns, false);
+        if (node.IsElement(plain, local)) return true;
         var strict = SchemaNamespaces.Uri(ns, true);
-        return !strict.SequenceEqual(SchemaNamespaces.Uri(ns, false)) && Tree.TryGetAttribute(Node, strict, local, out raw);
+        return strict.Length != plain.Length && node.IsElement(strict, local);
     }
+
+    private bool IsStrictFamily => SchemaNamespaces.IsStrict(Node.NamespaceUri);
+
+    private static bool AttributeMatches(MarkupAttributeRef a, SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (a.IsNamespaceDeclaration || !a.LocalName.SequenceEqual(local)) return false;
+        if (ns == SchemaNamespace.None) return a.Prefix.Length == 0;
+        return a.Prefix.Length > 0 && (a.IsInNamespace(SchemaNamespaces.Uri(ns, false)) || a.IsInNamespace(SchemaNamespaces.Uri(ns, true)));
+    }
+
+    // ---- attribute reads: nothing is allocated except a returned string ----
 
     internal string? GetString(SchemaNamespace ns, ReadOnlySpan<byte> local)
-        => TryGetRaw(ns, local, out var raw) ? Decode(raw) : null;
-
-    internal void SetString(SchemaNamespace ns, ReadOnlySpan<byte> local, string? value)
     {
-        if (value is null) RemoveAttribute(ns, local);
-        else SetRaw(ns, local, value);
-    }
-
-    internal void SetRaw(SchemaNamespace ns, ReadOnlySpan<byte> local, string value)
-    {
-        // Overwrite wherever the attribute already is (either namespace flavour); a new one follows this element's flavour.
-        var strictForm = SchemaNamespaces.Uri(ns, true);
-        var transForm = SchemaNamespaces.Uri(ns, false);
-        ReadOnlySpan<byte> uri;
-        if (Tree.TryGetAttribute(Node, transForm, local, out _)) uri = transForm;
-        else if (Tree.TryGetAttribute(Node, strictForm, local, out _)) uri = strictForm;
-        else uri = SchemaNamespaces.Uri(ns, IsStrictFamily);
-        Tree.SetAttribute(Node, uri, local, SchemaNamespaces.Prefix(ns), value);
-    }
-
-    internal bool RemoveAttribute(SchemaNamespace ns, ReadOnlySpan<byte> local)
-    {
-        var removed = Tree.RemoveAttribute(Node, SchemaNamespaces.Uri(ns, false), local);
-        var strict = SchemaNamespaces.Uri(ns, true);
-        if (!strict.SequenceEqual(SchemaNamespaces.Uri(ns, false))) removed |= Tree.RemoveAttribute(Node, strict, local);
-        return removed;
+        foreach (var a in Node.Attributes)
+            if (AttributeMatches(a, ns, local)) return a.Value;
+        return null;
     }
 
     internal bool? GetBool(SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (!TryGetRaw(ns, local, out var raw)) return null;
-        return ParseBool(raw);
-    }
-
-    internal void SetBool(SchemaNamespace ns, ReadOnlySpan<byte> local, bool? value)
-    {
-        if (value is null) RemoveAttribute(ns, local);
-        else SetRaw(ns, local, value.Value ? "true" : "false");
+        foreach (var a in Node.Attributes)
+            if (AttributeMatches(a, ns, local)) return ParseBool(a.RawValue);
+        return null;
     }
 
     internal long? GetInt64(SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (!TryGetRaw(ns, local, out var raw)) return null;
-        return long.TryParse(raw, NumberStyles.Integer, CultureInfo.InvariantCulture, out var v) ? v : null;
-    }
-
-    internal void SetInt64(SchemaNamespace ns, ReadOnlySpan<byte> local, long? value)
-    {
-        if (value is null) RemoveAttribute(ns, local);
-        else SetRaw(ns, local, value.Value.ToString(CultureInfo.InvariantCulture));
+        foreach (var a in Node.Attributes)
+            if (AttributeMatches(a, ns, local))
+                return long.TryParse(a.RawValue, NumberStyles.Integer, CultureInfo.InvariantCulture, out var v) ? v : null;
+        return null;
     }
 
     internal double? GetDouble(SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (!TryGetRaw(ns, local, out var raw)) return null;
-        return double.TryParse(raw, NumberStyles.Float, CultureInfo.InvariantCulture, out var v) ? v : null;
+        foreach (var a in Node.Attributes)
+            if (AttributeMatches(a, ns, local))
+                return double.TryParse(a.RawValue, NumberStyles.Float, CultureInfo.InvariantCulture, out var v) ? v : null;
+        return null;
     }
 
-    internal void SetDouble(SchemaNamespace ns, ReadOnlySpan<byte> local, double? value)
+    internal T? GetEnum<T>(SchemaNamespace ns, ReadOnlySpan<byte> local, SpanParser<T> parser) where T : struct
     {
-        if (value is null) RemoveAttribute(ns, local);
-        else SetRaw(ns, local, value.Value.ToString("R", CultureInfo.InvariantCulture));
+        foreach (var a in Node.Attributes)
+            if (AttributeMatches(a, ns, local)) return parser(a.RawValue);
+        return null;
     }
+
+    // ---- attribute writes ----
+
+    internal void SetString(SchemaNamespace ns, ReadOnlySpan<byte> local, string? value)
+    {
+        if (value is null) { RemoveAttribute(ns, local); return; }
+        var name = Encoding.UTF8.GetString(local);
+        if (ns == SchemaNamespace.None) { Node.SetAttribute(name, value); return; }
+        // Overwrite wherever the attribute already is (either namespace flavour); a new one follows this element's flavour.
+        foreach (var a in Node.Attributes)
+        {
+            if (!AttributeMatches(a, ns, local)) continue;
+            var raw = Encoding.UTF8.GetString(a.RawName);
+            Node.SetAttribute(raw, value);
+            return;
+        }
+        var uri = Encoding.UTF8.GetString(SchemaNamespaces.Uri(ns, IsStrictFamily));
+        var prefix = PrefixInScope(Node, uri, attribute: true);
+        if (prefix is null)
+        {
+            var preferred = Encoding.UTF8.GetString(SchemaNamespaces.Prefix(ns));
+            if (preferred.Length > 0 && !PrefixDeclared(Node, preferred))
+            {
+                Node.SetAttribute("xmlns:" + preferred, uri);
+                prefix = preferred;
+            }
+        }
+        if (prefix is null) Node.SetAttribute(uri, name, value);
+        else Node.SetAttribute(prefix + ":" + name, value);
+    }
+
+    internal void SetBool(SchemaNamespace ns, ReadOnlySpan<byte> local, bool? value)
+        => SetString(ns, local, value is null ? null : value.Value ? "true" : "false");
+
+    internal void SetInt64(SchemaNamespace ns, ReadOnlySpan<byte> local, long? value)
+        => SetString(ns, local, value?.ToString(CultureInfo.InvariantCulture));
+
+    internal void SetDouble(SchemaNamespace ns, ReadOnlySpan<byte> local, double? value)
+        => SetString(ns, local, value?.ToString("R", CultureInfo.InvariantCulture));
+
+    internal bool RemoveAttribute(SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        string? raw = null;
+        foreach (var a in Node.Attributes)
+            if (AttributeMatches(a, ns, local)) { raw = Encoding.UTF8.GetString(a.RawName); break; }
+        return raw is not null && Node.RemoveAttribute(raw);
+    }
+
+    // ---- children ----
 
     internal T? GetChild<T>(SchemaNamespace ns, ReadOnlySpan<byte> local) where T : struct, IElementView<T>
         => FindChild(ns, local) is { } c ? T.Create(c) : null;
@@ -157,10 +190,10 @@ public readonly struct MarkupRef : IEquatable<MarkupRef>
     internal bool RemoveChild(SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
         var removed = false;
-        for (var c = Tree.FirstChildElement(Node); c != 0;)
+        for (var c = Node.FirstChild; !c.IsNull;)
         {
-            var next = Tree.NextSiblingElement(c);
-            if (NameIs(c, ns, local)) { Tree.RemoveElement(c); removed = true; }
+            var next = c.NextSibling;
+            if (c.Kind == MarkupNodeKind.Element && NameIs(c, ns, local)) { c.Remove(); removed = true; }
             c = next;
         }
         return removed;
@@ -179,22 +212,78 @@ public readonly struct MarkupRef : IEquatable<MarkupRef>
         where TParent : struct, IElementView<TParent>
     {
         TParent.ChildKind(ns, local, out var rank);
-        var before = 0;
+        var before = default(MarkupNode);
         if (rank >= 0)
         {
-            for (var c = Tree.FirstChildElement(Node); c != 0; c = Tree.NextSiblingElement(c))
+            for (var c = Node.FirstChild; !c.IsNull; c = c.NextSibling)
             {
-                TParent.ChildKind(SchemaNamespaces.Resolve(Tree.NamespaceUri(c)), Tree.LocalName(c), out var r);
+                if (c.Kind != MarkupNodeKind.Element) continue;
+                TParent.ChildKind(SchemaNamespaces.Resolve(c.NamespaceUri), c.LocalName, out var r);
                 if (r > rank) { before = c; break; }
             }
         }
-        var node = Tree.InsertElement(Node, before, SchemaNamespaces.Uri(ns, IsStrictFamily), local, SchemaNamespaces.Prefix(ns));
-        return new MarkupRef(Tree, node);
+        var uri = Encoding.UTF8.GetString(SchemaNamespaces.Uri(ns, IsStrictFamily));
+        var name = Encoding.UTF8.GetString(local);
+        var (prefix, declare) = ElementPrefix(Node, uri, Encoding.UTF8.GetString(SchemaNamespaces.Prefix(ns)));
+        var qname = prefix.Length == 0 ? name : prefix + ":" + name;
+        var xml = Encoding.UTF8.GetBytes("<" + qname + (declare ? (prefix.Length == 0 ? " xmlns=\"" : " xmlns:" + prefix + "=\"") + uri + "\"" : "") + "/>");
+        if (before.IsNull)
+        {
+            Node.AppendXml(xml);
+            return new MarkupRef(Node.LastChild);
+        }
+        before.InsertXmlBefore(xml);
+        return new MarkupRef(before.PreviousSibling);
     }
 
-    internal string GetText() => Tree.GetText(Node);
+    // ---- namespace declarations in scope ----
 
-    internal void SetText(string? value) => Tree.SetText(Node, value ?? string.Empty);
+    /// <summary>Finds a prefix bound to <paramref name="uri"/> at <paramref name="start"/>; "" for a default-namespace binding (elements only). Null when none.</summary>
+    private static string? PrefixInScope(MarkupNode start, string uri, bool attribute)
+    {
+        HashSet<string>? seen = null;
+        for (var n = start; !n.IsNull && n.Kind == MarkupNodeKind.Element; n = n.Parent)
+        {
+            foreach (var a in n.Attributes)
+            {
+                if (!a.IsNamespaceDeclaration) continue;
+                var raw = Encoding.UTF8.GetString(a.RawName);
+                var prefix = raw.Length > 6 ? raw[6..] : string.Empty; // "xmlns:p" or "xmlns"
+                seen ??= [];
+                if (!seen.Add(prefix)) continue; // rebound closer to the element
+                if (a.Value == uri && (prefix.Length > 0 || !attribute)) return prefix;
+            }
+        }
+        return null;
+    }
+
+    private static bool PrefixDeclared(MarkupNode start, string prefix)
+    {
+        var raw = "xmlns:" + prefix;
+        for (var n = start; !n.IsNull && n.Kind == MarkupNodeKind.Element; n = n.Parent)
+            foreach (var a in n.Attributes)
+                if (a.IsNamespaceDeclaration && a.RawName.SequenceEqual(Encoding.UTF8.GetBytes(raw))) return true;
+        return false;
+    }
+
+    private static (string Prefix, bool Declare) ElementPrefix(MarkupNode parent, string uri, string preferred)
+    {
+        var found = PrefixInScope(parent, uri, attribute: false);
+        if (found is not null) return (found, false);
+        if (preferred.Length > 0 && !PrefixDeclared(parent, preferred)) return (preferred, true);
+        // Neither the conventional prefix nor an existing binding is usable: the first free ns<N>, which keeps the output deterministic.
+        for (var i = 1; ; i++)
+        {
+            var p = "ns" + i.ToString(CultureInfo.InvariantCulture);
+            if (!PrefixDeclared(parent, p)) return (p, true);
+        }
+    }
+
+    // ---- text ----
+
+    internal string GetText() => Node.InnerText;
+
+    internal void SetText(string? value) => Node.SetText(value ?? string.Empty);
 
     internal static bool? ParseBool(ReadOnlySpan<byte> raw)
     {
@@ -213,68 +302,33 @@ public readonly struct MarkupRef : IEquatable<MarkupRef>
     }
 
     private static int Lower(byte b) => b | 0x20;
-
-    /// <summary>Decodes UTF-8 attribute text, resolving the five predefined entities and numeric character references.</summary>
-    internal static string Decode(ReadOnlySpan<byte> raw)
-    {
-        if (raw.IndexOf((byte)'&') < 0) return Encoding.UTF8.GetString(raw);
-        var s = Encoding.UTF8.GetString(raw);
-        var sb = new StringBuilder(s.Length);
-        for (var i = 0; i < s.Length; i++)
-        {
-            if (s[i] != '&') { sb.Append(s[i]); continue; }
-            var semi = s.IndexOf(';', i + 1);
-            if (semi < 0) { sb.Append(s[i]); continue; }
-            var name = s.AsSpan(i + 1, semi - i - 1);
-            if (name.SequenceEqual("amp")) sb.Append('&');
-            else if (name.SequenceEqual("lt")) sb.Append('<');
-            else if (name.SequenceEqual("gt")) sb.Append('>');
-            else if (name.SequenceEqual("quot")) sb.Append('"');
-            else if (name.SequenceEqual("apos")) sb.Append('\'');
-            else if (name.Length > 1 && name[0] == '#' && TryCodePoint(name[1..], out var cp)) sb.Append(char.ConvertFromUtf32(cp));
-            else { sb.Append(s[i]); continue; }
-            i = semi;
-        }
-        return sb.ToString();
-    }
-
-    private static bool TryCodePoint(ReadOnlySpan<char> digits, out int cp)
-    {
-        cp = 0;
-        var ok = digits.Length > 0 && digits[0] == 'x'
-            ? int.TryParse(digits[1..], NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out cp)
-            : int.TryParse(digits, NumberStyles.None, CultureInfo.InvariantCulture, out cp);
-        return ok && cp is > 0 and <= 0x10FFFF && !(cp is >= 0xD800 and <= 0xDFFF);
-    }
 }
 
 /// <summary>Enumerates the child elements of an element, whatever they are.</summary>
 public ref struct ChildElements
 {
-    private readonly MarkupRef _parent;
-    private int _current;
+    private readonly MarkupNode _parent;
+    private MarkupNode _current;
 
     internal ChildElements(MarkupRef parent)
     {
-        _parent = parent;
-        _current = 0;
-        Started = false;
+        _parent = parent.Node;
+        _current = default;
     }
-
-    private bool Started { get; set; }
 
     /// <summary>Returns this enumerator so the type works in <c>foreach</c>.</summary>
     public readonly ChildElements GetEnumerator() => this;
 
     /// <summary>The current child.</summary>
-    public readonly MarkupRef Current => new(_parent.Tree, _current);
+    public readonly MarkupRef Current => new(_current);
 
     /// <summary>Moves to the next child element.</summary>
     public bool MoveNext()
     {
-        _current = Started ? _parent.Tree.NextSiblingElement(_current) : _parent.Tree.FirstChildElement(_parent.Node);
-        Started = true;
-        return _current != 0;
+        var c = _current.IsNull ? _parent.FirstChild : _current.NextSibling;
+        while (!c.IsNull && c.Kind != MarkupNodeKind.Element) c = c.NextSibling;
+        _current = c;
+        return !c.IsNull;
     }
 }
 
@@ -294,6 +348,7 @@ public readonly ref struct ChildList<T> where T : struct, IElementView<T>
     }
 
     /// <summary>Returns an enumerator over the matching children, in document order.</summary>
+    /// <returns>The enumerator.</returns>
     public Enumerator GetEnumerator() => new(_parent, _ns, _local);
 
     /// <summary>The number of matching children; walks the children.</summary>
@@ -309,6 +364,7 @@ public readonly ref struct ChildList<T> where T : struct, IElementView<T>
     }
 
     /// <summary>Copies the matching children into a new array.</summary>
+    /// <returns>The views.</returns>
     public T[] ToArray()
     {
         var list = new List<T>();
@@ -322,30 +378,26 @@ public readonly ref struct ChildList<T> where T : struct, IElementView<T>
         private readonly MarkupRef _parent;
         private readonly SchemaNamespace _ns;
         private readonly ReadOnlySpan<byte> _local;
-        private int _current;
-        private bool _started;
+        private MarkupNode _current;
 
         internal Enumerator(MarkupRef parent, SchemaNamespace ns, ReadOnlySpan<byte> local)
         {
             _parent = parent;
             _ns = ns;
             _local = local;
-            _current = 0;
-            _started = false;
+            _current = default;
         }
 
         /// <summary>The current child as a view.</summary>
-        public readonly T Current => T.Create(new MarkupRef(_parent.Tree, _current));
+        public readonly T Current => T.Create(new MarkupRef(_current));
 
         /// <summary>Moves to the next matching child.</summary>
         public bool MoveNext()
         {
-            var tree = _parent.Tree;
-            var c = _started ? tree.NextSiblingElement(_current) : tree.FirstChildElement(_parent.Node);
-            _started = true;
-            while (c != 0 && !_parent.NameIs(c, _ns, _local)) c = tree.NextSiblingElement(c);
+            var c = _current.IsNull ? _parent.Node.FirstChild : _current.NextSibling;
+            while (!c.IsNull && !(c.Kind == MarkupNodeKind.Element && MarkupRef.NameIs(c, _ns, _local))) c = c.NextSibling;
             _current = c;
-            return c != 0;
+            return !c.IsNull;
         }
     }
 }
@@ -354,33 +406,31 @@ public readonly ref struct ChildList<T> where T : struct, IElementView<T>
 /// <typeparam name="T">The view whose content model decides what is known.</typeparam>
 public ref struct UnknownChildren<T> where T : struct, IElementView<T>
 {
-    private readonly MarkupRef _parent;
-    private int _current;
-    private bool _started;
+    private readonly MarkupNode _parent;
+    private MarkupNode _current;
 
     internal UnknownChildren(MarkupRef parent)
     {
-        _parent = parent;
-        _current = 0;
-        _started = false;
+        _parent = parent.Node;
+        _current = default;
     }
 
     /// <summary>Returns this enumerator so the type works in <c>foreach</c>.</summary>
+    /// <returns>The enumerator.</returns>
     public readonly UnknownChildren<T> GetEnumerator() => this;
 
     /// <summary>The current unknown child.</summary>
-    public readonly MarkupRef Current => new(_parent.Tree, _current);
+    public readonly MarkupRef Current => new(_current);
 
     /// <summary>Moves to the next unknown child.</summary>
     public bool MoveNext()
     {
-        var tree = _parent.Tree;
-        var c = _started ? tree.NextSiblingElement(_current) : tree.FirstChildElement(_parent.Node);
-        _started = true;
-        while (c != 0 && T.ChildKind(SchemaNamespaces.Resolve(tree.NamespaceUri(c)), tree.LocalName(c), out _) != ViewKind.None)
-            c = tree.NextSiblingElement(c);
+        var c = _current.IsNull ? _parent.FirstChild : _current.NextSibling;
+        while (!c.IsNull && (c.Kind != MarkupNodeKind.Element
+            || T.ChildKind(SchemaNamespaces.Resolve(c.NamespaceUri), c.LocalName, out _) != ViewKind.None))
+            c = c.NextSibling;
         _current = c;
-        return c != 0;
+        return !c.IsNull;
     }
 }
 
@@ -410,18 +460,16 @@ public static class UnknownAttributes
     /// <summary>Lists the undeclared attributes of <paramref name="view"/>'s element in document order (allocates the result).</summary>
     /// <typeparam name="T">The view type.</typeparam>
     /// <param name="view">The view to inspect.</param>
-    /// <returns>The attributes whose namespace and name the view's schema type does not declare.</returns>
+    /// <returns>The attributes whose namespace and name the view's schema type does not declare; namespace declarations are not attributes.</returns>
     public static List<UnknownAttributeValue> Of<T>(T view) where T : struct, IElementView<T>
     {
-        var m = view.Markup;
         var list = new List<UnknownAttributeValue>();
-        var count = m.Tree.AttributeCount(m.Node);
-        for (var i = 0; i < count; i++)
+        foreach (var a in view.Markup.Node.Attributes)
         {
-            m.Tree.GetAttributeName(m.Node, i, out var ns, out var local);
-            if (T.IsKnownAttribute(SchemaNamespaces.Resolve(ns), local)) continue;
-            m.Tree.TryGetAttribute(m.Node, ns, local, out var raw);
-            list.Add(new UnknownAttributeValue(Encoding.UTF8.GetString(ns), Encoding.UTF8.GetString(local), MarkupRef.Decode(raw)));
+            if (a.IsNamespaceDeclaration) continue;
+            var uri = a.NamespaceUri;
+            if (T.IsKnownAttribute(uri.Length == 0 ? SchemaNamespace.None : SchemaNamespaces.Resolve(uri), a.LocalName)) continue;
+            list.Add(new UnknownAttributeValue(uri, Encoding.UTF8.GetString(a.LocalName), a.Value));
         }
         return list;
     }

@@ -165,6 +165,68 @@ public static class SchemaNamespaces
         return SchemaNamespace.Unknown;
     }
 
+    /// <summary>Maps a namespace URI to its member, like the UTF-8 overload.</summary>
+    /// <param name="uri">The namespace URI.</param>
+    /// <returns>The member.</returns>
+    public static SchemaNamespace Resolve(string uri)
+    {
+        if (uri.Length == 0) return SchemaNamespace.None;
+        if (uri == "http://schemas.openxmlformats.org/wordprocessingml/2006/main") return SchemaNamespace.Wordprocessing;
+        if (uri == "http://purl.oclc.org/ooxml/wordprocessingml/main") return SchemaNamespace.Wordprocessing;
+        if (uri == "http://schemas.openxmlformats.org/officeDocument/2006/math") return SchemaNamespace.OfficeMath;
+        if (uri == "http://purl.oclc.org/ooxml/officeDocument/math") return SchemaNamespace.OfficeMath;
+        if (uri == "http://schemas.openxmlformats.org/officeDocument/2006/sharedTypes") return SchemaNamespace.SharedTypes;
+        if (uri == "http://purl.oclc.org/ooxml/officeDocument/sharedTypes") return SchemaNamespace.SharedTypes;
+        if (uri == "http://schemas.openxmlformats.org/officeDocument/2006/relationships") return SchemaNamespace.Relationships;
+        if (uri == "http://purl.oclc.org/ooxml/officeDocument/relationships") return SchemaNamespace.Relationships;
+        if (uri == "http://schemas.openxmlformats.org/drawingml/2006/main") return SchemaNamespace.Drawing;
+        if (uri == "http://purl.oclc.org/ooxml/drawingml/main") return SchemaNamespace.Drawing;
+        if (uri == "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing") return SchemaNamespace.WordprocessingDrawing;
+        if (uri == "http://purl.oclc.org/ooxml/drawingml/wordprocessingDrawing") return SchemaNamespace.WordprocessingDrawing;
+        if (uri == "http://schemas.openxmlformats.org/drawingml/2006/picture") return SchemaNamespace.Picture;
+        if (uri == "http://purl.oclc.org/ooxml/drawingml/picture") return SchemaNamespace.Picture;
+        if (uri == "urn:schemas-microsoft-com:vml") return SchemaNamespace.Vml;
+        if (uri == "urn:schemas-microsoft-com:office:office") return SchemaNamespace.VmlOffice;
+        if (uri == "urn:schemas-microsoft-com:office:word") return SchemaNamespace.VmlWord;
+        if (uri == "urn:schemas-microsoft-com:office:excel") return SchemaNamespace.VmlExcel;
+        if (uri == "urn:schemas-microsoft-com:office:powerpoint") return SchemaNamespace.VmlPowerPoint;
+        if (uri == "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties") return SchemaNamespace.ExtendedProperties;
+        if (uri == "http://purl.oclc.org/ooxml/officeDocument/extendedProperties") return SchemaNamespace.ExtendedProperties;
+        if (uri == "http://schemas.openxmlformats.org/officeDocument/2006/custom-properties") return SchemaNamespace.CustomProperties;
+        if (uri == "http://purl.oclc.org/ooxml/officeDocument/customProperties") return SchemaNamespace.CustomProperties;
+        if (uri == "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes") return SchemaNamespace.VariantTypes;
+        if (uri == "http://purl.oclc.org/ooxml/officeDocument/docPropsVTypes") return SchemaNamespace.VariantTypes;
+        if (uri == "http://schemas.openxmlformats.org/package/2006/content-types") return SchemaNamespace.ContentTypes;
+        if (uri == "http://schemas.openxmlformats.org/package/2006/relationships") return SchemaNamespace.PackageRelationships;
+        if (uri == "http://schemas.openxmlformats.org/package/2006/metadata/core-properties") return SchemaNamespace.CoreProperties;
+        if (uri == "http://schemas.openxmlformats.org/package/2006/digital-signature") return SchemaNamespace.DigitalSignature;
+        if (uri == "http://schemas.microsoft.com/office/word/2010/wordml") return SchemaNamespace.Word2010;
+        if (uri == "http://schemas.microsoft.com/office/word/2012/wordml") return SchemaNamespace.Word2012;
+        if (uri == "http://schemas.microsoft.com/office/word/2015/wordml/symex") return SchemaNamespace.Word2015Symex;
+        if (uri == "http://schemas.microsoft.com/office/word/2016/wordml/cid") return SchemaNamespace.Word2016Cid;
+        if (uri == "http://schemas.microsoft.com/office/word/2018/wordml") return SchemaNamespace.Word2018;
+        if (uri == "http://schemas.microsoft.com/office/word/2018/wordml/cex") return SchemaNamespace.Word2018Cex;
+        if (uri == "http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash") return SchemaNamespace.Word2020SdtDataHash;
+        if (uri == "http://schemas.microsoft.com/office/word/2023/wordml/word16du") return SchemaNamespace.Word2023Du;
+        if (uri == "http://schemas.microsoft.com/office/word/2024/wordml/sdtformatlock") return SchemaNamespace.Word2024SdtFormatLock;
+        if (uri == "http://schemas.microsoft.com/office/word/2026/wordml/cei") return SchemaNamespace.Word2026Cei;
+        if (uri == "http://schemas.microsoft.com/office/word/2010/wordprocessingShape") return SchemaNamespace.WordprocessingShape;
+        if (uri == "http://schemas.microsoft.com/office/word/2010/wordprocessingGroup") return SchemaNamespace.WordprocessingGroup;
+        if (uri == "http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas") return SchemaNamespace.WordprocessingCanvas;
+        if (uri == "http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing") return SchemaNamespace.WordprocessingDrawing2010;
+        if (uri == "http://schemas.microsoft.com/office/word/2012/wordprocessingDrawing") return SchemaNamespace.WordprocessingDrawing2012;
+        if (uri == "http://schemas.microsoft.com/office/word/2020/oembed") return SchemaNamespace.WordOEmbed;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2010/main") return SchemaNamespace.Drawing2010;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2010/picture") return SchemaNamespace.Picture2010;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2012/main") return SchemaNamespace.Drawing2012;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2014/main") return SchemaNamespace.Drawing2014;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2016/SVG/main") return SchemaNamespace.DrawingSvg;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2017/decorative") return SchemaNamespace.DrawingDecorative;
+        if (uri == "http://www.w3.org/XML/1998/namespace") return SchemaNamespace.Xml;
+        if (uri == "http://schemas.openxmlformats.org/markup-compatibility/2006") return SchemaNamespace.MarkupCompatibility;
+        return SchemaNamespace.Unknown;
+    }
+
     /// <summary>The URI of a namespace in Transitional or Strict spelling (vocabularies without a Strict form return the same URI).</summary>
     /// <param name="ns">The namespace.</param>
     /// <param name="strict">True for the ISO/IEC 29500 Strict spelling.</param>
@@ -278,4 +340,9 @@ public static class SchemaNamespaces
     /// <param name="uri">The namespace URI.</param>
     /// <returns>True for the Strict spelling.</returns>
     public static bool IsStrict(ReadOnlySpan<byte> uri) => uri.StartsWith("http://purl.oclc.org/ooxml/"u8);
+
+    /// <summary>True when the URI is in the ISO/IEC 29500 Strict family.</summary>
+    /// <param name="uri">The namespace URI.</param>
+    /// <returns>True for the Strict spelling.</returns>
+    public static bool IsStrict(string uri) => uri.StartsWith("http://purl.oclc.org/ooxml/", StringComparison.Ordinal);
 }

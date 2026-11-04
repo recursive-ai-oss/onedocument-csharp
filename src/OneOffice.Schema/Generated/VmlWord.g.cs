@@ -454,8 +454,8 @@ public readonly struct Border : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>type</c> (w10:ST_BorderType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="TypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlWord.BorderTypeValue? Type
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlWord.BorderTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8, global::RecursiveAI.OneOffice.Schema.VmlWord.BorderTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlWord.BorderTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8, global::RecursiveAI.OneOffice.Schema.VmlWord.BorderTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlWord.BorderTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>type</c>, whatever it is.</summary>
@@ -467,8 +467,8 @@ public readonly struct Border : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>shadow</c> (w10:ST_BorderShadow). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ShadowText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlWord.BorderShadowValue? Shadow
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "shadow"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlWord.BorderShadowValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "shadow"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "shadow"u8, global::RecursiveAI.OneOffice.Schema.VmlWord.BorderShadowValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlWord.BorderShadowValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "shadow"u8, global::RecursiveAI.OneOffice.Schema.VmlWord.BorderShadowValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "shadow"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlWord.BorderShadowValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>shadow</c>, whatever it is.</summary>
@@ -523,8 +523,8 @@ public readonly struct Wrap : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>type</c> (w10:ST_WrapType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="TypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlWord.WrapTypeValue? Type
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlWord.WrapTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8, global::RecursiveAI.OneOffice.Schema.VmlWord.WrapTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlWord.WrapTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8, global::RecursiveAI.OneOffice.Schema.VmlWord.WrapTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlWord.WrapTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>type</c>, whatever it is.</summary>
@@ -533,8 +533,8 @@ public readonly struct Wrap : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>side</c> (w10:ST_WrapSide). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="SideText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlWord.WrapSideValue? Side
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "side"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlWord.WrapSideValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "side"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "side"u8, global::RecursiveAI.OneOffice.Schema.VmlWord.WrapSideValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlWord.WrapSideValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "side"u8, global::RecursiveAI.OneOffice.Schema.VmlWord.WrapSideValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "side"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlWord.WrapSideValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>side</c>, whatever it is.</summary>
@@ -543,8 +543,8 @@ public readonly struct Wrap : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>anchorx</c> (w10:ST_HorizontalAnchor). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AnchorxText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlWord.HorizontalAnchorValue? Anchorx
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "anchorx"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlWord.HorizontalAnchorValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "anchorx"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "anchorx"u8, global::RecursiveAI.OneOffice.Schema.VmlWord.HorizontalAnchorValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlWord.HorizontalAnchorValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "anchorx"u8, global::RecursiveAI.OneOffice.Schema.VmlWord.HorizontalAnchorValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "anchorx"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlWord.HorizontalAnchorValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>anchorx</c>, whatever it is.</summary>
@@ -553,8 +553,8 @@ public readonly struct Wrap : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>anchory</c> (w10:ST_VerticalAnchor). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AnchoryText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlWord.VerticalAnchorValue? Anchory
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "anchory"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlWord.VerticalAnchorValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "anchory"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "anchory"u8, global::RecursiveAI.OneOffice.Schema.VmlWord.VerticalAnchorValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlWord.VerticalAnchorValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "anchory"u8, global::RecursiveAI.OneOffice.Schema.VmlWord.VerticalAnchorValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "anchory"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlWord.VerticalAnchorValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>anchory</c>, whatever it is.</summary>

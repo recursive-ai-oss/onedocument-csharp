@@ -1311,8 +1311,8 @@ public readonly struct Bevel : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>w14:prst</c> (w14:ST_BevelPresetType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrstText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.BevelPresetTypeValue? Prst
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "prst"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.BevelPresetTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "prst"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "prst"u8, global::RecursiveAI.OneOffice.Schema.Word2010.BevelPresetTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.BevelPresetTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "prst"u8, global::RecursiveAI.OneOffice.Schema.Word2010.BevelPresetTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "prst"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.BevelPresetTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:prst</c>, whatever it is.</summary>
@@ -1367,8 +1367,8 @@ public readonly struct Camera : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>w14:prst</c> (w14:ST_PresetCameraType, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrstText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.PresetCameraTypeValue? Prst
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "prst"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.PresetCameraTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "prst"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "prst"u8, global::RecursiveAI.OneOffice.Schema.Word2010.PresetCameraTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.PresetCameraTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "prst"u8, global::RecursiveAI.OneOffice.Schema.Word2010.PresetCameraTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "prst"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.PresetCameraTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:prst</c>, whatever it is.</summary>
@@ -1924,8 +1924,8 @@ public readonly struct Ligatures : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>w14:val</c> (w14:ST_Ligatures, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.LigaturesValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.LigaturesValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneOffice.Schema.Word2010.LigaturesValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.LigaturesValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneOffice.Schema.Word2010.LigaturesValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.LigaturesValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:val</c>, whatever it is.</summary>
@@ -1984,8 +1984,8 @@ public readonly struct LightRig : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>w14:rig</c> (w14:ST_LightRigType, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="RigText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.LightRigTypeValue? Rig
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "rig"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.LightRigTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "rig"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "rig"u8, global::RecursiveAI.OneOffice.Schema.Word2010.LightRigTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.LightRigTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "rig"u8, global::RecursiveAI.OneOffice.Schema.Word2010.LightRigTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "rig"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.LightRigTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:rig</c>, whatever it is.</summary>
@@ -1994,8 +1994,8 @@ public readonly struct LightRig : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>w14:dir</c> (w14:ST_LightRigDirection, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="DirText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.LightRigDirectionValue? Dir
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "dir"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.LightRigDirectionValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "dir"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "dir"u8, global::RecursiveAI.OneOffice.Schema.Word2010.LightRigDirectionValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.LightRigDirectionValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "dir"u8, global::RecursiveAI.OneOffice.Schema.Word2010.LightRigDirectionValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "dir"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.LightRigDirectionValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:dir</c>, whatever it is.</summary>
@@ -2116,8 +2116,8 @@ public readonly struct LinearShadeProperties : global::RecursiveAI.OneOffice.Sch
     /// <summary>Attribute <c>w14:scaled</c> (w14:ST_OnOff). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ScaledText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValue? Scaled
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "scaled"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "scaled"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "scaled"u8, global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "scaled"u8, global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "scaled"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:scaled</c>, whatever it is.</summary>
@@ -2220,8 +2220,8 @@ public readonly struct NumForm : global::RecursiveAI.OneOffice.Schema.IElementVi
     /// <summary>Attribute <c>w14:val</c> (w14:ST_NumForm, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.NumFormValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.NumFormValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneOffice.Schema.Word2010.NumFormValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.NumFormValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneOffice.Schema.Word2010.NumFormValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.NumFormValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:val</c>, whatever it is.</summary>
@@ -2275,8 +2275,8 @@ public readonly struct NumSpacing : global::RecursiveAI.OneOffice.Schema.IElemen
     /// <summary>Attribute <c>w14:val</c> (w14:ST_NumSpacing, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.NumSpacingValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.NumSpacingValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneOffice.Schema.Word2010.NumSpacingValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.NumSpacingValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneOffice.Schema.Word2010.NumSpacingValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.NumSpacingValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:val</c>, whatever it is.</summary>
@@ -2331,8 +2331,8 @@ public readonly struct OnOff : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>w14:val</c> (w14:ST_OnOff). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:val</c>, whatever it is.</summary>
@@ -2391,8 +2391,8 @@ public readonly struct PathShadeProperties : global::RecursiveAI.OneOffice.Schem
     /// <summary>Attribute <c>w14:path</c> (w14:ST_PathShadeType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PathText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.PathShadeTypeValue? Path
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "path"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.PathShadeTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "path"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "path"u8, global::RecursiveAI.OneOffice.Schema.Word2010.PathShadeTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.PathShadeTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "path"u8, global::RecursiveAI.OneOffice.Schema.Word2010.PathShadeTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "path"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.PathShadeTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:path</c>, whatever it is.</summary>
@@ -2614,8 +2614,8 @@ public readonly struct PresetLineDashProperties : global::RecursiveAI.OneOffice.
     /// <summary>Attribute <c>w14:val</c> (w14:ST_PresetLineDashVal). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.PresetLineDashValValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.PresetLineDashValValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneOffice.Schema.Word2010.PresetLineDashValValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.PresetLineDashValValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneOffice.Schema.Word2010.PresetLineDashValValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.PresetLineDashValValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:val</c>, whatever it is.</summary>
@@ -2682,8 +2682,8 @@ public readonly struct Props3D : global::RecursiveAI.OneOffice.Schema.IElementVi
     /// <summary>Attribute <c>w14:prstMaterial</c> (w14:ST_PresetMaterialType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrstMaterialText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.PresetMaterialTypeValue? PrstMaterial
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "prstMaterial"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.PresetMaterialTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "prstMaterial"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "prstMaterial"u8, global::RecursiveAI.OneOffice.Schema.Word2010.PresetMaterialTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.PresetMaterialTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "prstMaterial"u8, global::RecursiveAI.OneOffice.Schema.Word2010.PresetMaterialTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "prstMaterial"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.PresetMaterialTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:prstMaterial</c>, whatever it is.</summary>
@@ -2835,8 +2835,8 @@ public readonly struct Reflection : global::RecursiveAI.OneOffice.Schema.IElemen
     /// <summary>Attribute <c>w14:algn</c> (w14:ST_RectAlignment). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AlgnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.RectAlignmentValue? Algn
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "algn"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.RectAlignmentValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "algn"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "algn"u8, global::RecursiveAI.OneOffice.Schema.Word2010.RectAlignmentValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.RectAlignmentValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "algn"u8, global::RecursiveAI.OneOffice.Schema.Word2010.RectAlignmentValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "algn"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.RectAlignmentValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:algn</c>, whatever it is.</summary>
@@ -3217,8 +3217,8 @@ public readonly struct SchemeColor : global::RecursiveAI.OneOffice.Schema.IEleme
     /// <summary>Attribute <c>w14:val</c> (w14:ST_SchemeColorVal, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.SchemeColorValValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.SchemeColorValValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneOffice.Schema.Word2010.SchemeColorValValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.SchemeColorValValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneOffice.Schema.Word2010.SchemeColorValValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.SchemeColorValValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:val</c>, whatever it is.</summary>
@@ -3550,8 +3550,8 @@ public readonly struct Shadow : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>w14:algn</c> (w14:ST_RectAlignment). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AlgnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.RectAlignmentValue? Algn
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "algn"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.RectAlignmentValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "algn"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "algn"u8, global::RecursiveAI.OneOffice.Schema.Word2010.RectAlignmentValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.RectAlignmentValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "algn"u8, global::RecursiveAI.OneOffice.Schema.Word2010.RectAlignmentValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "algn"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.RectAlignmentValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:algn</c>, whatever it is.</summary>
@@ -3758,8 +3758,8 @@ public readonly struct StyleSet : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>w14:val</c> (w14:ST_OnOff). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:val</c>, whatever it is.</summary>
@@ -3885,8 +3885,8 @@ public readonly struct TextOutlineEffect : global::RecursiveAI.OneOffice.Schema.
     /// <summary>Attribute <c>w14:cap</c> (w14:ST_LineCap). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="CapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.LineCapValue? Cap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "cap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.LineCapValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "cap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "cap"u8, global::RecursiveAI.OneOffice.Schema.Word2010.LineCapValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.LineCapValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "cap"u8, global::RecursiveAI.OneOffice.Schema.Word2010.LineCapValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "cap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.LineCapValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:cap</c>, whatever it is.</summary>
@@ -3895,8 +3895,8 @@ public readonly struct TextOutlineEffect : global::RecursiveAI.OneOffice.Schema.
     /// <summary>Attribute <c>w14:cmpd</c> (w14:ST_CompoundLine). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="CmpdText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.CompoundLineValue? Cmpd
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "cmpd"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.CompoundLineValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "cmpd"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "cmpd"u8, global::RecursiveAI.OneOffice.Schema.Word2010.CompoundLineValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.CompoundLineValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "cmpd"u8, global::RecursiveAI.OneOffice.Schema.Word2010.CompoundLineValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "cmpd"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.CompoundLineValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:cmpd</c>, whatever it is.</summary>
@@ -3905,8 +3905,8 @@ public readonly struct TextOutlineEffect : global::RecursiveAI.OneOffice.Schema.
     /// <summary>Attribute <c>w14:algn</c> (w14:ST_PenAlignment). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AlgnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.PenAlignmentValue? Algn
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "algn"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2010.PenAlignmentValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "algn"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "algn"u8, global::RecursiveAI.OneOffice.Schema.Word2010.PenAlignmentValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2010.PenAlignmentValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "algn"u8, global::RecursiveAI.OneOffice.Schema.Word2010.PenAlignmentValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "algn"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2010.PenAlignmentValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:algn</c>, whatever it is.</summary>
@@ -4045,8 +4045,8 @@ public readonly struct WordContentPart : global::RecursiveAI.OneOffice.Schema.IE
     /// <summary>Attribute <c>w14:bwMode</c> (a:ST_BlackWhiteMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwModeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValue? BwMode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "bwMode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "bwMode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "bwMode"u8, global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "bwMode"u8, global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "bwMode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:bwMode</c>, whatever it is.</summary>

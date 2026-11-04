@@ -223,8 +223,8 @@ public readonly struct ClientData : global::RecursiveAI.OneOffice.Schema.IElemen
     /// <summary>Attribute <c>ObjectType</c> (x:ST_ObjectType, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ObjectTypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlExcel.ObjectTypeValue? ObjectType
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "ObjectType"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlExcel.ObjectTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "ObjectType"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "ObjectType"u8, global::RecursiveAI.OneOffice.Schema.VmlExcel.ObjectTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlExcel.ObjectTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "ObjectType"u8, global::RecursiveAI.OneOffice.Schema.VmlExcel.ObjectTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "ObjectType"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlExcel.ObjectTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>ObjectType</c>, whatever it is.</summary>

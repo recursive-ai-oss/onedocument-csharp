@@ -121,8 +121,8 @@ public readonly struct BackgroundPr : global::RecursiveAI.OneOffice.Schema.IElem
     /// <summary>Attribute <c>bwMode</c> (a:ST_BlackWhiteMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwModeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValue? BwMode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwMode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwMode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwMode"u8, global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwMode"u8, global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwMode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>bwMode</c>, whatever it is.</summary>
@@ -131,8 +131,8 @@ public readonly struct BackgroundPr : global::RecursiveAI.OneOffice.Schema.IElem
     /// <summary>Attribute <c>bwPure</c> (a:ST_BlackWhiteMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwPureText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValue? BwPure
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwPure"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwPure"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwPure"u8, global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwPure"u8, global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwPure"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>bwPure</c>, whatever it is.</summary>
@@ -141,8 +141,8 @@ public readonly struct BackgroundPr : global::RecursiveAI.OneOffice.Schema.IElem
     /// <summary>Attribute <c>bwNormal</c> (a:ST_BlackWhiteMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwNormalText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValue? BwNormal
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwNormal"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwNormal"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwNormal"u8, global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwNormal"u8, global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bwNormal"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>bwNormal</c>, whatever it is.</summary>
@@ -151,8 +151,8 @@ public readonly struct BackgroundPr : global::RecursiveAI.OneOffice.Schema.IElem
     /// <summary>Attribute <c>targetScreenSize</c> (a15:ST_TargetScreenSz). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="TargetScreenSizeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Drawing2012.TargetScreenSzValue? TargetScreenSize
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "targetScreenSize"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Drawing2012.TargetScreenSzValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "targetScreenSize"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "targetScreenSize"u8, global::RecursiveAI.OneOffice.Schema.Drawing2012.TargetScreenSzValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Drawing2012.TargetScreenSzValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "targetScreenSize"u8, global::RecursiveAI.OneOffice.Schema.Drawing2012.TargetScreenSzValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "targetScreenSize"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Drawing2012.TargetScreenSzValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>targetScreenSize</c>, whatever it is.</summary>

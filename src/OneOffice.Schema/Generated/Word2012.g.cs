@@ -429,8 +429,8 @@ public readonly struct SdtAppearance : global::RecursiveAI.OneOffice.Schema.IEle
     /// <summary>Attribute <c>w15:val</c> (w15:ST_SdtAppearance). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2012.SdtAppearanceValue? Val
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2012, "val"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Word2012.SdtAppearanceValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2012, "val"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2012, "val"u8, global::RecursiveAI.OneOffice.Schema.Word2012.SdtAppearanceValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Word2012.SdtAppearanceValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2012, "val"u8, global::RecursiveAI.OneOffice.Schema.Word2012.SdtAppearanceValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2012, "val"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Word2012.SdtAppearanceValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w15:val</c>, whatever it is.</summary>

@@ -658,8 +658,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>print</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrintText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Print
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>print</c>, whatever it is.</summary>
@@ -671,8 +671,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:oned</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OnedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oned
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oned</c>, whatever it is.</summary>
@@ -684,8 +684,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:doubleclicknotify</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="DoubleclicknotifyText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Doubleclicknotify
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:doubleclicknotify</c>, whatever it is.</summary>
@@ -694,8 +694,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:button</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ButtonText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Button
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:button</c>, whatever it is.</summary>
@@ -704,8 +704,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:userhidden</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserhiddenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userhidden
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userhidden</c>, whatever it is.</summary>
@@ -714,8 +714,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:bullet</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BulletText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Bullet
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bullet</c>, whatever it is.</summary>
@@ -724,8 +724,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:hr</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hr
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hr</c>, whatever it is.</summary>
@@ -734,8 +734,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:hrstd</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrstdText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrstd
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrstd</c>, whatever it is.</summary>
@@ -744,8 +744,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:hrnoshade</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrnoshadeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrnoshade
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrnoshade</c>, whatever it is.</summary>
@@ -757,8 +757,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:hralign</c> (o:ST_HrAlign). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HralignText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue? Hralign
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hralign</c>, whatever it is.</summary>
@@ -767,8 +767,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:allowincell</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowincellText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowincell
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowincell</c>, whatever it is.</summary>
@@ -777,8 +777,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:allowoverlap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowoverlapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowoverlap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowoverlap</c>, whatever it is.</summary>
@@ -787,8 +787,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:userdrawn</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserdrawnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userdrawn
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userdrawn</c>, whatever it is.</summary>
@@ -818,8 +818,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:insetmode</c> (o:ST_InsetMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue? Insetmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:insetmode</c>, whatever it is.</summary>
@@ -831,8 +831,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>filled</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="FilledText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Filled
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>filled</c>, whatever it is.</summary>
@@ -847,8 +847,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>stroked</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="StrokedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Stroked
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>stroked</c>, whatever it is.</summary>
@@ -863,8 +863,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>insetpen</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetpenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Insetpen
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>insetpen</c>, whatever it is.</summary>
@@ -876,8 +876,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:connectortype</c> (o:ST_ConnectorType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ConnectortypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue? Connectortype
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:connectortype</c>, whatever it is.</summary>
@@ -886,8 +886,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:bwmode</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwmode</c>, whatever it is.</summary>
@@ -896,8 +896,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:bwpure</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwpureText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwpure
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwpure</c>, whatever it is.</summary>
@@ -906,8 +906,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:bwnormal</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwnormalText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwnormal
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwnormal</c>, whatever it is.</summary>
@@ -916,8 +916,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:forcedash</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ForcedashText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Forcedash
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:forcedash</c>, whatever it is.</summary>
@@ -926,8 +926,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:oleicon</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleiconText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oleicon
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oleicon</c>, whatever it is.</summary>
@@ -936,8 +936,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:ole</c> (s:ST_TrueFalseBlank). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue? Ole
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:ole</c>, whatever it is.</summary>
@@ -946,8 +946,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:preferrelative</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PreferrelativeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Preferrelative
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:preferrelative</c>, whatever it is.</summary>
@@ -956,8 +956,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:cliptowrap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="CliptowrapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Cliptowrap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:cliptowrap</c>, whatever it is.</summary>
@@ -966,8 +966,8 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <summary>Attribute <c>o:clip</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ClipText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Clip
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:clip</c>, whatever it is.</summary>
@@ -1289,8 +1289,8 @@ public readonly struct Background : global::RecursiveAI.OneOffice.Schema.IElemen
     /// <summary>Attribute <c>filled</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="FilledText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Filled
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>filled</c>, whatever it is.</summary>
@@ -1302,8 +1302,8 @@ public readonly struct Background : global::RecursiveAI.OneOffice.Schema.IElemen
     /// <summary>Attribute <c>o:bwmode</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwmode</c>, whatever it is.</summary>
@@ -1312,8 +1312,8 @@ public readonly struct Background : global::RecursiveAI.OneOffice.Schema.IElemen
     /// <summary>Attribute <c>o:bwpure</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwpureText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwpure
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwpure</c>, whatever it is.</summary>
@@ -1322,8 +1322,8 @@ public readonly struct Background : global::RecursiveAI.OneOffice.Schema.IElemen
     /// <summary>Attribute <c>o:bwnormal</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwnormalText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwnormal
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwnormal</c>, whatever it is.</summary>
@@ -1332,8 +1332,8 @@ public readonly struct Background : global::RecursiveAI.OneOffice.Schema.IElemen
     /// <summary>Attribute <c>o:targetscreensize</c> (o:ST_ScreenSize). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="TargetscreensizeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.ScreenSizeValue? Targetscreensize
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "targetscreensize"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.ScreenSizeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "targetscreensize"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "targetscreensize"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ScreenSizeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.ScreenSizeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "targetscreensize"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ScreenSizeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "targetscreensize"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.ScreenSizeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:targetscreensize</c>, whatever it is.</summary>
@@ -1468,8 +1468,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>print</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrintText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Print
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>print</c>, whatever it is.</summary>
@@ -1481,8 +1481,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:oned</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OnedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oned
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oned</c>, whatever it is.</summary>
@@ -1494,8 +1494,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:doubleclicknotify</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="DoubleclicknotifyText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Doubleclicknotify
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:doubleclicknotify</c>, whatever it is.</summary>
@@ -1504,8 +1504,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:button</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ButtonText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Button
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:button</c>, whatever it is.</summary>
@@ -1514,8 +1514,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:userhidden</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserhiddenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userhidden
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userhidden</c>, whatever it is.</summary>
@@ -1524,8 +1524,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:bullet</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BulletText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Bullet
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bullet</c>, whatever it is.</summary>
@@ -1534,8 +1534,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:hr</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hr
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hr</c>, whatever it is.</summary>
@@ -1544,8 +1544,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:hrstd</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrstdText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrstd
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrstd</c>, whatever it is.</summary>
@@ -1554,8 +1554,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:hrnoshade</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrnoshadeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrnoshade
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrnoshade</c>, whatever it is.</summary>
@@ -1567,8 +1567,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:hralign</c> (o:ST_HrAlign). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HralignText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue? Hralign
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hralign</c>, whatever it is.</summary>
@@ -1577,8 +1577,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:allowincell</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowincellText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowincell
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowincell</c>, whatever it is.</summary>
@@ -1587,8 +1587,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:allowoverlap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowoverlapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowoverlap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowoverlap</c>, whatever it is.</summary>
@@ -1597,8 +1597,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:userdrawn</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserdrawnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userdrawn
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userdrawn</c>, whatever it is.</summary>
@@ -1628,8 +1628,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:insetmode</c> (o:ST_InsetMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue? Insetmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:insetmode</c>, whatever it is.</summary>
@@ -1641,8 +1641,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>filled</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="FilledText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Filled
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>filled</c>, whatever it is.</summary>
@@ -1657,8 +1657,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>stroked</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="StrokedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Stroked
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>stroked</c>, whatever it is.</summary>
@@ -1673,8 +1673,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>insetpen</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetpenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Insetpen
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>insetpen</c>, whatever it is.</summary>
@@ -1686,8 +1686,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:connectortype</c> (o:ST_ConnectorType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ConnectortypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue? Connectortype
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:connectortype</c>, whatever it is.</summary>
@@ -1696,8 +1696,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:bwmode</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwmode</c>, whatever it is.</summary>
@@ -1706,8 +1706,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:bwpure</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwpureText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwpure
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwpure</c>, whatever it is.</summary>
@@ -1716,8 +1716,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:bwnormal</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwnormalText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwnormal
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwnormal</c>, whatever it is.</summary>
@@ -1726,8 +1726,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:forcedash</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ForcedashText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Forcedash
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:forcedash</c>, whatever it is.</summary>
@@ -1736,8 +1736,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:oleicon</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleiconText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oleicon
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oleicon</c>, whatever it is.</summary>
@@ -1746,8 +1746,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:ole</c> (s:ST_TrueFalseBlank). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue? Ole
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:ole</c>, whatever it is.</summary>
@@ -1756,8 +1756,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:preferrelative</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PreferrelativeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Preferrelative
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:preferrelative</c>, whatever it is.</summary>
@@ -1766,8 +1766,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:cliptowrap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="CliptowrapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Cliptowrap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:cliptowrap</c>, whatever it is.</summary>
@@ -1776,8 +1776,8 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:clip</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ClipText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Clip
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:clip</c>, whatever it is.</summary>
@@ -2155,8 +2155,8 @@ public readonly struct Fill : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>type</c> (v:ST_FillType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="TypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Vml.FillTypeValue? Type
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Vml.FillTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8, global::RecursiveAI.OneOffice.Schema.Vml.FillTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Vml.FillTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8, global::RecursiveAI.OneOffice.Schema.Vml.FillTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Vml.FillTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>type</c>, whatever it is.</summary>
@@ -2165,8 +2165,8 @@ public readonly struct Fill : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>on</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? On
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>on</c>, whatever it is.</summary>
@@ -2202,8 +2202,8 @@ public readonly struct Fill : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>aspect</c> (v:ST_ImageAspect). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AspectText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Vml.ImageAspectValue? Aspect
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "aspect"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Vml.ImageAspectValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "aspect"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "aspect"u8, global::RecursiveAI.OneOffice.Schema.Vml.ImageAspectValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Vml.ImageAspectValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "aspect"u8, global::RecursiveAI.OneOffice.Schema.Vml.ImageAspectValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "aspect"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Vml.ImageAspectValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>aspect</c>, whatever it is.</summary>
@@ -2218,8 +2218,8 @@ public readonly struct Fill : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>alignshape</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AlignshapeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Alignshape
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "alignshape"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "alignshape"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "alignshape"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "alignshape"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "alignshape"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>alignshape</c>, whatever it is.</summary>
@@ -2237,8 +2237,8 @@ public readonly struct Fill : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>method</c> (v:ST_FillMethod). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="MethodText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Vml.FillMethodValue? Method
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "method"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Vml.FillMethodValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "method"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "method"u8, global::RecursiveAI.OneOffice.Schema.Vml.FillMethodValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Vml.FillMethodValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "method"u8, global::RecursiveAI.OneOffice.Schema.Vml.FillMethodValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "method"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Vml.FillMethodValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>method</c>, whatever it is.</summary>
@@ -2247,8 +2247,8 @@ public readonly struct Fill : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:detectmouseclick</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="DetectmouseclickText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Detectmouseclick
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "detectmouseclick"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "detectmouseclick"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "detectmouseclick"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "detectmouseclick"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "detectmouseclick"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:detectmouseclick</c>, whatever it is.</summary>
@@ -2263,8 +2263,8 @@ public readonly struct Fill : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>recolor</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="RecolorText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Recolor
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "recolor"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "recolor"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "recolor"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "recolor"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "recolor"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>recolor</c>, whatever it is.</summary>
@@ -2273,8 +2273,8 @@ public readonly struct Fill : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>rotate</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="RotateText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Rotate
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "rotate"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "rotate"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "rotate"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "rotate"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "rotate"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>rotate</c>, whatever it is.</summary>
@@ -2487,8 +2487,8 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>print</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrintText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Print
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>print</c>, whatever it is.</summary>
@@ -2500,8 +2500,8 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:oned</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OnedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oned
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oned</c>, whatever it is.</summary>
@@ -2513,8 +2513,8 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:doubleclicknotify</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="DoubleclicknotifyText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Doubleclicknotify
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:doubleclicknotify</c>, whatever it is.</summary>
@@ -2523,8 +2523,8 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:button</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ButtonText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Button
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:button</c>, whatever it is.</summary>
@@ -2533,8 +2533,8 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:userhidden</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserhiddenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userhidden
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userhidden</c>, whatever it is.</summary>
@@ -2543,8 +2543,8 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:bullet</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BulletText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Bullet
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bullet</c>, whatever it is.</summary>
@@ -2553,8 +2553,8 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:hr</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hr
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hr</c>, whatever it is.</summary>
@@ -2563,8 +2563,8 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:hrstd</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrstdText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrstd
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrstd</c>, whatever it is.</summary>
@@ -2573,8 +2573,8 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:hrnoshade</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrnoshadeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrnoshade
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrnoshade</c>, whatever it is.</summary>
@@ -2586,8 +2586,8 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:hralign</c> (o:ST_HrAlign). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HralignText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue? Hralign
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hralign</c>, whatever it is.</summary>
@@ -2596,8 +2596,8 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:allowincell</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowincellText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowincell
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowincell</c>, whatever it is.</summary>
@@ -2606,8 +2606,8 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:allowoverlap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowoverlapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowoverlap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowoverlap</c>, whatever it is.</summary>
@@ -2616,8 +2616,8 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:userdrawn</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserdrawnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userdrawn
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userdrawn</c>, whatever it is.</summary>
@@ -2647,8 +2647,8 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:insetmode</c> (o:ST_InsetMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue? Insetmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:insetmode</c>, whatever it is.</summary>
@@ -2657,8 +2657,8 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>filled</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="FilledText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Filled
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>filled</c>, whatever it is.</summary>
@@ -2670,8 +2670,8 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>editas</c> (v:ST_EditAs). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="EditasText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Vml.EditAsValue? Editas
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "editas"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Vml.EditAsValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "editas"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "editas"u8, global::RecursiveAI.OneOffice.Schema.Vml.EditAsValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Vml.EditAsValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "editas"u8, global::RecursiveAI.OneOffice.Schema.Vml.EditAsValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "editas"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Vml.EditAsValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>editas</c>, whatever it is.</summary>
@@ -3126,8 +3126,8 @@ public readonly struct H : global::RecursiveAI.OneOffice.Schema.IElementView<glo
     /// <summary>Attribute <c>invx</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InvxText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Invx
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "invx"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "invx"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "invx"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "invx"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "invx"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>invx</c>, whatever it is.</summary>
@@ -3136,8 +3136,8 @@ public readonly struct H : global::RecursiveAI.OneOffice.Schema.IElementView<glo
     /// <summary>Attribute <c>invy</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InvyText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Invy
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "invy"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "invy"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "invy"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "invy"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "invy"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>invy</c>, whatever it is.</summary>
@@ -3146,8 +3146,8 @@ public readonly struct H : global::RecursiveAI.OneOffice.Schema.IElementView<glo
     /// <summary>Attribute <c>switch</c> (s:ST_TrueFalseBlank). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="SwitchText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue? Switch
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "switch"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "switch"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "switch"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "switch"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "switch"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>switch</c>, whatever it is.</summary>
@@ -3340,8 +3340,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>print</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrintText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Print
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>print</c>, whatever it is.</summary>
@@ -3353,8 +3353,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:oned</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OnedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oned
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oned</c>, whatever it is.</summary>
@@ -3366,8 +3366,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:doubleclicknotify</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="DoubleclicknotifyText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Doubleclicknotify
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:doubleclicknotify</c>, whatever it is.</summary>
@@ -3376,8 +3376,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:button</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ButtonText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Button
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:button</c>, whatever it is.</summary>
@@ -3386,8 +3386,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:userhidden</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserhiddenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userhidden
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userhidden</c>, whatever it is.</summary>
@@ -3396,8 +3396,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:bullet</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BulletText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Bullet
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bullet</c>, whatever it is.</summary>
@@ -3406,8 +3406,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:hr</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hr
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hr</c>, whatever it is.</summary>
@@ -3416,8 +3416,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:hrstd</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrstdText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrstd
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrstd</c>, whatever it is.</summary>
@@ -3426,8 +3426,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:hrnoshade</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrnoshadeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrnoshade
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrnoshade</c>, whatever it is.</summary>
@@ -3439,8 +3439,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:hralign</c> (o:ST_HrAlign). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HralignText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue? Hralign
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hralign</c>, whatever it is.</summary>
@@ -3449,8 +3449,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:allowincell</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowincellText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowincell
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowincell</c>, whatever it is.</summary>
@@ -3459,8 +3459,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:allowoverlap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowoverlapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowoverlap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowoverlap</c>, whatever it is.</summary>
@@ -3469,8 +3469,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:userdrawn</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserdrawnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userdrawn
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userdrawn</c>, whatever it is.</summary>
@@ -3500,8 +3500,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:insetmode</c> (o:ST_InsetMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue? Insetmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:insetmode</c>, whatever it is.</summary>
@@ -3513,8 +3513,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>filled</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="FilledText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Filled
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>filled</c>, whatever it is.</summary>
@@ -3529,8 +3529,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>stroked</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="StrokedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Stroked
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>stroked</c>, whatever it is.</summary>
@@ -3545,8 +3545,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>insetpen</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetpenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Insetpen
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>insetpen</c>, whatever it is.</summary>
@@ -3558,8 +3558,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:connectortype</c> (o:ST_ConnectorType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ConnectortypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue? Connectortype
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:connectortype</c>, whatever it is.</summary>
@@ -3568,8 +3568,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:bwmode</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwmode</c>, whatever it is.</summary>
@@ -3578,8 +3578,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:bwpure</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwpureText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwpure
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwpure</c>, whatever it is.</summary>
@@ -3588,8 +3588,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:bwnormal</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwnormalText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwnormal
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwnormal</c>, whatever it is.</summary>
@@ -3598,8 +3598,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:forcedash</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ForcedashText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Forcedash
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:forcedash</c>, whatever it is.</summary>
@@ -3608,8 +3608,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:oleicon</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleiconText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oleicon
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oleicon</c>, whatever it is.</summary>
@@ -3618,8 +3618,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:ole</c> (s:ST_TrueFalseBlank). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue? Ole
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:ole</c>, whatever it is.</summary>
@@ -3628,8 +3628,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:preferrelative</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PreferrelativeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Preferrelative
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:preferrelative</c>, whatever it is.</summary>
@@ -3638,8 +3638,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:cliptowrap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="CliptowrapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Cliptowrap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:cliptowrap</c>, whatever it is.</summary>
@@ -3648,8 +3648,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:clip</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ClipText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Clip
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:clip</c>, whatever it is.</summary>
@@ -3682,8 +3682,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>grayscale</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="GrayscaleText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Grayscale
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "grayscale"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "grayscale"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "grayscale"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "grayscale"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "grayscale"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>grayscale</c>, whatever it is.</summary>
@@ -3692,8 +3692,8 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>bilevel</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BilevelText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Bilevel
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bilevel"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bilevel"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bilevel"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bilevel"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bilevel"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>bilevel</c>, whatever it is.</summary>
@@ -4030,8 +4030,8 @@ public readonly struct ImageData : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>grayscale</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="GrayscaleText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Grayscale
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "grayscale"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "grayscale"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "grayscale"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "grayscale"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "grayscale"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>grayscale</c>, whatever it is.</summary>
@@ -4040,8 +4040,8 @@ public readonly struct ImageData : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>bilevel</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BilevelText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Bilevel
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bilevel"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bilevel"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bilevel"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bilevel"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "bilevel"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>bilevel</c>, whatever it is.</summary>
@@ -4071,8 +4071,8 @@ public readonly struct ImageData : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:detectmouseclick</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="DetectmouseclickText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Detectmouseclick
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "detectmouseclick"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "detectmouseclick"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "detectmouseclick"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "detectmouseclick"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "detectmouseclick"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:detectmouseclick</c>, whatever it is.</summary>
@@ -4211,8 +4211,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>print</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrintText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Print
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>print</c>, whatever it is.</summary>
@@ -4224,8 +4224,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:oned</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OnedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oned
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oned</c>, whatever it is.</summary>
@@ -4237,8 +4237,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:doubleclicknotify</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="DoubleclicknotifyText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Doubleclicknotify
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:doubleclicknotify</c>, whatever it is.</summary>
@@ -4247,8 +4247,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:button</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ButtonText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Button
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:button</c>, whatever it is.</summary>
@@ -4257,8 +4257,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:userhidden</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserhiddenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userhidden
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userhidden</c>, whatever it is.</summary>
@@ -4267,8 +4267,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:bullet</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BulletText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Bullet
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bullet</c>, whatever it is.</summary>
@@ -4277,8 +4277,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:hr</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hr
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hr</c>, whatever it is.</summary>
@@ -4287,8 +4287,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:hrstd</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrstdText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrstd
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrstd</c>, whatever it is.</summary>
@@ -4297,8 +4297,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:hrnoshade</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrnoshadeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrnoshade
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrnoshade</c>, whatever it is.</summary>
@@ -4310,8 +4310,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:hralign</c> (o:ST_HrAlign). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HralignText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue? Hralign
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hralign</c>, whatever it is.</summary>
@@ -4320,8 +4320,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:allowincell</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowincellText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowincell
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowincell</c>, whatever it is.</summary>
@@ -4330,8 +4330,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:allowoverlap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowoverlapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowoverlap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowoverlap</c>, whatever it is.</summary>
@@ -4340,8 +4340,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:userdrawn</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserdrawnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userdrawn
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userdrawn</c>, whatever it is.</summary>
@@ -4371,8 +4371,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:insetmode</c> (o:ST_InsetMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue? Insetmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:insetmode</c>, whatever it is.</summary>
@@ -4384,8 +4384,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>filled</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="FilledText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Filled
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>filled</c>, whatever it is.</summary>
@@ -4400,8 +4400,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>stroked</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="StrokedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Stroked
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>stroked</c>, whatever it is.</summary>
@@ -4416,8 +4416,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>insetpen</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetpenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Insetpen
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>insetpen</c>, whatever it is.</summary>
@@ -4429,8 +4429,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:connectortype</c> (o:ST_ConnectorType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ConnectortypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue? Connectortype
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:connectortype</c>, whatever it is.</summary>
@@ -4439,8 +4439,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:bwmode</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwmode</c>, whatever it is.</summary>
@@ -4449,8 +4449,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:bwpure</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwpureText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwpure
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwpure</c>, whatever it is.</summary>
@@ -4459,8 +4459,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:bwnormal</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwnormalText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwnormal
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwnormal</c>, whatever it is.</summary>
@@ -4469,8 +4469,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:forcedash</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ForcedashText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Forcedash
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:forcedash</c>, whatever it is.</summary>
@@ -4479,8 +4479,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:oleicon</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleiconText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oleicon
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oleicon</c>, whatever it is.</summary>
@@ -4489,8 +4489,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:ole</c> (s:ST_TrueFalseBlank). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue? Ole
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:ole</c>, whatever it is.</summary>
@@ -4499,8 +4499,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:preferrelative</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PreferrelativeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Preferrelative
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:preferrelative</c>, whatever it is.</summary>
@@ -4509,8 +4509,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:cliptowrap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="CliptowrapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Cliptowrap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:cliptowrap</c>, whatever it is.</summary>
@@ -4519,8 +4519,8 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:clip</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ClipText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Clip
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:clip</c>, whatever it is.</summary>
@@ -4903,8 +4903,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>print</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrintText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Print
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>print</c>, whatever it is.</summary>
@@ -4916,8 +4916,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:oned</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OnedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oned
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oned</c>, whatever it is.</summary>
@@ -4929,8 +4929,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:doubleclicknotify</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="DoubleclicknotifyText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Doubleclicknotify
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:doubleclicknotify</c>, whatever it is.</summary>
@@ -4939,8 +4939,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:button</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ButtonText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Button
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:button</c>, whatever it is.</summary>
@@ -4949,8 +4949,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:userhidden</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserhiddenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userhidden
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userhidden</c>, whatever it is.</summary>
@@ -4959,8 +4959,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:bullet</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BulletText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Bullet
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bullet</c>, whatever it is.</summary>
@@ -4969,8 +4969,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:hr</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hr
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hr</c>, whatever it is.</summary>
@@ -4979,8 +4979,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:hrstd</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrstdText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrstd
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrstd</c>, whatever it is.</summary>
@@ -4989,8 +4989,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:hrnoshade</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrnoshadeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrnoshade
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrnoshade</c>, whatever it is.</summary>
@@ -5002,8 +5002,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:hralign</c> (o:ST_HrAlign). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HralignText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue? Hralign
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hralign</c>, whatever it is.</summary>
@@ -5012,8 +5012,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:allowincell</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowincellText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowincell
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowincell</c>, whatever it is.</summary>
@@ -5022,8 +5022,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:allowoverlap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowoverlapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowoverlap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowoverlap</c>, whatever it is.</summary>
@@ -5032,8 +5032,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:userdrawn</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserdrawnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userdrawn
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userdrawn</c>, whatever it is.</summary>
@@ -5063,8 +5063,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:insetmode</c> (o:ST_InsetMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue? Insetmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:insetmode</c>, whatever it is.</summary>
@@ -5076,8 +5076,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>filled</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="FilledText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Filled
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>filled</c>, whatever it is.</summary>
@@ -5092,8 +5092,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>stroked</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="StrokedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Stroked
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>stroked</c>, whatever it is.</summary>
@@ -5108,8 +5108,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>insetpen</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetpenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Insetpen
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>insetpen</c>, whatever it is.</summary>
@@ -5121,8 +5121,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:connectortype</c> (o:ST_ConnectorType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ConnectortypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue? Connectortype
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:connectortype</c>, whatever it is.</summary>
@@ -5131,8 +5131,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:bwmode</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwmode</c>, whatever it is.</summary>
@@ -5141,8 +5141,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:bwpure</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwpureText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwpure
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwpure</c>, whatever it is.</summary>
@@ -5151,8 +5151,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:bwnormal</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwnormalText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwnormal
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwnormal</c>, whatever it is.</summary>
@@ -5161,8 +5161,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:forcedash</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ForcedashText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Forcedash
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:forcedash</c>, whatever it is.</summary>
@@ -5171,8 +5171,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:oleicon</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleiconText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oleicon
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oleicon</c>, whatever it is.</summary>
@@ -5181,8 +5181,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:ole</c> (s:ST_TrueFalseBlank). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue? Ole
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:ole</c>, whatever it is.</summary>
@@ -5191,8 +5191,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:preferrelative</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PreferrelativeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Preferrelative
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:preferrelative</c>, whatever it is.</summary>
@@ -5201,8 +5201,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:cliptowrap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="CliptowrapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Cliptowrap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:cliptowrap</c>, whatever it is.</summary>
@@ -5211,8 +5211,8 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:clip</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ClipText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Clip
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:clip</c>, whatever it is.</summary>
@@ -5533,8 +5533,8 @@ public readonly struct Path : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>fillok</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="FillokText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Fillok
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "fillok"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "fillok"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "fillok"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "fillok"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "fillok"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>fillok</c>, whatever it is.</summary>
@@ -5543,8 +5543,8 @@ public readonly struct Path : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>strokeok</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="StrokeokText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Strokeok
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "strokeok"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "strokeok"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "strokeok"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "strokeok"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "strokeok"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>strokeok</c>, whatever it is.</summary>
@@ -5553,8 +5553,8 @@ public readonly struct Path : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>shadowok</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ShadowokText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Shadowok
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "shadowok"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "shadowok"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "shadowok"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "shadowok"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "shadowok"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>shadowok</c>, whatever it is.</summary>
@@ -5563,8 +5563,8 @@ public readonly struct Path : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>arrowok</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ArrowokText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Arrowok
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "arrowok"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "arrowok"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "arrowok"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "arrowok"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "arrowok"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>arrowok</c>, whatever it is.</summary>
@@ -5573,8 +5573,8 @@ public readonly struct Path : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>gradientshapeok</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="GradientshapeokText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Gradientshapeok
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "gradientshapeok"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "gradientshapeok"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "gradientshapeok"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "gradientshapeok"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "gradientshapeok"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>gradientshapeok</c>, whatever it is.</summary>
@@ -5583,8 +5583,8 @@ public readonly struct Path : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>textpathok</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="TextpathokText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Textpathok
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "textpathok"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "textpathok"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "textpathok"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "textpathok"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "textpathok"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>textpathok</c>, whatever it is.</summary>
@@ -5593,8 +5593,8 @@ public readonly struct Path : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>insetpenok</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetpenokText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Insetpenok
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpenok"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpenok"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpenok"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpenok"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpenok"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>insetpenok</c>, whatever it is.</summary>
@@ -5603,8 +5603,8 @@ public readonly struct Path : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:connecttype</c> (o:ST_ConnectType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ConnecttypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectTypeValue? Connecttype
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connecttype"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connecttype"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connecttype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connecttype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connecttype"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:connecttype</c>, whatever it is.</summary>
@@ -5619,8 +5619,8 @@ public readonly struct Path : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:extrusionok</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ExtrusionokText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Extrusionok
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "extrusionok"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "extrusionok"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "extrusionok"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "extrusionok"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "extrusionok"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:extrusionok</c>, whatever it is.</summary>
@@ -5745,8 +5745,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>print</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrintText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Print
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>print</c>, whatever it is.</summary>
@@ -5758,8 +5758,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:oned</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OnedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oned
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oned</c>, whatever it is.</summary>
@@ -5771,8 +5771,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:doubleclicknotify</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="DoubleclicknotifyText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Doubleclicknotify
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:doubleclicknotify</c>, whatever it is.</summary>
@@ -5781,8 +5781,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:button</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ButtonText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Button
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:button</c>, whatever it is.</summary>
@@ -5791,8 +5791,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:userhidden</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserhiddenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userhidden
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userhidden</c>, whatever it is.</summary>
@@ -5801,8 +5801,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:bullet</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BulletText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Bullet
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bullet</c>, whatever it is.</summary>
@@ -5811,8 +5811,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:hr</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hr
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hr</c>, whatever it is.</summary>
@@ -5821,8 +5821,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:hrstd</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrstdText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrstd
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrstd</c>, whatever it is.</summary>
@@ -5831,8 +5831,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:hrnoshade</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrnoshadeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrnoshade
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrnoshade</c>, whatever it is.</summary>
@@ -5844,8 +5844,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:hralign</c> (o:ST_HrAlign). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HralignText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue? Hralign
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hralign</c>, whatever it is.</summary>
@@ -5854,8 +5854,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:allowincell</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowincellText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowincell
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowincell</c>, whatever it is.</summary>
@@ -5864,8 +5864,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:allowoverlap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowoverlapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowoverlap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowoverlap</c>, whatever it is.</summary>
@@ -5874,8 +5874,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:userdrawn</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserdrawnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userdrawn
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userdrawn</c>, whatever it is.</summary>
@@ -5905,8 +5905,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:insetmode</c> (o:ST_InsetMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue? Insetmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:insetmode</c>, whatever it is.</summary>
@@ -5918,8 +5918,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>filled</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="FilledText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Filled
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>filled</c>, whatever it is.</summary>
@@ -5934,8 +5934,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>stroked</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="StrokedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Stroked
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>stroked</c>, whatever it is.</summary>
@@ -5950,8 +5950,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>insetpen</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetpenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Insetpen
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>insetpen</c>, whatever it is.</summary>
@@ -5963,8 +5963,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:connectortype</c> (o:ST_ConnectorType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ConnectortypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue? Connectortype
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:connectortype</c>, whatever it is.</summary>
@@ -5973,8 +5973,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:bwmode</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwmode</c>, whatever it is.</summary>
@@ -5983,8 +5983,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:bwpure</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwpureText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwpure
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwpure</c>, whatever it is.</summary>
@@ -5993,8 +5993,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:bwnormal</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwnormalText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwnormal
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwnormal</c>, whatever it is.</summary>
@@ -6003,8 +6003,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:forcedash</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ForcedashText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Forcedash
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:forcedash</c>, whatever it is.</summary>
@@ -6013,8 +6013,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:oleicon</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleiconText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oleicon
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oleicon</c>, whatever it is.</summary>
@@ -6023,8 +6023,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:ole</c> (s:ST_TrueFalseBlank). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue? Ole
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:ole</c>, whatever it is.</summary>
@@ -6033,8 +6033,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:preferrelative</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PreferrelativeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Preferrelative
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:preferrelative</c>, whatever it is.</summary>
@@ -6043,8 +6043,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:cliptowrap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="CliptowrapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Cliptowrap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:cliptowrap</c>, whatever it is.</summary>
@@ -6053,8 +6053,8 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>o:clip</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ClipText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Clip
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:clip</c>, whatever it is.</summary>
@@ -6445,8 +6445,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>print</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrintText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Print
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>print</c>, whatever it is.</summary>
@@ -6458,8 +6458,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:oned</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OnedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oned
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oned</c>, whatever it is.</summary>
@@ -6471,8 +6471,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:doubleclicknotify</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="DoubleclicknotifyText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Doubleclicknotify
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:doubleclicknotify</c>, whatever it is.</summary>
@@ -6481,8 +6481,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:button</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ButtonText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Button
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:button</c>, whatever it is.</summary>
@@ -6491,8 +6491,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:userhidden</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserhiddenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userhidden
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userhidden</c>, whatever it is.</summary>
@@ -6501,8 +6501,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:bullet</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BulletText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Bullet
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bullet</c>, whatever it is.</summary>
@@ -6511,8 +6511,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:hr</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hr
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hr</c>, whatever it is.</summary>
@@ -6521,8 +6521,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:hrstd</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrstdText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrstd
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrstd</c>, whatever it is.</summary>
@@ -6531,8 +6531,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:hrnoshade</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrnoshadeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrnoshade
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrnoshade</c>, whatever it is.</summary>
@@ -6544,8 +6544,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:hralign</c> (o:ST_HrAlign). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HralignText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue? Hralign
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hralign</c>, whatever it is.</summary>
@@ -6554,8 +6554,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:allowincell</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowincellText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowincell
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowincell</c>, whatever it is.</summary>
@@ -6564,8 +6564,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:allowoverlap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowoverlapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowoverlap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowoverlap</c>, whatever it is.</summary>
@@ -6574,8 +6574,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:userdrawn</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserdrawnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userdrawn
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userdrawn</c>, whatever it is.</summary>
@@ -6605,8 +6605,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:insetmode</c> (o:ST_InsetMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue? Insetmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:insetmode</c>, whatever it is.</summary>
@@ -6618,8 +6618,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>filled</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="FilledText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Filled
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>filled</c>, whatever it is.</summary>
@@ -6634,8 +6634,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>stroked</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="StrokedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Stroked
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>stroked</c>, whatever it is.</summary>
@@ -6650,8 +6650,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>insetpen</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetpenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Insetpen
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>insetpen</c>, whatever it is.</summary>
@@ -6663,8 +6663,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:connectortype</c> (o:ST_ConnectorType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ConnectortypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue? Connectortype
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:connectortype</c>, whatever it is.</summary>
@@ -6673,8 +6673,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:bwmode</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwmode</c>, whatever it is.</summary>
@@ -6683,8 +6683,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:bwpure</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwpureText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwpure
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwpure</c>, whatever it is.</summary>
@@ -6693,8 +6693,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:bwnormal</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwnormalText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwnormal
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwnormal</c>, whatever it is.</summary>
@@ -6703,8 +6703,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:forcedash</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ForcedashText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Forcedash
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:forcedash</c>, whatever it is.</summary>
@@ -6713,8 +6713,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:oleicon</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleiconText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oleicon
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oleicon</c>, whatever it is.</summary>
@@ -6723,8 +6723,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:ole</c> (s:ST_TrueFalseBlank). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue? Ole
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:ole</c>, whatever it is.</summary>
@@ -6733,8 +6733,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:preferrelative</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PreferrelativeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Preferrelative
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:preferrelative</c>, whatever it is.</summary>
@@ -6743,8 +6743,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:cliptowrap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="CliptowrapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Cliptowrap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:cliptowrap</c>, whatever it is.</summary>
@@ -6753,8 +6753,8 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <summary>Attribute <c>o:clip</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ClipText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Clip
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:clip</c>, whatever it is.</summary>
@@ -7131,8 +7131,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>print</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrintText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Print
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>print</c>, whatever it is.</summary>
@@ -7144,8 +7144,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:oned</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OnedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oned
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oned</c>, whatever it is.</summary>
@@ -7157,8 +7157,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:doubleclicknotify</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="DoubleclicknotifyText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Doubleclicknotify
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:doubleclicknotify</c>, whatever it is.</summary>
@@ -7167,8 +7167,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:button</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ButtonText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Button
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:button</c>, whatever it is.</summary>
@@ -7177,8 +7177,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:userhidden</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserhiddenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userhidden
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userhidden</c>, whatever it is.</summary>
@@ -7187,8 +7187,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:bullet</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BulletText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Bullet
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bullet</c>, whatever it is.</summary>
@@ -7197,8 +7197,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:hr</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hr
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hr</c>, whatever it is.</summary>
@@ -7207,8 +7207,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:hrstd</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrstdText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrstd
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrstd</c>, whatever it is.</summary>
@@ -7217,8 +7217,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:hrnoshade</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrnoshadeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrnoshade
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrnoshade</c>, whatever it is.</summary>
@@ -7230,8 +7230,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:hralign</c> (o:ST_HrAlign). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HralignText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue? Hralign
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hralign</c>, whatever it is.</summary>
@@ -7240,8 +7240,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:allowincell</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowincellText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowincell
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowincell</c>, whatever it is.</summary>
@@ -7250,8 +7250,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:allowoverlap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowoverlapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowoverlap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowoverlap</c>, whatever it is.</summary>
@@ -7260,8 +7260,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:userdrawn</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserdrawnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userdrawn
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userdrawn</c>, whatever it is.</summary>
@@ -7291,8 +7291,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:insetmode</c> (o:ST_InsetMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue? Insetmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:insetmode</c>, whatever it is.</summary>
@@ -7304,8 +7304,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>filled</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="FilledText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Filled
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>filled</c>, whatever it is.</summary>
@@ -7320,8 +7320,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>stroked</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="StrokedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Stroked
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>stroked</c>, whatever it is.</summary>
@@ -7336,8 +7336,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>insetpen</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetpenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Insetpen
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>insetpen</c>, whatever it is.</summary>
@@ -7349,8 +7349,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:connectortype</c> (o:ST_ConnectorType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ConnectortypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue? Connectortype
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:connectortype</c>, whatever it is.</summary>
@@ -7359,8 +7359,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:bwmode</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwmode</c>, whatever it is.</summary>
@@ -7369,8 +7369,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:bwpure</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwpureText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwpure
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwpure</c>, whatever it is.</summary>
@@ -7379,8 +7379,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:bwnormal</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwnormalText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwnormal
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwnormal</c>, whatever it is.</summary>
@@ -7389,8 +7389,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:forcedash</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ForcedashText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Forcedash
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:forcedash</c>, whatever it is.</summary>
@@ -7399,8 +7399,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:oleicon</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleiconText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oleicon
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oleicon</c>, whatever it is.</summary>
@@ -7409,8 +7409,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:ole</c> (s:ST_TrueFalseBlank). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue? Ole
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:ole</c>, whatever it is.</summary>
@@ -7419,8 +7419,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:preferrelative</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PreferrelativeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Preferrelative
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:preferrelative</c>, whatever it is.</summary>
@@ -7429,8 +7429,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:cliptowrap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="CliptowrapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Cliptowrap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:cliptowrap</c>, whatever it is.</summary>
@@ -7439,8 +7439,8 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:clip</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ClipText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Clip
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:clip</c>, whatever it is.</summary>
@@ -7754,8 +7754,8 @@ public readonly struct Shadow : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>on</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? On
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>on</c>, whatever it is.</summary>
@@ -7764,8 +7764,8 @@ public readonly struct Shadow : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>type</c> (v:ST_ShadowType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="TypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Vml.ShadowTypeValue? Type
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Vml.ShadowTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8, global::RecursiveAI.OneOffice.Schema.Vml.ShadowTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Vml.ShadowTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8, global::RecursiveAI.OneOffice.Schema.Vml.ShadowTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "type"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Vml.ShadowTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>type</c>, whatever it is.</summary>
@@ -7774,8 +7774,8 @@ public readonly struct Shadow : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>obscured</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ObscuredText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Obscured
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "obscured"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "obscured"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "obscured"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "obscured"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "obscured"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>obscured</c>, whatever it is.</summary>
@@ -7923,8 +7923,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>print</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrintText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Print
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>print</c>, whatever it is.</summary>
@@ -7936,8 +7936,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:oned</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OnedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oned
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oned</c>, whatever it is.</summary>
@@ -7949,8 +7949,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:doubleclicknotify</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="DoubleclicknotifyText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Doubleclicknotify
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:doubleclicknotify</c>, whatever it is.</summary>
@@ -7959,8 +7959,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:button</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ButtonText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Button
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:button</c>, whatever it is.</summary>
@@ -7969,8 +7969,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:userhidden</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserhiddenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userhidden
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userhidden</c>, whatever it is.</summary>
@@ -7979,8 +7979,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:bullet</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BulletText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Bullet
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bullet</c>, whatever it is.</summary>
@@ -7989,8 +7989,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:hr</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hr
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hr</c>, whatever it is.</summary>
@@ -7999,8 +7999,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:hrstd</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrstdText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrstd
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrstd</c>, whatever it is.</summary>
@@ -8009,8 +8009,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:hrnoshade</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrnoshadeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrnoshade
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrnoshade</c>, whatever it is.</summary>
@@ -8022,8 +8022,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:hralign</c> (o:ST_HrAlign). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HralignText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue? Hralign
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hralign</c>, whatever it is.</summary>
@@ -8032,8 +8032,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:allowincell</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowincellText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowincell
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowincell</c>, whatever it is.</summary>
@@ -8042,8 +8042,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:allowoverlap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowoverlapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowoverlap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowoverlap</c>, whatever it is.</summary>
@@ -8052,8 +8052,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:userdrawn</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserdrawnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userdrawn
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userdrawn</c>, whatever it is.</summary>
@@ -8083,8 +8083,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:insetmode</c> (o:ST_InsetMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue? Insetmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:insetmode</c>, whatever it is.</summary>
@@ -8096,8 +8096,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>filled</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="FilledText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Filled
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>filled</c>, whatever it is.</summary>
@@ -8112,8 +8112,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>stroked</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="StrokedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Stroked
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>stroked</c>, whatever it is.</summary>
@@ -8128,8 +8128,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>insetpen</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetpenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Insetpen
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>insetpen</c>, whatever it is.</summary>
@@ -8141,8 +8141,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:connectortype</c> (o:ST_ConnectorType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ConnectortypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue? Connectortype
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:connectortype</c>, whatever it is.</summary>
@@ -8151,8 +8151,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:bwmode</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwmode</c>, whatever it is.</summary>
@@ -8161,8 +8161,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:bwpure</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwpureText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwpure
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwpure</c>, whatever it is.</summary>
@@ -8171,8 +8171,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:bwnormal</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwnormalText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwnormal
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwnormal</c>, whatever it is.</summary>
@@ -8181,8 +8181,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:forcedash</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ForcedashText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Forcedash
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:forcedash</c>, whatever it is.</summary>
@@ -8191,8 +8191,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:oleicon</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleiconText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oleicon
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oleicon</c>, whatever it is.</summary>
@@ -8201,8 +8201,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:ole</c> (s:ST_TrueFalseBlank). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue? Ole
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:ole</c>, whatever it is.</summary>
@@ -8211,8 +8211,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:preferrelative</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PreferrelativeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Preferrelative
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:preferrelative</c>, whatever it is.</summary>
@@ -8221,8 +8221,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:cliptowrap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="CliptowrapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Cliptowrap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:cliptowrap</c>, whatever it is.</summary>
@@ -8231,8 +8231,8 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Attribute <c>o:clip</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ClipText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Clip
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:clip</c>, whatever it is.</summary>
@@ -8658,8 +8658,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>print</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrintText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Print
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "print"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>print</c>, whatever it is.</summary>
@@ -8671,8 +8671,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:oned</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OnedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oned
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oned"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oned</c>, whatever it is.</summary>
@@ -8684,8 +8684,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:doubleclicknotify</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="DoubleclicknotifyText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Doubleclicknotify
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "doubleclicknotify"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:doubleclicknotify</c>, whatever it is.</summary>
@@ -8694,8 +8694,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:button</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ButtonText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Button
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "button"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:button</c>, whatever it is.</summary>
@@ -8704,8 +8704,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:userhidden</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserhiddenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userhidden
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userhidden"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userhidden</c>, whatever it is.</summary>
@@ -8714,8 +8714,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:bullet</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BulletText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Bullet
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bullet"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bullet</c>, whatever it is.</summary>
@@ -8724,8 +8724,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:hr</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hr
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hr"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hr</c>, whatever it is.</summary>
@@ -8734,8 +8734,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:hrstd</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrstdText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrstd
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrstd"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrstd</c>, whatever it is.</summary>
@@ -8744,8 +8744,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:hrnoshade</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HrnoshadeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Hrnoshade
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hrnoshade"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hrnoshade</c>, whatever it is.</summary>
@@ -8757,8 +8757,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:hralign</c> (o:ST_HrAlign). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HralignText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue? Hralign
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "hralign"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.HrAlignValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:hralign</c>, whatever it is.</summary>
@@ -8767,8 +8767,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:allowincell</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowincellText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowincell
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowincell"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowincell</c>, whatever it is.</summary>
@@ -8777,8 +8777,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:allowoverlap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AllowoverlapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Allowoverlap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "allowoverlap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:allowoverlap</c>, whatever it is.</summary>
@@ -8787,8 +8787,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:userdrawn</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="UserdrawnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Userdrawn
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "userdrawn"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:userdrawn</c>, whatever it is.</summary>
@@ -8818,8 +8818,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:insetmode</c> (o:ST_InsetMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue? Insetmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:insetmode</c>, whatever it is.</summary>
@@ -8831,8 +8831,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>filled</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="FilledText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Filled
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filled"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>filled</c>, whatever it is.</summary>
@@ -8847,8 +8847,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>stroked</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="StrokedText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Stroked
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "stroked"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>stroked</c>, whatever it is.</summary>
@@ -8863,8 +8863,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>insetpen</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetpenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Insetpen
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>insetpen</c>, whatever it is.</summary>
@@ -8876,8 +8876,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:connectortype</c> (o:ST_ConnectorType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ConnectortypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue? Connectortype
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "connectortype"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.ConnectorTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:connectortype</c>, whatever it is.</summary>
@@ -8886,8 +8886,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:bwmode</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwmode</c>, whatever it is.</summary>
@@ -8896,8 +8896,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:bwpure</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwpureText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwpure
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwpure"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwpure</c>, whatever it is.</summary>
@@ -8906,8 +8906,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:bwnormal</c> (o:ST_BWMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwnormalText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue? Bwnormal
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "bwnormal"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.BWModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:bwnormal</c>, whatever it is.</summary>
@@ -8916,8 +8916,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:forcedash</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ForcedashText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Forcedash
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:forcedash</c>, whatever it is.</summary>
@@ -8926,8 +8926,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:oleicon</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleiconText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Oleicon
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "oleicon"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:oleicon</c>, whatever it is.</summary>
@@ -8936,8 +8936,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:ole</c> (s:ST_TrueFalseBlank). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OleText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue? Ole
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ole"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseBlankValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:ole</c>, whatever it is.</summary>
@@ -8946,8 +8946,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:preferrelative</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PreferrelativeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Preferrelative
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "preferrelative"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:preferrelative</c>, whatever it is.</summary>
@@ -8956,8 +8956,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:cliptowrap</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="CliptowrapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Cliptowrap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "cliptowrap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:cliptowrap</c>, whatever it is.</summary>
@@ -8966,8 +8966,8 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>o:clip</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ClipText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Clip
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "clip"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:clip</c>, whatever it is.</summary>
@@ -9308,8 +9308,8 @@ public readonly struct Stroke : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>on</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? On
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>on</c>, whatever it is.</summary>
@@ -9327,8 +9327,8 @@ public readonly struct Stroke : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>linestyle</c> (v:ST_StrokeLineStyle). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="LinestyleText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Vml.StrokeLineStyleValue? Linestyle
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "linestyle"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Vml.StrokeLineStyleValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "linestyle"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "linestyle"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeLineStyleValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Vml.StrokeLineStyleValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "linestyle"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeLineStyleValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "linestyle"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Vml.StrokeLineStyleValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>linestyle</c>, whatever it is.</summary>
@@ -9340,8 +9340,8 @@ public readonly struct Stroke : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>joinstyle</c> (v:ST_StrokeJoinStyle). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="JoinstyleText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Vml.StrokeJoinStyleValue? Joinstyle
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "joinstyle"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Vml.StrokeJoinStyleValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "joinstyle"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "joinstyle"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeJoinStyleValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Vml.StrokeJoinStyleValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "joinstyle"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeJoinStyleValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "joinstyle"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Vml.StrokeJoinStyleValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>joinstyle</c>, whatever it is.</summary>
@@ -9350,8 +9350,8 @@ public readonly struct Stroke : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>endcap</c> (v:ST_StrokeEndCap). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="EndcapText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Vml.StrokeEndCapValue? Endcap
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endcap"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Vml.StrokeEndCapValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endcap"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endcap"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeEndCapValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Vml.StrokeEndCapValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endcap"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeEndCapValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endcap"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Vml.StrokeEndCapValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>endcap</c>, whatever it is.</summary>
@@ -9363,8 +9363,8 @@ public readonly struct Stroke : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>filltype</c> (v:ST_FillType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="FilltypeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Vml.FillTypeValue? Filltype
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filltype"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Vml.FillTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filltype"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filltype"u8, global::RecursiveAI.OneOffice.Schema.Vml.FillTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Vml.FillTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filltype"u8, global::RecursiveAI.OneOffice.Schema.Vml.FillTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "filltype"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Vml.FillTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>filltype</c>, whatever it is.</summary>
@@ -9376,8 +9376,8 @@ public readonly struct Stroke : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>imageaspect</c> (v:ST_ImageAspect). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ImageaspectText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Vml.ImageAspectValue? Imageaspect
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "imageaspect"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Vml.ImageAspectValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "imageaspect"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "imageaspect"u8, global::RecursiveAI.OneOffice.Schema.Vml.ImageAspectValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Vml.ImageAspectValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "imageaspect"u8, global::RecursiveAI.OneOffice.Schema.Vml.ImageAspectValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "imageaspect"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Vml.ImageAspectValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>imageaspect</c>, whatever it is.</summary>
@@ -9389,8 +9389,8 @@ public readonly struct Stroke : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>imagealignshape</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ImagealignshapeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Imagealignshape
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "imagealignshape"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "imagealignshape"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "imagealignshape"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "imagealignshape"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "imagealignshape"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>imagealignshape</c>, whatever it is.</summary>
@@ -9402,8 +9402,8 @@ public readonly struct Stroke : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>startarrow</c> (v:ST_StrokeArrowType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="StartarrowText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowTypeValue? Startarrow
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "startarrow"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "startarrow"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "startarrow"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "startarrow"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "startarrow"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>startarrow</c>, whatever it is.</summary>
@@ -9412,8 +9412,8 @@ public readonly struct Stroke : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>startarrowwidth</c> (v:ST_StrokeArrowWidth). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="StartarrowwidthText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowWidthValue? Startarrowwidth
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "startarrowwidth"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowWidthValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "startarrowwidth"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "startarrowwidth"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowWidthValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowWidthValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "startarrowwidth"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowWidthValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "startarrowwidth"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowWidthValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>startarrowwidth</c>, whatever it is.</summary>
@@ -9422,8 +9422,8 @@ public readonly struct Stroke : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>startarrowlength</c> (v:ST_StrokeArrowLength). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="StartarrowlengthText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowLengthValue? Startarrowlength
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "startarrowlength"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowLengthValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "startarrowlength"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "startarrowlength"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowLengthValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowLengthValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "startarrowlength"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowLengthValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "startarrowlength"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowLengthValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>startarrowlength</c>, whatever it is.</summary>
@@ -9432,8 +9432,8 @@ public readonly struct Stroke : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>endarrow</c> (v:ST_StrokeArrowType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="EndarrowText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowTypeValue? Endarrow
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endarrow"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowTypeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endarrow"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endarrow"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowTypeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowTypeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endarrow"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endarrow"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>endarrow</c>, whatever it is.</summary>
@@ -9442,8 +9442,8 @@ public readonly struct Stroke : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>endarrowwidth</c> (v:ST_StrokeArrowWidth). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="EndarrowwidthText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowWidthValue? Endarrowwidth
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endarrowwidth"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowWidthValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endarrowwidth"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endarrowwidth"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowWidthValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowWidthValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endarrowwidth"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowWidthValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endarrowwidth"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowWidthValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>endarrowwidth</c>, whatever it is.</summary>
@@ -9452,8 +9452,8 @@ public readonly struct Stroke : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>endarrowlength</c> (v:ST_StrokeArrowLength). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="EndarrowlengthText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowLengthValue? Endarrowlength
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endarrowlength"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowLengthValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endarrowlength"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endarrowlength"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowLengthValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowLengthValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endarrowlength"u8, global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowLengthValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "endarrowlength"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.Vml.StrokeArrowLengthValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>endarrowlength</c>, whatever it is.</summary>
@@ -9471,8 +9471,8 @@ public readonly struct Stroke : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>o:forcedash</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ForcedashText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Forcedash
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "forcedash"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:forcedash</c>, whatever it is.</summary>
@@ -9484,8 +9484,8 @@ public readonly struct Stroke : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <summary>Attribute <c>insetpen</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetpenText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Insetpen
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "insetpen"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>insetpen</c>, whatever it is.</summary>
@@ -9604,8 +9604,8 @@ public readonly struct TextPath : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>on</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="OnText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? On
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "on"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>on</c>, whatever it is.</summary>
@@ -9614,8 +9614,8 @@ public readonly struct TextPath : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>fitshape</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="FitshapeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Fitshape
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "fitshape"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "fitshape"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "fitshape"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "fitshape"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "fitshape"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>fitshape</c>, whatever it is.</summary>
@@ -9624,8 +9624,8 @@ public readonly struct TextPath : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>fitpath</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="FitpathText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Fitpath
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "fitpath"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "fitpath"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "fitpath"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "fitpath"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "fitpath"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>fitpath</c>, whatever it is.</summary>
@@ -9634,8 +9634,8 @@ public readonly struct TextPath : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>trim</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="TrimText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Trim
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "trim"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "trim"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "trim"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "trim"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "trim"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>trim</c>, whatever it is.</summary>
@@ -9644,8 +9644,8 @@ public readonly struct TextPath : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <summary>Attribute <c>xscale</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="XscaleText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Xscale
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "xscale"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "xscale"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "xscale"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "xscale"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.None, "xscale"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>xscale</c>, whatever it is.</summary>
@@ -9724,8 +9724,8 @@ public readonly struct Textbox : global::RecursiveAI.OneOffice.Schema.IElementVi
     /// <summary>Attribute <c>o:singleclick</c> (s:ST_TrueFalse). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="SingleclickText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue? Singleclick
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "singleclick"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "singleclick"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "singleclick"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "singleclick"u8, global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "singleclick"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.SharedTypes.TrueFalseValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:singleclick</c>, whatever it is.</summary>
@@ -9734,8 +9734,8 @@ public readonly struct Textbox : global::RecursiveAI.OneOffice.Schema.IElementVi
     /// <summary>Attribute <c>o:insetmode</c> (o:ST_InsetMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="InsetmodeText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue? Insetmode
     {
-        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse(raw) : null;
-        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value)); }
+        get => _markup.GetEnum<global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValue>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "insetmode"u8, value is null ? null : global::RecursiveAI.OneOffice.Schema.VmlOffice.InsetModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>o:insetmode</c>, whatever it is.</summary>
