@@ -7,8 +7,6 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="../../src/OneOffice/OneOffice.csproj" />
-  </ItemGroup>
+  <!-- Standalone on purpose: the checker must not depend on the code whose output it checks. -->
 
 </Project>
