@@ -6,10 +6,11 @@
 <dir> holds <name>.ours.txt, <name>.sdk.txt and <name>.tika.txt (written by TextCompare extract and by running the
 Tika application jar over the same documents). Similarity is the Dice coefficient of character 5-gram multisets
 of the lower-cased text with all white space removed, so paragraph, tab and line-break conventions (which differ
-between extractors) do not count, and only the characters and their order locally do. Files where an extractor
+between extractors) do not count, and only the characters and their order locally do. vsTika is against Tika's text without the embedded-picture file names it lists (vsTikaRaw keeps them). Files where an extractor
 failed (an .err file) or produced nothing are listed apart.
 """
 import json
+import re
 import sys
 from collections import Counter
 from pathlib import Path
@@ -30,6 +31,10 @@ def dice(a, b):
         return 0.0
     common = sum((a & b).values())
     return 2.0 * common / (ta + tb)
+
+
+# Tika lists each embedded picture by its file name (image1.jpeg); no extractor of document text has those.
+EMBEDDED_NAME = re.compile(r"^(image|media|object|oleobject)[^\s/]*\.\w{2,5}$", re.M | re.I)
 
 
 def pct(values, p):
@@ -64,6 +69,8 @@ def main():
         row = {"name": n, "oursChars": len(ours), "sdkChars": None if sdk is None else len(sdk),
                "tikaChars": None if tika is None else len(tika)}
         if tika is not None:
+            row["vsTikaRaw"] = dice(g, grams(tika))
+            tika = EMBEDDED_NAME.sub("", tika)
             row["vsTika"] = dice(g, grams(tika))
         if sdk is not None:
             row["vsSdk"] = dice(g, grams(sdk))
@@ -72,7 +79,7 @@ def main():
         rows.append(row)
 
     report = {"files": len(names), "oursFailed": errs, "sets": {}}
-    for key in ("vsTika", "vsSdk", "tikaVsSdk"):
+    for key in ("vsTikaRaw", "vsTika", "vsSdk", "tikaVsSdk"):
         vals = [r[key] for r in rows if key in r]
         if not vals:
             continue

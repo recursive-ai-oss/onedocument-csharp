@@ -29,6 +29,9 @@ public enum TextStory
 
     /// <summary>A worksheet; each string cell is one paragraph.</summary>
     Sheet = 8,
+
+    /// <summary>The text of a diagram (SmartArt) that a document or slide holds, read from its data part.</summary>
+    Diagram = 9,
 }
 
 /// <summary>One paragraph of the normalized text, with where it came from.</summary>

@@ -95,6 +95,14 @@ public class WordTextTests
     }
 
     [Fact]
+    public void Diagram_text_follows_the_story()
+    {
+        byte[] doc = Docx(Para("body"), ("word/diagrams/data1.xml",
+            "<dgm:dataModel xmlns:dgm=\"http://schemas.openxmlformats.org/drawingml/2006/diagram\" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"><dgm:ptLst><dgm:pt><dgm:t><a:bodyPr/><a:p><a:r><a:t>Node</a:t></a:r></a:p></dgm:t></dgm:pt><dgm:pt/></dgm:ptLst></dgm:dataModel>", "diagramData"));
+        Assert.Equal("body\n\nNode\n", Extract(doc));
+    }
+
+    [Fact]
     public void Strict_namespace_and_math_text()
     {
         byte[] doc = DocxWith(WStrict, "<w:p>" + Run("x") + "<m:oMath><m:r><m:t>a+b</m:t></m:r></m:oMath></w:p>");

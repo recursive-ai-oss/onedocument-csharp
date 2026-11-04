@@ -177,6 +177,9 @@ public static class OoxmlTextExtractor
             {
                 Related(main, rels, "/comments", TextStory.Comments, WordPart);
             }
+
+            // Diagram text lives in a data part of its own; it is output after the story, not where the diagram is anchored.
+            Related(main, rels, "/diagramData", TextStory.Diagram, DrawingPart);
         }
 
         public void Workbook(string main)
@@ -215,10 +218,13 @@ public static class OoxmlTextExtractor
                 }
 
                 OptionalPart(slide, TextStory.Slide, r => new DrawingTextExtractor(context, sink, cancellation).Run(r));
+                List<Relationship> slideRels = parts.ReadRelationships(slide);
                 if (options.IncludeNotes)
                 {
-                    Related(slide, parts.ReadRelationships(slide), "/notesSlide", TextStory.SlideNotes, DrawingPart);
+                    Related(slide, slideRels, "/notesSlide", TextStory.SlideNotes, DrawingPart);
                 }
+
+                Related(slide, slideRels, "/diagramData", TextStory.Diagram, DrawingPart);
             }
         }
 
