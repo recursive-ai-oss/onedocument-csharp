@@ -6,26 +6,32 @@ OneOffice is a clean-room document processor for `net10.0` that depends only on 
 
 ## Status: early preview
 
-This is the repository's foundation. **No document format can be read or written yet.** What exists and works today is the layer everything else is built on:
+What works today is **word-processing documents in the DOCX family**, and text extraction from OOXML files:
 
-- **Sources** (`IByteSource`, `ByteSource`): input from a file, stream, memory or a remote object read by ranges, with zero-copy memory access and cancellable async reads.
-- **Limits** (`OfficeLimits`): one immutable object of resource limits (zip-bomb ratio, sizes, part and record counts, XML depth, formula depth) on by default and passed through every layer.
-- **Defects and exceptions** (`Defect`, `DefectCollection`, `OfficeException` and its subtypes): every repair on read is a typed defect with a location; fatal input raises a typed exception that carries one.
-- **Format identification** (`FormatSniffer`, `OfficeFormats`): names the format of a file from its content (zip content types, OpenDocument `mimetype`, compound-file streams, RTF, XML root elements, HTML, delimited text), never from the extension.
-- **Format registry** (`FormatRegistry`) and the shared base of the document types (`OfficeFile`) and the `Office` one-liners, which dispatch through the registry. With no kind package registered they raise `FormatNotAvailableException`.
-- **Packages** (`IPackage`, `IPackagePart`, `IOpcPackage`, `PartUri`, `AtomicFile`): the part model the container readers will implement, with the untouched-part state and the atomic save.
+- **`Document`** (`RecursiveAI.OneOffice.Documents`): `Document.Open` (path, stream or byte source; the format comes from the content, never the extension), `Document.Create`, `Save()` (atomic replace), `SaveAs(path)` (format by extension; `.xml` is Flat OPC) and `SaveAs(path|stream, format)`. It opens DOCX, DOCM, DOTX, DOTM and Flat OPC; any other format raises `FormatNotAvailableException` naming it. Untouched parts are written back byte-identical and unedited zip entries are copied as stored; edits keep unknown markup, prefixes, `mc:AlternateContent` and `extLst` in order. The model covers paragraphs and runs, tables, sections, headers and footers, styles with inheritance, numbering, fields, footnotes and endnotes, comments, revisions and content controls, with generated typed views (`RecursiveAI.OneOffice.Schema`) over the same markup.
+- **Text extraction** for OOXML documents, workbooks and presentations: `Office.ExtractText(path)` and `oneoffice extract <file>`.
+- **The foundation:** byte sources, one limits object, typed defects and exceptions with locations, content-based format identification, the format registry and the part/package model (OPC on zip and Flat OPC; compound files).
 
-Nothing here claims PDF output, calculation, templating, sanitising or redaction: none of those exist yet.
+Not done yet: the "opens in Word without a repair prompt" check is pending, and there is no calculation, templating, rendering, sanitising or redaction. Every other format below is planned.
+
+```csharp
+using RecursiveAI.OneOffice.Documents;
+
+using var doc = Document.Open("contract.docx");
+doc.Paragraphs.First().SetText("Master services agreement");
+doc.Save();                      // atomic; only word/document.xml changes
+string text = doc.ExtractText();
+```
+
+The `Office` statics (`Office.Open`, `Office.ExtractText`, `Office.Convert`) find readers through `FormatRegistry.Default`; an application calls `DocumentFormats.Register(FormatRegistry.Default)` once at start. `Document.Open` and `Office.ExtractText` for OOXML need no registration.
 
 ## Formats
 
-Every format below is planned; none can be opened or saved yet (the sniffer already recognises them).
-
 | Format | Read | Write |
 |---|---|---|
-| DOCX/DOCM/DOTX/DOTM, Flat OPC | planned | planned |
-| XLSX/XLSM/XLTX/XLTM/XLAM, Flat OPC | planned | planned |
-| PPTX/PPTM/POTX/PPSX, Flat OPC | planned | planned |
+| DOCX/DOCM/DOTX/DOTM, Flat OPC | yes | yes |
+| XLSX/XLSM/XLTX/XLTM/XLAM, Flat OPC | text extraction only | planned |
+| PPTX/PPTM/POTX/PPSX, Flat OPC | text extraction only | planned |
 | XLSB | planned | planned |
 | XLS (BIFF8) | planned | planned |
 | XLS (BIFF2–5), DOC, PPT, Word and Excel 2003 XML | planned | not planned |
@@ -39,15 +45,15 @@ Every format below is planned; none can be opened or saved yet (the sniffer alre
 
 | Package | Contents |
 |---|---|
-| `RecursiveAI.OneOffice` | The core: contracts, containers, markup, formats registry (the only package with content today) |
-| `RecursiveAI.OneOffice.Documents` | Word-processing documents (not yet) |
+| `RecursiveAI.OneOffice` | The core: contracts, containers, markup, format registry, text extraction |
+| `RecursiveAI.OneOffice.Documents` | Word-processing documents (DOCX family) |
 | `RecursiveAI.OneOffice.Spreadsheets` | Workbooks and calculation (not yet) |
 | `RecursiveAI.OneOffice.Presentations` | Presentations (not yet) |
-| `RecursiveAI.OneOffice.Schema` | Generated typed views (not yet) |
+| `RecursiveAI.OneOffice.Schema` | Generated typed views of the WordprocessingML elements, over the markup tree |
 | `RecursiveAI.OneOffice.Rendering` | Layout and PDF/image output (not yet) |
 | `RecursiveAI.OneOffice.Cryptography` | Signatures and encryption on write (not yet) |
 | `RecursiveAI.OneOffice.All` | Metapackage |
-| `oneoffice` | Command-line tool (`oneoffice detect <file>` today) |
+| `oneoffice` | Command-line tool: `oneoffice detect <file>`, `oneoffice extract <file> [-o out.txt] [--json]` |
 
 ## Building
 
