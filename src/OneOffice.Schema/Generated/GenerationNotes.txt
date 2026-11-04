@@ -1,9 +1,9 @@
 Typed-view generation notes. Written by tools/ViewGenerator; do not edit.
 
-views: 705
-enumerations: 202
-attributes: 2046
-child slots: 3194
+views: 710
+enumerations: 203
+attributes: 2050
+child slots: 3291
 
 Views per namespace:
   ContentTypes: 3
@@ -22,9 +22,11 @@ Views per namespace:
   Picture: 2
   VariantTypes: 6
   Vml: 23
+  VmlExcel: 1
   VmlOffice: 25
+  VmlPowerPoint: 2
   VmlWord: 3
-  Word2010: 36
+  Word2010: 38
   Word2012: 8
   Word2015Symex: 1
   Word2016Cid: 2
@@ -41,6 +43,11 @@ Views per namespace:
   WordprocessingShape: 3
 
 Unresolved or ambiguous references:
+  simple type {http://schemas.openxmlformats.org/drawingml/2006/main}ST_Guid resolved from the shared types schema
+  simple type {http://schemas.openxmlformats.org/wordprocessingml/2006/main}ST_HexColorRGB resolved from the shared types schema
+  simple type {http://schemas.openxmlformats.org/wordprocessingml/2006/main}ST_OnOff resolved from the shared types schema
+  simple type {http://schemas.openxmlformats.org/wordprocessingml/2006/main}ST_String resolved from the shared types schema
+  simple type {http://schemas.openxmlformats.org/wordprocessingml/2006/main}ST_UnsignedDecimalNumber resolved from the shared types schema
   unresolved element ref {http://purl.org/dc/elements/1.1/}creator in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
   unresolved element ref {http://purl.org/dc/elements/1.1/}description in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
   unresolved element ref {http://purl.org/dc/elements/1.1/}identifier in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
@@ -49,38 +56,7 @@ Unresolved or ambiguous references:
   unresolved element ref {http://purl.org/dc/elements/1.1/}title in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
   unresolved element ref {http://purl.org/dc/terms/}created in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
   unresolved element ref {http://purl.org/dc/terms/}modified in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
-  unresolved element ref {http://schemas.microsoft.com/office/word/2006/wordml}txbxContent in {http://schemas.microsoft.com/office/word/2010/wordprocessingShape}CT_TextboxInfo
-  unresolved element ref {http://schemas.microsoft.com/office/word/2010/wordml}contentPart in {http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas}CT_WordprocessingCanvas
-  unresolved element ref {http://schemas.microsoft.com/office/word/2010/wordml}contentPart in {http://schemas.microsoft.com/office/word/2010/wordprocessingGroup}CT_WordprocessingGroup
   unresolved element ref {http://schemas.openxmlformats.org/schemaLibrary/2006/main}schemaLibrary in {http://schemas.openxmlformats.org/wordprocessingml/2006/main}CT_Settings
-  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Arc
-  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Curve
-  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Group
-  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Image
-  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Line
-  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Oval
-  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_PolyLine
-  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Rect
-  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_RoundRect
-  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Shape
-  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Shapetype
-  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}iscomment in {urn:schemas-microsoft-com:vml}CT_Shape
-  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Arc
-  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Curve
-  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Group
-  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Image
-  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Line
-  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Oval
-  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_PolyLine
-  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Rect
-  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_RoundRect
-  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Shape
-  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Shapetype
-  unresolved simple type {http://schemas.openxmlformats.org/drawingml/2006/main}ST_Guid
-  unresolved simple type {http://schemas.openxmlformats.org/wordprocessingml/2006/main}ST_HexColorRGB
-  unresolved simple type {http://schemas.openxmlformats.org/wordprocessingml/2006/main}ST_OnOff
-  unresolved simple type {http://schemas.openxmlformats.org/wordprocessingml/2006/main}ST_String
-  unresolved simple type {http://schemas.openxmlformats.org/wordprocessingml/2006/main}ST_UnsignedDecimalNumber
 
 Strict differences (types in a Strict schema whose declared child or attribute names differ from the Transitional type):
   CT_Charset: only Transitional [@val] only Strict []

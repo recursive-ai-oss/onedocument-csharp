@@ -36,64 +36,68 @@ public enum SchemaNamespace
     VmlOffice = 12,
     /// <summary>urn:schemas-microsoft-com:office:word (w10:).</summary>
     VmlWord = 13,
+    /// <summary>urn:schemas-microsoft-com:office:excel (x:).</summary>
+    VmlExcel = 14,
+    /// <summary>urn:schemas-microsoft-com:office:powerpoint (pvml:).</summary>
+    VmlPowerPoint = 15,
     /// <summary>http://schemas.openxmlformats.org/officeDocument/2006/extended-properties (ep:).</summary>
-    ExtendedProperties = 14,
+    ExtendedProperties = 16,
     /// <summary>http://schemas.openxmlformats.org/officeDocument/2006/custom-properties (op:).</summary>
-    CustomProperties = 15,
+    CustomProperties = 17,
     /// <summary>http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes (vt:).</summary>
-    VariantTypes = 16,
+    VariantTypes = 18,
     /// <summary>http://schemas.openxmlformats.org/package/2006/content-types (ct:).</summary>
-    ContentTypes = 17,
+    ContentTypes = 19,
     /// <summary>http://schemas.openxmlformats.org/package/2006/relationships (rel:).</summary>
-    PackageRelationships = 18,
+    PackageRelationships = 20,
     /// <summary>http://schemas.openxmlformats.org/package/2006/metadata/core-properties (cp:).</summary>
-    CoreProperties = 19,
+    CoreProperties = 21,
     /// <summary>http://schemas.openxmlformats.org/package/2006/digital-signature (ds:).</summary>
-    DigitalSignature = 20,
+    DigitalSignature = 22,
     /// <summary>http://schemas.microsoft.com/office/word/2010/wordml (w14:).</summary>
-    Word2010 = 21,
+    Word2010 = 23,
     /// <summary>http://schemas.microsoft.com/office/word/2012/wordml (w15:).</summary>
-    Word2012 = 22,
+    Word2012 = 24,
     /// <summary>http://schemas.microsoft.com/office/word/2015/wordml/symex (w16se:).</summary>
-    Word2015Symex = 23,
+    Word2015Symex = 25,
     /// <summary>http://schemas.microsoft.com/office/word/2016/wordml/cid (w16cid:).</summary>
-    Word2016Cid = 24,
+    Word2016Cid = 26,
     /// <summary>http://schemas.microsoft.com/office/word/2018/wordml (w16:).</summary>
-    Word2018 = 25,
+    Word2018 = 27,
     /// <summary>http://schemas.microsoft.com/office/word/2018/wordml/cex (w16cex:).</summary>
-    Word2018Cex = 26,
+    Word2018Cex = 28,
     /// <summary>http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash (w16sdtdh:).</summary>
-    Word2020SdtDataHash = 27,
+    Word2020SdtDataHash = 29,
     /// <summary>http://schemas.microsoft.com/office/word/2023/wordml/word16du (w16du:).</summary>
-    Word2023Du = 28,
+    Word2023Du = 30,
     /// <summary>http://schemas.microsoft.com/office/word/2024/wordml/sdtformatlock (w16sdtfl:).</summary>
-    Word2024SdtFormatLock = 29,
+    Word2024SdtFormatLock = 31,
     /// <summary>http://schemas.microsoft.com/office/word/2026/wordml/cei (w16cei:).</summary>
-    Word2026Cei = 30,
+    Word2026Cei = 32,
     /// <summary>http://schemas.microsoft.com/office/word/2010/wordprocessingShape (wps:).</summary>
-    WordprocessingShape = 31,
+    WordprocessingShape = 33,
     /// <summary>http://schemas.microsoft.com/office/word/2010/wordprocessingGroup (wpg:).</summary>
-    WordprocessingGroup = 32,
+    WordprocessingGroup = 34,
     /// <summary>http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas (wpc:).</summary>
-    WordprocessingCanvas = 33,
+    WordprocessingCanvas = 35,
     /// <summary>http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing (wp14:).</summary>
-    WordprocessingDrawing2010 = 34,
+    WordprocessingDrawing2010 = 36,
     /// <summary>http://schemas.microsoft.com/office/word/2012/wordprocessingDrawing (wp15:).</summary>
-    WordprocessingDrawing2012 = 35,
+    WordprocessingDrawing2012 = 37,
     /// <summary>http://schemas.microsoft.com/office/word/2020/oembed (woe:).</summary>
-    WordOEmbed = 36,
+    WordOEmbed = 38,
     /// <summary>http://schemas.microsoft.com/office/drawing/2010/main (a14:).</summary>
-    Drawing2010 = 37,
+    Drawing2010 = 39,
     /// <summary>http://schemas.microsoft.com/office/drawing/2010/picture (pic14:).</summary>
-    Picture2010 = 38,
+    Picture2010 = 40,
     /// <summary>http://schemas.microsoft.com/office/drawing/2012/main (a15:).</summary>
-    Drawing2012 = 39,
+    Drawing2012 = 41,
     /// <summary>http://schemas.microsoft.com/office/drawing/2014/main (a16:).</summary>
-    Drawing2014 = 40,
+    Drawing2014 = 42,
     /// <summary>http://schemas.microsoft.com/office/drawing/2016/SVG/main (asvg:).</summary>
-    DrawingSvg = 41,
+    DrawingSvg = 43,
     /// <summary>http://schemas.microsoft.com/office/drawing/2017/decorative (adec:).</summary>
-    DrawingDecorative = 42,
+    DrawingDecorative = 44,
 }
 
 /// <summary>Namespace URIs and conventional prefixes for <see cref="SchemaNamespace"/>.</summary>
@@ -122,6 +126,8 @@ public static class SchemaNamespaces
         if (uri.SequenceEqual("urn:schemas-microsoft-com:vml"u8)) return SchemaNamespace.Vml;
         if (uri.SequenceEqual("urn:schemas-microsoft-com:office:office"u8)) return SchemaNamespace.VmlOffice;
         if (uri.SequenceEqual("urn:schemas-microsoft-com:office:word"u8)) return SchemaNamespace.VmlWord;
+        if (uri.SequenceEqual("urn:schemas-microsoft-com:office:excel"u8)) return SchemaNamespace.VmlExcel;
+        if (uri.SequenceEqual("urn:schemas-microsoft-com:office:powerpoint"u8)) return SchemaNamespace.VmlPowerPoint;
         if (uri.SequenceEqual("http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"u8)) return SchemaNamespace.ExtendedProperties;
         if (uri.SequenceEqual("http://purl.oclc.org/ooxml/officeDocument/extendedProperties"u8)) return SchemaNamespace.ExtendedProperties;
         if (uri.SequenceEqual("http://schemas.openxmlformats.org/officeDocument/2006/custom-properties"u8)) return SchemaNamespace.CustomProperties;
@@ -179,6 +185,8 @@ public static class SchemaNamespaces
             case SchemaNamespace.Vml: return "urn:schemas-microsoft-com:vml"u8;
             case SchemaNamespace.VmlOffice: return "urn:schemas-microsoft-com:office:office"u8;
             case SchemaNamespace.VmlWord: return "urn:schemas-microsoft-com:office:word"u8;
+            case SchemaNamespace.VmlExcel: return "urn:schemas-microsoft-com:office:excel"u8;
+            case SchemaNamespace.VmlPowerPoint: return "urn:schemas-microsoft-com:office:powerpoint"u8;
             case SchemaNamespace.ExtendedProperties: return strict ? "http://purl.oclc.org/ooxml/officeDocument/extendedProperties"u8 : "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"u8;
             case SchemaNamespace.CustomProperties: return strict ? "http://purl.oclc.org/ooxml/officeDocument/customProperties"u8 : "http://schemas.openxmlformats.org/officeDocument/2006/custom-properties"u8;
             case SchemaNamespace.VariantTypes: return strict ? "http://purl.oclc.org/ooxml/officeDocument/docPropsVTypes"u8 : "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"u8;
@@ -231,6 +239,8 @@ public static class SchemaNamespaces
             case SchemaNamespace.Vml: return "v"u8;
             case SchemaNamespace.VmlOffice: return "o"u8;
             case SchemaNamespace.VmlWord: return "w10"u8;
+            case SchemaNamespace.VmlExcel: return "x"u8;
+            case SchemaNamespace.VmlPowerPoint: return "pvml"u8;
             case SchemaNamespace.ExtendedProperties: return "ep"u8;
             case SchemaNamespace.CustomProperties: return "op"u8;
             case SchemaNamespace.VariantTypes: return "vt"u8;

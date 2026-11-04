@@ -2,7 +2,7 @@
 # Restore, build, test, smoke-publish and pack the whole repository: what CI runs on linux-x64, and what runs the same way on any
 # build machine.
 #
-#   build/ci.sh [step...]       steps: restore build test aot wasm pack (default: all, in that order)
+#   build/ci.sh [step...]       steps: restore generated build test aot wasm pack (default: all, in that order)
 #
 # Environment:
 #   ONEOFFICE_ARTIFACTS   where build output goes (default: artifacts/ at the repository root, which git ignores)
@@ -19,12 +19,14 @@ out="${CI_OUT:-${ONEOFFICE_ARTIFACTS:-$root/artifacts}/ci}"
 rid="${RID:-$("$dotnet_bin" --info | awk '/^ RID:/ {print $2; exit}')}"
 
 steps=("$@")
-[[ ${#steps[@]} -gt 0 ]] || steps=(restore build test aot wasm pack)
+[[ ${#steps[@]} -gt 0 ]] || steps=(restore generated build test aot wasm pack)
 
 for step in "${steps[@]}"; do
   echo "== $step"
   case "$step" in
     restore) "$dotnet_bin" restore OneOffice.slnx ;;
+    # The typed views are committed; regenerating from the pinned schemas must change nothing.
+    generated) "$dotnet_bin" run --project tools/ViewGenerator -c "$config" --no-restore -- --check ;;
     build) "$dotnet_bin" build OneOffice.slnx -c "$config" --no-restore ;;
     test) "$dotnet_bin" test --solution OneOffice.slnx -c "$config" --no-build ;;
     aot)

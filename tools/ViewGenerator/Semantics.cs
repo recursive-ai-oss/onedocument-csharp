@@ -106,7 +106,7 @@ internal sealed class Semantics
                 DisplayName = "xsd:" + q.Local,
             };
         }
-        else if (_lib.SimpleTypes.TryGetValue(q, out var st))
+        else if (_lib.SimpleTypes.TryGetValue(q, out var st) || TryShared(q, out st))
         {
             _simpleByQName[q] = new SimpleInfo { Kind = ValueKind.String }; // recursion guard
             info = FromSimpleType(st, q, DocOf(st));
@@ -118,6 +118,17 @@ internal sealed class Semantics
         }
         _simpleByQName[q] = info;
         return info;
+    }
+
+    /// <summary>The extension schemas spell shared simple types (ST_OnOff, ST_String, ST_Guid) in their own namespaces; the definitions live in the shared types schema.</summary>
+    private bool TryShared(QName q, out XElement st)
+    {
+        st = null!;
+        const string shared = "http://schemas.openxmlformats.org/officeDocument/2006/sharedTypes";
+        if (!q.Local.StartsWith("ST_", StringComparison.Ordinal) || !_lib.SimpleTypes.TryGetValue(q with { Ns = shared }, out var found)) return false;
+        st = found;
+        Notes.Add("simple type " + q + " resolved from the shared types schema");
+        return true;
     }
 
     private SimpleInfo FromSimpleType(XElement st, QName? name, SchemaDoc doc, string? synthKey = null)

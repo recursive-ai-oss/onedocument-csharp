@@ -5778,6 +5778,13 @@ public readonly struct Background : global::RecursiveAI.OneOffice.Schema.IElemen
         {
             if (local.SequenceEqual("drawing"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.WordprocessingDrawingContent; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local);
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -13753,6 +13760,13 @@ public readonly struct EmbeddedObject : global::RecursiveAI.OneOffice.Schema.IEl
             if (local.SequenceEqual("objectEmbed"u8)) { rank = 2; return global::RecursiveAI.OneOffice.Schema.ViewKind.WordprocessingObjectEmbed; }
             if (local.SequenceEqual("objectLink"u8)) { rank = 2; return global::RecursiveAI.OneOffice.Schema.ViewKind.WordprocessingObjectLink; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local);
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -18906,6 +18920,13 @@ public readonly struct LegacyPicture : global::RecursiveAI.OneOffice.Schema.IEle
             if (local.SequenceEqual("control"u8)) { rank = 2; return global::RecursiveAI.OneOffice.Schema.ViewKind.WordprocessingControl; }
             if (local.SequenceEqual("movie"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.WordprocessingRel; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local);
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -31911,6 +31932,13 @@ public readonly struct ShapeDefaults : global::RecursiveAI.OneOffice.Schema.IEle
     /// <inheritdoc/>
     public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local);
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 0;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }

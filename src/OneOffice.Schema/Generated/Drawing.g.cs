@@ -8728,6 +8728,13 @@ public readonly struct GraphicalObjectData : global::RecursiveAI.OneOffice.Schem
     /// <inheritdoc/>
     public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local);
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 0;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -10976,7 +10983,7 @@ public readonly struct NonVisualContentPartProperties : global::RecursiveAI.OneO
     public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Drawing.NonVisualContentPartProperties> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_NonVisualDrawingProps</c>, the type of <c>a14:cNvPr</c>, <c>wpg:cNvPr</c>, <c>wps:cNvPr</c>, <c>pic:cNvPr</c>, <c>wp:cNvPr</c>, <c>wp:docPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_NonVisualDrawingProps</c>, the type of <c>a14:cNvPr</c>, <c>w14:cNvPr</c>, <c>wpg:cNvPr</c>, <c>wps:cNvPr</c>, <c>pic:cNvPr</c>, <c>wp:cNvPr</c>, <c>wp:docPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct NonVisualDrawingProps : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Drawing.NonVisualDrawingProps>
 {
     private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
@@ -10998,6 +11005,7 @@ public readonly struct NonVisualDrawingProps : global::RecursiveAI.OneOffice.Sch
     public static bool Accepts(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Drawing2010) return local.SequenceEqual("cNvPr"u8);
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("cNvPr"u8);
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.WordprocessingGroup) return local.SequenceEqual("cNvPr"u8);
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.WordprocessingShape) return local.SequenceEqual("cNvPr"u8);
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Picture) return local.SequenceEqual("cNvPr"u8);
@@ -11407,6 +11415,13 @@ public readonly struct OfficeArtExtension : global::RecursiveAI.OneOffice.Schema
     /// <inheritdoc/>
     public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local);
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 0;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -11428,7 +11443,7 @@ public readonly struct OfficeArtExtension : global::RecursiveAI.OneOffice.Schema
     public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Drawing.OfficeArtExtension> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_OfficeArtExtensionList</c>, the type of <c>a14:extLst</c>, <c>pic14:extLst</c>, <c>wpc:extLst</c>, <c>wpg:extLst</c>, <c>wps:extLst</c>, <c>a:extLst</c>, <c>wp:extLst</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_OfficeArtExtensionList</c>, the type of <c>a14:extLst</c>, <c>pic14:extLst</c>, <c>w14:extLst</c>, <c>wpc:extLst</c>, <c>wpg:extLst</c>, <c>wps:extLst</c>, <c>a:extLst</c>, <c>wp:extLst</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct OfficeArtExtensionList : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Drawing.OfficeArtExtensionList>
 {
     private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
@@ -11451,6 +11466,7 @@ public readonly struct OfficeArtExtensionList : global::RecursiveAI.OneOffice.Sc
     {
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Drawing2010) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Picture2010) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.WordprocessingCanvas) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.WordprocessingGroup) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.WordprocessingShape) return local.SequenceEqual("extLst"u8);
@@ -17089,7 +17105,7 @@ public readonly struct TintEffect : global::RecursiveAI.OneOffice.Schema.IElemen
     public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Drawing.TintEffect> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Transform2D</c>, the type of <c>a14:xfrm</c>, <c>wpg:xfrm</c>, <c>a:xfrm</c>, <c>wp:xfrm</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_Transform2D</c>, the type of <c>a14:xfrm</c>, <c>w14:xfrm</c>, <c>wpg:xfrm</c>, <c>a:xfrm</c>, <c>wp:xfrm</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Transform2D : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Drawing.Transform2D>
 {
     private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
@@ -17111,6 +17127,7 @@ public readonly struct Transform2D : global::RecursiveAI.OneOffice.Schema.IEleme
     public static bool Accepts(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Drawing2010) return local.SequenceEqual("xfrm"u8);
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("xfrm"u8);
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.WordprocessingGroup) return local.SequenceEqual("xfrm"u8);
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("xfrm"u8);
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.WordprocessingDrawing) return local.SequenceEqual("xfrm"u8);

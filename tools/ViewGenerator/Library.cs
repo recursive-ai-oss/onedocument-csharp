@@ -7,7 +7,11 @@ using System.Xml.Linq;
 namespace RecursiveAI.OneOffice.Tools.ViewGenerator;
 
 /// <summary>One line of views.manifest: a schema file and how its vocabulary is named in C#.</summary>
-internal sealed record ManifestEntry(string Path, string EnumName, string Prefix, bool Root);
+internal sealed record ManifestEntry(string Path, string EnumName, string Prefix, string Role)
+{
+    public bool Root => Role == "root";
+    public bool Merge => Role == "merge";
+}
 
 /// <summary>A loaded XSD file: its target namespace and the defaults that decide how local names are qualified.</summary>
 internal sealed class SchemaDoc
@@ -56,7 +60,8 @@ internal sealed class Library
             if (line.Length == 0 || line[0] == '#') continue;
             var p = line.Split('|');
             if (p.Length != 4) throw new InvalidDataException("views.manifest: bad line: " + line);
-            list.Add(new ManifestEntry(p[0], p[1], p[2], p[3] == "root"));
+            if (p[3] is not ("root" or "support" or "merge")) throw new InvalidDataException("views.manifest: bad role: " + line);
+            list.Add(new ManifestEntry(p[0], p[1], p[2], p[3]));
         }
         return list;
     }
@@ -75,9 +80,16 @@ internal sealed class Library
                 ElementsQualified = doc.Root!.Attribute("elementFormDefault")?.Value == "qualified",
                 AttributesQualified = doc.Root!.Attribute("attributeFormDefault")?.Value == "qualified",
             };
+            if (e.Merge)
+            {
+                // More declarations for a namespace another file already provides; the first file wins on a clash.
+                if (!ByNs.ContainsKey(ns)) throw new InvalidDataException(e.Path + ": merge target namespace not loaded yet");
+                Index(sd, true);
+                continue;
+            }
             Docs.Add(sd);
             ByNs[ns] = sd;
-            Index(sd);
+            Index(sd, false);
             if (e.Path.StartsWith("ecma376/transitional/", StringComparison.Ordinal))
             {
                 var strictPath = Path.Combine(schemasDir, "ecma376/strict", Path.GetFileName(e.Path));
@@ -94,7 +106,7 @@ internal sealed class Library
         return XDocument.Load(r, LoadOptions.SetLineInfo);
     }
 
-    private void Index(SchemaDoc sd)
+    private void Index(SchemaDoc sd, bool merging)
     {
         foreach (var c in sd.Root.Elements())
         {
@@ -112,7 +124,7 @@ internal sealed class Library
                 _ => null,
             };
             if (dict is null) continue;
-            if (!dict.TryAdd(q, c)) throw new InvalidDataException("duplicate declaration " + q + " in " + sd.Entry.Path);
+            if (!dict.TryAdd(q, c) && !merging) throw new InvalidDataException("duplicate declaration " + q + " in " + sd.Entry.Path);
         }
     }
 
@@ -133,6 +145,13 @@ internal sealed class Library
 
     /// <summary>Resolves a prefixed name used in an attribute value, in the scope of <paramref name="ctx"/>.</summary>
     public static QName Resolve(XElement ctx, string qname)
+    {
+        var q = ResolveRaw(ctx, qname);
+        // [MS-ODRAWXML] schemas name the main WordprocessingML namespace by its 2006 non-ECMA URI in a few references; documents use the main one.
+        return q.Ns == "http://schemas.microsoft.com/office/word/2006/wordml" ? q with { Ns = "http://schemas.openxmlformats.org/wordprocessingml/2006/main" } : q;
+    }
+
+    private static QName ResolveRaw(XElement ctx, string qname)
     {
         var i = qname.IndexOf(':');
         if (i < 0)

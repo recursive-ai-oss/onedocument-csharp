@@ -35,6 +35,13 @@ public readonly struct Extension : global::RecursiveAI.OneOffice.Schema.IElement
     /// <inheritdoc/>
     public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local);
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 0;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }

@@ -351,6 +351,13 @@ internal sealed class Emitter
             }
             sb.Append("        }\n");
         }
+        if (t.HasWildcard)
+        {
+            // xsd:any content: an element some root schema declares (pic:pic inside a:graphicData) is as good as declared here.
+            // It has no fixed place in the sequence, so it ranks after the declared children.
+            sb.Append("        var any = ").Append(Root).Append(".ViewFactory.RootKind(ns, local);\n        if (any != ").Append(Root).Append(".ViewKind.None)\n        {\n            rank = ")
+              .Append((t.Slots.Count == 0 ? 0 : t.Slots.Max(x => x.Rank) + 1).ToString(CultureInfo.InvariantCulture)).Append(";\n            return any;\n        }\n\n");
+        }
         sb.Append("        rank = -1;\n        return ").Append(Root).Append(".ViewKind.None;\n    }\n\n");
     }
 
@@ -479,7 +486,7 @@ internal sealed class Emitter
         sb.Append("    /// <param name=\"parent\">The kind of the parent view.</param>\n    /// <param name=\"ns\">The child's namespace.</param>\n    /// <param name=\"local\">The child's local name, UTF-8.</param>\n    /// <param name=\"rank\">The child's position in the content model, -1 when undeclared.</param>\n    /// <returns>The child's kind, <see cref=\"ViewKind.Simple\"/>, or <see cref=\"ViewKind.None\"/>.</returns>\n");
         sb.Append("    public static ViewKind ChildKind(ViewKind parent, SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)\n    {\n        switch (parent)\n        {\n");
         foreach (var t in types)
-            if (t.Slots.Count > 0)
+            if (t.Slots.Count > 0 || t.HasWildcard)
                 sb.Append("            case ViewKind.").Append(t.CsKindName).Append(": return ").Append(TypeRef(t)).Append(".ChildKind(ns, local, out rank);\n");
         sb.Append("            default:\n                rank = -1;\n                return ViewKind.None;\n        }\n    }\n\n");
         sb.Append("    /// <summary>Hands the element to <paramref name=\"visitor\"/> as the view of the given kind, without boxing.</summary>\n");

@@ -147,6 +147,10 @@ public readonly struct WordprocessingGroup : global::RecursiveAI.OneOffice.Schem
     /// <inheritdoc/>
     public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010)
+        {
+            if (local.SequenceEqual("contentPart"u8)) { rank = 3; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010WordContentPart; }
+        }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.WordprocessingGroup)
         {
             if (local.SequenceEqual("cNvGrpSpPr"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingNonVisualGroupDrawingShapeProps; }
@@ -250,6 +254,17 @@ public readonly struct WordprocessingGroup : global::RecursiveAI.OneOffice.Schem
     /// <summary>Removes every <c>pic:pic</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemovePic() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Picture, "pic"u8);
+
+    /// <summary>The <c>w14:contentPart</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPart> ContentParts => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "contentPart"u8);
+
+    /// <summary>Adds a <c>w14:contentPart</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPart AddContentPart() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPart, global::RecursiveAI.OneOffice.Schema.WordprocessingGroup.WordprocessingGroup>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "contentPart"u8);
+
+    /// <summary>Removes every <c>w14:contentPart</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveContentPart() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "contentPart"u8);
 
     /// <summary>The <c>wpg:extLst</c> child; null when absent.</summary>
     public global::RecursiveAI.OneOffice.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneOffice.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.WordprocessingGroup, "extLst"u8);

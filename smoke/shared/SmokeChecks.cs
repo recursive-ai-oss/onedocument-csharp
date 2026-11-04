@@ -62,6 +62,7 @@ internal static class SmokeChecks
         using IByteSource source = ByteSource.FromMemory(new byte[] { 1, 2, 3 });
         using Stream stream = ByteSource.AsStream(source);
         Check("source stream", stream.ReadByte() == 1 && stream.Length == 3);
+        failures.AddRange(SchemaSmoke.Run());
         return failures;
     }
 

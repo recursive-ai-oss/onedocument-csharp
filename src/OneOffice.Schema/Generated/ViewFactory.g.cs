@@ -1148,280 +1148,290 @@ public enum ViewKind
     VmlWordBorder = 568,
     /// <summary>VmlWord.Wrap.</summary>
     VmlWordWrap = 569,
+    /// <summary>VmlExcel.ClientData.</summary>
+    VmlExcelClientData = 570,
+    /// <summary>VmlPowerPoint.Empty.</summary>
+    VmlPowerPointEmpty = 571,
+    /// <summary>VmlPowerPoint.Rel.</summary>
+    VmlPowerPointRel = 572,
     /// <summary>ExtendedProperties.DigSigBlob.</summary>
-    ExtendedPropertiesDigSigBlob = 570,
+    ExtendedPropertiesDigSigBlob = 573,
     /// <summary>ExtendedProperties.Properties.</summary>
-    ExtendedPropertiesProperties = 571,
+    ExtendedPropertiesProperties = 574,
     /// <summary>ExtendedProperties.VectorLpstr.</summary>
-    ExtendedPropertiesVectorLpstr = 572,
+    ExtendedPropertiesVectorLpstr = 575,
     /// <summary>ExtendedProperties.VectorVariant.</summary>
-    ExtendedPropertiesVectorVariant = 573,
+    ExtendedPropertiesVectorVariant = 576,
     /// <summary>CustomProperties.Properties.</summary>
-    CustomPropertiesProperties = 574,
+    CustomPropertiesProperties = 577,
     /// <summary>CustomProperties.Property.</summary>
-    CustomPropertiesProperty = 575,
+    CustomPropertiesProperty = 578,
     /// <summary>VariantTypes.Array.</summary>
-    VariantTypesArray = 576,
+    VariantTypesArray = 579,
     /// <summary>VariantTypes.Empty.</summary>
-    VariantTypesEmpty = 577,
+    VariantTypesEmpty = 580,
     /// <summary>VariantTypes.Null.</summary>
-    VariantTypesNull = 578,
+    VariantTypesNull = 581,
     /// <summary>VariantTypes.Variant.</summary>
-    VariantTypesVariant = 579,
+    VariantTypesVariant = 582,
     /// <summary>VariantTypes.Vector.</summary>
-    VariantTypesVector = 580,
+    VariantTypesVector = 583,
     /// <summary>VariantTypes.Vstream.</summary>
-    VariantTypesVstream = 581,
+    VariantTypesVstream = 584,
     /// <summary>ContentTypes.Default.</summary>
-    ContentTypesDefault = 582,
+    ContentTypesDefault = 585,
     /// <summary>ContentTypes.Override.</summary>
-    ContentTypesOverride = 583,
+    ContentTypesOverride = 586,
     /// <summary>ContentTypes.Types.</summary>
-    ContentTypesTypes = 584,
+    ContentTypesTypes = 587,
     /// <summary>PackageRelationships.Relationship.</summary>
-    PackageRelationshipsRelationship = 585,
+    PackageRelationshipsRelationship = 588,
     /// <summary>PackageRelationships.Relationships.</summary>
-    PackageRelationshipsRelationships = 586,
+    PackageRelationshipsRelationships = 589,
     /// <summary>CoreProperties.CoreProperties.</summary>
-    CorePropertiesCoreProperties = 587,
+    CorePropertiesCoreProperties = 590,
     /// <summary>CoreProperties.Keyword.</summary>
-    CorePropertiesKeyword = 588,
+    CorePropertiesKeyword = 591,
     /// <summary>CoreProperties.Keywords.</summary>
-    CorePropertiesKeywords = 589,
+    CorePropertiesKeywords = 592,
     /// <summary>DigitalSignature.RelationshipReference.</summary>
-    DigitalSignatureRelationshipReference = 590,
+    DigitalSignatureRelationshipReference = 593,
     /// <summary>DigitalSignature.RelationshipsGroupReference.</summary>
-    DigitalSignatureRelationshipsGroupReference = 591,
+    DigitalSignatureRelationshipsGroupReference = 594,
     /// <summary>DigitalSignature.SignatureTime.</summary>
-    DigitalSignatureSignatureTime = 592,
+    DigitalSignatureSignatureTime = 595,
     /// <summary>Word2010.Bevel.</summary>
-    Word2010Bevel = 593,
+    Word2010Bevel = 596,
     /// <summary>Word2010.Camera.</summary>
-    Word2010Camera = 594,
+    Word2010Camera = 597,
     /// <summary>Word2010.Color.</summary>
-    Word2010Color = 595,
+    Word2010Color = 598,
     /// <summary>Word2010.DefaultImageDpi.</summary>
-    Word2010DefaultImageDpi = 596,
+    Word2010DefaultImageDpi = 599,
     /// <summary>Word2010.FillTextEffect.</summary>
-    Word2010FillTextEffect = 597,
+    Word2010FillTextEffect = 600,
     /// <summary>Word2010.Glow.</summary>
-    Word2010Glow = 598,
+    Word2010Glow = 601,
     /// <summary>Word2010.GradientFillProperties.</summary>
-    Word2010GradientFillProperties = 599,
+    Word2010GradientFillProperties = 602,
     /// <summary>Word2010.GradientStop.</summary>
-    Word2010GradientStop = 600,
+    Word2010GradientStop = 603,
     /// <summary>Word2010.GradientStopList.</summary>
-    Word2010GradientStopList = 601,
+    Word2010GradientStopList = 604,
     /// <summary>Word2010.Ligatures.</summary>
-    Word2010Ligatures = 602,
+    Word2010Ligatures = 605,
     /// <summary>Word2010.LightRig.</summary>
-    Word2010LightRig = 603,
+    Word2010LightRig = 606,
     /// <summary>Word2010.LineJoinMiterProperties.</summary>
-    Word2010LineJoinMiterProperties = 604,
+    Word2010LineJoinMiterProperties = 607,
     /// <summary>Word2010.LinearShadeProperties.</summary>
-    Word2010LinearShadeProperties = 605,
+    Word2010LinearShadeProperties = 608,
     /// <summary>Word2010.LongHexNumber.</summary>
-    Word2010LongHexNumber = 606,
+    Word2010LongHexNumber = 609,
     /// <summary>Word2010.NumForm.</summary>
-    Word2010NumForm = 607,
+    Word2010NumForm = 610,
     /// <summary>Word2010.NumSpacing.</summary>
-    Word2010NumSpacing = 608,
+    Word2010NumSpacing = 611,
     /// <summary>Word2010.OnOff.</summary>
-    Word2010OnOff = 609,
+    Word2010OnOff = 612,
     /// <summary>Word2010.PathShadeProperties.</summary>
-    Word2010PathShadeProperties = 610,
+    Word2010PathShadeProperties = 613,
     /// <summary>Word2010.Percentage.</summary>
-    Word2010Percentage = 611,
+    Word2010Percentage = 614,
     /// <summary>Word2010.PositiveFixedPercentage.</summary>
-    Word2010PositiveFixedPercentage = 612,
+    Word2010PositiveFixedPercentage = 615,
     /// <summary>Word2010.PositivePercentage.</summary>
-    Word2010PositivePercentage = 613,
+    Word2010PositivePercentage = 616,
     /// <summary>Word2010.PresetLineDashProperties.</summary>
-    Word2010PresetLineDashProperties = 614,
+    Word2010PresetLineDashProperties = 617,
     /// <summary>Word2010.Props3D.</summary>
-    Word2010Props3D = 615,
+    Word2010Props3D = 618,
     /// <summary>Word2010.Reflection.</summary>
-    Word2010Reflection = 616,
+    Word2010Reflection = 619,
     /// <summary>Word2010.RelativeRect.</summary>
-    Word2010RelativeRect = 617,
+    Word2010RelativeRect = 620,
     /// <summary>Word2010.SRgbColor.</summary>
-    Word2010SRgbColor = 618,
+    Word2010SRgbColor = 621,
     /// <summary>Word2010.Scene3D.</summary>
-    Word2010Scene3D = 619,
+    Word2010Scene3D = 622,
     /// <summary>Word2010.SchemeColor.</summary>
-    Word2010SchemeColor = 620,
+    Word2010SchemeColor = 623,
     /// <summary>Word2010.SdtCheckbox.</summary>
-    Word2010SdtCheckbox = 621,
+    Word2010SdtCheckbox = 624,
     /// <summary>Word2010.SdtCheckboxSymbol.</summary>
-    Word2010SdtCheckboxSymbol = 622,
+    Word2010SdtCheckboxSymbol = 625,
     /// <summary>Word2010.Shadow.</summary>
-    Word2010Shadow = 623,
+    Word2010Shadow = 626,
     /// <summary>Word2010.SolidColorFillProperties.</summary>
-    Word2010SolidColorFillProperties = 624,
+    Word2010SolidColorFillProperties = 627,
     /// <summary>Word2010.SphereCoords.</summary>
-    Word2010SphereCoords = 625,
+    Word2010SphereCoords = 628,
     /// <summary>Word2010.StyleSet.</summary>
-    Word2010StyleSet = 626,
+    Word2010StyleSet = 629,
     /// <summary>Word2010.StylisticSets.</summary>
-    Word2010StylisticSets = 627,
+    Word2010StylisticSets = 630,
     /// <summary>Word2010.TextOutlineEffect.</summary>
-    Word2010TextOutlineEffect = 628,
+    Word2010TextOutlineEffect = 631,
+    /// <summary>Word2010.WordContentPart.</summary>
+    Word2010WordContentPart = 632,
+    /// <summary>Word2010.WordContentPartNonVisual.</summary>
+    Word2010WordContentPartNonVisual = 633,
     /// <summary>Word2012.CommentEx.</summary>
-    Word2012CommentEx = 629,
+    Word2012CommentEx = 634,
     /// <summary>Word2012.CommentsEx.</summary>
-    Word2012CommentsEx = 630,
+    Word2012CommentsEx = 635,
     /// <summary>Word2012.Guid.</summary>
-    Word2012Guid = 631,
+    Word2012Guid = 636,
     /// <summary>Word2012.People.</summary>
-    Word2012People = 632,
+    Word2012People = 637,
     /// <summary>Word2012.Person.</summary>
-    Word2012Person = 633,
+    Word2012Person = 638,
     /// <summary>Word2012.PresenceInfo.</summary>
-    Word2012PresenceInfo = 634,
+    Word2012PresenceInfo = 639,
     /// <summary>Word2012.SdtAppearance.</summary>
-    Word2012SdtAppearance = 635,
+    Word2012SdtAppearance = 640,
     /// <summary>Word2012.SdtRepeatedSection.</summary>
-    Word2012SdtRepeatedSection = 636,
+    Word2012SdtRepeatedSection = 641,
     /// <summary>Word2015Symex.SymEx.</summary>
-    Word2015SymexSymEx = 637,
+    Word2015SymexSymEx = 642,
     /// <summary>Word2016Cid.CommentId.</summary>
-    Word2016CidCommentId = 638,
+    Word2016CidCommentId = 643,
     /// <summary>Word2016Cid.CommentsIds.</summary>
-    Word2016CidCommentsIds = 639,
+    Word2016CidCommentsIds = 644,
     /// <summary>Word2018.Extension.</summary>
-    Word2018Extension = 640,
+    Word2018Extension = 645,
     /// <summary>Word2018.ExtensionList.</summary>
-    Word2018ExtensionList = 641,
+    Word2018ExtensionList = 646,
     /// <summary>Word2018Cex.CommentExtensible.</summary>
-    Word2018CexCommentExtensible = 642,
+    Word2018CexCommentExtensible = 647,
     /// <summary>Word2018Cex.CommentsExtensible.</summary>
-    Word2018CexCommentsExtensible = 643,
+    Word2018CexCommentsExtensible = 648,
     /// <summary>Word2026Cei.CommentEntityInfo.</summary>
-    Word2026CeiCommentEntityInfo = 644,
+    Word2026CeiCommentEntityInfo = 649,
     /// <summary>WordprocessingShape.LinkedTextboxInformation.</summary>
-    WordprocessingShapeLinkedTextboxInformation = 645,
+    WordprocessingShapeLinkedTextboxInformation = 650,
     /// <summary>WordprocessingShape.TextboxInfo.</summary>
-    WordprocessingShapeTextboxInfo = 646,
+    WordprocessingShapeTextboxInfo = 651,
     /// <summary>WordprocessingShape.WordprocessingShape.</summary>
-    WordprocessingShapeWordprocessingShape = 647,
+    WordprocessingShapeWordprocessingShape = 652,
     /// <summary>WordprocessingGroup.GraphicFrame.</summary>
-    WordprocessingGroupGraphicFrame = 648,
+    WordprocessingGroupGraphicFrame = 653,
     /// <summary>WordprocessingGroup.WordprocessingGroup.</summary>
-    WordprocessingGroupWordprocessingGroup = 649,
+    WordprocessingGroupWordprocessingGroup = 654,
     /// <summary>WordprocessingCanvas.WordprocessingCanvas.</summary>
-    WordprocessingCanvasWordprocessingCanvas = 650,
+    WordprocessingCanvasWordprocessingCanvas = 655,
     /// <summary>WordprocessingDrawing2010.SizeRelH.</summary>
-    WordprocessingDrawing2010SizeRelH = 651,
+    WordprocessingDrawing2010SizeRelH = 656,
     /// <summary>WordprocessingDrawing2010.SizeRelV.</summary>
-    WordprocessingDrawing2010SizeRelV = 652,
+    WordprocessingDrawing2010SizeRelV = 657,
     /// <summary>WordprocessingDrawing2012.WebVideoPr.</summary>
-    WordprocessingDrawing2012WebVideoPr = 653,
+    WordprocessingDrawing2012WebVideoPr = 658,
     /// <summary>WordOEmbed.OEmbed.</summary>
-    WordOEmbedOEmbed = 654,
+    WordOEmbedOEmbed = 659,
     /// <summary>Drawing2010.CameraTool.</summary>
-    Drawing2010CameraTool = 655,
+    Drawing2010CameraTool = 660,
     /// <summary>Drawing2010.CompatExt.</summary>
-    Drawing2010CompatExt = 656,
+    Drawing2010CompatExt = 661,
     /// <summary>Drawing2010.ContentPartLocking.</summary>
-    Drawing2010ContentPartLocking = 657,
+    Drawing2010ContentPartLocking = 662,
     /// <summary>Drawing2010.GvmlContentPart.</summary>
-    Drawing2010GvmlContentPart = 658,
+    Drawing2010GvmlContentPart = 663,
     /// <summary>Drawing2010.GvmlContentPartNonVisual.</summary>
-    Drawing2010GvmlContentPartNonVisual = 659,
+    Drawing2010GvmlContentPartNonVisual = 664,
     /// <summary>Drawing2010.IsGvmlCanvas.</summary>
-    Drawing2010IsGvmlCanvas = 660,
+    Drawing2010IsGvmlCanvas = 665,
     /// <summary>Drawing2010.NonVisualInkContentPartProperties.</summary>
-    Drawing2010NonVisualInkContentPartProperties = 661,
+    Drawing2010NonVisualInkContentPartProperties = 666,
     /// <summary>Drawing2010.Photo.</summary>
-    Drawing2010Photo = 662,
+    Drawing2010Photo = 667,
     /// <summary>Drawing2010.PictureEffect.</summary>
-    Drawing2010PictureEffect = 663,
+    Drawing2010PictureEffect = 668,
     /// <summary>Drawing2010.PictureEffectBackgroundRemoval.</summary>
-    Drawing2010PictureEffectBackgroundRemoval = 664,
+    Drawing2010PictureEffectBackgroundRemoval = 669,
     /// <summary>Drawing2010.PictureEffectBackgroundRemovalBackgroundMark.</summary>
-    Drawing2010PictureEffectBackgroundRemovalBackgroundMark = 665,
+    Drawing2010PictureEffectBackgroundRemovalBackgroundMark = 670,
     /// <summary>Drawing2010.PictureEffectBackgroundRemovalForegroundMark.</summary>
-    Drawing2010PictureEffectBackgroundRemovalForegroundMark = 666,
+    Drawing2010PictureEffectBackgroundRemovalForegroundMark = 671,
     /// <summary>Drawing2010.PictureEffectBlur.</summary>
-    Drawing2010PictureEffectBlur = 667,
+    Drawing2010PictureEffectBlur = 672,
     /// <summary>Drawing2010.PictureEffectBrightnessContrast.</summary>
-    Drawing2010PictureEffectBrightnessContrast = 668,
+    Drawing2010PictureEffectBrightnessContrast = 673,
     /// <summary>Drawing2010.PictureEffectCement.</summary>
-    Drawing2010PictureEffectCement = 669,
+    Drawing2010PictureEffectCement = 674,
     /// <summary>Drawing2010.PictureEffectChalkSketch.</summary>
-    Drawing2010PictureEffectChalkSketch = 670,
+    Drawing2010PictureEffectChalkSketch = 675,
     /// <summary>Drawing2010.PictureEffectColorTemperature.</summary>
-    Drawing2010PictureEffectColorTemperature = 671,
+    Drawing2010PictureEffectColorTemperature = 676,
     /// <summary>Drawing2010.PictureEffectCrisscrossEtching.</summary>
-    Drawing2010PictureEffectCrisscrossEtching = 672,
+    Drawing2010PictureEffectCrisscrossEtching = 677,
     /// <summary>Drawing2010.PictureEffectCutout.</summary>
-    Drawing2010PictureEffectCutout = 673,
+    Drawing2010PictureEffectCutout = 678,
     /// <summary>Drawing2010.PictureEffectFilmGrain.</summary>
-    Drawing2010PictureEffectFilmGrain = 674,
+    Drawing2010PictureEffectFilmGrain = 679,
     /// <summary>Drawing2010.PictureEffectGlass.</summary>
-    Drawing2010PictureEffectGlass = 675,
+    Drawing2010PictureEffectGlass = 680,
     /// <summary>Drawing2010.PictureEffectGlowDiffused.</summary>
-    Drawing2010PictureEffectGlowDiffused = 676,
+    Drawing2010PictureEffectGlowDiffused = 681,
     /// <summary>Drawing2010.PictureEffectGlowEdges.</summary>
-    Drawing2010PictureEffectGlowEdges = 677,
+    Drawing2010PictureEffectGlowEdges = 682,
     /// <summary>Drawing2010.PictureEffectLightScreen.</summary>
-    Drawing2010PictureEffectLightScreen = 678,
+    Drawing2010PictureEffectLightScreen = 683,
     /// <summary>Drawing2010.PictureEffectLineDrawing.</summary>
-    Drawing2010PictureEffectLineDrawing = 679,
+    Drawing2010PictureEffectLineDrawing = 684,
     /// <summary>Drawing2010.PictureEffectMarker.</summary>
-    Drawing2010PictureEffectMarker = 680,
+    Drawing2010PictureEffectMarker = 685,
     /// <summary>Drawing2010.PictureEffectMosiaicBubbles.</summary>
-    Drawing2010PictureEffectMosiaicBubbles = 681,
+    Drawing2010PictureEffectMosiaicBubbles = 686,
     /// <summary>Drawing2010.PictureEffectPaintBrush.</summary>
-    Drawing2010PictureEffectPaintBrush = 682,
+    Drawing2010PictureEffectPaintBrush = 687,
     /// <summary>Drawing2010.PictureEffectPaintStrokes.</summary>
-    Drawing2010PictureEffectPaintStrokes = 683,
+    Drawing2010PictureEffectPaintStrokes = 688,
     /// <summary>Drawing2010.PictureEffectPastelsSmooth.</summary>
-    Drawing2010PictureEffectPastelsSmooth = 684,
+    Drawing2010PictureEffectPastelsSmooth = 689,
     /// <summary>Drawing2010.PictureEffectPencilGrayscale.</summary>
-    Drawing2010PictureEffectPencilGrayscale = 685,
+    Drawing2010PictureEffectPencilGrayscale = 690,
     /// <summary>Drawing2010.PictureEffectPencilSketch.</summary>
-    Drawing2010PictureEffectPencilSketch = 686,
+    Drawing2010PictureEffectPencilSketch = 691,
     /// <summary>Drawing2010.PictureEffectPhotocopy.</summary>
-    Drawing2010PictureEffectPhotocopy = 687,
+    Drawing2010PictureEffectPhotocopy = 692,
     /// <summary>Drawing2010.PictureEffectPlasticWrap.</summary>
-    Drawing2010PictureEffectPlasticWrap = 688,
+    Drawing2010PictureEffectPlasticWrap = 693,
     /// <summary>Drawing2010.PictureEffectSaturation.</summary>
-    Drawing2010PictureEffectSaturation = 689,
+    Drawing2010PictureEffectSaturation = 694,
     /// <summary>Drawing2010.PictureEffectSharpenSoften.</summary>
-    Drawing2010PictureEffectSharpenSoften = 690,
+    Drawing2010PictureEffectSharpenSoften = 695,
     /// <summary>Drawing2010.PictureEffectTexturizer.</summary>
-    Drawing2010PictureEffectTexturizer = 691,
+    Drawing2010PictureEffectTexturizer = 696,
     /// <summary>Drawing2010.PictureEffectWatercolorSponge.</summary>
-    Drawing2010PictureEffectWatercolorSponge = 692,
+    Drawing2010PictureEffectWatercolorSponge = 697,
     /// <summary>Drawing2010.PictureLayer.</summary>
-    Drawing2010PictureLayer = 693,
+    Drawing2010PictureLayer = 698,
     /// <summary>Drawing2010.ShadowObscured.</summary>
-    Drawing2010ShadowObscured = 694,
+    Drawing2010ShadowObscured = 699,
     /// <summary>Drawing2010.TextMath.</summary>
-    Drawing2010TextMath = 695,
+    Drawing2010TextMath = 700,
     /// <summary>Drawing2010.UseLocalDpi.</summary>
-    Drawing2010UseLocalDpi = 696,
+    Drawing2010UseLocalDpi = 701,
     /// <summary>Drawing2012.BackgroundPr.</summary>
-    Drawing2012BackgroundPr = 697,
+    Drawing2012BackgroundPr = 702,
     /// <summary>Drawing2012.NonVisualGroupProps.</summary>
-    Drawing2012NonVisualGroupProps = 698,
+    Drawing2012NonVisualGroupProps = 703,
     /// <summary>Drawing2012.ObjectPr.</summary>
-    Drawing2012ObjectPr = 699,
+    Drawing2012ObjectPr = 704,
     /// <summary>Drawing2012.SignatureLine.</summary>
-    Drawing2012SignatureLine = 700,
+    Drawing2012SignatureLine = 705,
     /// <summary>Drawing2014.ConnectableReferences.</summary>
-    Drawing2014ConnectableReferences = 701,
+    Drawing2014ConnectableReferences = 706,
     /// <summary>Drawing2014.CreationId.</summary>
-    Drawing2014CreationId = 702,
+    Drawing2014CreationId = 707,
     /// <summary>Drawing2014.Identifier.</summary>
-    Drawing2014Identifier = 703,
+    Drawing2014Identifier = 708,
     /// <summary>Drawing2014.PredecessorDrawingElementReference.</summary>
-    Drawing2014PredecessorDrawingElementReference = 704,
+    Drawing2014PredecessorDrawingElementReference = 709,
     /// <summary>DrawingSvg.SVGBlip.</summary>
-    DrawingSvgSVGBlip = 705,
+    DrawingSvgSVGBlip = 710,
     /// <summary>DrawingDecorative.Decorative.</summary>
-    DrawingDecorativeDecorative = 706,
+    DrawingDecorativeDecorative = 711,
 }
 
 /// <summary>Maps element names to generated views with explicit switches: no reflection, nothing to trim.</summary>
@@ -1481,6 +1491,7 @@ public static class ViewFactory
         {
             if (local.SequenceEqual("checkbox"u8)) return ViewKind.Word2010SdtCheckbox;
             if (local.SequenceEqual("conflictMode"u8)) return ViewKind.Word2010OnOff;
+            if (local.SequenceEqual("contentPart"u8)) return ViewKind.Word2010WordContentPart;
             if (local.SequenceEqual("customXmlConflictDelRangeEnd"u8)) return ViewKind.WordprocessingMarkupBase;
             if (local.SequenceEqual("customXmlConflictDelRangeStart"u8)) return ViewKind.WordprocessingTrackChange;
             if (local.SequenceEqual("customXmlConflictInsRangeEnd"u8)) return ViewKind.WordprocessingMarkupBase;
@@ -1613,6 +1624,10 @@ public static class ViewFactory
             if (local.SequenceEqual("txbxContent"u8)) return ViewKind.WordprocessingTxbxContent;
             if (local.SequenceEqual("webSettings"u8)) return ViewKind.WordprocessingWebSettings;
         }
+        if (ns == SchemaNamespace.VmlExcel)
+        {
+            if (local.SequenceEqual("ClientData"u8)) return ViewKind.VmlExcelClientData;
+        }
         if (ns == SchemaNamespace.VmlOffice)
         {
             if (local.SequenceEqual("OLEObject"u8)) return ViewKind.VmlOfficeOLEObject;
@@ -1634,6 +1649,11 @@ public static class ViewFactory
             if (local.SequenceEqual("signatureline"u8)) return ViewKind.VmlOfficeSignatureLine;
             if (local.SequenceEqual("skew"u8)) return ViewKind.VmlOfficeSkew;
             if (local.SequenceEqual("top"u8)) return ViewKind.VmlOfficeStrokeChild;
+        }
+        if (ns == SchemaNamespace.VmlPowerPoint)
+        {
+            if (local.SequenceEqual("iscomment"u8)) return ViewKind.VmlPowerPointEmpty;
+            if (local.SequenceEqual("textdata"u8)) return ViewKind.VmlPowerPointRel;
         }
         if (ns == SchemaNamespace.VmlWord)
         {
@@ -1780,6 +1800,7 @@ public static class ViewFactory
             case ViewKind.WordprocessingSectionPropertiesBase: return global::RecursiveAI.OneOffice.Schema.Wordprocessing.SectionPropertiesBase.ChildKind(ns, local, out rank);
             case ViewKind.WordprocessingSectionPropertiesChange: return global::RecursiveAI.OneOffice.Schema.Wordprocessing.SectionPropertiesChange.ChildKind(ns, local, out rank);
             case ViewKind.WordprocessingSettings: return global::RecursiveAI.OneOffice.Schema.Wordprocessing.Settings.ChildKind(ns, local, out rank);
+            case ViewKind.WordprocessingShapeDefaults: return global::RecursiveAI.OneOffice.Schema.Wordprocessing.ShapeDefaults.ChildKind(ns, local, out rank);
             case ViewKind.WordprocessingSimpleField: return global::RecursiveAI.OneOffice.Schema.Wordprocessing.SimpleField.ChildKind(ns, local, out rank);
             case ViewKind.WordprocessingSmartTagPr: return global::RecursiveAI.OneOffice.Schema.Wordprocessing.SmartTagPr.ChildKind(ns, local, out rank);
             case ViewKind.WordprocessingSmartTagRun: return global::RecursiveAI.OneOffice.Schema.Wordprocessing.SmartTagRun.ChildKind(ns, local, out rank);
@@ -1905,6 +1926,7 @@ public static class ViewFactory
             case ViewKind.DrawingGradientStop: return global::RecursiveAI.OneOffice.Schema.Drawing.GradientStop.ChildKind(ns, local, out rank);
             case ViewKind.DrawingGradientStopList: return global::RecursiveAI.OneOffice.Schema.Drawing.GradientStopList.ChildKind(ns, local, out rank);
             case ViewKind.DrawingGraphicalObject: return global::RecursiveAI.OneOffice.Schema.Drawing.GraphicalObject.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingGraphicalObjectData: return global::RecursiveAI.OneOffice.Schema.Drawing.GraphicalObjectData.ChildKind(ns, local, out rank);
             case ViewKind.DrawingGraphicalObjectFrameLocking: return global::RecursiveAI.OneOffice.Schema.Drawing.GraphicalObjectFrameLocking.ChildKind(ns, local, out rank);
             case ViewKind.DrawingGroupLocking: return global::RecursiveAI.OneOffice.Schema.Drawing.GroupLocking.ChildKind(ns, local, out rank);
             case ViewKind.DrawingGroupShapeProperties: return global::RecursiveAI.OneOffice.Schema.Drawing.GroupShapeProperties.ChildKind(ns, local, out rank);
@@ -1921,6 +1943,7 @@ public static class ViewFactory
             case ViewKind.DrawingNonVisualGraphicFrameProperties: return global::RecursiveAI.OneOffice.Schema.Drawing.NonVisualGraphicFrameProperties.ChildKind(ns, local, out rank);
             case ViewKind.DrawingNonVisualGroupDrawingShapeProps: return global::RecursiveAI.OneOffice.Schema.Drawing.NonVisualGroupDrawingShapeProps.ChildKind(ns, local, out rank);
             case ViewKind.DrawingNonVisualPictureProperties: return global::RecursiveAI.OneOffice.Schema.Drawing.NonVisualPictureProperties.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingOfficeArtExtension: return global::RecursiveAI.OneOffice.Schema.Drawing.OfficeArtExtension.ChildKind(ns, local, out rank);
             case ViewKind.DrawingOfficeArtExtensionList: return global::RecursiveAI.OneOffice.Schema.Drawing.OfficeArtExtensionList.ChildKind(ns, local, out rank);
             case ViewKind.DrawingOuterShadowEffect: return global::RecursiveAI.OneOffice.Schema.Drawing.OuterShadowEffect.ChildKind(ns, local, out rank);
             case ViewKind.DrawingPath2D: return global::RecursiveAI.OneOffice.Schema.Drawing.Path2D.ChildKind(ns, local, out rank);
@@ -1991,6 +2014,7 @@ public static class ViewFactory
             case ViewKind.VmlStroke: return global::RecursiveAI.OneOffice.Schema.Vml.Stroke.ChildKind(ns, local, out rank);
             case ViewKind.VmlTextbox: return global::RecursiveAI.OneOffice.Schema.Vml.Textbox.ChildKind(ns, local, out rank);
             case ViewKind.VmlOfficeDiagram: return global::RecursiveAI.OneOffice.Schema.VmlOffice.Diagram.ChildKind(ns, local, out rank);
+            case ViewKind.VmlOfficeEquationXml: return global::RecursiveAI.OneOffice.Schema.VmlOffice.EquationXml.ChildKind(ns, local, out rank);
             case ViewKind.VmlOfficeOLEObject: return global::RecursiveAI.OneOffice.Schema.VmlOffice.OLEObject.ChildKind(ns, local, out rank);
             case ViewKind.VmlOfficeR: return global::RecursiveAI.OneOffice.Schema.VmlOffice.R.ChildKind(ns, local, out rank);
             case ViewKind.VmlOfficeRegroupTable: return global::RecursiveAI.OneOffice.Schema.VmlOffice.RegroupTable.ChildKind(ns, local, out rank);
@@ -1998,6 +2022,7 @@ public static class ViewFactory
             case ViewKind.VmlOfficeRules: return global::RecursiveAI.OneOffice.Schema.VmlOffice.Rules.ChildKind(ns, local, out rank);
             case ViewKind.VmlOfficeShapeDefaults: return global::RecursiveAI.OneOffice.Schema.VmlOffice.ShapeDefaults.ChildKind(ns, local, out rank);
             case ViewKind.VmlOfficeShapeLayout: return global::RecursiveAI.OneOffice.Schema.VmlOffice.ShapeLayout.ChildKind(ns, local, out rank);
+            case ViewKind.VmlExcelClientData: return global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData.ChildKind(ns, local, out rank);
             case ViewKind.ExtendedPropertiesDigSigBlob: return global::RecursiveAI.OneOffice.Schema.ExtendedProperties.DigSigBlob.ChildKind(ns, local, out rank);
             case ViewKind.ExtendedPropertiesProperties: return global::RecursiveAI.OneOffice.Schema.ExtendedProperties.Properties.ChildKind(ns, local, out rank);
             case ViewKind.ExtendedPropertiesVectorLpstr: return global::RecursiveAI.OneOffice.Schema.ExtendedProperties.VectorLpstr.ChildKind(ns, local, out rank);
@@ -2029,11 +2054,14 @@ public static class ViewFactory
             case ViewKind.Word2010SolidColorFillProperties: return global::RecursiveAI.OneOffice.Schema.Word2010.SolidColorFillProperties.ChildKind(ns, local, out rank);
             case ViewKind.Word2010StylisticSets: return global::RecursiveAI.OneOffice.Schema.Word2010.StylisticSets.ChildKind(ns, local, out rank);
             case ViewKind.Word2010TextOutlineEffect: return global::RecursiveAI.OneOffice.Schema.Word2010.TextOutlineEffect.ChildKind(ns, local, out rank);
+            case ViewKind.Word2010WordContentPart: return global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPart.ChildKind(ns, local, out rank);
+            case ViewKind.Word2010WordContentPartNonVisual: return global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPartNonVisual.ChildKind(ns, local, out rank);
             case ViewKind.Word2012CommentsEx: return global::RecursiveAI.OneOffice.Schema.Word2012.CommentsEx.ChildKind(ns, local, out rank);
             case ViewKind.Word2012People: return global::RecursiveAI.OneOffice.Schema.Word2012.People.ChildKind(ns, local, out rank);
             case ViewKind.Word2012Person: return global::RecursiveAI.OneOffice.Schema.Word2012.Person.ChildKind(ns, local, out rank);
             case ViewKind.Word2012SdtRepeatedSection: return global::RecursiveAI.OneOffice.Schema.Word2012.SdtRepeatedSection.ChildKind(ns, local, out rank);
             case ViewKind.Word2016CidCommentsIds: return global::RecursiveAI.OneOffice.Schema.Word2016Cid.CommentsIds.ChildKind(ns, local, out rank);
+            case ViewKind.Word2018Extension: return global::RecursiveAI.OneOffice.Schema.Word2018.Extension.ChildKind(ns, local, out rank);
             case ViewKind.Word2018ExtensionList: return global::RecursiveAI.OneOffice.Schema.Word2018.ExtensionList.ChildKind(ns, local, out rank);
             case ViewKind.Word2018CexCommentExtensible: return global::RecursiveAI.OneOffice.Schema.Word2018Cex.CommentExtensible.ChildKind(ns, local, out rank);
             case ViewKind.Word2018CexCommentsExtensible: return global::RecursiveAI.OneOffice.Schema.Word2018Cex.CommentsExtensible.ChildKind(ns, local, out rank);
@@ -2638,6 +2666,9 @@ public static class ViewFactory
             case ViewKind.VmlWordAnchorLock: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.VmlWord.AnchorLock(markup)); break;
             case ViewKind.VmlWordBorder: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.VmlWord.Border(markup)); break;
             case ViewKind.VmlWordWrap: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.VmlWord.Wrap(markup)); break;
+            case ViewKind.VmlExcelClientData: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData(markup)); break;
+            case ViewKind.VmlPowerPointEmpty: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Empty(markup)); break;
+            case ViewKind.VmlPowerPointRel: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel(markup)); break;
             case ViewKind.ExtendedPropertiesDigSigBlob: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.ExtendedProperties.DigSigBlob(markup)); break;
             case ViewKind.ExtendedPropertiesProperties: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.ExtendedProperties.Properties(markup)); break;
             case ViewKind.ExtendedPropertiesVectorLpstr: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.ExtendedProperties.VectorLpstr(markup)); break;
@@ -2697,6 +2728,8 @@ public static class ViewFactory
             case ViewKind.Word2010StyleSet: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.Word2010.StyleSet(markup)); break;
             case ViewKind.Word2010StylisticSets: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.Word2010.StylisticSets(markup)); break;
             case ViewKind.Word2010TextOutlineEffect: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.Word2010.TextOutlineEffect(markup)); break;
+            case ViewKind.Word2010WordContentPart: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPart(markup)); break;
+            case ViewKind.Word2010WordContentPartNonVisual: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPartNonVisual(markup)); break;
             case ViewKind.Word2012CommentEx: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.Word2012.CommentEx(markup)); break;
             case ViewKind.Word2012CommentsEx: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.Word2012.CommentsEx(markup)); break;
             case ViewKind.Word2012Guid: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.Word2012.Guid(markup)); break;

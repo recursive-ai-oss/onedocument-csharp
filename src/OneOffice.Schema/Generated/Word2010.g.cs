@@ -3752,8 +3752,8 @@ public readonly struct StyleSet : global::RecursiveAI.OneOffice.Schema.IElementV
         return false;
     }
 
-    /// <summary>Attribute <c>w14:id</c> (w:ST_UnsignedDecimalNumber, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
-    public string? Id { get => _markup.GetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "id"u8); set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "id"u8, value); }
+    /// <summary>Attribute <c>w14:id</c> (w:ST_UnsignedDecimalNumber, required). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
+    public long? Id { get => _markup.GetInt64(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "id"u8); set => _markup.SetInt64(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "id"u8, value); }
 
     /// <summary>Attribute <c>w14:val</c> (w14:ST_OnOff). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2010.OnOffValue? Val
@@ -3994,5 +3994,176 @@ public readonly struct TextOutlineEffect : global::RecursiveAI.OneOffice.Schema.
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
     public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Word2010.TextOutlineEffect> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_WordContentPart</c>, the type of <c>w14:contentPart</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct WordContentPart : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPart>
+{
+    private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public WordContentPart(global::RecursiveAI.OneOffice.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneOffice.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPart Create(global::RecursiveAI.OneOffice.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneOffice.Schema.ViewKind Kind => global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010WordContentPart;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("contentPart"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010)
+        {
+            if (local.SequenceEqual("extLst"u8)) { rank = 2; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("nvContentPartPr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010WordContentPartNonVisual; }
+            if (local.SequenceEqual("xfrm"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingTransform2D; }
+        }
+        rank = -1;
+        return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("bwMode"u8);
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Relationships) return local.SequenceEqual("id"u8);
+        return false;
+    }
+
+    /// <summary>Attribute <c>w14:bwMode</c> (a:ST_BlackWhiteMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwModeText"/> keeps it.</summary>
+    public global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValue? BwMode
+    {
+        get => _markup.TryGetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "bwMode"u8, out var raw) ? global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.Parse(raw) : null;
+        set { if (value is null) _markup.RemoveAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "bwMode"u8); else _markup.SetRaw(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "bwMode"u8, global::RecursiveAI.OneOffice.Schema.Drawing.BlackWhiteModeValueText.ToText(value.Value)); }
+    }
+
+    /// <summary>The raw text of <c>w14:bwMode</c>, whatever it is.</summary>
+    public string? BwModeText { get => _markup.GetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "bwMode"u8); set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "bwMode"u8, value); }
+
+    /// <summary>Attribute <c>r:id</c> (r:ST_RelationshipId, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
+    public string? Id { get => _markup.GetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Relationships, "id"u8); set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Relationships, "id"u8, value); }
+
+    /// <summary>The <c>w14:nvContentPartPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPartNonVisual? NvContentPartPr => _markup.GetChild<global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPartNonVisual>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "nvContentPartPr"u8);
+
+    /// <summary>Returns the <c>w14:nvContentPartPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPartNonVisual GetOrAddNvContentPartPr() => _markup.GetOrAddChild<global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPartNonVisual, global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPart>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "nvContentPartPr"u8);
+
+    /// <summary>Removes every <c>w14:nvContentPartPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveNvContentPartPr() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "nvContentPartPr"u8);
+
+    /// <summary>The <c>w14:xfrm</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneOffice.Schema.Drawing.Transform2D? Xfrm => _markup.GetChild<global::RecursiveAI.OneOffice.Schema.Drawing.Transform2D>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "xfrm"u8);
+
+    /// <summary>Returns the <c>w14:xfrm</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneOffice.Schema.Drawing.Transform2D GetOrAddXfrm() => _markup.GetOrAddChild<global::RecursiveAI.OneOffice.Schema.Drawing.Transform2D, global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPart>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "xfrm"u8);
+
+    /// <summary>Removes every <c>w14:xfrm</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveXfrm() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "xfrm"u8);
+
+    /// <summary>The <c>w14:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneOffice.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneOffice.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "extLst"u8);
+
+    /// <summary>Returns the <c>w14:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneOffice.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneOffice.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPart>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "extLst"u8);
+
+    /// <summary>Removes every <c>w14:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPart> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_WordContentPartNonVisual</c>, the type of <c>w14:nvContentPartPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct WordContentPartNonVisual : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPartNonVisual>
+{
+    private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public WordContentPartNonVisual(global::RecursiveAI.OneOffice.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneOffice.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPartNonVisual Create(global::RecursiveAI.OneOffice.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneOffice.Schema.ViewKind Kind => global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010WordContentPartNonVisual;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("nvContentPartPr"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010)
+        {
+            if (local.SequenceEqual("cNvContentPartPr"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.Drawing2010NonVisualInkContentPartProperties; }
+            if (local.SequenceEqual("cNvPr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingNonVisualDrawingProps; }
+        }
+        rank = -1;
+        return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>w14:cNvPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneOffice.Schema.Drawing.NonVisualDrawingProps? CNvPr => _markup.GetChild<global::RecursiveAI.OneOffice.Schema.Drawing.NonVisualDrawingProps>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "cNvPr"u8);
+
+    /// <summary>Returns the <c>w14:cNvPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneOffice.Schema.Drawing.NonVisualDrawingProps GetOrAddCNvPr() => _markup.GetOrAddChild<global::RecursiveAI.OneOffice.Schema.Drawing.NonVisualDrawingProps, global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPartNonVisual>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "cNvPr"u8);
+
+    /// <summary>Removes every <c>w14:cNvPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCNvPr() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "cNvPr"u8);
+
+    /// <summary>The <c>w14:cNvContentPartPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneOffice.Schema.Drawing2010.NonVisualInkContentPartProperties? CNvContentPartPr => _markup.GetChild<global::RecursiveAI.OneOffice.Schema.Drawing2010.NonVisualInkContentPartProperties>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "cNvContentPartPr"u8);
+
+    /// <summary>Returns the <c>w14:cNvContentPartPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneOffice.Schema.Drawing2010.NonVisualInkContentPartProperties GetOrAddCNvContentPartPr() => _markup.GetOrAddChild<global::RecursiveAI.OneOffice.Schema.Drawing2010.NonVisualInkContentPartProperties, global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPartNonVisual>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "cNvContentPartPr"u8);
+
+    /// <summary>Removes every <c>w14:cNvContentPartPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCNvContentPartPr() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010, "cNvContentPartPr"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Word2010.WordContentPartNonVisual> UnknownChildren => new(_markup);
 }
 

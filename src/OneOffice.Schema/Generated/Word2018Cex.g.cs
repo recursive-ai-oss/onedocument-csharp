@@ -56,8 +56,8 @@ public readonly struct CommentExtensible : global::RecursiveAI.OneOffice.Schema.
     /// <summary>Attribute <c>w16cex:dateUtc</c> (w:ST_DateTime). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
     public string? DateUtc { get => _markup.GetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2018Cex, "dateUtc"u8); set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2018Cex, "dateUtc"u8, value); }
 
-    /// <summary>Attribute <c>w16cex:intelligentPlaceholder</c> (w:ST_OnOff). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
-    public string? IntelligentPlaceholder { get => _markup.GetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2018Cex, "intelligentPlaceholder"u8); set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2018Cex, "intelligentPlaceholder"u8, value); }
+    /// <summary>Attribute <c>w16cex:intelligentPlaceholder</c> (w:ST_OnOff). Null when absent; the default is not applied here. Setting null removes the attribute. Reads true/false/1/0/on/off; other text reads as null.</summary>
+    public bool? IntelligentPlaceholder { get => _markup.GetBool(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2018Cex, "intelligentPlaceholder"u8); set => _markup.SetBool(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2018Cex, "intelligentPlaceholder"u8, value); }
 
     /// <summary>The <c>w16cex:extLst</c> child; null when absent.</summary>
     public global::RecursiveAI.OneOffice.Schema.Word2018.ExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneOffice.Schema.Word2018.ExtensionList>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2018Cex, "extLst"u8);

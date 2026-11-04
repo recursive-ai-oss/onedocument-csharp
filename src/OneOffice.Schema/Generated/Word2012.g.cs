@@ -92,8 +92,8 @@ public readonly struct CommentEx : global::RecursiveAI.OneOffice.Schema.IElement
     /// <summary>Attribute <c>w15:paraIdParent</c> (w:ST_LongHexNumber). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
     public string? ParaIdParent { get => _markup.GetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2012, "paraIdParent"u8); set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2012, "paraIdParent"u8, value); }
 
-    /// <summary>Attribute <c>w15:done</c> (w:ST_OnOff). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
-    public string? Done { get => _markup.GetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2012, "done"u8); set => _markup.SetString(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2012, "done"u8, value); }
+    /// <summary>Attribute <c>w15:done</c> (w:ST_OnOff). Null when absent; the default is not applied here. Setting null removes the attribute. Reads true/false/1/0/on/off; other text reads as null.</summary>
+    public bool? Done { get => _markup.GetBool(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2012, "done"u8); set => _markup.SetBool(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2012, "done"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneOffice.Schema.ChildElements Children => _markup.Children;

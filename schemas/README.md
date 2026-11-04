@@ -10,6 +10,6 @@ The typed-view generator reads these files and nothing else. They are copies of 
 | `ms/MS-DOCX/` | [MS-DOCX] 23.0, 2026-08-18, Appendix A | `ed5d74bb33232d083742949d8072766e99f02fc3fbc6b7dc8b73264965dcce3a` |
 | `ms/MS-ODRAWXML/` | [MS-ODRAWXML] 2026-02-17, Appendix A | `20de73988d209fd18f1776c2960103179c9c93b883c1d9a44ab3ce83b8b60f5b` |
 
-Files under `ms/` are named from the schema's target namespace (`word-2010-wordml.xsd` is `http://schemas.microsoft.com/office/word/2010/wordml`). The two Microsoft documents both print the `word/2010/wordml` schema; the generator uses the [MS-DOCX] copy.
+Files under `ms/` are named from the schema's target namespace (`word-2010-wordml.xsd` is `http://schemas.microsoft.com/office/word/2010/wordml`). The two Microsoft documents both print a `word/2010/wordml` schema; the [MS-DOCX] copy is the main one and the [MS-ODRAWXML] copy (one extra element, `contentPart`) is merged into it.
 
 `views.manifest` lists the schemas the generator turns into typed views, with the C# namespace, namespace-enum name, conventional prefix and role of each. Adding a schema to the manifest is all it takes to add a vocabulary; see `tools/ViewGenerator/README.md`.

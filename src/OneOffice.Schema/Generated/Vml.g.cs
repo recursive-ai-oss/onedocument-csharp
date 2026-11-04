@@ -575,6 +575,10 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <inheritdoc/>
     public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel)
+        {
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlExcelClientData; }
+        }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice)
         {
             if (local.SequenceEqual("callout"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeCallout; }
@@ -583,6 +587,10 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
             if (local.SequenceEqual("lock"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeLock; }
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSkew; }
+        }
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint)
+        {
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlPowerPointRel; }
         }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord)
         {
@@ -1202,6 +1210,28 @@ public readonly struct Arc : global::RecursiveAI.OneOffice.Schema.IElementView<g
     /// <returns>True when any was removed.</returns>
     public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord, "borderright"u8);
 
+    /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData, global::RecursiveAI.OneOffice.Schema.Vml.Arc>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Removes every <c>x:ClientData</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneOffice.Schema.Vml.Arc>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneOffice.Schema.ChildElements Children => _markup.Children;
 
@@ -1355,6 +1385,10 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <inheritdoc/>
     public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel)
+        {
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlExcelClientData; }
+        }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice)
         {
             if (local.SequenceEqual("callout"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeCallout; }
@@ -1363,6 +1397,10 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
             if (local.SequenceEqual("lock"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeLock; }
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSkew; }
+        }
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint)
+        {
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlPowerPointRel; }
         }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord)
         {
@@ -1988,6 +2026,28 @@ public readonly struct Curve : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <returns>True when any was removed.</returns>
     public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord, "borderright"u8);
 
+    /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData, global::RecursiveAI.OneOffice.Schema.Vml.Curve>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Removes every <c>x:ClientData</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneOffice.Schema.Vml.Curve>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneOffice.Schema.ChildElements Children => _markup.Children;
 
@@ -2332,6 +2392,10 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <inheritdoc/>
     public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel)
+        {
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlExcelClientData; }
+        }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice)
         {
             if (local.SequenceEqual("callout"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeCallout; }
@@ -2341,6 +2405,10 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
             if (local.SequenceEqual("lock"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeLock; }
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSkew; }
+        }
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint)
+        {
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlPowerPointRel; }
         }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord)
         {
@@ -2846,6 +2914,28 @@ public readonly struct Group : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <returns>True when any was removed.</returns>
     public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord, "borderright"u8);
 
+    /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData, global::RecursiveAI.OneOffice.Schema.Vml.Group>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Removes every <c>x:ClientData</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneOffice.Schema.Vml.Group>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
     /// <summary>The <c>v:group</c> children, in document order.</summary>
     public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.Vml.Group> Groups => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Vml, "group"u8);
 
@@ -3167,6 +3257,10 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <inheritdoc/>
     public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel)
+        {
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlExcelClientData; }
+        }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice)
         {
             if (local.SequenceEqual("callout"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeCallout; }
@@ -3175,6 +3269,10 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
             if (local.SequenceEqual("lock"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeLock; }
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSkew; }
+        }
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint)
+        {
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlPowerPointRel; }
         }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord)
         {
@@ -3832,6 +3930,28 @@ public readonly struct Image : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <returns>True when any was removed.</returns>
     public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord, "borderright"u8);
 
+    /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData, global::RecursiveAI.OneOffice.Schema.Vml.Image>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Removes every <c>x:ClientData</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneOffice.Schema.Vml.Image>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneOffice.Schema.ChildElements Children => _markup.Children;
 
@@ -4008,6 +4128,10 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <inheritdoc/>
     public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel)
+        {
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlExcelClientData; }
+        }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice)
         {
             if (local.SequenceEqual("callout"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeCallout; }
@@ -4016,6 +4140,10 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
             if (local.SequenceEqual("lock"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeLock; }
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSkew; }
+        }
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint)
+        {
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlPowerPointRel; }
         }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord)
         {
@@ -4635,6 +4763,28 @@ public readonly struct Line : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <returns>True when any was removed.</returns>
     public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord, "borderright"u8);
 
+    /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData, global::RecursiveAI.OneOffice.Schema.Vml.Line>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Removes every <c>x:ClientData</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneOffice.Schema.Vml.Line>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneOffice.Schema.ChildElements Children => _markup.Children;
 
@@ -4670,6 +4820,10 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <inheritdoc/>
     public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel)
+        {
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlExcelClientData; }
+        }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice)
         {
             if (local.SequenceEqual("callout"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeCallout; }
@@ -4678,6 +4832,10 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
             if (local.SequenceEqual("lock"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeLock; }
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSkew; }
+        }
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint)
+        {
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlPowerPointRel; }
         }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord)
         {
@@ -5291,6 +5449,28 @@ public readonly struct Oval : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <returns>True when any was removed.</returns>
     public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord, "borderright"u8);
 
+    /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData, global::RecursiveAI.OneOffice.Schema.Vml.Oval>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Removes every <c>x:ClientData</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneOffice.Schema.Vml.Oval>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneOffice.Schema.ChildElements Children => _markup.Children;
 
@@ -5481,6 +5661,10 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <inheritdoc/>
     public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel)
+        {
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlExcelClientData; }
+        }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice)
         {
             if (local.SequenceEqual("callout"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeCallout; }
@@ -5490,6 +5674,10 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
             if (local.SequenceEqual("lock"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeLock; }
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSkew; }
+        }
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint)
+        {
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlPowerPointRel; }
         }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord)
         {
@@ -6106,6 +6294,28 @@ public readonly struct PolyLine : global::RecursiveAI.OneOffice.Schema.IElementV
     /// <returns>True when any was removed.</returns>
     public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord, "borderright"u8);
 
+    /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData, global::RecursiveAI.OneOffice.Schema.Vml.PolyLine>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Removes every <c>x:ClientData</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneOffice.Schema.Vml.PolyLine>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
     /// <summary>The <c>o:ink</c> children, in document order.</summary>
     public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlOffice.Ink> Inks => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ink"u8);
 
@@ -6152,6 +6362,10 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <inheritdoc/>
     public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel)
+        {
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlExcelClientData; }
+        }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice)
         {
             if (local.SequenceEqual("callout"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeCallout; }
@@ -6160,6 +6374,10 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
             if (local.SequenceEqual("lock"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeLock; }
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSkew; }
+        }
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint)
+        {
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlPowerPointRel; }
         }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord)
         {
@@ -6773,6 +6991,28 @@ public readonly struct Rect : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <returns>True when any was removed.</returns>
     public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord, "borderright"u8);
 
+    /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData, global::RecursiveAI.OneOffice.Schema.Vml.Rect>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Removes every <c>x:ClientData</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneOffice.Schema.Vml.Rect>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneOffice.Schema.ChildElements Children => _markup.Children;
 
@@ -6808,6 +7048,10 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <inheritdoc/>
     public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel)
+        {
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlExcelClientData; }
+        }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice)
         {
             if (local.SequenceEqual("callout"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeCallout; }
@@ -6816,6 +7060,10 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
             if (local.SequenceEqual("lock"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeLock; }
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSkew; }
+        }
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint)
+        {
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlPowerPointRel; }
         }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord)
         {
@@ -7432,6 +7680,28 @@ public readonly struct RoundRect : global::RecursiveAI.OneOffice.Schema.IElement
     /// <returns>True when any was removed.</returns>
     public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord, "borderright"u8);
 
+    /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData, global::RecursiveAI.OneOffice.Schema.Vml.RoundRect>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Removes every <c>x:ClientData</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneOffice.Schema.Vml.RoundRect>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneOffice.Schema.ChildElements Children => _markup.Children;
 
@@ -7567,6 +7837,10 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <inheritdoc/>
     public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel)
+        {
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlExcelClientData; }
+        }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice)
         {
             if (local.SequenceEqual("callout"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeCallout; }
@@ -7577,6 +7851,11 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
             if (local.SequenceEqual("lock"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeLock; }
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSkew; }
+        }
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint)
+        {
+            if (local.SequenceEqual("iscomment"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlPowerPointEmpty; }
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlPowerPointRel; }
         }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord)
         {
@@ -8205,6 +8484,28 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <returns>True when any was removed.</returns>
     public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord, "borderright"u8);
 
+    /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData, global::RecursiveAI.OneOffice.Schema.Vml.Shape>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Removes every <c>x:ClientData</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneOffice.Schema.Vml.Shape>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
     /// <summary>The <c>o:ink</c> children, in document order.</summary>
     public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlOffice.Ink> Inks => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ink"u8);
 
@@ -8215,6 +8516,17 @@ public readonly struct Shape : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <summary>Removes every <c>o:ink</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemoveInk() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "ink"u8);
+
+    /// <summary>The <c>pvml:iscomment</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Empty> Iscomments => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "iscomment"u8);
+
+    /// <summary>Adds a <c>pvml:iscomment</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Empty AddIscomment() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Empty, global::RecursiveAI.OneOffice.Schema.Vml.Shape>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "iscomment"u8);
+
+    /// <summary>Removes every <c>pvml:iscomment</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveIscomment() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "iscomment"u8);
 
     /// <summary>The <c>o:equationxml</c> children, in document order.</summary>
     public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlOffice.EquationXml> Equationxmls => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "equationxml"u8);
@@ -8262,6 +8574,10 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <inheritdoc/>
     public static global::RecursiveAI.OneOffice.Schema.ViewKind ChildKind(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel)
+        {
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlExcelClientData; }
+        }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice)
         {
             if (local.SequenceEqual("callout"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeCallout; }
@@ -8271,6 +8587,10 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
             if (local.SequenceEqual("lock"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeLock; }
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlOfficeSkew; }
+        }
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint)
+        {
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VmlPowerPointRel; }
         }
         if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord)
         {
@@ -8893,6 +9213,28 @@ public readonly struct Shapetype : global::RecursiveAI.OneOffice.Schema.IElement
     /// <returns>True when any was removed.</returns>
     public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlWord, "borderright"u8);
 
+    /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlExcel.ClientData, global::RecursiveAI.OneOffice.Schema.Vml.Shapetype>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>Removes every <c>x:ClientData</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+
+    /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
+    public global::RecursiveAI.OneOffice.Schema.ChildList<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneOffice.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneOffice.Schema.Vml.Shapetype>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
+    /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+
     /// <summary>The <c>o:complex</c> child; null when absent.</summary>
     public global::RecursiveAI.OneOffice.Schema.VmlOffice.Complex? Complex => _markup.GetChild<global::RecursiveAI.OneOffice.Schema.VmlOffice.Complex>(global::RecursiveAI.OneOffice.Schema.SchemaNamespace.VmlOffice, "complex"u8);
 
@@ -9351,6 +9693,13 @@ public readonly struct Textbox : global::RecursiveAI.OneOffice.Schema.IElementVi
         {
             if (local.SequenceEqual("txbxContent"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.WordprocessingTxbxContent; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local);
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }

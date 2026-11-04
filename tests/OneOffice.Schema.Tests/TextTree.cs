@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using RecursiveAI.OneOffice.Schema;
 
@@ -34,6 +37,8 @@ public sealed class TextTree : IMarkupTree
         public byte[] NsU8 = [];
         public List<Attr> Attrs = [];
         public List<int> Kids = [];
+        public List<int>? ElemCache;
+        public int ElemIdx;
         public int Parent;
         public bool SelfClosing;
         public string TagTail = "";
@@ -197,21 +202,27 @@ public sealed class TextTree : IMarkupTree
 
     // ---- IMarkupTree ----
 
+    private List<int> ElemKids(int parent)
+    {
+        var n = _nodes[parent];
+        if (n.ElemCache is null)
+        {
+            n.ElemCache = [];
+            foreach (var k in n.Kids)
+                if (_nodes[k].IsElement) { _nodes[k].ElemIdx = n.ElemCache.Count; n.ElemCache.Add(k); }
+        }
+        return n.ElemCache;
+    }
+
     /// <inheritdoc/>
-    public int FirstChildElement(int parent) => NextElement(_nodes[parent].Kids, -1);
+    public int FirstChildElement(int parent) => ElemKids(parent) is { Count: > 0 } l ? l[0] : 0;
 
     /// <inheritdoc/>
     public int NextSiblingElement(int element)
     {
-        var kids = _nodes[_nodes[element].Parent].Kids;
-        return NextElement(kids, kids.IndexOf(element));
-    }
-
-    private int NextElement(List<int> kids, int after)
-    {
-        for (var i = after + 1; i < kids.Count; i++)
-            if (_nodes[kids[i]].IsElement) return kids[i];
-        return 0;
+        var l = ElemKids(_nodes[element].Parent);
+        var i = _nodes[element].ElemIdx + 1;
+        return i < l.Count ? l[i] : 0;
     }
 
     /// <inheritdoc/>
@@ -307,11 +318,17 @@ public sealed class TextTree : IMarkupTree
             p.EndTag = "</" + (p.Prefix.Length > 0 ? p.Prefix + ":" : "") + p.Local + ">";
         }
         p.Kids.Insert(before == 0 ? p.Kids.Count : p.Kids.IndexOf(before), id);
+        p.ElemCache = null;
         return id;
     }
 
     /// <inheritdoc/>
-    public void RemoveElement(int element) => _nodes[_nodes[element].Parent].Kids.Remove(element);
+    public void RemoveElement(int element)
+    {
+        var p = _nodes[_nodes[element].Parent];
+        p.Kids.Remove(element);
+        p.ElemCache = null;
+    }
 
     /// <inheritdoc/>
     public string GetText(int element)
