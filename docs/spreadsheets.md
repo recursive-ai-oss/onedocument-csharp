@@ -70,6 +70,10 @@ Row properties are in the store (`Worksheet.GetRow(n)`: height, hidden, outline 
 
 `Save()` is the package's atomic replace (temp file and rename). `SaveAs(path)` picks the format by extension (`.xml` is Flat OPC); `SaveAs(stream, format)` writes XLSX, XLSM, XLTX, XLTM, XLAM or Flat OPC. Changing between the zip formats changes the main part's content type only; saving a workbook that holds a macro project as XLSX or XLTX is refused (`OfficeUnsupportedException`). The workbook's own `Format` does not change.
 
+## Measured
+
+Bytes per cell, load time and lazy open on the generated stress workbooks (1M rows by 20 columns, 133 MB, 20,000,020 cells with styles, strings and 4M formulas): 37.2 retained bytes per cell (ClosedXML 0.105.1: 78.8, NPOI 2.7.6: 360.4); a full load takes about 9 s and a forced rewrite of the sheet about 8 s on a shared 32-core x64 host (indicative; method and the other sizes in `bench/README.md`). Opening reads 0.5 MB of the file (the zip directory, `[Content_Types].xml`, relationships and `workbook.xml`); the first sheet is read when it is touched, and the string table is not read until a string cell is. Peak working set for the load and rewrite of the stress file is 2.6 GB, mostly the XML of the one saved sheet built in memory.
+
 ## Limits
 
 `MaxFormulaLength` bounds a formula (read and set); `MaxRecordCount` bounds the cells of a sheet and the entries of the string table; `MaxXmlDepth` and the other XML limits apply to every part; a row may not hold more than 2^20 cells before the duplicates are resolved. The sheet reader streams the part: memory is the store, not the XML.
