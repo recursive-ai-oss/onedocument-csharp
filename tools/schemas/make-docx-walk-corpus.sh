@@ -8,7 +8,8 @@
 set -euo pipefail
 soffice=$1; src=$2; out=$3; count=$4; profile=$5
 mkdir -p "$out" "$profile"
-find "$src" -maxdepth 2 -name '*.doc' -size -400k | sort | head -n "$count" > "$out/.list"
+find "$src" -maxdepth 2 -name '*.doc' -size -400k | sort > "$out/.all"
+head -n "$count" "$out/.all" > "$out/.list"
 LO_PROFILE="$profile" "$soffice" --headless --convert-to docx --outdir "$out" $(cat "$out/.list") > "$out/.log" 2>&1 || true
-rm -f "$out/.list"
+rm -f "$out/.list" "$out/.all"
 ls "$out"/*.docx | wc -l

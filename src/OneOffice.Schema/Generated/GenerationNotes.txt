@@ -1,8 +1,8 @@
 Typed-view generation notes. Written by tools/ViewGenerator; do not edit.
 
-views: 710
-enumerations: 203
-attributes: 2050
+views: 712
+enumerations: 205
+attributes: 2052
 child slots: 3291
 
 Views per namespace:
@@ -14,7 +14,9 @@ Views per namespace:
   Drawing2010: 42
   Drawing2012: 4
   Drawing2014: 4
+  DrawingClassification: 1
   DrawingDecorative: 1
+  DrawingHyperlinkColor: 1
   DrawingSvg: 1
   ExtendedProperties: 4
   OfficeMath: 72

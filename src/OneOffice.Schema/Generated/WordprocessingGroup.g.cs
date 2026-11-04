@@ -47,6 +47,13 @@ public readonly struct GraphicFrame : global::RecursiveAI.OneOffice.Schema.IElem
         {
             if (local.SequenceEqual("graphic"u8)) { rank = 3; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingGraphicalObject; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 5;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -168,6 +175,13 @@ public readonly struct WordprocessingGroup : global::RecursiveAI.OneOffice.Schem
         {
             if (local.SequenceEqual("pic"u8)) { rank = 3; return global::RecursiveAI.OneOffice.Schema.ViewKind.PicturePicture; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 5;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }

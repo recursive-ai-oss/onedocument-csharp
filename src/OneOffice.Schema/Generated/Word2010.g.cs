@@ -1414,6 +1414,13 @@ public readonly struct Color : global::RecursiveAI.OneOffice.Schema.IElementView
             if (local.SequenceEqual("schemeClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010SchemeColor; }
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010SRgbColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -1502,7 +1509,7 @@ public readonly struct DefaultImageDpi : global::RecursiveAI.OneOffice.Schema.IE
     public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Word2010.DefaultImageDpi> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_FillTextEffect</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_FillTextEffect</c>, the type of <c>w14:textFill</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct FillTextEffect : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Word2010.FillTextEffect>
 {
     private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
@@ -1523,6 +1530,7 @@ public readonly struct FillTextEffect : global::RecursiveAI.OneOffice.Schema.IEl
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("textFill"u8);
         return false;
     }
 
@@ -1535,6 +1543,13 @@ public readonly struct FillTextEffect : global::RecursiveAI.OneOffice.Schema.IEl
             if (local.SequenceEqual("noFill"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.WordprocessingEmpty; }
             if (local.SequenceEqual("solidFill"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010SolidColorFillProperties; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -1585,7 +1600,7 @@ public readonly struct FillTextEffect : global::RecursiveAI.OneOffice.Schema.IEl
     public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Word2010.FillTextEffect> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Glow</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_Glow</c>, the type of <c>w14:glow</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Glow : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Word2010.Glow>
 {
     private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
@@ -1606,6 +1621,7 @@ public readonly struct Glow : global::RecursiveAI.OneOffice.Schema.IElementView<
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("glow"u8);
         return false;
     }
 
@@ -1617,6 +1633,13 @@ public readonly struct Glow : global::RecursiveAI.OneOffice.Schema.IElementView<
             if (local.SequenceEqual("schemeClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010SchemeColor; }
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010SRgbColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -1694,6 +1717,13 @@ public readonly struct GradientFillProperties : global::RecursiveAI.OneOffice.Sc
             if (local.SequenceEqual("lin"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010LinearShadeProperties; }
             if (local.SequenceEqual("path"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010PathShadeProperties; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -1777,6 +1807,13 @@ public readonly struct GradientStop : global::RecursiveAI.OneOffice.Schema.IElem
             if (local.SequenceEqual("schemeClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010SchemeColor; }
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010SRgbColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -1855,6 +1892,13 @@ public readonly struct GradientStopList : global::RecursiveAI.OneOffice.Schema.I
         {
             if (local.SequenceEqual("gs"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010GradientStop; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -1883,7 +1927,7 @@ public readonly struct GradientStopList : global::RecursiveAI.OneOffice.Schema.I
     public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Word2010.GradientStopList> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Ligatures</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_Ligatures</c>, the type of <c>w14:ligatures</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Ligatures : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Word2010.Ligatures>
 {
     private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
@@ -1904,6 +1948,7 @@ public readonly struct Ligatures : global::RecursiveAI.OneOffice.Schema.IElement
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("ligatures"u8);
         return false;
     }
 
@@ -1970,6 +2015,13 @@ public readonly struct LightRig : global::RecursiveAI.OneOffice.Schema.IElementV
         {
             if (local.SequenceEqual("rot"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010SphereCoords; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -2179,7 +2231,7 @@ public readonly struct LongHexNumber : global::RecursiveAI.OneOffice.Schema.IEle
     public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Word2010.LongHexNumber> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_NumForm</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_NumForm</c>, the type of <c>w14:numForm</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct NumForm : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Word2010.NumForm>
 {
     private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
@@ -2200,6 +2252,7 @@ public readonly struct NumForm : global::RecursiveAI.OneOffice.Schema.IElementVi
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("numForm"u8);
         return false;
     }
 
@@ -2234,7 +2287,7 @@ public readonly struct NumForm : global::RecursiveAI.OneOffice.Schema.IElementVi
     public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Word2010.NumForm> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_NumSpacing</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_NumSpacing</c>, the type of <c>w14:numSpacing</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct NumSpacing : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Word2010.NumSpacing>
 {
     private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
@@ -2255,6 +2308,7 @@ public readonly struct NumSpacing : global::RecursiveAI.OneOffice.Schema.IElemen
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("numSpacing"u8);
         return false;
     }
 
@@ -2289,7 +2343,7 @@ public readonly struct NumSpacing : global::RecursiveAI.OneOffice.Schema.IElemen
     public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Word2010.NumSpacing> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_OnOff</c>, the type of <c>w14:checked</c>, <c>w14:conflictMode</c>, <c>w14:discardImageEditingData</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_OnOff</c>, the type of <c>w14:checked</c>, <c>w14:cntxtAlts</c>, <c>w14:conflictMode</c>, <c>w14:discardImageEditingData</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct OnOff : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Word2010.OnOff>
 {
     private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
@@ -2310,7 +2364,7 @@ public readonly struct OnOff : global::RecursiveAI.OneOffice.Schema.IElementView
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("checked"u8) || local.SequenceEqual("conflictMode"u8) || local.SequenceEqual("discardImageEditingData"u8);
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("checked"u8) || local.SequenceEqual("cntxtAlts"u8) || local.SequenceEqual("conflictMode"u8) || local.SequenceEqual("discardImageEditingData"u8);
         return false;
     }
 
@@ -2377,6 +2431,13 @@ public readonly struct PathShadeProperties : global::RecursiveAI.OneOffice.Schem
         {
             if (local.SequenceEqual("fillToRect"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010RelativeRect; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -2628,7 +2689,7 @@ public readonly struct PresetLineDashProperties : global::RecursiveAI.OneOffice.
     public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Word2010.PresetLineDashProperties> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Props3D</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_Props3D</c>, the type of <c>w14:props3d</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Props3D : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Word2010.Props3D>
 {
     private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
@@ -2649,6 +2710,7 @@ public readonly struct Props3D : global::RecursiveAI.OneOffice.Schema.IElementVi
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("props3d"u8);
         return false;
     }
 
@@ -2662,6 +2724,13 @@ public readonly struct Props3D : global::RecursiveAI.OneOffice.Schema.IElementVi
             if (local.SequenceEqual("contourClr"u8)) { rank = 3; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010Color; }
             if (local.SequenceEqual("extrusionClr"u8)) { rank = 2; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010Color; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 4;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -2740,7 +2809,7 @@ public readonly struct Props3D : global::RecursiveAI.OneOffice.Schema.IElementVi
     public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Word2010.Props3D> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Reflection</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_Reflection</c>, the type of <c>w14:reflection</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Reflection : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Word2010.Reflection>
 {
     private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
@@ -2761,6 +2830,7 @@ public readonly struct Reflection : global::RecursiveAI.OneOffice.Schema.IElemen
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("reflection"u8);
         return false;
     }
 
@@ -2960,6 +3030,13 @@ public readonly struct SRgbColor : global::RecursiveAI.OneOffice.Schema.IElement
             if (local.SequenceEqual("shade"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010PositiveFixedPercentage; }
             if (local.SequenceEqual("tint"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010PositiveFixedPercentage; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -3091,7 +3168,7 @@ public readonly struct SRgbColor : global::RecursiveAI.OneOffice.Schema.IElement
     public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Word2010.SRgbColor> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Scene3D</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_Scene3D</c>, the type of <c>w14:scene3d</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Scene3D : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Word2010.Scene3D>
 {
     private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
@@ -3112,6 +3189,7 @@ public readonly struct Scene3D : global::RecursiveAI.OneOffice.Schema.IElementVi
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("scene3d"u8);
         return false;
     }
 
@@ -3123,6 +3201,13 @@ public readonly struct Scene3D : global::RecursiveAI.OneOffice.Schema.IElementVi
             if (local.SequenceEqual("camera"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010Camera; }
             if (local.SequenceEqual("lightRig"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010LightRig; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -3203,6 +3288,13 @@ public readonly struct SchemeColor : global::RecursiveAI.OneOffice.Schema.IEleme
             if (local.SequenceEqual("shade"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010PositiveFixedPercentage; }
             if (local.SequenceEqual("tint"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010PositiveFixedPercentage; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -3375,6 +3467,13 @@ public readonly struct SdtCheckbox : global::RecursiveAI.OneOffice.Schema.IEleme
             if (local.SequenceEqual("checkedState"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010SdtCheckboxSymbol; }
             if (local.SequenceEqual("uncheckedState"u8)) { rank = 2; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010SdtCheckboxSymbol; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -3477,7 +3576,7 @@ public readonly struct SdtCheckboxSymbol : global::RecursiveAI.OneOffice.Schema.
     public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Word2010.SdtCheckboxSymbol> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Shadow</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_Shadow</c>, the type of <c>w14:shadow</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Shadow : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Word2010.Shadow>
 {
     private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
@@ -3498,6 +3597,7 @@ public readonly struct Shadow : global::RecursiveAI.OneOffice.Schema.IElementVie
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("shadow"u8);
         return false;
     }
 
@@ -3509,6 +3609,13 @@ public readonly struct Shadow : global::RecursiveAI.OneOffice.Schema.IElementVie
             if (local.SequenceEqual("schemeClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010SchemeColor; }
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010SRgbColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -3619,6 +3726,13 @@ public readonly struct SolidColorFillProperties : global::RecursiveAI.OneOffice.
             if (local.SequenceEqual("schemeClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010SchemeColor; }
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010SRgbColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -3772,7 +3886,7 @@ public readonly struct StyleSet : global::RecursiveAI.OneOffice.Schema.IElementV
     public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Word2010.StyleSet> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_StylisticSets</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_StylisticSets</c>, the type of <c>w14:stylisticSets</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct StylisticSets : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Word2010.StylisticSets>
 {
     private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
@@ -3793,6 +3907,7 @@ public readonly struct StylisticSets : global::RecursiveAI.OneOffice.Schema.IEle
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("stylisticSets"u8);
         return false;
     }
 
@@ -3803,6 +3918,13 @@ public readonly struct StylisticSets : global::RecursiveAI.OneOffice.Schema.IEle
         {
             if (local.SequenceEqual("styleSet"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010StyleSet; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -3831,7 +3953,7 @@ public readonly struct StylisticSets : global::RecursiveAI.OneOffice.Schema.IEle
     public global::RecursiveAI.OneOffice.Schema.UnknownChildren<global::RecursiveAI.OneOffice.Schema.Word2010.StylisticSets> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_TextOutlineEffect</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_TextOutlineEffect</c>, the type of <c>w14:textOutline</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct TextOutlineEffect : global::RecursiveAI.OneOffice.Schema.IElementView<global::RecursiveAI.OneOffice.Schema.Word2010.TextOutlineEffect>
 {
     private readonly global::RecursiveAI.OneOffice.Schema.MarkupRef _markup;
@@ -3852,6 +3974,7 @@ public readonly struct TextOutlineEffect : global::RecursiveAI.OneOffice.Schema.
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneOffice.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneOffice.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("textOutline"u8);
         return false;
     }
 
@@ -3868,6 +3991,13 @@ public readonly struct TextOutlineEffect : global::RecursiveAI.OneOffice.Schema.
             if (local.SequenceEqual("round"u8)) { rank = 2; return global::RecursiveAI.OneOffice.Schema.ViewKind.WordprocessingEmpty; }
             if (local.SequenceEqual("solidFill"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010SolidColorFillProperties; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -4030,6 +4160,13 @@ public readonly struct WordContentPart : global::RecursiveAI.OneOffice.Schema.IE
             if (local.SequenceEqual("nvContentPartPr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2010WordContentPartNonVisual; }
             if (local.SequenceEqual("xfrm"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingTransform2D; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -4128,6 +4265,13 @@ public readonly struct WordContentPartNonVisual : global::RecursiveAI.OneOffice.
             if (local.SequenceEqual("cNvContentPartPr"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.Drawing2010NonVisualInkContentPartProperties; }
             if (local.SequenceEqual("cNvPr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingNonVisualDrawingProps; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }

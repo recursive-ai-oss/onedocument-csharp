@@ -51,3 +51,5 @@ ms/MS-ODRAWXML/drawing-2012-main.xsd|Drawing2012|a15|root
 ms/MS-ODRAWXML/drawing-2014-main.xsd|Drawing2014|a16|root
 ms/MS-ODRAWXML/drawing-2016-SVG-main.xsd|DrawingSvg|asvg|root
 ms/MS-ODRAWXML/drawing-2017-decorative.xsd|DrawingDecorative|adec|root
+ms/MS-ODRAWXML/drawing-2020-classificationShape.xsd|DrawingClassification|aclsh|root
+ms/MS-ODRAWXML/drawing-2018-hyperlinkcolor.xsd|DrawingHyperlinkColor|ahyp|root

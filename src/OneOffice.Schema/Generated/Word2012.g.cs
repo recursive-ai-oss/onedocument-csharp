@@ -134,6 +134,13 @@ public readonly struct CommentsEx : global::RecursiveAI.OneOffice.Schema.IElemen
         {
             if (local.SequenceEqual("commentEx"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2012CommentEx; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -243,6 +250,13 @@ public readonly struct People : global::RecursiveAI.OneOffice.Schema.IElementVie
         {
             if (local.SequenceEqual("person"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2012Person; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -303,6 +317,13 @@ public readonly struct Person : global::RecursiveAI.OneOffice.Schema.IElementVie
         {
             if (local.SequenceEqual("presenceInfo"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Word2012PresenceInfo; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -476,6 +497,13 @@ public readonly struct SdtRepeatedSection : global::RecursiveAI.OneOffice.Schema
             if (local.SequenceEqual("doNotAllowInsertDeleteSection"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.WordprocessingOnOff; }
             if (local.SequenceEqual("sectionTitle"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.WordprocessingStringVal; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }

@@ -1432,11 +1432,20 @@ public enum ViewKind
     DrawingSvgSVGBlip = 710,
     /// <summary>DrawingDecorative.Decorative.</summary>
     DrawingDecorativeDecorative = 711,
+    /// <summary>DrawingClassification.ClassificationOutcome.</summary>
+    DrawingClassificationClassificationOutcome = 712,
+    /// <summary>DrawingHyperlinkColor.HyperlinkColor.</summary>
+    DrawingHyperlinkColorHyperlinkColor = 713,
 }
 
 /// <summary>Maps element names to generated views with explicit switches: no reflection, nothing to trim.</summary>
 public static class ViewFactory
 {
+    /// <summary>True for the namespaces of the Microsoft extension schemas, whose elements may appear inside base-schema types.</summary>
+    /// <param name="ns">The namespace.</param>
+    /// <returns>True for an extension namespace.</returns>
+    public static bool IsExtensionNamespace(SchemaNamespace ns) => ns == SchemaNamespace.Word2010 || ns == SchemaNamespace.Word2012 || ns == SchemaNamespace.Word2015Symex || ns == SchemaNamespace.Word2016Cid || ns == SchemaNamespace.Word2018 || ns == SchemaNamespace.Word2018Cex || ns == SchemaNamespace.Word2020SdtDataHash || ns == SchemaNamespace.Word2023Du || ns == SchemaNamespace.Word2024SdtFormatLock || ns == SchemaNamespace.Word2026Cei || ns == SchemaNamespace.WordprocessingShape || ns == SchemaNamespace.WordprocessingGroup || ns == SchemaNamespace.WordprocessingCanvas || ns == SchemaNamespace.WordprocessingDrawing2010 || ns == SchemaNamespace.WordprocessingDrawing2012 || ns == SchemaNamespace.WordOEmbed || ns == SchemaNamespace.Drawing2010 || ns == SchemaNamespace.Picture2010 || ns == SchemaNamespace.Drawing2012 || ns == SchemaNamespace.Drawing2014 || ns == SchemaNamespace.DrawingSvg || ns == SchemaNamespace.DrawingDecorative || ns == SchemaNamespace.DrawingClassification || ns == SchemaNamespace.DrawingHyperlinkColor;
+
     /// <summary>The view for a global element declared by a root schema (the element a part starts with, or one that can appear anywhere).</summary>
     /// <param name="ns">The element's namespace.</param>
     /// <param name="local">The element's local name, UTF-8.</param>
@@ -1487,9 +1496,22 @@ public static class ViewFactory
         {
             if (local.SequenceEqual("decorative"u8)) return ViewKind.DrawingDecorativeDecorative;
         }
+        if (ns == SchemaNamespace.DrawingHyperlinkColor)
+        {
+            if (local.SequenceEqual("hlinkClr"u8)) return ViewKind.DrawingHyperlinkColorHyperlinkColor;
+        }
+        if (ns == SchemaNamespace.DrawingClassification)
+        {
+            if (local.SequenceEqual("classification"u8)) return ViewKind.DrawingClassificationClassificationOutcome;
+        }
         if (ns == SchemaNamespace.Word2010)
         {
+            if (local.SequenceEqual("alpha"u8)) return ViewKind.Word2010PositiveFixedPercentage;
+            if (local.SequenceEqual("bevel"u8)) return ViewKind.WordprocessingEmpty;
             if (local.SequenceEqual("checkbox"u8)) return ViewKind.Word2010SdtCheckbox;
+            if (local.SequenceEqual("cntxtAlts"u8)) return ViewKind.Word2010OnOff;
+            if (local.SequenceEqual("conflictDel"u8)) return ViewKind.WordprocessingTrackChange;
+            if (local.SequenceEqual("conflictIns"u8)) return ViewKind.WordprocessingTrackChange;
             if (local.SequenceEqual("conflictMode"u8)) return ViewKind.Word2010OnOff;
             if (local.SequenceEqual("contentPart"u8)) return ViewKind.Word2010WordContentPart;
             if (local.SequenceEqual("customXmlConflictDelRangeEnd"u8)) return ViewKind.WordprocessingMarkupBase;
@@ -1500,6 +1522,36 @@ public static class ViewFactory
             if (local.SequenceEqual("discardImageEditingData"u8)) return ViewKind.Word2010OnOff;
             if (local.SequenceEqual("docId"u8)) return ViewKind.Word2010LongHexNumber;
             if (local.SequenceEqual("entityPicker"u8)) return ViewKind.WordprocessingEmpty;
+            if (local.SequenceEqual("glow"u8)) return ViewKind.Word2010Glow;
+            if (local.SequenceEqual("gradFill"u8)) return ViewKind.Word2010GradientFillProperties;
+            if (local.SequenceEqual("hueMod"u8)) return ViewKind.Word2010PositivePercentage;
+            if (local.SequenceEqual("ligatures"u8)) return ViewKind.Word2010Ligatures;
+            if (local.SequenceEqual("lin"u8)) return ViewKind.Word2010LinearShadeProperties;
+            if (local.SequenceEqual("lum"u8)) return ViewKind.Word2010Percentage;
+            if (local.SequenceEqual("lumMod"u8)) return ViewKind.Word2010Percentage;
+            if (local.SequenceEqual("lumOff"u8)) return ViewKind.Word2010Percentage;
+            if (local.SequenceEqual("miter"u8)) return ViewKind.Word2010LineJoinMiterProperties;
+            if (local.SequenceEqual("noFill"u8)) return ViewKind.WordprocessingEmpty;
+            if (local.SequenceEqual("numForm"u8)) return ViewKind.Word2010NumForm;
+            if (local.SequenceEqual("numSpacing"u8)) return ViewKind.Word2010NumSpacing;
+            if (local.SequenceEqual("path"u8)) return ViewKind.Word2010PathShadeProperties;
+            if (local.SequenceEqual("props3d"u8)) return ViewKind.Word2010Props3D;
+            if (local.SequenceEqual("prstDash"u8)) return ViewKind.Word2010PresetLineDashProperties;
+            if (local.SequenceEqual("reflection"u8)) return ViewKind.Word2010Reflection;
+            if (local.SequenceEqual("round"u8)) return ViewKind.WordprocessingEmpty;
+            if (local.SequenceEqual("sat"u8)) return ViewKind.Word2010Percentage;
+            if (local.SequenceEqual("satMod"u8)) return ViewKind.Word2010Percentage;
+            if (local.SequenceEqual("satOff"u8)) return ViewKind.Word2010Percentage;
+            if (local.SequenceEqual("scene3d"u8)) return ViewKind.Word2010Scene3D;
+            if (local.SequenceEqual("schemeClr"u8)) return ViewKind.Word2010SchemeColor;
+            if (local.SequenceEqual("shade"u8)) return ViewKind.Word2010PositiveFixedPercentage;
+            if (local.SequenceEqual("shadow"u8)) return ViewKind.Word2010Shadow;
+            if (local.SequenceEqual("solidFill"u8)) return ViewKind.Word2010SolidColorFillProperties;
+            if (local.SequenceEqual("srgbClr"u8)) return ViewKind.Word2010SRgbColor;
+            if (local.SequenceEqual("stylisticSets"u8)) return ViewKind.Word2010StylisticSets;
+            if (local.SequenceEqual("textFill"u8)) return ViewKind.Word2010FillTextEffect;
+            if (local.SequenceEqual("textOutline"u8)) return ViewKind.Word2010TextOutlineEffect;
+            if (local.SequenceEqual("tint"u8)) return ViewKind.Word2010PositiveFixedPercentage;
         }
         if (ns == SchemaNamespace.WordprocessingCanvas)
         {
@@ -2808,6 +2860,8 @@ public static class ViewFactory
             case ViewKind.Drawing2014PredecessorDrawingElementReference: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.Drawing2014.PredecessorDrawingElementReference(markup)); break;
             case ViewKind.DrawingSvgSVGBlip: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.DrawingSvg.SVGBlip(markup)); break;
             case ViewKind.DrawingDecorativeDecorative: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.DrawingDecorative.Decorative(markup)); break;
+            case ViewKind.DrawingClassificationClassificationOutcome: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.DrawingClassification.ClassificationOutcome(markup)); break;
+            case ViewKind.DrawingHyperlinkColorHyperlinkColor: visitor.Visit(new global::RecursiveAI.OneOffice.Schema.DrawingHyperlinkColor.HyperlinkColor(markup)); break;
             default: break;
         }
     }

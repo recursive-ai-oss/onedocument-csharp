@@ -46,16 +46,23 @@ public sealed class WalkTests
         var files = 0;
         var parts = 0;
         var roundTripDiffs = 0;
+        var badZips = 0;
+        var badParts = 0;
         foreach (var path in Directory.EnumerateFiles(dir, "*.docx", SearchOption.AllDirectories).Order(StringComparer.Ordinal))
         {
             files++;
-            using var zip = ZipFile.OpenRead(path);
+            ZipArchive zip;
+            try { zip = ZipFile.OpenRead(path); }
+            catch (InvalidDataException) { badZips++; continue; } // truncated or damaged downloads in the crawl
+            using var _ = zip;
             foreach (var entry in zip.Entries.OrderBy(e => e.FullName, StringComparer.Ordinal))
             {
                 if (!entry.FullName.EndsWith(".xml", StringComparison.Ordinal) || !PartPatterns.Any(p => entry.FullName.StartsWith(p, StringComparison.Ordinal))) continue;
                 using var reader = new StreamReader(entry.Open(), new UTF8Encoding(false), true);
                 var text = reader.ReadToEnd();
-                var tree = TextTree.Parse(text);
+                TextTree tree;
+                try { tree = TextTree.Parse(text); }
+                catch (OfficeException) { badParts++; continue; } // not well-formed XML: the markup layer refuses it with a typed exception
                 parts++;
                 if (tree.Serialize() != text) roundTripDiffs++;
                 var root = tree.RootRef;
@@ -65,6 +72,7 @@ public sealed class WalkTests
         }
         var sb = new StringBuilder();
         sb.AppendLine($"docx files: {files}, parts walked: {parts}, tree re-serialisation differences: {roundTripDiffs}");
+        sb.AppendLine($"unreadable zip files: {badZips}, parts refused as malformed XML: {badParts}");
         sb.AppendLine($"elements seen: {counts.Seen}");
         sb.AppendLine($"  typed (a generated view): {counts.Typed}");
         sb.AppendLine($"  declared with a simple type (no view): {counts.Simple}");

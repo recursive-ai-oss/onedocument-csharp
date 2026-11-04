@@ -209,6 +209,13 @@ public readonly struct ClientData : global::RecursiveAI.OneOffice.Schema.IElemen
             if (local.SequenceEqual("Visible"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Simple; }
             if (local.SequenceEqual("WidthMin"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Simple; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }

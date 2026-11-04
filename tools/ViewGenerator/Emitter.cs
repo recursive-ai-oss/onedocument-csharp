@@ -362,11 +362,15 @@ internal sealed class Emitter
             }
             sb.Append("        }\n");
         }
-        if (t.HasWildcard)
+        if (t.HasWildcard || t.Slots.Count > 0)
         {
             // xsd:any content: an element some root schema declares (pic:pic inside a:graphicData) is as good as declared here.
-            // It has no fixed place in the sequence, so it ranks after the declared children.
-            sb.Append("        var any = ").Append(Root).Append(".ViewFactory.RootKind(ns, local);\n        if (any != ").Append(Root).Append(".ViewKind.None)\n        {\n            rank = ")
+            // Microsoft extension elements (w14:ligatures in w:rPr) are declared by their own schemas as global elements and
+            // may appear in the base types they extend; they count as declared too. Neither has a fixed place in the
+            // sequence, so both rank after the declared children.
+            var lookup = Root + ".ViewFactory.RootKind(ns, local)";
+            sb.Append("        var any = ").Append(t.HasWildcard ? lookup : Root + ".ViewFactory.IsExtensionNamespace(ns) ? " + lookup + " : " + Root + ".ViewKind.None")
+              .Append(";\n        if (any != ").Append(Root).Append(".ViewKind.None)\n        {\n            rank = ")
               .Append((t.Slots.Count == 0 ? 0 : t.Slots.Max(x => x.Rank) + 1).ToString(CultureInfo.InvariantCulture)).Append(";\n            return any;\n        }\n\n");
         }
         sb.Append("        rank = -1;\n        return ").Append(Root).Append(".ViewKind.None;\n    }\n\n");
@@ -479,6 +483,9 @@ internal sealed class Emitter
         foreach (var t in types) sb.Append("    /// <summary>").Append(Naming.Esc(t.Doc.EnumName)).Append('.').Append(Naming.Esc(t.ViewName)).Append(".</summary>\n    ").Append(t.CsKindName).Append(" = ").Append(t.KindId.ToString(CultureInfo.InvariantCulture)).Append(",\n");
         sb.Append("}\n\n");
         sb.Append("/// <summary>Maps element names to generated views with explicit switches: no reflection, nothing to trim.</summary>\npublic static class ViewFactory\n{\n");
+        sb.Append("    /// <summary>True for the namespaces of the Microsoft extension schemas, whose elements may appear inside base-schema types.</summary>\n    /// <param name=\"ns\">The namespace.</param>\n    /// <returns>True for an extension namespace.</returns>\n    public static bool IsExtensionNamespace(SchemaNamespace ns) => ");
+        var ext = _lib.Docs.Where(d => d.Entry.Path.StartsWith("ms/", StringComparison.Ordinal)).Select(d => "ns == SchemaNamespace." + d.EnumName).ToList();
+        sb.Append(ext.Count == 0 ? "false" : string.Join(" || ", ext)).Append(";\n\n");
         sb.Append("    /// <summary>The view for a global element declared by a root schema (the element a part starts with, or one that can appear anywhere).</summary>\n");
         sb.Append("    /// <param name=\"ns\">The element's namespace.</param>\n    /// <param name=\"local\">The element's local name, UTF-8.</param>\n    /// <returns>The kind, or <see cref=\"ViewKind.None\"/> when no root schema declares the element.</returns>\n");
         sb.Append("    public static ViewKind RootKind(SchemaNamespace ns, ReadOnlySpan<byte> local)\n    {\n");

@@ -4068,6 +4068,13 @@ public readonly struct AdjustHandleList : global::RecursiveAI.OneOffice.Schema.I
             if (local.SequenceEqual("ahPolar"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPolarAdjustHandle; }
             if (local.SequenceEqual("ahXY"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingXYAdjustHandle; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -4286,6 +4293,13 @@ public readonly struct AlphaInverseEffect : global::RecursiveAI.OneOffice.Schema
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSRgbColor; }
             if (local.SequenceEqual("sysClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSystemColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -4401,6 +4415,13 @@ public readonly struct AlphaModulateEffect : global::RecursiveAI.OneOffice.Schem
         {
             if (local.SequenceEqual("cont"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingEffectContainer; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -4669,6 +4690,13 @@ public readonly struct Backdrop : global::RecursiveAI.OneOffice.Schema.IElementV
             if (local.SequenceEqual("norm"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingVector3D; }
             if (local.SequenceEqual("up"u8)) { rank = 2; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingVector3D; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 4;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -4770,6 +4798,13 @@ public readonly struct BackgroundFormatting : global::RecursiveAI.OneOffice.Sche
             if (local.SequenceEqual("pattFill"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPatternFillProperties; }
             if (local.SequenceEqual("solidFill"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSolidColorFillProperties; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -5021,6 +5056,13 @@ public readonly struct BlendEffect : global::RecursiveAI.OneOffice.Schema.IEleme
         {
             if (local.SequenceEqual("cont"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingEffectContainer; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -5109,6 +5151,13 @@ public readonly struct Blip : global::RecursiveAI.OneOffice.Schema.IElementView<
             if (local.SequenceEqual("lum"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingLuminanceEffect; }
             if (local.SequenceEqual("tint"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingTintEffect; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -5378,6 +5427,13 @@ public readonly struct BlipFillProperties : global::RecursiveAI.OneOffice.Schema
             if (local.SequenceEqual("stretch"u8)) { rank = 2; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingStretchInfoProperties; }
             if (local.SequenceEqual("tile"u8)) { rank = 2; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingTileInfoProperties; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -5530,6 +5586,13 @@ public readonly struct Camera : global::RecursiveAI.OneOffice.Schema.IElementVie
         {
             if (local.SequenceEqual("rot"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSphereCoords; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -5615,6 +5678,13 @@ public readonly struct Color : global::RecursiveAI.OneOffice.Schema.IElementView
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSRgbColor; }
             if (local.SequenceEqual("sysClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSystemColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -5731,6 +5801,13 @@ public readonly struct ColorChangeEffect : global::RecursiveAI.OneOffice.Schema.
             if (local.SequenceEqual("clrFrom"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingColor; }
             if (local.SequenceEqual("clrTo"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -5811,6 +5888,13 @@ public readonly struct ColorReplaceEffect : global::RecursiveAI.OneOffice.Schema
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSRgbColor; }
             if (local.SequenceEqual("sysClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSystemColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -6023,6 +6107,13 @@ public readonly struct ConnectionSite : global::RecursiveAI.OneOffice.Schema.IEl
         {
             if (local.SequenceEqual("pos"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingAdjPoint2D; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -6090,6 +6181,13 @@ public readonly struct ConnectionSiteList : global::RecursiveAI.OneOffice.Schema
         {
             if (local.SequenceEqual("cxn"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingConnectionSite; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -6150,6 +6248,13 @@ public readonly struct ConnectorLocking : global::RecursiveAI.OneOffice.Schema.I
         {
             if (local.SequenceEqual("extLst"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtensionList; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -6241,6 +6346,13 @@ public readonly struct ContentPartLocking : global::RecursiveAI.OneOffice.Schema
         {
             if (local.SequenceEqual("extLst"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtensionList; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -6337,6 +6449,13 @@ public readonly struct CustomGeometry2D : global::RecursiveAI.OneOffice.Schema.I
             if (local.SequenceEqual("pathLst"u8)) { rank = 5; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPath2DList; }
             if (local.SequenceEqual("rect"u8)) { rank = 4; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingGeomRect; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 6;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -6510,6 +6629,13 @@ public readonly struct DashStopList : global::RecursiveAI.OneOffice.Schema.IElem
         {
             if (local.SequenceEqual("ds"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingDashStop; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -6575,6 +6701,13 @@ public readonly struct DuotoneEffect : global::RecursiveAI.OneOffice.Schema.IEle
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSRgbColor; }
             if (local.SequenceEqual("sysClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSystemColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -6719,6 +6852,13 @@ public readonly struct EffectContainer : global::RecursiveAI.OneOffice.Schema.IE
             if (local.SequenceEqual("tint"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingTintEffect; }
             if (local.SequenceEqual("xfrm"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingTransformEffect; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -7119,6 +7259,13 @@ public readonly struct EffectList : global::RecursiveAI.OneOffice.Schema.IElemen
             if (local.SequenceEqual("reflection"u8)) { rank = 6; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingReflectionEffect; }
             if (local.SequenceEqual("softEdge"u8)) { rank = 7; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSoftEdgesEffect; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 8;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -7257,6 +7404,13 @@ public readonly struct EffectProperties : global::RecursiveAI.OneOffice.Schema.I
             if (local.SequenceEqual("effectDag"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingEffectContainer; }
             if (local.SequenceEqual("effectLst"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingEffectList; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -7435,6 +7589,13 @@ public readonly struct FillEffect : global::RecursiveAI.OneOffice.Schema.IElemen
             if (local.SequenceEqual("pattFill"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPatternFillProperties; }
             if (local.SequenceEqual("solidFill"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSolidColorFillProperties; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -7555,6 +7716,13 @@ public readonly struct FillOverlayEffect : global::RecursiveAI.OneOffice.Schema.
             if (local.SequenceEqual("pattFill"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPatternFillProperties; }
             if (local.SequenceEqual("solidFill"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSolidColorFillProperties; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -7686,6 +7854,13 @@ public readonly struct FillProperties : global::RecursiveAI.OneOffice.Schema.IEl
             if (local.SequenceEqual("pattFill"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPatternFillProperties; }
             if (local.SequenceEqual("solidFill"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSolidColorFillProperties; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -7910,6 +8085,13 @@ public readonly struct FontReference : global::RecursiveAI.OneOffice.Schema.IEle
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSRgbColor; }
             if (local.SequenceEqual("sysClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSystemColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -8133,6 +8315,13 @@ public readonly struct GeomGuideList : global::RecursiveAI.OneOffice.Schema.IEle
         {
             if (local.SequenceEqual("gd"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingGeomGuide; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -8256,6 +8445,13 @@ public readonly struct GlowEffect : global::RecursiveAI.OneOffice.Schema.IElemen
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSRgbColor; }
             if (local.SequenceEqual("sysClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSystemColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -8378,6 +8574,13 @@ public readonly struct GradientFillProperties : global::RecursiveAI.OneOffice.Sc
             if (local.SequenceEqual("path"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPathShadeProperties; }
             if (local.SequenceEqual("tileRect"u8)) { rank = 2; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingRelativeRect; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -8490,6 +8693,13 @@ public readonly struct GradientStop : global::RecursiveAI.OneOffice.Schema.IElem
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSRgbColor; }
             if (local.SequenceEqual("sysClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSystemColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -8612,6 +8822,13 @@ public readonly struct GradientStopList : global::RecursiveAI.OneOffice.Schema.I
         {
             if (local.SequenceEqual("gs"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingGradientStop; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -8672,6 +8889,13 @@ public readonly struct GraphicalObject : global::RecursiveAI.OneOffice.Schema.IE
         {
             if (local.SequenceEqual("graphicData"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingGraphicalObjectData; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -8788,6 +9012,13 @@ public readonly struct GraphicalObjectFrameLocking : global::RecursiveAI.OneOffi
         {
             if (local.SequenceEqual("extLst"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtensionList; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -9002,6 +9233,13 @@ public readonly struct GroupLocking : global::RecursiveAI.OneOffice.Schema.IElem
         {
             if (local.SequenceEqual("extLst"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtensionList; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -9095,6 +9333,13 @@ public readonly struct GroupShapeProperties : global::RecursiveAI.OneOffice.Sche
             if (local.SequenceEqual("solidFill"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSolidColorFillProperties; }
             if (local.SequenceEqual("xfrm"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingGroupTransform2D; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 5;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -9279,6 +9524,13 @@ public readonly struct GroupTransform2D : global::RecursiveAI.OneOffice.Schema.I
             if (local.SequenceEqual("ext"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPositiveSize2D; }
             if (local.SequenceEqual("off"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPoint2D; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 4;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -9470,6 +9722,13 @@ public readonly struct HslColor : global::RecursiveAI.OneOffice.Schema.IElementV
             if (local.SequenceEqual("shade"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPositiveFixedPercentage; }
             if (local.SequenceEqual("tint"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPositiveFixedPercentage; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -9844,6 +10103,13 @@ public readonly struct Hyperlink : global::RecursiveAI.OneOffice.Schema.IElement
             if (local.SequenceEqual("extLst"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtensionList; }
             if (local.SequenceEqual("snd"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingEmbeddedWAVAudioFile; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -9946,6 +10212,13 @@ public readonly struct InnerShadowEffect : global::RecursiveAI.OneOffice.Schema.
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSRgbColor; }
             if (local.SequenceEqual("sysClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSystemColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -10161,6 +10434,13 @@ public readonly struct LightRig : global::RecursiveAI.OneOffice.Schema.IElementV
         {
             if (local.SequenceEqual("rot"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSphereCoords; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -10472,6 +10752,13 @@ public readonly struct LineProperties : global::RecursiveAI.OneOffice.Schema.IEl
             if (local.SequenceEqual("solidFill"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSolidColorFillProperties; }
             if (local.SequenceEqual("tailEnd"u8)) { rank = 4; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingLineEndProperties; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 6;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -10846,6 +11133,13 @@ public readonly struct NonVisualConnectorProperties : global::RecursiveAI.OneOff
             if (local.SequenceEqual("extLst"u8)) { rank = 3; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtensionList; }
             if (local.SequenceEqual("stCxn"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingConnection; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 4;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -10940,6 +11234,13 @@ public readonly struct NonVisualContentPartProperties : global::RecursiveAI.OneO
             if (local.SequenceEqual("cpLocks"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingContentPartLocking; }
             if (local.SequenceEqual("extLst"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtensionList; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -11022,6 +11323,13 @@ public readonly struct NonVisualDrawingProps : global::RecursiveAI.OneOffice.Sch
             if (local.SequenceEqual("hlinkClick"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingHyperlink; }
             if (local.SequenceEqual("hlinkHover"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingHyperlink; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -11122,6 +11430,13 @@ public readonly struct NonVisualDrawingShapeProps : global::RecursiveAI.OneOffic
             if (local.SequenceEqual("extLst"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtensionList; }
             if (local.SequenceEqual("spLocks"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingShapeLocking; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -11199,6 +11514,13 @@ public readonly struct NonVisualGraphicFrameProperties : global::RecursiveAI.One
             if (local.SequenceEqual("extLst"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtensionList; }
             if (local.SequenceEqual("graphicFrameLocks"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingGraphicalObjectFrameLocking; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -11272,6 +11594,13 @@ public readonly struct NonVisualGroupDrawingShapeProps : global::RecursiveAI.One
             if (local.SequenceEqual("extLst"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtensionList; }
             if (local.SequenceEqual("grpSpLocks"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingGroupLocking; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -11344,6 +11673,13 @@ public readonly struct NonVisualPictureProperties : global::RecursiveAI.OneOffic
             if (local.SequenceEqual("extLst"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtensionList; }
             if (local.SequenceEqual("picLocks"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPictureLocking; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -11482,6 +11818,13 @@ public readonly struct OfficeArtExtensionList : global::RecursiveAI.OneOffice.Sc
         {
             if (local.SequenceEqual("ext"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtension; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -11547,6 +11890,13 @@ public readonly struct OuterShadowEffect : global::RecursiveAI.OneOffice.Schema.
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSRgbColor; }
             if (local.SequenceEqual("sysClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSystemColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -11708,6 +12058,13 @@ public readonly struct Path2D : global::RecursiveAI.OneOffice.Schema.IElementVie
             if (local.SequenceEqual("moveTo"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPath2DMoveTo; }
             if (local.SequenceEqual("quadBezTo"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPath2DQuadBezierTo; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -11955,6 +12312,13 @@ public readonly struct Path2DCubicBezierTo : global::RecursiveAI.OneOffice.Schem
         {
             if (local.SequenceEqual("pt"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingAdjPoint2D; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -12015,6 +12379,13 @@ public readonly struct Path2DLineTo : global::RecursiveAI.OneOffice.Schema.IElem
         {
             if (local.SequenceEqual("pt"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingAdjPoint2D; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -12075,6 +12446,13 @@ public readonly struct Path2DList : global::RecursiveAI.OneOffice.Schema.IElemen
         {
             if (local.SequenceEqual("path"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPath2D; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -12135,6 +12513,13 @@ public readonly struct Path2DMoveTo : global::RecursiveAI.OneOffice.Schema.IElem
         {
             if (local.SequenceEqual("pt"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingAdjPoint2D; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -12195,6 +12580,13 @@ public readonly struct Path2DQuadBezierTo : global::RecursiveAI.OneOffice.Schema
         {
             if (local.SequenceEqual("pt"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingAdjPoint2D; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -12255,6 +12647,13 @@ public readonly struct PathShadeProperties : global::RecursiveAI.OneOffice.Schem
         {
             if (local.SequenceEqual("fillToRect"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingRelativeRect; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -12327,6 +12726,13 @@ public readonly struct PatternFillProperties : global::RecursiveAI.OneOffice.Sch
             if (local.SequenceEqual("bgClr"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingColor; }
             if (local.SequenceEqual("fgClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -12461,6 +12867,13 @@ public readonly struct PictureLocking : global::RecursiveAI.OneOffice.Schema.IEl
         {
             if (local.SequenceEqual("extLst"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtensionList; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -12678,6 +13091,13 @@ public readonly struct PolarAdjustHandle : global::RecursiveAI.OneOffice.Schema.
         {
             if (local.SequenceEqual("pos"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingAdjPoint2D; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -12996,6 +13416,13 @@ public readonly struct PresetColor : global::RecursiveAI.OneOffice.Schema.IEleme
             if (local.SequenceEqual("shade"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPositiveFixedPercentage; }
             if (local.SequenceEqual("tint"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPositiveFixedPercentage; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -13364,6 +13791,13 @@ public readonly struct PresetGeometry2D : global::RecursiveAI.OneOffice.Schema.I
         {
             if (local.SequenceEqual("avLst"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingGeomGuideList; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -13496,6 +13930,13 @@ public readonly struct PresetShadowEffect : global::RecursiveAI.OneOffice.Schema
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSRgbColor; }
             if (local.SequenceEqual("sysClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSystemColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -13628,6 +14069,13 @@ public readonly struct PresetTextShape : global::RecursiveAI.OneOffice.Schema.IE
         {
             if (local.SequenceEqual("avLst"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingGeomGuideList; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -13967,6 +14415,13 @@ public readonly struct SRgbColor : global::RecursiveAI.OneOffice.Schema.IElement
             if (local.SequenceEqual("shade"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPositiveFixedPercentage; }
             if (local.SequenceEqual("tint"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPositiveFixedPercentage; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -14355,6 +14810,13 @@ public readonly struct ScRgbColor : global::RecursiveAI.OneOffice.Schema.IElemen
             if (local.SequenceEqual("shade"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPositiveFixedPercentage; }
             if (local.SequenceEqual("tint"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPositiveFixedPercentage; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -14735,6 +15197,13 @@ public readonly struct Scene3D : global::RecursiveAI.OneOffice.Schema.IElementVi
             if (local.SequenceEqual("extLst"u8)) { rank = 3; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtensionList; }
             if (local.SequenceEqual("lightRig"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingLightRig; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 4;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -14855,6 +15324,13 @@ public readonly struct SchemeColor : global::RecursiveAI.OneOffice.Schema.IEleme
             if (local.SequenceEqual("shade"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPositiveFixedPercentage; }
             if (local.SequenceEqual("tint"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPositiveFixedPercentage; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -15228,6 +15704,13 @@ public readonly struct Shape3D : global::RecursiveAI.OneOffice.Schema.IElementVi
             if (local.SequenceEqual("extLst"u8)) { rank = 4; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtensionList; }
             if (local.SequenceEqual("extrusionClr"u8)) { rank = 2; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 5;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -15355,6 +15838,13 @@ public readonly struct ShapeLocking : global::RecursiveAI.OneOffice.Schema.IElem
         {
             if (local.SequenceEqual("extLst"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingOfficeArtExtensionList; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -15465,6 +15955,13 @@ public readonly struct ShapeProperties : global::RecursiveAI.OneOffice.Schema.IE
             if (local.SequenceEqual("sp3d"u8)) { rank = 6; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingShape3D; }
             if (local.SequenceEqual("xfrm"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingTransform2D; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 8;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -15695,6 +16192,13 @@ public readonly struct ShapeStyle : global::RecursiveAI.OneOffice.Schema.IElemen
             if (local.SequenceEqual("fontRef"u8)) { rank = 3; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingFontReference; }
             if (local.SequenceEqual("lnRef"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingStyleMatrixReference; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 4;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -15842,6 +16346,13 @@ public readonly struct SolidColorFillProperties : global::RecursiveAI.OneOffice.
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSRgbColor; }
             if (local.SequenceEqual("sysClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSystemColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -16012,6 +16523,13 @@ public readonly struct StretchInfoProperties : global::RecursiveAI.OneOffice.Sch
         {
             if (local.SequenceEqual("fillRect"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingRelativeRect; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -16077,6 +16595,13 @@ public readonly struct StyleMatrixReference : global::RecursiveAI.OneOffice.Sche
             if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSRgbColor; }
             if (local.SequenceEqual("sysClr"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingSystemColor; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -16223,6 +16748,13 @@ public readonly struct SystemColor : global::RecursiveAI.OneOffice.Schema.IEleme
             if (local.SequenceEqual("shade"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPositiveFixedPercentage; }
             if (local.SequenceEqual("tint"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPositiveFixedPercentage; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -16602,6 +17134,13 @@ public readonly struct TextBodyProperties : global::RecursiveAI.OneOffice.Schema
             if (local.SequenceEqual("sp3d"u8)) { rank = 3; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingShape3D; }
             if (local.SequenceEqual("spAutoFit"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingTextShapeAutofit; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 5;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -17142,6 +17681,13 @@ public readonly struct Transform2D : global::RecursiveAI.OneOffice.Schema.IEleme
             if (local.SequenceEqual("ext"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPositiveSize2D; }
             if (local.SequenceEqual("off"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingPoint2D; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -17366,6 +17912,13 @@ public readonly struct WholeE2oFormatting : global::RecursiveAI.OneOffice.Schema
             if (local.SequenceEqual("effectLst"u8)) { rank = 1; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingEffectList; }
             if (local.SequenceEqual("ln"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingLineProperties; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -17448,6 +18001,13 @@ public readonly struct XYAdjustHandle : global::RecursiveAI.OneOffice.Schema.IEl
         {
             if (local.SequenceEqual("pos"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.DrawingAdjPoint2D; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }

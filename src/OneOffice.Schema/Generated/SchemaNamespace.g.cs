@@ -98,6 +98,10 @@ public enum SchemaNamespace
     DrawingSvg = 43,
     /// <summary>http://schemas.microsoft.com/office/drawing/2017/decorative (adec:).</summary>
     DrawingDecorative = 44,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2020/classificationShape (aclsh:).</summary>
+    DrawingClassification = 45,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2018/hyperlinkcolor (ahyp:).</summary>
+    DrawingHyperlinkColor = 46,
 }
 
 /// <summary>Namespace URIs and conventional prefixes for <see cref="SchemaNamespace"/>.</summary>
@@ -160,6 +164,8 @@ public static class SchemaNamespaces
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2014/main"u8)) return SchemaNamespace.Drawing2014;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2016/SVG/main"u8)) return SchemaNamespace.DrawingSvg;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2017/decorative"u8)) return SchemaNamespace.DrawingDecorative;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2020/classificationShape"u8)) return SchemaNamespace.DrawingClassification;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2018/hyperlinkcolor"u8)) return SchemaNamespace.DrawingHyperlinkColor;
         if (uri.SequenceEqual("http://www.w3.org/XML/1998/namespace"u8)) return SchemaNamespace.Xml;
         if (uri.SequenceEqual("http://schemas.openxmlformats.org/markup-compatibility/2006"u8)) return SchemaNamespace.MarkupCompatibility;
         return SchemaNamespace.Unknown;
@@ -222,6 +228,8 @@ public static class SchemaNamespaces
         if (uri == "http://schemas.microsoft.com/office/drawing/2014/main") return SchemaNamespace.Drawing2014;
         if (uri == "http://schemas.microsoft.com/office/drawing/2016/SVG/main") return SchemaNamespace.DrawingSvg;
         if (uri == "http://schemas.microsoft.com/office/drawing/2017/decorative") return SchemaNamespace.DrawingDecorative;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2020/classificationShape") return SchemaNamespace.DrawingClassification;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2018/hyperlinkcolor") return SchemaNamespace.DrawingHyperlinkColor;
         if (uri == "http://www.w3.org/XML/1998/namespace") return SchemaNamespace.Xml;
         if (uri == "http://schemas.openxmlformats.org/markup-compatibility/2006") return SchemaNamespace.MarkupCompatibility;
         return SchemaNamespace.Unknown;
@@ -278,6 +286,8 @@ public static class SchemaNamespaces
             case SchemaNamespace.Drawing2014: return "http://schemas.microsoft.com/office/drawing/2014/main"u8;
             case SchemaNamespace.DrawingSvg: return "http://schemas.microsoft.com/office/drawing/2016/SVG/main"u8;
             case SchemaNamespace.DrawingDecorative: return "http://schemas.microsoft.com/office/drawing/2017/decorative"u8;
+            case SchemaNamespace.DrawingClassification: return "http://schemas.microsoft.com/office/drawing/2020/classificationShape"u8;
+            case SchemaNamespace.DrawingHyperlinkColor: return "http://schemas.microsoft.com/office/drawing/2018/hyperlinkcolor"u8;
             default: return default;
         }
     }
@@ -332,6 +342,8 @@ public static class SchemaNamespaces
             case SchemaNamespace.Drawing2014: return "a16"u8;
             case SchemaNamespace.DrawingSvg: return "asvg"u8;
             case SchemaNamespace.DrawingDecorative: return "adec"u8;
+            case SchemaNamespace.DrawingClassification: return "aclsh"u8;
+            case SchemaNamespace.DrawingHyperlinkColor: return "ahyp"u8;
             default: return default;
         }
     }

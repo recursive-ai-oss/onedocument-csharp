@@ -259,6 +259,13 @@ public readonly struct Array : global::RecursiveAI.OneOffice.Schema.IElementView
             if (local.SequenceEqual("uint"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Simple; }
             if (local.SequenceEqual("variant"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VariantTypesVariant; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -635,6 +642,13 @@ public readonly struct Variant : global::RecursiveAI.OneOffice.Schema.IElementVi
             if (local.SequenceEqual("vector"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VariantTypesVector; }
             if (local.SequenceEqual("vstream"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VariantTypesVstream; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }
@@ -1077,6 +1091,13 @@ public readonly struct Vector : global::RecursiveAI.OneOffice.Schema.IElementVie
             if (local.SequenceEqual("ui8"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.Simple; }
             if (local.SequenceEqual("variant"u8)) { rank = 0; return global::RecursiveAI.OneOffice.Schema.ViewKind.VariantTypesVariant; }
         }
+        var any = global::RecursiveAI.OneOffice.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneOffice.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneOffice.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneOffice.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
         rank = -1;
         return global::RecursiveAI.OneOffice.Schema.ViewKind.None;
     }

@@ -472,6 +472,24 @@ internal sealed class Semantics
                 type?.ElementNames.Add((q.Ns, q.Local));
                 RootElements.Add((q.Ns, q.Local, type));
             }
+            // Extension schemas declare some elements only inside top-level groups (w14:ligatures in EG_RPrOpenType) and leave
+            // it to prose to say where they go. They are known extension children, so they join the root elements.
+            if (doc.Entry.Path.StartsWith("ms/", StringComparison.Ordinal))
+            {
+                foreach (var gq in _lib.Groups.Keys.Where(k => k.Ns == doc.Ns).OrderBy(k => k.Local, StringComparer.Ordinal))
+                {
+                    var holder = new TypeDef { Name = new QName(doc.Ns, gq.Local), Doc = doc };
+                    var next = 0;
+                    foreach (var c in _lib.Groups[gq].Elements())
+                        if (c.Name.LocalName is "sequence" or "choice" or "all") Walk(holder, c, false, null, ref next, false);
+                    foreach (var slot in holder.Slots)
+                    {
+                        if (RootElements.Any(r => r.Ns == slot.Ns && r.Local == slot.Local)) continue;
+                        slot.Type?.ElementNames.Add((slot.Ns, slot.Local));
+                        RootElements.Add((slot.Ns, slot.Local, slot.Type));
+                    }
+                }
+            }
             // simple types of root schemas: make their enumerations available even when no attribute reaches them
             foreach (var q in _lib.SimpleTypes.Keys.Where(k => k.Ns == doc.Ns).OrderBy(k => k.Local, StringComparer.Ordinal))
                 Simple(q);
