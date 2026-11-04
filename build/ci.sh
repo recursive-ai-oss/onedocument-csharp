@@ -38,7 +38,11 @@ for step in "${steps[@]}"; do
       # Builds the browser host; a headless-browser run is a separate step.
       "$dotnet_bin" build smoke/wasm/WasmSmoke.csproj -c "$config"
       ;;
-    pack) "$dotnet_bin" pack src/OneOffice/OneOffice.csproj -c "$config" --no-build -o "$out/packages" ;;
+    pack)
+      for project in OneOffice OneOffice.Schema OneOffice.Documents; do
+        "$dotnet_bin" pack "src/$project/$project.csproj" -c "$config" --no-build -o "$out/packages"
+      done
+      ;;
     *) echo "unknown step '$step'" >&2; exit 2 ;;
   esac
 done

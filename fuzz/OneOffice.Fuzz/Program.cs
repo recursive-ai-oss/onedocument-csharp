@@ -24,8 +24,16 @@ internal static class Program
     private static readonly Dictionary<string, Target> Targets = new()
     {
         ["sniff"] = SniffTarget.Run,
+        ["opc"] = OpcTarget.Run,
+        ["cfb"] = CfbTarget.Run,
         ["xml"] = XmlTarget.RunTokenizer,
         ["markup"] = XmlTarget.RunTree,
+        ["fieldinstr"] = FieldsTarget.RunInstruction,
+        ["fields"] = FieldsTarget.RunHub,
+        ["text"] = TextTarget.Run,
+        ["revisions"] = RevisionTarget.Run,
+        ["sdt"] = SdtTarget.RunDocument,
+        ["sdtpath"] = SdtTarget.RunPath,
     };
 
     private static int Main(string[] args)
@@ -40,7 +48,13 @@ internal static class Program
             return args[1] switch
             {
                 "sniff" => SniffTarget.WriteSeeds(args[2]),
+                "opc" => OpcTarget.WriteSeeds(args[2]),
+                "cfb" => CfbTarget.WriteSeeds(args[2]),
                 "xml" or "markup" => XmlTarget.WriteSeeds(args[2]),
+                "fieldinstr" or "fields" => FieldsTarget.WriteSeeds(args[2]),
+                "text" => TextTarget.WriteSeeds(args[2]),
+                "revisions" => RevisionTarget.WriteSeeds(args[2]),
+                "sdt" or "sdtpath" => SdtTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }

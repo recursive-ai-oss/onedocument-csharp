@@ -16,9 +16,11 @@
   <ItemGroup>
     <Compile Include="../shared/SmokeChecks.cs" Link="SmokeChecks.cs" />
     <Compile Include="../shared/SchemaSmoke.cs" Link="SchemaSmoke.cs" />
+    <Compile Include="../shared/DocumentSmoke.cs" Link="DocumentSmoke.cs" />
     <Compile Include="../../tests/OneOffice.Schema.Tests/TextTree.cs" Link="TextTree.cs" />
     <ProjectReference Include="../../src/OneOffice/OneOffice.csproj" />
     <ProjectReference Include="../../src/OneOffice.Schema/OneOffice.Schema.csproj" />
+    <ProjectReference Include="../../src/OneOffice.Documents/OneOffice.Documents.csproj" />
   </ItemGroup>
 
 </Project>

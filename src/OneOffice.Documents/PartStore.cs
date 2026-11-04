@@ -48,6 +48,20 @@ internal sealed class PartStore
         }
     }
 
+    /// <summary>The part name a parsed tree was read from, or null for a tree this store does not hold.</summary>
+    public string? NameOf(MarkupDocument document)
+    {
+        foreach (KeyValuePair<string, MarkupDocument?> kv in _documents)
+        {
+            if (ReferenceEquals(kv.Value, document))
+            {
+                return kv.Key;
+            }
+        }
+
+        return null;
+    }
+
     /// <summary>Finds a part related to <paramref name="sourcePart"/> by a relationship of the officeDocument family and parses it.</summary>
     public MarkupDocument? LoadRelated(string sourcePart, string relationshipName, out string? partName)
     {
@@ -98,6 +112,20 @@ internal sealed class PartStore
 
         _documents[partName] = document;
         return document;
+    }
+
+    /// <summary>Finds the part a node was parsed from; null for a node of a tree this store did not load.</summary>
+    public string? PartNameOf(MarkupNode node)
+    {
+        foreach (KeyValuePair<string, MarkupDocument?> kv in _documents)
+        {
+            if (kv.Value is not null && ReferenceEquals(kv.Value, node.Document))
+            {
+                return kv.Key;
+            }
+        }
+
+        return null;
     }
 
     public void Flush()
