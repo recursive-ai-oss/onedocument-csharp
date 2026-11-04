@@ -116,6 +116,17 @@ public class RevisionAuthorTests
         AssertRoundTrip(set, "Hello brave new world\n", "Hello fierce new world\n");
     }
 
+    // Observed in Word 365 (16.0.20527): moved-away text is w:t inside w:moveFrom; w:delText there triggers the repair prompt.
+    [Fact]
+    public void MovedAwayText_StaysPlainText()
+    {
+        (RevisionSet set, RevisionAuthor au) = Open("<w:p>" + R("one two three") + "</w:p><w:p>" + R("four") + "</w:p>");
+        au.MoveText(Paragraph(set, 0), 4, 4, Paragraph(set, 1), 0);
+        Assert.DoesNotContain("delText", Xml(set));
+        au.MoveParagraph(Paragraph(set, 0), Paragraph(set, 1));
+        Assert.DoesNotContain("delText", Xml(set));
+    }
+
     [Fact]
     public void MoveTextWithinAndAcrossParagraphs()
     {

@@ -284,6 +284,27 @@ public sealed class RevisionSet
             throw new ArgumentException("A revision does not belong to the current list; read Revisions again after an edit.", nameof(selection));
         }
 
+        // Observed in Word 365 (16.0.20527): accepting or rejecting one end of a move resolves the other end with it.
+        var movedNames = new HashSet<string>(StringComparer.Ordinal);
+        foreach (Revision r in chosen)
+        {
+            if (r.MoveName is { } name && r.Kind is RevisionKind.MoveFrom or RevisionKind.MoveTo)
+            {
+                movedNames.Add(name);
+            }
+        }
+
+        if (movedNames.Count > 0)
+        {
+            foreach (Revision r in Items)
+            {
+                if (r.MoveName is { } name && r.Kind is RevisionKind.MoveFrom or RevisionKind.MoveTo && movedNames.Contains(name))
+                {
+                    chosen.Add(r);
+                }
+            }
+        }
+
         var resolver = new RevisionResolver(_defects);
         int done = 0;
         foreach (IRevisionPart p in _parts)

@@ -25,6 +25,10 @@ Layers, lowest first. Each property keeps the layer (and style id) that set it.
   formatting sets the value outright; otherwise the values the table style, paragraph style and character style levels set are
   XORed (inside one level a `basedOn` chain overrides normally); with none, the document default stands. **To check against Word:**
   the XOR runs over the three style levels only, and the document default is not part of it.
+- A document without `w:pPrDefault` reads as 8 pt (160) space after when nothing else sets it (`ResolvedParagraphProperties.SpaceAfter`);
+  observed in Word 365 (16.0.20527). Word's answers for the precedence case (document defaults, `basedOn` chains, the toggle XOR,
+  direct formatting over styles, character style over paragraph style) and for the numbering label cases all match the resolver.
+  Line spacing without `w:pPrDefault` is not settled: Word reported a multiple of about 1.16 lines.
 - A style chain follows `w:basedOn`. A missing base, a cycle and an unknown style id are defects (`docx.style-*`) and never exceptions.
 - Table style regions apply in the order wholeTable, band1Vert, band2Vert, band1Horz, band2Horz, firstCol, lastCol, firstRow,
   lastRow, nwCell, neCell, swCell, seCell (§17.7.6). `w:tblLook` comes from its attributes or its hex mask; absent means no

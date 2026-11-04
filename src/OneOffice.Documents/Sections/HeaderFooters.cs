@@ -178,13 +178,33 @@ public sealed partial class Section
     }
 
     /// <summary>
+    /// Gives the number the section's first page prints: the restart value of <c>w:pgNumType</c> when set, else one more than the last
+    /// page the previous section printed (<paramref name="previousLastPrinted"/>; 0 for the first section).
+    /// </summary>
+    /// <param name="previousLastPrinted">The printed number of the last page of the previous section.</param>
+    /// <returns>The printed number of the section's first page.</returns>
+    public long FirstPrintedPageNumber(long previousLastPrinted) => PageNumbering.Start ?? previousLastPrinted + 1;
+
+    /// <summary>
+    /// Tells whether Word leaves a blank page before a section that starts on a new page. Observed in Word 365 (16.0.20527): with
+    /// <see cref="Document.EvenAndOddHeaders"/> on, the physical page keeps the parity of its printed number, so a section whose first
+    /// printed number is odd (even) on an even (odd) physical page starts one page later, after an empty page. Without the setting, or
+    /// for a continuous section, nothing is inserted.
+    /// </summary>
+    /// <param name="physicalPage">The 1-based physical page the section would start on.</param>
+    /// <param name="firstPrintedNumber">The printed number of the section's first page (see <see cref="FirstPrintedPageNumber"/>).</param>
+    /// <returns>True when a blank page comes first.</returns>
+    public bool RequiresBlankPageBefore(long physicalPage, long firstPrintedNumber) =>
+        Owner.EvenAndOddHeaders && BreakType != SectionBreakType.Continuous && ((physicalPage ^ firstPrintedNumber) & 1) != 0;
+
+    /// <summary>
     /// Chooses the story for a page. With <see cref="TitlePage"/> the first page of the section uses the <c>first</c> story; otherwise,
     /// when the document sets <see cref="Document.EvenAndOddHeaders"/>, an even page number uses the <c>even</c> story; every other page
     /// uses the <c>default</c> one.
     /// </summary>
     /// <param name="kind">Header or footer.</param>
     /// <param name="isFirstPageOfSection">True for the first page the section prints.</param>
-    /// <param name="pageNumber">The page number as printed (after any restart), used for odd/even.</param>
+    /// <param name="pageNumber">The page number as printed (after any restart), not the physical page index: Word picks even or odd by the printed number.</param>
     /// <returns>The resolved story.</returns>
     public ResolvedHeaderFooter ForPage(HeaderFooterKind kind, bool isFirstPageOfSection, long pageNumber)
     {

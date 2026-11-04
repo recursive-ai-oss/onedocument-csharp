@@ -94,3 +94,9 @@ pressed. A dialog that cannot be answered within 60 s gets the application kille
   and endnote number styles; and comments with their reply links. `NAME.actions.txt` beside a document lists revision
   actions (`accept-all`, `reject-all`, `accept:N`, `reject:N`, `accept-para:N`, `reject-para:N`) whose results are saved
   next to the results file.
+
+## Checking OneOffice's own edits
+
+`tools/OracleCases` (`OracleCases DIR`) writes one small file per kind of edit that OneOffice makes (table edits, sections and
+headers, comments, notes, field results, authored and resolved revisions, content-control values, the output formats). Run the
+directory through `office-oracle.sh run` and every file should come back `clean`.
