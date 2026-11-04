@@ -34,3 +34,10 @@ if [ -n "${SOFFICE:-}" ] && [ -s "$OUT/with-revisions.txt" ]; then
   done
   python3 "$HERE/compare_lo.py" "$OUT/probe" "$OUT/lo" --json "$OUT/compare.jsonl"
 fi
+
+# Untouched parts and schema validity of the results (needs the schema directories in XSD_DIRS, space separated).
+if [ -n "${XSD_DIRS:-}" ]; then
+  dotnet build -c Release -v quiet -clp:NoSummary "$REPO/tools/RoundTrip/RoundTrip.csproj" -o "$OUT/rt" > /dev/null || exit 1
+  SCH=(); for d in $XSD_DIRS; do SCH+=(--schemas "$d"); done
+  ${PYLXML:-python3} "$HERE/post_check.py" "$OUT/census.jsonl" "$CORPUS" "$OUT/probe" "$OUT/rt/RoundTrip.dll" "$REPO/tools/validate/validate_ooxml.py" "${SCH[@]}" --json "$OUT/post-check.jsonl"
+fi

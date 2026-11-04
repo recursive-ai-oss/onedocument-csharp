@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.IO.Compression;
+using RecursiveAI.OneOffice.Packaging;
 using System.Text;
 using System.Text.Json;
 using RecursiveAI.OneOffice;
@@ -44,7 +44,7 @@ internal static class Program
                 return Batch(args);
             case "text":
                 {
-                    using ZipArchive zip = ZipFile.OpenRead(args[1]);
+                    using OpcPackage zip = OpcPackage.Open(args[1]);
                     var (parts, _) = Load(zip, null);
                     var view = args[2] == "rejected" ? RevisionView.Rejected : RevisionView.Accepted;
                     foreach (RevisionPart p in parts.Where(IsText))
@@ -57,11 +57,11 @@ internal static class Program
 
             case "resolve":
                 {
-                    using ZipArchive zip = ZipFile.OpenRead(args[1]);
+                    using OpcPackage zip = OpcPackage.Open(args[1]);
                     var (parts, _) = Load(zip, null);
                     RevisionSet set = RevisionSet.Scan(parts);
                     int n = args[3] == "accept" ? set.AcceptAll() : set.RejectAll();
-                    WriteZip(zip, parts, args[2]);
+                    Save(zip, parts, args[2]);
                     Console.WriteLine(n.ToString(System.Globalization.CultureInfo.InvariantCulture));
                     return 0;
                 }
@@ -90,46 +90,28 @@ internal static class Program
             file == "styles.xml" || file == "numbering.xml";
     }
 
-    private static (List<RevisionPart> Parts, DefectCollection Defects) Load(ZipArchive zip, DefectCollection? sink)
+    private static (List<RevisionPart> Parts, DefectCollection Defects) Load(OpcPackage package, DefectCollection? sink)
     {
         var defects = sink ?? new DefectCollection();
         var ctx = new OpenContext(defects: defects);
         var parts = new List<RevisionPart>();
-        foreach (ZipArchiveEntry e in zip.Entries.Where(e => Wanted(e.FullName)).OrderBy(e => e.FullName, StringComparer.Ordinal))
+        foreach (IPackagePart part in package.Parts.Where(p => Wanted(p.Name.TrimStart('/'))).OrderBy(p => p.Name, StringComparer.Ordinal))
         {
-            if (e.Length > 256L * 1024 * 1024)
-            {
-                continue;
-            }
-
-            using Stream s = e.Open();
-            using var ms = new MemoryStream();
-            s.CopyTo(ms);
-            parts.Add(new RevisionPart("/" + e.FullName, MarkupDocument.Parse(ms.ToArray(), ctx, "/" + e.FullName)));
+            parts.Add(new RevisionPart(part.Name, MarkupDocument.Parse(part.GetBytes(), ctx, part.Name)));
         }
 
         return (parts, defects);
     }
 
-    private static void WriteZip(ZipArchive source, List<RevisionPart> parts, string path)
+    /// <summary>Writes the package with the edited parts replaced; every other part is copied as stored.</summary>
+    private static void Save(OpcPackage package, List<RevisionPart> parts, string path)
     {
-        var changed = parts.Where(p => p.Markup.IsModified).ToDictionary(p => p.Uri[1..], p => p, StringComparer.Ordinal);
-        using FileStream fs = File.Create(path);
-        using var outZip = new ZipArchive(fs, ZipArchiveMode.Create);
-        foreach (ZipArchiveEntry e in source.Entries)
+        foreach (RevisionPart p in parts.Where(p => p.Markup.IsModified))
         {
-            ZipArchiveEntry o = outZip.CreateEntry(e.FullName, CompressionLevel.Fastest);
-            using Stream w = o.Open();
-            if (changed.TryGetValue(e.FullName, out RevisionPart? p) && p is not null)
-            {
-                w.Write(p.Markup.ToArray());
-            }
-            else
-            {
-                using Stream r = e.Open();
-                r.CopyTo(w);
-            }
+            package.FindPart(p.Uri)!.SetBytes(p.Markup.ToArray());
         }
+
+        package.SaveAs(path);
     }
 
     private static int Batch(string[] args)
@@ -191,7 +173,7 @@ internal static class Program
 
     private static void One(string file, string outBase, Utf8JsonWriter w)
     {
-        using ZipArchive zip = ZipFile.OpenRead(file);
+        using OpcPackage zip = OpcPackage.Open(file);
         var (parts, defects) = Load(zip, null);
         var scanSink = new DefectCollection();
         RevisionSet set = RevisionSet.Scan(parts, new OpenContext(defects: scanSink));
@@ -235,11 +217,12 @@ internal static class Program
         w.WriteNumber("accepted", accepted);
         w.WriteNumber("acceptedLeft", after.Revisions.Count);
         w.WriteBoolean("acceptViewEqualsResult", acceptedBefore == acceptedAfter);
-        WriteZip(zip, parts, outBase + ".accepted.docx");
+        Save(zip, parts, outBase + ".accepted.docx");
         File.WriteAllText(outBase + ".accepted.txt", MainText(parts, RevisionView.Accepted), new UTF8Encoding(false));
 
         // Reject all, from a fresh read.
-        var (parts2, _) = Load(zip, null);
+        using OpcPackage zip2 = OpcPackage.Open(file);
+        var (parts2, _) = Load(zip2, null);
         var rejectSink = new DefectCollection();
         RevisionSet set2 = RevisionSet.Scan(parts2, new OpenContext(defects: rejectSink));
         int rejected = set2.RejectAll();
@@ -248,7 +231,7 @@ internal static class Program
         w.WriteNumber("rejected", rejected);
         w.WriteNumber("rejectedLeft", after2.Revisions.Count);
         w.WriteBoolean("rejectViewEqualsResult", rejectedBefore == rejectedAfter);
-        WriteZip(zip, parts2, outBase + ".rejected.docx");
+        Save(zip2, parts2, outBase + ".rejected.docx");
         File.WriteAllText(outBase + ".rejected.txt", MainText(parts2, RevisionView.Accepted), new UTF8Encoding(false));
     }
 
