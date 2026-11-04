@@ -95,13 +95,12 @@ if [[ -z "$dll" ]]; then
   dll="$(find "${ONEOFFICE_ARTIFACTS:-$root/artifacts}/bin/OneOffice.Bench/release" -name 'OneOffice.Bench.dll' | head -1)"
 fi
 
-prefix=()
 if [[ "$threads" == 1 ]]; then
   export DOTNET_PROCESSOR_COUNT=1
 fi
 
-"${prefix[@]}" "$dotnet_bin" "$dll" versions > "$out/versions.txt"
-"${prefix[@]}" "$dotnet_bin" "$dll" gen "$inputs" > "$out/inputs.txt"
+"$dotnet_bin" "$dll" versions > "$out/versions.txt"
+"$dotnet_bin" "$dll" gen "$inputs" > "$out/inputs.txt"
 
 # Sample the load every 10 s while the benchmarks run; stopped when this script exits.
 ( while true; do snapshot during >> "$out/load.log"; sleep 10; done ) &
@@ -109,10 +108,10 @@ sampler=$!
 trap 'kill "$sampler" 2>/dev/null || true' EXIT
 
 if [[ $timing -eq 1 ]]; then
-  "${prefix[@]}" "$dotnet_bin" "$dll" --filter "$filter" --artifacts "$out/bdn" > "$out/bdn.log" 2>&1
+  "$dotnet_bin" "$dll" --filter "$filter" --artifacts "$out/bdn" > "$out/bdn.log" 2>&1
 fi
 if [[ $peak -eq 1 ]]; then
-  "${prefix[@]}" "$dotnet_bin" "$dll" peakall "$inputs" "$out/peak.tsv" > "$out/peak.log" 2>&1
+  "$dotnet_bin" "$dll" peakall "$inputs" "$out/peak.tsv" > "$out/peak.log" 2>&1
 fi
 
 kill "$sampler" 2>/dev/null || true
