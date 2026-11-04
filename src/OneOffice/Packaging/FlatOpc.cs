@@ -125,7 +125,7 @@ internal static class FlatOpc
                     }
                 }
 
-                if (damaged || !PartUri.IsValid(name) || string.IsNullOrEmpty(type))
+                if (damaged || !PartUri.IsValid(name) || type is null)
                 {
                     ContentTypes.Report(defects, "packaging.bad-flat-part", DefectSeverity.Dropped, "A pkg:part has no valid name, content type or data; it is dropped.", name ?? label, partStart);
                     continue;

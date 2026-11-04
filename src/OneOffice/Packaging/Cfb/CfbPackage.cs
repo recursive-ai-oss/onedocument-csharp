@@ -141,6 +141,7 @@ public sealed class CfbPackage : IPackage
     private readonly Dictionary<string, CfbStreamPart> _exact = new(StringComparer.Ordinal);
     private readonly Dictionary<string, CfbStreamPart> _folded = new(StringComparer.OrdinalIgnoreCase);
     private readonly List<CfbStorage> _storages = [];
+    private readonly HashSet<string> _storageNames = new(StringComparer.OrdinalIgnoreCase);
     private IByteSource? _bytes;
     private CompoundFileReader? _reader;
     private CfbEntry? _rootEntry;
@@ -424,6 +425,7 @@ public sealed class CfbPackage : IPackage
         _exact.Clear();
         _folded.Clear();
         _storages.Clear();
+        _storageNames.Clear();
         _entriesByPath = new Dictionary<string, CfbEntry>(StringComparer.Ordinal);
     }
 
@@ -458,6 +460,13 @@ public sealed class CfbPackage : IPackage
             OfficeLimitException.ThrowIfExceeded(nameof(OfficeLimits.MaxPartCount), Limits.MaxPartCount, count, DefectLocation.InRecord(name));
             if (child.ObjectType == CfbObjectType.Storage)
             {
+                // [MS-CFB] 2.6.4: sibling names are unique ignoring case; a storage whose name repeats an earlier storage or stream is dropped with its subtree.
+                if (!_storageNames.Add(name) || _folded.ContainsKey(name))
+                {
+                    ContentTypesReport("packaging.duplicate-stream-name", DefectSeverity.Dropped, $"The storage '{name}' has the same name, ignoring case, as an earlier entry; it is not exposed.", name, -1);
+                    continue;
+                }
+
                 _storages.Add(new CfbStorage(name, child.ClassId, child.StateBits, child.CreationFileTime, child.ModifiedFileTime));
                 Walk(child, name, depth + 1, ref count, ref total);
                 continue;
@@ -470,7 +479,7 @@ public sealed class CfbPackage : IPackage
 
             total += child.Size;
             OfficeLimitException.ThrowIfExceeded(nameof(OfficeLimits.MaxTotalUncompressedSize), Limits.MaxTotalUncompressedSize, total, DefectLocation.InRecord(name));
-            if (_folded.ContainsKey(name))
+            if (_folded.ContainsKey(name) || _storageNames.Contains(name))
             {
                 ContentTypesReport("packaging.duplicate-stream-name", DefectSeverity.Dropped, $"The stream '{name}' has the same name, ignoring case, as an earlier one; it is not exposed.", name, -1);
                 continue;

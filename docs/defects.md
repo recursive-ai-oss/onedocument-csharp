@@ -45,8 +45,8 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `packaging.dangling-relationship` | repaired | An internal target names a part that is not in the package; kept as written. |
 | `packaging.bad-relationships-part` | dropped | A Relationships part is not well formed; the relationships before the damage are kept. |
 | `packaging.bad-flat-opc` | fatal | The XML document is not Flat OPC (no `pkg:package` root) or is not well formed. |
-| `packaging.bad-flat-part` | dropped | A `pkg:part` has no valid name, no content type, or undecodable base64; it is dropped. |
-| `packaging.duplicate-stream-name` | dropped | Two compound-file streams have names equal ignoring case ([MS-CFB] 2.6.4); the first is exposed. |
+| `packaging.bad-flat-part` | dropped | A `pkg:part` has no valid name, no content-type attribute, or undecodable base64; it is dropped. |
+| `packaging.duplicate-stream-name` | dropped | Two compound-file streams, or a stream and a storage, have names equal ignoring case ([MS-CFB] 2.6.4); the first is exposed. |
 | `packaging.cfb-header-inconsistent` | repaired | A compound-file header field disagrees with the file; a value derived from the file was used. |
 | `packaging.cfb-truncated` | repaired | The compound file ends inside a table, the directory or the mini stream. |
 | `packaging.cfb-allocation-table-unusable` | repaired | The FAT or DIFAT is damaged; sectors it described are treated as free. |

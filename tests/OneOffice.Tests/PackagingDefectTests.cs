@@ -211,4 +211,29 @@ public class PackagingDefectTests
         Assert.Single(pkg.Parts);
         Assert.Contains(defects, d => d.Code == "packaging.duplicate-stream-name" && d.Severity == DefectSeverity.Dropped);
     }
+
+    private static string FuzzFile(string name, [System.Runtime.CompilerServices.CallerFilePath] string here = "") =>
+        Path.Combine(Path.GetDirectoryName(here)!, "..", "..", "testdata", "fuzz", name);
+
+    [Fact]
+    public void Fuzz_finding_a_part_with_no_content_type_survives_the_flat_form()
+    {
+        byte[] data = File.ReadAllBytes(FuzzFile("opc-flat-part-count.bin"));
+        using OpcPackage pkg = OpcPackage.Open(new MemoryStream(data));
+        using var flat = new MemoryStream();
+        pkg.WriteFlatOpcTo(flat);
+        using OpcPackage back = OpcPackage.Open(new MemoryStream(flat.ToArray()));
+        Assert.Equal(pkg.Parts.Count, back.Parts.Count);
+    }
+
+    [Fact]
+    public void Fuzz_finding_storages_with_names_equal_ignoring_case_rewrite_cleanly()
+    {
+        byte[] data = File.ReadAllBytes(FuzzFile("cfb-case-duplicate-storage.bin"));
+        using CfbPackage pkg = CfbPackage.Open(new MemoryStream(data));
+        using var output = new MemoryStream();
+        pkg.WriteTo(output);
+        using CfbPackage back = CfbPackage.Open(new MemoryStream(output.ToArray()));
+        Assert.Equal(pkg.Parts.Count, back.Parts.Count);
+    }
 }
