@@ -14,6 +14,7 @@ namespace RecursiveAI.OneOffice.Tools.PackageSweep;
 /// Sweeps files through the package layer and reports what held.
 ///   PackageSweep opc  path...          opens each OOXML package, reads every part, rewrites it untouched and edited, and compares per part
 ///   PackageSweep cfb  path...          the same for compound files (original bytes, then a rewrite after touching a stream)
+///   PackageSweep resave outDir path... opens each OOXML package and writes it back untouched into outDir (for tools/RoundTrip to compare)
 ///   PackageSweep make-large file MB    writes a package of at least MB megabytes (mostly media, one large XML part)
 ///   PackageSweep open-cost file        opens a package and reports what the open touched
 /// A path may be a directory (searched recursively) or a file. Exit code 0 when nothing failed.
@@ -35,10 +36,34 @@ internal static class Program
         {
             "opc" => Sweep(args[1..], OpcExtensions, RoundTripOpc),
             "cfb" => Sweep(args[1..], CfbExtensions, RoundTripCfb),
+            "resave" => Resave(args[1], args[2..]),
             "make-large" => MakeLarge(args[1], int.Parse(args[2], System.Globalization.CultureInfo.InvariantCulture)),
             "open-cost" => OpenCost(args[1]),
             _ => 2,
         };
+    }
+
+    private static int Resave(string outDir, string[] paths)
+    {
+        Directory.CreateDirectory(outDir);
+        int n = 0;
+        foreach (string file in paths.SelectMany(p => Directory.Exists(p) ? Directory.EnumerateFiles(p, "*", SearchOption.AllDirectories).Where(f => OpcExtensions.Contains(Path.GetExtension(f), StringComparer.OrdinalIgnoreCase)).Order(StringComparer.Ordinal) : [p]))
+        {
+            try
+            {
+                using OpcPackage pkg = OpcPackage.Open(file);
+                using FileStream output = File.Create(Path.Combine(outDir, Path.GetFileName(file)));
+                pkg.WriteTo(output);
+                n++;
+            }
+            catch (OfficeException ex)
+            {
+                Console.WriteLine($"REJECTED {Path.GetFileName(file)}: {ex.Defect}");
+            }
+        }
+
+        Console.WriteLine($"resaved {n}");
+        return 0;
     }
 
     private sealed class Tally
