@@ -4,7 +4,7 @@
 #   fuzz/run.sh <target> <seconds> [corpus dir] [extra libFuzzer flags...]
 #   fuzz/run.sh replay <target> <file>...      # run saved inputs once, without libFuzzer (reproduce a finding)
 #
-# Targets: sniff, opc, cfb   (see fuzz/README.md)
+# Targets: sniff, xml, markup, opc, cfb   (see fuzz/README.md)
 #
 # Environment (nothing is baked into the script):
 #   ONEOFFICE_FUZZ_WORK    required: where builds, corpora and findings go. Keep it outside the checkout.
@@ -39,6 +39,7 @@ case "$target" in
   sniff) maxlen=262144 ;;
   opc) maxlen=262144 ;;
   cfb) maxlen=262144 ;;
+  xml|markup) maxlen=262144 ;;
   *) echo "unknown target '$target'" >&2; exit 2 ;;
 esac
 

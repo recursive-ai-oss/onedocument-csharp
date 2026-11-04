@@ -1,0 +1,10 @@
+<xsd:schema targetNamespace="http://schemas.microsoft.com/office/drawing/2021/scriptlink" xmlns="http://schemas.microsoft.com/office/drawing/2021/scriptlink" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import schemaLocation="oartbasetypes.xsd" namespace="http://schemas.openxmlformats.org/drawingml/2006/main"/>
+  <xsd:complexType name="CT_ScriptLink">
+    <xsd:sequence>
+      <xsd:element name="extLst" type="a:CT_OfficeArtExtensionList" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+    <xsd:attribute name="val" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+  <xsd:element name="scriptLink" type="CT_ScriptLink"/>
+</xsd:schema>

@@ -23,7 +23,7 @@ internal static class OpcRelationships
     {
         var list = new List<Relationship>();
         var ids = new HashSet<string>(StringComparer.Ordinal);
-        var reader = new OpcXmlReader(xml, limits, relsName);
+        using var reader = new OpcXmlReader(xml, limits, relsName);
         try
         {
             bool sawRoot = false;

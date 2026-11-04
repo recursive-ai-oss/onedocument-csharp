@@ -123,7 +123,7 @@ public sealed class ContentTypes
     internal static ContentTypes Parse(ReadOnlyMemory<byte> xml, string name, OfficeLimits limits, IDefectSink defects)
     {
         var map = new ContentTypes();
-        var reader = new OpcXmlReader(xml, limits, name);
+        using var reader = new OpcXmlReader(xml, limits, name);
         try
         {
             bool sawTypes = false;

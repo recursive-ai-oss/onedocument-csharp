@@ -37,7 +37,7 @@ internal static class FlatOpc
     public static List<FlatPart> Read(ReadOnlyMemory<byte> xml, OfficeLimits limits, IDefectSink defects, string label)
     {
         var parts = new List<FlatPart>();
-        var reader = new OpcXmlReader(xml, limits, label);
+        using var reader = new OpcXmlReader(xml, limits, label);
         try
         {
             if (!reader.Read() || reader.Token != OpcXmlToken.StartElement || reader.LocalName != "package")
@@ -261,7 +261,7 @@ internal static class FlatOpc
         ReadOnlyMemory<byte> candidate = content[start..];
         try
         {
-            var r = new OpcXmlReader(candidate, limits, "flat");
+            using var r = new OpcXmlReader(candidate, limits, "flat");
             while (r.Read())
             {
             }

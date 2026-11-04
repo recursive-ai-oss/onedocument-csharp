@@ -26,6 +26,8 @@ internal static class Program
         ["sniff"] = SniffTarget.Run,
         ["opc"] = OpcTarget.Run,
         ["cfb"] = CfbTarget.Run,
+        ["xml"] = XmlTarget.RunTokenizer,
+        ["markup"] = XmlTarget.RunTree,
     };
 
     private static int Main(string[] args)
@@ -42,6 +44,7 @@ internal static class Program
                 "sniff" => SniffTarget.WriteSeeds(args[2]),
                 "opc" => OpcTarget.WriteSeeds(args[2]),
                 "cfb" => CfbTarget.WriteSeeds(args[2]),
+                "xml" or "markup" => XmlTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }
