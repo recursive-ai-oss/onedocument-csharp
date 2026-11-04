@@ -20,6 +20,7 @@ namespace RecursiveAI.OneOffice.Tools.DocxProbe;
 /// <c>DocxProbe probe FILE...</c> resolves every paragraph and run and counts labels and defects (exit 1 when a file fails).
 /// <c>DocxProbe labels FILE</c> prints one line per paragraph of the body: the list label, a tab and the text.
 /// <c>DocxProbe edit IN OUT</c> adds a style and a list to a document and writes the result as a new zip.
+/// <c>DocxProbe tables FILE...</c> counts tables, merges, sections and header/footer stories; <c>edit-tables IN OUT</c>, <c>generate-sections DIR</c> and <c>expect FILE PAGES</c> support the table and section checks.
 /// <c>DocxProbe generate DIR</c> writes the style and numbering cases as small documents.
 /// </summary>
 internal static partial class Program
@@ -48,6 +49,14 @@ internal static partial class Program
                     Console.Error.WriteLine(ex.Defect.Code + ": " + ex.Message);
                     return 1;
                 }
+            case "tables":
+                return TablesAndSections(args[1..]);
+            case "edit-tables":
+                return args.Length >= 3 ? EditWith(args[1], args[2], ApplyTableEdit) : 2;
+            case "generate-sections":
+                return GenerateSections(args[1]);
+            case "expect":
+                return args.Length >= 3 ? Expect(args[1], args[2]) : 2;
             case "sdt-census":
                 return SdtCensus(args[1..]);
             case "sdt-edit":
