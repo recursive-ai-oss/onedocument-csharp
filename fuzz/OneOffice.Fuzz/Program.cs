@@ -28,6 +28,8 @@ internal static class Program
         ["cfb"] = CfbTarget.Run,
         ["xml"] = XmlTarget.RunTokenizer,
         ["markup"] = XmlTarget.RunTree,
+        ["sdt"] = SdtTarget.RunDocument,
+        ["sdtpath"] = SdtTarget.RunPath,
     };
 
     private static int Main(string[] args)
@@ -45,6 +47,7 @@ internal static class Program
                 "opc" => OpcTarget.WriteSeeds(args[2]),
                 "cfb" => CfbTarget.WriteSeeds(args[2]),
                 "xml" or "markup" => XmlTarget.WriteSeeds(args[2]),
+                "sdt" or "sdtpath" => SdtTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }
