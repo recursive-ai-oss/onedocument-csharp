@@ -18,42 +18,14 @@ internal static partial class Program
     /// Adds a paragraph style and a list to a document, applies them to its first paragraphs and writes a new zip in which every
     /// part that was not edited is copied as stored. Used to check that edits stay schema-valid and open in other readers.
     /// </summary>
-    private static int Edit(string input, string output) => Rewrite(input, output, doc =>
-    {
-        Paragraph[] paragraphs = doc.Body.Paragraphs().Take(4).ToArray();
-        string? baseId = doc.Styles.Default(StyleType.Paragraph)?.Id;
-        string id = "OneOfficeCallout";
-        for (int i = 2; doc.Styles.Find(id) is not null; i++)
-        {
-            id = "OneOfficeCallout" + i;
-        }
+    private static int Edit(string input, string output) => EditWith(input, output, ApplyStyleEdit);
 
-        StyleDefinition style = doc.Styles.AddStyle(id, "OneOffice Callout", StyleType.Paragraph, baseId);
-        style.Markup.Node.AppendXml(Encoding.UTF8.GetBytes("<w:pPr xmlns:w=\"" + style.Markup.NamespaceUriText + "\"><w:spacing w:before=\"120\"/></w:pPr>"));
-        long abs = doc.Numbering.AddAbstractNumbering([new NumberingDefinitions.LevelSpec("decimal", "%1."), new NumberingDefinitions.LevelSpec("lowerLetter", "%2)", LeftIndent: 1440)]);
-        long num = doc.Numbering.AddInstance(abs);
-        for (int i = 0; i < paragraphs.Length; i++)
-        {
-            if (i == 0)
-            {
-                doc.Styles.Apply(paragraphs[i], style);
-            }
-            else
-            {
-                paragraphs[i].SetNumbering(num, i % 2);
-            }
-        }
-
-        return new Dictionary<string, object?> { ["styleId"] = id, ["numId"] = num };
-    });
-
-    /// <summary>Opens a document, lets <paramref name="change"/> edit it, and writes a new zip in which every part that was not edited is copied as stored.</summary>
-    private static int Rewrite(string input, string output, Func<Document, Dictionary<string, object?>> change)
+    private static int EditWith(string input, string output, Func<Document, Dictionary<string, object?>> apply)
     {
         using InMemoryPackage package = Read(input);
         Dictionary<string, byte[]> before = package.Parts.ToDictionary(p => p.Name, p => p.GetBytes().ToArray(), StringComparer.OrdinalIgnoreCase);
         using Document doc = Document.FromPackage(package);
-        Dictionary<string, object?> info = change(doc);
+        Dictionary<string, object?> report = apply(doc);
         doc.CommitChanges();
 
         string main = doc.MainPartName;
@@ -117,9 +89,38 @@ internal static partial class Program
             o.Write(Encoding.UTF8.GetBytes(RelationshipsXml(package.GetRelationships(main))));
         }
 
-        info["file"] = Path.GetFileName(input);
-        Console.WriteLine(JsonSerializer.Serialize(info));
+        report["file"] = Path.GetFileName(input);
+        Console.WriteLine(JsonSerializer.Serialize(report));
         return 0;
+    }
+
+    private static Dictionary<string, object?> ApplyStyleEdit(Document doc)
+    {
+        Paragraph[] paragraphs = doc.Body.Paragraphs().Take(4).ToArray();
+        string? baseId = doc.Styles.Default(StyleType.Paragraph)?.Id;
+        string id = "OneOfficeCallout";
+        for (int i = 2; doc.Styles.Find(id) is not null; i++)
+        {
+            id = "OneOfficeCallout" + i;
+        }
+
+        StyleDefinition style = doc.Styles.AddStyle(id, "OneOffice Callout", StyleType.Paragraph, baseId);
+        style.Markup.Node.AppendXml(Encoding.UTF8.GetBytes("<w:pPr xmlns:w=\"" + style.Markup.NamespaceUriText + "\"><w:spacing w:before=\"120\"/></w:pPr>"));
+        long abs = doc.Numbering.AddAbstractNumbering([new NumberingDefinitions.LevelSpec("decimal", "%1."), new NumberingDefinitions.LevelSpec("lowerLetter", "%2)", LeftIndent: 1440)]);
+        long num = doc.Numbering.AddInstance(abs);
+        for (int i = 0; i < paragraphs.Length; i++)
+        {
+            if (i == 0)
+            {
+                doc.Styles.Apply(paragraphs[i], style);
+            }
+            else
+            {
+                paragraphs[i].SetNumbering(num, i % 2);
+            }
+        }
+
+        return new Dictionary<string, object?> { ["styleId"] = id, ["numId"] = num };
     }
 
     private static string RelationshipsXml(IReadOnlyList<Relationship> relationships)

@@ -30,8 +30,9 @@ internal static partial class Program
             var line = new Dictionary<string, object?> { ["file"] = Path.GetFileName(file) };
             try
             {
-                using InMemoryPackage package = Read(file);
-                using Document doc = Document.FromPackage(package, new OpenContext(defects: defects));
+                var context = new OpenContext(defects: defects);
+                using OpcPackage package = OpcPackage.Open(file, context);
+                using Document doc = Document.FromPackage(package, context);
                 IReadOnlyList<Field> fields = doc.Fields();
                 var types = new SortedDictionary<string, int>(StringComparer.Ordinal);
                 foreach (Field f in fields)
@@ -92,7 +93,7 @@ internal static partial class Program
     /// <c>DocxProbe annotate IN OUT</c> adds a comment with a reply and a footnote to the first paragraph that has a run, and
     /// rewrites the first field's cached result, then writes a new zip. Used to check that the edits are schema-valid and open elsewhere.
     /// </summary>
-    private static int Annotate(string input, string output) => Rewrite(input, output, doc =>
+    private static int Annotate(string input, string output) => EditWith(input, output, doc =>
     {
         // A run with text in a paragraph that has no field: a comment or note reference inside a field's code is not meaningful.
         Run? run = doc.Body.Paragraphs()

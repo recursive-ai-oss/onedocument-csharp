@@ -114,6 +114,20 @@ internal sealed class PartStore
         return document;
     }
 
+    /// <summary>Finds the part a node was parsed from; null for a node of a tree this store did not load.</summary>
+    public string? PartNameOf(MarkupNode node)
+    {
+        foreach (KeyValuePair<string, MarkupDocument?> kv in _documents)
+        {
+            if (kv.Value is not null && ReferenceEquals(kv.Value, node.Document))
+            {
+                return kv.Key;
+            }
+        }
+
+        return null;
+    }
+
     public void Flush()
     {
         foreach (KeyValuePair<string, MarkupDocument?> kv in _documents)

@@ -25,8 +25,38 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `unsupported.feature` | fatal | The input uses something this library does not handle; `OfficeUnsupportedException.Feature` names it. |
 | `unsupported.format-not-available` | fatal | No reader or writer is registered for the format (its package is not referenced or does not implement it). |
 | `format.unrecognised` | fatal | The content is not a format OneOffice knows. |
-| `packaging.damaged` | fatal | The container is damaged (zip or compound-file structure); the location holds the offset when known. |
+| `packaging.damaged` | fatal | The container is damaged (zip or compound-file structure) beyond what recovery repairs, or a stream cannot be read; the location holds the part or stream and the offset when known. |
 | `packaging.refused` | fatal | The container reader refused the input for safety (unsafe path, overlapping entries). |
+| `packaging.not-a-package` | fatal | The input is neither a zip nor a Flat OPC document. |
+| `packaging.zip-damaged` | repaired | The zip directory or an entry header was damaged and recovery mode (scanning local headers) was used; the location holds the entry and offset. |
+| `packaging.missing-content-types` | fatal | The package has no `[Content_Types].xml` (ECMA-376 Part 2 §7.3.7). |
+| `packaging.bad-content-types` | fatal or repaired | `[Content_Types].xml` is not well formed. Fatal when nothing could be read from it; otherwise the entries before the damage are used. |
+| `packaging.dtd-refused` | fatal or dropped | A packaging XML part (content types, relationships, Flat OPC) declares a DTD, which is always refused (§6.2.5). |
+| `packaging.bad-content-type-entry` | dropped | A `Default` or `Override` lacks its `Extension`, `PartName` or `ContentType`, or the part name is not valid. |
+| `packaging.duplicate-content-type` | dropped | An extension or part name has more than one `Default` or `Override` (§7.2.3.2); the first wins. |
+| `packaging.missing-content-type` | repaired | A part has neither an override nor a default for its extension; it is kept with an empty content type. |
+| `packaging.duplicate-part-name` | dropped | The same part name is stored twice (a zip item or a Flat OPC part); the first is used and the other is kept as stored, not exposed. |
+| `packaging.part-name-case-collision` | dropped | Two part names differ only in ASCII case (§6.2.2.3); the first is used. |
+| `packaging.invalid-part-name` | dropped | A zip item is not a valid part name (a backslash, a `..` segment, an empty segment). It is kept as stored, not exposed. An item with an empty name or a NUL in its name is left out entirely. |
+| `packaging.interleaved-part` | dropped | A zip item is a piece of an interleaved part (§7.2.4). Pieces are kept as stored and not reassembled. |
+| `packaging.bad-relationship` | dropped | A `Relationship` lacks `Id`, `Type` or `Target`. |
+| `packaging.duplicate-relationship-id` | dropped | A relationship id repeats an earlier one in the same part (§6.5.3.4); the first wins. |
+| `packaging.bad-relationship-target-mode` | repaired | `TargetMode` is neither `Internal` nor `External`; `Internal` is used. |
+| `packaging.bad-relationship-target` | repaired | An internal target is not a valid part name once resolved (for example it climbs above the root); kept as written. |
+| `packaging.dangling-relationship` | repaired | An internal target names a part that is not in the package; kept as written. |
+| `packaging.bad-relationships-part` | dropped | A Relationships part is not well formed; the relationships before the damage are kept. |
+| `packaging.bad-flat-opc` | fatal | The XML document is not Flat OPC (no `pkg:package` root) or is not well formed. |
+| `packaging.bad-flat-part` | dropped | A `pkg:part` has no valid name, no content-type attribute, or undecodable base64; it is dropped. |
+| `packaging.duplicate-stream-name` | dropped | Two compound-file streams, or a stream and a storage, have names equal ignoring case ([MS-CFB] 2.6.4); the first is exposed. |
+| `packaging.cfb-header-inconsistent` | repaired | A compound-file header field disagrees with the file; a value derived from the file was used. |
+| `packaging.cfb-truncated` | repaired | The compound file ends inside a table, the directory or the mini stream. |
+| `packaging.cfb-allocation-table-unusable` | repaired | The FAT or DIFAT is damaged; sectors it described are treated as free. |
+| `packaging.cfb-mini-stream-unusable` | repaired | The mini FAT or mini stream is damaged; mini streams that need the lost part are shortened. |
+| `packaging.cfb-directory-unusable` | repaired | The directory chain is cut or misplaced; directory sectors were found by scanning. |
+| `packaging.cfb-bad-entry` | repaired | A directory entry has invalid fields; replaced by usable values or ignored. |
+| `packaging.cfb-bad-link` | repaired | A sibling or child link is invalid, loops or shares a subtree. |
+| `packaging.cfb-orphaned-entry` | repaired | An entry cannot be reached from the root and was attached to it. |
+| `packaging.cfb-damaged-stream` | repaired | A stream's sector chain is short, loops or leaves the file; the stream was shortened (`CfbStreamPart.IsDamaged`). |
 | `xml.unexpected-end` | fatal | The part ends inside a tag, comment, CDATA section or processing instruction, or with elements still open. The offset is the end of the input. |
 | `xml.dtd-refused` | fatal | The part has a document type declaration or an entity declaration. DTDs are never read; there is no switch. The offset is the `<!`. |
 | `xml.invalid-character` | fatal | A character XML 1.0 does not allow: a control character other than tab, line feed and carriage return, `<` in an attribute value, `]]>` in text. |
@@ -42,6 +72,10 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `xml.misplaced-content` | fatal | Text or a CDATA section outside the root element, or a second root element. |
 | `xml.no-root` | fatal | The part has no root element. |
 | `xml.invalid-declaration` | fatal | The XML declaration is malformed (version, encoding, standalone) or is not the first thing in the part. |
+| `docx.revision-id-invalid` | repaired | A tracked change has no `w:id`, or one that is not a non-negative integer. The revision is listed with id -1 and works as any other. |
+| `docx.revision-author-missing` | repaired | A tracked change has no `w:author`. It is listed with an empty author. |
+| `docx.revision-date-invalid` | repaired | A tracked change has a `w:date` that is not a date. It is listed without a date. |
+| `docx.revision-unresolvable` | dropped | A tracked change could not be accepted or rejected because the markup around it is not what the schema allows (a row marker outside a row, content that cannot be moved without an unbound prefix). The change is left in place; the location is the change element. |
 | `docx.no-main-part` | fatal | No `officeDocument` relationship of the package points at a part that exists. |
 | `docx.wrong-root` | fatal | The main document part does not start with `w:document`. |
 | `docx.part-missing` | fatal | A part the reader must have is not in the package. |
@@ -62,6 +96,14 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.comment-duplicate-id` | repaired | Two comments have the same id; the first is used. |
 | `docx.comment-missing` | repaired | A comment range marker or reference in the body names a comment the comments part does not have. |
 | `docx.comment-range-unmatched` | repaired | A comment has a `w:commentRangeStart` without its `w:commentRangeEnd`, or the reverse. The anchor reports what exists. |
+| `docx.table-merge-orphan` | repaired | A `w:vMerge` (or legacy `w:hMerge`) continuation has no merged cell above (to the left) to continue; it is read as a plain cell. |
+| `docx.table-merge-span-mismatch` | repaired | A vertically merged continuation spans a different number of grid columns than the cell above; the region keeps the upper cell's width. |
+| `docx.table-grid-mismatch` | repaired | A row covers more grid columns than `w:tblGrid` declares; the logical grid is widened to the widest row. |
+| `docx.table-span-invalid` | repaired | A `w:gridSpan` is below 1 or above 16384; it reads as 1. |
+| `docx.section-page-size-invalid` | repaired | `w:pgSz` lacks a positive width or height; Letter portrait is used. |
+| `docx.section-columns-mismatch` | repaired | `w:cols` names a count that differs from the number of `w:col` entries of an unequal layout; the entries win. |
+| `docx.header-missing` | repaired | A header or footer reference names a relationship that does not lead to a readable part; the reference is ignored. |
+| `docx.header-reference-duplicate` | repaired | A section has two header (or footer) references of one type; the first is used. |
 
 The XML layer repairs nothing: Office refuses an ill-formed part, and so does this layer. The limits it enforces (`MaxXmlDepth`, `MaxXmlAttributeCount`, `MaxXmlNameLength`, and `MaxPartSize` for a part held whole) raise `limit.*` as above.
 
