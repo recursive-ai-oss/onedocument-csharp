@@ -17,6 +17,11 @@ internal static class Program
 {
     private static int Main(string[] args)
     {
+        if (args.Length == 2 && args[0] == "--make-samples")
+        {
+            return MakeSamples(args[1]);
+        }
+
         string? input = null;
         string? output = null;
         bool edit = false;
@@ -79,7 +84,9 @@ internal static class Program
                 if (textDir is not null)
                 {
                     // Office.ExtractText on the file, for comparison with the command-line tool's output.
-                    File.WriteAllText(Path.Combine(textDir, Path.GetFileName(target) + ".txt"), Office.ExtractText(file), new System.Text.UTF8Encoding(false));
+                    string fromFile = Office.ExtractText(file);
+                    File.WriteAllText(Path.Combine(textDir, Path.GetFileName(target) + ".txt"), fromFile, new System.Text.UTF8Encoding(false));
+                    line["modelTextSame"] = string.Equals(doc.ExtractText(), fromFile, StringComparison.Ordinal);
                 }
 
                 doc.SaveAs(target, doc.Format);
@@ -111,6 +118,20 @@ internal static class Program
             Console.WriteLine(JsonSerializer.Serialize(line));
         }
 
+        return 0;
+    }
+
+    // Four files we generate ourselves, for opening in the desktop applications to see whether they ask to repair them.
+    private static int MakeSamples(string dir)
+    {
+        Directory.CreateDirectory(dir);
+        using Document created = Document.Create();
+        created.SaveAs(Path.Combine(dir, "created.docx"));
+        created.Body.AddParagraph("A paragraph added by AddParagraph, with a tab\there & some <markup>.", "Normal");
+        created.Paragraphs.First().SetText("The first paragraph, edited.");
+        created.SaveAs(Path.Combine(dir, "edited.docx"));
+        created.SaveAs(Path.Combine(dir, "edited.dotx"));
+        created.SaveAs(Path.Combine(dir, "edited.xml"));
         return 0;
     }
 }
