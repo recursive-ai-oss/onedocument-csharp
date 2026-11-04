@@ -13,6 +13,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `biff.`, `doc.`, `ppt.`, `xlsb.` | binary record layers | `Record` |
 | `sheet.` | the workbook model | `Reference`, `Value` |
 | `formula.` | formula text and tokens | `Formula` |
+| `docx.` | the word-processing hub | `Structure`, `Reference`, `Value`, `Packaging` |
 
 ## Codes in use
 
@@ -41,6 +42,11 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `xml.misplaced-content` | fatal | Text or a CDATA section outside the root element, or a second root element. |
 | `xml.no-root` | fatal | The part has no root element. |
 | `xml.invalid-declaration` | fatal | The XML declaration is malformed (version, encoding, standalone) or is not the first thing in the part. |
+| `docx.no-main-part` | fatal | No `officeDocument` relationship of the package points at a part that exists. |
+| `docx.wrong-root` | fatal | The main document part does not start with `w:document`. |
+| `docx.part-missing` | fatal | A part the reader must have is not in the package. |
+| `docx.no-body` | repaired | The document has no `w:body`; it reads as an empty body and the tree is left as it was. |
+| `docx.part-unreadable` | dropped | An optional part (styles, numbering, theme, …) is not well-formed or is damaged; the document reads as if it were absent. The location holds the part and offset. |
 
 The XML layer repairs nothing: Office refuses an ill-formed part, and so does this layer. The limits it enforces (`MaxXmlDepth`, `MaxXmlAttributeCount`, `MaxXmlNameLength`, and `MaxPartSize` for a part held whole) raise `limit.*` as above.
 
