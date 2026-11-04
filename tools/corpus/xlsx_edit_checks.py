@@ -60,12 +60,14 @@ def validate(a):
 
 def lo_csv(path, work):
     soffice = os.environ["ONEOFFICE_SOFFICE"]
+    os.makedirs(work, exist_ok=True)
+    local = os.path.join(work, "f.xlsx")  # same name for both sides so the CSV names (f-<sheet>.csv) line up
+    shutil.copyfile(path, local)
     out = os.path.join(work, "csv")
-    os.makedirs(out, exist_ok=True)
-    # Filter options: separator 44, quote 34, UTF-8, first line 1, formatted as shown = false (raw values), all sheets (-1).
+    # Filter options: separator 44, quote 34, UTF-8, first line 1, raw values (not as shown), all sheets (-1).
     flt = 'csv:Text - txt - csv (StarCalc):44,34,76,1,,0,false,false,false,false,false,-1'
-    subprocess.run([soffice, "--convert-to", flt, "--outdir", out, path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=180)
-    return {os.path.basename(f).split("-", 1)[-1] if "-" in os.path.basename(f) else os.path.basename(f): open(f, "rb").read() for f in sorted(glob.glob(os.path.join(out, "*.csv")))}
+    subprocess.run([soffice, "--convert-to", flt, "--outdir", out, local], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=180)
+    return {os.path.basename(f): open(f, "rb").read() for f in sorted(glob.glob(os.path.join(out, "*.csv")))}
 
 
 def lo(a):
