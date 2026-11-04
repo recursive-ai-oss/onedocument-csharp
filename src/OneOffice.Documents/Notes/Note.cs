@@ -136,7 +136,7 @@ public sealed class Note : BlockContainer
     /// Inserts a reference to this note into the body, in a new run right after <paramref name="after"/>. The run uses the
     /// document's reference character style when it has one, else superscript. Only normal notes can be referenced.
     /// </summary>
-    /// <param name="after">A run of the main document part.</param>
+    /// <param name="after">A run of the main document part, not inside a field's code.</param>
     /// <returns>The new reference.</returns>
     /// <exception cref="InvalidOperationException">The note is a separator or continuation note.</exception>
     public NoteReference InsertReference(Run after)

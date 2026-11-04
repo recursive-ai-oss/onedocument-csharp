@@ -73,6 +73,12 @@ internal static partial class Program
                 failures++;
                 line["error"] = ex.Defect.Code;
             }
+            catch (InvalidDataException)
+            {
+                // The probe's own zip reader (the BCL, test tooling only) refused the file, for example a truncated download.
+                failures++;
+                line["error"] = "zip.unreadable";
+            }
 
             line["defects"] = defects.GroupBy(d => d.Code).OrderBy(g => g.Key, StringComparer.Ordinal).ToDictionary(g => g.Key, g => g.Count());
             line["ms"] = sw.ElapsedMilliseconds;
@@ -88,7 +94,10 @@ internal static partial class Program
     /// </summary>
     private static int Annotate(string input, string output) => Rewrite(input, output, doc =>
     {
-        Run? run = doc.Body.Paragraphs().SelectMany(p => p.Runs()).FirstOrDefault();
+        // A run with text in a paragraph that has no field: a comment or note reference inside a field's code is not meaningful.
+        Run? run = doc.Body.Paragraphs()
+            .Where(p => !p.Markup.Node.OuterXml.Contains("fldChar", StringComparison.Ordinal) && !p.Markup.Node.OuterXml.Contains("fldSimple", StringComparison.Ordinal))
+            .SelectMany(p => p.Runs()).FirstOrDefault(r => r.Text.Length > 0);
         var info = new Dictionary<string, object?>();
         if (run is not null)
         {

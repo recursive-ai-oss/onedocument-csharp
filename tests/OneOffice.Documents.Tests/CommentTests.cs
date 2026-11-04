@@ -134,6 +134,7 @@ public class CommentTests
         Assert.Equal(3, Count(ext, "<w15:commentEx "));
         Assert.Equal(2, Count(ids, "<w16cid:commentId "));
         Assert.Contains("w15:author=\"Dan\"", PartHelper.Text(p, "/word/people.xml"));
+        Assert.Contains("mc:Ignorable=\"w14\"", PartHelper.Text(p, "/word/comments.xml"));
         string? para = c.ParaId;
         Assert.NotNull(para);
         Assert.Contains("w15:paraId=\"" + para + "\"", ext);

@@ -331,7 +331,7 @@ public sealed class CommentCollection : IReadOnlyList<Comment>
     /// order, in the same or different paragraphs). The range markers go before the first run and after the last, and the
     /// reference run right after the end marker.
     /// </summary>
-    /// <param name="first">The first commented run.</param>
+    /// <param name="first">The first commented run. It should not sit inside a field's code (between its begin and separator characters): the markers go beside it as written.</param>
     /// <param name="last">The last commented run; may be the same run.</param>
     /// <param name="author">The author's name.</param>
     /// <param name="text">The comment text; line feeds start new paragraphs.</param>
@@ -516,6 +516,26 @@ public sealed class CommentCollection : IReadOnlyList<Comment>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Makes sure the part root declares w14 and lists it in mc:Ignorable, so a reader that does not know the paragraph id
+    /// attribute (and a schema validator) skips it. ECMA-376 Part 3 (markup compatibility): Ignorable names namespace prefixes.
+    /// </summary>
+    private static void EnsureW14Ignorable(MarkupNode root)
+    {
+        const string mc = "http://schemas.openxmlformats.org/markup-compatibility/2006";
+        if (!root.TryGetPrefixInScope(Word2010Namespace, out string w14))
+        {
+            root.SetAttribute("xmlns:w14", Word2010Namespace);
+            w14 = "w14";
+        }
+
+        string? current = root.GetAttribute(mc, "Ignorable");
+        if (current is null || !current.Split(' ', StringSplitOptions.RemoveEmptyEntries).Contains(w14, StringComparer.Ordinal))
+        {
+            root.SetAttribute(mc, "Ignorable", string.IsNullOrWhiteSpace(current) ? w14 : current.Trim() + " " + w14, "mc");
+        }
+    }
+
     private Comment CreateComment(string author, string text, string? initials, DateTimeOffset? date, string? parentPara)
     {
         ArgumentNullException.ThrowIfNull(author);
@@ -523,6 +543,7 @@ public sealed class CommentCollection : IReadOnlyList<Comment>
         EnsureCommentsPart();
         long id = Items.Count == 0 ? 0 : Items.Max(c => c.Id) + 1;
         MarkupNode root = _root.Node;
+        EnsureW14Ignorable(root);
         string p = HubXml.Prefix(root, _owner.WordprocessingNamespaceUri, "w", out string decl);
         string paraId = NewHexId(0x10000000u + (uint)(id & 0xFFFF) * 0x1001u, UsedParaIds());
         string attrs = " " + p + ":id=\"" + id.ToString(CultureInfo.InvariantCulture) + "\" " + p + ":author=\"" + HubXml.Escape(author) + "\""
@@ -612,6 +633,7 @@ public sealed class CommentCollection : IReadOnlyList<Comment>
         }
 
         string id = NewHexId(0x10000000u + (uint)(c.Id & 0xFFFF) * 0x1001u, UsedParaIds());
+        EnsureW14Ignorable(_root.Node);
         last.SetAttribute(Word2010Namespace, "paraId", id, "w14");
         return id;
     }
