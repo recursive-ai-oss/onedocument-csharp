@@ -180,6 +180,7 @@ public static class OoxmlTextExtractor
 
             // Diagram text lives in a data part of its own; it is output after the story, not where the diagram is anchored.
             Related(main, rels, "/diagramData", TextStory.Diagram, DrawingPart);
+            Related(main, rels, "/chart", TextStory.Chart, DrawingPart);
         }
 
         public void Workbook(string main)
@@ -225,6 +226,7 @@ public static class OoxmlTextExtractor
                 }
 
                 Related(slide, slideRels, "/diagramData", TextStory.Diagram, DrawingPart);
+                Related(slide, slideRels, "/chart", TextStory.Chart, DrawingPart);
             }
         }
 

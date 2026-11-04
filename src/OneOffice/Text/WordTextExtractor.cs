@@ -17,6 +17,7 @@ internal sealed class WordTextExtractor
     private sealed class Frame(long maxBytes)
     {
         public readonly CharBuffer Text = new(maxBytes);
+        public readonly CharBuffer Ruby = new(maxBytes);
         public long Offset;
         public bool MarkDeleted;
         public bool Merged;
@@ -40,6 +41,7 @@ internal sealed class WordTextExtractor
     private bool _inParagraphMarkProperties;
     private bool _collect;
     private bool _pendingMerge;
+    private int _rubyTextDepth;
 
     public WordTextExtractor(OpenContext context, TextExtractionOptions options, TextSink sink, string partName, CancellationToken cancellation)
     {
@@ -68,14 +70,14 @@ internal sealed class WordTextExtractor
                 case XmlTokenKind.Whitespace:
                     if (_collect && _depth > 0)
                     {
-                        Top().Text.AppendXml(reader.Content);
+                        Target().AppendXml(reader.Content);
                     }
 
                     break;
                 case XmlTokenKind.CData:
                     if (_collect && _depth > 0)
                     {
-                        Top().Text.AppendXml(reader.Content, literal: true);
+                        Target().AppendXml(reader.Content, literal: true);
                     }
 
                     break;
@@ -86,6 +88,9 @@ internal sealed class WordTextExtractor
     }
 
     private Frame Top() => _frames[_depth - 1];
+
+    // Phonetic guide text (w:rt) comes before its base text in the file; it is held back and output after the base (ECMA-376 Part 1 §17.3.3.25).
+    private CharBuffer Target() => _rubyTextDepth > 0 ? Top().Ruby : Top().Text;
 
     private void OnStart(MarkupReader r)
     {
@@ -208,6 +213,16 @@ internal sealed class WordTextExtractor
             return;
         }
 
+        if (name.SequenceEqual("rt"u8))
+        {
+            if (start)
+            {
+                _rubyTextDepth++;
+            }
+
+            return;
+        }
+
         if (name.SequenceEqual("delText"u8))
         {
             if (start)
@@ -305,6 +320,18 @@ internal sealed class WordTextExtractor
                 _deletedDepth--;
             }
         }
+        else if (name.SequenceEqual("rt"u8))
+        {
+            _rubyTextDepth--;
+        }
+        else if (name.SequenceEqual("ruby"u8))
+        {
+            if (_depth > 0 && Top().Ruby.Length > 0)
+            {
+                Top().Text.Append(Top().Ruby.AsSpan());
+                Top().Ruby.Clear();
+            }
+        }
         else if (name.SequenceEqual("txbxContent"u8))
         {
             _boxDepth--;
@@ -352,7 +379,7 @@ internal sealed class WordTextExtractor
     {
         if (_depth > 0 && !_inParagraphProperties && (_deletedDepth == 0 || _options.IncludeDeletedText))
         {
-            Top().Text.Append(c);
+            Target().Append(c);
         }
     }
 
@@ -384,6 +411,7 @@ internal sealed class WordTextExtractor
         Frame f = FrameAt(_depth);
         _depth++;
         f.Text.Clear();
+        f.Ruby.Clear();
         f.Offset = offset;
         f.MarkDeleted = false;
         f.Merged = false;

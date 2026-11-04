@@ -66,7 +66,9 @@ def main():
         sdk = sdk_p.read_text(encoding="utf-8", errors="replace") if sdk_p.exists() else None
         tika = tika_p.read_text(encoding="utf-8", errors="replace") if tika_p.exists() else None
         g = grams(ours)
-        row = {"name": n, "oursChars": len(ours), "sdkChars": None if sdk is None else len(sdk),
+        fmt_p = d / f"{n}.fmt"
+        fmt = fmt_p.read_text().strip() if fmt_p.exists() else "?"
+        row = {"name": n, "format": fmt, "oursChars": len(ours), "sdkChars": None if sdk is None else len(sdk),
                "tikaChars": None if tika is None else len(tika)}
         if tika is not None:
             row["vsTikaRaw"] = dice(g, grams(tika))
@@ -78,21 +80,28 @@ def main():
             row["tikaVsSdk"] = dice(grams(tika), grams(sdk))
         rows.append(row)
 
-    report = {"files": len(names), "oursFailed": errs, "sets": {}}
-    for key in ("vsTikaRaw", "vsTika", "vsSdk", "tikaVsSdk"):
-        vals = [r[key] for r in rows if key in r]
-        if not vals:
-            continue
-        report["sets"][key] = {
-            "n": len(vals),
-            "mean": sum(vals) / len(vals),
-            "p05": pct(vals, 0.05), "p25": pct(vals, 0.25), "median": pct(vals, 0.5), "p75": pct(vals, 0.75),
-            "ge0.99": sum(v >= 0.99 for v in vals), "ge0.95": sum(v >= 0.95 for v in vals),
-            "ge0.90": sum(v >= 0.90 for v in vals), "lt0.90": sum(v < 0.90 for v in vals),
-            "min": min(vals),
-        }
-    report["worstVsTika"] = sorted((r for r in rows if "vsTika" in r), key=lambda r: r["vsTika"])[:worst_n]
-    report["worstVsSdk"] = sorted((r for r in rows if "vsSdk" in r), key=lambda r: r["vsSdk"])[:worst_n]
+    word = {"Docx", "Docm", "Dotx", "Dotm", "FlatOpcDocument"}
+    report = {"files": len(names), "oursFailed": errs, "formats": dict(Counter(r["format"] for r in rows))}
+    err_kinds = Counter()
+    for e in errs:
+        t = (d / f"{e}.ours.err").read_text()
+        err_kinds[" ".join(t.split()[:2])] += 1
+    report["failureKinds"] = dict(err_kinds)
+    for label, subset in (("word", [r for r in rows if r["format"] in word]), ("other", [r for r in rows if r["format"] not in word])):
+        sets = {}
+        for key in ("vsTikaRaw", "vsTika", "vsSdk", "tikaVsSdk"):
+            vals = [r[key] for r in subset if key in r]
+            if vals:
+                sets[key] = {
+                    "n": len(vals), "mean": sum(vals) / len(vals),
+                    "p05": pct(vals, 0.05), "p25": pct(vals, 0.25), "median": pct(vals, 0.5), "p75": pct(vals, 0.75),
+                    "ge0.99": sum(v >= 0.99 for v in vals), "ge0.95": sum(v >= 0.95 for v in vals),
+                    "ge0.90": sum(v >= 0.90 for v in vals), "lt0.90": sum(v < 0.90 for v in vals), "min": min(vals),
+                }
+        report[label] = sets
+    wordrows = [r for r in rows if r["format"] in word]
+    report["worstWordVsTika"] = sorted((r for r in wordrows if "vsTika" in r), key=lambda r: r["vsTika"])[:worst_n]
+    report["worstWordVsSdk"] = sorted((r for r in wordrows if "vsSdk" in r), key=lambda r: r["vsSdk"])[:worst_n]
     text = json.dumps(report, indent=1)
     if out:
         Path(out).write_text(text)

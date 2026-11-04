@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using DocumentFormat.OpenXml.Packaging;
 using RecursiveAI.OneOffice;
+using RecursiveAI.OneOffice.Formats;
 using RecursiveAI.OneOffice.IO;
 using RecursiveAI.OneOffice.TextExtraction;
 
@@ -64,6 +65,7 @@ internal static class Program
             try
             {
                 using IByteSource source = ByteSource.FromMemory(bytes);
+                File.WriteAllText(Path.Combine(args[2], name + ".fmt"), FormatSniffer.Detect(source).ToString());
                 using var w = new StreamWriter(Path.Combine(args[2], name + ".ours.txt"), false, new UTF8Encoding(false));
                 OoxmlTextExtractor.Extract(source, w);
             }

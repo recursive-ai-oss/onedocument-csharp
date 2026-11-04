@@ -32,6 +32,9 @@ public enum TextStory
 
     /// <summary>The text of a diagram (SmartArt) that a document or slide holds, read from its data part.</summary>
     Diagram = 9,
+
+    /// <summary>The text of a chart (titles and labels written as rich text) that a document or slide holds.</summary>
+    Chart = 10,
 }
 
 /// <summary>One paragraph of the normalized text, with where it came from.</summary>

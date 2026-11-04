@@ -23,6 +23,8 @@ One output for every way the producer split its runs. Plain text and `Normalized
 | content controls (`w:sdt`) | the content; `w:sdtPr` is skipped |
 | tracked changes | inserted and moved-to text is text; deleted and moved-from text (`w:del`, `w:moveFrom`) is left out unless `IncludeDeletedText`; a paragraph whose mark was deleted joins the next paragraph (§17.13.5) |
 | diagram (SmartArt) text | the text of the diagram data part, after the story (not where the diagram is anchored) |
+| chart text | the rich text of a chart part (titles, axis titles, labels), after the story; cached values are not output |
+| phonetic guides (`w:rt`) | after their base text |
 | property-change records (`…PrChange`) | skipped |
 | footnote and endnote separators | skipped |
 

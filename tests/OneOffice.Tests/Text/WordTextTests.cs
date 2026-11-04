@@ -103,6 +103,15 @@ public class WordTextTests
     }
 
     [Fact]
+    public void Chart_titles_follow_the_story_and_ruby_text_follows_its_base()
+    {
+        byte[] doc = Docx(
+            "<w:p><w:r><w:ruby><w:rt><w:r><w:t>kana</w:t></w:r></w:rt><w:rubyBase><w:r><w:t>kanji</w:t></w:r></w:rubyBase></w:ruby></w:r><w:r><w:t> end</w:t></w:r></w:p>",
+            ("word/charts/chart1.xml", "<c:chartSpace xmlns:c=\"http://schemas.openxmlformats.org/drawingml/2006/chart\" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"><c:chart><c:title><c:tx><c:rich><a:p><a:r><a:t>Sales</a:t></a:r></a:p></c:rich></c:tx></c:title></c:chart></c:chartSpace>", "chart"));
+        Assert.Equal("kanjikana end\n\nSales\n", Extract(doc));
+    }
+
+    [Fact]
     public void Strict_namespace_and_math_text()
     {
         byte[] doc = DocxWith(WStrict, "<w:p>" + Run("x") + "<m:oMath><m:r><m:t>a+b</m:t></m:r></m:oMath></w:p>");
