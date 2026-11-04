@@ -68,10 +68,10 @@ internal static class SmokeChecks
             ("[Content_Types].xml", "<Types xmlns=\"x\"><Override PartName=\"/word/document.xml\" ContentType=\"" + Wml + "\"/></Types>"),
             ("_rels/.rels", "<Relationships xmlns=\"x\"><Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships>"),
             ("word/document.xml", "<w:document xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:body><w:p><w:r><w:t>Hel</w:t></w:r><w:r><w:t>lo</w:t><w:tab/><w:t>&amp;</w:t></w:r></w:p></w:body></w:document>"));
-        using (IByteSource source = ByteSource.FromMemory(docx))
+        using (IByteSource docxSource = ByteSource.FromMemory(docx))
         {
             using var text = new StringWriter(System.Globalization.CultureInfo.InvariantCulture);
-            RecursiveAI.OneOffice.TextExtraction.OoxmlTextExtractor.Extract(source, text);
+            RecursiveAI.OneOffice.TextExtraction.OoxmlTextExtractor.Extract(docxSource, text);
             Check("extract docx text", text.ToString() == "Hello\t&\n");
         }
 
