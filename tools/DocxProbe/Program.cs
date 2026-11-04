@@ -19,15 +19,16 @@ namespace RecursiveAI.OneOffice.Tools.DocxProbe;
 /// Runs the style and numbering resolution over word-processing files and prints JSON lines.
 /// <c>DocxProbe probe FILE...</c> resolves every paragraph and run and counts labels and defects (exit 1 when a file fails).
 /// <c>DocxProbe labels FILE</c> prints one line per paragraph of the body: the list label, a tab and the text.
+/// <c>DocxProbe edit IN OUT</c> adds a style and a list to a document and writes the result as a new zip.
 /// <c>DocxProbe generate DIR</c> writes the style and numbering cases as small documents.
 /// </summary>
-internal static class Program
+internal static partial class Program
 {
     private static int Main(string[] args)
     {
         if (args.Length < 2)
         {
-            Console.Error.WriteLine("usage: DocxProbe probe|labels|generate ARGS");
+            Console.Error.WriteLine("usage: DocxProbe probe|labels|edit|generate ARGS");
             return 2;
         }
 
@@ -37,6 +38,16 @@ internal static class Program
                 return Probe(args[1..]);
             case "labels":
                 return Labels(args[1]);
+            case "edit":
+                try
+                {
+                    return args.Length >= 3 ? Edit(args[1], args[2]) : 2;
+                }
+                catch (OfficeException ex)
+                {
+                    Console.Error.WriteLine(ex.Defect.Code + ": " + ex.Message);
+                    return 1;
+                }
             case "generate":
                 Cases.Write(args[1]);
                 return 0;
@@ -89,7 +100,7 @@ internal static class Program
                 Console.WriteLine(JsonSerializer.Serialize(new Dictionary<string, object?>
                 {
                     ["file"] = Path.GetFileName(file), ["ok"] = true, ["paragraphs"] = paragraphs, ["runs"] = runs, ["boldRuns"] = bold,
-                    ["numbered"] = numbered, ["labels"] = labels, ["labelsNeedingWord"] = needsWord, ["styles"] = doc.Styles.Styles.Count,
+                    ["numbered"] = numbered, ["labels"] = labels, ["labelsNeedingWord"] = needsWord, ["modified"] = doc.HasUncommittedChanges, ["styles"] = doc.Styles.Styles.Count,
                     ["defects"] = defects.GroupBy(d => d.Code).ToDictionary(g => g.Key, g => g.Count()),
                 }));
             }
