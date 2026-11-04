@@ -18,11 +18,8 @@ internal static partial class Program
     /// Adds a paragraph style and a list to a document, applies them to its first paragraphs and writes a new zip in which every
     /// part that was not edited is copied as stored. Used to check that edits stay schema-valid and open in other readers.
     /// </summary>
-    private static int Edit(string input, string output)
+    private static int Edit(string input, string output) => Rewrite(input, output, doc =>
     {
-        using InMemoryPackage package = Read(input);
-        Dictionary<string, byte[]> before = package.Parts.ToDictionary(p => p.Name, p => p.GetBytes().ToArray(), StringComparer.OrdinalIgnoreCase);
-        using Document doc = Document.FromPackage(package);
         Paragraph[] paragraphs = doc.Body.Paragraphs().Take(4).ToArray();
         string? baseId = doc.Styles.Default(StyleType.Paragraph)?.Id;
         string id = "OneOfficeCallout";
@@ -47,6 +44,16 @@ internal static partial class Program
             }
         }
 
+        return new Dictionary<string, object?> { ["styleId"] = id, ["numId"] = num };
+    });
+
+    /// <summary>Opens a document, lets <paramref name="change"/> edit it, and writes a new zip in which every part that was not edited is copied as stored.</summary>
+    private static int Rewrite(string input, string output, Func<Document, Dictionary<string, object?>> change)
+    {
+        using InMemoryPackage package = Read(input);
+        Dictionary<string, byte[]> before = package.Parts.ToDictionary(p => p.Name, p => p.GetBytes().ToArray(), StringComparer.OrdinalIgnoreCase);
+        using Document doc = Document.FromPackage(package);
+        Dictionary<string, object?> info = change(doc);
         doc.CommitChanges();
 
         string main = doc.MainPartName;
@@ -110,7 +117,8 @@ internal static partial class Program
             o.Write(Encoding.UTF8.GetBytes(RelationshipsXml(package.GetRelationships(main))));
         }
 
-        Console.WriteLine(JsonSerializer.Serialize(new Dictionary<string, object?> { ["file"] = Path.GetFileName(input), ["styleId"] = id, ["numId"] = num }));
+        info["file"] = Path.GetFileName(input);
+        Console.WriteLine(JsonSerializer.Serialize(info));
         return 0;
     }
 

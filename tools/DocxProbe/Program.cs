@@ -20,6 +20,8 @@ namespace RecursiveAI.OneOffice.Tools.DocxProbe;
 /// <c>DocxProbe probe FILE...</c> resolves every paragraph and run and counts labels and defects (exit 1 when a file fails).
 /// <c>DocxProbe labels FILE</c> prints one line per paragraph of the body: the list label, a tab and the text.
 /// <c>DocxProbe edit IN OUT</c> adds a style and a list to a document and writes the result as a new zip.
+/// <c>DocxProbe census FILE...</c> counts fields, notes and comments.
+/// <c>DocxProbe annotate IN OUT</c> adds a comment with a reply and a footnote and rewrites a field result.
 /// <c>DocxProbe generate DIR</c> writes the style and numbering cases as small documents.
 /// </summary>
 internal static partial class Program
@@ -28,7 +30,7 @@ internal static partial class Program
     {
         if (args.Length < 2)
         {
-            Console.Error.WriteLine("usage: DocxProbe probe|labels|edit|generate ARGS");
+            Console.Error.WriteLine("usage: DocxProbe probe|labels|edit|census|annotate|generate ARGS");
             return 2;
         }
 
@@ -42,6 +44,18 @@ internal static partial class Program
                 try
                 {
                     return args.Length >= 3 ? Edit(args[1], args[2]) : 2;
+                }
+                catch (OfficeException ex)
+                {
+                    Console.Error.WriteLine(ex.Defect.Code + ": " + ex.Message);
+                    return 1;
+                }
+            case "census":
+                return Census(args[1..]);
+            case "annotate":
+                try
+                {
+                    return args.Length >= 3 ? Annotate(args[1], args[2]) : 2;
                 }
                 catch (OfficeException ex)
                 {

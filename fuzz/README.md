@@ -7,6 +7,8 @@
 | `sniff` | raw bytes | format identification, including the zip and compound-file directory readers it reaches; the same bytes through a memory source and a stream source must give the same answer |
 | `xml` | raw bytes | the XML tokenizer: tokens tile the input; reading in blocks gives the same tokens as reading whole; refusals are typed |
 | `markup` | raw bytes | the markup tree and streaming reader: parse then write gives the input byte for byte; the tree, the reader and the tokenizer agree on what is well-formed; an edit then re-parse stays well-formed |
+| `fieldinstr` | UTF-8 text | the field instruction parser: it never fails, keeps the text, and every switch name is one character |
+| `fields` | document part, NUL, footnotes part, NUL, comments part | the field, note and comment readers and editors: typed outcomes only, and every edited part parses again |
 
 Only `OfficeException` may come out of a library call: it is the typed rejection of bad input. Any other exception, a failed invariant, a hang (`-timeout`) or a memory blow-up (`-rss_limit_mb`) is a finding.
 

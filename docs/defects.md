@@ -55,6 +55,13 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.num-abstract-missing` | repaired | A `w:num` names an abstract definition that does not exist; its paragraphs are not numbered. |
 | `docx.num-level-missing` | repaired | The paragraph's level is not defined by the list; the paragraph is not numbered. |
 | `docx.num-link-broken` | repaired | A `w:numStyleLink` does not lead to a list definition (missing style, no list, or nested too deeply); the definition's own levels are used. |
+| `docx.field-unbalanced` | repaired | A field begin has no end (the field is read to the end of the part and is not complete), or a field separator or end has no open field (it is ignored), or a `w:fldChar` has no valid type. The location is the offset of the element. |
+| `docx.field-too-deep` | repaired | Fields nest deeper than `MaxRecursionDepth`; the inner ones are read as plain content. Reported once per scan. |
+| `docx.note-missing` | repaired | A footnote or endnote reference names an id the notes part does not have. The reference stays in the list with no note. |
+| `docx.note-duplicate-id` | repaired | Two notes of one kind have the same id; references use the first. |
+| `docx.comment-duplicate-id` | repaired | Two comments have the same id; the first is used. |
+| `docx.comment-missing` | repaired | A comment range marker or reference in the body names a comment the comments part does not have. |
+| `docx.comment-range-unmatched` | repaired | A comment has a `w:commentRangeStart` without its `w:commentRangeEnd`, or the reverse. The anchor reports what exists. |
 
 The XML layer repairs nothing: Office refuses an ill-formed part, and so does this layer. The limits it enforces (`MaxXmlDepth`, `MaxXmlAttributeCount`, `MaxXmlNameLength`, and `MaxPartSize` for a part held whole) raise `limit.*` as above.
 

@@ -4,7 +4,7 @@
 #   fuzz/run.sh <target> <seconds> [corpus dir] [extra libFuzzer flags...]
 #   fuzz/run.sh replay <target> <file>...      # run saved inputs once, without libFuzzer (reproduce a finding)
 #
-# Targets: sniff, xml, markup   (see fuzz/README.md)
+# Targets: sniff, xml, markup, fieldinstr, fields   (see fuzz/README.md)
 #
 # Environment (nothing is baked into the script):
 #   ONEOFFICE_FUZZ_WORK    required: where builds, corpora and findings go. Keep it outside the checkout.
@@ -38,6 +38,8 @@ shift
 case "$target" in
   sniff) maxlen=262144 ;;
   xml|markup) maxlen=262144 ;;
+  fieldinstr) maxlen=4096 ;;
+  fields) maxlen=65536 ;;
   *) echo "unknown target '$target'" >&2; exit 2 ;;
 esac
 
@@ -73,6 +75,7 @@ mkdir -p "$corpus" "$findings"
 [[ -n "$(ls -A "$corpus")" ]] || printf '\x00' >"$corpus/seed-empty"
 
 "$instrument" "$bin/RecursiveAI.OneOffice.dll" >/dev/null
+[[ ! -f "$bin/RecursiveAI.OneOffice.Documents.dll" ]] || "$instrument" "$bin/RecursiveAI.OneOffice.Documents.dll" >/dev/null
 "$instrument" "$bin/RecursiveAI.OneArchive.dll" >/dev/null
 
 # An extra seed directory is read-only for libFuzzer: new finds go to $corpus.

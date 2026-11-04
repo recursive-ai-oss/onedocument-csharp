@@ -48,6 +48,20 @@ internal sealed class PartStore
         }
     }
 
+    /// <summary>The part name a parsed tree was read from, or null for a tree this store does not hold.</summary>
+    public string? NameOf(MarkupDocument document)
+    {
+        foreach (KeyValuePair<string, MarkupDocument?> kv in _documents)
+        {
+            if (ReferenceEquals(kv.Value, document))
+            {
+                return kv.Key;
+            }
+        }
+
+        return null;
+    }
+
     /// <summary>Finds a part related to <paramref name="sourcePart"/> by a relationship of the officeDocument family and parses it.</summary>
     public MarkupDocument? LoadRelated(string sourcePart, string relationshipName, out string? partName)
     {

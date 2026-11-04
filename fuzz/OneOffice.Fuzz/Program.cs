@@ -26,6 +26,8 @@ internal static class Program
         ["sniff"] = SniffTarget.Run,
         ["xml"] = XmlTarget.RunTokenizer,
         ["markup"] = XmlTarget.RunTree,
+        ["fieldinstr"] = FieldsTarget.RunInstruction,
+        ["fields"] = FieldsTarget.RunHub,
     };
 
     private static int Main(string[] args)
@@ -41,6 +43,7 @@ internal static class Program
             {
                 "sniff" => SniffTarget.WriteSeeds(args[2]),
                 "xml" or "markup" => XmlTarget.WriteSeeds(args[2]),
+                "fieldinstr" or "fields" => FieldsTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }
