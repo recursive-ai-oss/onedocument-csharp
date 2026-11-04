@@ -289,4 +289,21 @@ public class MarkupDocumentTests
         string text = Text(d);
         Assert.Equal(sb.ToString().Replace("xmlns:w=\"urn:w\">", "xmlns:w=\"urn:w\" xmlns:z=\"urn:z\">", StringComparison.Ordinal).Replace("w:id=\"25000\"", "w:id=\"X\"", StringComparison.Ordinal), text);
     }
+
+    [Fact]
+    public void Namespace_bytes_and_prefix_scope_queries_do_not_edit_and_preferred_prefix_is_used()
+    {
+        MarkupDocument d = MarkupDocument.Parse(U8("<a xmlns:p='urn:p' xmlns='urn:d'><b/></a>"));
+        MarkupNode b = d.Root.FirstChild;
+        Assert.True(b.NamespaceUriBytes.SequenceEqual("urn:d"u8));
+        Assert.True(d.Root.TryGetPrefixInScope("urn:p", out string prefix));
+        Assert.Equal("p", prefix);
+        Assert.False(b.TryGetPrefixInScope("urn:d", out _));
+        Assert.False(b.TryGetPrefixInScope("urn:q", out _));
+        Assert.False(d.IsModified);
+        b.SetAttribute("urn:p", "x", "1", "zz");
+        b.SetAttribute("urn:q", "y", "2", "q");
+        b.SetAttribute("urn:r", "z", "3", "p");
+        Assert.Equal("<a xmlns:p='urn:p' xmlns='urn:d'><b p:x=\"1\" xmlns:q=\"urn:q\" q:y=\"2\" xmlns:ns1=\"urn:r\" ns1:z=\"3\"/></a>", Text(d));
+    }
 }

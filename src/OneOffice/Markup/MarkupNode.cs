@@ -126,6 +126,40 @@ public readonly struct MarkupNode : IEquatable<MarkupNode>
         }
     }
 
+    /// <summary>
+    /// Gets the element's namespace URI as the bytes written in the declaration, without allocating. Empty when the element is in no
+    /// namespace. Entity references in the declaration are not decoded (use <see cref="NamespaceUri"/> for that; Office parts never have them).
+    /// Valid until the document is edited.
+    /// </summary>
+    public ReadOnlySpan<byte> NamespaceUriBytes
+    {
+        get
+        {
+            if (Kind != MarkupNodeKind.Element)
+            {
+                return default;
+            }
+
+            return _doc!.TryResolvePrefix(_index, Prefix, out ReadOnlySpan<byte> raw) ? raw : default;
+        }
+    }
+
+    /// <summary>Finds the prefix bound to a namespace in the scope of this node (the nearest element at or above it), without changing anything.</summary>
+    /// <param name="namespaceUri">The namespace URI.</param>
+    /// <param name="prefix">The prefix as declared; <c>xml</c> for the XML namespace. Never empty: a default-namespace declaration does not count, because attributes cannot use it.</param>
+    /// <returns>True when a prefix is bound to the namespace here and not rebound closer.</returns>
+    public bool TryGetPrefixInScope(string namespaceUri, out string prefix)
+    {
+        ArgumentNullException.ThrowIfNull(namespaceUri);
+        if (_doc is null)
+        {
+            prefix = string.Empty;
+            return false;
+        }
+
+        return _doc.TryFindPrefix(_index, namespaceUri, out prefix);
+    }
+
     /// <summary>Tells whether this is an element with the given namespace and local name, without allocating.</summary>
     /// <param name="namespaceUri">The namespace URI in UTF-8; empty for no namespace.</param>
     /// <param name="localName">The local name in UTF-8.</param>
@@ -270,6 +304,23 @@ public readonly struct MarkupNode : IEquatable<MarkupNode>
         ArgumentNullException.ThrowIfNull(value);
         RequireNode();
         _doc!.SetAttribute(_index, namespaceUri, localName, value);
+    }
+
+    /// <summary>Sets a namespaced attribute, reusing a prefix in scope for the namespace, else declaring <paramref name="preferredPrefix"/> on this element.</summary>
+    /// <param name="namespaceUri">The attribute's namespace URI (not empty).</param>
+    /// <param name="localName">The attribute's local name.</param>
+    /// <param name="value">The value; it is escaped.</param>
+    /// <param name="preferredPrefix">The prefix to declare when none is in scope. When it is already bound to another namespace here, <c>ns1</c> (or the next free number) is used instead.</param>
+    /// <exception cref="InvalidOperationException">The node is not an element.</exception>
+    /// <exception cref="ArgumentException">The name is invalid, or the value has a character XML cannot carry.</exception>
+    public void SetAttribute(string namespaceUri, string localName, string value, string preferredPrefix)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(namespaceUri);
+        ArgumentNullException.ThrowIfNull(localName);
+        ArgumentNullException.ThrowIfNull(value);
+        ArgumentNullException.ThrowIfNull(preferredPrefix);
+        RequireNode();
+        _doc!.SetAttribute(_index, namespaceUri, localName, value, preferredPrefix);
     }
 
     /// <summary>Removes an attribute, with the white space before it.</summary>

@@ -132,18 +132,19 @@ public sealed partial class MarkupDocument
         CommitStartTag(element, w.WrittenSpan);
     }
 
-    internal void SetAttribute(int element, string namespaceUri, string localName, string value)
+    internal void SetAttribute(int element, string namespaceUri, string localName, string value, string? preferredPrefix = null)
     {
         RequireElement(element);
-        string prefix = FindOrDeclarePrefix(element, namespaceUri);
+        string prefix = FindOrDeclarePrefix(element, namespaceUri, preferredPrefix);
         SetAttribute(element, prefix + ":" + localName, value);
     }
 
-    private string FindOrDeclarePrefix(int element, string namespaceUri)
+    internal bool TryFindPrefix(int element, string namespaceUri, out string prefix)
     {
         if (namespaceUri == XmlNamespaces.Xml)
         {
-            return "xml";
+            prefix = "xml";
+            return true;
         }
 
         byte[] uri = Encoding.UTF8.GetBytes(namespaceUri);
@@ -163,10 +164,28 @@ public sealed partial class MarkupDocument
                     // The nearest declaration of this prefix at the element must still be this namespace (it may be rebound closer).
                     if (TryResolvePrefix(element, a.DeclaredPrefix, out ReadOnlySpan<byte> bound) && UriEquals(bound, uri))
                     {
-                        return Encoding.UTF8.GetString(a.DeclaredPrefix);
+                        prefix = Encoding.UTF8.GetString(a.DeclaredPrefix);
+                        return true;
                     }
                 }
             }
+        }
+
+        prefix = string.Empty;
+        return false;
+    }
+
+    private string FindOrDeclarePrefix(int element, string namespaceUri, string? preferred = null)
+    {
+        if (TryFindPrefix(element, namespaceUri, out string found))
+        {
+            return found;
+        }
+
+        if (preferred is { Length: > 0 } && !TryResolvePrefix(element, Encoding.UTF8.GetBytes(preferred), out _))
+        {
+            SetAttribute(element, "xmlns:" + preferred, namespaceUri);
+            return preferred;
         }
 
         for (int k = 1; ; k++)

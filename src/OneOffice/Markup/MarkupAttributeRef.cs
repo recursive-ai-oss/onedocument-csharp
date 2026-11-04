@@ -50,6 +50,10 @@ public readonly ref struct MarkupAttributeRef
         }
     }
 
+    /// <summary>Gets the attribute's namespace URI as written in its declaration, without allocating; empty for unprefixed attributes and namespace declarations. Entity references are not decoded.</summary>
+    public ReadOnlySpan<byte> NamespaceUriBytes =>
+        _token.Prefix.Length == 0 || IsNamespaceDeclaration || !_element.Doc!.TryResolvePrefix(_element.Index, _token.Prefix, out ReadOnlySpan<byte> raw) ? default : raw;
+
     /// <summary>Tells whether the attribute is in the given namespace, without allocating.</summary>
     /// <param name="namespaceUri">The namespace URI in UTF-8.</param>
     /// <returns>True when the attribute's prefix is bound to that namespace. Unprefixed attributes are in no namespace.</returns>
