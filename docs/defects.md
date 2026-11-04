@@ -72,6 +72,10 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `xml.misplaced-content` | fatal | Text or a CDATA section outside the root element, or a second root element. |
 | `xml.no-root` | fatal | The part has no root element. |
 | `xml.invalid-declaration` | fatal | The XML declaration is malformed (version, encoding, standalone) or is not the first thing in the part. |
+| `docx.revision-id-invalid` | repaired | A tracked change has no `w:id`, or one that is not a non-negative integer. The revision is listed with id -1 and works as any other. |
+| `docx.revision-author-missing` | repaired | A tracked change has no `w:author`. It is listed with an empty author. |
+| `docx.revision-date-invalid` | repaired | A tracked change has a `w:date` that is not a date. It is listed without a date. |
+| `docx.revision-unresolvable` | dropped | A tracked change could not be accepted or rejected because the markup around it is not what the schema allows (a row marker outside a row, content that cannot be moved without an unbound prefix). The change is left in place; the location is the change element. |
 | `docx.no-main-part` | fatal | No `officeDocument` relationship of the package points at a part that exists. |
 | `docx.wrong-root` | fatal | The main document part does not start with `w:document`. |
 | `docx.part-missing` | fatal | A part the reader must have is not in the package. |
