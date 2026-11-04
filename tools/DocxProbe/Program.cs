@@ -28,7 +28,7 @@ internal static partial class Program
     {
         if (args.Length < 2)
         {
-            Console.Error.WriteLine("usage: DocxProbe probe|labels|edit|generate ARGS");
+            Console.Error.WriteLine("usage: DocxProbe probe|labels|edit|generate|sdt-census|sdt-edit|sdt-generate ARGS");
             return 2;
         }
 
@@ -48,6 +48,13 @@ internal static partial class Program
                     Console.Error.WriteLine(ex.Defect.Code + ": " + ex.Message);
                     return 1;
                 }
+            case "sdt-census":
+                return SdtCensus(args[1..]);
+            case "sdt-edit":
+                return args.Length >= 3 ? SdtEdit(args[1], args[2]) : 2;
+            case "sdt-generate":
+                SdtGenerate(args[1]);
+                return 0;
             case "generate":
                 Cases.Write(args[1]);
                 return 0;
