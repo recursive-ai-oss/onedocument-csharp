@@ -42,17 +42,7 @@ public static class MarkupCompatibility
     /// <returns>The ignorable namespace URIs.</returns>
     public static IReadOnlyList<string> GetIgnorableNamespaces(MarkupNode context)
     {
-        var result = new List<string>();
-        for (MarkupNode e = ElementOf(context); !e.IsNull; e = e.Parent)
-        {
-            if (e.Kind == MarkupNodeKind.Element)
-            {
-                Collect(e, "Ignorable", result);
-            }
-        }
-
-        result.Reverse();
-        return result;
+        return CollectOutwardIn(context, "Ignorable");
     }
 
     /// <summary>Tells whether a namespace is declared ignorable in the scope of a node (Part 3 §7.2).</summary>
@@ -154,17 +144,7 @@ public static class MarkupCompatibility
     /// <returns>The namespace URIs, outermost first, without duplicates.</returns>
     public static IReadOnlyList<string> GetMustUnderstandNamespaces(MarkupNode context)
     {
-        var result = new List<string>();
-        for (MarkupNode e = ElementOf(context); !e.IsNull; e = e.Parent)
-        {
-            if (e.Kind == MarkupNodeKind.Element)
-            {
-                Collect(e, "MustUnderstand", result);
-            }
-        }
-
-        result.Reverse();
-        return result;
+        return CollectOutwardIn(context, "MustUnderstand");
     }
 
     /// <summary>Lists the namespaces an <c>mc:Choice</c> requires (its unqualified <c>Requires</c> attribute, Part 3 §7.6), resolved in the scope of the Choice.</summary>
@@ -219,6 +199,26 @@ public static class MarkupCompatibility
         }
 
         return fallback;
+    }
+
+    private static List<string> CollectOutwardIn(MarkupNode context, string attribute)
+    {
+        var chain = new List<MarkupNode>();
+        for (MarkupNode e = ElementOf(context); !e.IsNull; e = e.Parent)
+        {
+            if (e.Kind == MarkupNodeKind.Element)
+            {
+                chain.Add(e);
+            }
+        }
+
+        var result = new List<string>();
+        for (int i = chain.Count - 1; i >= 0; i--)
+        {
+            Collect(chain[i], attribute, result);
+        }
+
+        return result;
     }
 
     private static MarkupNode ElementOf(MarkupNode n)
