@@ -44,7 +44,7 @@ public sealed class FormatRegistry
     private readonly Dictionary<OfficeFormat, WriteHandler> _writers = [];
 
     /// <summary>Gets the registry the <see cref="Office"/> statics and the hub types use.</summary>
-    public static FormatRegistry Default { get; } = new();
+    public static FormatRegistry Default { get; } = CreateDefault();
 
     /// <summary>Registers a reader for formats.</summary>
     /// <param name="handler">Opens a source as a document.</param>
@@ -103,6 +103,14 @@ public sealed class FormatRegistry
     /// <exception cref="FormatNotAvailableException">No writer is registered.</exception>
     public WriteHandler GetWriter(OfficeFormat format) =>
         TryGetWriter(format, out WriteHandler? h) ? h : throw new FormatNotAvailableException(format, "write");
+
+    // What the core package itself can do, so the default registry works before any kind package is registered.
+    private static FormatRegistry CreateDefault()
+    {
+        var registry = new FormatRegistry();
+        TextExtraction.OoxmlTextExtractor.Register(registry);
+        return registry;
+    }
 
     private void Register<T>(Dictionary<OfficeFormat, T> table, T handler, OfficeFormat[] formats)
         where T : Delegate
