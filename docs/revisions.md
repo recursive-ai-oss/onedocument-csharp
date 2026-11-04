@@ -16,6 +16,8 @@ A revision is an element in the main namespace that records a change by an autho
 | CellInserted / Deleted / Merged | `w:cellIns`, `w:cellDel`, `w:cellMerge` | in `w:tcPr` |
 | NumberingChange, NumberingInserted | `w:numberingChange`, `w:ins` | in `w:numPr` |
 
+Moved-away text stays `w:t` inside `w:moveFrom`; only `w:del` uses `w:delText`. A `w:moveFrom` holding `w:delText` makes Word 365 (16.0.20527) offer to repair the file, so authoring writes `w:t` there; reading accepts either.
+
 The same element name means different things by its parent, so a revision's kind comes from the element and its parent together. Strict and Transitional namespaces are read alike.
 
 Each revision has an author, a date (UTC; a date without a zone is taken as UTC), an id, a scope (content, paragraph mark, formatting, table, numbering), the part, the element and, for content, its text. A revision with a missing or unusable `w:id`, `w:author` or `w:date` is still listed and reported as a defect (`docx.revision-id-invalid`, `docx.revision-author-missing`, `docx.revision-date-invalid`).
@@ -32,7 +34,7 @@ Each revision has an author, a date (UTC; a date without a zone is taken as UTC)
 | Row inserted / deleted | marker goes / the row goes | the row goes / marker goes |
 | Cell inserted / deleted | marker goes / the cell goes | the cell goes / marker goes |
 | Cell merge | the vertical merge becomes `vMerge` of the record | the vertical merge becomes `vMergeOrig` of the record |
-| Numbering inserted | marker goes | the paragraph's `w:numPr` goes |
+| Numbering inserted | marker goes | the marker goes; `w:numPr` stays (observed in Word 365, 16.0.20527) |
 | Numbering change | the record goes | the record goes (it holds only a description of the old numbering) |
 
 - **Joining paragraphs.** The paragraph mark carries the paragraph's properties (§17.3.1.26), so when a mark goes the paragraph is joined to the next one, and the next paragraph's properties apply to the joined paragraph. A mark that cannot go is only unmarked: the last paragraph of a container, a paragraph before a table, or a paragraph that holds a section break. An emptied inserted paragraph at the end of a container is removed.

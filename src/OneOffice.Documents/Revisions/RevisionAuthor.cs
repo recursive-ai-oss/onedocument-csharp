@@ -974,7 +974,9 @@ public sealed class RevisionAuthor
             var inner = new StringBuilder();
             foreach (MarkupNode r in group)
             {
-                inner.Append(DeletedRunXml(r));
+                // Observed in Word 365 (16.0.20527): moved-away text stays w:t inside w:moveFrom (only w:del uses w:delText);
+                // a w:moveFrom holding w:delText makes Word offer to repair the file.
+                inner.Append(wrapperName == "moveFrom" ? r.OuterXml : DeletedRunXml(r));
             }
 
             int id = NextId();

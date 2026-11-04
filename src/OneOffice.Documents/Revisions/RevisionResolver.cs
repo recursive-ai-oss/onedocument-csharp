@@ -161,23 +161,13 @@ internal sealed class RevisionResolver
                 ResolveCellMerge(el, accept);
                 break;
 
-            // §17.13.5.26: the change records only a description of the old numbering, so both directions drop the record.
+            // §17.13.5.26: the change records only a description of the old numbering, so both directions drop the record and keep the numbering.
             case RevisionKind.NumberingChange:
                 RemoveMarker(el);
                 break;
+            // Observed in Word 365 (16.0.20527): rejecting an inserted numbering keeps w:numPr and removes only the marker.
             case RevisionKind.NumberingInserted:
-                if (accept || el.Parent.IsNull)
-                {
-                    RemoveMarker(el);
-                }
-                else
-                {
-                    MarkupNode numPr = el.Parent;
-                    MarkupNode pPr = numPr.Parent;
-                    numPr.Remove();
-                    CleanupEmpty(pPr);
-                }
-
+                RemoveMarker(el);
                 break;
             default:
                 throw new InvalidOperationException("Unknown revision kind.");

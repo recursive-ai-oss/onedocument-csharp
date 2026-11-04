@@ -189,4 +189,47 @@ public class StyleTests
         Assert.Single(defects, x => x.Code == "docx.style-duplicate-id");
         Assert.Single(defects, x => x.Code == "docx.style-base-missing");
     }
+
+    // The generated precedence case prec-styles.docx; every expectation below is what Word 365 (16.0.20527) reported for the same file.
+    [Fact]
+    public void WordPrecedenceCase_AgreesWithWord()
+    {
+        const string styles = "<w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii=\"Arial\" w:hAnsi=\"Arial\"/><w:sz w:val=\"28\"/></w:rPr></w:rPrDefault></w:docDefaults>" +
+            "<w:style w:type=\"paragraph\" w:default=\"1\" w:styleId=\"Normal\"><w:name w:val=\"Normal\"/></w:style>" +
+            "<w:style w:type=\"paragraph\" w:styleId=\"A\"><w:name w:val=\"A\"/><w:basedOn w:val=\"Normal\"/><w:rPr><w:b/><w:sz w:val=\"40\"/></w:rPr></w:style>" +
+            "<w:style w:type=\"paragraph\" w:styleId=\"B\"><w:name w:val=\"B\"/><w:basedOn w:val=\"A\"/><w:rPr><w:i/><w:color w:val=\"FF0000\"/></w:rPr></w:style>" +
+            "<w:style w:type=\"character\" w:styleId=\"Bold\"><w:name w:val=\"Bold\"/><w:rPr><w:b/></w:rPr></w:style>" +
+            "<w:style w:type=\"character\" w:styleId=\"Green\"><w:name w:val=\"Green\"/><w:rPr><w:color w:val=\"00FF00\"/></w:rPr></w:style>" +
+            "<w:style w:type=\"paragraph\" w:styleId=\"Ind\"><w:name w:val=\"Ind\"/><w:basedOn w:val=\"Normal\"/><w:pPr><w:ind w:left=\"720\" w:firstLine=\"360\"/><w:spacing w:before=\"240\" w:after=\"120\"/></w:pPr></w:style>";
+        using Document d = TestDocs.Open(
+            "<w:p><w:r><w:t>plain</w:t></w:r></w:p>" +
+            "<w:p><w:pPr><w:pStyle w:val=\"B\"/></w:pPr><w:r><w:t>chain</w:t></w:r></w:p>" +
+            "<w:p><w:pPr><w:pStyle w:val=\"A\"/></w:pPr><w:r><w:rPr><w:rStyle w:val=\"Bold\"/></w:rPr><w:t>toggle</w:t></w:r></w:p>" +
+            "<w:p><w:pPr><w:pStyle w:val=\"B\"/></w:pPr><w:r><w:rPr><w:color w:val=\"0000FF\"/><w:i w:val=\"0\"/></w:rPr><w:t>direct</w:t></w:r></w:p>" +
+            "<w:p><w:pPr><w:pStyle w:val=\"B\"/></w:pPr><w:r><w:rPr><w:rStyle w:val=\"Green\"/></w:rPr><w:t>charstyle</w:t></w:r></w:p>" +
+            "<w:p><w:pPr><w:pStyle w:val=\"A\"/></w:pPr><w:r><w:rPr><w:b w:val=\"0\"/></w:rPr><w:t>boldoff</w:t></w:r></w:p>" +
+            "<w:p><w:pPr><w:pStyle w:val=\"Ind\"/></w:pPr><w:r><w:t>indent</w:t></w:r></w:p>" +
+            "<w:p><w:pPr><w:pStyle w:val=\"Ind\"/><w:ind w:left=\"1440\"/></w:pPr><w:r><w:t>indent2</w:t></w:r></w:p>", styles);
+        (long Size, bool Bold, bool Italic, string? Color)[] want =
+        [
+            (28, false, false, null), (40, true, true, "FF0000"), (40, false, false, null), (40, true, false, "0000FF"),
+            (40, true, true, "00FF00"), (40, false, false, null), (28, false, false, null), (28, false, false, null),
+        ];
+        Paragraph[] ps = d.Body.Paragraphs().ToArray();
+        for (int i = 0; i < want.Length; i++)
+        {
+            ResolvedRunProperties r = ps[i].Runs().Single().ResolvedProperties;
+            Assert.Equal(want[i].Size, r.SizeHalfPoints);
+            Assert.Equal(want[i].Bold, r.Bold);
+            Assert.Equal(want[i].Italic, r.Italic);
+            Assert.Equal(want[i].Color, r.Color);
+        }
+
+        // Word: space after 8 pt (160) with no pPrDefault; style spacing and indentation win, direct left indent keeps the style's first line.
+        Assert.Equal(160, ps[0].ResolvedProperties.SpaceAfter);
+        Assert.Equal(120, ps[6].ResolvedProperties.SpaceAfter);
+        Assert.Equal(240, ps[6].ResolvedProperties.SpaceBefore);
+        Assert.Equal((720, 360), (ps[6].ResolvedProperties.LeftIndent, ps[6].ResolvedProperties.FirstLineIndent));
+        Assert.Equal((1440, 360), (ps[7].ResolvedProperties.LeftIndent, ps[7].ResolvedProperties.FirstLineIndent));
+    }
 }

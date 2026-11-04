@@ -139,7 +139,8 @@ public sealed class NoteNumbering
 
     /// <summary>
     /// Combines a section's properties with the document's: what the section sets wins, then the document's, then the defaults
-    /// (footnotes at the page bottom, endnotes at the end of the document, decimal, from 1, continuous).
+    /// (footnotes at the page bottom and decimal; endnotes at the end of the document and lower-case roman, which is what Word 365
+    /// (16.0.20527) shows when no <c>w:numFmt</c> is given anywhere; from 1, continuous).
     /// </summary>
     /// <param name="section">The section's properties; null to use the document's only.</param>
     /// <param name="document">The document-wide properties.</param>
@@ -150,7 +151,7 @@ public sealed class NoteNumbering
         NoteKind kind = document.Kind;
         return new EffectiveNoteNumbering(
             section?.Position ?? document.Position ?? (kind == NoteKind.Footnote ? NotePosition.PageBottom : NotePosition.DocumentEnd),
-            section?.NumberFormat ?? document.NumberFormat ?? "decimal",
+            section?.NumberFormat ?? document.NumberFormat ?? (kind == NoteKind.Footnote ? "decimal" : "lowerRoman"),
             section?.Start ?? document.Start ?? 1,
             section?.Restart ?? document.Restart ?? NoteRestart.Continuous);
     }

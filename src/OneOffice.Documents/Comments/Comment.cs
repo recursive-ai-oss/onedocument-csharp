@@ -481,6 +481,13 @@ public sealed class CommentCollection : IReadOnlyList<Comment>
     private string Paragraphs(string p, string decl, string text, string? lastParaId, MarkupNode context)
     {
         string[] lines = text.Replace("\r\n", "\n", StringComparison.Ordinal).Split('\n');
+        if (lastParaId is not null)
+        {
+            // Observed in Word 365 (16.0.20527): w14 must be declared on the part's root; a declaration on the paragraph
+            // alone makes Word offer to repair the file, even when the root lists w14 in mc:Ignorable.
+            EnsureW14Ignorable(_root.Node);
+        }
+
         string w14 = HubXml.Prefix(context, Word2010Namespace, "w14", out string w14Decl);
         string textStyle = _owner.Styles.Find("CommentText") is not null ? "<" + p + ":pPr><" + p + ":pStyle " + p + ":val=\"CommentText\"/></" + p + ":pPr>" : string.Empty;
         string refRPr = _owner.Styles.Find("CommentReference") is not null ? "<" + p + ":rPr><" + p + ":rStyle " + p + ":val=\"CommentReference\"/></" + p + ":rPr>" : string.Empty;

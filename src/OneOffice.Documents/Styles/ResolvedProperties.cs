@@ -121,11 +121,15 @@ public class ResolvedProperties
 /// <summary>Effective paragraph formatting. The typed accessors cover the common properties; <see cref="ResolvedProperties.Get"/> reaches the rest.</summary>
 public sealed class ResolvedParagraphProperties : ResolvedProperties
 {
-    internal ResolvedParagraphProperties(SortedDictionary<string, ResolvedProperty> properties, ThemeData theme, string? styleId)
+    internal ResolvedParagraphProperties(SortedDictionary<string, ResolvedProperty> properties, ThemeData theme, string? styleId, bool wordSpacingDefaults = false)
         : base(properties, theme)
     {
         StyleId = styleId;
+        _wordSpacingDefaults = wordSpacingDefaults;
     }
+
+    // The document has no w:pPrDefault, so Word's own defaults stand in for it.
+    private readonly bool _wordSpacingDefaults;
 
     /// <summary>Gets the id of the paragraph style that applies: the one named directly, else the default paragraph style; null when the document has none.</summary>
     public string? StyleId { get; }
@@ -136,8 +140,11 @@ public sealed class ResolvedParagraphProperties : ResolvedProperties
     /// <summary>Gets the space before the paragraph in twentieths of a point, or null.</summary>
     public long? SpaceBefore => Get("spacing")?.Number("before");
 
-    /// <summary>Gets the space after the paragraph in twentieths of a point, or null.</summary>
-    public long? SpaceAfter => Get("spacing")?.Number("after");
+    /// <summary>
+    /// Gets the space after the paragraph in twentieths of a point, or null. A document without <c>w:pPrDefault</c> reads as 160 (8 points)
+    /// when nothing else sets it: that is what Word 365 (16.0.20527) applies, though the schema's default is 0.
+    /// </summary>
+    public long? SpaceAfter => Get("spacing")?.Number("after") ?? (_wordSpacingDefaults ? 160 : null);
 
     /// <summary>Gets the line spacing (<c>w:line</c>) in the unit the rule gives: 240ths of a line for <c>auto</c>, twentieths of a point otherwise.</summary>
     public long? LineSpacing => Get("spacing")?.Number("line");
