@@ -30,7 +30,7 @@ public enum ColumnOptions : byte
 }
 
 /// <summary>
-/// The properties of a run of columns (ECMA-376 Part 1 §18.3.1.13 <c>col</c>): the columns <see cref="Min"/> to <see cref="Max"/>, 1-based.
+/// The properties of a run of columns (ECMA-376 Part 1 CT_Col): the columns <see cref="Min"/> to <see cref="Max"/>, 1-based.
 /// </summary>
 /// <param name="Min">The first column.</param>
 /// <param name="Max">The last column.</param>
@@ -41,7 +41,7 @@ public enum ColumnOptions : byte
 /// <param name="RawAttributes">Other attributes of the element exactly as written, or null. Written back unchanged.</param>
 public sealed record ColumnProperties(int Min, int Max, double Width, int Style, ColumnOptions Flags, int OutlineLevel = 0, string? RawAttributes = null);
 
-/// <summary>The state of a sheet (ECMA-376 Part 1 §18.18.68 ST_SheetState).</summary>
+/// <summary>The state of a sheet (ECMA-376 Part 1 ST_SheetState).</summary>
 public enum SheetState : byte
 {
     /// <summary>Shown.</summary>
@@ -60,10 +60,10 @@ public enum SheetKind : byte
     /// <summary>A worksheet: cells.</summary>
     Worksheet = 0,
 
-    /// <summary>A chart sheet (§18.3.1.12): kept untouched.</summary>
+    /// <summary>A chart sheet (CT_Chartsheet): kept untouched.</summary>
     Chartsheet = 1,
 
-    /// <summary>A dialog sheet (§18.3.1.34): kept untouched.</summary>
+    /// <summary>A dialog sheet (CT_Dialogsheet): kept untouched.</summary>
     DialogSheet = 2,
 
     /// <summary>An Excel 4.0 macro sheet: kept untouched.</summary>
@@ -311,7 +311,7 @@ public sealed partial class Worksheet
         }
     }
 
-    /// <summary>Gets the merged ranges (§18.3.1.55), in the order the part lists them.</summary>
+    /// <summary>Gets the merged ranges (CT_MergeCells), in the order the part lists them.</summary>
     public IReadOnlyList<CellRange> MergedCells
     {
         get
@@ -347,7 +347,7 @@ public sealed partial class Worksheet
         return removed;
     }
 
-    /// <summary>Gets the column properties (§18.3.1.17 <c>cols</c>), in the order the part lists them.</summary>
+    /// <summary>Gets the column properties (CT_Cols), in the order the part lists them.</summary>
     public IReadOnlyList<ColumnProperties> Columns
     {
         get
@@ -391,7 +391,7 @@ public sealed partial class Worksheet
         }
     }
 
-    /// <summary>Reads the frozen panes of the first sheet view (§18.3.1.66 <c>pane</c> with state <c>frozen</c>).</summary>
+    /// <summary>Reads the frozen panes of the first sheet view (CT_Pane with state <c>frozen</c>).</summary>
     /// <param name="rows">The number of frozen rows.</param>
     /// <param name="columns">The number of frozen columns.</param>
     /// <returns>True when the sheet has frozen panes.</returns>

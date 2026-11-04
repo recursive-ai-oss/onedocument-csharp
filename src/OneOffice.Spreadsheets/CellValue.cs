@@ -6,7 +6,7 @@ public enum CellValueKind : byte
     /// <summary>No value (a cell that only carries a style, or a formula whose result was not stored).</summary>
     Empty = 0,
 
-    /// <summary>A number, including dates and times, which are numbers until the date rules apply (ECMA-376 Part 1 §18.17.4).</summary>
+    /// <summary>A number, including dates and times, which are numbers until the date rules apply (ECMA-376 Part 1, SpreadsheetML dates).</summary>
     Number = 1,
 
     /// <summary>Text.</summary>
@@ -19,7 +19,7 @@ public enum CellValueKind : byte
     Error = 4,
 }
 
-/// <summary>The error values a cell can hold (ECMA-376 Part 1 §18.17.4.1 ST_CellType <c>e</c>, and the values current Excel writes).</summary>
+/// <summary>The error values a cell can hold (ECMA-376 Part 1 ST_CellType <c>e</c>, and the values current Excel writes).</summary>
 public enum CellError
 {
     /// <summary><c>#NULL!</c></summary>

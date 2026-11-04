@@ -59,7 +59,7 @@ internal sealed class StreamBufferWriter : IBufferWriter<byte>, IDisposable
     public void Dispose() => Flush();
 }
 
-/// <summary>Writes the <c>sheetData</c> of a worksheet from the cell store (ECMA-376 Part 1 §18.3.1.80 <c>row</c>, §18.3.1.4 <c>c</c>).</summary>
+/// <summary>Writes the <c>sheetData</c> of a worksheet from the cell store (ECMA-376 Part 1 CT_SheetData, CT_Row, CT_Cell).</summary>
 internal static class SheetWriter
 {
     public static void WriteRows(IBufferWriter<byte> w, CellStore store, SharedStringTable? strings, ReadOnlySpan<byte> prefixColon)

@@ -14,6 +14,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `sheet.` | the workbook model | `Reference`, `Value` |
 | `formula.` | formula text and tokens | `Formula` |
 | `docx.` | the word-processing hub | `Structure`, `Reference`, `Value`, `Packaging` |
+| `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
 
 ## Codes in use
 
@@ -97,6 +98,24 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.section-columns-mismatch` | repaired | `w:cols` names a count that differs from the number of `w:col` entries of an unequal layout; the entries win. |
 | `docx.header-missing` | repaired | A header or footer reference names a relationship that does not lead to a readable part; the reference is ignored. |
 | `docx.header-reference-duplicate` | repaired | A section has two header (or footer) references of one type; the first is used. |
+| `xlsx.no-main-part` | fatal | No `officeDocument` relationship points at a part that exists. |
+| `xlsx.wrong-root` | fatal | The workbook part does not start with a `workbook` element, or a worksheet part with a `worksheet` element. The location holds the part and offset. |
+| `xlsx.no-sheets` | repaired | The workbook part has no `sheets` element; the workbook reads as having no sheets. |
+| `xlsx.sheet-name-duplicate` | repaired | Two sheets have the same name (ignoring case); lookups by name find the first. |
+| `xlsx.sheet-part-missing` | dropped | A sheet's relationship does not lead to a part that exists; the sheet reads as empty and is not written. |
+| `xlsx.sheetdata-unexpected-element` | dropped | An element other than `row` stands inside `sheetData`; it is dropped. |
+| `xlsx.row-index-invalid` | repaired | A `row` has an `r` that is not a row of the sheet (or none that parses); it takes the number after the previous row. |
+| `xlsx.row-out-of-order` | repaired | Rows are not in ascending order; a row is merged into the one with the same number, later cells winning. |
+| `xlsx.cell-address-invalid` | dropped | A `c` has an `r` outside the sheet or not in A1 form; the cell is dropped. The location is the part and offset. |
+| `xlsx.cell-row-mismatch` | repaired | A cell's `r` names another row than its `row` element; the cell stays in the element's row. |
+| `xlsx.cell-out-of-order` | repaired | The cells of a row are not in ascending column order; they were sorted. |
+| `xlsx.cell-duplicate` | dropped | Two cells have the same address; the later one is kept. |
+| `xlsx.cell-type-unknown` | repaired | A cell's `t` is not one of the cell types; the value reads as a number if it parses, otherwise as text. |
+| `xlsx.cell-value-invalid` | repaired | A cell's value does not parse for its type (a number or a shared string index); the cell reads as empty. |
+| `xlsx.formula-type-unknown` | repaired | An `f` has an unknown `t`; it reads as an ordinary formula. |
+| `xlsx.column-range-invalid` | dropped | A `col` has no valid `min`/`max`; it is dropped. |
+| `xlsx.merge-range-invalid` | dropped | A `mergeCell` has a `ref` that is not a range of the sheet; it is dropped. |
+| `xlsx.shared-string-missing` | repaired | A cell refers to a shared string index the table does not have; its text reads as empty. |
 
 The XML layer repairs nothing: Office refuses an ill-formed part, and so does this layer. The limits it enforces (`MaxXmlDepth`, `MaxXmlAttributeCount`, `MaxXmlNameLength`, and `MaxPartSize` for a part held whole) raise `limit.*` as above.
 

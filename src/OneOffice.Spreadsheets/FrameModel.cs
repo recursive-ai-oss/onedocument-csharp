@@ -12,7 +12,7 @@ namespace RecursiveAI.OneOffice.Spreadsheets;
 /// </summary>
 internal sealed class FrameModel
 {
-    // ECMA-376 Part 1 §18.3.1.99: the child elements of worksheet, in schema order.
+    // ECMA-376 Part 1 CT_Worksheet: the child elements of worksheet, in schema order.
     private static readonly string[] Order =
     [
         "sheetPr", "dimension", "sheetViews", "sheetFormatPr", "cols", "sheetData", "sheetCalcPr", "sheetProtection", "protectedRanges",
@@ -22,14 +22,15 @@ internal sealed class FrameModel
         "picture", "oleObjects", "controls", "webPublishItems", "tableParts", "extLst",
     ];
 
-    private const string SplitAttribute = " x-split=\"1\"/>";
 
+    private readonly string _splitAttribute;
     private readonly SheetFrame _frame;
     private readonly string _prefixColon;
     private readonly MarkupDocument _doc;
 
-    private FrameModel(SheetFrame frame, MarkupDocument doc)
+    private FrameModel(SheetFrame frame, MarkupDocument doc, string splitAttribute)
     {
+        _splitAttribute = splitAttribute;
         _frame = frame;
         _doc = doc;
         _prefixColon = frame.Prefix.Length == 0 ? string.Empty : Encoding.UTF8.GetString(frame.Prefix) + ":";
@@ -54,10 +55,19 @@ internal sealed class FrameModel
     public static FrameModel Read(SheetFrame frame, OpenContext context, string partName)
     {
         string pc = frame.Prefix.Length == 0 ? string.Empty : Encoding.UTF8.GetString(frame.Prefix) + ":";
+
+        // The marker stands in for sheetData while the rest is edited as a tree. It must not occur anywhere else in the part (a
+        // comment or attribute value could quote it), so it gets a number that makes it unique among the bytes around it.
+        string split = " x-split=\"1\"/>";
+        for (int n = 2; Contains(frame.Head, split) || Contains(frame.Tail, split); n++)
+        {
+            split = " x-split=\"" + n.ToString(CultureInfo.InvariantCulture) + "\"/>";
+        }
+
         byte[] bytes;
         if (frame.HadSheetData)
         {
-            string marker = "<" + pc + "sheetData" + SplitAttribute;
+            string marker = "<" + pc + "sheetData" + split;
             bytes = [.. frame.Head, .. Encoding.UTF8.GetBytes(marker), .. frame.Tail];
         }
         else
@@ -66,11 +76,11 @@ internal sealed class FrameModel
         }
 
         MarkupDocument doc = MarkupDocument.Parse(bytes, context, partName);
-        var model = new FrameModel(frame, doc);
+        var model = new FrameModel(frame, doc, split);
         if (!frame.HadSheetData)
         {
             // A worksheet must have sheetData; add the marker where it belongs so the write path can place the rows.
-            model.InsertInOrder("sheetData", "<" + (frame.Prefix.Length == 0 && doc.Root.Prefix.Length > 0 ? Encoding.UTF8.GetString(doc.Root.Prefix) + ":" : model._prefixColon) + "sheetData" + SplitAttribute);
+            model.InsertInOrder("sheetData", "<" + (frame.Prefix.Length == 0 && doc.Root.Prefix.Length > 0 ? Encoding.UTF8.GetString(doc.Root.Prefix) + ":" : model._prefixColon) + "sheetData" + split);
         }
 
         model.ReadElements(context, partName);
@@ -341,12 +351,12 @@ internal sealed class FrameModel
         }
 
         byte[] all = _doc.ToArray();
-        byte[] marker = Encoding.UTF8.GetBytes("<" + (_doc.Root.Prefix.Length == 0 ? string.Empty : Encoding.UTF8.GetString(_doc.Root.Prefix) + ":") + "sheetData" + SplitAttribute);
+        byte[] marker = Encoding.UTF8.GetBytes("<" + (_doc.Root.Prefix.Length == 0 ? string.Empty : Encoding.UTF8.GetString(_doc.Root.Prefix) + ":") + "sheetData" + _splitAttribute);
         int at = all.AsSpan().IndexOf(marker);
         if (at < 0)
         {
             // The marker is in the tree and was never edited; losing it would mean the tree was rewritten oddly.
-            throw new OfficeFormatException(DefectKind.Structure, "xlsx.frame-marker-lost", "The sheet could not be written because its sheetData position was lost.");
+            throw new InvalidOperationException("The position of sheetData was lost while editing the markup around it.");
         }
 
         head = all[..at];
@@ -360,6 +370,8 @@ internal sealed class FrameModel
         _frame.Tail = tail;
         _frame.HadSheetData = true;
     }
+
+    private static bool Contains(byte[] bytes, string text) => bytes.AsSpan().IndexOf(Encoding.UTF8.GetBytes(text)) >= 0;
 
     private static void AppendFlag(StringBuilder sb, ColumnOptions flags, ColumnOptions flag, string name)
     {

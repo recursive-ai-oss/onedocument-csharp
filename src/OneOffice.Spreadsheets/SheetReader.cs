@@ -25,7 +25,7 @@ internal sealed class SheetFrame
     public byte[] Prefix = [];
 }
 
-/// <summary>Reads a worksheet part (ECMA-376 Part 1 §18.3.1.99) into a <see cref="CellStore"/>, tolerantly, reporting every repair.</summary>
+/// <summary>Reads a worksheet part (ECMA-376 Part 1 CT_Worksheet) into a <see cref="CellStore"/>, tolerantly, reporting every repair.</summary>
 internal static class SheetReader
 {
     private const int MaxCellsPerRow = 1 << 20;
@@ -672,7 +672,7 @@ internal static class SheetReader
             store.SetExtras(row, col, new CellExtras { Attributes = extraAttrs is null ? null : cache.Get(extraAttrs.WrittenSpan), Children = children?.WrittenSpan.ToArray() });
         }
 
-        // Decode the value by type: ECMA-376 Part 1 §18.18.11 ST_CellType.
+        // Decode the value by type: ECMA-376 Part 1 ST_CellType.
         byte kind = 0;
         long data = 0;
         bool known = true;

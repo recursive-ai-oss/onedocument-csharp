@@ -5,7 +5,7 @@ namespace RecursiveAI.OneOffice.Spreadsheets;
 
 /// <summary>
 /// The position of one cell on a sheet: a 1-based row and a 1-based column, within Excel's limits
-/// (1,048,576 rows by 16,384 columns, ECMA-376 Part 1 §18.3.1.4 and the worksheet size limits of §18.17.4.1).
+/// (1,048,576 rows by 16,384 columns, the limits of the format; ECMA-376 Part 1 ST_CellRef).
 /// </summary>
 /// <remarks>The default value is not a valid address (row 0, column 0); <see cref="IsValid"/> says so.</remarks>
 public readonly struct CellAddress : IEquatable<CellAddress>, IComparable<CellAddress>

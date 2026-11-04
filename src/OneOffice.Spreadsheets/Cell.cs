@@ -167,7 +167,7 @@ public sealed class Cell : IEquatable<Cell>
     public static bool operator !=(Cell? left, Cell? right) => !(left == right);
 }
 
-/// <summary>A handle to the properties of one row (§18.3.1.73 <c>row</c>): height, visibility, outline level and style.</summary>
+/// <summary>A handle to the properties of one row (CT_Row): height, visibility, outline level and style.</summary>
 public sealed class RowProperties
 {
     private readonly Worksheet _sheet;

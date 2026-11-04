@@ -9,7 +9,7 @@ using RecursiveAI.OneOffice.Packaging;
 namespace RecursiveAI.OneOffice.Spreadsheets;
 
 /// <summary>
-/// A spreadsheet workbook: the semantic hub over a SpreadsheetML package (ECMA-376 Part 1 §18.2). It lists the sheets with their
+/// A spreadsheet workbook: the semantic hub over a SpreadsheetML package (ECMA-376 Part 1, CT_Workbook). It lists the sheets with their
 /// names, states and order, and loads each worksheet's cells only when it is touched. A workbook opened and saved without edits
 /// writes every part byte-identical; an edit changes only the parts it touches.
 /// </summary>
@@ -422,7 +422,7 @@ public sealed partial class Workbook : OfficeFile
 
     private string Pc() => _tree.Root.Prefix.Length == 0 ? string.Empty : Encoding.UTF8.GetString(_tree.Root.Prefix) + ":";
 
-    // ECMA-376 Part 1 §18.2.27: the child elements of workbook, in schema order.
+    // ECMA-376 Part 1 CT_Workbook: the child elements of workbook, in schema order.
     private static readonly string[] WorkbookOrder =
     [
         "fileVersion", "fileSharing", "workbookPr", "workbookProtection", "bookViews", "sheets", "functionGroups", "externalReferences",

@@ -2,13 +2,13 @@ using System.Runtime.InteropServices;
 
 namespace RecursiveAI.OneOffice.Spreadsheets;
 
-/// <summary>The kind of a cell formula as the part stores it (ECMA-376 Part 1 §18.3.1.40 <c>f</c>, attribute <c>t</c>).</summary>
+/// <summary>The kind of a cell formula as the part stores it (ECMA-376 Part 1 CT_CellFormula, attribute <c>t</c>).</summary>
 public enum CellFormulaKind : byte
 {
     /// <summary>An ordinary formula held in this cell alone.</summary>
     Normal = 0,
 
-    /// <summary>A shared formula (§18.3.1.40): the anchor holds the text and the range, the others only the shared index.</summary>
+    /// <summary>A shared formula (CT_CellFormula): the anchor holds the text and the range, the others only the shared index.</summary>
     Shared = 1,
 
     /// <summary>An array formula over a range (a legacy CSE array or a dynamic-array anchor).</summary>

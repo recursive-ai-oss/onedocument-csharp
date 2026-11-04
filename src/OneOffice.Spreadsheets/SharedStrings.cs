@@ -7,7 +7,7 @@ using RecursiveAI.OneOffice.Markup.Xml;
 namespace RecursiveAI.OneOffice.Spreadsheets;
 
 /// <summary>
-/// ST_Xstring: text in which a character that XML cannot carry is written as <c>_xHHHH_</c> (ECMA-376 Part 1 §22.9.2.19 and §18.4.12 <c>t</c>).
+/// ST_Xstring: text in which a character that XML cannot carry is written as <c>_xHHHH_</c> (ECMA-376 Part 1 ST_Xstring, used by CT_Rst <c>t</c> and by cell text).
 /// </summary>
 internal static class XString
 {
@@ -308,7 +308,7 @@ internal static class XString
 }
 
 /// <summary>
-/// The shared string table of a workbook (ECMA-376 Part 1 §18.4): the strings cells refer to by index. It is read lazily: opening
+/// The shared string table of a workbook (ECMA-376 Part 1, CT_Sst): the strings cells refer to by index. It is read lazily: opening
 /// scans the part once for where each <c>si</c> entry starts and ends, and a string is decoded only when asked for. New strings are
 /// appended; existing entries (rich text, phonetic runs, unknown markup) are never rewritten, so they stay as stored.
 /// </summary>
