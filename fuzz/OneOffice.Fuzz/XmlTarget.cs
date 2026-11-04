@@ -77,7 +77,13 @@ internal static class XmlTarget
             throw new InvalidOperationException("the edited document does not parse");
         }
 
-        if (again.Root.GetAttribute("xmlns:fuzzprobe") != "urn:fuzz")
+        bool found = false;
+        foreach (MarkupAttributeRef a in again.Root.Attributes)
+        {
+            found |= a.RawName.SequenceEqual("xmlns:fuzzprobe"u8) && a.Value == "urn:fuzz";
+        }
+
+        if (!found)
         {
             throw new InvalidOperationException("the edit was lost");
         }
