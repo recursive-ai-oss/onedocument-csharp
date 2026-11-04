@@ -4,7 +4,7 @@
 #   fuzz/run.sh <target> <seconds> [corpus dir] [extra libFuzzer flags...]
 #   fuzz/run.sh replay <target> <file>...      # run saved inputs once, without libFuzzer (reproduce a finding)
 #
-# Targets: sniff, xml, markup, opc, cfb, sdt, sdtpath, text, revisions   (see fuzz/README.md)
+# Targets: sniff, xml, markup, opc, cfb, sdt, sdtpath, text, revisions, fieldinstr, fields   (see fuzz/README.md)
 #
 # Environment (nothing is baked into the script):
 #   ONEOFFICE_FUZZ_WORK    required: where builds, corpora and findings go. Keep it outside the checkout.
@@ -37,6 +37,8 @@ shift
 # Maximum input length per target.
 case "$target" in
   sniff) maxlen=262144 ;;
+  fieldinstr) maxlen=4096 ;;
+  fields) maxlen=65536 ;;
   text) maxlen=65536 ;;
   revisions) maxlen=65536 ;;
   opc) maxlen=262144 ;;
