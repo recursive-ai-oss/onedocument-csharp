@@ -175,6 +175,19 @@ public class RevisionResolveTests
     }
 
     [Fact]
+    public void ChangesThatCannotBeResolvedStayAndAreReported()
+    {
+        var sink = new RecursiveAI.OneOffice.Diagnostics.DefectCollection();
+        RevisionPart part = Part("<w:p><w:trPr><w:ins w:id=\"1\" w:author=\"A\"/></w:trPr>" + R("x") + "</w:p>");
+        RevisionSet set = RevisionSet.Scan([part], new RecursiveAI.OneOffice.OpenContext(defects: sink));
+        Assert.Equal(0, set.RejectAll());
+        Assert.Single(set.Revisions);
+        RecursiveAI.OneOffice.Diagnostics.Defect d = Assert.Single(sink);
+        Assert.Equal("docx.revision-unresolvable", d.Code);
+        Assert.True(d.Location.Offset > 0);
+    }
+
+    [Fact]
     public void StaleRevisionsAreRefused()
     {
         RevisionSet set = Set("<w:p>" + Ins(1, "Ann", R("one")) + "</w:p>");
