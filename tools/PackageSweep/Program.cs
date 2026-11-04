@@ -47,25 +47,27 @@ internal static class Program
     {
         Directory.CreateDirectory(outDir);
         int n = 0;
-        var files = new List<string>();
+        var files = new List<(string File, string Relative)>();
         foreach (string p in paths)
         {
             if (Directory.Exists(p))
             {
-                files.AddRange(Directory.EnumerateFiles(p, "*", SearchOption.AllDirectories).Where(f => OpcExtensions.Contains(Path.GetExtension(f), StringComparer.OrdinalIgnoreCase)).Order(StringComparer.Ordinal));
+                files.AddRange(Directory.EnumerateFiles(p, "*", SearchOption.AllDirectories).Where(f => OpcExtensions.Contains(Path.GetExtension(f), StringComparer.OrdinalIgnoreCase)).Order(StringComparer.Ordinal).Select(f => (f, Path.GetRelativePath(p, f))));
             }
             else
             {
-                files.Add(p);
+                files.Add((p, Path.GetFileName(p)));
             }
         }
 
-        foreach (string file in files)
+        foreach ((string file, string relative) in files)
         {
             try
             {
                 using OpcPackage pkg = OpcPackage.Open(file);
-                using FileStream output = File.Create(Path.Combine(outDir, Path.GetFileName(file)));
+                string target = Path.Combine(outDir, relative);
+                Directory.CreateDirectory(Path.GetDirectoryName(target)!);
+                using FileStream output = File.Create(target);
                 pkg.WriteTo(output);
                 n++;
             }
