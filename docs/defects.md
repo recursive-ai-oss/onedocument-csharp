@@ -13,6 +13,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `biff.`, `doc.`, `ppt.`, `xlsb.` | binary record layers | `Record` |
 | `sheet.` | the workbook model | `Reference`, `Value` |
 | `formula.` | formula text and tokens | `Formula` |
+| `text.` | text extraction | `Structure`, `Reference`, `Markup`, `Packaging` |
 
 ## Codes in use
 
@@ -41,6 +42,10 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `xml.misplaced-content` | fatal | Text or a CDATA section outside the root element, or a second root element. |
 | `xml.no-root` | fatal | The part has no root element. |
 | `xml.invalid-declaration` | fatal | The XML declaration is malformed (version, encoding, standalone) or is not the first thing in the part. |
+| `text.no-main-part` | fatal | The package names no main document part, or the part it names is not in the package. |
+| `text.part-missing` | dropped | A relationship of the main part (a header, footer, notes, comments, sheet or slide) names a part the package does not have; its text is left out. |
+| `text.part-unreadable` | dropped | A part other than the main one is damaged (malformed XML or a damaged archive entry); the text before the damage was kept and the rest of that part is left out. The location is the part and offset. |
+| `text.shared-string-out-of-range` | dropped | A worksheet cell names a shared string the table does not have; the cell is left out. The location is the part and the cell's offset. |
 
 The XML layer repairs nothing: Office refuses an ill-formed part, and so does this layer. The limits it enforces (`MaxXmlDepth`, `MaxXmlAttributeCount`, `MaxXmlNameLength`, and `MaxPartSize` for a part held whole) raise `limit.*` as above.
 

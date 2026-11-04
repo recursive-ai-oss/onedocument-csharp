@@ -90,4 +90,8 @@ public class DocxExtract : DocxBenchmarkBase
     /// <summary>The XWPF extractor.</summary>
     [Benchmark]
     public long Npoi() => Rows.NpoiExtract(Bytes);
+
+    /// <summary>OneOffice's streaming extractor.</summary>
+    [Benchmark]
+    public long OneOffice() => Rows.OneOfficeExtract(Bytes);
 }
