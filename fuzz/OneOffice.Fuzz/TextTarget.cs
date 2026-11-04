@@ -44,7 +44,7 @@ internal static class TextTarget
             switch (mode)
             {
                 case 0:
-                    new WordTextExtractor(context, options, sink, default).Run(reader);
+                    new WordTextExtractor(context, options, sink, "/fuzz.xml", default).Run(reader);
                     break;
                 case 1:
                     new DrawingTextExtractor(context, sink, default).Run(reader);

@@ -26,19 +26,22 @@ public sealed class TextExtractionOptions
     public bool IncludeComments { get; init; } = true;
 
     /// <summary>
-    /// Gets or sets where list labels (<c>1.</c>, <c>a)</c>, bullets) come from. The default, null, leaves labels out. The numbering
-    /// model supplies this when it is available.
+    /// Gets or sets where list labels (<c>1.</c>, <c>a)</c>, bullets) come from. The default, null, leaves labels out: the numbering
+    /// definitions are part of the document model, which streaming extraction does not build. The word-processing package supplies a
+    /// source built from the model.
     /// </summary>
-    internal IListLabelSource? ListLabels { get; init; }
+    public IListLabelSource? ListLabels { get; init; }
 }
 
-/// <summary>Supplies the label a numbered or bulleted paragraph shows, in document order.</summary>
-internal interface IListLabelSource
+/// <summary>
+/// Tells the text extractor the label a numbered or bulleted paragraph shows. Paragraphs are named by where they start, so the source
+/// can be built from the document model without the extractor knowing about it.
+/// </summary>
+public interface IListLabelSource
 {
-    /// <summary>Gets the label of the next paragraph of a list, counting it.</summary>
-    /// <param name="numId">The numbering instance the paragraph names directly, or -1 when it names none (its style may).</param>
-    /// <param name="level">The list level, 0 to 8.</param>
-    /// <param name="styleId">The paragraph's style id, or null.</param>
-    /// <returns>The label text, or null when the paragraph shows none.</returns>
-    string? NextLabel(int numId, int level, string? styleId);
+    /// <summary>Gets the text to put before a paragraph: its label and the separator that follows it.</summary>
+    /// <param name="partName">The part the paragraph is in, for example <c>/word/document.xml</c>.</param>
+    /// <param name="paragraphOffset">The byte offset of the paragraph's start tag in the uncompressed part.</param>
+    /// <returns>The text, for example <c>"2.\t"</c>; null or empty for a paragraph that is not numbered.</returns>
+    string? LabelFor(string partName, long paragraphOffset);
 }

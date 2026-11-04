@@ -102,20 +102,27 @@ public class WordTextTests
     }
 
     [Fact]
-    public void List_labels_come_from_the_numbering_seam()
+    public void List_labels_come_from_the_label_source_by_paragraph_offset()
     {
-        byte[] doc = Docx(
-            "<w:p><w:pPr><w:numPr><w:ilvl w:val=\"1\"/><w:numId w:val=\"7\"/></w:numPr></w:pPr>" + Run("item") + "</w:p>" +
-            "<w:p><w:pPr><w:pStyle w:val=\"ListBullet\"/></w:pPr>" + Run("bullet") + "</w:p>" + Para("plain"));
-        var labels = new FakeLabels();
-        Assert.Equal("7/1:a)\titem\nstyle ListBullet:•\tbullet\nplain\n", Extract(doc, new TextExtractionOptions { ListLabels = labels }));
-        Assert.Equal("item\nbullet\nplain\n", Extract(doc));
+        byte[] doc = Docx("<w:p>" + Run("item") + "</w:p>" + Para("plain") + "<w:p>" + Run("bullet") + "</w:p>");
+        string xml = ReadPartText(doc, "word/document.xml");
+        int first = xml.IndexOf("<w:p>", StringComparison.Ordinal);
+        int third = xml.LastIndexOf("<w:p>", StringComparison.Ordinal);
+        var labels = new FakeLabels(new Dictionary<long, string> { [first] = "a)\t", [third] = "\u2022 " });
+        Assert.Equal("a)\titem\nplain\n\u2022 bullet\n", Extract(doc, new TextExtractionOptions { ListLabels = labels }));
+        Assert.All(labels.Asked, part => Assert.Equal("/word/document.xml", part));
+        Assert.Equal("item\nplain\nbullet\n", Extract(doc));
     }
 
-    private sealed class FakeLabels : IListLabelSource
+    private sealed class FakeLabels(Dictionary<long, string> byOffset) : IListLabelSource
     {
-        public string? NextLabel(int numId, int level, string? styleId) =>
-            numId > 0 ? $"{numId}/{level}:a)" : styleId == "ListBullet" ? "style ListBullet:•" : null;
+        public List<string> Asked { get; } = [];
+
+        public string? LabelFor(string partName, long paragraphOffset)
+        {
+            Asked.Add(partName);
+            return byOffset.GetValueOrDefault(paragraphOffset);
+        }
     }
 
     [Fact]
@@ -131,7 +138,7 @@ public class WordTextTests
         Assert.False(n.Paragraphs[0].InTable);
 
         // The paragraph's offset is the offset of its start tag in the part.
-        string xml = ReadPart(doc, "word/document.xml");
+        string xml = ReadPartText(doc, "word/document.xml");
         Assert.Equal(xml.IndexOf("<w:p>", StringComparison.Ordinal), n.Paragraphs[0].PartOffset);
         Assert.Equal(xml.IndexOf("<w:p>", xml.IndexOf("<w:p>", StringComparison.Ordinal) + 1, StringComparison.Ordinal), n.Paragraphs[1].PartOffset);
 
@@ -232,10 +239,10 @@ public class WordTextTests
             var context = new OpenContext();
             var sink = new PlainTextSink(TextWriter.Null);
             using var warm = new RecursiveAI.OneOffice.Markup.MarkupReader(part, context);
-            new WordTextExtractor(context, TextExtractionOptions.Default, sink, default).Run(warm);
+            new WordTextExtractor(context, TextExtractionOptions.Default, sink, "/word/document.xml", default).Run(warm);
             long before = GC.GetAllocatedBytesForCurrentThread();
             using var reader = new RecursiveAI.OneOffice.Markup.MarkupReader(part, context);
-            new WordTextExtractor(context, TextExtractionOptions.Default, sink, default).Run(reader);
+            new WordTextExtractor(context, TextExtractionOptions.Default, sink, "/word/document.xml", default).Run(reader);
             return GC.GetAllocatedBytesForCurrentThread() - before;
         }
 
@@ -258,7 +265,7 @@ public class WordTextTests
         Assert.True(perParagraph < 4.0, $"{perParagraph} bytes per paragraph through the package");
     }
 
-    private static string ReadPart(byte[] package, string name)
+    internal static string ReadPartText(byte[] package, string name)
     {
         using var zip = new System.IO.Compression.ZipArchive(new MemoryStream(package));
         using var reader = new StreamReader(zip.GetEntry(name)!.Open());

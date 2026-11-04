@@ -159,7 +159,7 @@ public static class OoxmlTextExtractor
         public void Document(string main)
         {
             List<Relationship> rels = parts.ReadRelationships(main);
-            Part(main, TextStory.Body, r => new WordTextExtractor(context, options, sink, cancellation).Run(r));
+            Part(main, TextStory.Body, r => new WordTextExtractor(context, options, sink, main, cancellation).Run(r));
             if (options.IncludeHeadersAndFooters)
             {
                 Related(main, rels, "/header", TextStory.Header, WordPart);
@@ -221,17 +221,17 @@ public static class OoxmlTextExtractor
             }
         }
 
-        private void WordPart(MarkupReader r) => new WordTextExtractor(context, options, sink, cancellation).Run(r);
+        private Action<MarkupReader> WordPart(string partName) => r => new WordTextExtractor(context, options, sink, partName, cancellation).Run(r);
 
-        private void DrawingPart(MarkupReader r) => new DrawingTextExtractor(context, sink, cancellation).Run(r);
+        private Action<MarkupReader> DrawingPart(string _) => r => new DrawingTextExtractor(context, sink, cancellation).Run(r);
 
-        private void Related(string source, List<Relationship> rels, string typeSuffix, TextStory story, Action<MarkupReader> read)
+        private void Related(string source, List<Relationship> rels, string typeSuffix, TextStory story, Func<string, Action<MarkupReader>> read)
         {
             foreach (Relationship rel in rels)
             {
                 if (rel.Type.EndsWith(typeSuffix, StringComparison.Ordinal) && OoxmlParts.Resolve(source, rel) is { } target)
                 {
-                    OptionalPart(target, story, read);
+                    OptionalPart(target, story, read(target));
                 }
             }
         }

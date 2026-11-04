@@ -20,14 +20,12 @@ internal sealed class WordTextExtractor
         public long Offset;
         public bool MarkDeleted;
         public bool Merged;
-        public int NumId = -1;
-        public int Level;
-        public string? Style;
         public List<Deferred>? Deferred;
     }
 
     private readonly record struct Deferred(string Text, long Offset, int TableDepth);
 
+    private readonly string _partName;
     private readonly OpenContext _context;
     private readonly TextExtractionOptions _options;
     private readonly TextSink _sink;
@@ -43,8 +41,9 @@ internal sealed class WordTextExtractor
     private bool _collect;
     private bool _pendingMerge;
 
-    public WordTextExtractor(OpenContext context, TextExtractionOptions options, TextSink sink, CancellationToken cancellation)
+    public WordTextExtractor(OpenContext context, TextExtractionOptions options, TextSink sink, string partName, CancellationToken cancellation)
     {
+        _partName = partName;
         _context = context;
         _options = options;
         _sink = sink;
@@ -209,37 +208,6 @@ internal sealed class WordTextExtractor
             return;
         }
 
-        if (name.SequenceEqual("numId"u8))
-        {
-            if (_inParagraphProperties)
-            {
-                SetNumbering(r, level: false);
-            }
-
-            return;
-        }
-
-        if (name.SequenceEqual("ilvl"u8))
-        {
-            if (_inParagraphProperties)
-            {
-                SetNumbering(r, level: true);
-            }
-
-            return;
-        }
-
-        if (name.SequenceEqual("pStyle"u8))
-        {
-            if (_inParagraphProperties && _options.ListLabels is not null && _depth > 0 && !Top().Merged
-                && Ns.TryGetAttribute(r, "val"u8, out ReadOnlySpan<byte> style))
-            {
-                Top().Style = XmlText.GetString(style, true);
-            }
-
-            return;
-        }
-
         if (name.SequenceEqual("delText"u8))
         {
             if (start)
@@ -380,24 +348,6 @@ internal sealed class WordTextExtractor
         }
     }
 
-    private void SetNumbering(MarkupReader r, bool level)
-    {
-        if (_options.ListLabels is null || _depth == 0 || Top().Merged || !Ns.TryGetAttribute(r, "val"u8, out ReadOnlySpan<byte> raw)
-            || !int.TryParse(raw, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out int value))
-        {
-            return;
-        }
-
-        if (level)
-        {
-            Top().Level = value;
-        }
-        else
-        {
-            Top().NumId = value;
-        }
-    }
-
     private void AppendChar(char c)
     {
         if (_depth > 0 && !_inParagraphProperties && (_deletedDepth == 0 || _options.IncludeDeletedText))
@@ -437,9 +387,6 @@ internal sealed class WordTextExtractor
         f.Offset = offset;
         f.MarkDeleted = false;
         f.Merged = false;
-        f.NumId = -1;
-        f.Level = 0;
-        f.Style = null;
         f.Deferred?.Clear();
     }
 
@@ -494,13 +441,9 @@ internal sealed class WordTextExtractor
 
     private void Emit(Frame f)
     {
-        if (_options.ListLabels is { } labels && (f.NumId > 0 || (f.NumId < 0 && f.Style is not null)))
+        if (_options.ListLabels is { } labels && labels.LabelFor(_partName, f.Offset) is { Length: > 0 } label)
         {
-            string? label = labels.NextLabel(f.NumId, f.Level, f.Style);
-            if (!string.IsNullOrEmpty(label))
-            {
-                f.Text.Insert(label + "\t");
-            }
+            f.Text.Insert(label);
         }
 
         _sink.Paragraph(f.Text.AsSpan(), new ParagraphInfo(f.Offset, _tableDepth, false));

@@ -29,7 +29,7 @@ After the body: headers, footers, footnotes, endnotes, comments, each on option 
 
 "Understood" for `mc:Choice/@Requires` means a namespace under the standard's own roots (`http://schemas.openxmlformats.org/`, `http://purl.oclc.org/ooxml/`), Microsoft's Office extension namespaces (`http://schemas.microsoft.com/office/`) and VML. This picks the DrawingML text box over its VML copy, as current Office does.
 
-List labels are a seam (`IListLabelSource`); until the numbering model supplies one, labels are left out.
+List labels are off by default, because they need the numbering definitions, which streaming extraction does not build. `TextExtractionOptions.ListLabels` takes an `IListLabelSource`, which names a paragraph by the byte offset of its start tag; `DocumentText.ListLabels(document)` (word-processing package) builds one for the main story from the document model's numbering, with each level's separator (tab, space or nothing). Headers, footers and notes get no labels. The document must have no uncommitted edits, because the offsets are those of the stored part.
 
 **Workbooks.** Sheets in workbook order; per row, the string cells (shared strings, formula string results, inline strings) separated by a tab, rows on lines. Phonetic runs (`rPh`) are left out. Numbers, booleans and errors have no text of their own and are not output; cell values with number formats belong to the workbook model.
 

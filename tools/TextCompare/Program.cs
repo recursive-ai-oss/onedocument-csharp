@@ -71,6 +71,12 @@ internal static class Program
             {
                 File.WriteAllText(Path.Combine(args[2], name + ".ours.err"), ex.Defect.ToString());
             }
+#pragma warning disable CA1031 // Anything but a typed rejection is a finding: record it and go on with the other files.
+            catch (Exception ex)
+#pragma warning restore CA1031
+            {
+                File.WriteAllText(Path.Combine(args[2], name + ".ours.crash"), ex.ToString());
+            }
 
             oursTicks += sw.ElapsedTicks;
             sw.Restart();
@@ -91,7 +97,7 @@ internal static class Program
 
                 File.WriteAllText(Path.Combine(args[2], name + ".sdk.txt"), sb.ToString(), new UTF8Encoding(false));
             }
-            catch (Exception ex) when (ex is IOException or InvalidDataException or DocumentFormat.OpenXml.Packaging.OpenXmlPackageException or System.Xml.XmlException or InvalidOperationException or ArgumentException)
+            catch (Exception ex) when (ex is IOException or InvalidDataException or DocumentFormat.OpenXml.Packaging.OpenXmlPackageException or System.Xml.XmlException or InvalidOperationException or ArgumentException or FormatException or NotSupportedException)
             {
                 File.WriteAllText(Path.Combine(args[2], name + ".sdk.err"), ex.GetType().Name + ": " + ex.Message);
             }
