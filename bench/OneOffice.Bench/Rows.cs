@@ -3,6 +3,8 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using NPOI.XWPF.Extractor;
 using NPOI.XWPF.UserModel;
+using RecursiveAI.OneOffice.IO;
+using RecursiveAI.OneOffice.TextExtraction;
 using OpenXmlReader = DocumentFormat.OpenXml.OpenXmlReader;
 
 namespace RecursiveAI.OneOffice.Bench;
@@ -36,6 +38,7 @@ public static class Rows
         ["openxml.extract.dom"] = OpenXmlExtractDom,
         ["openxml.extract.reader"] = OpenXmlExtractReader,
         ["npoi.extract"] = NpoiExtract,
+        ["oneoffice.extract"] = OneOfficeExtract,
     };
 
     /// <summary>Rows waiting for the layer they measure. Listed so the gap is visible, not forgotten.</summary>
@@ -44,7 +47,6 @@ public static class Rows
         "oneoffice.loadsave (package open + save)",
         "oneoffice.edit (change one paragraph, save)",
         "oneoffice.lazyopen (open, read one part)",
-        "oneoffice.extract (text extraction)",
     ];
 
     // Baseline: what any zip-level tool must pay. Entries are read and written back whole through the BCL zip classes.
@@ -189,6 +191,28 @@ public static class Rows
         using var doc = new XWPFDocument(input);
         var extractor = new XWPFWordExtractor(doc);
         return extractor.Text.Length;
+    }
+
+    /// <summary>Extracts the text of the package with OneOffice, into a writer that only counts characters.</summary>
+    public static long OneOfficeExtract(byte[] src)
+    {
+        using IByteSource source = ByteSource.FromMemory(src);
+        var counter = new CountingWriter();
+        OoxmlTextExtractor.Extract(source, counter);
+        return counter.Count;
+    }
+
+    private sealed class CountingWriter : TextWriter
+    {
+        public long Count { get; private set; }
+
+        public override System.Text.Encoding Encoding => System.Text.Encoding.UTF8;
+
+        public override void Write(char value) => Count++;
+
+        public override void Write(ReadOnlySpan<char> buffer) => Count += buffer.Length;
+
+        public override void Write(string? value) => Count += value?.Length ?? 0;
     }
 
     private static void CopyEntries(ZipArchive from, ZipArchive to, string? rewriteName, Func<byte[], byte[]>? rewrite)

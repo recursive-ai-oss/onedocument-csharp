@@ -11,6 +11,7 @@
 | `markup` | raw bytes | the markup tree and streaming reader: parse then write gives the input byte for byte; the tree, the reader and the tokenizer agree on what is well-formed; an edit then re-parse stays well-formed |
 | `fieldinstr` | UTF-8 text | the field instruction parser: it never fails, keeps the text, and every switch name is one character |
 | `fields` | document part, NUL, footnotes part, NUL, comments part | the field, note and comment readers and editors: typed outcomes only, and every edited part parses again |
+| `text` | one mode byte + a part | the OOXML text extractors (word-processing, drawing, shared strings and worksheet): typed rejections only, and extracting twice gives the same text |
 | `revisions` | raw bytes (a WordprocessingML part) | the revision model: scan, both text views, accept-all, reject-all, one revision, and an authoring call with positions taken from the input; the results re-parse |
 
 Only `OfficeException` may come out of a library call: it is the typed rejection of bad input. Any other exception, a failed invariant, a hang (`-timeout`) or a memory blow-up (`-rss_limit_mb`) is a finding.
