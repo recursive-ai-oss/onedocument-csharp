@@ -7,12 +7,14 @@ HERE="$(cd "$(dirname "$0")" && pwd)"
 REPO="$HERE/../.."
 SHARDS="${SHARDS:-4}"
 mkdir -p "$OUT/probe" "$OUT/lo"
+if [ -z "${SKIP_CENSUS:-}" ]; then
 dotnet build -c Release -m:2 -v quiet -clp:NoSummary "$HERE/RevisionProbe.csproj" -o "$OUT/bin" || exit 1
 for i in $(seq 0 $((SHARDS - 1))); do
   nice dotnet "$OUT/bin/RevisionProbe.dll" batch "$CORPUS" "$OUT/probe" --shard "$i/$SHARDS" > "$OUT/census-$i.jsonl" 2> "$OUT/census-$i.err" &
 done
 wait
 cat "$OUT"/census-*.jsonl > "$OUT/census.jsonl"
+fi
 # Files with revisions, as LibreOffice names them.
 python3 - "$OUT" "$CORPUS" <<'P'
 import json, os, sys
@@ -26,7 +28,7 @@ P
 if [ -n "${SOFFICE:-}" ] && [ -s "$OUT/with-revisions.txt" ]; then
   # LibreOffice names its output after the file; the probe names its after the relative path with separators replaced.
   mkdir -p "$OUT/lo-in"
-  while read -r f; do ln -sf "$f" "$OUT/lo-in/$(realpath --relative-to="$CORPUS" "$f" | tr '/' '_')"; done < "$OUT/with-revisions.txt"
+  while read -r f; do ln -sf "$f" "$OUT/lo-in/$(echo "${f#"$CORPUS"/}" | tr '/' '_')"; done < "$OUT/with-revisions.txt"
   for mode in accept reject; do
     LO_PROFILE="$OUT/lo-profile" timeout 1500 ${PYUNO:-python3} "$HERE/lo_resolve.py" $mode "$OUT/lo" "$OUT"/lo-in/* > "$OUT/lo-$mode.log" 2>&1
   done

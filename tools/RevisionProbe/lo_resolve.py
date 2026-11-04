@@ -8,7 +8,7 @@ Drives the office black-box through its public UNO interface (the `.uno:AcceptAl
 revision model's accepted and rejected text with another implementation; the result is information, not a gate.
 Needs python3 with the `uno` module, and `soffice` on PATH (or SOFFICE=...). LO_PROFILE names the profile directory.
 """
-import os, subprocess, sys, time, uuid
+import os, signal, subprocess, sys, time, uuid
 
 import uno
 from com.sun.star.beans import PropertyValue
@@ -20,6 +20,11 @@ def prop(name, value):
     return p
 
 
+def clean_env():
+    # Importing uno from a distribution package can leave variables behind that point the office at a different install.
+    return {k: v for k, v in os.environ.items() if k not in ("URE_BOOTSTRAP", "UNO_PATH", "PYTHONPATH", "LD_LIBRARY_PATH", "PYTHONHOME")}
+
+
 def main():
     mode, out_dir, files = sys.argv[1], sys.argv[2], sys.argv[3:]
     os.makedirs(out_dir, exist_ok=True)
@@ -29,12 +34,12 @@ def main():
     proc = subprocess.Popen(
         [soffice, "--headless", "--invisible", "--norestore", "--nologo", "--nodefault",
          f"-env:UserInstallation=file://{os.path.abspath(profile)}", f"--accept=pipe,name={pipe};urp;"],
-        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+        stdout=subprocess.DEVNULL, stderr=open(os.path.join(out_dir, "soffice.err"), "w"), start_new_session=True, env=clean_env())
     try:
         local = uno.getComponentContext()
         resolver = local.ServiceManager.createInstanceWithContext("com.sun.star.bridge.UnoUrlResolver", local)
         ctx = None
-        for _ in range(120):
+        for _ in range(600):
             try:
                 ctx = resolver.resolve(f"uno:pipe,name={pipe};urp;StarOffice.ComponentContext")
                 break
@@ -69,10 +74,15 @@ def main():
         except Exception:
             pass
     finally:
+        # soffice starts a child process; end the whole group so nothing keeps the profile locked.
         try:
             proc.wait(timeout=10)
         except Exception:
-            proc.kill()
+            pass
+        try:
+            os.killpg(proc.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
     return 0
 
 
