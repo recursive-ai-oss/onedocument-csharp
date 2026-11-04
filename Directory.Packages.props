@@ -4,7 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- Family libraries the shipped packages use, at published versions. -->
-    <PackageVersion Include="RecursiveAI.OneArchive" Version="1.1.1" />
+    <PackageVersion Include="RecursiveAI.OneArchive" Version="1.2.0-preview.1" />
     <!-- Test, fuzz and benchmark projects only. -->
     <PackageVersion Include="xunit.v3" Version="4.0.2" />
     <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
