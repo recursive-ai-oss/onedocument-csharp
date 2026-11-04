@@ -24,6 +24,8 @@ internal static class Program
     private static readonly Dictionary<string, Target> Targets = new()
     {
         ["sniff"] = SniffTarget.Run,
+        ["xml"] = XmlTarget.RunTokenizer,
+        ["markup"] = XmlTarget.RunTree,
     };
 
     private static int Main(string[] args)
@@ -35,7 +37,12 @@ internal static class Program
 
         if (args.Length > 2 && args[0] == "seeds")
         {
-            return args[1] == "sniff" ? SniffTarget.WriteSeeds(args[2]) : 2;
+            return args[1] switch
+            {
+                "sniff" => SniffTarget.WriteSeeds(args[2]),
+                "xml" or "markup" => XmlTarget.WriteSeeds(args[2]),
+                _ => 2,
+            };
         }
 
         string? name = Environment.GetEnvironmentVariable("ONEOFFICE_FUZZ_TARGET") ?? (args.Length > 0 ? args[0] : null);
