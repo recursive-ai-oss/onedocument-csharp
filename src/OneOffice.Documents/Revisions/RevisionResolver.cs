@@ -118,14 +118,14 @@ internal sealed class RevisionResolver
                 }
                 else
                 {
-                    RemoveRow(Wml.Ancestor(el, "tr"));
+                    RemoveRow(WordXml.Ancestor(el, "tr"));
                 }
 
                 break;
             case RevisionKind.TableRowDeleted:
                 if (accept)
                 {
-                    RemoveRow(Wml.Ancestor(el, "tr"));
+                    RemoveRow(WordXml.Ancestor(el, "tr"));
                 }
                 else
                 {
@@ -142,14 +142,14 @@ internal sealed class RevisionResolver
                 }
                 else
                 {
-                    RemoveCell(Wml.Ancestor(el, "tc"));
+                    RemoveCell(WordXml.Ancestor(el, "tc"));
                 }
 
                 break;
             case RevisionKind.CellDeleted:
                 if (accept)
                 {
-                    RemoveCell(Wml.Ancestor(el, "tc"));
+                    RemoveCell(WordXml.Ancestor(el, "tc"));
                 }
                 else
                 {
@@ -188,14 +188,14 @@ internal sealed class RevisionResolver
     internal static void SweepRangeMarkers(MarkupNode root)
     {
         var doomed = new List<MarkupNode>();
-        for (MarkupNode n = root; !n.IsNull; n = Wml.Next(n, root, true))
+        for (MarkupNode n = root; !n.IsNull; n = WordXml.Next(n, root, true))
         {
-            if (n.Kind != MarkupNodeKind.Element || !Wml.InMain(n))
+            if (n.Kind != MarkupNodeKind.Element || !WordXml.InMain(n))
             {
                 continue;
             }
 
-            if (Wml.IsAny(n, "moveFromRangeStart", "moveFromRangeEnd", "moveToRangeStart", "moveToRangeEnd",
+            if (WordXml.IsAny(n, "moveFromRangeStart", "moveFromRangeEnd", "moveToRangeStart", "moveToRangeEnd",
                 "customXmlInsRangeStart", "customXmlInsRangeEnd", "customXmlDelRangeStart", "customXmlDelRangeEnd",
                 "customXmlMoveFromRangeStart", "customXmlMoveFromRangeEnd", "customXmlMoveToRangeStart", "customXmlMoveToRangeEnd"))
             {
@@ -212,16 +212,16 @@ internal sealed class RevisionResolver
     // §17.13.5.22/25: the range markers bracket the moved content; they go with it.
     private static void RemoveMoveMarkers(MarkupNode el, string prefix)
     {
-        MarkupNode start = Wml.PreviousElement(el);
-        if (start.IsNull || !Wml.Is(start, prefix + "Start"))
+        MarkupNode start = WordXml.PreviousElement(el);
+        if (start.IsNull || !WordXml.Is(start, prefix + "Start"))
         {
             return;
         }
 
-        string? id = Wml.Attr(start, "id");
-        for (MarkupNode s = Wml.NextElement(el); !s.IsNull; s = Wml.NextElement(s))
+        string? id = WordXml.Attr(start, "id");
+        for (MarkupNode s = WordXml.NextElement(el); !s.IsNull; s = WordXml.NextElement(s))
         {
-            if (Wml.Is(s, prefix + "End") && Wml.Attr(s, "id") == id)
+            if (WordXml.Is(s, prefix + "End") && WordXml.Attr(s, "id") == id)
             {
                 s.Remove();
                 break;
@@ -236,9 +236,9 @@ internal sealed class RevisionResolver
         if (renameDeleted)
         {
             var targets = new List<MarkupNode>();
-            for (MarkupNode n = el.FirstChild; !n.IsNull; n = Wml.Next(n, el, true))
+            for (MarkupNode n = el.FirstChild; !n.IsNull; n = WordXml.Next(n, el, true))
             {
-                if (Wml.IsAny(n, "delText", "delInstrText"))
+                if (WordXml.IsAny(n, "delText", "delInstrText"))
                 {
                     targets.Add(n);
                 }
@@ -250,14 +250,14 @@ internal sealed class RevisionResolver
             }
         }
 
-        string inner = Wml.InnerXml(el);
+        string inner = WordXml.InnerXml(el);
         if (inner.Length == 0)
         {
             el.Remove();
         }
         else
         {
-            el.ReplaceWithXml(Wml.Bytes(inner));
+            el.ReplaceWithXml(WordXml.Bytes(inner));
         }
     }
 
@@ -265,7 +265,7 @@ internal sealed class RevisionResolver
     private static void RenameDeleted(MarkupNode t)
     {
         string oldRaw = t.Name;
-        string newLocal = Wml.SpanEquals(t.LocalName, "delText") ? "t" : "instrText";
+        string newLocal = WordXml.SpanEquals(t.LocalName, "delText") ? "t" : "instrText";
         string prefix = t.Prefix.Length == 0 ? string.Empty : t.Name[..^t.LocalNameString.Length];
         string newRaw = prefix + newLocal;
         string xml = t.OuterXml;
@@ -276,7 +276,7 @@ internal sealed class RevisionResolver
             xml = xml[..^endTag.Length] + "</" + newRaw + ">";
         }
 
-        t.ReplaceWithXml(Wml.Bytes(xml));
+        t.ReplaceWithXml(WordXml.Bytes(xml));
     }
 
     private static void RemoveMarker(MarkupNode el)
@@ -289,10 +289,10 @@ internal sealed class RevisionResolver
     /// <summary>Drops a property container that has nothing left in it, and then the container around it if that is empty too.</summary>
     private static void CleanupEmpty(MarkupNode container)
     {
-        while (!container.IsNull && Wml.IsAny(container, "rPr", "pPr", "trPr", "tcPr") && !HasContent(container))
+        while (!container.IsNull && WordXml.IsAny(container, "rPr", "pPr", "trPr", "tcPr") && !HasContent(container))
         {
             MarkupNode parent = container.Parent;
-            if (parent.IsNull || !Wml.IsAny(parent, "p", "r", "tr", "tc", "pPr"))
+            if (parent.IsNull || !WordXml.IsAny(parent, "p", "r", "tr", "tc", "pPr"))
             {
                 return;
             }
@@ -320,42 +320,42 @@ internal sealed class RevisionResolver
         MarkupNode rPr = marker.Parent;
         MarkupNode pPr = rPr.Parent;
         MarkupNode p = pPr.Parent;
-        if (pPr.IsNull || p.IsNull || !Wml.Is(p, "p"))
+        if (pPr.IsNull || p.IsNull || !WordXml.Is(p, "p"))
         {
             // A mark outside a paragraph (the math control properties): only the record goes.
             RemoveMarker(marker);
             return;
         }
 
-        bool hasSection = !Wml.Child(pPr, "sectPr").IsNull;
+        bool hasSection = !WordXml.Child(pPr, "sectPr").IsNull;
         RemoveMarker(marker);
         if (!markGoes || hasSection)
         {
             return;
         }
 
-        MarkupNode next = Wml.NextElement(p);
-        if (!next.IsNull && Wml.Is(next, "p"))
+        MarkupNode next = WordXml.NextElement(p);
+        if (!next.IsNull && WordXml.Is(next, "p"))
         {
             // §17.3.1.26: the paragraph mark carries the paragraph's properties, so the following paragraph's mark survives and
             // its properties apply to the joined paragraph.
             string content = ParagraphContent(p);
             if (content.Length > 0)
             {
-                MarkupNode nextPPr = Wml.Child(next, "pPr");
+                MarkupNode nextPPr = WordXml.Child(next, "pPr");
                 if (nextPPr.IsNull)
                 {
-                    next.PrependXml(Wml.Bytes(content));
+                    next.PrependXml(WordXml.Bytes(content));
                 }
                 else
                 {
-                    nextPPr.InsertXmlAfter(Wml.Bytes(content));
+                    nextPPr.InsertXmlAfter(WordXml.Bytes(content));
                 }
             }
 
             p.Remove();
         }
-        else if (inserted && ParagraphContent(p).Length == 0 && Wml.Is(Wml.PreviousElement(p), "p"))
+        else if (inserted && ParagraphContent(p).Length == 0 && WordXml.Is(WordXml.PreviousElement(p), "p"))
         {
             // The last paragraph of a container cannot be joined to a following one; an emptied inserted paragraph just goes.
             p.Remove();
@@ -369,7 +369,7 @@ internal sealed class RevisionResolver
         bool any = false;
         foreach (MarkupNode c in p.Children)
         {
-            if (Wml.Is(c, "pPr"))
+            if (WordXml.Is(c, "pPr"))
             {
                 continue;
             }
@@ -422,18 +422,18 @@ internal sealed class RevisionResolver
                 continue;
             }
 
-            if (Wml.IsAny(c, leading))
+            if (WordXml.IsAny(c, leading))
             {
                 head.Append(c.OuterXml);
             }
-            else if (Wml.IsAny(c, trailing))
+            else if (WordXml.IsAny(c, trailing))
             {
                 tail.Append(c.OuterXml);
             }
         }
 
-        string oldXml = old.IsNull ? string.Empty : Wml.ElementsXml(old);
-        Wml.SetContent(container, head.ToString() + oldXml + tail);
+        string oldXml = old.IsNull ? string.Empty : WordXml.ElementsXml(old);
+        WordXml.SetContent(container, head.ToString() + oldXml + tail);
         CleanupEmpty(container);
     }
 
@@ -446,14 +446,14 @@ internal sealed class RevisionResolver
 
         MarkupNode table = row.Parent;
         row.Remove();
-        if (!table.IsNull && Wml.Is(table, "tbl") && Wml.Child(table, "tr").IsNull)
+        if (!table.IsNull && WordXml.Is(table, "tbl") && WordXml.Child(table, "tr").IsNull)
         {
             MarkupNode holder = table.Parent;
             table.Remove();
-            if (!holder.IsNull && Wml.Is(holder, "tc") && Wml.Child(holder, "p").IsNull)
+            if (!holder.IsNull && WordXml.Is(holder, "tc") && WordXml.Child(holder, "p").IsNull)
             {
                 // §17.4.66: a cell must end with a paragraph.
-                holder.AppendXml(Wml.Bytes(WmlWriter.For(holder).Empty("p")));
+                holder.AppendXml(WordXml.Bytes(WmlWriter.For(holder).Empty("p")));
             }
         }
     }
@@ -467,7 +467,7 @@ internal sealed class RevisionResolver
 
         MarkupNode row = cell.Parent;
         cell.Remove();
-        if (!row.IsNull && Wml.Is(row, "tr") && Wml.Child(row, "tc").IsNull)
+        if (!row.IsNull && WordXml.Is(row, "tr") && WordXml.Child(row, "tc").IsNull)
         {
             RemoveRow(row);
         }
@@ -480,13 +480,13 @@ internal sealed class RevisionResolver
         string? state = null;
         foreach (MarkupAttributeRef a in el.Attributes)
         {
-            if (!a.IsNamespaceDeclaration && Wml.SpanEquals(a.LocalName, accept ? "vMerge" : "vMergeOrig"))
+            if (!a.IsNamespaceDeclaration && WordXml.SpanEquals(a.LocalName, accept ? "vMerge" : "vMergeOrig"))
             {
                 state = a.Value;
             }
         }
 
-        MarkupNode existing = Wml.Child(tcPr, "vMerge");
+        MarkupNode existing = WordXml.Child(tcPr, "vMerge");
         string? fragment = state switch
         {
             "rest" => WmlWriter.For(tcPr).Empty("vMerge", WmlWriter.For(tcPr).Attr("val", "restart")),
@@ -501,12 +501,12 @@ internal sealed class RevisionResolver
             }
             else
             {
-                existing.ReplaceWithXml(Wml.Bytes(fragment));
+                existing.ReplaceWithXml(WordXml.Bytes(fragment));
             }
         }
         else if (fragment is not null)
         {
-            el.InsertXmlBefore(Wml.Bytes(fragment));
+            el.InsertXmlBefore(WordXml.Bytes(fragment));
         }
 
         el.Remove();

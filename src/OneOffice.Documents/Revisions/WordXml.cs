@@ -6,7 +6,7 @@ using RecursiveAI.OneOffice.Markup;
 namespace RecursiveAI.OneOffice.Documents.Revisions;
 
 /// <summary>Small helpers over the markup tree for WordprocessingML: name tests, attributes, serialisation.</summary>
-internal static class Wml
+internal static class WordXml
 {
     internal const string Main = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
     internal const string MainStrict = "http://purl.oclc.org/ooxml/wordprocessingml/main";
@@ -285,12 +285,12 @@ internal readonly struct WmlWriter
     /// <summary>Finds the prefix the main namespace has at <paramref name="context"/>.</summary>
     internal static WmlWriter For(MarkupNode context)
     {
-        if (context.TryGetPrefixInScope(Wml.Main, out string p))
+        if (context.TryGetPrefixInScope(WordXml.Main, out string p))
         {
             return new WmlWriter(p, false);
         }
 
-        if (context.TryGetPrefixInScope(Wml.MainStrict, out p))
+        if (context.TryGetPrefixInScope(WordXml.MainStrict, out p))
         {
             return new WmlWriter(p, true);
         }
@@ -308,5 +308,5 @@ internal readonly struct WmlWriter
         "<" + Name(local) + attributes + ">" + content + "</" + Name(local) + ">";
 
     /// <summary>An attribute: <c> w:val="x"</c>.</summary>
-    internal string Attr(string local, string value) => " " + Name(local) + "=\"" + Wml.EscapeAttribute(value) + "\"";
+    internal string Attr(string local, string value) => " " + Name(local) + "=\"" + WordXml.EscapeAttribute(value) + "\"";
 }

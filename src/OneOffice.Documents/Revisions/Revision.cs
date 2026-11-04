@@ -1,5 +1,6 @@
 using System.Globalization;
 using RecursiveAI.OneOffice.Markup;
+using RecursiveAI.OneOffice.Schema;
 
 namespace RecursiveAI.OneOffice.Documents.Revisions;
 
@@ -25,6 +26,9 @@ public sealed class Revision
 
     /// <summary>Gets the revision element: <c>w:ins</c>, <c>w:del</c>, <c>w:rPrChange</c> and so on. It is a markup node of <see cref="IRevisionPart.Markup"/>.</summary>
     public MarkupNode Element { get; }
+
+    /// <summary>Gets the revision element as a markup reference, the hop to the typed views.</summary>
+    public MarkupRef Markup => new(Element);
 
     /// <summary>Gets what the revision does.</summary>
     public RevisionKind Kind { get; }
@@ -52,7 +56,7 @@ public sealed class Revision
     {
         get
         {
-            MarkupNode p = Wml.Ancestor(Element, "p");
+            MarkupNode p = WordXml.Ancestor(Element, "p");
             return p;
         }
     }

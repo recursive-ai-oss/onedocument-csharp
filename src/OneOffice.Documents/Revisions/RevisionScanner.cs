@@ -18,9 +18,9 @@ internal static class RevisionScanner
         }
 
         var chars = new char[MaxName];
-        for (MarkupNode n = root; !n.IsNull; n = Wml.Next(n, root, true))
+        for (MarkupNode n = root; !n.IsNull; n = WordXml.Next(n, root, true))
         {
-            if (n.Kind != MarkupNodeKind.Element || !Wml.InMain(n))
+            if (n.Kind != MarkupNodeKind.Element || !WordXml.InMain(n))
             {
                 continue;
             }
@@ -48,7 +48,7 @@ internal static class RevisionScanner
                 continue;
             }
 
-            string? idText = Wml.Attr(n, "id");
+            string? idText = WordXml.Attr(n, "id");
             int id = -1;
             if (idText is null || !int.TryParse(idText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out id))
             {
@@ -60,14 +60,14 @@ internal static class RevisionScanner
                 maxId = id;
             }
 
-            string? author = Wml.Attr(n, "author");
+            string? author = WordXml.Attr(n, "author");
             if (author is null)
             {
                 author = string.Empty;
                 Report(defects, part, n, "docx.revision-author-missing", "A tracked change has no w:author; it is treated as written by nobody.");
             }
 
-            string? dateText = Wml.Attr(n, "date");
+            string? dateText = WordXml.Attr(n, "date");
             DateTimeOffset? date = Revision.ParseDate(dateText);
             if (dateText is not null && date is null)
             {
@@ -86,7 +86,7 @@ internal static class RevisionScanner
 
     private static void NoteId(MarkupNode n, ref int maxId)
     {
-        string? t = Wml.Attr(n, "id");
+        string? t = WordXml.Attr(n, "id");
         if (t is not null && int.TryParse(t, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out int v) && v > maxId)
         {
             maxId = v;
@@ -95,8 +95,8 @@ internal static class RevisionScanner
 
     private static string? MoveNameOf(MarkupNode n, string startMarker)
     {
-        MarkupNode prev = Wml.PreviousElement(n);
-        return !prev.IsNull && Wml.Is(prev, startMarker) ? Wml.Attr(prev, "name") : null;
+        MarkupNode prev = WordXml.PreviousElement(n);
+        return !prev.IsNull && WordXml.Is(prev, startMarker) ? WordXml.Attr(prev, "name") : null;
     }
 
     private static void Report(IDefectSink? sink, IRevisionPart part, MarkupNode n, string code, string message) =>
@@ -118,7 +118,7 @@ internal static class RevisionScanner
                     bool del = local is "del";
                     bool from = local is "moveFrom";
                     MarkupNode parent = n.Parent;
-                    if (!parent.IsNull && (Wml.Is(parent, "rPr") || parent.LocalNameString == "ctrlPr"))
+                    if (!parent.IsNull && (WordXml.Is(parent, "rPr") || parent.LocalNameString == "ctrlPr"))
                     {
                         scope = RevisionScope.ParagraphMark;
                         kind = ins ? RevisionKind.ParagraphMarkInserted
@@ -127,14 +127,14 @@ internal static class RevisionScanner
                         return true;
                     }
 
-                    if (!parent.IsNull && Wml.Is(parent, "trPr") && (ins || del))
+                    if (!parent.IsNull && WordXml.Is(parent, "trPr") && (ins || del))
                     {
                         scope = RevisionScope.Table;
                         kind = ins ? RevisionKind.TableRowInserted : RevisionKind.TableRowDeleted;
                         return true;
                     }
 
-                    if (!parent.IsNull && Wml.Is(parent, "numPr") && ins)
+                    if (!parent.IsNull && WordXml.Is(parent, "numPr") && ins)
                     {
                         scope = RevisionScope.Numbering;
                         kind = RevisionKind.NumberingInserted;

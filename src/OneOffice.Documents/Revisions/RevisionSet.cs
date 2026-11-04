@@ -144,7 +144,7 @@ public sealed class RevisionSet
         MarkupNode stop = default;
         bool inside = false;
         bool ended = false;
-        for (MarkupNode n = root; !n.IsNull; n = Wml.Next(n, root, true))
+        for (MarkupNode n = root; !n.IsNull; n = WordXml.Next(n, root, true))
         {
             if (!inside && n == first)
             {
@@ -153,7 +153,7 @@ public sealed class RevisionSet
 
             if (inside && n == last)
             {
-                stop = Wml.Next(n, root, false);
+                stop = WordXml.Next(n, root, false);
                 ended = true;
             }
 
@@ -221,7 +221,7 @@ public sealed class RevisionSet
     /// <returns>The text.</returns>
     public static string GetParagraphText(MarkupNode paragraph, RevisionView view)
     {
-        if (!Wml.Is(paragraph, "p"))
+        if (!WordXml.Is(paragraph, "p"))
         {
             throw new ArgumentException("The node is not a w:p element.", nameof(paragraph));
         }

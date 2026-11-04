@@ -30,7 +30,7 @@ public sealed class RevisionAuthor
     internal RevisionAuthor(RevisionSet set, string name, DateTimeOffset? date)
     {
         ArgumentNullException.ThrowIfNull(name);
-        Wml.RequireXmlText(name, nameof(name));
+        WordXml.RequireXmlText(name, nameof(name));
         _set = set;
         Name = name;
         Date = date;
@@ -58,7 +58,7 @@ public sealed class RevisionAuthor
     public void InsertText(MarkupNode paragraph, int offset, string text)
     {
         ArgumentNullException.ThrowIfNull(text);
-        Wml.RequireXmlText(text, nameof(text));
+        WordXml.RequireXmlText(text, nameof(text));
         RequireParagraph(paragraph);
         CheckRange(paragraph, offset, 0);
         if (text.Length == 0)
@@ -100,7 +100,7 @@ public sealed class RevisionAuthor
     public void ReplaceText(MarkupNode paragraph, int offset, int length, string text)
     {
         ArgumentNullException.ThrowIfNull(text);
-        Wml.RequireXmlText(text, nameof(text));
+        WordXml.RequireXmlText(text, nameof(text));
         RequireParagraph(paragraph);
         CheckRange(paragraph, offset, length);
         if (length == 0)
@@ -117,7 +117,7 @@ public sealed class RevisionAuthor
             string xml = w.Wrap("ins", Attributes(w), w.Wrap("r", string.Empty, props + RunContent(w, text)));
             if (!lastWrapper.IsNull)
             {
-                lastWrapper.InsertXmlAfter(Wml.Bytes(xml));
+                lastWrapper.InsertXmlAfter(WordXml.Bytes(xml));
             }
             else
             {
@@ -194,14 +194,14 @@ public sealed class RevisionAuthor
     public void InsertParagraph(MarkupNode paragraph, string text)
     {
         ArgumentNullException.ThrowIfNull(text);
-        Wml.RequireXmlText(text, nameof(text));
+        WordXml.RequireXmlText(text, nameof(text));
         RequireParagraph(paragraph);
         WmlWriter w = WmlWriter.For(paragraph);
-        MarkupNode pPr = Wml.Child(paragraph, "pPr");
+        MarkupNode pPr = WordXml.Child(paragraph, "pPr");
         string newProps = pPr.IsNull ? string.Empty : CopyParagraphProperties(pPr, w);
         if (!pPr.IsNull)
         {
-            MarkupNode sect = Wml.Child(pPr, "sectPr");
+            MarkupNode sect = WordXml.Child(pPr, "sectPr");
             if (!sect.IsNull)
             {
                 sect.Remove();
@@ -210,7 +210,7 @@ public sealed class RevisionAuthor
 
         MarkParagraphMark(paragraph, "ins");
         string content = text.Length == 0 ? string.Empty : w.Wrap("ins", Attributes(w), w.Wrap("r", string.Empty, RunContent(w, text)));
-        paragraph.InsertXmlAfter(Wml.Bytes(w.Wrap("p", string.Empty, newProps + content)));
+        paragraph.InsertXmlAfter(WordXml.Bytes(w.Wrap("p", string.Empty, newProps + content)));
         _set.Invalidate();
     }
 
@@ -247,7 +247,7 @@ public sealed class RevisionAuthor
             copy.Append(r.OuterXml);
         }
 
-        MarkupNode pPr = Wml.Child(paragraph, "pPr");
+        MarkupNode pPr = WordXml.Child(paragraph, "pPr");
         string props = pPr.IsNull ? string.Empty : CopyParagraphProperties(pPr, w, withoutSection: true);
         int toId = NextId();
         string name = "move" + toId.ToString(System.Globalization.CultureInfo.InvariantCulture);
@@ -256,7 +256,7 @@ public sealed class RevisionAuthor
         var newParagraph = new StringBuilder();
         newParagraph.Append(w.Wrap("p", string.Empty, props + moved));
         // The new paragraph's own mark is a move destination, so rejecting the move removes it again.
-        after.InsertXmlAfter(Wml.Bytes(newParagraph.ToString()));
+        after.InsertXmlAfter(WordXml.Bytes(newParagraph.ToString()));
         MarkupNode created = after.NextSibling;
         while (!created.IsNull && created.Kind != MarkupNodeKind.Element)
         {
@@ -292,13 +292,13 @@ public sealed class RevisionAuthor
         IsolateBoundary(paragraph, offset);
         foreach (MarkupNode run in RunsInRange(paragraph, offset, offset + length))
         {
-            MarkupNode rPr = Wml.Child(run, "rPr");
+            MarkupNode rPr = WordXml.Child(run, "rPr");
             var keep = new StringBuilder();
             if (!rPr.IsNull)
             {
                 foreach (MarkupNode c in rPr.ChildElements)
                 {
-                    if (!Wml.InMain(c) || (!names.Contains(c.LocalNameString) && !Wml.IsAny(c, "rPrChange")))
+                    if (!WordXml.InMain(c) || (!names.Contains(c.LocalNameString) && !WordXml.IsAny(c, "rPrChange")))
                     {
                         keep.Append(c.OuterXml);
                     }
@@ -317,7 +317,7 @@ public sealed class RevisionAuthor
     /// <remarks>If the run already has a pending change, its record of the original properties is kept.</remarks>
     public void ChangeRunProperties(MarkupNode run, string propertiesXml)
     {
-        if (!Wml.Is(run, "r"))
+        if (!WordXml.Is(run, "r"))
         {
             throw new ArgumentException("The node is not a w:r element.", nameof(run));
         }
@@ -341,7 +341,7 @@ public sealed class RevisionAuthor
     /// <param name="propertiesXml">The complete new property elements (page size, margins and so on).</param>
     public void ChangeSectionProperties(MarkupNode sectionProperties, string propertiesXml)
     {
-        if (!Wml.Is(sectionProperties, "sectPr"))
+        if (!WordXml.Is(sectionProperties, "sectPr"))
         {
             throw new ArgumentException("The node is not a w:sectPr element.", nameof(sectionProperties));
         }
@@ -357,7 +357,7 @@ public sealed class RevisionAuthor
     /// <param name="propertiesXml">The complete new property elements.</param>
     public void ChangeTableProperties(MarkupNode table, string propertiesXml)
     {
-        if (!Wml.Is(table, "tbl"))
+        if (!WordXml.Is(table, "tbl"))
         {
             throw new ArgumentException("The node is not a w:tbl element.", nameof(table));
         }
@@ -371,12 +371,12 @@ public sealed class RevisionAuthor
     /// <param name="gridColumnsXml">The new <c>w:gridCol</c> elements.</param>
     public void ChangeTableGrid(MarkupNode table, string gridColumnsXml)
     {
-        if (!Wml.Is(table, "tbl"))
+        if (!WordXml.Is(table, "tbl"))
         {
             throw new ArgumentException("The node is not a w:tbl element.", nameof(table));
         }
 
-        MarkupNode grid = Wml.Child(table, "tblGrid");
+        MarkupNode grid = WordXml.Child(table, "tblGrid");
         if (grid.IsNull)
         {
             throw new ArgumentException("The table has no w:tblGrid.", nameof(table));
@@ -391,7 +391,7 @@ public sealed class RevisionAuthor
     /// <param name="propertiesXml">The complete new property elements.</param>
     public void ChangeTableRowProperties(MarkupNode row, string propertiesXml)
     {
-        if (!Wml.Is(row, "tr"))
+        if (!WordXml.Is(row, "tr"))
         {
             throw new ArgumentException("The node is not a w:tr element.", nameof(row));
         }
@@ -405,7 +405,7 @@ public sealed class RevisionAuthor
     /// <param name="propertiesXml">The complete new property elements.</param>
     public void ChangeTableCellProperties(MarkupNode cell, string propertiesXml)
     {
-        if (!Wml.Is(cell, "tc"))
+        if (!WordXml.Is(cell, "tc"))
         {
             throw new ArgumentException("The node is not a w:tc element.", nameof(cell));
         }
@@ -474,7 +474,7 @@ public sealed class RevisionAuthor
     /// <param name="mergeBefore">The state before: the same three values.</param>
     public void MergeCells(MarkupNode cell, string? mergeNow, string? mergeBefore)
     {
-        if (!Wml.Is(cell, "tc"))
+        if (!WordXml.Is(cell, "tc"))
         {
             throw new ArgumentException("The node is not a w:tc element.", nameof(cell));
         }
@@ -484,8 +484,8 @@ public sealed class RevisionAuthor
         WmlWriter w = WmlWriter.For(cell);
         string attrs = Attributes(w) + (now is null ? string.Empty : w.Attr("vMerge", now)) + (before is null ? string.Empty : w.Attr("vMergeOrig", before));
         MarkCell(cell, "cellMerge", attrs);
-        MarkupNode tcPr = Wml.Child(cell, "tcPr");
-        MarkupNode existing = Wml.Child(tcPr, "vMerge");
+        MarkupNode tcPr = WordXml.Child(cell, "tcPr");
+        MarkupNode existing = WordXml.Child(tcPr, "vMerge");
         string? fragment = mergeNow switch
         {
             "restart" => w.Empty("vMerge", w.Attr("val", "restart")),
@@ -500,22 +500,22 @@ public sealed class RevisionAuthor
             }
             else
             {
-                existing.ReplaceWithXml(Wml.Bytes(fragment));
+                existing.ReplaceWithXml(WordXml.Bytes(fragment));
             }
         }
         else if (fragment is not null)
         {
-            MarkupNode anchor = Wml.Child(tcPr, "cellMerge");
+            MarkupNode anchor = WordXml.Child(tcPr, "cellMerge");
             foreach (MarkupNode c in tcPr.ChildElements)
             {
-                if (Wml.IsAny(c, "tcBorders", "shd", "noWrap", "tcMar", "textDirection", "tcFitText", "vAlign", "hideMark", "headers", "cellIns", "cellDel", "cellMerge", "tcPrChange"))
+                if (WordXml.IsAny(c, "tcBorders", "shd", "noWrap", "tcMar", "textDirection", "tcFitText", "vAlign", "hideMark", "headers", "cellIns", "cellDel", "cellMerge", "tcPrChange"))
                 {
                     anchor = c;
                     break;
                 }
             }
 
-            anchor.InsertXmlBefore(Wml.Bytes(fragment));
+            anchor.InsertXmlBefore(WordXml.Bytes(fragment));
         }
 
         _set.Invalidate();
@@ -538,7 +538,7 @@ public sealed class RevisionAuthor
         string s = w.Attr("id", NextId().ToString(System.Globalization.CultureInfo.InvariantCulture)) + w.Attr("author", Name);
         if (Date is { } d)
         {
-            s += w.Attr("date", Wml.FormatDate(d));
+            s += w.Attr("date", WordXml.FormatDate(d));
         }
 
         return s;
@@ -549,7 +549,7 @@ public sealed class RevisionAuthor
         string s = w.Attr("id", id.ToString(System.Globalization.CultureInfo.InvariantCulture)) + w.Attr("author", Name);
         if (Date is { } d)
         {
-            s += w.Attr("date", Wml.FormatDate(d));
+            s += w.Attr("date", WordXml.FormatDate(d));
         }
 
         return s;
@@ -557,7 +557,7 @@ public sealed class RevisionAuthor
 
     private void RequireParagraph(MarkupNode node)
     {
-        if (!Wml.Is(node, "p"))
+        if (!WordXml.Is(node, "p"))
         {
             throw new ArgumentException("The node is not a w:p element.", nameof(node));
         }
@@ -577,7 +577,7 @@ public sealed class RevisionAuthor
         {
             if (chunk.Length > 0)
             {
-                sb.Append(w.Wrap("t", " xml:space=\"preserve\"", Wml.EscapeText(chunk.ToString())));
+                sb.Append(w.Wrap("t", " xml:space=\"preserve\"", WordXml.EscapeText(chunk.ToString())));
                 chunk.Clear();
             }
         }
@@ -630,26 +630,26 @@ public sealed class RevisionAuthor
 
         foreach (MarkupNode c in container.ChildElements)
         {
-            if (!Wml.InMain(c))
+            if (!WordXml.InMain(c))
             {
                 continue;
             }
 
-            if (Wml.Is(c, "r"))
+            if (WordXml.Is(c, "r"))
             {
                 foreach (MarkupNode rc in c.ChildElements)
                 {
-                    if (Wml.Is(rc, "rPr"))
+                    if (WordXml.Is(rc, "rPr"))
                     {
                         continue;
                     }
 
                     int len = 0;
-                    if (Wml.Is(rc, "t"))
+                    if (WordXml.Is(rc, "t"))
                     {
                         len = rc.InnerText.Length;
                     }
-                    else if (Wml.IsAny(rc, "tab", "br", "cr", "noBreakHyphen", "ptab"))
+                    else if (WordXml.IsAny(rc, "tab", "br", "cr", "noBreakHyphen", "ptab"))
                     {
                         len = 1;
                     }
@@ -658,7 +658,7 @@ public sealed class RevisionAuthor
                     pos += len;
                 }
             }
-            else if (Wml.IsAny(c, "ins", "moveTo", "hyperlink", "fldSimple", "smartTag", "customXml", "dir", "bdo", "sdt", "sdtContent"))
+            else if (WordXml.IsAny(c, "ins", "moveTo", "hyperlink", "fldSimple", "smartTag", "customXml", "dir", "bdo", "sdt", "sdtContent"))
             {
                 WalkInline(c, atoms, ref pos, depth + 1);
             }
@@ -697,7 +697,7 @@ public sealed class RevisionAuthor
         var kids = new List<MarkupNode>();
         foreach (MarkupNode c in run.ChildElements)
         {
-            if (Wml.Is(c, "rPr"))
+            if (WordXml.Is(c, "rPr"))
             {
                 rPr = c.OuterXml;
             }
@@ -707,14 +707,14 @@ public sealed class RevisionAuthor
             }
         }
 
-        return (Wml.StartTag(run), rPr, kids);
+        return (WordXml.StartTag(run), rPr, kids);
     }
 
     private static string RunXml(MarkupNode run, string startTag, string rPr, IEnumerable<string> childXml) =>
         startTag + rPr + string.Concat(childXml) + "</" + run.Name + ">";
 
     private static string TextElement(MarkupNode t, string text) =>
-        "<" + t.Name + " xml:space=\"preserve\">" + Wml.EscapeText(text) + "</" + t.Name + ">";
+        "<" + t.Name + " xml:space=\"preserve\">" + WordXml.EscapeText(text) + "</" + t.Name + ">";
 
     /// <summary>Makes sure a run boundary exists at the position, and returns the first run after it (or a null node at the end).</summary>
     private static MarkupNode IsolateBoundary(MarkupNode paragraph, int offset)
@@ -722,7 +722,7 @@ public sealed class RevisionAuthor
         List<Atom> atoms = Atoms(paragraph);
         foreach (Atom a in atoms)
         {
-            if (a.Length > 0 && a.Start < offset && offset < a.Start + a.Length && Wml.Is(a.Child, "t"))
+            if (a.Length > 0 && a.Start < offset && offset < a.Start + a.Length && WordXml.Is(a.Child, "t"))
             {
                 SplitText(a, offset - a.Start);
                 atoms = Atoms(paragraph);
@@ -737,7 +737,7 @@ public sealed class RevisionAuthor
                 MarkupNode first = default;
                 foreach (MarkupNode c in a.Run.ChildElements)
                 {
-                    if (!Wml.Is(c, "rPr"))
+                    if (!WordXml.Is(c, "rPr"))
                     {
                         first = c;
                         break;
@@ -773,8 +773,8 @@ public sealed class RevisionAuthor
     /// <summary>Replaces a run by two runs given as XML; returns the second.</summary>
     private static MarkupNode ReplaceRun(MarkupNode run, string twoRuns)
     {
-        run.InsertXmlBefore(Wml.Bytes(twoRuns));
-        MarkupNode second = Wml.PreviousElement(run);
+        run.InsertXmlBefore(WordXml.Bytes(twoRuns));
+        MarkupNode second = WordXml.PreviousElement(run);
         run.Remove();
         return second;
     }
@@ -808,7 +808,7 @@ public sealed class RevisionAuthor
             return string.Empty;
         }
 
-        MarkupNode rPr = Wml.Child(run, "rPr");
+        MarkupNode rPr = WordXml.Child(run, "rPr");
         if (rPr.IsNull)
         {
             return string.Empty;
@@ -818,7 +818,7 @@ public sealed class RevisionAuthor
         var sb = new StringBuilder();
         foreach (MarkupNode c in rPr.ChildElements)
         {
-            if (!Wml.IsAny(c, "rPrChange", "ins", "del", "moveFrom", "moveTo"))
+            if (!WordXml.IsAny(c, "rPrChange", "ins", "del", "moveFrom", "moveTo"))
             {
                 sb.Append(c.OuterXml);
             }
@@ -838,7 +838,7 @@ public sealed class RevisionAuthor
         return false;
     }
 
-    private static bool IsWrapper(MarkupNode n) => Wml.IsAny(n, "ins", "moveTo");
+    private static bool IsWrapper(MarkupNode n) => WordXml.IsAny(n, "ins", "moveTo");
 
     /// <summary>Inserts XML before a node, splitting an insertion wrapper around it when the node is in the middle of one.</summary>
     private static void PlaceBefore(MarkupNode node, string xml)
@@ -846,9 +846,9 @@ public sealed class RevisionAuthor
         MarkupNode parent = node.Parent;
         if (IsWrapper(parent))
         {
-            if (Wml.PreviousElement(node).IsNull)
+            if (WordXml.PreviousElement(node).IsNull)
             {
-                parent.InsertXmlBefore(Wml.Bytes(xml));
+                parent.InsertXmlBefore(WordXml.Bytes(xml));
                 return;
             }
 
@@ -860,17 +860,17 @@ public sealed class RevisionAuthor
                 moved.Add(s);
             }
 
-            string tag = Wml.StartTag(parent);
+            string tag = WordXml.StartTag(parent);
             foreach (MarkupNode m in moved)
             {
                 m.Remove();
             }
 
-            parent.InsertXmlAfter(Wml.Bytes(xml + tag + rest + "</" + parent.Name + ">"));
+            parent.InsertXmlAfter(WordXml.Bytes(xml + tag + rest + "</" + parent.Name + ">"));
             return;
         }
 
-        node.InsertXmlBefore(Wml.Bytes(xml));
+        node.InsertXmlBefore(WordXml.Bytes(xml));
     }
 
     private static void PlaceAt(MarkupNode paragraph, MarkupNode boundary, string xml)
@@ -885,23 +885,23 @@ public sealed class RevisionAuthor
         List<Atom> atoms = Atoms(paragraph);
         if (atoms.Count == 0)
         {
-            paragraph.AppendXml(Wml.Bytes(xml));
+            paragraph.AppendXml(WordXml.Bytes(xml));
             return;
         }
 
         MarkupNode last = atoms[^1].Run;
-        MarkupNode next = Wml.NextElement(last);
+        MarkupNode next = WordXml.NextElement(last);
         if (!next.IsNull)
         {
             PlaceBefore(next, xml);
         }
         else if (IsWrapper(last.Parent))
         {
-            last.Parent.InsertXmlAfter(Wml.Bytes(xml));
+            last.Parent.InsertXmlAfter(WordXml.Bytes(xml));
         }
         else
         {
-            last.InsertXmlAfter(Wml.Bytes(xml));
+            last.InsertXmlAfter(WordXml.Bytes(xml));
         }
     }
 
@@ -940,7 +940,7 @@ public sealed class RevisionAuthor
         foreach (MarkupNode r in runs)
         {
             // Deleting text this author inserted just removes it.
-            if (wrapperName == "del" && IsWrapper(r.Parent) && string.Equals(Wml.Attr(r.Parent, "author"), Name, StringComparison.Ordinal) && Wml.Is(r.Parent, "ins"))
+            if (wrapperName == "del" && IsWrapper(r.Parent) && string.Equals(WordXml.Attr(r.Parent, "author"), Name, StringComparison.Ordinal) && WordXml.Is(r.Parent, "ins"))
             {
                 MarkupNode wrapper = r.Parent;
                 r.Remove();
@@ -958,7 +958,7 @@ public sealed class RevisionAuthor
         var groups = new List<List<MarkupNode>>();
         foreach (MarkupNode r in rest)
         {
-            if (groups.Count > 0 && groups[^1][^1].Parent == r.Parent && Wml.NextElement(groups[^1][^1]) == r)
+            if (groups.Count > 0 && groups[^1][^1].Parent == r.Parent && WordXml.NextElement(groups[^1][^1]) == r)
             {
                 groups[^1].Add(r);
             }
@@ -980,7 +980,7 @@ public sealed class RevisionAuthor
             int id = NextId();
             string wrapped = w.Wrap(wrapperName, AttributesWithId(w, id), inner.ToString());
             string xml = move is { } m ? Range(w, wrapperName, m.Id, m.Name, inner.ToString(), -1, wrapped) : wrapped;
-            group[0].InsertXmlBefore(Wml.Bytes(xml));
+            group[0].InsertXmlBefore(WordXml.Bytes(xml));
             foreach (MarkupNode r in group)
             {
                 r.Remove();
@@ -1016,9 +1016,9 @@ public sealed class RevisionAuthor
     private static MarkupNode FindById(MarkupNode root, string local, int id)
     {
         string text = id.ToString(System.Globalization.CultureInfo.InvariantCulture);
-        for (MarkupNode n = root.FirstChild; !n.IsNull; n = Wml.Next(n, root, true))
+        for (MarkupNode n = root.FirstChild; !n.IsNull; n = WordXml.Next(n, root, true))
         {
-            if (Wml.Is(n, local) && Wml.Attr(n, "id") == text)
+            if (WordXml.Is(n, local) && WordXml.Attr(n, "id") == text)
             {
                 return n;
             }
@@ -1034,12 +1034,12 @@ public sealed class RevisionAuthor
         var parts = new List<string>();
         foreach (MarkupNode k in kids)
         {
-            if (Wml.Is(k, "t") || Wml.Is(k, "instrText"))
+            if (WordXml.Is(k, "t") || WordXml.Is(k, "instrText"))
             {
-                string local = Wml.Is(k, "t") ? "delText" : "delInstrText";
+                string local = WordXml.Is(k, "t") ? "delText" : "delInstrText";
                 string prefix = k.Name[..^k.LocalNameString.Length];
                 string raw = prefix + local;
-                parts.Add("<" + raw + " xml:space=\"preserve\">" + Wml.EscapeText(k.InnerText) + "</" + raw + ">");
+                parts.Add("<" + raw + " xml:space=\"preserve\">" + WordXml.EscapeText(k.InnerText) + "</" + raw + ">");
             }
             else
             {
@@ -1053,7 +1053,7 @@ public sealed class RevisionAuthor
     private static bool IsAfter(MarkupNode a, MarkupNode b)
     {
         MarkupNode root = a.Document!.Root;
-        for (MarkupNode n = root; !n.IsNull; n = Wml.Next(n, root, true))
+        for (MarkupNode n = root; !n.IsNull; n = WordXml.Next(n, root, true))
         {
             if (n == b)
             {
@@ -1073,11 +1073,11 @@ public sealed class RevisionAuthor
 
     private static MarkupNode EnsureChildFirst(MarkupNode parent, string local, WmlWriter w)
     {
-        MarkupNode c = Wml.Child(parent, local);
+        MarkupNode c = WordXml.Child(parent, local);
         if (c.IsNull)
         {
-            parent.PrependXml(Wml.Bytes(w.Empty(local)));
-            c = Wml.Child(parent, local);
+            parent.PrependXml(WordXml.Bytes(w.Empty(local)));
+            c = WordXml.Child(parent, local);
         }
 
         return c;
@@ -1088,13 +1088,13 @@ public sealed class RevisionAuthor
     {
         WmlWriter w = WmlWriter.For(paragraph);
         MarkupNode pPr = EnsureChildFirst(paragraph, "pPr", w);
-        MarkupNode rPr = Wml.Child(pPr, "rPr");
+        MarkupNode rPr = WordXml.Child(pPr, "rPr");
         if (rPr.IsNull)
         {
             MarkupNode anchor = default;
             foreach (MarkupNode c in pPr.ChildElements)
             {
-                if (Wml.IsAny(c, "sectPr", "pPrChange"))
+                if (WordXml.IsAny(c, "sectPr", "pPrChange"))
                 {
                     anchor = c;
                     break;
@@ -1104,17 +1104,17 @@ public sealed class RevisionAuthor
             string empty = w.Empty("rPr");
             if (anchor.IsNull)
             {
-                pPr.AppendXml(Wml.Bytes(empty));
+                pPr.AppendXml(WordXml.Bytes(empty));
             }
             else
             {
-                anchor.InsertXmlBefore(Wml.Bytes(empty));
+                anchor.InsertXmlBefore(WordXml.Bytes(empty));
             }
 
-            rPr = Wml.Child(pPr, "rPr");
+            rPr = WordXml.Child(pPr, "rPr");
         }
 
-        rPr.PrependXml(Wml.Bytes(w.Empty(markerName, Attributes(w))));
+        rPr.PrependXml(WordXml.Bytes(w.Empty(markerName, Attributes(w))));
     }
 
     private void MarkParagraphInserted(MarkupNode p)
@@ -1124,7 +1124,7 @@ public sealed class RevisionAuthor
         var nodes = new List<MarkupNode>();
         foreach (MarkupNode c in p.Children)
         {
-            if (Wml.Is(c, "pPr"))
+            if (WordXml.Is(c, "pPr"))
             {
                 continue;
             }
@@ -1141,7 +1141,7 @@ public sealed class RevisionAuthor
                 c.Remove();
             }
 
-            p.AppendXml(Wml.Bytes(wrapped));
+            p.AppendXml(WordXml.Bytes(wrapped));
         }
 
         MarkParagraphMark(p, "ins");
@@ -1152,17 +1152,17 @@ public sealed class RevisionAuthor
         var sb = new StringBuilder();
         foreach (MarkupNode c in pPr.ChildElements)
         {
-            if (Wml.Is(c, "pPrChange") || (withoutSection && Wml.Is(c, "sectPr")))
+            if (WordXml.Is(c, "pPrChange") || (withoutSection && WordXml.Is(c, "sectPr")))
             {
                 continue;
             }
 
-            if (Wml.Is(c, "rPr"))
+            if (WordXml.Is(c, "rPr"))
             {
                 var inner = new StringBuilder();
                 foreach (MarkupNode rc in c.ChildElements)
                 {
-                    if (!Wml.IsAny(rc, "ins", "del", "moveFrom", "moveTo", "rPrChange"))
+                    if (!WordXml.IsAny(rc, "ins", "del", "moveFrom", "moveTo", "rPrChange"))
                     {
                         inner.Append(rc.OuterXml);
                     }
@@ -1185,10 +1185,10 @@ public sealed class RevisionAuthor
     private static HashSet<string> ElementNames(string fragment, WmlWriter w)
     {
         var names = new HashSet<string>(StringComparer.Ordinal);
-        string uri = w.IsStrict ? Wml.MainStrict : Wml.Main;
+        string uri = w.IsStrict ? WordXml.MainStrict : WordXml.Main;
         string prefix = w.Name("")[..^1];
         string doc = "<root xmlns:" + prefix + "=\"" + uri + "\">" + fragment + "</root>";
-        if (!MarkupDocument.TryParse(Wml.Bytes(doc), out MarkupDocument? parsed, null) || parsed is null)
+        if (!MarkupDocument.TryParse(WordXml.Bytes(doc), out MarkupDocument? parsed, null) || parsed is null)
         {
             throw new ArgumentException("The property fragment is not well-formed XML (use the part's prefix for the main namespace).");
         }
@@ -1208,33 +1208,33 @@ public sealed class RevisionAuthor
         ArgumentNullException.ThrowIfNull(newXml);
         WmlWriter w = WmlWriter.For(owner);
         CheckFragment(newXml, w);
-        MarkupNode container = Wml.Child(owner, containerName);
+        MarkupNode container = WordXml.Child(owner, containerName);
         if (container.IsNull)
         {
             string empty = w.Empty(containerName);
             if (afterTblPrEx)
             {
-                MarkupNode ex = Wml.Child(owner, "tblPrEx");
+                MarkupNode ex = WordXml.Child(owner, "tblPrEx");
                 if (ex.IsNull)
                 {
-                    owner.PrependXml(Wml.Bytes(empty));
+                    owner.PrependXml(WordXml.Bytes(empty));
                 }
                 else
                 {
-                    ex.InsertXmlAfter(Wml.Bytes(empty));
+                    ex.InsertXmlAfter(WordXml.Bytes(empty));
                 }
             }
             else if (atStart)
             {
                 // The run, paragraph, table and cell property containers come first (§17.3.2.1, §17.3.1.1, §17.4.1, §17.4.66).
-                owner.PrependXml(Wml.Bytes(empty));
+                owner.PrependXml(WordXml.Bytes(empty));
             }
             else
             {
-                owner.AppendXml(Wml.Bytes(empty));
+                owner.AppendXml(WordXml.Bytes(empty));
             }
 
-            container = Wml.Child(owner, containerName);
+            container = WordXml.Child(owner, containerName);
         }
 
         ApplyChange(container, containerName, changeName, newXml, leading, trailing);
@@ -1250,15 +1250,15 @@ public sealed class RevisionAuthor
         string? existingChange = null;
         foreach (MarkupNode c in container.ChildElements)
         {
-            if (Wml.Is(c, changeName))
+            if (WordXml.Is(c, changeName))
             {
                 existingChange = c.OuterXml;
             }
-            else if (Wml.IsAny(c, leading))
+            else if (WordXml.IsAny(c, leading))
             {
                 head.Append(c.OuterXml);
             }
-            else if (Wml.IsAny(c, trailing))
+            else if (WordXml.IsAny(c, trailing))
             {
                 tail.Append(c.OuterXml);
             }
@@ -1269,49 +1269,49 @@ public sealed class RevisionAuthor
         }
 
         string change = existingChange ?? w.Wrap(changeName, Attributes(w), oldBase.Length == 0 ? w.Empty(containerName) : w.Wrap(containerName, string.Empty, oldBase.ToString()));
-        Wml.SetContent(container, head.ToString() + newXml + tail + change);
+        WordXml.SetContent(container, head.ToString() + newXml + tail + change);
     }
 
     private void MarkRow(MarkupNode row, string marker)
     {
-        if (!Wml.Is(row, "tr"))
+        if (!WordXml.Is(row, "tr"))
         {
             throw new ArgumentException("The node is not a w:tr element.", nameof(row));
         }
 
         WmlWriter w = WmlWriter.For(row);
-        MarkupNode trPr = Wml.Child(row, "trPr");
+        MarkupNode trPr = WordXml.Child(row, "trPr");
         if (trPr.IsNull)
         {
-            MarkupNode ex = Wml.Child(row, "tblPrEx");
+            MarkupNode ex = WordXml.Child(row, "tblPrEx");
             string empty = w.Empty("trPr");
             if (ex.IsNull)
             {
-                row.PrependXml(Wml.Bytes(empty));
+                row.PrependXml(WordXml.Bytes(empty));
             }
             else
             {
-                ex.InsertXmlAfter(Wml.Bytes(empty));
+                ex.InsertXmlAfter(WordXml.Bytes(empty));
             }
 
-            trPr = Wml.Child(row, "trPr");
+            trPr = WordXml.Child(row, "trPr");
         }
 
         string xml = w.Empty(marker, Attributes(w));
-        MarkupNode change = Wml.Child(trPr, "trPrChange");
+        MarkupNode change = WordXml.Child(trPr, "trPrChange");
         if (change.IsNull)
         {
-            trPr.AppendXml(Wml.Bytes(xml));
+            trPr.AppendXml(WordXml.Bytes(xml));
         }
         else
         {
-            change.InsertXmlBefore(Wml.Bytes(xml));
+            change.InsertXmlBefore(WordXml.Bytes(xml));
         }
     }
 
     private void MarkCell(MarkupNode cell, string marker, string extraAttributes)
     {
-        if (!Wml.Is(cell, "tc"))
+        if (!WordXml.Is(cell, "tc"))
         {
             throw new ArgumentException("The node is not a w:tc element.", nameof(cell));
         }
@@ -1319,23 +1319,23 @@ public sealed class RevisionAuthor
         WmlWriter w = WmlWriter.For(cell);
         MarkupNode tcPr = EnsureChildFirst(cell, "tcPr", w);
         string xml = w.Empty(marker, extraAttributes.Length == 0 ? Attributes(w) : extraAttributes);
-        MarkupNode change = Wml.Child(tcPr, "tcPrChange");
+        MarkupNode change = WordXml.Child(tcPr, "tcPrChange");
         if (change.IsNull)
         {
-            tcPr.AppendXml(Wml.Bytes(xml));
+            tcPr.AppendXml(WordXml.Bytes(xml));
         }
         else
         {
-            change.InsertXmlBefore(Wml.Bytes(xml));
+            change.InsertXmlBefore(WordXml.Bytes(xml));
         }
     }
 
     private static List<MarkupNode> ParagraphsIn(MarkupNode container)
     {
         var list = new List<MarkupNode>();
-        for (MarkupNode n = container.FirstChild; !n.IsNull; n = Wml.Next(n, container, !Wml.Is(n, "p")))
+        for (MarkupNode n = container.FirstChild; !n.IsNull; n = WordXml.Next(n, container, !WordXml.Is(n, "p")))
         {
-            if (Wml.Is(n, "p"))
+            if (WordXml.Is(n, "p"))
             {
                 list.Add(n);
             }

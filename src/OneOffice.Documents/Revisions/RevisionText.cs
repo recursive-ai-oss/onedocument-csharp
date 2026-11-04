@@ -40,13 +40,13 @@ internal static class RevisionText
     {
         inserted = false;
         deleted = false;
-        MarkupNode pPr = Wml.Child(paragraph, "pPr");
+        MarkupNode pPr = WordXml.Child(paragraph, "pPr");
         if (pPr.IsNull)
         {
             return;
         }
 
-        MarkupNode rPr = Wml.Child(pPr, "rPr");
+        MarkupNode rPr = WordXml.Child(pPr, "rPr");
         if (rPr.IsNull)
         {
             return;
@@ -54,11 +54,11 @@ internal static class RevisionText
 
         foreach (MarkupNode c in rPr.ChildElements)
         {
-            if (Wml.IsAny(c, "ins", "moveTo"))
+            if (WordXml.IsAny(c, "ins", "moveTo"))
             {
                 inserted = true;
             }
-            else if (Wml.IsAny(c, "del", "moveFrom"))
+            else if (WordXml.IsAny(c, "del", "moveFrom"))
             {
                 deleted = true;
             }
@@ -74,7 +74,7 @@ internal static class RevisionText
 
         foreach (MarkupNode c in node.ChildElements)
         {
-            if (Wml.Is(c, "p"))
+            if (WordXml.Is(c, "p"))
             {
                 Inline(c, view, sb, depth + 1);
                 MarkState(c, out bool ins, out bool del);
@@ -84,11 +84,11 @@ internal static class RevisionText
                     sb.Append('\n');
                 }
             }
-            else if (Wml.Is(c, "tr"))
+            else if (WordXml.Is(c, "tr"))
             {
-                MarkupNode trPr = Wml.Child(c, "trPr");
-                bool ins = !trPr.IsNull && !Wml.Child(trPr, "ins").IsNull;
-                bool del = !trPr.IsNull && !Wml.Child(trPr, "del").IsNull;
+                MarkupNode trPr = WordXml.Child(c, "trPr");
+                bool ins = !trPr.IsNull && !WordXml.Child(trPr, "ins").IsNull;
+                bool del = !trPr.IsNull && !WordXml.Child(trPr, "del").IsNull;
                 if ((view == RevisionView.Accepted && del) || (view == RevisionView.Rejected && ins))
                 {
                     continue;
@@ -96,11 +96,11 @@ internal static class RevisionText
 
                 Blocks(c, view, sb, depth + 1);
             }
-            else if (Wml.Is(c, "tc"))
+            else if (WordXml.Is(c, "tc"))
             {
-                MarkupNode tcPr = Wml.Child(c, "tcPr");
-                bool ins = !tcPr.IsNull && !Wml.Child(tcPr, "cellIns").IsNull;
-                bool del = !tcPr.IsNull && !Wml.Child(tcPr, "cellDel").IsNull;
+                MarkupNode tcPr = WordXml.Child(c, "tcPr");
+                bool ins = !tcPr.IsNull && !WordXml.Child(tcPr, "cellIns").IsNull;
+                bool del = !tcPr.IsNull && !WordXml.Child(tcPr, "cellDel").IsNull;
                 if ((view == RevisionView.Accepted && del) || (view == RevisionView.Rejected && ins))
                 {
                     continue;
@@ -108,7 +108,7 @@ internal static class RevisionText
 
                 Blocks(c, view, sb, depth + 1);
             }
-            else if (Wml.IsAny(c, "pPr", "rPr", "sectPr", "trPr", "tcPr", "tblPr", "tblGrid", "tblPrEx"))
+            else if (WordXml.IsAny(c, "pPr", "rPr", "sectPr", "trPr", "tcPr", "tblPr", "tblGrid", "tblPrEx"))
             {
                 continue;
             }
@@ -128,33 +128,33 @@ internal static class RevisionText
 
         foreach (MarkupNode c in container.ChildElements)
         {
-            if (!Wml.InMain(c))
+            if (!WordXml.InMain(c))
             {
                 continue;
             }
 
             ReadOnlySpan<byte> name = c.LocalName;
-            if (Wml.SpanEquals(name, "r"))
+            if (WordXml.SpanEquals(name, "r"))
             {
                 Run(c, sb);
             }
-            else if (Wml.SpanEquals(name, "ins") || Wml.SpanEquals(name, "moveTo"))
+            else if (WordXml.SpanEquals(name, "ins") || WordXml.SpanEquals(name, "moveTo"))
             {
                 if (Keep(view, true))
                 {
                     Inline(c, view, sb, depth + 1);
                 }
             }
-            else if (Wml.SpanEquals(name, "del") || Wml.SpanEquals(name, "moveFrom"))
+            else if (WordXml.SpanEquals(name, "del") || WordXml.SpanEquals(name, "moveFrom"))
             {
                 if (Keep(view, false))
                 {
                     Inline(c, view, sb, depth + 1);
                 }
             }
-            else if (Wml.SpanEquals(name, "hyperlink") || Wml.SpanEquals(name, "fldSimple") || Wml.SpanEquals(name, "smartTag")
-                || Wml.SpanEquals(name, "customXml") || Wml.SpanEquals(name, "dir") || Wml.SpanEquals(name, "bdo")
-                || Wml.SpanEquals(name, "sdt") || Wml.SpanEquals(name, "sdtContent"))
+            else if (WordXml.SpanEquals(name, "hyperlink") || WordXml.SpanEquals(name, "fldSimple") || WordXml.SpanEquals(name, "smartTag")
+                || WordXml.SpanEquals(name, "customXml") || WordXml.SpanEquals(name, "dir") || WordXml.SpanEquals(name, "bdo")
+                || WordXml.SpanEquals(name, "sdt") || WordXml.SpanEquals(name, "sdtContent"))
             {
                 Inline(c, view, sb, depth + 1);
             }
@@ -165,25 +165,25 @@ internal static class RevisionText
     {
         foreach (MarkupNode c in run.ChildElements)
         {
-            if (!Wml.InMain(c))
+            if (!WordXml.InMain(c))
             {
                 continue;
             }
 
             ReadOnlySpan<byte> name = c.LocalName;
-            if (Wml.SpanEquals(name, "t") || Wml.SpanEquals(name, "delText"))
+            if (WordXml.SpanEquals(name, "t") || WordXml.SpanEquals(name, "delText"))
             {
                 sb.Append(c.InnerText);
             }
-            else if (Wml.SpanEquals(name, "tab") || Wml.SpanEquals(name, "ptab"))
+            else if (WordXml.SpanEquals(name, "tab") || WordXml.SpanEquals(name, "ptab"))
             {
                 sb.Append('\t');
             }
-            else if (Wml.SpanEquals(name, "br") || Wml.SpanEquals(name, "cr"))
+            else if (WordXml.SpanEquals(name, "br") || WordXml.SpanEquals(name, "cr"))
             {
                 sb.Append('\n');
             }
-            else if (Wml.SpanEquals(name, "noBreakHyphen"))
+            else if (WordXml.SpanEquals(name, "noBreakHyphen"))
             {
                 sb.Append('\u2011');
             }
