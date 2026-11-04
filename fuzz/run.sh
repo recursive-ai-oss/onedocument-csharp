@@ -4,7 +4,7 @@
 #   fuzz/run.sh <target> <seconds> [corpus dir] [extra libFuzzer flags...]
 #   fuzz/run.sh replay <target> <file>...      # run saved inputs once, without libFuzzer (reproduce a finding)
 #
-# Targets: sniff, xml, markup, opc, cfb, sdt, sdtpath, revisions   (see fuzz/README.md)
+# Targets: sniff, xml, markup, opc, cfb, sdt, sdtpath, revisions, sheet, sst, wbpart   (see fuzz/README.md)
 #
 # Environment (nothing is baked into the script):
 #   ONEOFFICE_FUZZ_WORK    required: where builds, corpora and findings go. Keep it outside the checkout.
@@ -40,7 +40,7 @@ case "$target" in
   revisions) maxlen=65536 ;;
   opc) maxlen=262144 ;;
   cfb) maxlen=262144 ;;
-  xml|markup|sdt|sdtpath) maxlen=262144 ;;
+  xml|markup|sdt|sdtpath|sheet|sst|wbpart) maxlen=262144 ;;
   *) echo "unknown target '$target'" >&2; exit 2 ;;
 esac
 
@@ -77,6 +77,7 @@ mkdir -p "$corpus" "$findings"
 
 "$instrument" "$bin/RecursiveAI.OneOffice.dll" >/dev/null
 [[ ! -f "$bin/RecursiveAI.OneOffice.Documents.dll" ]] || "$instrument" "$bin/RecursiveAI.OneOffice.Documents.dll" >/dev/null
+[[ ! -f "$bin/RecursiveAI.OneOffice.Spreadsheets.dll" ]] || "$instrument" "$bin/RecursiveAI.OneOffice.Spreadsheets.dll" >/dev/null
 "$instrument" "$bin/RecursiveAI.OneArchive.dll" >/dev/null
 [[ "$target" != sdt* ]] || "$instrument" "$bin/RecursiveAI.OneOffice.Documents.dll" >/dev/null
 

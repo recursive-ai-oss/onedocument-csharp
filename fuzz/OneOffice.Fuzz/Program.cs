@@ -31,6 +31,9 @@ internal static class Program
         ["revisions"] = RevisionTarget.Run,
         ["sdt"] = SdtTarget.RunDocument,
         ["sdtpath"] = SdtTarget.RunPath,
+        ["sheet"] = SheetTarget.RunSheet,
+        ["sst"] = SheetTarget.RunSst,
+        ["wbpart"] = SheetTarget.RunWorkbookPart,
     };
 
     private static int Main(string[] args)
@@ -50,6 +53,7 @@ internal static class Program
                 "xml" or "markup" => XmlTarget.WriteSeeds(args[2]),
                 "revisions" => RevisionTarget.WriteSeeds(args[2]),
                 "sdt" or "sdtpath" => SdtTarget.WriteSeeds(args[2]),
+                "sheet" or "sst" or "wbpart" => SheetTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }

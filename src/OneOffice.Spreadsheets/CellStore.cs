@@ -265,7 +265,9 @@ public sealed class CellStore
 
     internal int FormulaPoolCount => _formulas.Count;
 
-    internal long ApproximateBytes()
+    /// <summary>Estimates the managed memory the store holds, in bytes (arrays, row objects, formula and string pools); a figure for budgeting, not an exact count.</summary>
+    /// <returns>The estimate.</returns>
+    public long ApproximateBytes()
     {
         long total = 0;
         foreach (RowData r in _rows)

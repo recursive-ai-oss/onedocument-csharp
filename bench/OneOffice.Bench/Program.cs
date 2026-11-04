@@ -18,6 +18,10 @@ internal static class Program
                 return Peak(args.Skip(1).ToArray());
             case "peakall":
                 return PeakAll(args.Skip(1).ToArray());
+            case "bpc":
+                return CellFootprint.Run(args.Skip(1).ToArray());
+            case "bpcall":
+                return CellFootprint.RunAll(args.Skip(1).ToArray());
             case "report":
                 return Report.Run(args.Skip(1).ToArray());
             case "versions":
