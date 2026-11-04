@@ -157,6 +157,19 @@ public sealed class OpcPackage : IOpcPackage
         return OpenOwned(source, null, context);
     }
 
+    /// <summary>Opens a package from a byte source that was read from a file, which the package then owns; <see cref="Save"/> replaces that file.</summary>
+    /// <param name="source">The bytes of the file; it must support synchronous reads (<see cref="IByteSource.CanReadSync"/>).</param>
+    /// <param name="filePath">The path the bytes came from.</param>
+    /// <param name="context">Limits, defect sink and password; null for the defaults.</param>
+    /// <returns>The open package.</returns>
+    /// <exception cref="OfficeException">The source is not a package, is damaged beyond repair, or exceeds a limit.</exception>
+    public static OpcPackage Open(IByteSource source, string filePath, OpenContext? context = null)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentException.ThrowIfNullOrEmpty(filePath);
+        return OpenOwned(source, Path.GetFullPath(filePath), context);
+    }
+
     /// <summary>Opens a package from a source that may be remote, buffering it first when it cannot be read synchronously.</summary>
     /// <param name="source">The bytes; the package owns and disposes it.</param>
     /// <param name="context">Limits, defect sink and password; null for the defaults.</param>
@@ -259,6 +272,26 @@ public sealed class OpcPackage : IOpcPackage
         _byKey[key] = e;
         _contentTypes.Ensure(name, contentType);
         return e;
+    }
+
+    /// <summary>Changes the content type of an existing part (for example the main part of a document when it is saved as a template).</summary>
+    /// <param name="name">The part name.</param>
+    /// <param name="contentType">The new content type.</param>
+    /// <returns>False when there is no such part.</returns>
+    /// <remarks>The part's bytes are not touched, so an untouched part stays raw-copyable. An override is written to the content-types item.</remarks>
+    public bool SetPartContentType(string name, string contentType)
+    {
+        ArgumentNullException.ThrowIfNull(name);
+        ArgumentException.ThrowIfNullOrEmpty(contentType);
+        ObjectDisposedException.ThrowIf(_disposed, this);
+        if (FindPart(name) is not Entry e)
+        {
+            return false;
+        }
+
+        e.ContentType = contentType;
+        _contentTypes.Ensure(name, contentType);
+        return true;
     }
 
     /// <inheritdoc />

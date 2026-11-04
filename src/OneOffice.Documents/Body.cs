@@ -208,7 +208,7 @@ public abstract class BlockContainer
 }
 
 /// <summary>The body of a document: the blocks of the main story and its closing section properties.</summary>
-public sealed class Body : BlockContainer
+public sealed partial class Body : BlockContainer
 {
     internal Body(Document owner, MarkupRef element)
         : base(owner, element)
