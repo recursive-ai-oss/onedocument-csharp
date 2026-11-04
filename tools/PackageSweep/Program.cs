@@ -87,6 +87,7 @@ internal static class Program
         public int Opened;
         public int Identical;
         public int Rejected;
+        public int Recovered;
         public int Failed;
         public long Parts;
         public long PartsIdentical;
@@ -137,7 +138,7 @@ internal static class Program
             }
         }
 
-        Console.WriteLine($"files tried {tally.Tried}, opened {tally.Opened}, round-tripped identical {tally.Identical}, rejected (typed) {tally.Rejected}, failed {tally.Failed}");
+        Console.WriteLine($"files tried {tally.Tried}, opened {tally.Opened}, round-tripped identical {tally.Identical}, rejected (typed) {tally.Rejected}, recovered from damage {tally.Recovered} (included in identical), failed {tally.Failed}");
         Console.WriteLine($"parts compared {tally.Parts}, identical {tally.PartsIdentical}");
         foreach ((string code, int n) in tally.Codes.OrderBy(k => k.Key, StringComparer.Ordinal))
         {
@@ -184,7 +185,31 @@ internal static class Program
         // 1. Untouched rewrite: every stored item has the same decompressed bytes, in the same order.
         using var output = new MemoryStream();
         pkg.WriteTo(output);
-        List<(string Name, string Hash)> before = IndependentRead(original), after = IndependentRead(output.ToArray());
+        List<(string Name, string Hash)> after = IndependentRead(output.ToArray());
+        List<(string Name, string Hash)> before;
+        try
+        {
+            before = IndependentRead(original);
+        }
+        catch (InvalidDataException)
+        {
+            // A truncated download has no central directory for the BCL reader. The library recovers it by scanning local headers and
+            // says so with a typed defect; the check becomes: every part it exposes comes out with the same bytes.
+            string codes = string.Join(",", defects.Select(d => d.Code).Distinct().Order(StringComparer.Ordinal));
+            Console.WriteLine($"RECOVERED {Path.GetFileName(file)}: {pkg.Parts.Count} parts, defects {codes}");
+            tally.Recovered++;
+            var afterByName = after.ToDictionary(a => a.Name, a => a.Hash, StringComparer.Ordinal);
+            foreach (KeyValuePair<string, string> h in hashes)
+            {
+                if (!afterByName.TryGetValue(h.Key.TrimStart('/'), out string? got) || got != h.Value)
+                {
+                    return "recovered part differs after the rewrite: " + h.Key;
+                }
+            }
+
+            return null;
+        }
+
         if (!before.SequenceEqual(after))
         {
             return $"untouched rewrite differs ({before.Count} items before, {after.Count} after; first difference at {FirstDifference(before, after)})";
