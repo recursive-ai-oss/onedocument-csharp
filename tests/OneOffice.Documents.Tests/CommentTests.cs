@@ -188,6 +188,43 @@ public class CommentTests
         Assert.Contains("w:date=\"2020-01-01T00:00:00Z\"", c.Container.Node.OuterXml);
     }
 
+    // Observed in Word 365 (16.0.20527): a comments part whose root does not declare w14 triggers the repair prompt
+    // even when a descendant declares it locally and the root lists w14 in mc:Ignorable.
+    [Fact]
+    public void EditsThatAddParagraphIds_DeclareW14OnTheRootOnly()
+    {
+        InMemoryPackage p = TestDocs.Package("<w:p><w:r><w:t>x</w:t></w:r></w:p>");
+        PartHelper.Add(p, "/word/comments.xml", "application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml", PartHelper.Rel + "comments",
+            $"<w:comments xmlns:w=\"{W}\"><w:comment w:id=\"0\" w:author=\"Ann\"><w:p><w:r><w:t>old</w:t></w:r></w:p></w:comment></w:comments>");
+        using var d = Document.FromPackage(p);
+        Comment c = d.Comments.Find(0)!;
+        c.SetText("new");
+        Run run = d.Body.Paragraphs().Single().Runs().Single();
+        Comment added = d.Comments.Add(run, run, "Bob", "Added");
+        d.Comments.Reply(added, "Cy", "Reply");
+        d.CommitChanges();
+
+        string xml = PartHelper.Text(p, "/word/comments.xml");
+        Assert.Equal(1, Count(xml, "xmlns:w14="));
+        Assert.True(xml.IndexOf("xmlns:w14=", StringComparison.Ordinal) < xml.IndexOf('>', xml.IndexOf("<w:comments", StringComparison.Ordinal)));
+        Assert.Matches("mc:Ignorable=\"[^\"]*w14", xml);
+    }
+
+    [Fact]
+    public void SetText_OnAPartThatDeclaresW14OnlyLocally_MovesTheDeclarationToTheRoot()
+    {
+        InMemoryPackage p = TestDocs.Package("<w:p><w:r><w:t>x</w:t></w:r></w:p>");
+        PartHelper.Add(p, "/word/comments.xml", "application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml", PartHelper.Rel + "comments",
+            $"<w:comments xmlns:w=\"{W}\"><w:comment w:id=\"0\" w:author=\"Ann\"><w:p xmlns:w14=\"{W14}\" w14:paraId=\"11111111\"><w:r><w:t>old</w:t></w:r></w:p></w:comment></w:comments>");
+        using var d = Document.FromPackage(p);
+        d.Comments.Find(0)!.SetText("new");
+        d.CommitChanges();
+        string xml = PartHelper.Text(p, "/word/comments.xml");
+        Assert.True(xml.IndexOf("xmlns:w14=", StringComparison.Ordinal) < xml.IndexOf('>', xml.IndexOf("<w:comments", StringComparison.Ordinal)));
+        Assert.DoesNotContain("<w:p xmlns:w14", xml, StringComparison.Ordinal);
+        Assert.Matches("mc:Ignorable=\"[^\"]*w14", xml);
+    }
+
     private static int Count(string text, string find)
     {
         int n = 0;

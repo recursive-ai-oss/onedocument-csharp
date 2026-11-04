@@ -161,6 +161,39 @@ public class RevisionResolveTests
         Assert.Equal("aMOVEDb\nc\n", Text(r, RevisionView.Accepted));
     }
 
+    // Observed in Word 365 (16.0.20527): resolving one end of a move resolves the other end with it.
+    [Fact]
+    public void ResolvingOneEndOfAMoveResolvesTheOther()
+    {
+        string body = "<w:p>" + R("a") + "<w:moveFromRangeStart w:id=\"1\" w:name=\"m\" w:author=\"A\"/><w:moveFrom w:id=\"2\" w:author=\"A\"><w:r><w:delText>MOVED</w:delText></w:r></w:moveFrom><w:moveFromRangeEnd w:id=\"1\"/>" + R("b") + "</w:p>" +
+            "<w:p>" + R("c") + "<w:moveToRangeStart w:id=\"3\" w:name=\"m\" w:author=\"A\"/><w:moveTo w:id=\"4\" w:author=\"A\"><w:r><w:t>MOVED</w:t></w:r></w:moveTo><w:moveToRangeEnd w:id=\"3\"/></w:p>";
+        foreach (RevisionKind end in new[] { RevisionKind.MoveFrom, RevisionKind.MoveTo })
+        {
+            RevisionSet a = Set(body);
+            Assert.Equal(2, a.Accept(new[] { a.Revisions.First(x => x.Kind == end) }));
+            Assert.Empty(a.Revisions);
+            Assert.Equal("ab\ncMOVED\n", Text(a, RevisionView.Accepted));
+            RevisionSet r = Set(body);
+            Assert.Equal(2, r.Reject(new[] { r.Revisions.First(x => x.Kind == end) }));
+            Assert.Empty(r.Revisions);
+            Assert.Equal("aMOVEDb\nc\n", Text(r, RevisionView.Accepted));
+        }
+    }
+
+    // Observed in Word 365 (16.0.20527): rejecting an inserted numbering clears only the marker; the numbering stays.
+    [Fact]
+    public void RejectingInsertedNumbering_KeepsNumPr_AndNumberingChangeIsDropped()
+    {
+        const string body = "<w:p><w:pPr><w:numPr><w:ilvl w:val=\"0\"/><w:numId w:val=\"1\"/><w:ins w:id=\"1\" w:author=\"A\"/></w:numPr></w:pPr>" +
+            "<w:r><w:t>x</w:t></w:r></w:p><w:p><w:pPr><w:numPr><w:ilvl w:val=\"0\"/><w:numId w:val=\"1\"/><w:numberingChange w:id=\"2\" w:author=\"A\" w:original=\"%1:1:0:\"/></w:numPr></w:pPr><w:r><w:t>y</w:t></w:r></w:p>";
+        RevisionSet r = Set(body);
+        r.RejectAll();
+        string xml = Xml(r);
+        Assert.Equal(2, System.Text.RegularExpressions.Regex.Count(xml, "<w:numPr><w:ilvl w:val=\"0\"/><w:numId w:val=\"1\"/></w:numPr>"));
+        Assert.DoesNotContain("w:ins", xml);
+        Assert.DoesNotContain("numberingChange", xml);
+    }
+
     [Fact]
     public void ByAuthorAndSingleRevisionLeaveTheRestAlone()
     {

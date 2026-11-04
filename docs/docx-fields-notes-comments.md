@@ -38,8 +38,8 @@ without the part has an empty collection.
   superscript). `Remove(note)` removes the note and all its references; separators cannot be removed or referenced.
 - `NoteNumbering` (per section `w:sectPr` or document-wide in the settings) reads and writes `pos`, `numFmt`, `numStart`,
   `numRestart` in schema order; `Combine` applies section over document over defaults.
-  **To check against Word:** with no `numFmt` set the hub reports `decimal` for endnotes as well, following the schema's
-  default; Word's own template starts endnotes in lower-case roman.
+  With no `numFmt` anywhere, footnotes are `decimal` and endnotes `lowerRoman` (observed in Word 365, 16.0.20527; the
+  schema's default is decimal for both).
 - Defects: `docx.note-missing`, `docx.note-duplicate-id`.
 
 ## Comments
