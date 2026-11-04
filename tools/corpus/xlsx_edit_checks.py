@@ -65,6 +65,24 @@ def validate(a):
     return 0
 
 
+def errors(a):
+    """Prints the schema errors of one corpus file and of its rewrite, for the parts that have any."""
+    sys.path.insert(0, os.path.join(HERE, "..", "validate"))
+    import validate_ooxml as v
+    s = v.SchemaSet([d for d in os.environ.get("ONEOFFICE_XSD", "").split(os.pathsep) if d])
+    for r in rows(a.sweep):
+        if r["file"] != a.file:
+            continue
+        for label, path in (("original", os.path.join(a.corpus, r["file"])), ("rewrite", os.path.join(a.sweep, "edited", r["id"] + ".xlsx"))):
+            for name, data in v.package_parts(path):
+                res = v.validate_part(name, data, s, s.namespaces)
+                if res["status"] == "invalid":
+                    print(label, name, len(res["errors"]))
+                    for e in res["errors"][:5]:
+                        print("   ", e)
+    return 0
+
+
 def lo_csv(path, work):
     soffice = os.environ["ONEOFFICE_SOFFICE"]
     os.makedirs(work, exist_ok=True)
@@ -119,16 +137,17 @@ def lo(a):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", choices=["validate", "lo"])
+    ap.add_argument("mode", choices=["validate", "lo", "errors"])
     ap.add_argument("sweep")
     ap.add_argument("corpus")
     ap.add_argument("--schemas", action="append")
+    ap.add_argument("--file", help="errors: the file name as listed in the sweep")
     ap.add_argument("--sample", type=int, default=200)
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--max-minutes", type=float, default=20, help="stop starting new files after this long and report what was checked")
     ap.add_argument("--max-bytes", type=int, default=6 << 20, help="skip files whose original is larger (schema validation and LibreOffice are slow on big sheets)")
     a = ap.parse_args()
-    return validate(a) if a.mode == "validate" else lo(a)
+    return {"validate": validate, "lo": lo, "errors": errors}[a.mode](a)
 
 
 if __name__ == "__main__":
