@@ -11,8 +11,8 @@ namespace RecursiveAI.OneOffice.Bench;
 [SimpleJob(RunStrategy.Throughput, launchCount: 1, warmupCount: 1, iterationCount: 5)]
 public abstract class DocxBenchmarkBase
 {
-    /// <summary>Which generated input to run on (small, medium, large, pages1000).</summary>
-    [Params("small", "medium", "large", "pages1000")]
+    /// <summary>Which generated input to run on (small, medium, pages1000).</summary>
+    [Params("small", "medium", "pages1000")]
     public string Input { get; set; } = "small";
 
     /// <summary>The input's bytes.</summary>
