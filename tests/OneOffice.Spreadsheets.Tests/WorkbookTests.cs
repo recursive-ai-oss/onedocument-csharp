@@ -327,4 +327,23 @@ public class WorkbookTests
         using Workbook back = Workbook.Open(new MemoryStream(ms.ToArray()));
         Assert.Equal("y", back.Sheets[0]["C3"].Text);
     }
+
+    [Fact]
+    public void NumbersWhoseShortestFormReadsBackDifferentlyAreWrittenExactly()
+    {
+        double[] values = [Math.Pow(2, -25), Math.Pow(2, -1000), 0.1 + 0.2, 1e22, 123456789.12345678, double.Epsilon];
+        using Workbook wb = TestBook.Open();
+        for (int i = 0; i < values.Length; i++)
+        {
+            wb.Sheets[0][10 + i, 1].SetNumber(values[i]);
+        }
+
+        using var ms = new MemoryStream();
+        wb.SaveAs(ms, OfficeFormat.Xlsx);
+        using Workbook back = Workbook.Open(new MemoryStream(ms.ToArray()));
+        for (int i = 0; i < values.Length; i++)
+        {
+            Assert.Equal(values[i], back.Sheets[0][10 + i, 1].Number);
+        }
+    }
 }

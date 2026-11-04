@@ -379,6 +379,13 @@ internal static class SheetWriter
     {
         Span<byte> s = w.GetSpan(32);
         value.TryFormat(s, out int n, default, CultureInfo.InvariantCulture);
+        // The shortest form can be one unit in the last place off for some powers of two (2^-25 formats as 2.980232238769531E-08, which
+        // reads back as the neighbour below). Long forms are read back and replaced by 17 significant digits when they differ.
+        if (n >= 15 && (!double.TryParse(s[..n], NumberStyles.Float, CultureInfo.InvariantCulture, out double back) || back != value))
+        {
+            value.TryFormat(s, out n, "G17", CultureInfo.InvariantCulture);
+        }
+
         w.Advance(n);
     }
 
