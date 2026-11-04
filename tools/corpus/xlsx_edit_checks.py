@@ -8,7 +8,7 @@
       Converts the original and the rewrite of a deterministic sample to CSV (every sheet) with headless LibreOffice
       (ONEOFFICE_SOFFICE) and compares the CSV files.
 """
-import argparse, glob, json, os, random, shutil, subprocess, sys, tempfile
+import argparse, glob, json, os, random, shutil, subprocess, sys, tempfile, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -37,7 +37,11 @@ def validate(a):
 
     files = new = origInvalid = editedInvalid = skipped = 0
     detail = []
+    t0 = time.time()
     for r in rows(a.sweep):
+        if time.time() - t0 > a.max_minutes * 60:
+            detail.append({"note": "time budget reached"})
+            break
         edited = os.path.join(a.sweep, "edited", r["id"] + ".xlsx")
         orig = os.path.join(a.corpus, r["file"])
         if not os.path.exists(edited) or not os.path.exists(orig):
@@ -69,7 +73,12 @@ def lo_csv(path, work):
     out = os.path.join(work, "csv")
     # Filter options: separator 44, quote 34, UTF-8, first line 1, raw values (not as shown), all sheets (-1).
     flt = 'csv:Text - txt - csv (StarCalc):44,34,76,1,,0,false,false,false,false,false,-1'
-    subprocess.run([soffice, "--convert-to", flt, "--outdir", out, local], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=180)
+    p = subprocess.Popen([soffice, "--convert-to", flt, "--outdir", out, local], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+    try:
+        p.wait(timeout=60)
+    except subprocess.TimeoutExpired:
+        os.killpg(p.pid, 9)  # soffice leaves its worker process behind otherwise
+        p.wait()
     return {os.path.basename(f): open(f, "rb").read() for f in sorted(glob.glob(os.path.join(out, "*.csv")))}
 
 
@@ -78,8 +87,9 @@ def lo(a):
     random.Random(a.seed).shuffle(cands)
     ok = diff = fail = 0
     detail = []
+    t0 = time.time()
     for r in cands:
-        if ok + diff + fail >= a.sample:
+        if ok + diff + fail >= a.sample or time.time() - t0 > a.max_minutes * 60:
             break
         edited = os.path.join(a.sweep, "edited", r["id"] + ".xlsx")
         orig = os.path.join(a.corpus, r["file"])
@@ -115,6 +125,7 @@ def main():
     ap.add_argument("--schemas", action="append")
     ap.add_argument("--sample", type=int, default=200)
     ap.add_argument("--seed", type=int, default=1)
+    ap.add_argument("--max-minutes", type=float, default=20, help="stop starting new files after this long and report what was checked")
     ap.add_argument("--max-bytes", type=int, default=6 << 20, help="skip files whose original is larger (schema validation and LibreOffice are slow on big sheets)")
     a = ap.parse_args()
     return validate(a) if a.mode == "validate" else lo(a)
