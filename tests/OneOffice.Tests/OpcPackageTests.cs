@@ -442,8 +442,8 @@ public sealed class OpcPackageTests : IDisposable
         Assert.Equal(before, Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path))));
         Assert.Empty(Directory.GetFiles(_dir, ".*.tmp"));
 
-        // 2. A part fails to read part-way through the write (damaged data in the source): earlier entries are already in
-        //    the temporary file when the failure comes.
+        // 2. A part with damaged stored data: an untouched part is copied as stored, so a save does not fail and does not "repair" it;
+        //    reading the part still reports the damage as a typed failure, and the original file is untouched by a failed attempt.
         string damagedPath = Path.Combine(_dir, "damaged.docx");
         byte[] damaged = Build(Docx(), CompressionLevel.NoCompression);
         int at = damaged.AsSpan().IndexOf(U("word/media/image3.png")) + "word/media/image3.png".Length + 100;
@@ -453,9 +453,11 @@ public sealed class OpcPackageTests : IDisposable
         using (OpcPackage pkg = OpcPackage.Open(damagedPath))
         {
             pkg.FindPart("/word/document.xml")!.SetBytes(U("<changed/>"));
-            Assert.Throws<OfficeFormatException>(() => pkg.Save());
+            Assert.Throws<OfficeFormatException>(() => pkg.FindPart("/word/media/image3.png")!.GetBytes());
+            using var copy = new MemoryStream();
+            pkg.WriteTo(copy);
+            Assert.True(copy.ToArray().AsSpan().IndexOf(damaged.AsSpan(at - 8, 16)) >= 0);
             Assert.True(pkg.IsModified);
-            Assert.Equal("<changed/>", Encoding.UTF8.GetString(pkg.FindPart("/word/document.xml")!.GetBytes().Span));
         }
 
         Assert.Equal(damagedHash, Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(damagedPath))));

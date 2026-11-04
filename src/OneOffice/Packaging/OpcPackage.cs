@@ -943,19 +943,40 @@ public sealed class OpcPackage : IOpcPackage
         }
     }
 
-    // The one place that decides how an item gets into the output zip. Today an untouched item is decompressed and compressed
-    // again, because the container library has no raw-entry copy yet; swapping this body for a raw copy is the whole change.
-    // Either way the bytes read back from the output are the bytes of the input.
+    // The one place that decides how an item gets into the output zip. An untouched item whose source is a seekable zip read
+    // without recovery is copied raw: the stored bytes, CRC, method, flags, extra fields and DOS time pass through unchanged,
+    // so nothing is decompressed or recompressed. The fallbacks recompress, and the bytes read back are still the input's:
+    //  - a source that cannot seek (recovery that scans local headers forward, or Flat OPC input) has no random access to the
+    //    stored bytes, and a recovered archive may hold damaged data that must not be carried into the output;
+    //  - an item that was edited, or created in memory, has no stored form to copy.
     private void CopyOrWrite(ZipWriter zw, Entry e)
     {
+        if (e.IsUntouched && e.SourceIndex >= 0 && _zip is { CanCopyRaw: true } zip && !zip.Preloaded.ContainsKey(e.SourceIndex))
+        {
+            ZipEntry source = zip.Entries[e.SourceIndex];
+            if (source.IsSizeKnown)
+            {
+                try
+                {
+                    using Stream raw = zip.Reader.OpenRawEntryStream(source);
+                    zw.WriteRawEntry(ZipRawEntry.FromEntry(source), raw);
+                    return;
+                }
+                catch (ArchiveUnsupportedException)
+                {
+                    // An entry the raw API cannot take (for example an unsupported layout) is recompressed below.
+                }
+            }
+        }
+
         if (e.TryGetCached(out ReadOnlyMemory<byte> bytes))
         {
             zw.WriteEntry(new ZipEntry { Name = e.ZipName, Size = bytes.Length, ModifiedTime = e.Modified }, bytes);
             return;
         }
 
-        using Stream source = OpenSourceStream(e);
-        zw.WriteEntry(new ZipEntry { Name = e.ZipName, Size = e.Length, ModifiedTime = e.Modified }, source);
+        using Stream source2 = OpenSourceStream(e);
+        zw.WriteEntry(new ZipEntry { Name = e.ZipName, Size = e.Length, ModifiedTime = e.Modified }, source2);
     }
 
     // ---- part content -------------------------------------------------------------------------------------------------------
@@ -1072,6 +1093,8 @@ public sealed class OpcPackage : IOpcPackage
 
         public ZipReader Reader { get; }
 
+        public bool CanCopyRaw { get; init; }
+
         public List<ZipEntry> Entries { get; }
 
         public Dictionary<int, byte[]> Preloaded { get; }
@@ -1116,7 +1139,7 @@ public sealed class OpcPackage : IOpcPackage
                 throw;
             }
 
-            return new ZipSource(bytes, reader, entries, preloaded, [.. reader.Damage]);
+            return new ZipSource(bytes, reader, entries, preloaded, [.. reader.Damage]) { CanCopyRaw = !recovery && reader.SupportsRandomAccess };
         }
 
         public void Dispose()

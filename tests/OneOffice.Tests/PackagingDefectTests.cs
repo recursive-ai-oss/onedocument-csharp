@@ -3,6 +3,7 @@ using System.IO.Compression;
 using System.Text;
 using RecursiveAI.OneArchive;
 using RecursiveAI.OneArchive.Cfb;
+using RecursiveAI.OneArchive.Zip;
 using RecursiveAI.OneOffice.Cfb;
 using RecursiveAI.OneOffice.Diagnostics;
 using RecursiveAI.OneOffice.Packaging;
@@ -246,5 +247,43 @@ public class PackagingDefectTests
         using var output = new MemoryStream();
         pkg.WriteTo(output);
         Assert.Contains(defects, d => d.Code == "packaging.invalid-part-name");
+    }
+
+    [Fact]
+    public void Untouched_parts_are_copied_raw_so_the_stored_bytes_survive_a_save()
+    {
+        string types = TypesHead + "<Override PartName=\"/word/document.xml\" ContentType=\"application/xml\"/></Types>";
+        string body = string.Concat(Enumerable.Range(0, 2000).Select(i => "<p>line " + (i * 7919 % 1000) + "</p>"));
+        byte[] input = Zip(("[Content_Types].xml", types), ("word/document.xml", body), ("word/other.xml", body + body));
+        using OpcPackage pkg = OpcPackage.Open(new MemoryStream(input));
+        using var output = new MemoryStream();
+        pkg.WriteTo(output);
+
+        static List<(string Name, byte[] Raw)> Stored(byte[] zip)
+        {
+            using var reader = new ZipReader(new MemoryStream(zip));
+            var list = new List<ZipEntry>();
+            while (reader.GetNextEntry() is { } e)
+            {
+                list.Add(e);
+            }
+
+            return list.Select(e =>
+            {
+                using Stream raw = reader.OpenRawEntryStream(e);
+                using var ms = new MemoryStream();
+                raw.CopyTo(ms);
+                return (e.Name, ms.ToArray());
+            }).ToList();
+        }
+
+        var before = Stored(input);
+        var after = Stored(output.ToArray());
+        Assert.Equal(before.Count, after.Count);
+        for (int i = 0; i < before.Count; i++)
+        {
+            Assert.Equal(before[i].Name, after[i].Name);
+            Assert.True(before[i].Raw.AsSpan().SequenceEqual(after[i].Raw), before[i].Name);
+        }
     }
 }
