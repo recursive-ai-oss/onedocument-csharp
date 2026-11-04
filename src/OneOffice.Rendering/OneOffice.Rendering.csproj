@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>RecursiveAI.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>RecursiveAI.$(MSBuildProjectName)</RootNamespace>
+    <Description>Read, write, calculate, template and render Word, Excel and PowerPoint documents (OOXML, legacy binary, RTF, ODF) in pure .NET. Not affiliated with Microsoft. Layout and rendering of documents, workbooks and presentations to PDF and images for OneOffice.</Description>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../OneOffice/OneOffice.csproj" />
+    <ProjectReference Include="../OneOffice.Documents/OneOffice.Documents.csproj" />
+    <ProjectReference Include="../OneOffice.Spreadsheets/OneOffice.Spreadsheets.csproj" />
+    <ProjectReference Include="../OneOffice.Presentations/OneOffice.Presentations.csproj" />
+  </ItemGroup>
+
+</Project>

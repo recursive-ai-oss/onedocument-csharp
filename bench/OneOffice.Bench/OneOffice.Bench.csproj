@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RecursiveAI.OneOffice.Bench</RootNamespace>
+    <AssemblyName>RecursiveAI.OneOffice.Bench</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <!-- Comparator libraries are referenced here, and only in tests, tools and bench projects. -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.IO" />
+    <Using Include="System.Linq" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/OneOffice/OneOffice.csproj" />
+  </ItemGroup>
+
+</Project>

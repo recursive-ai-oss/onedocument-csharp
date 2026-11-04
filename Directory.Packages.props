@@ -1,0 +1,15 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Family libraries the shipped packages use, at published versions. -->
+    <PackageVersion Include="RecursiveAI.OneArchive" Version="1.1.1" />
+    <!-- Test, fuzz and benchmark projects only. -->
+    <PackageVersion Include="xunit.v3" Version="4.0.2" />
+    <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
+    <PackageVersion Include="SharpFuzz" Version="2.2.0" />
+    <!-- The POCO source generator's compile-time dependency. It is an analyzer and never ships as a dependency. -->
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.WebAssembly">
+
+  <PropertyGroup>
+    <RootNamespace>RecursiveAI.OneOffice.Smoke</RootNamespace>
+    <AssemblyName>WasmSmoke</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.IO" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../shared/SmokeChecks.cs" Link="SmokeChecks.cs" />
+    <ProjectReference Include="../../src/OneOffice/OneOffice.csproj" />
+  </ItemGroup>
+
+</Project>
