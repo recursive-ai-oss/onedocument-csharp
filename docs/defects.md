@@ -47,6 +47,14 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.part-missing` | fatal | A part the reader must have is not in the package. |
 | `docx.no-body` | repaired | The document has no `w:body`; it reads as an empty body and the tree is left as it was. |
 | `docx.part-unreadable` | dropped | An optional part (styles, numbering, theme, …) is not well-formed or is damaged; the document reads as if it were absent. The location holds the part and offset. |
+| `docx.style-duplicate-id` | repaired | Two styles have the same `w:styleId`; the first is used. |
+| `docx.style-base-missing` | repaired | A style is based on a style that does not exist; its chain ends there. |
+| `docx.style-cycle` | repaired | `w:basedOn` links form a cycle; the chain is cut where it closes. |
+| `docx.style-unknown` | repaired | A paragraph, run or table names a style that is not defined; the default style of that type applies (none for runs without a default character style). |
+| `docx.num-missing` | repaired | A paragraph refers to a `w:numId` that has no `w:num`; it is not numbered. |
+| `docx.num-abstract-missing` | repaired | A `w:num` names an abstract definition that does not exist; its paragraphs are not numbered. |
+| `docx.num-level-missing` | repaired | The paragraph's level is not defined by the list; the paragraph is not numbered. |
+| `docx.num-link-broken` | repaired | A `w:numStyleLink` does not lead to a list definition (missing style, no list, or nested too deeply); the definition's own levels are used. |
 
 The XML layer repairs nothing: Office refuses an ill-formed part, and so does this layer. The limits it enforces (`MaxXmlDepth`, `MaxXmlAttributeCount`, `MaxXmlNameLength`, and `MaxPartSize` for a part held whole) raise `limit.*` as above.
 
