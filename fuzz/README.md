@@ -5,6 +5,8 @@
 | Target | Input | Surface |
 |---|---|---|
 | `sniff` | raw bytes | format identification, including the zip and compound-file directory readers it reaches; the same bytes through a memory source and a stream source must give the same answer |
+| `opc` | raw bytes | the OPC package reader (zip directory and recovery, content types, relationships, Flat OPC) and writer: every part is read, the package is rewritten and reopened, and the parts must come back with the same bytes |
+| `cfb` | raw bytes | the compound-file package adapter (directory, recovery, streams): one stream is replaced, the file is rewritten and reopened, and the other streams must come back unchanged |
 | `xml` | raw bytes | the XML tokenizer: tokens tile the input; reading in blocks gives the same tokens as reading whole; refusals are typed |
 | `markup` | raw bytes | the markup tree and streaming reader: parse then write gives the input byte for byte; the tree, the reader and the tokenizer agree on what is well-formed; an edit then re-parse stays well-formed |
 | `text` | one mode byte + a part | the OOXML text extractors (word-processing, drawing, shared strings and worksheet): typed rejections only, and extracting twice gives the same text |
