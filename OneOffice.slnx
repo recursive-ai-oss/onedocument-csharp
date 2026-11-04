@@ -18,7 +18,6 @@
     <Project Path="tools/ViewGenerator/ViewGenerator.csproj" />
     <Project Path="tools/RoundTrip/RoundTrip.csproj" />
     <Project Path="tools/MarkupProbe/MarkupProbe.csproj" />
-    <Project Path="tools/SchemaValidate/SchemaValidate.csproj" />
   </Folder>
   <Folder Name="/fuzz/">
     <Project Path="fuzz/OneOffice.Fuzz/OneOffice.Fuzz.csproj" />

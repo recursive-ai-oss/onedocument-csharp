@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Stand-ins for the Dublin Core terms the core-properties schema imports from a remote location (see dc.xsd).
+     W3CDTF is the date or date-time profile used by the dcterms:created and dcterms:modified values. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://purl.org/dc/terms/"
+           xmlns:dcterms="http://purl.org/dc/terms/" elementFormDefault="qualified">
+  <xs:simpleType name="W3CDTF">
+    <xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear"/>
+  </xs:simpleType>
+  <xs:element name="created" type="xs:anySimpleType"/>
+  <xs:element name="modified" type="xs:anySimpleType"/>
+</xs:schema>
