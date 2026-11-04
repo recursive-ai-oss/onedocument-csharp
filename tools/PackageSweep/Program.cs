@@ -47,7 +47,20 @@ internal static class Program
     {
         Directory.CreateDirectory(outDir);
         int n = 0;
-        foreach (string file in paths.SelectMany(p => Directory.Exists(p) ? Directory.EnumerateFiles(p, "*", SearchOption.AllDirectories).Where(f => OpcExtensions.Contains(Path.GetExtension(f), StringComparer.OrdinalIgnoreCase)).Order(StringComparer.Ordinal) : new[] { p }))
+        var files = new List<string>();
+        foreach (string p in paths)
+        {
+            if (Directory.Exists(p))
+            {
+                files.AddRange(Directory.EnumerateFiles(p, "*", SearchOption.AllDirectories).Where(f => OpcExtensions.Contains(Path.GetExtension(f), StringComparer.OrdinalIgnoreCase)).Order(StringComparer.Ordinal));
+            }
+            else
+            {
+                files.Add(p);
+            }
+        }
+
+        foreach (string file in files)
         {
             try
             {
