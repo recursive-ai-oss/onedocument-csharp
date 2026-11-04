@@ -31,7 +31,7 @@ internal static class TestBook
     public const string SharedXml = Decl + "<sst xmlns=\"" + Main + "\" count=\"2\" uniqueCount=\"2\"><si><t>First</t></si><si><r><t>Rich</t></r><r><rPr><b/></rPr><t> text</t></r><rPh sb=\"0\" eb=\"1\"><t>ph</t></rPh></si></sst>";
 
     /// <summary>A workbook file with two sheets, shared strings, styles and a calculation chain.</summary>
-    public static byte[] Bytes(string? sheet1 = null)
+    public static byte[] Bytes(string? sheet1 = null, string? shared = null)
     {
         OpcPackage p = OpcPackage.Create();
         p.SetRelationships(null, [new Relationship("rId1", Rel + "officeDocument", "xl/workbook.xml")]);
@@ -49,7 +49,7 @@ internal static class TestBook
         p.AddPart("/xl/worksheets/sheet1.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", Encoding.UTF8.GetBytes(sheet1 ?? Sheet1Xml));
         p.AddPart("/xl/worksheets/sheet2.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", Encoding.UTF8.GetBytes(Decl
             + "<worksheet xmlns=\"" + Main + "\"><sheetData><row r=\"1\"><c r=\"A1\"><v>7</v></c></row></sheetData></worksheet>"));
-        p.AddPart("/xl/sharedStrings.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", Encoding.UTF8.GetBytes(SharedXml));
+        p.AddPart("/xl/sharedStrings.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", Encoding.UTF8.GetBytes(shared ?? SharedXml));
         p.AddPart("/xl/styles.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", Encoding.UTF8.GetBytes(Decl + "<styleSheet xmlns=\"" + Main + "\"/>"));
         p.AddPart("/xl/calcChain.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.calcChain+xml", Encoding.UTF8.GetBytes(Decl + "<calcChain xmlns=\"" + Main + "\"><c r=\"A2\" i=\"1\"/></calcChain>"));
         using var ms = new MemoryStream();

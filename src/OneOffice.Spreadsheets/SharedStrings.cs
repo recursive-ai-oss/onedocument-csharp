@@ -540,16 +540,26 @@ public sealed class SharedStringTable
 
             ReadOnlySpan<byte> an = tag[ns..pos].TrimEnd((byte)' ');
             pos++;
-            while (pos < tag.Length && tag[pos] is (byte)' ' or (byte)'\t')
+            while (pos < tag.Length && tag[pos] is (byte)' ' or (byte)'\t' or (byte)'\r' or (byte)'\n')
             {
                 pos++;
             }
 
+            if (pos >= tag.Length)
+            {
+                break;
+            }
+
             byte q = tag[pos];
             int vs = ++pos;
-            while (tag[pos] != q)
+            while (pos < tag.Length && tag[pos] != q)
             {
                 pos++;
+            }
+
+            if (pos >= tag.Length)
+            {
+                break; // the tokenizer accepted the tag, so this is unreachable for well-formed input; never read past the tag
             }
 
             ReadOnlySpan<byte> raw = tag[vs..pos];

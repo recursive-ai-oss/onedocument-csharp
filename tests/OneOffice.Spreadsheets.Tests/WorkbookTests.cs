@@ -313,4 +313,18 @@ public class WorkbookTests
         using RecursiveAI.OneOffice.Packaging.OpcPackage p = RecursiveAI.OneOffice.Packaging.OpcPackage.Open(new MemoryStream(file));
         return p.FindPart(name)!.GetBytes().ToArray();
     }
+
+    [Fact]
+    public void SharedStringRootWithLineBreakBeforeAttributeValueSurvivesAnEdit()
+    {
+        // Found by fuzzing: whitespace other than a space between '=' and the quote ran the root-tag rewrite off the tag.
+        string sst = "<sst xmlns=\"" + TestBook.Main + "\" uniqueCount=\n\"1\"><si><t>x</t></si></sst>";
+        using Workbook wb = TestBook.Open(TestBook.Bytes(shared: sst));
+        wb.SharedStrings.Add("more");
+        wb.Sheets[0]["C3"].SetString("y");
+        using var ms = new MemoryStream();
+        wb.SaveAs(ms, OfficeFormat.Xlsx);
+        using Workbook back = Workbook.Open(new MemoryStream(ms.ToArray()));
+        Assert.Equal("y", back.Sheets[0]["C3"].Text);
+    }
 }
