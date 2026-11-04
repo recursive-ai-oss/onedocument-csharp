@@ -1,0 +1,5 @@
+<xsd:schema targetNamespace="http://schemas.microsoft.com/office/drawing/2015/06/chart" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns="http://schemas.microsoft.com/office/drawing/2015/06/chart" xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart" xmlns:xsd="http://www.w3.org/2001/XMLSchema" blockDefault="#all">
+  <xsd:import namespace="http://schemas.openxmlformats.org/drawingml/2006/chart" schemaLocation="chart.xsd"/>
+  <xsd:attribute name="formatcode2" type="c:ST_Xstring"/>
+  <xsd:element name="formatcode2" type="c:ST_Xstring"/>
+</xsd:schema>
