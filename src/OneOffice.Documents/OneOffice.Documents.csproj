@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../OneOffice/OneOffice.csproj" />
+    <ProjectReference Include="../OneOffice.Schema/OneOffice.Schema.csproj" />
   </ItemGroup>
 
 </Project>
