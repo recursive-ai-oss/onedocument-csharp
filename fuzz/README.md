@@ -9,6 +9,7 @@
 | `cfb` | raw bytes | the compound-file package adapter (directory, recovery, streams): one stream is replaced, the file is rewritten and reopened, and the other streams must come back unchanged |
 | `xml` | raw bytes | the XML tokenizer: tokens tile the input; reading in blocks gives the same tokens as reading whole; refusals are typed |
 | `markup` | raw bytes | the markup tree and streaming reader: parse then write gives the input byte for byte; the tree, the reader and the tokenizer agree on what is well-formed; an edit then re-parse stays well-formed |
+| `revisions` | raw bytes (a WordprocessingML part) | the revision model: scan, both text views, accept-all, reject-all, one revision, and an authoring call with positions taken from the input; the results re-parse |
 
 Only `OfficeException` may come out of a library call: it is the typed rejection of bad input. Any other exception, a failed invariant, a hang (`-timeout`) or a memory blow-up (`-rss_limit_mb`) is a finding.
 
