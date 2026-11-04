@@ -63,6 +63,7 @@ internal static class SmokeChecks
         using Stream stream = ByteSource.AsStream(source);
         Check("source stream", stream.ReadByte() == 1 && stream.Length == 3);
         failures.AddRange(SchemaSmoke.Run());
+        failures.AddRange(DocumentSmoke.Run());
         // Text extraction streams the main part through the package layer and the XML reader, and is registered statically.
         byte[] docx = Zip(
             ("[Content_Types].xml", "<Types xmlns=\"x\"><Override PartName=\"/word/document.xml\" ContentType=\"" + Wml + "\"/></Types>"),

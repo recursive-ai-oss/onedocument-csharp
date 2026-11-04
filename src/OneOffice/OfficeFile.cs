@@ -59,7 +59,7 @@ public abstract class OfficeFile : IDisposable
     /// <exception cref="InvalidOperationException">The file has no <see cref="FilePath"/>.</exception>
     /// <exception cref="FormatNotAvailableException">There is no writer for <see cref="Format"/> (a read-only format such as DOC).</exception>
     /// <exception cref="ObjectDisposedException">The file is disposed.</exception>
-    public void Save(CancellationToken cancellationToken = default)
+    public virtual void Save(CancellationToken cancellationToken = default)
     {
         if (FilePath is null)
         {
@@ -77,7 +77,7 @@ public abstract class OfficeFile : IDisposable
     public void SaveAs(string path, CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrEmpty(path);
-        OfficeFormat format = OfficeFormats.FromExtension(path);
+        OfficeFormat format = ResolveOutputFormat(path);
         if (format == OfficeFormat.Unknown)
         {
             throw new ArgumentException($"The extension of '{path}' does not name one format; pass the format explicitly.", nameof(path));
@@ -85,6 +85,14 @@ public abstract class OfficeFile : IDisposable
 
         SaveAs(path, format, cancellationToken);
     }
+
+    /// <summary>
+    /// Chooses the format a path's extension names for this kind of file. The default is <see cref="OfficeFormats.FromExtension"/>;
+    /// a kind overrides it to settle an extension that is ambiguous across kinds (<c>.xml</c> names Flat OPC for every kind).
+    /// </summary>
+    /// <param name="path">The target path.</param>
+    /// <returns>The format, or <see cref="OfficeFormat.Unknown"/> when the extension does not name one.</returns>
+    protected virtual OfficeFormat ResolveOutputFormat(string path) => OfficeFormats.FromExtension(path);
 
     /// <summary>Saves a copy in an explicit format, atomically (see <see cref="Save"/>).</summary>
     /// <param name="path">The target path.</param>
@@ -95,8 +103,7 @@ public abstract class OfficeFile : IDisposable
     {
         ArgumentException.ThrowIfNullOrEmpty(path);
         ThrowIfDisposed();
-        WriteHandler writer = FormatRegistry.Default.GetWriter(format);
-        AtomicFile.Write(path, stream => writer(this, format, stream, cancellationToken));
+        AtomicFile.Write(path, stream => WriteCore(format, stream, cancellationToken));
     }
 
     /// <summary>Writes a copy to a stream in an explicit format.</summary>
@@ -108,8 +115,19 @@ public abstract class OfficeFile : IDisposable
     {
         ArgumentNullException.ThrowIfNull(destination);
         ThrowIfDisposed();
-        FormatRegistry.Default.GetWriter(format)(this, format, destination, cancellationToken);
+        WriteCore(format, destination, cancellationToken);
     }
+
+    /// <summary>
+    /// Writes the file in a format. The default looks the writer up in <see cref="FormatRegistry.Default"/>; a kind overrides it for the
+    /// formats it writes itself, so saving its own formats needs no registration.
+    /// </summary>
+    /// <param name="format">The format to write.</param>
+    /// <param name="destination">The stream to write to.</param>
+    /// <param name="cancellationToken">Cancels the write.</param>
+    /// <exception cref="FormatNotAvailableException">There is no writer for the format.</exception>
+    protected virtual void WriteCore(OfficeFormat format, Stream destination, CancellationToken cancellationToken) =>
+        FormatRegistry.Default.GetWriter(format)(this, format, destination, cancellationToken);
 
     /// <summary>Gets the document's text as a string; see <see cref="ExtractText(TextWriter, CancellationToken)"/>.</summary>
     /// <param name="cancellationToken">Cancels the extraction.</param>
