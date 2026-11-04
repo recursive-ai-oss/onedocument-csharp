@@ -103,6 +103,7 @@ public static class OoxmlTextExtractor
                 Run(source, format, context, TextExtractionOptions.Default, new PlainTextSink(output), cancellationToken),
             OfficeFormat.Docx, OfficeFormat.Docm, OfficeFormat.Dotx, OfficeFormat.Dotm,
             OfficeFormat.Xlsx, OfficeFormat.Xlsm, OfficeFormat.Xltx, OfficeFormat.Xltm, OfficeFormat.Xlam,
+            OfficeFormat.FlatOpcDocument, OfficeFormat.FlatOpcWorkbook, OfficeFormat.FlatOpcPresentation,
             OfficeFormat.Pptx, OfficeFormat.Pptm, OfficeFormat.Potx, OfficeFormat.Potm, OfficeFormat.Ppsx, OfficeFormat.Ppsm, OfficeFormat.Ppam);
 
     private static OfficeFormat Detect(IByteSource source, OpenContext context)
@@ -118,7 +119,7 @@ public static class OoxmlTextExtractor
 
     private static void Run(IByteSource source, OfficeFormat format, OpenContext context, TextExtractionOptions options, TextSink sink, CancellationToken cancellationToken)
     {
-        if (!IsZipOoxml(format))
+        if (!IsOoxml(format))
         {
             throw new FormatNotAvailableException(format, "extract text from");
         }
@@ -149,10 +150,10 @@ public static class OoxmlTextExtractor
         }
     }
 
-    private static bool IsZipOoxml(OfficeFormat format) => format is
-        OfficeFormat.Docx or OfficeFormat.Docm or OfficeFormat.Dotx or OfficeFormat.Dotm
-        or OfficeFormat.Xlsx or OfficeFormat.Xlsm or OfficeFormat.Xltx or OfficeFormat.Xltm or OfficeFormat.Xlam
-        or OfficeFormat.Pptx or OfficeFormat.Pptm or OfficeFormat.Potx or OfficeFormat.Potm or OfficeFormat.Ppsx or OfficeFormat.Ppsm or OfficeFormat.Ppam;
+    private static bool IsOoxml(OfficeFormat format) => format is
+        OfficeFormat.Docx or OfficeFormat.Docm or OfficeFormat.Dotx or OfficeFormat.Dotm or OfficeFormat.FlatOpcDocument
+        or OfficeFormat.Xlsx or OfficeFormat.Xlsm or OfficeFormat.Xltx or OfficeFormat.Xltm or OfficeFormat.Xlam or OfficeFormat.FlatOpcWorkbook
+        or OfficeFormat.Pptx or OfficeFormat.Pptm or OfficeFormat.Potx or OfficeFormat.Potm or OfficeFormat.Ppsx or OfficeFormat.Ppsm or OfficeFormat.Ppam or OfficeFormat.FlatOpcPresentation;
 
     private sealed class Job(OoxmlParts parts, OpenContext context, TextExtractionOptions options, TextSink sink, CancellationToken cancellation)
     {

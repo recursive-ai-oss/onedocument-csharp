@@ -1,6 +1,6 @@
 # Text extraction (OOXML)
 
-`OoxmlTextExtractor` (namespace `RecursiveAI.OneOffice.TextExtraction`) extracts the text of word-processing, spreadsheet and presentation packages by streaming the parts that hold text. It reads tokens from the markup reader and builds neither the document model nor a tree, so memory is the open-paragraph buffers (and, for workbooks, the shared string table), whatever the size of the part. `Office.ExtractText` reaches it through the format registry.
+`OoxmlTextExtractor` (namespace `RecursiveAI.OneOffice.TextExtraction`) extracts the text of word-processing, spreadsheet and presentation packages by streaming the parts that hold text from an `OpcPackage` (zip or Flat OPC). It reads tokens from the markup reader and builds neither the document model nor a tree, so memory is the open-paragraph buffers (and, for workbooks, the shared string table), whatever the size of the part. `Office.ExtractText` reaches it through the format registry.
 
 ## Output
 

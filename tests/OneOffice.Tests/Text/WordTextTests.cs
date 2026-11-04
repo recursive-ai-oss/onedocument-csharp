@@ -203,6 +203,15 @@ public class WordTextTests
     }
 
     [Fact]
+    public void Flat_opc_documents_extract_like_zip_ones()
+    {
+        string flat = "<?xml version=\"1.0\" standalone=\"yes\"?><pkg:package xmlns:pkg=\"http://schemas.microsoft.com/office/2006/xmlPackage\">" +
+            "<pkg:part pkg:name=\"/_rels/.rels\" pkg:contentType=\"application/vnd.openxmlformats-package.relationships+xml\"><pkg:xmlData><Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships></pkg:xmlData></pkg:part>" +
+            "<pkg:part pkg:name=\"/word/document.xml\" pkg:contentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"><pkg:xmlData><w:document " + W + "><w:body>" + Para("flat") + "</w:body></w:document></pkg:xmlData></pkg:part></pkg:package>";
+        Assert.Equal("flat\n", Extract(System.Text.Encoding.UTF8.GetBytes(flat)));
+    }
+
+    [Fact]
     public void Cancellation_stops_the_extraction()
     {
         byte[] doc = Docx(string.Concat(Enumerable.Repeat(Para("x"), 100)));
@@ -250,7 +259,8 @@ public class WordTextTests
         long large = Extractor(Part(40_200));
         Assert.True(large - small < 4_000, $"{large - small} extra bytes for 40,000 more paragraphs ({small} for 200, {large} for 40,200)");
 
-        // The whole path, through the zip reader: the archive layer's read buffering adds a little per megabyte, not per paragraph.
+        // The whole path, through the package: parts over the package layer's streaming threshold (8 MiB) are read as a stream, so the
+        // inputs here are larger than that and bytes per paragraph must stay near zero. Smaller parts are held whole by the package.
         static long Whole(int paragraphs)
         {
             string body = string.Concat(Enumerable.Repeat("<w:p><w:r><w:t>some text here</w:t></w:r><w:r><w:tab/><w:t>and more &amp; more</w:t></w:r></w:p>", paragraphs));
@@ -261,7 +271,7 @@ public class WordTextTests
             return GC.GetAllocatedBytesForCurrentThread() - before;
         }
 
-        double perParagraph = (Whole(40_200) - Whole(200)) / 40_000.0;
+        double perParagraph = (Whole(300_000) - Whole(100_000)) / 200_000.0;
         Assert.True(perParagraph < 4.0, $"{perParagraph} bytes per paragraph through the package");
     }
 
