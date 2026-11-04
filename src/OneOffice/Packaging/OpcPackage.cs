@@ -569,6 +569,13 @@ public sealed class OpcPackage : IOpcPackage
         for (int i = 0; i < zip.Entries.Count; i++)
         {
             ZipEntry z = zip.Entries[i];
+            if (z.Name.Length == 0 || z.Name.Contains('\0'))
+            {
+                // The zip writer cannot store such a name, so the item is not carried into a saved package.
+                ContentTypes.Report(Defects, "packaging.invalid-part-name", DefectSeverity.Dropped, "A stored item has an empty name or a NUL in its name; it is left out.", z.Name.Replace('\0', '?'), -1);
+                continue;
+            }
+
             zip.Preloaded.TryGetValue(i, out byte[]? preloaded);
             Classify(null, z.Name, string.Empty, preloaded is null ? i : -1, preloaded is null ? null : (ReadOnlyMemory<byte>?)preloaded, z.IsSizeKnown ? z.Size : -1, z.ModifiedTime, fromFlat: false, isDirectory: z.Kind == ArchiveEntryKind.Directory || z.Name.EndsWith('/'));
         }

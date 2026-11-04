@@ -236,4 +236,15 @@ public class PackagingDefectTests
         using CfbPackage back = CfbPackage.Open(new MemoryStream(output.ToArray()));
         Assert.Equal(pkg.Parts.Count, back.Parts.Count);
     }
+
+    [Fact]
+    public void Fuzz_finding_an_entry_with_a_NUL_name_is_dropped_and_the_package_saves()
+    {
+        byte[] data = File.ReadAllBytes(FuzzFile("opc-nul-entry-name.bin"));
+        var defects = new DefectCollection();
+        using OpcPackage pkg = OpcPackage.Open(new MemoryStream(data), new OpenContext(null, defects));
+        using var output = new MemoryStream();
+        pkg.WriteTo(output);
+        Assert.Contains(defects, d => d.Code == "packaging.invalid-part-name");
+    }
 }

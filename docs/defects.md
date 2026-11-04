@@ -36,7 +36,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `packaging.missing-content-type` | repaired | A part has neither an override nor a default for its extension; it is kept with an empty content type. |
 | `packaging.duplicate-part-name` | dropped | The same part name is stored twice (a zip item or a Flat OPC part); the first is used and the other is kept as stored, not exposed. |
 | `packaging.part-name-case-collision` | dropped | Two part names differ only in ASCII case (§6.2.2.3); the first is used. |
-| `packaging.invalid-part-name` | dropped | A zip item is not a valid part name (a backslash, a `..` segment, an empty segment). It is kept as stored, not exposed. |
+| `packaging.invalid-part-name` | dropped | A zip item is not a valid part name (a backslash, a `..` segment, an empty segment). It is kept as stored, not exposed. An item with an empty name or a NUL in its name is left out entirely. |
 | `packaging.interleaved-part` | dropped | A zip item is a piece of an interleaved part (§7.2.4). Pieces are kept as stored and not reassembled. |
 | `packaging.bad-relationship` | dropped | A `Relationship` lacks `Id`, `Type` or `Target`. |
 | `packaging.duplicate-relationship-id` | dropped | A relationship id repeats an earlier one in the same part (§6.5.3.4); the first wins. |
