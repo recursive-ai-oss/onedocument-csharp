@@ -1,0 +1,111 @@
+Typed-view generation notes. Written by tools/ViewGenerator; do not edit.
+
+views: 705
+enumerations: 202
+attributes: 2046
+child slots: 3194
+
+Views per namespace:
+  ContentTypes: 3
+  CoreProperties: 3
+  CustomProperties: 2
+  DigitalSignature: 3
+  Drawing: 138
+  Drawing2010: 42
+  Drawing2012: 4
+  Drawing2014: 4
+  DrawingDecorative: 1
+  DrawingSvg: 1
+  ExtendedProperties: 4
+  OfficeMath: 72
+  PackageRelationships: 2
+  Picture: 2
+  VariantTypes: 6
+  Vml: 23
+  VmlOffice: 25
+  VmlWord: 3
+  Word2010: 36
+  Word2012: 8
+  Word2015Symex: 1
+  Word2016Cid: 2
+  Word2018: 2
+  Word2018Cex: 2
+  Word2026Cei: 1
+  WordOEmbed: 1
+  Wordprocessing: 285
+  WordprocessingCanvas: 1
+  WordprocessingDrawing: 20
+  WordprocessingDrawing2010: 2
+  WordprocessingDrawing2012: 1
+  WordprocessingGroup: 2
+  WordprocessingShape: 3
+
+Unresolved or ambiguous references:
+  unresolved element ref {http://purl.org/dc/elements/1.1/}creator in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
+  unresolved element ref {http://purl.org/dc/elements/1.1/}description in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
+  unresolved element ref {http://purl.org/dc/elements/1.1/}identifier in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
+  unresolved element ref {http://purl.org/dc/elements/1.1/}language in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
+  unresolved element ref {http://purl.org/dc/elements/1.1/}subject in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
+  unresolved element ref {http://purl.org/dc/elements/1.1/}title in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
+  unresolved element ref {http://purl.org/dc/terms/}created in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
+  unresolved element ref {http://purl.org/dc/terms/}modified in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
+  unresolved element ref {http://schemas.microsoft.com/office/word/2006/wordml}txbxContent in {http://schemas.microsoft.com/office/word/2010/wordprocessingShape}CT_TextboxInfo
+  unresolved element ref {http://schemas.microsoft.com/office/word/2010/wordml}contentPart in {http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas}CT_WordprocessingCanvas
+  unresolved element ref {http://schemas.microsoft.com/office/word/2010/wordml}contentPart in {http://schemas.microsoft.com/office/word/2010/wordprocessingGroup}CT_WordprocessingGroup
+  unresolved element ref {http://schemas.openxmlformats.org/schemaLibrary/2006/main}schemaLibrary in {http://schemas.openxmlformats.org/wordprocessingml/2006/main}CT_Settings
+  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Arc
+  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Curve
+  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Group
+  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Image
+  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Line
+  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Oval
+  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_PolyLine
+  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Rect
+  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_RoundRect
+  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Shape
+  unresolved element ref {urn:schemas-microsoft-com:office:excel}ClientData in {urn:schemas-microsoft-com:vml}CT_Shapetype
+  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}iscomment in {urn:schemas-microsoft-com:vml}CT_Shape
+  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Arc
+  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Curve
+  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Group
+  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Image
+  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Line
+  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Oval
+  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_PolyLine
+  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Rect
+  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_RoundRect
+  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Shape
+  unresolved element ref {urn:schemas-microsoft-com:office:powerpoint}textdata in {urn:schemas-microsoft-com:vml}CT_Shapetype
+  unresolved simple type {http://schemas.openxmlformats.org/drawingml/2006/main}ST_Guid
+  unresolved simple type {http://schemas.openxmlformats.org/wordprocessingml/2006/main}ST_HexColorRGB
+  unresolved simple type {http://schemas.openxmlformats.org/wordprocessingml/2006/main}ST_OnOff
+  unresolved simple type {http://schemas.openxmlformats.org/wordprocessingml/2006/main}ST_String
+  unresolved simple type {http://schemas.openxmlformats.org/wordprocessingml/2006/main}ST_UnsignedDecimalNumber
+
+Strict differences (types in a Strict schema whose declared child or attribute names differ from the Transitional type):
+  CT_Charset: only Transitional [@val] only Strict []
+  CT_Cnf: only Transitional [@val] only Strict []
+  CT_Compat: only Transitional [e:alignTablesRowByRow e:allowSpaceOfSameStyleInTable e:autoSpaceLikeWord95 e:autofitToFirstFixedWidthCell e:cachedColBalance e:convMailMergeEsc e:displayHangulFixedWidth e:doNotAutofitConstrainedTables e:doNotBreakConstrainedForcedTable e:doNotBreakWrappedTables e:doNotSnapToGridInCell e:doNotSuppressIndentation e:doNotSuppressParagraphBorders e:doNotUseEastAsianBreakRules e:doNotUseHTMLParagraphAutoSpacing e:doNotUseIndentAsNumberingTabStop e:doNotVertAlignCellWithSp e:doNotVertAlignInTxbx e:doNotWrapTextWithPunct e:footnoteLayoutLikeWW8 e:forgetLastTabAlignment e:growAutofit e:layoutRawTableWidth e:layoutTableRowsApart e:lineWrapLikeWord6 e:mwSmallCaps e:noColumnBalance e:noExtraLineSpacing e:noLeading e:noSpaceRaiseLower e:noTabHangInd e:printBodyTextBeforeHeader e:printColBlack e:selectFldWithFirstOrLastChar e:shapeLayoutLikeWW8 e:showBreaksInFrames e:spacingInWholePoints e:splitPgBreakAndParaMark e:subFontBySize e:suppressBottomSpacing e:suppressSpBfAfterPgBrk e:suppressSpacingAtTopOfPage e:suppressTopSpacing e:suppressTopSpacingWP e:swapBordersFacingPages e:truncateFontHeightsLikeWP6 e:underlineTabInNumList e:useAltKinsokuLineBreakRules e:useAnsiKerningPairs e:useFELayout e:useNormalStyleForList e:usePrinterMetrics e:useSingleBorderforContiguousCells e:useWord2002TableStyleRules e:useWord97LineBreakRules e:wpJustification e:wpSpaceWidth e:wrapTrailSpaces] only Strict []
+  CT_DocProtect: only Transitional [g:AG_TransitionalPassword] only Strict []
+  CT_FldChar: only Transitional [e:fldData e:numberingChange] only Strict []
+  CT_HMerge: only in Transitional
+  CT_Ind: only Transitional [@left @leftChars @right @rightChars] only Strict []
+  CT_Lvl: only Transitional [e:legacy] only Strict []
+  CT_LvlLegacy: only in Transitional
+  CT_NumPicBullet: only Transitional [e:pict] only Strict []
+  CT_NumPr: only Transitional [e:numberingChange] only Strict []
+  CT_Picture: only in Transitional
+  CT_Settings: only Transitional [e:hdrShapeDefaults e:shapeDefaults] only Strict []
+  CT_ShapeDefaults: only in Transitional
+  CT_SimpleField: only Transitional [e:fldData] only Strict []
+  CT_StylePaneFilter: only Transitional [@val] only Strict []
+  CT_TblBorders: only Transitional [e:left e:right] only Strict []
+  CT_TblCellMar: only Transitional [e:left e:right] only Strict []
+  CT_TblLook: only Transitional [@val] only Strict []
+  CT_TcBorders: only Transitional [e:left e:right] only Strict []
+  CT_TcMar: only Transitional [e:left e:right] only Strict []
+  CT_TcPrBase: only Transitional [e:hMerge] only Strict []
+  CT_TrackChangeNumbering: only in Transitional
+  CT_TxbxContent: only in Transitional
+  CT_WebSettings: only Transitional [e:relyOnVML] only Strict []
+  CT_WriteProtection: only Transitional [g:AG_TransitionalPassword] only Strict []

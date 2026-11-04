@@ -1,0 +1,49 @@
+# Schemas turned into typed views.
+#
+# path (under schemas/) | namespace enum member and C# namespace | conventional prefix | role
+#
+# root:    every global element and complex type becomes a view.
+# support: loaded so names resolve; a view is generated only for the types a root schema reaches.
+#
+# The Strict counterpart of an ecma376/transitional file is the file of the same name in ecma376/strict. It supplies the
+# Strict namespace URI and extra enumeration values; the views are generated from the Transitional text.
+# Names of views and members that differ from the schema's own are in names.manifest.
+ecma376/transitional/wml.xsd|Wordprocessing|w|root
+ecma376/transitional/shared-math.xsd|OfficeMath|m|root
+ecma376/transitional/shared-commonSimpleTypes.xsd|SharedTypes|s|support
+ecma376/transitional/shared-relationshipReference.xsd|Relationships|r|support
+ecma376/transitional/dml-main.xsd|Drawing|a|support
+ecma376/transitional/dml-wordprocessingDrawing.xsd|WordprocessingDrawing|wp|root
+ecma376/transitional/dml-picture.xsd|Picture|pic|root
+ecma376/transitional/vml-main.xsd|Vml|v|root
+ecma376/transitional/vml-officeDrawing.xsd|VmlOffice|o|root
+ecma376/transitional/vml-wordprocessingDrawing.xsd|VmlWord|w10|root
+ecma376/transitional/shared-documentPropertiesExtended.xsd|ExtendedProperties|ep|root
+ecma376/transitional/shared-documentPropertiesCustom.xsd|CustomProperties|op|root
+ecma376/transitional/shared-documentPropertiesVariantTypes.xsd|VariantTypes|vt|support
+ecma376/opc/opc-contentTypes.xsd|ContentTypes|ct|root
+ecma376/opc/opc-relationships.xsd|PackageRelationships|rel|root
+ecma376/opc/opc-coreProperties.xsd|CoreProperties|cp|root
+ecma376/opc/opc-digSig.xsd|DigitalSignature|ds|root
+ms/MS-DOCX/word-2010-wordml.xsd|Word2010|w14|root
+ms/MS-DOCX/word-2012-wordml.xsd|Word2012|w15|root
+ms/MS-DOCX/word-2015-wordml-symex.xsd|Word2015Symex|w16se|root
+ms/MS-DOCX/word-2016-wordml-cid.xsd|Word2016Cid|w16cid|root
+ms/MS-DOCX/word-2018-wordml.xsd|Word2018|w16|root
+ms/MS-DOCX/word-2018-wordml-cex.xsd|Word2018Cex|w16cex|root
+ms/MS-DOCX/word-2020-wordml-sdtdatahash.xsd|Word2020SdtDataHash|w16sdtdh|root
+ms/MS-DOCX/word-2023-wordml-word16du.xsd|Word2023Du|w16du|root
+ms/MS-DOCX/word-2024-wordml-sdtformatlock.xsd|Word2024SdtFormatLock|w16sdtfl|root
+ms/MS-DOCX/word-2026-wordml-cei.xsd|Word2026Cei|w16cei|root
+ms/MS-ODRAWXML/word-2010-wordprocessingShape.xsd|WordprocessingShape|wps|root
+ms/MS-ODRAWXML/word-2010-wordprocessingGroup.xsd|WordprocessingGroup|wpg|root
+ms/MS-ODRAWXML/word-2010-wordprocessingCanvas.xsd|WordprocessingCanvas|wpc|root
+ms/MS-ODRAWXML/word-2010-wordprocessingDrawing.xsd|WordprocessingDrawing2010|wp14|root
+ms/MS-ODRAWXML/word-2012-wordprocessingDrawing.xsd|WordprocessingDrawing2012|wp15|root
+ms/MS-ODRAWXML/word-2020-oembed.xsd|WordOEmbed|woe|root
+ms/MS-ODRAWXML/drawing-2010-main.xsd|Drawing2010|a14|root
+ms/MS-ODRAWXML/drawing-2010-picture.xsd|Picture2010|pic14|root
+ms/MS-ODRAWXML/drawing-2012-main.xsd|Drawing2012|a15|root
+ms/MS-ODRAWXML/drawing-2014-main.xsd|Drawing2014|a16|root
+ms/MS-ODRAWXML/drawing-2016-SVG-main.xsd|DrawingSvg|asvg|root
+ms/MS-ODRAWXML/drawing-2017-decorative.xsd|DrawingDecorative|adec|root
