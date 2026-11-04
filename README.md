@@ -9,7 +9,7 @@ OneOffice is a clean-room document processor for `net10.0` that depends only on 
 What works today is **word-processing documents in the DOCX family**, and text extraction from OOXML files:
 
 - **`Document`** (`RecursiveAI.OneOffice.Documents`): `Document.Open` (path, stream or byte source; the format comes from the content, never the extension), `Document.Create`, `Save()` (atomic replace), `SaveAs(path)` (format by extension; `.xml` is Flat OPC) and `SaveAs(path|stream, format)`. It opens DOCX, DOCM, DOTX, DOTM and Flat OPC; any other format raises `FormatNotAvailableException` naming it. Untouched parts are written back byte-identical and unedited zip entries are copied as stored; edits keep unknown markup, prefixes, `mc:AlternateContent` and `extLst` in order. The model covers paragraphs and runs, tables, sections, headers and footers, styles with inheritance, numbering, fields, footnotes and endnotes, comments, revisions and content controls, with generated typed views (`RecursiveAI.OneOffice.Schema`) over the same markup.
-- **Text extraction** for OOXML documents, workbooks and presentations: `Office.ExtractText(path)` and `oneoffice extract <file>`.
+- **Text extraction** from DOCX-family documents: `Office.ExtractText(path)`, `Document.ExtractText()` and `oneoffice extract <file> [-o out.txt] [--json]`.
 - **The foundation:** byte sources, one limits object, typed defects and exceptions with locations, content-based format identification, the format registry and the part/package model (OPC on zip and Flat OPC; compound files).
 
 Not done yet: the "opens in Word without a repair prompt" check is pending, and there is no calculation, templating, rendering, sanitising or redaction. Every other format below is planned.
@@ -23,15 +23,15 @@ doc.Save();                      // atomic; only word/document.xml changes
 string text = doc.ExtractText();
 ```
 
-The `Office` statics (`Office.Open`, `Office.ExtractText`, `Office.Convert`) find readers through `FormatRegistry.Default`; an application calls `DocumentFormats.Register(FormatRegistry.Default)` once at start. `Document.Open` and `Office.ExtractText` for OOXML need no registration.
+The `Office` statics (`Office.Open`, `Office.ExtractText`, `Office.Convert`) find readers through `FormatRegistry.Default`; an application calls `DocumentFormats.Register(FormatRegistry.Default)` once at start. `Document.Open` needs no registration.
 
 ## Formats
 
 | Format | Read | Write |
 |---|---|---|
 | DOCX/DOCM/DOTX/DOTM, Flat OPC | yes | yes |
-| XLSX/XLSM/XLTX/XLTM/XLAM, Flat OPC | text extraction only | planned |
-| PPTX/PPTM/POTX/PPSX, Flat OPC | text extraction only | planned |
+| XLSX/XLSM/XLTX/XLTM/XLAM, Flat OPC | planned | planned |
+| PPTX/PPTM/POTX/PPSX, Flat OPC | planned | planned |
 | XLSB | planned | planned |
 | XLS (BIFF8) | planned | planned |
 | XLS (BIFF2–5), DOC, PPT, Word and Excel 2003 XML | planned | not planned |
@@ -45,7 +45,7 @@ The `Office` statics (`Office.Open`, `Office.ExtractText`, `Office.Convert`) fin
 
 | Package | Contents |
 |---|---|
-| `RecursiveAI.OneOffice` | The core: contracts, containers, markup, format registry, text extraction |
+| `RecursiveAI.OneOffice` | The core: contracts, containers, markup, format registry |
 | `RecursiveAI.OneOffice.Documents` | Word-processing documents (DOCX family) |
 | `RecursiveAI.OneOffice.Spreadsheets` | Workbooks and calculation (not yet) |
 | `RecursiveAI.OneOffice.Presentations` | Presentations (not yet) |
