@@ -5,6 +5,8 @@
 | Target | Input | Surface |
 |---|---|---|
 | `sniff` | raw bytes | format identification, including the zip and compound-file directory readers it reaches; the same bytes through a memory source and a stream source must give the same answer |
+| `opc` | raw bytes | the OPC package reader (zip directory and recovery, content types, relationships, Flat OPC) and writer: every part is read, the package is rewritten and reopened, and the parts must come back with the same bytes |
+| `cfb` | raw bytes | the compound-file package adapter (directory, recovery, streams): one stream is replaced, the file is rewritten and reopened, and the other streams must come back unchanged |
 
 Only `OfficeException` may come out of a library call: it is the typed rejection of bad input. Any other exception, a failed invariant, a hang (`-timeout`) or a memory blow-up (`-rss_limit_mb`) is a finding.
 
