@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Structure-only stand-ins for the Dublin Core element declarations that the core-properties schema of the
+     packaging conventions imports from a remote location. Values are not type-checked; only which elements may
+     appear is. Written for the validator so it needs no network access. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://purl.org/dc/elements/1.1/"
+           elementFormDefault="qualified">
+  <xs:element name="creator" type="xs:anyType"/>
+  <xs:element name="title" type="xs:anyType"/>
+  <xs:element name="subject" type="xs:anyType"/>
+  <xs:element name="description" type="xs:anyType"/>
+  <xs:element name="identifier" type="xs:anyType"/>
+  <xs:element name="language" type="xs:anyType"/>
+</xs:schema>
