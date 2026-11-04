@@ -35,12 +35,15 @@ def validate(a):
             out[name] = len(r["errors"]) if r["status"] == "invalid" else 0
         return out
 
-    files = new = origInvalid = editedInvalid = 0
+    files = new = origInvalid = editedInvalid = skipped = 0
     detail = []
     for r in rows(a.sweep):
         edited = os.path.join(a.sweep, "edited", r["id"] + ".xlsx")
         orig = os.path.join(a.corpus, r["file"])
         if not os.path.exists(edited) or not os.path.exists(orig):
+            continue
+        if os.path.getsize(orig) > a.max_bytes:
+            skipped += 1
             continue
         files += 1
         try:
@@ -54,7 +57,7 @@ def validate(a):
             if n > eo.get(name, 0):
                 new += 1
                 detail.append({"file": r["file"], "part": name, "orig": eo.get(name, 0), "edited": n})
-    print(json.dumps({"files": files, "originalInvalidParts": origInvalid, "editedInvalidParts": editedInvalid, "newInvalidParts": new, "detail": detail[:30]}))
+    print(json.dumps({"files": files, "skippedLarge": skipped, "originalInvalidParts": origInvalid, "editedInvalidParts": editedInvalid, "newInvalidParts": new, "detail": detail[:30]}))
     return 0
 
 
@@ -80,7 +83,7 @@ def lo(a):
             break
         edited = os.path.join(a.sweep, "edited", r["id"] + ".xlsx")
         orig = os.path.join(a.corpus, r["file"])
-        if not (os.path.exists(edited) and os.path.exists(orig)):
+        if not (os.path.exists(edited) and os.path.exists(orig)) or os.path.getsize(orig) > min(a.max_bytes, 2 << 20):
             continue
         work = tempfile.mkdtemp(prefix="xlsxlo-", dir=os.environ.get("TMPDIR"))
         try:
@@ -112,6 +115,7 @@ def main():
     ap.add_argument("--schemas", action="append")
     ap.add_argument("--sample", type=int, default=200)
     ap.add_argument("--seed", type=int, default=1)
+    ap.add_argument("--max-bytes", type=int, default=6 << 20, help="skip files whose original is larger (schema validation and LibreOffice are slow on big sheets)")
     a = ap.parse_args()
     return validate(a) if a.mode == "validate" else lo(a)
 
