@@ -9,6 +9,8 @@ public class FormulaParserTests
     {
         "1+2",
         "@dddd",
+        "Name 7:7",
+        "A1:B2 3:3",
         "A1#+1",
         "IFERROR(SUM(D!D.Data.WSF.MSG : D!D.Data.WSF.CDS),0)",
         "SUM(Name1 : Name2)",

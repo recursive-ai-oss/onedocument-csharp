@@ -467,6 +467,18 @@ internal sealed class FormulaReader
     private bool AtOperandStart()
     {
         char c = Cur;
+        if (char.IsAsciiDigit(c))
+        {
+            // A whole-row reference ("7:7") is the one operand that starts with a digit.
+            int q = _p;
+            while (q < _s.Length && char.IsAsciiDigit(_s[q]))
+            {
+                q++;
+            }
+
+            return q < _s.Length && _s[q] == ':';
+        }
+
         return RefSyntax.IsIdentStart(c) || c == '\'' || c == '$' || c == '(' || c == '[';
     }
 
