@@ -35,6 +35,8 @@ internal static class Program
                 "read" => Read(args[1], args.Length > 2 ? args[2] : null),
                 "write" => Write(args[1..]),
                 "xcompare" => XCompare(args[1], args[2]),
+                "sample" => Sample(args[1]),
+                "layers" => Layers(args[1]),
                 _ => 2,
             };
         }
@@ -392,6 +394,130 @@ internal static class Program
     }
 
     private static string Describe(SheetCursor c) => c.Kind + ":" + (c.Kind == CellValueKind.Text ? c.GetText() : c.Number.ToString("R", System.Globalization.CultureInfo.InvariantCulture));
+
+    // ------------------------------------------------------------------ layers
+
+    // Where the time of a streaming read goes: inflating the part, tokenizing it, and the cursor on top.
+    private static int Layers(string path)
+    {
+        using var book = Workbook.Open(path);
+        string part = book.Sheets[0].PartName!;
+        var results = new Dictionary<string, object?> { ["file"] = Path.GetFileName(path) };
+        for (int rep = 0; rep < 2; rep++)
+        {
+            var sw = Stopwatch.StartNew();
+            long bytes = 0;
+            using (Stream s = book.Package.FindPart(part)!.OpenRead())
+            {
+                byte[] buf = new byte[1 << 16];
+                int n;
+                while ((n = s.Read(buf, 0, buf.Length)) > 0)
+                {
+                    bytes += n;
+                }
+            }
+
+            results["inflateMs"] = sw.ElapsedMilliseconds;
+            results["xmlMB"] = bytes >> 20;
+            sw.Restart();
+            long tokens = 0;
+            using (Stream s = book.Package.FindPart(part)!.OpenRead())
+            using (var m = new RecursiveAI.OneOffice.Markup.MarkupReader(s))
+            {
+                while (m.Read())
+                {
+                    tokens++;
+                }
+            }
+
+            results["inflateAndTokenizeMs"] = sw.ElapsedMilliseconds;
+            results["tokens"] = tokens;
+            sw.Restart();
+            using (XlsxStreamReader r = XlsxStreamReader.Open(path))
+            using (SheetCursor c = r.OpenSheet(0))
+            {
+                long n = 0;
+                while (c.ReadRow())
+                {
+                    while (c.ReadCell())
+                    {
+                        n += c.Column;
+                    }
+                }
+            }
+
+            results["cursorTotalMs"] = sw.ElapsedMilliseconds;
+        }
+
+        Json(results);
+        return 0;
+    }
+
+    // ------------------------------------------------------------------ sample
+
+    // Writes small generated workbooks that use every feature of the writer, for opening in an application.
+    private static int Sample(string dir)
+    {
+        Directory.CreateDirectory(dir);
+        foreach (bool inline in new[] { false, true })
+        {
+            string path = Path.Combine(dir, inline ? "stream-inline.xlsx" : "stream-shared.xlsx");
+            using XlsxStreamWriter w = XlsxStreamWriter.Create(path, new XlsxWriteOptions { StringStorage = inline ? StreamStringStorage.Inline : StreamStringStorage.Shared });
+            int head = w.AddFormat(new StreamCellFormat { Bold = true, FillColor = 0xDDEBF7, Border = StreamBorder.Thin, Horizontal = StreamHorizontalAlignment.Center });
+            int money = w.AddFormat(new StreamCellFormat { NumberFormat = "#,##0.00", FontColor = 0x1F4E79 });
+            int pct = w.AddFormat(new StreamCellFormat { NumberFormat = "0.0%", Italic = true });
+            int date = w.AddFormat(StreamCellFormat.Date);
+            int stamp = w.AddFormat(StreamCellFormat.DateTime);
+            int wrap = w.AddFormat(new StreamCellFormat { WrapText = true, Vertical = StreamVerticalAlignment.Top, FontName = "Cambria", FontSize = 12, Underline = true });
+            SheetStreamWriter s = w.AddSheet("Report", new SheetWriteOptions { FreezeRows = 1, FreezeColumns = 1, Columns = [new ColumnProperties(1, 1, 24, 0, ColumnOptions.None), new ColumnProperties(2, 6, 14, money, ColumnOptions.None), new ColumnProperties(8, 8, 10, 0, ColumnOptions.Hidden)] });
+            s.BeginRow(height: 24);
+            foreach (string h in new[] { "Name", "Amount", "Share", "Day", "Moment", "Note" })
+            {
+                s.WriteText(h, head);
+            }
+
+            for (int r = 2; r <= 2000; r++)
+            {
+                s.BeginRow(outlineLevel: r % 100 == 0 ? 1 : 0);
+                s.WriteText(r % 7 == 0 ? "  padded & <escaped> " : "Item " + (r % 40));
+                s.WriteNumber(r * 12.34, money);
+                s.WriteNumber(r / 2000.0, pct);
+                s.WriteDate(new DateTime(2024, 1, 1).AddDays(r), date);
+                s.WriteDate(new DateTime(2024, 1, 1).AddMinutes(r * 37), stamp);
+                s.WriteText("line one\nline two \u00E9\u4E2D\uD83D\uDE00 _x0041_ \u0007", wrap);
+                s.WriteFormula("B" + r + "*2");
+            }
+
+            s.BeginRow();
+            s.WriteFormula("SUM(B2:B2000)");
+            s.WriteFormula("IF(B2>1,\"yes\",\"no\")");
+            s.WriteFormulaString("\"a\"&\"b\"", "ab");
+            s.WriteFormulaBoolean("TRUE", true);
+            s.WriteFormulaError("1/0", CellError.DivideByZero);
+            s.WriteBoolean(false);
+            s.WriteError(CellError.NotAvailable);
+            s.Merge(CellRange.Parse("A2001:B2001"));
+            s.Merge(CellRange.Parse("D5:F6"));
+            SheetStreamWriter t = w.AddSheet("Hidden \u00E9", new SheetWriteOptions { State = SheetState.Hidden, ShowGridLines = false });
+            t.WriteNumber(1);
+            t.WriteText("x");
+            SheetStreamWriter u = w.AddSheet("Empty");
+            u.Complete();
+        }
+
+        using (XlsxStreamWriter w = XlsxStreamWriter.Create(Path.Combine(dir, "stream-zip64.xlsx"), new XlsxWriteOptions { Zip64 = true }))
+        {
+            SheetStreamWriter s = w.AddSheet("Zip64");
+            for (int r = 1; r <= 300; r++)
+            {
+                s.BeginRow();
+                s.WriteNumber(r);
+                s.WriteText("row " + r);
+            }
+        }
+
+        return 0;
+    }
 
     // ------------------------------------------------------------------ write
 
