@@ -333,6 +333,8 @@ function Invoke-ExcelFormulas($app, $item, $path, $outDir, $res) {
     $sep = [string][char]31
     $wb = $app.Workbooks.Add()
     try {
+        # Manual calculation keeps closing the workbook quick; a slow shutdown makes Windows relaunch Excel with /restore.
+        $app.Calculation = -4135
         $ws = $wb.Worksheets.Item(1)
         # Sheets the tests refer to; a reference to a missing sheet would make Excel ask for a file.
         foreach ($sn in @('Sheet2', 'Sheet3', 'My Sheet')) {
@@ -759,11 +761,23 @@ public class DialogWatcher
         }
     }
     if ($survivors.Count -eq 0) { Remove-Item $pidFile -Force -ErrorAction SilentlyContinue }
+    # Windows may relaunch a slow-closing application with /restore. While we still hold the lock, a windowless Office
+    # process that did not exist when the run began and was created after it began is that relaunch; close it by id.
+    $relaunched = @()
+    Start-Sleep -Seconds 10
+    foreach ($n in $(if ($lockHeld -and $started -and $null -ne $prePids) { @('WINWORD', 'EXCEL', 'POWERPNT') } else { @() })) {
+        foreach ($p in @(Get-Process -Name $n -ErrorAction SilentlyContinue)) {
+            if ($prePids -contains $p.Id) { continue }
+            if ($p.StartTime -lt $started) { continue }
+            if ($p.MainWindowHandle -ne 0) { continue }
+            try { $p.Kill(); $relaunched += ($n + ':' + $p.Id) } catch { }
+        }
+    }
     if ($lockHeld -and $lockPath -and (Test-Path $lockPath)) { Remove-Item $lockPath -Force }
     if ($out) {
         $left = @()
         foreach ($n in @('WINWORD', 'EXCEL', 'POWERPNT')) { $left += @(Get-Process -Name $n -ErrorAction SilentlyContinue | ForEach-Object { $_.Name }) }
-        Write-Line @{ kind = 'end'; lockReleased = [bool]$lockHeld; officeProcessesLeft = $left; launchedPidsKilled = $killed; launchedPidsSurvived = $survivors; secondsToExitAfterQuit = $quitSeconds }
+        Write-Line @{ kind = 'end'; lockReleased = [bool]$lockHeld; officeProcessesLeft = $left; launchedPidsKilled = $killed; launchedPidsSurvived = $survivors; secondsToExitAfterQuit = $quitSeconds; relaunchedAndClosed = $relaunched }
         [IO.File]::WriteAllText((Join-Path $out 'done.json'), '{"done":true}', $utf8)
     }
 }

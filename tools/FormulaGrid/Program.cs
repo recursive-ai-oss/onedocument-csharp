@@ -101,6 +101,29 @@ internal static class Program
             l.Add(x);
         }
 
+        // Second round: where small numbers turn scientific as text, the exact snap boundary in several binades, large integer exponents on a negative base.
+        foreach (string n in new[] { "1E-16", "1E-17", "1E-18", "1E-19", "1.5E-16", "1.234E-17", "1.234E-18", "1.234E-19", "123456789012345E-30", "1.5E-17" })
+        {
+            l.Add(n + "&\"\"");
+        }
+
+        foreach (string b in new[] { "1", "100", "1000", "0.1", "0.3" })
+        {
+            double scale = double.Parse(b, CultureInfo.InvariantCulture);
+            double ulp = Math.Pow(2, Math.Floor(Math.Log2(scale)) - 52);
+            foreach (int k in new[] { 6, 7, 8, 9, 10 })
+            {
+                l.Add($"{b}+{(k * ulp).ToString("R", CultureInfo.InvariantCulture)}-{b}");
+                l.Add($"SUM({b},{(k * ulp).ToString("R", CultureInfo.InvariantCulture)},-{b})");
+            }
+        }
+
+        foreach (string x in new[] { "1E6", "1E9", "1E12", "1E13", "1E14", "70368744177664", "140737488355328", "281474976710656", "562949953421312", "100000000000001" })
+        {
+            l.Add($"(-1)^{x}");
+            l.Add($"(-3)^{x}");
+        }
+
         return [.. l];
     }
 
