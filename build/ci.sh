@@ -2,7 +2,7 @@
 # Restore, build, test, smoke-publish and pack the whole repository: what CI runs on linux-x64, and what runs the same way on any
 # build machine.
 #
-#   build/ci.sh [step...]       steps: restore generated build test aot wasm pack (default: all, in that order)
+#   build/ci.sh [step...]       steps: restore generated build test aot wasm pack (default: all, in that order) and consumer (on request)
 #
 # Environment:
 #   ONEOFFICE_ARTIFACTS   where build output goes (default: artifacts/ at the repository root, which git ignores)
@@ -37,6 +37,20 @@ for step in "${steps[@]}"; do
     wasm)
       # Builds the browser host; a headless-browser run is a separate step.
       "$dotnet_bin" build smoke/wasm/WasmSmoke.csproj -c "$config"
+      ;;
+    consumer)
+      # Applications that reference the packages as packages (from a throwaway local pack) and call the Office statics with no
+      # registration line: under NativeAOT with warnings as errors, with and without the spreadsheet package.
+      feed="$out/consumer-feed"; version=0.0.0-consumer.1
+      for project in OneOffice OneOffice.Schema OneOffice.Documents OneOffice.Spreadsheets; do
+        "$dotnet_bin" pack "src/$project" -c "$config" -p:Version=$version -p:EnablePackageValidation=false -o "$feed"
+      done
+      export ONEOFFICE_CONSUMER_FEED="$feed" ONEOFFICE_CONSUMER_VERSION=$version
+      for app in ConsumerAot ConsumerDocsOnly; do
+        "$dotnet_bin" publish "smoke/consumer/$app.csproj" -c "$config" -r "$rid" -o "$out/$app" -warnaserror
+        "$out/$app/$app"
+      done
+      "$dotnet_bin" build smoke/consumer/ConsumerWasm.csproj -c "$config" -warnaserror
       ;;
     pack)
       # Every project under src/, as the release workflow does: those with IsPackable false produce nothing.

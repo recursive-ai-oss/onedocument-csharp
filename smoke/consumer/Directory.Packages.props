@@ -1,0 +1,6 @@
+<Project>
+  <!-- The consumers pick their own versions: the packages under test, from the local pack. -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+</Project>
