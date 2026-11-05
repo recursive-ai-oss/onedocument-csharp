@@ -110,7 +110,7 @@ internal static class FormulaTarget
 
     private static bool HasNameRange(FormulaNode n)
     {
-        if (n is BinaryNode { Operator: BinaryOperator.Range } b && (b.Left is NameNode || b.Right is NameNode))
+        if (n is BinaryNode { Operator: BinaryOperator.Range } b && (b.Left is NameNode or NumberNode || b.Right is NameNode or NumberNode))
         {
             return true;
         }
