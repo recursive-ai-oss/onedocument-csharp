@@ -16,6 +16,10 @@ Each entry has this form:
 
 No third-party code ships in the packages. `RecursiveAI.OneDocument` depends on the Recursive AI library `RecursiveAI.OneArchive` (`MIT OR Apache-2.0`), which is not third-party material. Test, fuzz and benchmark projects use other packages (xUnit, BenchmarkDotNet, SharpFuzz); they are not part of any shipped package.
 
+## Fonts
+
+`RecursiveAI.OneDocument.Rendering` ships no font files. It depends on the Recursive AI package `RecursiveAI.OneRender.Fonts`, which carries Liberation, Carlito, Caladea and Noto Symbols 2 (SIL Open Font License 1.1), unmodified and with their licence texts inside that package. Callers who register the optional script packages (`RecursiveAI.OneRender.Fonts.Noto.*`, `RecursiveAI.OneRender.Fonts.Cjk`) get Noto fonts under the same licence; the `onedocument` tool references them. Fonts embedded in a document are used only to lay out and draw that document and are never copied into packages.
+
 ## Standards schemas and generated code
 
 The repository carries the XML Schemas of the standards it implements under `schemas/`, unchanged, and the typed views in `src/OneDocument.Schema/Generated` are generated from them. Each generated file names its source schemas in its header.

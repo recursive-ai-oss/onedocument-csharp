@@ -4,8 +4,27 @@
     <AssemblyName>RecursiveAI.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>RecursiveAI.$(MSBuildProjectName)</RootNamespace>
     <Description>Read, write, calculate, template and render Word, Excel and PowerPoint documents (OOXML, legacy binary, RTF, ODF) in pure .NET. Not affiliated with Microsoft. Layout and rendering of documents, workbooks and presentations to PDF and images for OneDocument.</Description>
-    <IsPackable>false</IsPackable>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="System.Linq" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RecursiveAI.OneRender" />
+    <PackageReference Include="RecursiveAI.OneRender.Pdf" />
+    <PackageReference Include="RecursiveAI.OneRender.Image" />
+    <PackageReference Include="RecursiveAI.OneRender.Fonts" />
+    <PackageReference Include="RecursiveAI.OneFont" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="../../PACKAGE.md" />
+    <None Include="PACKAGE.md" Pack="true" PackagePath="/" />
+    <Compile Remove="build/**" />
+    <None Include="build/RecursiveAI.OneDocument.Rendering.targets;build/RecursiveAI.OneDocument.Rendering.cs" Pack="true" PackagePath="buildTransitive/" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="../OneDocument/OneDocument.csproj" />

@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RecursiveAI.OneDocument.Tools.LayoutProbe</RootNamespace>
+    <AssemblyName>LayoutProbe</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <NoWarn>$(NoWarn);CA1812</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="System" /><Using Include="System.IO" /><Using Include="System.Linq" /><Using Include="System.Collections.Generic" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/OneDocument.Rendering/OneDocument.Rendering.csproj" />
+    <PackageReference Include="RecursiveAI.OnePdf" />
+    <PackageReference Include="RecursiveAI.OneRender.Fonts.Noto.Arabic" />
+    <PackageReference Include="RecursiveAI.OneRender.Fonts.Noto.Hebrew" />
+    <PackageReference Include="RecursiveAI.OneRender.Fonts.Noto.Thai" />
+    <PackageReference Include="RecursiveAI.OneRender.Fonts.Cjk" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The generated test set is shared with the test project. -->
+    <Compile Include="../../tests/OneDocument.Rendering.Tests/LayoutCases.cs" Link="LayoutCases.cs" />
+    <Compile Include="../../tests/OneDocument.Rendering.Tests/TestDocx.cs" Link="TestDocx.cs" />
+  </ItemGroup>
+
+</Project>

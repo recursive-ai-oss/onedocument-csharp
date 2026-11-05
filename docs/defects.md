@@ -22,6 +22,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `calc.` | workbook calculation | `Formula`, `Limit`, `Reference` |
 | `binding.` | reading and writing rows of plain objects (`Spreadsheet.Read<T>`, `Write<T>`) | `Structure`, `Reference`, `Value` |
 | `template.` | the template engine: reading, checking and rendering templates | `Markup`, `Structure`, `Formula`, `Reference`, `Value` |
+| `render.` | writing laid-out pages as PDF or images | `Structure` |
 
 ## Codes in use
 
@@ -33,6 +34,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `unsupported.feature` | fatal | The input uses something this library does not handle; `OfficeUnsupportedException.Feature` names it. |
 | `unsupported.format-not-available` | fatal | No reader or writer is registered for the format (its package is not referenced or does not implement it). |
 | `format.unrecognised` | fatal | The content is not a format OneDocument knows. |
+| `render.failed` | fatal | The renderer could not write a document as PDF, or draw a page as an image (a writer error, or a page size past `DocumentRenderer.MaxPngPixels`); the inner exception has the cause. Layout problems are not defects: they are `LayoutNote`s with `layout.` codes (see `layout.md`). |
 | `packaging.damaged` | fatal | The container is damaged (zip or compound-file structure) beyond what recovery repairs, or a stream cannot be read; the location holds the part or stream and the offset when known. |
 | `packaging.refused` | fatal | The container reader refused the input for safety (unsafe path, overlapping entries). |
 | `packaging.not-a-package` | fatal | The input is neither a zip nor a Flat OPC document. |

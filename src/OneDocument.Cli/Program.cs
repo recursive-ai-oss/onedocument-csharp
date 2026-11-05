@@ -18,7 +18,8 @@ internal static class Program
         "usage: onedocument detect <file> [--json]\n" +
         "       onedocument extract <file> [-o <out.txt>] [--json]\n" +
         "       onedocument recalc <workbook> [-o <out.xlsx>] [--full] [--threads <n>] [--json]\n" +
-        TemplateCommand.Usage;
+        TemplateCommand.Usage +
+        RenderCommand.Usage;
 
     private static int Main(string[] args)
     {
@@ -40,6 +41,16 @@ internal static class Program
         if (args.Length >= 2 && args[0] == "template")
         {
             return TemplateCommand.Run(args[1..], Console.Error);
+        }
+
+        if (args.Length >= 2 && args[0] == "render")
+        {
+            return RenderCommand.Run(args[1..], Console.Error);
+        }
+
+        if (args.Length >= 2 && args[0] == "convert")
+        {
+            return RenderCommand.Convert(args[1..], Console.Error);
         }
 
         Console.Error.Write(Usage);
