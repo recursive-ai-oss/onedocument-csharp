@@ -36,7 +36,8 @@ from several threads.
 - `LayoutDocument.FontNotes` has one `FontSubstitutionNote` per replaced family and `Notes` has `layout.*` notes for what was skipped.
   Codes so far: `layout.font-missing`, `layout.drawing-skipped`, `layout.block-skipped`, `layout.blank-page`, `layout.page-limit`,
   `layout.page-border-art`, `layout.valign-both`, `layout.note-table-skipped`, `layout.note-numbering-unsettled`, and for tables `layout.table-skipped` (a table in a header or footer),
-  `layout.table-floating`, `layout.table-text-direction`, `layout.table-depth` (see `layout-tables.md`).
+  `layout.table-floating`, `layout.table-text-direction`, `layout.table-depth` (see `layout-tables.md`), and
+  `layout.anchored-drawing-unwrapped`. Drawing notes (`drawing.*`) come from painting and are listed in `drawingml-rendering.md`.
 
 ## Paint contract
 
@@ -257,7 +258,8 @@ stages that lay out those features and are added to this table with them.
 | Justification in lines with tabs or bidi | spreads over spaces only | |
 | Bidi mirrored punctuation, trailing spaces in right-to-left lines | not handled specially | |
 | Hyphenation, kashida, the East Asian character grid and `w:eastAsianLayout` | not implemented | later |
-| Inline pictures, shapes, fields other than page numbers | not laid out (reported) | later stages |
+| Inline pictures and shapes | laid out as objects in the line (see `drawingml-rendering.md`); anchored ones are painted without wrap | wrap is a later stage |
+| Fields other than page numbers | not laid out (reported) | later stages |
 | Reference line with a footnote | the line moves on unless the separator and the first line of each of its notes fit | Word's rule with several notes on one line and with widow control inside notes |
 | Footnotes in columns | each column has its own area, column wide | Word's `numCol` footnote columns |
 | Separator rules | one third of the column; continuation separator full width; drawn a third of the ascent above the baseline | needs Word output |

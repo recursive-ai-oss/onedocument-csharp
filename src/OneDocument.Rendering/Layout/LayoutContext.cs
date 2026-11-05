@@ -86,7 +86,11 @@ internal sealed class LayoutContext
         }
 
         Relationships = doc.Package.GetRelationships(doc.MainPartName).ToDictionary(static r => r.Id, StringComparer.Ordinal);
+        Drawings = DrawingSources.Create(doc, Relationships);
+        Drawings.Layout = this;
     }
+
+    public DrawingSources Drawings { get; }
 
     public Document Doc { get; }
 
