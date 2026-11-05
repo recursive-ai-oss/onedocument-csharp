@@ -1,3 +1,4 @@
+using System.Linq;
 using RecursiveAI.OneOffice.Schema;
 
 namespace RecursiveAI.OneOffice.Documents.Styles;
@@ -5,6 +6,22 @@ namespace RecursiveAI.OneOffice.Documents.Styles;
 public sealed partial class StyleSheet
 {
     private static readonly string[] CellSkip = ["tblStyle", "tblLook", "tblStyleRowBandSize", "tblStyleColBandSize", "cnfStyle", "tblPrChange", "tcPrChange", "tblpPr", "tblOverlap"];
+
+    private static (int Index, int Count) PhysicalPosition(LogicalTable model, LogicalCell cell)
+    {
+        int index = -1, count = 0;
+        foreach (TableCell c in model.Table.Rows().ElementAt(cell.Row).Cells())
+        {
+            if (c.Container.Node.Equals(cell.Cell.Container.Node))
+            {
+                index = count;
+            }
+
+            count++;
+        }
+
+        return (index, count);
+    }
 
     /// <summary>
     /// Names the conditional regions of the table's style that apply to a logical cell, in the order they are applied (ECMA-376 Part 1
@@ -28,8 +45,12 @@ public sealed partial class StyleSheet
         long colBand = BandSize(lineage, tblPr, "tblStyleColBandSize");
         bool isFirstRow = look.FirstRow && cell.Row == 0;
         bool isLastRow = look.LastRow && cell.Row + cell.RowSpan == model.RowCount;
-        bool isFirstCol = look.FirstColumn && cell.Column == 0;
-        bool isLastCol = look.LastColumn && cell.Column + cell.ColumnSpan == model.ColumnCount;
+        // Observed in Word 365 (16.0.20527): the first and last column regions follow the row's first and last physical cell, so a row
+        // that starts after gridBefore still has its first cell in the first column. Banding by column stays on the grid position
+        // (bands are not verified against Word yet).
+        (int physical, int count) = PhysicalPosition(model, cell);
+        bool isFirstCol = look.FirstColumn && physical == 0;
+        bool isLastCol = look.LastColumn && physical == count - 1;
         long hIndex = cell.Row - (look.FirstRow ? 1 : 0);
         long vIndex = cell.Column - (look.FirstColumn ? 1 : 0);
         bool hBanded = look.BandedRows && !isFirstRow && !isLastRow && hIndex >= 0;

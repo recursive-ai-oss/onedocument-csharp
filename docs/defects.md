@@ -116,7 +116,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.comment-duplicate-id` | repaired | Two comments have the same id; the first is used. |
 | `docx.comment-missing` | repaired | A comment range marker or reference in the body names a comment the comments part does not have. |
 | `docx.comment-range-unmatched` | repaired | A comment has a `w:commentRangeStart` without its `w:commentRangeEnd`, or the reverse. The anchor reports what exists. |
-| `docx.table-merge-orphan` | repaired | A `w:vMerge` (or legacy `w:hMerge`) continuation has no merged cell above (to the left) to continue; it is read as a plain cell. |
+| `docx.table-merge-orphan` | repaired | A `w:vMerge` (or legacy `w:hMerge`) continuation has no restart. A vertical one with a cell above merges into it, as Word does; with nothing to continue (first row) or a horizontal one with nothing to its left it is read as a plain cell. |
 | `docx.table-merge-span-mismatch` | repaired | A vertically merged continuation spans a different number of grid columns than the cell above; the region keeps the upper cell's width. |
 | `docx.table-grid-mismatch` | repaired | A row covers more grid columns than `w:tblGrid` declares; the logical grid is widened to the widest row. |
 | `docx.table-span-invalid` | repaired | A `w:gridSpan` is below 1 or above 16384; it reads as 1. |

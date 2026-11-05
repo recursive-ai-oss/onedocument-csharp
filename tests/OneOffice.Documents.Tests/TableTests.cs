@@ -50,17 +50,32 @@ public class TableTests
     }
 
     [Fact]
-    public void Logical_OrphanContinuation_IsADefect_AndReadAsPlainCell()
+    public void Logical_OrphanContinuation_IsADefect_FirstRowPlain_ElsewhereMergedUpward()
     {
         var defects = new DefectCollection();
         using Document doc = TestDocs.Open("<w:tbl>" + Grid(2) +
             Row(Cell("a", "<w:vMerge/>"), Cell("b")) +
             Row(Cell("c"), Cell("d", "<w:vMerge/>")) + "</w:tbl>", defects: defects);
         LogicalTable lt = Single(doc).Logical();
-        Assert.Equal("a|b/c|d/", Dump(lt));
+        // Observed in Word 365 (16.0.20527): the continuation under the unmerged "b" merges into it.
+        Assert.Equal("a|b/c|b/", Dump(lt));
+        Assert.Equal(2, lt[0, 1]!.RowSpan);
         Assert.Equal(2, lt.Merges.Orphans);
         Assert.Equal(2, defects.ToArray().Count(d => d.Code == "docx.table-merge-orphan"));
         Assert.All(defects.ToArray(), d => Assert.Equal("/word/document.xml", d.Location.Container));
+    }
+
+    // The generated case layout-vmerge-orphan; observed in Word 365 (16.0.20527): 4 cells, the first column is one cell.
+    [Fact]
+    public void Logical_ContinuationsUnderAnUnmergedCell_FormOneRegion()
+    {
+        using Document doc = TestDocs.Open("<w:tbl>" + Grid(2) +
+            Row(Cell("r1c1"), Cell("r1c2")) + Row(Cell("r2c1", "<w:vMerge/>"), Cell("r2c2")) +
+            Row(Cell("r3c1", "<w:vMerge w:val=\"continue\"/>"), Cell("r3c2")) + "</w:tbl>");
+        LogicalTable lt = Single(doc).Logical();
+        Assert.Equal(3, lt[0, 0]!.RowSpan);
+        Assert.Equal(4, lt.Cells.Count);
+        Assert.Equal(1, lt.Merges.Orphans);
     }
 
     [Fact]
@@ -232,5 +247,42 @@ public class TableTests
         Assert.Equal("EEEEEE", ss.ResolveTableCell(t, lt, lt[1, 0]!).Get("shd")!.Attributes["fill"].Value);
         Assert.Equal("FF0000", ss.ResolveTableCell(t, lt, lt[2, 1]!).Get("shd")!.Attributes["fill"].Value);
         Assert.Equal("single", ss.ResolveTableCell(t, lt, lt[3, 1]!).Get("tblBorders/insideH")!.Value);
+    }
+
+    // Generated cases layout-tbllook and layout-table-regions; observed in Word 365 (16.0.20527).
+    [Fact]
+    public void Look_AttributesWinOverTheHexMask()
+    {
+        static TableLookFlags Look(string xml)
+        {
+            using Document d = TestDocs.Open("<w:tbl><w:tblPr>" + xml + "</w:tblPr>" + Grid(1) + Row(Cell("x")) + "</w:tbl>");
+            return Single(d).Look;
+        }
+
+        Assert.True(Look("<w:tblLook w:val=\"0020\"/>").FirstRow);
+        Assert.False(Look("<w:tblLook w:val=\"0020\" w:firstRow=\"0\" w:lastRow=\"0\" w:firstColumn=\"0\" w:lastColumn=\"0\" w:noHBand=\"1\" w:noVBand=\"1\"/>").FirstRow);
+        TableLookFlags c2 = Look("<w:tblLook w:val=\"0600\" w:firstRow=\"1\" w:lastRow=\"0\" w:firstColumn=\"0\" w:lastColumn=\"0\" w:noHBand=\"0\" w:noVBand=\"0\"/>");
+        Assert.True(c2.FirstRow);
+        Assert.True(c2.BandedRows);
+        Assert.True(c2.BandedColumns);
+    }
+
+    [Fact]
+    public void FirstColumnRegion_FollowsThePhysicalFirstCell_AfterGridBefore()
+    {
+        const string styles = "<w:style w:type=\"table\" w:styleId=\"TS5\"><w:name w:val=\"TS5\"/><w:tblStylePr w:type=\"firstCol\"><w:rPr><w:b/></w:rPr></w:tblStylePr></w:style>";
+        using Document doc = TestDocs.Open("<w:tbl><w:tblPr><w:tblStyle w:val=\"TS5\"/><w:tblLook w:val=\"0280\" w:firstRow=\"0\" w:lastRow=\"0\" w:firstColumn=\"1\" w:lastColumn=\"0\" w:noHBand=\"1\" w:noVBand=\"0\"/></w:tblPr>" + Grid(3) +
+            Row(Cell("A", "<w:gridSpan w:val=\"2\"/>"), Cell("B")) +
+            "<w:tr><w:trPr><w:gridBefore w:val=\"1\"/></w:trPr>" + Cell("C") + Cell("D") + "</w:tr>" +
+            Row(Cell("E"), Cell("F"), Cell("G")) + "</w:tbl>", styles);
+        Table t = Single(doc);
+        LogicalTable lt = t.Logical();
+        StyleSheet ss = doc.Styles;
+        Assert.Contains("firstCol", ss.GetTableRegions(t, lt, lt[0, 0]!));
+        Assert.DoesNotContain("firstCol", ss.GetTableRegions(t, lt, lt[0, 2]!));
+        Assert.Contains("firstCol", ss.GetTableRegions(t, lt, lt[1, 1]!));
+        Assert.DoesNotContain("firstCol", ss.GetTableRegions(t, lt, lt[1, 2]!));
+        Assert.Contains("firstCol", ss.GetTableRegions(t, lt, lt[2, 0]!));
+        Assert.DoesNotContain("firstCol", ss.GetTableRegions(t, lt, lt[2, 2]!));
     }
 }

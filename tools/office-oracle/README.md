@@ -115,3 +115,10 @@ Every run ends by quitting the applications it started and killing, by process i
 result's `end` line lists the Office processes left, which should be empty unless the owner has the application open.
 When `officeProcessesLeft` is not empty, look at the process's start time, parent and command line before anyone
 kills it: it may be the owner's own copy, and only a process a run started may be killed.
+
+## Checking OneOffice's own edits
+
+`tools/OracleCases` (`OracleCases DIR`) writes one small file per kind of edit that OneOffice makes (table edits, sections and
+headers, comments, notes, field results, authored and resolved revisions, content-control values, the output formats). Run the
+directory through `office-oracle.sh run` and every file should come back `clean`.
+

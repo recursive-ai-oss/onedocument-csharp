@@ -11,19 +11,22 @@ How the document hub reads and edits them. References are to ECMA-376 Part 1 (5t
   `w:gridSpan` columns (below 1 or above 16384 reads as 1). The grid width is the larger of `w:tblGrid` and the widest row, so rows
   wider than the grid widen it (`docx.table-grid-mismatch`).
 - **Vertical merge** (§17.4.85): `w:vMerge` with `w:val="restart"` starts a region; with `continue` or no value it continues the cell
-  directly above in the same starting grid column. A continuation with nothing mergeable above it (first row, or the cell above is
-  not part of a merge) is an orphan: it reads as a plain cell (`docx.table-merge-orphan`). **To check against Word:** Word may merge a
-  continuation upward into an unmerged cell above instead.
+  directly above in the same starting grid column. A continuation under a cell that is not part of a merge
+  still merges upward: the cell above becomes the region's start (observed in Word 365, 16.0.20527: three rows of `vMerge`
+  continuations under an unmerged first cell read as one cell). The file is malformed, so the repair is reported as
+  `docx.table-merge-orphan`. A continuation in the first row, or with no cell starting in its column above, is a plain cell.
 - **Horizontal merge**: current files use `w:gridSpan`. The legacy `w:hMerge` (restart/continue) widens the cell to its left; an
   orphan continuation is a plain cell.
 - A region is one `LogicalCell` anchored at its top-left cell; the swallowed physical cells are in `Covered`. Empty grid positions
   (`gridBefore`, `gridAfter`, short rows) read as null.
 - **Table styles**: `Table.Look` reads `w:tblLook` (attributes or the hex mask). `StyleSheet.GetTableRegions` names the conditional
   regions of a logical cell in application order (§17.7.6); the header row is not banded and banding counts from the row after it. A
-  merged cell counts by its top-left position for banding and as last row/column when it reaches the last one.
+  merged cell counts by its top-left position for banding. `firstCol` and `lastCol` follow the row's first and last *physical* cell, so
+  a row that starts after `gridBefore` still has its first cell in the first column (observed in Word 365, 16.0.20527). Band regions
+  still count by grid position; Word's behaviour for bands in rows with merged or gapped cells has not been verified.
   `ResolveTableCell` layers style table and cell properties, regions, the table's own properties and the cell's own; borders and
-  margins are flattened per side (`tblBorders/top`, `tcBorders/left`, `tblCellMar/start`). Region membership by logical column
-  differs from the paragraph resolver's physical cell index only in rows with merged cells. **To check against Word.**
+  margins are flattened per side (`tblBorders/top`, `tcBorders/left`, `tblCellMar/start`). `w:tblLook` attributes win over the hex mask when both are
+  present (observed in Word 365, 16.0.20527).
 
 ### Edits
 
@@ -60,7 +63,12 @@ the table is rewritten.
   section without one prints blank. There is no fallback between types: a missing `first` or `even` story is blank (or inherited
   for that type), never the default story.
 - **Page choice** (`Section.ForPage`): with `w:titlePg`, the first page of the section uses `first`; else with
-  `w:evenAndOddHeaders` (settings part), an even printed page number uses `even`; else `default`.
+  `w:evenAndOddHeaders` (settings part), an even *printed* page number (after any `pgNumType` restart, not the physical page)
+  uses `even`; else `default`. `Section.FirstPrintedPageNumber` gives the number a section's first page prints.
+- **Blank pages** (`Section.RequiresBlankPageBefore`): observed in Word 365 (16.0.20527), with `w:evenAndOddHeaders` on a new-page
+  section whose first printed number has the other parity from the physical page it would start on starts one page later, after an
+  empty page (restart at 1 after three pages: starts on physical page 5; restart at 2 after two pages: physical page 4). Layout
+  inserts that page; the hub only answers the question.
 - **To check against Word:** a section with `w:titlePg` and no `first` reference of its own, after a section that has one, inherits it
   (the hub), while LibreOffice prints the default header on that page.
 - `Section.AddOwn` creates `/word/headerN.xml` (or footer) with one empty paragraph, the relationship and the reference.

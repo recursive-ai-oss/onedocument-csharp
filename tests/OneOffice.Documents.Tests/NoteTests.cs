@@ -154,4 +154,13 @@ public class NoteTests
         Assert.Null(section.Start);
     }
 
+    // Observed in Word 365 (16.0.20527): endnotes without any numFmt are numbered i, ii, iii; footnotes 1, 2, 3.
+    [Fact]
+    public void EndnotesDefaultToLowerRoman_FootnotesToDecimal()
+    {
+        using var d = TestDocs.Open("<w:p/>");
+        Assert.Equal("lowerRoman", NoteNumbering.Combine(null, d.GetNoteNumbering(NoteKind.Endnote)).Format);
+        Assert.Equal("decimal", NoteNumbering.Combine(null, d.GetNoteNumbering(NoteKind.Footnote)).Format);
+    }
+
 }
