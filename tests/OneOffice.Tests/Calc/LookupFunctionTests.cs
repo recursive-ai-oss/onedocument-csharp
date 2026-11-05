@@ -288,4 +288,12 @@ public class LookupFunctionTests
         long used = GC.GetAllocatedBytesForCurrentThread() - before;
         Assert.True(used < 64 * 1024, $"allocated {used} bytes");
     }
+
+    [Fact]
+    public void ArrayFunctionsChargeForTheCellsTheyTouch()
+    {
+        var options = new EvaluatorOptions { MaxSteps = 5_000 };
+        Assert.Throws<OfficeLimitException>(() => CalcTestHelper.Eval("SORT(SEQUENCE(1000,10))", options: options));
+        Assert.Equal("{1;2;3}", CalcTestHelper.Show(CalcTestHelper.Eval("SORT({3;1;2})", options: options)));
+    }
 }

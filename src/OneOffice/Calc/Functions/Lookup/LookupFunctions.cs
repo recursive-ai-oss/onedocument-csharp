@@ -285,6 +285,7 @@ internal static class LookupFunctions
         }
 
         CalcValue[] cells = ev.NewCells(column ? n : 1, column ? 1 : n);
+        ev.ChargeSteps(cells.Length);
         for (int k = 0; k < n; k++)
         {
             cells[k] = column ? a[k, index] : a[index, k];
@@ -429,6 +430,7 @@ internal static class LookupFunctions
         int outRows = rows ? picks.Count : a.Rows;
         int outCols = rows ? a.Columns : picks.Count;
         CalcValue[] cells = ev.NewCells(outRows, outCols);
+        ev.ChargeSteps(cells.Length);
         for (int r = 0; r < outRows; r++)
         {
             for (int c = 0; c < outCols; c++)
@@ -608,6 +610,7 @@ internal static class LookupFunctions
         }
 
         CalcValue[] cells = ev.NewCells(row ? count : 1, row ? 1 : count);
+        ev.ChargeSteps(cells.Length);
         for (int i = 0; i < count; i++)
         {
             cells[i] = Num(first + i);
@@ -701,6 +704,7 @@ internal static class LookupFunctions
         }
 
         CalcValue[] cells = ev.NewCells(a.Columns, a.Rows);
+        ev.ChargeSteps(cells.Length);
         for (int r = 0; r < a.Rows; r++)
         {
             for (int c = 0; c < a.Columns; c++)
@@ -823,6 +827,7 @@ internal static class LookupFunctions
         int rows = bottom - top + 1;
         int cols = right - left + 1;
         CalcValue[] cells = ev.NewCells(rows, cols);
+        ev.ChargeSteps(cells.Length);
         for (int r = 0; r < rows; r++)
         {
             for (int c = 0; c < cols; c++)

@@ -267,6 +267,7 @@ internal static class LookupSupport
         {
             case ValueKind.Array:
                 array = d.Array!;
+                ev.ChargeSteps(array.Count);
                 error = default;
                 return true;
             case ValueKind.Error:

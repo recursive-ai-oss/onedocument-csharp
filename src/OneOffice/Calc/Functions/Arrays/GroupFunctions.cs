@@ -88,6 +88,7 @@ internal static class GroupFunctions
     private static CalcArray Rows(Evaluator ev, CalcArray a, int from, List<int> picked)
     {
         CalcValue[] cells = ev.NewCells(picked.Count, a.Columns);
+        ev.ChargeSteps(cells.Length);
         for (int r = 0; r < picked.Count; r++)
         {
             for (int c = 0; c < a.Columns; c++)
@@ -110,6 +111,7 @@ internal static class GroupFunctions
     private static CalcArray Column(Evaluator ev, CalcArray v, int col, List<int> picked)
     {
         CalcValue[] cells = ev.NewCells(Math.Max(1, picked.Count), 1);
+        ev.ChargeSteps(cells.Length);
         for (int r = 0; r < picked.Count; r++)
         {
             cells[r] = v[picked[r], col];
@@ -436,6 +438,7 @@ internal static class GroupFunctions
     private static CalcValue ToArray(Evaluator ev, List<CalcValue[]> lines, int width)
     {
         CalcValue[] cells = ev.NewCells(lines.Count, width);
+        ev.ChargeSteps(cells.Length);
         for (int r = 0; r < lines.Count; r++)
         {
             Array.Copy(lines[r], 0, cells, r * width, width);

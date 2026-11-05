@@ -194,7 +194,8 @@ public sealed class Evaluator
         return 0;
     }
 
-    private void ChargeSteps(long count)
+    // Functions that scan or build arrays pay for the cells they touch, so MaxSteps bounds their work as it does a lifted call.
+    internal void ChargeSteps(long count)
     {
         _steps += count;
         if (_steps > _options.MaxSteps)

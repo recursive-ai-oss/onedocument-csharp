@@ -30,6 +30,7 @@ internal static class ArrayFunctions
 
     private static CalcValue Make(Evaluator ev, int rows, int cols, Func<int, int, CalcValue> cell)
     {
+        ev.ChargeSteps((long)rows * cols);
         CalcValue[] cells = ev.NewCells(rows, cols);
         for (int r = 0; r < rows; r++)
         {
@@ -552,6 +553,7 @@ internal static class ArrayFunctions
 
         CalcValue na = Err(CalcError.NA);
         CalcValue[] cells = ev.NewCells(rows, cols);
+        ev.ChargeSteps(cells.Length);
         int offset = 0;
         foreach (CalcArray p in parts)
         {
@@ -663,6 +665,7 @@ internal static class ArrayFunctions
         }
 
         CalcValue[] cells = ev.NewCells(column ? list.Count : 1, column ? 1 : list.Count);
+        ev.ChargeSteps(cells.Length);
         list.CopyTo(cells);
         return CalcValue.FromArray(new CalcArray(column ? list.Count : 1, column ? 1 : list.Count, cells));
     }
