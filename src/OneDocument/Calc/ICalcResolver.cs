@@ -97,6 +97,10 @@ public interface ICalcResolver
         return false;
     }
 
+    /// <summary>The clock behind <c>TODAY</c> and <c>NOW</c>, so a workbook or a test decides what time it is.</summary>
+    /// <returns>Null (the default) to use <see cref="EvaluatorOptions.Clock"/>, and the system clock when that is null too.</returns>
+    TimeProvider? Clock => null;
+
     /// <summary>Resolves a dotted member path of the template extension: <c>item.price</c>.</summary>
     /// <param name="segments">The path, root first.</param>
     /// <returns>A scalar, or an array when the path lifts over a collection; <c>#NAME?</c> by default.</returns>

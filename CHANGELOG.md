@@ -4,7 +4,7 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ## [Unreleased]
 
-- Renamed from OneOffice to OneDocument: packages `RecursiveAI.OneDocument*`, namespaces, the `onedocument` tool and the `ONEDOCUMENT_*` environment variables. The `Office` statics and the `Office*` types keep their names.
+- Renamed from OneDocument to OneDocument: packages `RecursiveAI.OneDocument*`, namespaces, the `onedocument` tool and the `ONEDOCUMENT_*` environment variables. The `Office` statics and the `Office*` types keep their names.
 
 - The `Office` statics work with no registration call: each kind package compiles a module initializer into the referencing C# project (no reflection; NativeAOT and trimming keep only the referenced kinds). `Register` stays public and may be called any number of times; `OneDocumentAutoRegister=false` opts out.
 - Text boxes as block containers: `Document.TextBoxes()`, `BlockContainer.TextBoxes()`, `Paragraph.TextBoxes()`, `TextBox` (DrawingML and VML, the copy in `mc:Fallback` kept equal on commit, linked chains), and `Document.WrapParagraph`. Tracked changes and edits work on their paragraphs.

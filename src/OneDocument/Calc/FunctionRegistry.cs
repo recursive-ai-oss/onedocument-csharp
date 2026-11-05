@@ -168,6 +168,8 @@ public sealed class FunctionRegistry
     {
         var r = new FunctionRegistry();
         SeedFunctions.Register(r);
+        StatisticalFunctions.Register(r);
+        DateTimeFunctions.Register(r);
         MathFunctions.Register(r);
         LogicalFunctions.Register(r);
         InformationFunctions.Register(r);
