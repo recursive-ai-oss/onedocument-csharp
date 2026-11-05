@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using RecursiveAI.OneDocument.Calc;
 using RecursiveAI.OneDocument.Diagnostics;
 using RecursiveAI.OneDocument.Markup;
+using RecursiveAI.OneDocument.Packaging;
 using RecursiveAI.OneDocument.Templating;
 
 namespace RecursiveAI.OneDocument.Spreadsheets.Templating;
@@ -35,6 +36,7 @@ internal sealed class CapturedCell
     public CellFormula? Formula;
     public CellExtras? Extras;
     public bool IsTemplate;
+    public CapturedComment? Comment;
 }
 
 internal sealed class CapturedRow
@@ -69,6 +71,10 @@ internal sealed class OutSheet
     public string FinalName = string.Empty;
     public List<OutMajor> Majors = [];
     public AxisMap Map = null!;
+    public Dictionary<int, string> Extra = [];
+    public List<OutComment> Comments = [];
+    public List<PendingImage> Images = [];
+    public string? DrawingPart;
 }
 
 // The plan for one template sheet: what it holds, how it was cut into units, and what came out.
@@ -89,6 +95,8 @@ internal sealed class SheetPlan : ITemplateScopeResolver
     public List<(int From, int To)> Spans = [];
     public List<OutSheet> Output = [];
     public List<CellRange> Merges = [];
+    public SheetSnapshot? Snap;
+    public Dictionary<int, Slot> SlotUnits = [];
 
     public TemplateUnitRange? Resolve(in TemplateBlockInfo block)
     {
@@ -107,6 +115,11 @@ internal sealed class SheetPlan : ITemplateScopeResolver
 
         int ma = UnitMajor[a];
         int mb = UnitMajor[b];
+        if (ma < 0 || mb < 0)
+        {
+            return null;
+        }
+
         Spans.Add((ma, mb));
         return new TemplateUnitRange(MarkerUnit[ma], LastUnit[mb]);
     }
@@ -152,6 +165,7 @@ public static class XlsxTemplateBinder
         var warnings = new List<Defect>();
 
         var plans = new List<SheetPlan>();
+        var charts = new HashSet<string>(StringComparer.Ordinal);
         foreach (Worksheet ws in workbook.Sheets.ToList())
         {
             if (ws.Kind == SheetKind.Worksheet && Capture(ws, options) is { } plan)
@@ -176,13 +190,16 @@ public static class XlsxTemplateBinder
             }
 
             var rewriter = new Rewriter(byName, workbook);
+            var images = new SheetFeatures.ImageStore();
             foreach (SheetPlan plan in plans)
             {
-                Apply(workbook, plan, rewriter);
+                Apply(workbook, plan, rewriter, warnings, images, charts);
             }
 
             rewriter.RewriteUntouched(plans);
             rewriter.RewriteNames(workbook);
+            RewriteOtherCharts(workbook, plans, rewriter, charts);
+            PivotSources.Rewrite(workbook, byName);
         }
 
         // Cached values of formulas were discarded where formulas were written, so the workbook has to be calculated before it is used.
@@ -190,9 +207,37 @@ public static class XlsxTemplateBinder
         if (xlsx.RecalculateNow || (plans.Count > 0 && workbook.IsManualCalculation))
         {
             workbook.RecalculateAll(null, cancellationToken);
+            if (workbook.PivotCaches.Count > 0)
+            {
+                workbook.RefreshPivots(null, cancellationToken);
+            }
         }
 
+        SheetFeatures.RefreshCaches(workbook, charts);
         return new XlsxTemplateResult(warnings);
+    }
+
+    /// <summary>Checks every tag of the workbook template (cells, sheet names, comments, headers and footers, text boxes) without binding any data.</summary>
+    /// <param name="workbook">The template; it is not changed.</param>
+    /// <param name="options">Template options (delimiters, limits), or null.</param>
+    /// <param name="cancellationToken">Cancels the check.</param>
+    /// <returns>Every error and warning found, each located at its sheet and cell; empty when the template is valid.</returns>
+    public static IReadOnlyList<Defect> Validate(Workbook workbook, TemplateOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(workbook);
+        options ??= new TemplateOptions();
+        var defects = new List<Defect>();
+        foreach (Worksheet ws in workbook.Sheets.ToList())
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (ws.Kind == SheetKind.Worksheet && Capture(ws, options) is { } plan)
+            {
+                ParsedTemplate parsed = TemplateEngine.Parse(new TemplateSource(plan.Units), WithScopes(options, plan));
+                defects.AddRange(parsed.Defects);
+            }
+        }
+
+        return defects;
     }
 
     // ---- reading a sheet into units ----------------------------------------------------------------------------------------------
@@ -269,9 +314,19 @@ public static class XlsxTemplateBinder
             }
         }
 
+        SheetSnapshot snap = SheetFeatures.Take(ws, d, out List<CapturedComment> comments, out bool beside);
+        any |= beside;
         if (!any)
         {
             return null;
+        }
+
+        plan.Snap = snap;
+        SheetFeatures.ReadTables(snap, ws);
+        foreach (CapturedComment cm in comments)
+        {
+            string text = SheetFeaturesText(cm);
+            plan.Cells.Add(new CapturedCell { Row = cm.Row, Column = cm.Column, Kind = CellValueKind.Empty, Comment = cm, Text = text, IsTemplate = HasTag(text, d) });
         }
 
         foreach (ColumnProperties c in ws.Columns)
@@ -283,6 +338,12 @@ public static class XlsxTemplateBinder
         plan.RowMode = !plan.Cells.Any(static c => c.IsTemplate && c.Text!.Contains("scope=column", StringComparison.OrdinalIgnoreCase));
         BuildUnits(plan);
         return plan;
+    }
+
+    private static string SheetFeaturesText(CapturedComment c)
+    {
+        var doc = MarkupDocument.Parse(System.Text.Encoding.UTF8.GetBytes(c.Xml));
+        return SheetFeatures.CommentText(doc.Root);
     }
 
     // A cell of a shared formula holds only the group's index; give it its own text so the cell can move on its own.
@@ -372,6 +433,18 @@ public static class XlsxTemplateBinder
 
             plan.LastUnit[m] = plan.Units.Count - 1;
         }
+
+        // Tags in header and footer strings and text boxes are units after the cells; they render with the sheet they belong to.
+        if (plan.Snap is { } snap)
+        {
+            foreach (Slot slot in snap.Slots)
+            {
+                plan.SlotUnits[plan.Units.Count] = slot;
+                plan.Units.Add(new TemplateUnit(slot.Text, part + "#" + ws.Name + "!" + (slot.Kind == "hf" ? slot.Key : "shape " + (slot.Ordinal + 1).ToString(CultureInfo.InvariantCulture))));
+                plan.UnitMajor.Add(-2);
+                plan.UnitCell.Add(null);
+            }
+        }
     }
 
     // ---- rendering ---------------------------------------------------------------------------------------------------------------
@@ -419,6 +492,12 @@ public static class XlsxTemplateBinder
 
             cur ??= NewSheet(plan, plan.OldName);
             CapturedCell? cell = plan.UnitCell[u];
+            if (plan.UnitMajor[u] == -2)
+            {
+                cur.Extra[u] = ru.Text;
+                continue;
+            }
+
             if (cell is null)
             {
                 int s = plan.UnitMajor[u];
@@ -456,10 +535,10 @@ public static class XlsxTemplateBinder
             {
                 foreach (OutCell c in m.Cells)
                 {
-                    if (c.Pieces is not null && c.Pieces.Any(static p => p.Kind != TemplatePieceKind.Text))
+                    if (c.Pieces is not null && c.Pieces.Any(static p => p.Kind is TemplatePieceKind.Html or TemplatePieceKind.Markdown))
                     {
                         warnings.Add(new Defect(DefectKind.Structure, "template.tag-not-bound", DefectSeverity.Dropped,
-                            "An image, html or markdown tag in a cell is not bound in a workbook; it printed nothing.", DefectLocation.InCell(plan.OldName, Address(c.Source.Row, c.Source.Column))));
+                            "An html or markdown tag in a cell is not bound in a workbook; it printed nothing.", DefectLocation.InCell(plan.OldName, Address(c.Source.Row, c.Source.Column))));
                     }
                 }
             }
@@ -557,7 +636,7 @@ public static class XlsxTemplateBinder
 
     // ---- writing the workbook ----------------------------------------------------------------------------------------------------
 
-    private static void Apply(Workbook wb, SheetPlan plan, Rewriter rewriter)
+    private static void Apply(Workbook wb, SheetPlan plan, Rewriter rewriter, List<Defect> warnings, SheetFeatures.ImageStore images, HashSet<string> charts)
     {
         Worksheet original = plan.Sheet;
         if (plan.Output.Count == 0)
@@ -572,6 +651,7 @@ public static class XlsxTemplateBinder
             return;
         }
 
+        SheetFeatures.PrepareCopies(wb, plan);
         int insertAt = original.Index;
         for (int i = 0; i < plan.Output.Count; i++)
         {
@@ -591,7 +671,7 @@ public static class XlsxTemplateBinder
                 target = wb.Sheets.Insert(insertAt + i, o.FinalName);
             }
 
-            WriteSheet(plan, o, target, i == 0, rewriter);
+            WriteSheet(plan, o, target, i == 0, rewriter, warnings, images, charts);
         }
     }
 
@@ -605,7 +685,7 @@ public static class XlsxTemplateBinder
         store.IsModified = true;
     }
 
-    private static void WriteSheet(SheetPlan plan, OutSheet o, Worksheet target, bool isOriginal, Rewriter rewriter)
+    private static void WriteSheet(SheetPlan plan, OutSheet o, Worksheet target, bool isOriginal, Rewriter rewriter, List<Defect> warnings, SheetFeatures.ImageStore images, HashSet<string> charts)
     {
         CellStore store = target.Store;
         var columns = new List<ColumnProperties>();
@@ -638,6 +718,23 @@ public static class XlsxTemplateBinder
                 CapturedCell c = oc.Source;
                 int row = plan.RowMode ? m.Out : c.Row;
                 int col = plan.RowMode ? c.Column : m.Out;
+                if (c.Comment is not null)
+                {
+                    o.Comments.Add(new OutComment(c.Comment, row, col, c.IsTemplate && oc.Pieces is { } cp ? string.Concat(cp.Select(static p => p.Text)) : null));
+                    continue;
+                }
+
+                if (oc.Pieces is { } inserts)
+                {
+                    foreach (TemplatePiece piece in inserts)
+                    {
+                        if (piece.Kind == TemplatePieceKind.Image && piece.Insertion is not null)
+                        {
+                            o.Images.Add(new PendingImage(row, col, piece.Insertion));
+                        }
+                    }
+                }
+
                 var cell = target[row, col];
                 if (c.Formula is { } f)
                 {
@@ -698,14 +795,28 @@ public static class XlsxTemplateBinder
         }
 
         FrameModel frame = target.Frame;
-        if (isOriginal)
-        {
-            RewriteFrame(plan, o, target, frame);
-        }
-        else
+        if (!isOriginal)
         {
             frame.Merges = MapMerges(plan, o, plan.Merges);
             frame.MergesChanged = true;
+            if (plan.Snap is not null)
+            {
+                SheetFeatures.CopyFrame(target.Workbook, plan, o, target);
+            }
+        }
+
+        RewriteFrame(plan, o, target, frame, rewriter, isOriginal);
+        if (plan.Snap is { } snap)
+        {
+            Workbook wb = target.Workbook;
+            SheetFeatures.ApplyHeaderFooter(plan, o, target);
+            SheetFeatures.WriteComments(wb, plan, o, target, isOriginal);
+            if ((isOriginal ? snap.DrawingPart : o.DrawingPart) is { } drawing)
+            {
+                SheetFeatures.ProcessDrawing(wb, plan, o, rewriter, drawing, charts);
+            }
+
+            SheetFeatures.AddImages(wb, o, target, warnings, images);
         }
     }
 
@@ -743,20 +854,36 @@ public static class XlsxTemplateBinder
     }
 
     // The elements around the cells that name ranges: merged cells, tables, conditional formats, validations and hyperlinks.
-    private static void RewriteFrame(SheetPlan plan, OutSheet o, Worksheet target, FrameModel frame)
+    private static void RewriteFrame(SheetPlan plan, OutSheet o, Worksheet target, FrameModel frame, Rewriter rewriter, bool isOriginal)
     {
-        frame.Merges = MapMerges(plan, o, plan.Merges);
-        frame.MergesChanged = true;
+        if (isOriginal)
+        {
+            frame.Merges = MapMerges(plan, o, plan.Merges);
+            frame.MergesChanged = true;
+        }
+
         frame.Changed = true;
 
         foreach (ConditionalFormat cf in target.ConditionalFormats)
         {
             MapSqRef(plan, o, cf.Markup, "sqref");
+            RewriteRuleFormulas(plan, o, rewriter, cf.Markup);
         }
 
         foreach (DataValidation dv in target.Validations)
         {
             MapSqRef(plan, o, dv.Markup, "sqref");
+            RewriteRuleFormulas(plan, o, rewriter, dv.Markup);
+        }
+
+        if (!isOriginal)
+        {
+            if (plan.Snap is not null)
+            {
+                SheetFeatures.CopyTables(target.Workbook, plan, o, target, r => MapRange(plan, o, r));
+            }
+
+            return;
         }
 
         foreach (MarkupNode child in frame.Root.ChildElements)
@@ -778,6 +905,59 @@ public static class XlsxTemplateBinder
                 if (MapRange(plan, o, r) is { } nr && nr.IsValid)
                 {
                     t.Resize(nr);
+                }
+            }
+        }
+    }
+
+    // The formulas of conditional-format rules and validations follow the cells like the formulas in cells do.
+    private static void RewriteRuleFormulas(SheetPlan plan, OutSheet o, Rewriter rewriter, MarkupNode rule)
+    {
+        var ctx = new OwnerContext(plan, o, -1, 0);
+        foreach (MarkupNode n in PartTools.Descendants(rule))
+        {
+            if (n.LocalNameString is "formula" or "formula1" or "formula2")
+            {
+                string text = n.InnerText;
+                string rewritten = rewriter.RewriteText(text, plan.OldName, ctx, o.FinalName);
+                if (rewritten != text)
+                {
+                    n.SetText(rewritten);
+                }
+            }
+        }
+    }
+
+    // Charts on sheets the template did not touch can still plot cells that moved.
+    private static void RewriteOtherCharts(Workbook wb, List<SheetPlan> plans, Rewriter rewriter, HashSet<string> charts)
+    {
+        var skip = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (SheetPlan p in plans)
+        {
+            skip.Add(p.OldName);
+            foreach (OutSheet o in p.Output)
+            {
+                skip.Add(o.FinalName);
+            }
+        }
+
+        foreach (Worksheet ws in wb.Sheets.ToList())
+        {
+            if (ws.PartName is not { } part || skip.Contains(ws.Name))
+            {
+                continue;
+            }
+
+            foreach ((Relationship _, string chart) in PartTools.Related(wb, part, "/chart"))
+            {
+                SheetFeatures.ProcessChart(wb, rewriter, chart, null, ws.Name, charts, forceRefresh: false);
+            }
+
+            foreach ((Relationship _, string drawing) in PartTools.Related(wb, part, "/drawing"))
+            {
+                foreach ((Relationship _, string chart) in PartTools.Related(wb, drawing, "/chart"))
+                {
+                    SheetFeatures.ProcessChart(wb, rewriter, chart, null, ws.Name, charts, forceRefresh: false);
                 }
             }
         }

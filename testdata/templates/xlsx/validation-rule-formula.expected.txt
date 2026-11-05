@@ -1,0 +1,11 @@
+[Sheet1] merges=
+A1 s=0 t Bolt
+B1 s=0 -
+D1 s=0 t pick
+A2 s=0 t Nut
+B2 s=0 -
+D2 s=0 t pick
+A3 s=0 t Gear
+B3 s=0 -
+D3 s=0 t pick
+extra:  count="1"><dataValidation type="list" allowBlank="1" sqref="D1:D3"><formula1>$A$1:$A$3</formula1></dataValidation>
