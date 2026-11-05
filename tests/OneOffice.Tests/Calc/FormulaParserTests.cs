@@ -8,6 +8,9 @@ public class FormulaParserTests
     public static TheoryData<string> FileForms => new()
     {
         "1+2",
+        "IFERROR(SUM(D!D.Data.WSF.MSG : D!D.Data.WSF.CDS),0)",
+        "SUM(Name1 : Name2)",
+        "SUM(A1 : B2)",
         "SUM(A1:B2)",
         "SUM( A1 , B2 )",
         "$A$1+B$2*$C3",

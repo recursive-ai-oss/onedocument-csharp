@@ -493,8 +493,22 @@ internal sealed class FormulaReader
     private FormulaNode ParseRange()
     {
         FormulaNode left = ParseAtom();
-        while (Cur == ':')
+        while (true)
         {
+            // Spaces may precede the colon ("A1 : B2", "Name1 : Name2"); they stay on the left operand so printing reproduces them.
+            int before = _p;
+            string? gap = EatWs();
+            if (Cur != ':')
+            {
+                _p = before;
+                return left;
+            }
+
+            if (gap is not null)
+            {
+                left.AddTrailing(gap);
+            }
+
             int colon = _p;
             _p++;
             FormulaNode right = ParseAtom();
@@ -509,8 +523,6 @@ internal sealed class FormulaReader
             Span(n, left.Offset, right.Offset + right.Length);
             left = n;
         }
-
-        return left;
     }
 
     private AreaReferenceNode? TryMergeArea(FormulaNode left, FormulaNode right, int colon)
