@@ -203,6 +203,7 @@ public sealed class MailMergeTests : IDisposable
     [InlineData(0.256, "0.0%", "0.3%")]
     [InlineData(15, "$###", "$ 15")]
     [InlineData(222492, "x##", "492")]
+    [InlineData(3, "x##", "3")]
     [InlineData(0.125, "0.00x", "0.125")]
     [InlineData(0.75, ".x", ".8")]
     [InlineData(-80, "-##", "-80")]

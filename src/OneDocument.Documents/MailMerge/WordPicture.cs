@@ -207,10 +207,11 @@ internal static class WordPicture
                 }
             }
 
-            section = section.Remove(x, 1).Insert(x, "0");
+            // The x place itself prints a digit only when the number has one, so a picture such as x## gives "3" for 3.
+            section = section.Remove(x, 1).Insert(x, "#");
         }
 
-        bool grouping = IndexOfUnquoted(section, ',') >= 0;
+        bool grouping = x >= 0 || IndexOfUnquoted(section, ',') >= 0;
         var code = new StringBuilder();
         bool anySign = false;
         int i2 = 0;

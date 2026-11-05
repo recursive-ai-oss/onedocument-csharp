@@ -6,6 +6,9 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 - Calculation of what-if features: iterative calculation (`calcPr iterate`, `iterateCount`, `iterateDelta`; `Workbook.SetIterativeCalculation`), data tables (one- and two-variable, calculated in an overlay so the grid is never touched), `Workbook.GoalSeek`, external links (`Workbook.ExternalLinks`; references read the file's cached values, or live workbooks through an opt-in `IExternalWorkbookResolver`, with refreshed values saved back), and `WEBSERVICE`/`FILTERXML` through an opt-in `IWebServiceResolver`. Nothing is opened or fetched unless the caller supplies a resolver.
 
+- Word mail merge: `Document.MailMerge` (`MERGEFIELD` with `\b`, `\f`, `\#`, `\@`, `\*`, `IF`, `NEXT`, `NEXTIF`, `SKIPIF`, `MERGEREC`, `MERGESEQ`, `SET`, `ASK`, `FILLIN`, `REF`; a document per record or all records in one with section breaks; the `mailMerge` connection is removed and never opened). See `docs/mail-merge.md`.
+- Content-control data binding: `Document.BindContentControls`, `RefreshContentControls`, `PushContentControls` for text, rich text, date, check box, drop-down, combo box and repeating sections; the binding XPath subset now covers `//`, `.`, `..`, `last()`, comparisons, `name()` and string functions.
+
 - Renamed from OneOffice to OneDocument: packages `RecursiveAI.OneDocument*`, namespaces, the `onedocument` tool and the `ONEDOCUMENT_*` environment variables. The `Office` statics and the `Office*` types keep their names.
 
 - The `Office` statics work with no registration call: each kind package compiles a module initializer into the referencing C# project (no reflection; NativeAOT and trimming keep only the referenced kinds). `Register` stays public and may be called any number of times; `OneDocumentAutoRegister=false` opts out.

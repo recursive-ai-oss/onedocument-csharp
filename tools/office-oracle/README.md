@@ -139,3 +139,6 @@ kills it: it may be the owner's own copy, and only a process a run started may b
 headers, comments, notes, field results, authored and resolved revisions, content-control values, the output formats). Run the
 directory through `office-oracle.sh run` and every file should come back `clean`.
 
+## Mail merge (Word)
+
+`OracleCases --mailmerge testdata/templates OUT` writes each mail-merge golden template as `mm-NAME.docx` with `mm-NAME.data.csv` and `mm-NAME.actions.txt` holding `mailmerge:mm-NAME.data.csv|single`. The action has Word attach the CSV as the data source, run the merge to a new document (`single` is all records in one document) and save the result for the comparison with OneDocument's output of the same case in `OUT/ours`. `office-oracle.sh` uploads the data files beside their documents and does not treat `*.data.csv` as cases. `ASK` and `FILLIN` cases are left out. The action is new and has not been run yet: the 1.0 gate does its first run.
