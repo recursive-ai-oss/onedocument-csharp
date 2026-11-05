@@ -1,6 +1,5 @@
 using System.Linq;
 using RecursiveAI.OneDocument.Documents;
-using RecursiveAI.OneDocument.Packaging;
 
 namespace RecursiveAI.OneDocument.Smoke;
 
@@ -44,14 +43,9 @@ internal static class DocumentSmoke
     private static List<string> MailMergeSmoke()
     {
         var failures = new List<string>();
-        const string W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
-        using var package = new InMemoryPackage();
-        const string Rel = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/";
-        package.SetRelationships(null, [new Relationship("rId1", Rel + "officeDocument", "word/document.xml")]);
-        package.AddPart("/word/document.xml", "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml", System.Text.Encoding.UTF8.GetBytes(
-            "<w:document xmlns:w=\"" + W + "\"><w:body><w:p><w:fldSimple w:instr=\" MERGEFIELD Name \\b &quot;Dear &quot; \"><w:r><w:t>x</w:t></w:r></w:fldSimple>"
-            + "<w:fldSimple w:instr=\" MERGEFIELD Qty \\# x## \"><w:r><w:t>y</w:t></w:r></w:fldSimple></w:p></w:body></w:document>"));
-        using Document merged = Document.FromPackage(package);
+        using Document merged = Document.Open(new MemoryStream(DocxZip(
+            "<w:p><w:fldSimple w:instr=\" MERGEFIELD Name \\b &quot;Dear &quot; \"><w:r><w:t>x</w:t></w:r></w:fldSimple>"
+            + "<w:fldSimple w:instr=\" MERGEFIELD Qty \\# x## \"><w:r><w:t>y</w:t></w:r></w:fldSimple></w:p>")));
         var records = new List<object?>
         {
             new Dictionary<string, object?> { ["Name"] = "Ann", ["Qty"] = 222492 },
@@ -66,5 +60,25 @@ internal static class DocumentSmoke
         }
 
         return failures;
+    }
+
+    private static byte[] DocxZip(string body)
+    {
+        const string W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+        using var ms = new MemoryStream();
+        using (var zip = new System.IO.Compression.ZipArchive(ms, System.IO.Compression.ZipArchiveMode.Create, leaveOpen: true))
+        {
+            void Add(string name, string content)
+            {
+                using Stream s = zip.CreateEntry(name, System.IO.Compression.CompressionLevel.NoCompression).Open();
+                s.Write(System.Text.Encoding.UTF8.GetBytes(content));
+            }
+
+            Add("[Content_Types].xml", "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/></Types>");
+            Add("_rels/.rels", "<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships>");
+            Add("word/document.xml", "<w:document xmlns:w=\"" + W + "\"><w:body>" + body + "</w:body></w:document>");
+        }
+
+        return ms.ToArray();
     }
 }

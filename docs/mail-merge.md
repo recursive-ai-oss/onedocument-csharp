@@ -53,6 +53,7 @@ These details were set from Microsoft's "Format field results" page and the ECMA
 
 ## Limits
 
+- The main document is saved and re-opened once per pass, so it must be a document with a real container (a file or stream opened with `Document.Open`, or a saved copy); a document built over `InMemoryPackage` is not one and raises `OfficeFormatException`.
 - A field whose begin and end are in different paragraphs is not merged (`mailmerge.field-unbalanced`).
 - Revision ids (`w:ins`, `w:del`) are shifted in single-document mode by rewriting the attribute only.
 - Unquoted nested values in `IF` that are empty or contain spaces are quoted before the comparison.

@@ -5,7 +5,6 @@ using System.Security;
 using System.Text;
 using RecursiveAI.OneDocument.Documents;
 using RecursiveAI.OneDocument.Documents.MailMerge;
-using RecursiveAI.OneDocument.Packaging;
 
 namespace RecursiveAI.OneDocument.Fuzz;
 
@@ -17,7 +16,6 @@ namespace RecursiveAI.OneDocument.Fuzz;
 internal static class MailMergeTarget
 {
     private const string Head = "<w:document xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:body>";
-    private const string Rel = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/";
 
     private static readonly object[] Records =
     [
@@ -32,21 +30,7 @@ internal static class MailMergeTarget
         string body = "<w:p><w:fldSimple w:instr=\"" + instruction + "\"><w:r><w:t>x</w:t></w:r></w:fldSimple></w:p>"
             + "<w:p><w:r><w:fldChar w:fldCharType=\"begin\"/></w:r><w:r><w:instrText xml:space=\"preserve\"> " + instruction
             + " </w:instrText></w:r><w:r><w:fldChar w:fldCharType=\"separate\"/></w:r><w:r><w:t>y</w:t></w:r><w:r><w:fldChar w:fldCharType=\"end\"/></w:r></w:p>";
-        var p = new InMemoryPackage();
-        p.SetRelationships(null, [new Relationship("rId1", Rel + "officeDocument", "word/document.xml")]);
-        p.AddPart("/word/document.xml", "application/xml", Encoding.UTF8.GetBytes(Head + body + "</w:body></w:document>"));
-
-        Document doc;
-        try
-        {
-            doc = Document.FromPackage(p);
-        }
-        catch (OfficeException)
-        {
-            return;
-        }
-
-        using (doc)
+        using (Document doc = Document.Open(new MemoryStream(DocxZip(body))))
         {
             foreach (MailMergeMode mode in new[] { MailMergeMode.PerRecord, MailMergeMode.SingleDocument })
             {
@@ -57,6 +41,25 @@ internal static class MailMergeTarget
                 }
             }
         }
+    }
+
+    private static byte[] DocxZip(string body)
+    {
+        using var ms = new MemoryStream();
+        using (var zip = new System.IO.Compression.ZipArchive(ms, System.IO.Compression.ZipArchiveMode.Create, leaveOpen: true))
+        {
+            void Add(string name, string content)
+            {
+                using Stream s = zip.CreateEntry(name, System.IO.Compression.CompressionLevel.NoCompression).Open();
+                s.Write(Encoding.UTF8.GetBytes(content));
+            }
+
+            Add("[Content_Types].xml", "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/></Types>");
+            Add("_rels/.rels", "<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships>");
+            Add("word/document.xml", Head + body + "</w:body></w:document>");
+        }
+
+        return ms.ToArray();
     }
 
     private static string Merge(Document doc, MailMergeMode mode)
@@ -72,7 +75,7 @@ internal static class MailMergeTarget
 
             return sb.ToString();
         }
-        catch (OfficeException ex)
+        catch (OfficeException ex) when (ex is not OfficeFormatException)
         {
             return ex.GetType().Name;
         }
