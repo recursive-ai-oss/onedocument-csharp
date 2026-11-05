@@ -1,5 +1,6 @@
 using System.Linq;
 using RecursiveAI.OneDocument.Documents;
+using RecursiveAI.OneDocument.Packaging;
 
 namespace RecursiveAI.OneDocument.Smoke;
 
@@ -34,6 +35,34 @@ internal static class DocumentSmoke
         if (again.Paragraphs.Last().Text != "edited & saved" || !again.ExtractText().Contains("edited & saved", StringComparison.Ordinal))
         {
             failures.Add("document edit");
+        }
+
+        // Mail merge: a MERGEFIELD with a picture and a switch, merged into one document per record.
+        return failures.Concat(MailMergeSmoke()).ToList();
+    }
+
+    private static List<string> MailMergeSmoke()
+    {
+        var failures = new List<string>();
+        const string W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+        using var package = new InMemoryPackage();
+        const string Rel = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/";
+        package.SetRelationships(null, [new Relationship("rId1", Rel + "officeDocument", "word/document.xml")]);
+        package.AddPart("/word/document.xml", "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml", System.Text.Encoding.UTF8.GetBytes(
+            "<w:document xmlns:w=\"" + W + "\"><w:body><w:p><w:fldSimple w:instr=\" MERGEFIELD Name \\b &quot;Dear &quot; \"><w:r><w:t>x</w:t></w:r></w:fldSimple>"
+            + "<w:fldSimple w:instr=\" MERGEFIELD Qty \\# x## \"><w:r><w:t>y</w:t></w:r></w:fldSimple></w:p></w:body></w:document>"));
+        using Document merged = Document.FromPackage(package);
+        var records = new List<object?>
+        {
+            new Dictionary<string, object?> { ["Name"] = "Ann", ["Qty"] = 222492 },
+            new Dictionary<string, object?> { ["Name"] = "Bo", ["Qty"] = 3 },
+        };
+        using (RecursiveAI.OneDocument.Documents.MailMerge.MailMergeResult result = merged.MailMerge(records))
+        {
+            if (result.Documents.Count != 2 || result.Documents[0].Body.Text.Trim() != "Dear Ann492" || result.Documents[1].Body.Text.Trim() != "Dear Bo3")
+            {
+                failures.Add("mail merge");
+            }
         }
 
         return failures;
