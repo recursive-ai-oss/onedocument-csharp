@@ -34,6 +34,7 @@
     <ProjectReference Include="../../src/OneOffice/OneOffice.csproj" />
     <ProjectReference Include="../../src/OneOffice.Documents/OneOffice.Documents.csproj" />
     <ProjectReference Include="../../src/OneOffice.Spreadsheets/OneOffice.Spreadsheets.csproj" />
+    <ProjectReference Include="../../src/OneOffice.Generators/OneOffice.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>

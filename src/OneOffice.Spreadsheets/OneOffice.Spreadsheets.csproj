@@ -14,6 +14,14 @@
 
   <ItemGroup>
     <ProjectReference Include="../OneOffice/OneOffice.csproj" />
+    <!-- The row-binding source generator travels inside this package, as an analyzer, and is not a reference of the library itself. -->
+    <ProjectReference Include="../OneOffice.Generators/OneOffice.Generators.csproj" ReferenceOutputAssembly="false" OutputItemType="GeneratorOutput" />
   </ItemGroup>
+
+  <Target Name="IncludeGeneratorInPackage" BeforeTargets="_GetPackageFiles" DependsOnTargets="ResolveProjectReferences">
+    <ItemGroup>
+      <None Include="@(GeneratorOutput)" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    </ItemGroup>
+  </Target>
 
 </Project>

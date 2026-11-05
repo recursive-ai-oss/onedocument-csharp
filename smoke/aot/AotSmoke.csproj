@@ -24,10 +24,12 @@
     <Compile Include="../shared/SheetSmoke.cs" Link="SheetSmoke.cs" />
     <Compile Include="../shared/StreamSmoke.cs" Link="StreamSmoke.cs" />
     <Compile Include="../shared/CsvSmoke.cs" Link="CsvSmoke.cs" />
+    <Compile Include="../shared/PocoSmoke.cs" Link="PocoSmoke.cs" />
     <Compile Include="../../tests/OneOffice.Schema.Tests/TextTree.cs" Link="TextTree.cs" />
     <ProjectReference Include="../../src/OneOffice/OneOffice.csproj" />
     <ProjectReference Include="../../src/OneOffice.Schema/OneOffice.Schema.csproj" />
     <ProjectReference Include="../../src/OneOffice.Spreadsheets/OneOffice.Spreadsheets.csproj" />
+    <ProjectReference Include="../../src/OneOffice.Generators/OneOffice.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <ProjectReference Include="../../src/OneOffice.Documents/OneOffice.Documents.csproj" />
   </ItemGroup>
 
