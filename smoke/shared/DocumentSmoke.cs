@@ -1,5 +1,6 @@
 using System.Linq;
 using RecursiveAI.OneDocument.Documents;
+using RecursiveAI.OneDocument.Formats;
 using RecursiveAI.OneDocument.Templating;
 
 namespace RecursiveAI.OneDocument.Smoke;
