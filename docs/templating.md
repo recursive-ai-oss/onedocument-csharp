@@ -79,4 +79,6 @@ A binder converts a document part to a `TemplateSource`, renders it, and rebuild
 
 ## Not here
 
-The DOCX, XLSX and PPTX binders, Word mail merge, content-control binding, rendering of image/HTML/Markdown tags, and the `Template.Render` one-liner come with the binders.
+The DOCX and XLSX binders, Word mail merge, content-control binding, rendering of image/HTML/Markdown tags, and the `Template.Render` one-liner come with the binders.
+
+The presentation binder is described in `templating-pptx.md`.
