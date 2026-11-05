@@ -17,6 +17,10 @@
     <PackageReference Include="RecursiveAI.OneRender.Image" />
     <PackageReference Include="RecursiveAI.OneRender.Fonts" />
     <PackageReference Include="RecursiveAI.OneFont" />
+    <PackageReference Include="RecursiveAI.OneImage" />
+    <PackageReference Include="RecursiveAI.OneImage.Text" />
+    <PackageReference Include="RecursiveAI.OneImage.Metafile" />
+    <PackageReference Include="RecursiveAI.OneImage.Svg" />
   </ItemGroup>
 
   <ItemGroup>
