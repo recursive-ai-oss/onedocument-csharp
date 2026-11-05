@@ -252,4 +252,40 @@ public class DocxTemplateTests
         Assert.Contains("<w:ins w:id=\"1\" w:author=\"a\"><w:r><w:t xml:space=\"preserve\">Hi A</w:t></w:r></w:ins>", xml, StringComparison.Ordinal);
         Assert.Contains("<w:tab/>", xml, StringComparison.Ordinal);
     }
+
+    [Fact]
+    public void A_table_scope_outside_a_table_is_reported_and_repeats_the_paragraphs_between_the_tags()
+    {
+        DocumentFormats.Register(FormatRegistry.Default);
+        using Document doc = TestDocs.Open(P("{% for x in xs scope=table %}") + P("{{ x }}") + P("{% endfor %}"));
+        var warnings = Template.Render(doc, Json("{\"xs\":[\"a\",\"b\"]}"));
+        Assert.Contains(warnings, d => d.Code == "template.scope-unusable" && d.Location.ToString().Contains("/word/document.xml", StringComparison.Ordinal));
+        Assert.Equal("a|b|", Texts(doc.MainMarkup.Root.OuterXml));
+    }
+
+    [Fact]
+    public void A_word_template_renders_and_saves_as_a_document()
+    {
+        DocumentFormats.Register(FormatRegistry.Default);
+        using var template = new MemoryStream();
+        using (Document created = Document.Create())
+        {
+            created.Body.AddParagraph("Hi {{ name }}");
+            created.SaveAs(template, OfficeFormat.Dotx);
+        }
+
+        template.Position = 0;
+        using var output = new MemoryStream();
+        using (Document doc = Document.Open(template))
+        {
+            Assert.Equal(OfficeFormat.Dotx, doc.Format);
+            Template.Render(doc, Json("{\"name\":\"Ada\"}"));
+            doc.SaveAs(output, OfficeFormat.Docx);
+        }
+
+        output.Position = 0;
+        using Document result = Document.Open(output);
+        Assert.Equal(OfficeFormat.Docx, result.Format);
+        Assert.Contains("Hi Ada", result.ExtractText(), StringComparison.Ordinal);
+    }
 }

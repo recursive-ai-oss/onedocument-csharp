@@ -40,6 +40,11 @@ internal static class Program
             return PptxTemplateCases.Write(args[1], args[2]);
         }
 
+        if (args.Length == 3 && args[0] == "--docx-templates")
+        {
+            return DocxTemplateCases.Write(args[1], args[2]);
+        }
+
         if (args.Length == 2 && args[0] == "--authoring")
         {
             return AuthoringCases.Write(args[1]);
