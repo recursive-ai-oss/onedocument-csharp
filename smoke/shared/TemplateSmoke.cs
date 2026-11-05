@@ -69,6 +69,21 @@ internal static class TemplateSmoke
         string rendered = sheet["A1"].Text + "|" + sheet["A2"].Text + "|" + sheet["B2"].Number + "|" + sheet["B3"].Formula;
         Check("xlsx", rendered, "Pen|Ink|1|SUM(B1:B2)");
 
+        // A picture tag adds a drawing part with the image; the check covers the package-level code that the cell store does not.
+        using Workbook pictures = Workbook.Create();
+        pictures.Sheets[0]["B2"].SetString("{% image logo width=20 %}");
+        var logo = new Dictionary<string, object?> { ["logo"] = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==" };
+        XlsxTemplateResult placed = XlsxTemplateBinder.Render(pictures, logo);
+        bool hasDrawing = false;
+        bool hasImage = false;
+        foreach (RecursiveAI.OneDocument.Packaging.IPackagePart part in pictures.Package.Parts)
+        {
+            hasDrawing |= part.Name.StartsWith("/xl/drawings/", StringComparison.Ordinal);
+            hasImage |= part.Name.StartsWith("/xl/media/", StringComparison.Ordinal);
+        }
+
+        Check("xlsx picture", placed.Warnings.Count + "|" + hasDrawing + "|" + hasImage, "0|True|True");
+
         return failures;
     }
 }

@@ -1,0 +1,13 @@
+[North] merges=
+A1 s=0 t Name
+B1 s=0 t Total
+A2 s=0 t North
+B2 s=0 n 10
+[South] merges=
+A1 s=0 t Name
+B1 s=0 t Total
+A2 s=0 t South
+B2 s=0 n 20
+extra: North:Totals=A1:B2;South:Totals_2=A1:B2
+North <conditionalFormatting sqref="B2"><cfRule type="cellIs" dxfId="0" priority="1" operator="greaterThan"><formula>15</formula></cfRule></conditionalFormatting><dataValidations count="1"><dataValidation type="list" allowBlank="1" sqref="B2"><formula1>&quot;a,b&quot;</formula1></dataValidation></dataValidations><pageMargins xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" left="0.5" right="0.5" top="0.75" bottom="0.75" header="0.3" footer="0.3"/><pageSetup xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" orientation="landscape"/><drawing xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" r:id="rId2"/><tableParts count="1"><tablePart r:id="rId1"/></tableParts>
+South <conditionalFormatting xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" sqref="B2"><cfRule type="cellIs" dxfId="0" priority="1" operator="greaterThan"><formula>15</formula></cfRule></conditionalFormatting><dataValidations xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="1"><dataValidation type="list" allowBlank="1" sqref="B2"><formula1>&quot;a,b&quot;</formula1></dataValidation></dataValidations><pageMargins xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" left="0.5" right="0.5" top="0.75" bottom="0.75" header="0.3" footer="0.3"/><pageSetup xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" orientation="landscape"/><drawing xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" r:id="rId1"/><tableParts count="1"><tablePart r:id="rId2"/></tableParts>

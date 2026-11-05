@@ -7,13 +7,13 @@ using RecursiveAI.OneDocument.Templating;
 
 namespace RecursiveAI.OneDocument.Spreadsheets.Tests;
 
-public class XlsxTemplateTests
+public partial class XlsxTemplateTests
 {
     private static readonly string GoldenDir = Path.Combine(Path.GetDirectoryName(Source())!, "..", "..", "testdata", "templates", "xlsx");
 
     private static string Source([CallerFilePath] string path = "") => path;
 
-    private sealed record Case(string Name, Action<Workbook> Build, string Json, Func<Workbook, string>? Extra = null);
+    private sealed record Case(string Name, Action<Workbook> Build, string Json, Func<Workbook, string>? Extra = null, Func<Workbook>? Create = null);
 
     private static void Put(Worksheet s, string address, object? value, string? formula = null)
     {
@@ -166,6 +166,11 @@ public class XlsxTemplateTests
             s.Rename("{{ title }}");
             Put(s, "A1", "x {{ title }}");
         }, """{"title":"North"}""");
+        foreach (Case feature in FeatureCases())
+        {
+            yield return feature;
+        }
+
         yield return new("date-and-bool-data", wb =>
         {
             Worksheet s = First(wb);
@@ -177,7 +182,7 @@ public class XlsxTemplateTests
 
     private static Workbook Build(Case c)
     {
-        Workbook wb = Workbook.Create();
+        Workbook wb = c.Create?.Invoke() ?? Workbook.Create();
         c.Build(wb);
         return wb;
     }
@@ -324,13 +329,13 @@ public class XlsxTemplateTests
     }
 
     [Fact]
-    public void AnImageTagInACellIsReportedAsNotBound()
+    public void AnImageTagWithBadDataIsReportedWithItsCell()
     {
         using Workbook wb = Workbook.Create();
         Put(wb.Sheets[0], "A1", "{% image logo %}");
         using JsonDocument json = JsonDocument.Parse("""{"logo":"x"}""");
         XlsxTemplateResult r = XlsxTemplateBinder.Render(wb, json);
-        Defect d = Assert.Single(r.Warnings, w => w.Code == "template.tag-not-bound");
+        Defect d = Assert.Single(r.Warnings, w => w.Code == "template.image-invalid");
         Assert.Contains("A1", d.Location.ToString());
     }
 
