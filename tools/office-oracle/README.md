@@ -92,7 +92,7 @@ pressed. A dialog that cannot be answered within 60 s gets the application kille
 * Probe mode (`--probe`, Word) returns, per paragraph, the list label, style and font/paragraph values and page number;
   per section the header/footer texts and links; per table cell the row, column, bold/italic; the revision list; footnote
   and endnote number styles; and comments with their reply links. `NAME.actions.txt` beside a document lists revision
-  actions (`accept-all`, `reject-all`, `accept:N`, `reject:N`, `accept-para:N`, `reject-para:N`) whose results are saved
+  actions (`accept-all`, `reject-all`, `accept:N`, `reject:N`, `accept-para:N`, `reject-para:N`, and `accept-all-stories` / `reject-all-stories`, which act on every story: headers, footers, notes, comments) whose results are saved
   next to the results file.
 
 ## Grid mode (Excel)

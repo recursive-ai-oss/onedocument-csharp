@@ -219,12 +219,15 @@ function Invoke-Word($app, $item, $path, $outDir, $res) {
                         'reject-all' { $d2.Revisions.RejectAll() }
                         'accept' { $d2.Revisions.Item([int]$arg).Accept() }
                         'reject' { $d2.Revisions.Item([int]$arg).Reject() }
+                        'accept-all-stories' { Invoke-AllStories $d2 $true }
+                        'reject-all-stories' { Invoke-AllStories $d2 $false }
                         'accept-para' { $d2.Paragraphs.Item([int]$arg).Range.Revisions.AcceptAll() }
                         'reject-para' { $d2.Paragraphs.Item([int]$arg).Range.Revisions.RejectAll() }
                         default { throw "unknown action $act" }
                     }
                     $entry.text = ($d2.Content.Text -replace '\r', '\u00b6' -replace '[\n\a]', '')
                     $entry.revisionsLeft = $d2.Revisions.Count
+                    $entry.storyRevisionsLeft = Get-StoryRevisionCount $d2
                     $dst2 = Join-Path $outDir ($base + '.' + ($act -replace '[^a-z0-9]+', '-') + '.docx')
                     $d2.SaveAs2([string]$dst2, [int]16)
                     $entry.saved = [IO.Path]::GetFileName($dst2)
@@ -239,6 +242,29 @@ function Invoke-Word($app, $item, $path, $outDir, $res) {
     } finally {
         if ($doc) { try { $doc.Close(0) } catch { } }
     }
+}
+
+# Accept or reject every revision in every story (main text, headers, footers, footnotes, endnotes, comments, text boxes).
+function Invoke-AllStories($doc, $accept) {
+    foreach ($sr in $doc.StoryRanges) {
+        $r = $sr
+        while ($null -ne $r) {
+            if ($accept) { $r.Revisions.AcceptAll() } else { $r.Revisions.RejectAll() }
+            $r = $r.NextStoryRange
+        }
+    }
+}
+
+function Get-StoryRevisionCount($doc) {
+    $n = 0
+    foreach ($sr in $doc.StoryRanges) {
+        $r = $sr
+        while ($null -ne $r) {
+            $n += $r.Revisions.Count
+            $r = $r.NextStoryRange
+        }
+    }
+    return $n
 }
 
 function Invoke-Excel($app, $item, $path, $outDir, $res) {

@@ -269,4 +269,14 @@ public class RevisionResolveTests
         Assert.True(notes.Markup.IsModified);
         Assert.Equal("\n", RevisionSet.GetText(notes, RevisionView.Accepted));
     }
+
+    [Fact]
+    public void RejectingADeletionWhoseEndTagHasWhiteSpaceRenamesTheText()
+    {
+        // XML allows </w:delText > ; found by fuzzing.
+        RevisionSet set = Set("<w:p><w:del w:id=\"1\" w:author=\"A\"><w:r><w:delText>gone</w:delText ></w:r></w:del></w:p>");
+        set.RejectAll();
+        Assert.Equal("gone\n", Text(set, RevisionView.Accepted));
+        Assert.Contains("<w:t>gone</w:t ", Xml(set));
+    }
 }
