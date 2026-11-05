@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../src/OneOffice/OneOffice.csproj" />
+    <ProjectReference Include="../../src/OneOffice.Documents/OneOffice.Documents.csproj" />
     <ProjectReference Include="../../src/OneOffice.Spreadsheets/OneOffice.Spreadsheets.csproj" />
   </ItemGroup>
 

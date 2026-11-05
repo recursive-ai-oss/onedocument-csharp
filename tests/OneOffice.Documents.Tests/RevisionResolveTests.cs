@@ -22,6 +22,18 @@ public class RevisionResolveTests
     }
 
     [Fact]
+    public void DeletedTextWithSpaceBeforeTheEndTagBecomesPlainText()
+    {
+        // Found by fuzzing: XML allows white space between an end tag's name and ">", and renaming w:delText missed that end tag.
+        const string Body = "<w:p><w:moveFrom w:id=\"7\" w:author=\"A\"><w:r><w:delText>m</w:delText ></w:r></w:moveFrom></w:p>";
+        RevisionSet reject = Set(Body);
+        reject.RejectAll();
+        Assert.DoesNotContain("delText", Xml(reject));
+        Assert.Equal("m\n", Text(reject, RevisionView.Accepted));
+        Assert.True(MarkupDocument.TryParse(System.Text.Encoding.UTF8.GetBytes(Xml(reject)), out _));
+    }
+
+    [Fact]
     public void RejectAllRestoresDeletedTextAsPlainText()
     {
         RevisionSet set = Set("<w:p>" + R("A ") + Ins(1, "Ann", R("new ")) + Del(2, "Bob", "old ") + R("end") + "</w:p>");
