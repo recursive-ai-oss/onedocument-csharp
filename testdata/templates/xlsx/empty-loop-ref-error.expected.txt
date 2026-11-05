@@ -1,0 +1,4 @@
+[Sheet1] merges=
+A1 s=0 t after
+C1 s=0 - f=#REF!+1
+D1 s=0 - f=SUM(A1:A1)

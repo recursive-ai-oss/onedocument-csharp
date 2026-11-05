@@ -1,0 +1,5 @@
+[Sheet1] merges=
+A1 s=0 n 1
+B1 s=0 t a
+A2 s=0 n 2
+B2 s=0 t b

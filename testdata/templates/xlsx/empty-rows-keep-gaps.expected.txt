@@ -1,0 +1,10 @@
+[Sheet1] merges=
+A1 s=0 t head
+A4 s=0 t Bolt
+B4 s=0 -
+A5 s=0 t Nut
+B5 s=0 -
+A6 s=0 t Gear
+B6 s=0 -
+A10 s=0 t tail
+B10 s=0 - f=A10&A1

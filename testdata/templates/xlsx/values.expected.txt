@@ -1,0 +1,4 @@
+[Sheet1] merges=
+A1 s=0 t Report Autumn
+A2 s=0 n 3
+B2 s=0 b True

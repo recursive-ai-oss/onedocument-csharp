@@ -1,0 +1,17 @@
+[Sheet1] merges=
+A1 s=0 t Bolt
+B1 s=0 n 3
+A2 s=0 t price
+B2 s=0 n 1.5
+C2 s=0 - f=B2*B1
+A3 s=0 t Nut
+B3 s=0 n 10
+A4 s=0 t price
+B4 s=0 n 0.25
+C4 s=0 - f=B4*B3
+A5 s=0 t Gear
+B5 s=0 n 2
+A6 s=0 t price
+B6 s=0 n 12
+C6 s=0 - f=B6*B5
+A7 s=0 t footer

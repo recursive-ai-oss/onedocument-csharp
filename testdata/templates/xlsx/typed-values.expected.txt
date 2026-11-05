@@ -1,0 +1,5 @@
+[Sheet1] merges=
+A1 s=0 n 10
+B1 s=0 n 15
+C1 s=0 t 15 pcs
+D1 s=0 e #DIV/0!

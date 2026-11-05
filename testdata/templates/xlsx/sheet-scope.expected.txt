@@ -1,0 +1,15 @@
+[Region North] merges=
+A1 s=0 t North
+A2 s=0 t Total
+B2 s=0 n 10
+C2 s=0 - f=B2*2
+[Region South] merges=
+A1 s=0 t South
+A2 s=0 t Total
+B2 s=0 n 20
+C2 s=0 - f=B2*2
+[Region North (2)] merges=
+A1 s=0 t North
+A2 s=0 t Total
+B2 s=0 n 5
+C2 s=0 - f=B2*2
