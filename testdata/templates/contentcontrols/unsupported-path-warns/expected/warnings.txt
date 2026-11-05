@@ -1,0 +1,1 @@
+Repaired binding.unsupported-path at /word/document.xml@473: The path /ns0:order[1]/ns0:customer[1] | /ns0:order[1]/ns0:notes[1] is outside the supported XPath subset.

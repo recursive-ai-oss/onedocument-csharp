@@ -61,7 +61,7 @@ import json, os, sys
 stage, run, instance, mode, pdf, saveas, lock, retry, wait_min, trace, nowatch, walerts, pdfvia, itemsec = sys.argv[1:]
 items = []
 for n in sorted(os.listdir(stage + "/in")):
-    if not os.path.isfile(stage + "/in/" + n) or n.endswith(".actions.txt"):
+    if not os.path.isfile(stage + "/in/" + n) or n.endswith(".actions.txt") or n.endswith(".data.csv"):
         continue
     it = {"file": "in\\" + n, "mode": mode, "exportPdf": pdf == "true", "saveAs": saveas == "true"}
     side = stage + "/in/" + n.rsplit(".", 1)[0] + ".actions.txt"

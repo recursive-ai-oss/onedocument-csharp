@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns0:order xmlns:ns0="urn:acme" id="A-1"><ns0:customer>Acme Corp</ns0:customer><ns0:due>2024-03-09T00:00:00Z</ns0:due><ns0:paid>0</ns0:paid><ns0:colour>g</ns0:colour><ns0:notes>First line</ns0:notes><ns0:lines><ns0:line><ns0:name>Alpha</ns0:name><ns0:qty>5</ns0:qty></ns0:line><ns0:line><ns0:name>Beta</ns0:name><ns0:qty>6</ns0:qty></ns0:line></ns0:lines></ns0:order>

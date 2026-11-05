@@ -35,6 +35,11 @@ internal static class Program
             return PptxCases.Write(args[1]);
         }
 
+        if (args.Length == 3 && args[0] == "--mailmerge")
+        {
+            return MailMergeCases.Write(args[1], args[2]);
+        }
+
         if (args.Length == 2 && args[0] == "--authoring")
         {
             return AuthoringCases.Write(args[1]);
@@ -62,7 +67,7 @@ internal static class Program
 
         if (args.Length != 1)
         {
-            Console.Error.WriteLine("usage: OracleCases DIR | --pptx DIR | --authoring DIR | --check DIR RESULTS");
+            Console.Error.WriteLine("usage: OracleCases DIR | --mailmerge TEMPLATES DIR | --pptx DIR | --authoring DIR | --check DIR RESULTS");
             return 2;
         }
 
