@@ -50,7 +50,7 @@ The `Office` statics (`Office.Open`, `Office.ExtractText`, `Office.Convert`) fin
 | Edited output against the ECMA-376 schemas | no new schema errors (files invalid before an edit stay invalid in the same way) |
 | Opens in Word without a repair prompt | all 45 generated and edited test documents (tables, sections, comments, notes, fields, revisions authored and resolved, content controls; DOCX, DOTX, DOCM, Flat OPC), Word 365 build 16.0.20527 |
 | Fuzzing | every parser 600 s with no findings (libFuzzer via SharpFuzz) |
-| Speed against the fastest of the Open XML SDK 3.5.1 and NPOI 2.7.6 | geomean 0.36× (x64) and 0.29× (arm64) over load, load+save, edit and extract; worst row 1.09× (untouched save of a 1,000-page document, arm64). Opening and reading only the styles is slower than the SDK on large documents because the main part is parsed on open. Method and tables: `bench/README.md` |
+| Speed against the fastest of the Open XML SDK 3.5.1 and NPOI 2.7.6 | geomean 0.36× (x64) and 0.29× (arm64) over load, load+save, edit and extract; worst row 1.09× (untouched save of a 1,000-page document, arm64). Parts are parsed on first use, so opening reads only the package structure. Method and tables: `bench/README.md` |
 
 Deviations and gaps: band regions of table styles in rows with merged cells are not yet verified against Word; text extraction leaves out embedded objects and `altChunk` content.
 
