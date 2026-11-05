@@ -32,6 +32,7 @@ internal sealed class StoryRebuilder
     private readonly RenderContext _ctx;
     private readonly ParagraphEmitter _emitter;
     private readonly List<TemplateUnitRange?> _ranges;
+    private readonly List<RepeatKind> _kinds;
     private readonly IReadOnlyList<TemplateBlockInfo> _blocks;
     private readonly HashSet<int> _sectionBlocks;
     private readonly List<Entry> _stack = [];
@@ -42,6 +43,7 @@ internal sealed class StoryRebuilder
         _ctx = ctx;
         _emitter = new ParagraphEmitter(ctx, story);
         _ranges = resolver.Ranges;
+        _kinds = resolver.Kinds;
         _blocks = blocks;
         _sectionBlocks = resolver.SectionBlocks;
     }
@@ -103,13 +105,25 @@ internal sealed class StoryRebuilder
         foreach (TemplateLoopFrame f in loops)
         {
             (int first, int last) = RangeOf(f.Block);
-            if (first <= node.FirstUnit && node.LastUnit <= last)
+            if (first <= node.FirstUnit && node.LastUnit <= last && Repeats(f.Block, node))
             {
                 (sb ??= new StringBuilder()).Append(f.Block.ToString(CultureInfo.InvariantCulture)).Append(':').Append(f.Iteration.ToString(CultureInfo.InvariantCulture)).Append(';');
             }
         }
 
         return sb?.ToString() ?? string.Empty;
+    }
+
+    private bool Repeats(int block, StoryNode node)
+    {
+        RepeatKind kind = block >= 0 && block < _kinds.Count ? _kinds[block] : RepeatKind.Any;
+        return kind switch
+        {
+            RepeatKind.Row => node.Kind == StoryNodeKind.Row,
+            RepeatKind.Table => node.Kind == StoryNodeKind.Table,
+            RepeatKind.None => false,
+            _ => true,
+        };
     }
 
     private (int First, int Last) RangeOf(int block)

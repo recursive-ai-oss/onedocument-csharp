@@ -3,6 +3,22 @@ using RecursiveAI.OneDocument.Templating;
 
 namespace RecursiveAI.OneDocument.Documents.Templating;
 
+/// <summary>The kind of structure a block repeats as a whole.</summary>
+internal enum RepeatKind
+{
+    /// <summary>Whatever lies in the block's range: paragraphs, tables, rows.</summary>
+    Any,
+
+    /// <summary>Table rows only; the table around them stays one table.</summary>
+    Row,
+
+    /// <summary>Whole tables.</summary>
+    Table,
+
+    /// <summary>Paragraphs only (sections are repeated as paragraphs with their section breaks).</summary>
+    None,
+}
+
 /// <summary>
 /// Tells the engine which paragraphs a block repeats or keeps, from the structure of the story: a block whose tags sit in one table row repeats the row,
 /// <c>scope=table-row</c> forces that, <c>scope=table</c> repeats whole tables, and <c>scope=section</c> repeats whole sections. Everything else repeats the paragraphs
@@ -13,14 +29,21 @@ internal sealed class DocxScopeResolver(StoryModel story, List<Defect> defects) 
     /// <summary>The range chosen for each block in the order the engine asked, or null when it kept the default meaning.</summary>
     public List<TemplateUnitRange?> Ranges { get; } = [];
 
+    /// <summary>What each block repeats, parallel to <see cref="Ranges"/>.</summary>
+    public List<RepeatKind> Kinds { get; } = [];
+
+    private RepeatKind _kind = RepeatKind.Any;
+
     /// <summary>The blocks that repeat sections.</summary>
     public HashSet<int> SectionBlocks { get; } = [];
 
     public TemplateUnitRange? Resolve(in TemplateBlockInfo block)
     {
         int index = Ranges.Count;
+        _kind = RepeatKind.Any;
         TemplateUnitRange? range = Choose(block, index);
         Ranges.Add(range);
+        Kinds.Add(range is null ? RepeatKind.Any : _kind);
         return range;
     }
 
@@ -100,6 +123,7 @@ internal sealed class DocxScopeResolver(StoryModel story, List<Defect> defects) 
             return null;
         }
 
+        _kind = RepeatKind.Row;
         return new TemplateUnitRange(Math.Min(rowA.FirstUnit, block.OpenUnit), Math.Max(rowB.LastUnit, block.CloseUnit));
     }
 
@@ -112,6 +136,7 @@ internal sealed class DocxScopeResolver(StoryModel story, List<Defect> defects) 
             return Fail(block, true, "scope=table is used outside a table.");
         }
 
+        _kind = RepeatKind.Table;
         return new TemplateUnitRange(Math.Min(a.FirstUnit, block.OpenUnit), Math.Max(b.LastUnit, block.CloseUnit));
     }
 
@@ -146,6 +171,7 @@ internal sealed class DocxScopeResolver(StoryModel story, List<Defect> defects) 
         }
 
         SectionBlocks.Add(index);
+        _kind = RepeatKind.None;
         return new TemplateUnitRange(first, last);
     }
 
