@@ -65,6 +65,9 @@ internal sealed class WorkbookResolver(CalcEngine engine) : ICalcResolver
 
     private CalcBook Book => engine.Book;
 
+    public CalcValue GetPivotData(string dataField, string? sheet, int row, int column, IReadOnlyList<KeyValuePair<string, CalcValue>> items) =>
+        Pivots.PivotLookup.Get(engine.Workbook, sheet, row, column, dataField, items);
+
     public CalcValue GetCell(string? sheet, int row, int column)
     {
         int si = Book.FindSheet(sheet, 0);
