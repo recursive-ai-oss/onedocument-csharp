@@ -32,7 +32,7 @@ public static partial class LayoutEngine
                 return;
             }
 
-            if (_page is null)
+            if (NeedsPage)
             {
                 StartPage();
                 if (Stopped)
@@ -44,9 +44,17 @@ public static partial class LayoutEngine
             if (_forceBreakBeforeNext)
             {
                 _forceBreakBeforeNext = false;
-                if (_pageHasContent)
+                if (!_pageHasContent)
+                {
+                    // Nothing follows a break on an empty page or column: no blank one is made.
+                }
+                else if (_forceIsColumn)
                 {
                     NewPage(honourSpace: true);
+                }
+                else
+                {
+                    ForcePage(honourSpace: true);
                 }
             }
 
@@ -79,11 +87,12 @@ public static partial class LayoutEngine
 
                 CloseDeferred(part);
                 LayoutPage page = _page!;
-                LayoutTable node = TableEmitter.Emit(ft, part.Rows, part.Cells, page.ContentArea.X + ft.Left, _y);
+                LayoutTable node = TableEmitter.Emit(ft, part.Rows, part.Cells, _colX + ft.Left, _y);
                 node.ContinuesFromPreviousPage = partIndex > 0;
                 node.ContinuesOnNextPage = continuesOn;
                 page.Add(node);
                 _y += part.Height;
+                _regionMaxY = Math.Max(_regionMaxY, _y);
                 _pageHasContent = true;
                 _honourSpaceBefore = true;
                 part = new Part();
@@ -97,7 +106,7 @@ public static partial class LayoutEngine
                     AddRepeatedHeaders(ft, part);
                 }
 
-                double pageBottom = _page!.ContentArea.Bottom;
+                double pageBottom = _limitBottom;
                 double avail = pageBottom - (_y + part.Height);
                 bool pageOccupied = _pageHasContent || part.BodyRows > 0;
                 int e = breakEnd >= r ? breakEnd : ft.GroupEnd[r];
@@ -121,7 +130,7 @@ public static partial class LayoutEngine
                     continue;
                 }
 
-                double pageHeight = _page.ContentArea.Height;
+                double pageHeight = _limitBottom - _regionTop;
                 if (e == r && !inBrokenGroup)
                 {
                     FormattedRow row = ft.Rows[r];
@@ -238,7 +247,7 @@ public static partial class LayoutEngine
                 h += ft.Rows[i].Height + ft.Spacing;
             }
 
-            if (h > _page!.ContentArea.Height * 0.5)
+            if (h > (_limitBottom - _regionTop) * 0.5)
             {
                 return;
             }

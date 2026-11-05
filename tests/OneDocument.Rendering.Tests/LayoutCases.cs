@@ -78,6 +78,8 @@ public static class LayoutCases
         Add("38-default-tab-stop", TestDocx.P("a\tb\tc\td"), null, "<w:settings xmlns:w=\"" + TestDocx.W + "\"><w:defaultTabStop w:val=\"1440\"/><w:compat><w:compatSetting w:name=\"compatibilityMode\" w:uri=\"http://schemas.microsoft.com/office/word\" w:val=\"15\"/></w:compat></w:settings>");
         Add("39-wide-document", string.Concat(Enumerable.Range(0, 200).Select(i => TestDocx.P(i + ": " + Fox))));
         Add("40-thai", TestDocx.P("\u0E19\u0E35\u0E48\u0E04\u0E37\u0E2D\u0E22\u0E48\u0E2D\u0E2B\u0E19\u0E49\u0E32\u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22\u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E17\u0E14\u0E2A\u0E2D\u0E1A\u0E01\u0E32\u0E23\u0E41\u0E1A\u0E48\u0E07\u0E1A\u0E23\u0E23\u0E17\u0E31\u0E14"));
+        list.AddRange(PageLayoutCases.All());
+
         list.AddRange(TableCases.All());
         return list;
     }
