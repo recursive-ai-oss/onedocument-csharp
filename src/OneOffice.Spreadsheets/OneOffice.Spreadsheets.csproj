@@ -33,4 +33,10 @@
     </ItemGroup>
   </Target>
 
+  <ItemGroup>
+    <!-- The build assets travel in the package and are compiled into the application that references it, not into this library. -->
+    <Compile Remove="build/**" />
+    <None Include="build/RecursiveAI.OneOffice.Spreadsheets.targets;build/RecursiveAI.OneOffice.Spreadsheets.cs" Pack="true" PackagePath="buildTransitive/" />
+  </ItemGroup>
+
 </Project>

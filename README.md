@@ -25,7 +25,7 @@ doc.Save();                      // atomic; only word/document.xml changes
 string text = doc.ExtractText();
 ```
 
-The `Office` statics (`Office.Open`, `Office.ExtractText`, `Office.Convert`) find readers through `FormatRegistry.Default`; an application calls `DocumentFormats.Register(FormatRegistry.Default)` once at start. `Document.Open` and `Office.ExtractText` need no registration.
+The `Office` statics (`Office.Open`, `Office.ExtractText`, `Office.Convert`) find readers of every kind package the application references; no registration call is needed (each kind package registers itself into the referencing C# project at build time, with no reflection, so NativeAOT and trimming keep only the kinds you use). A kind whose package is not referenced raises `FormatNotAvailableException` naming the format.
 
 ## Formats
 
