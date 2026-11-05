@@ -90,9 +90,9 @@ internal static class FormulaTarget
 
         _ = FormulaPrinter.Print(n, new FormulaPrintOptions { Form = FormulaForm.Display, Locale = o.Locale });
         _ = FormulaPrinter.Print(FormulaTranslator.Translate(n, 3, -2));
-        if (HasR1C1Name(n))
+        if (HasR1C1Name(n) || System.Text.RegularExpressions.Regex.IsMatch(file, @"(?i)(^|[^\w.'])R\d*C\d*(:\w+)?!"))
         {
-            return; // A name such as r or c reads as a reference in R1C1 text; Excel does not allow such names.
+            return; // A name or unquoted sheet name such as r, c or R1C1 reads as a reference in R1C1 text; Excel does not allow such names.
         }
 
         string r1 = FormulaPrinter.Print(n, new FormulaPrintOptions { Syntax = FormulaSyntax.R1C1, OriginRow = 7, OriginColumn = 5 });
@@ -131,6 +131,11 @@ internal static class FormulaTarget
         if (n is NameNode nn && (RefSyntax.LooksLikeR1C1(nn.Name) || (nn.Name.Length <= 2 && nn.Name.Length > 0 && char.ToUpperInvariant(nn.Name[0]) is 'R' or 'C')))
         {
             return true;
+        }
+
+        if (n is StructuredReferenceNode { Table: { } tbl } sr && (RefSyntax.LooksLikeR1C1(tbl) || (tbl.Length <= 2 && tbl.Length > 0 && char.ToUpperInvariant(tbl[0]) is 'R' or 'C')))
+        {
+            return true; // A table named like a cell reference cannot be told apart in R1C1 text either.
         }
 
         foreach (FormulaNode c in n.Children)
