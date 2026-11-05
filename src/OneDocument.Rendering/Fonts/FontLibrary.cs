@@ -61,6 +61,15 @@ public sealed class FontLibrary : IFontProvider
             c._fallbacks.Add(new Entry(info.Family, info.Weight, info.Slant == FontSlant.Italic, () => FontFace.Load(info.ReadAllBytes(), info.FaceIndex)));
         }
 
+        // The math font: Cambria Math has no open twin, and Noto Sans Math carries a MATH table, which equation layout needs.
+        // It is small (about 650 kB) and loads on first use.
+        foreach (FontFaceInfo info in OneRender.Fonts.Noto.NotoMathFonts.Package.Faces)
+        {
+            var entry = new Entry(info.Family, info.Weight, info.Slant == FontSlant.Italic, () => FontFace.Load(info.ReadAllBytes(), info.FaceIndex));
+            c.AddEntry(entry);
+            c._fallbacks.Add(entry);
+        }
+
         return c;
     }
 
