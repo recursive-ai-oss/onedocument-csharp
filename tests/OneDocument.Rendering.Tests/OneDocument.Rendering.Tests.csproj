@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="xunit.v3" />
+    <PackageReference Include="RecursiveAI.OnePdf" />
     <PackageReference Include="RecursiveAI.OneRender.Fonts.Noto.Arabic" />
     <PackageReference Include="RecursiveAI.OneRender.Fonts.Noto.Hebrew" />
     <PackageReference Include="RecursiveAI.OneRender.Fonts.Noto.Thai" />

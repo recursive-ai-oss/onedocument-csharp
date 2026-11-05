@@ -46,7 +46,7 @@ public sealed class RenderTests
         Assert.StartsWith("%PDF-", Encoding.ASCII.GetString(pdf, 0, 8), StringComparison.Ordinal);
         string text = Encoding.Latin1.GetString(pdf);
         Assert.Contains("/StructTreeRoot", text, StringComparison.Ordinal);
-        Assert.Equal(layout.Pages.Count, CountPages(text));
+        Assert.Equal(layout.Pages.Count, CountPages(pdf));
         Assert.True(layout.Pages.Count >= 1);
         Assert.All(layout.Pages.SelectMany(p => p.Paragraphs).SelectMany(p => p.Lines), l => Assert.True(l.Bounds.Width >= 0));
     }
@@ -87,26 +87,47 @@ public sealed class RenderTests
     [Fact]
     public void HeadingsListsAndLinksAreTagged()
     {
-        using Document d = Document.Open(new MemoryStream(Docx("16-headings")), leaveOpen: false);
-        using var ms = new MemoryStream();
-        DocumentRenderer.WritePdf(d, ms, new PdfRenderOptions { Layout = new LayoutOptions { Fonts = TestFonts.Library }, Tagged = true, Compress = false });
-        string text = Encoding.Latin1.GetString(ms.ToArray());
-        Assert.Contains("/H1", text, StringComparison.Ordinal);
-        Assert.Contains("/P", text, StringComparison.Ordinal);
+        HashSet<string> headings = StructureTypes("16-headings");
+        Assert.Contains("H1", headings);
+        Assert.Contains("P", headings);
 
-        using Document list = Document.Open(new MemoryStream(Docx("17-numbered-list")), leaveOpen: false);
-        using var ms2 = new MemoryStream();
-        DocumentRenderer.WritePdf(list, ms2, new PdfRenderOptions { Layout = new LayoutOptions { Fonts = TestFonts.Library }, Compress = false });
-        string listText = Encoding.Latin1.GetString(ms2.ToArray());
-        Assert.Contains("/LBody", listText, StringComparison.Ordinal);
-        Assert.Contains("/Lbl", listText, StringComparison.Ordinal);
+        HashSet<string> list = StructureTypes("17-numbered-list");
+        Assert.Contains("LBody", list);
+        Assert.Contains("Lbl", list);
 
         using Document link = Document.Open(new MemoryStream(Docx("30-hyperlink")), leaveOpen: false);
         using var ms3 = new MemoryStream();
         DocumentRenderer.WritePdf(link, ms3, new PdfRenderOptions { Layout = new LayoutOptions { Fonts = TestFonts.Library }, Compress = false });
-        Assert.Contains("https://example.org/", Encoding.Latin1.GetString(ms3.ToArray()), StringComparison.Ordinal);
+        Assert.Contains("Link", StructureTypes("30-hyperlink"));
     }
 
-    private static int CountPages(string pdf) =>
-        System.Text.RegularExpressions.Regex.Count(pdf, @"/Type\s*/Page(?![a-zA-Z])");
+    // Structure elements sit in compressed object streams, so they are read back through a PDF reader.
+    private static HashSet<string> StructureTypes(string name)
+    {
+        using Document d = Document.Open(new MemoryStream(Docx(name)), leaveOpen: false);
+        using var ms = new MemoryStream();
+        DocumentRenderer.WritePdf(d, ms, new PdfRenderOptions { Layout = new LayoutOptions { Fonts = TestFonts.Library } });
+        using var pdf = OnePdf.PdfDocument.Open(ms.ToArray());
+        OnePdf.PdfStructureTree tree = pdf.StructureTree ?? throw new InvalidOperationException("no structure tree");
+        return [.. tree.Elements().Select(e => e.Type)];
+    }
+
+    [Fact]
+    public void ABadPageSizeIsReportedAsRenderFailed()
+    {
+        // A page far past the pixel ceiling cannot be rasterized; the failure must leave as the typed exception, not an ArgumentException.
+        string section = "<w:sectPr><w:pgSz w:w=\"400000\" w:h=\"400000\"/><w:pgMar w:top=\"0\" w:right=\"0\" w:bottom=\"0\" w:left=\"0\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\"/></w:sectPr>";
+        byte[] docx = TestDocx.Bytes(TestDocx.P("x"), null, null, null, section);
+        using Document d = Document.Open(new MemoryStream(docx), leaveOpen: false);
+        LayoutDocument layout = LayoutEngine.Layout(d, new LayoutOptions { Fonts = TestFonts.Library });
+        OfficeFormatException ex = Assert.Throws<OfficeFormatException>(() => DocumentRenderer.RenderPng(layout.Pages[0]));
+        Assert.Equal("render.failed", ex.Defect.Code);
+    }
+
+    // Page objects sit in compressed object streams, so the count comes from a PDF reader, not a text scan.
+    private static int CountPages(byte[] pdf)
+    {
+        using var document = OnePdf.PdfDocument.Open(pdf);
+        return document.PageCount;
+    }
 }

@@ -96,6 +96,9 @@ public static class DocumentRenderer
         }
     }
 
+    /// <summary>The most pixels <see cref="RenderPng"/> draws for one page (100 million, about 400 MB of pixels).</summary>
+    public const long MaxPngPixels = 100_000_000;
+
     /// <summary>Renders one page as a PNG at <see cref="PngDpi"/>.</summary>
     /// <param name="page">The page.</param>
     /// <param name="language">The document's default language, for tagging (unused in the image).</param>
@@ -108,6 +111,12 @@ public static class DocumentRenderer
         double ratio = PngDpi / 96.0;
         int w = (int)Math.Ceiling(page.Width * LayoutPainter.PixelsPerPoint * ratio);
         int h = (int)Math.Ceiling(page.Height * LayoutPainter.PixelsPerPoint * ratio);
+        // The page size comes from the document, so an absurd one must not become an absurd allocation.
+        if (w < 1 || h < 1 || (long)w * h > MaxPngPixels)
+        {
+            throw new OfficeFormatException(DefectKind.Structure, "render.failed", $"The page cannot be drawn as a {w} x {h} pixel image.");
+        }
+
         try
         {
             RgbaImage image = DisplayListRasterizer.Render(list, w, h, new RasterOptions { DevicePixelRatio = (float)ratio });
