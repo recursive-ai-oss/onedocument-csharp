@@ -25,7 +25,9 @@ internal static class NumFmtSmoke
         Check("# ?/?", 5.25, "5 1/4");
         Check("General", 1.0 / 3, "0.333333333");
         Check("0.00E+00", 12200000, "1.22E+07");
-        Check("[DBNum1]0", 123, "\u4e00\u767e\u4e8c\u5341\u4e09");
+        Check("[DBNum1][$-804]0", 123, "\u4e00\u4e8c\u4e09");
+        Check("[$-419]mmmm", 45000, "\u041c\u0430\u0440\u0442");
+        Check("# ?/?", 5.3, "5 2/7");
         if (NumberFormat.TryParse("0.0.0", out _, out NumberFormatDefect? d) || d.Code != "numfmt.multiple-decimal-points")
         {
             failures.Add("numfmt defect");

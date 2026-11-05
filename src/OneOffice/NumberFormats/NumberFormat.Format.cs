@@ -80,7 +80,12 @@ public sealed partial class NumberFormat
         }
 
         NumberFormatCulture culture = options.Culture ?? NumberFormatCulture.EnglishUnitedStates;
-        int idx = SelectSection(value, out bool dropSign);
+        int idx = SelectSection(value, out bool dropSign, out bool noSection);
+        if (noSection)
+        {
+            return new FormatResult(FormatStatus.NotRepresentable, 0);
+        }
+
         NumberFormatSection sec = _sections[idx];
         bool neg = value < 0 && !dropSign;
         double abs = Math.Abs(value);
@@ -147,7 +152,7 @@ public sealed partial class NumberFormat
 
                 break;
             case NumberFormatSectionKind.Literal:
-                EmitLiteral(ref w, sec, value, culture, options);
+                EmitLiteral(ref w, sec, value, neg, culture, options);
                 break;
             case NumberFormatSectionKind.General:
                 EmitGeneralSection(ref w, sec, abs, neg, culture, options);
@@ -245,9 +250,10 @@ public sealed partial class NumberFormat
     // ECMA-376 Part 1 §18.8.31: with one section it is used for all numbers; with two, the first is for positive numbers and zero and
     // the second for negative numbers; with three or four, positive, negative, zero. An explicit condition replaces the default test;
     // a section without one that comes last takes whatever is left.
-    private int SelectSection(double v, out bool dropSign)
+    private int SelectSection(double v, out bool dropSign, out bool notFound)
     {
         dropSign = false;
+        notFound = false;
         int count = _sections.Length == 4 ? 3 : _sections.Length;
         if (count == 1)
         {
@@ -290,9 +296,11 @@ public sealed partial class NumberFormat
             chosen = count - 1;
         }
 
-        // The minus sign is not shown when the negative section is selected implicitly: a second or third section with no condition
-        // of its own, when no section has one. Observed in Excel: once any section has a condition the leftover sections show the
-        // sign, and a section whose condition says "below zero" supplies the sign itself.
+        // The minus sign is not shown when a section is for negative numbers only. Observed in Excel (1900 grid, TEXT and cells):
+        //  - with no conditions anywhere, the second and third sections are the negative ones: no sign;
+        //  - a section with a condition drops the sign when the condition holds only below zero ([<0], [<-3], [<=-3]); [<=0] and [<5] keep it;
+        //  - a leftover section after conditions drops it when the first condition is <, <= or <> ([<=-3]0;0.0), and keeps it after
+        //    >, >= or = ([>100]"big";0.0).
         bool anyCondition = false;
         for (int i = 0; i < count; i++)
         {
@@ -300,24 +308,54 @@ public sealed partial class NumberFormat
         }
 
         NumberFormatCondition? chosenCondition = _sections[chosen].Condition;
-        dropSign = v < 0 && (chosenCondition is null
-            ? chosen >= 1 && !anyCondition
-            : chosenCondition.Value.Operator is "<" or "<=" && chosenCondition.Value.Operand <= 0);
+        if (v >= 0)
+        {
+            dropSign = false;
+        }
+        else if (chosenCondition is { } cc)
+        {
+            dropSign = (cc.Operator == "<" && cc.Operand <= 0) || (cc.Operator is "<=" or "=" && cc.Operand < 0);
+        }
+        else if (!anyCondition)
+        {
+            dropSign = chosen >= 1;
+        }
+        else
+        {
+            dropSign = chosen >= 1 && _sections[0].Condition is { Operator: "<" or "<=" or "<>" };
+        }
+
+        // Excel shows no number at all when every section has a condition and none matches.
+        if (!found)
+        {
+            notFound = true;
+        }
+
         return chosen;
     }
 
-    private static void EmitLiteral(ref Writer w, NumberFormatSection sec, double value, NumberFormatCulture culture, FormatOptions options)
+    private static void EmitLiteral(ref Writer w, NumberFormatSection sec, double value, bool neg, NumberFormatCulture culture, FormatOptions options)
     {
+        // Observed in Excel: a number put through a format that has only a text section (@, "x"@) is shown the way General shows it,
+        // without the format's literal text.
+        if (sec.ContainsText)
+        {
+            NumberWriter.AppendGeneral(ref w, Math.Abs(value), value < 0, GeneralWidth(options), culture);
+            return;
+        }
+
+        // Observed in Excel: a negative number in a section of plain text still gets its minus sign ([<=0]"n" shows -n).
+        if (neg)
+        {
+            w.Append('-');
+        }
+
         foreach (Element e in sec.Elements)
         {
             switch (e.Kind)
             {
                 case EK.Literal:
                     w.Append(e.Text);
-                    break;
-                case EK.At:
-                    // A number in a text-only section is shown the way General shows it.
-                    NumberWriter.AppendGeneral(ref w, Math.Abs(value), value < 0, GeneralWidth(options), culture);
                     break;
                 case EK.Fill:
                     w.SetFill(e.Ch);

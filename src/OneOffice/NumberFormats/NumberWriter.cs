@@ -269,6 +269,24 @@ internal static class NumberWriter
         }
     }
 
+    // A whole number held in a double, as Excel shows it: 15 significant digits, zeros after them.
+    internal static void AppendWholeNumber(ref Writer w, double value, int minDigits)
+    {
+        if (value < 1e15)
+        {
+            AppendPadded(ref w, (long)value, minDigits);
+            return;
+        }
+
+        // Fixed small buffer: Extract fills at most 24 digits.
+        Span<byte> digits = stackalloc byte[24];
+        Extract(value, digits, out int n, out int pt);
+        for (int i = 0; i < pt; i++)
+        {
+            w.Append((char)('0' + (i < n ? digits[i] : 0)));
+        }
+    }
+
     internal static void AppendPadded(ref Writer w, long value, int minDigits)
     {
         // Fixed small buffer: a long or double prints in at most 24 characters.
@@ -534,7 +552,19 @@ internal static class NumberWriter
             w.Append('-');
         }
 
-        if (e10 + 1 > Math.Min(width, 15) || e10 < -4)
+        // Observed in Excel (TEXT and cells alike): below one, the plain form wins unless the scientific form keeps more of the digits.
+        // 0.00001 and 0.000000001 stay plain (one digit either way), 0.000123457 stays plain (six digits either way), and
+        // 0.000000012345 turns to 1.2345E-08 (the plain form would keep two of its five digits).
+        bool tinyUsesExponent = false;
+        if (e10 < 0)
+        {
+            int expDigits = e10 <= -100 ? 5 : 4;
+            int plainKept = Math.Min(n, Math.Max(0, width - 2 - (-e10 - 1)));
+            int sciKept = Math.Min(n, Math.Max(1, width - expDigits - 1));
+            tinyUsesExponent = plainKept < sciKept;
+        }
+
+        if (e10 + 1 > Math.Min(width, 15) || tinyUsesExponent)
         {
             int expLen = Math.Abs(e10) >= 100 ? 5 : 4;
             int m = Math.Max(1, Math.Min(15, width - 1 - expLen));

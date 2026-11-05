@@ -274,7 +274,8 @@ internal static class FormatParser
                 else
                 {
                     locale = lcid;
-                    calendar = (v >> 16) & 0xFF;
+                    // The two bytes above the language: the calendar, then the numeral system.
+                    calendar = (v >> 16) & 0xFFFF;
                 }
             }
             else if (dash >= 0 && dash == rest.Length - 1)
@@ -617,7 +618,9 @@ internal static class FormatParser
         section.Condition = cond;
         section.Color = color;
         section.LocaleId = locale;
-        section.CalendarId = calendar;
+        section.CalendarId = calendar & 0xFF;
+        section.NumeralSystem = calendar >> 8;
+        calendar &= 0xFF;
         section.DbNum = dbnum;
         section.ContainsText = hasAt;
         section.HasPercent = hasPercent;

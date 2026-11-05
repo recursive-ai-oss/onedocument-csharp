@@ -175,6 +175,9 @@ public sealed class NumberFormatSection
     /// <summary>The Windows calendar identifier from the high bits of a locale tag (3 Japanese, 4 Minguo, 7 Thai Buddhist), or 0.</summary>
     public int CalendarId { get; internal set; }
 
+    /// <summary>The numeral-system byte of an extended locale tag such as <c>[$-D07041E]</c> (0 when the tag has none; 0x0D is Thai digits).</summary>
+    public int NumeralSystem { get; internal set; }
+
     /// <summary>1 to 3 for <c>[DBNum1]</c> to <c>[DBNum3]</c>, or 0.</summary>
     public int DbNum { get; internal set; }
 

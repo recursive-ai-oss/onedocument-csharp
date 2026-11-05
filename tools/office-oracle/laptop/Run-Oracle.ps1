@@ -3,7 +3,7 @@
 # This script is started by a scheduled task that is registered to run only while the user is logged on,
 # because Office automation needs an interactive desktop session. It is the only thing that touches Office.
 #
-# Input : -Job names the job directory (or, without it, <base>\jobs\current.txt does); <job>\job.json describes the batch:
+# Input : -JobDir names the job directory (or, without it, <base>\jobs\current.txt does); <job>\job.json describes the batch:
 #   { "run": "name", "instance": "who", "maxMinutes": 25, "lockPath": null, "lockRetrySeconds": 60,
 #     "lockWaitMinutes": 20, "items": [ { "file": "in\\a.docx", "mode": "open|probe|grid",
 #                                          "exportPdf": false, "saveAs": false } ] }
@@ -15,7 +15,7 @@
 # Close, OK, in that order), so the open call fails instead of repairing. A prompt whose text mentions
 # unreadable/corrupt/problem-with-content/recover/repair is classified "repair-prompt".
 
-param([string]$Base = (Join-Path $env:USERPROFILE 'oneoffice'), [string]$Job = '')
+param([string]$Base = (Join-Path $env:USERPROFILE 'oneoffice'), [string]$JobDir = '')
 
 $ErrorActionPreference = 'Stop'
 $utf8 = New-Object System.Text.UTF8Encoding($false)
@@ -316,8 +316,8 @@ function Invoke-PowerPoint($app, $item, $path, $outDir, $res) {
 # ---- main ----------------------------------------------------------------------------------------------
 
 try {
-    # -Job names the run's own directory; the old shared pointer file is only a fallback for manual starts.
-    $jobRoot = if ($Job) { $Job } else { (Get-Content (Join-Path $Base 'jobs\current.txt') -Raw).Trim() }
+    # -JobDir names the run's own directory; the old shared pointer file is only a fallback for manual starts.
+    $jobRoot = if ($JobDir) { $JobDir } else { (Get-Content (Join-Path $Base 'jobs\current.txt') -Raw).Trim() }
     $out = Join-Path $jobRoot 'out'
     New-Item -ItemType Directory -Force -Path $out | Out-Null
     $job = Get-Content (Join-Path $jobRoot 'job.json') -Raw | ConvertFrom-Json

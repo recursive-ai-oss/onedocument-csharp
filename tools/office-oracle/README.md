@@ -106,10 +106,10 @@ build. It is used by the number-format grid in `tools/NumFmtGrid`.
 ## Runs are self-contained
 
 Each `run` registers its own one-off task, `OneOfficeOracle-<run>` (`laptop/Start-Run.ps1`), whose command line carries the
-run's job directory (`Run-Oracle.ps1 -Job`), and deletes it when the results are back. There is no shared pointer file any
+run's job directory (`Run-Oracle.ps1 -JobDir`), and deletes it when the results are back. There is no shared pointer file any
 more, so two runs started at the same time cannot overwrite each other; they queue on the shared lock inside the script
 (the one that gets the lock goes first, the other waits up to `--lock-wait`). Run names may contain only letters, digits,
-`.`, `_` and `-`. `jobs\current.txt` is still honoured when the script is started by hand without `-Job`.
+`.`, `_` and `-`. `jobs\current.txt` is still honoured when the script is started by hand without `-JobDir`.
 
 Every run ends by quitting the applications it started and killing, by process id, any it started that did not exit; the
 result's `end` line lists the Office processes left, which should be empty unless the owner has the application open.

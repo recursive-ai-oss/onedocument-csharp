@@ -183,7 +183,8 @@ public class NumberFormatTests
     [InlineData(1.0 / 3, "0.333333333")]
     [InlineData(100.0 / 3, "33.33333333")]
     [InlineData(0.0001, "0.0001")]
-    [InlineData(0.00001, "1E-05")]
+    [InlineData(0.00001, "0.00001")] // observed in Excel: the plain form stays when it keeps as many digits
+    [InlineData(1.2345e-8, "1.2345E-08")]
     [InlineData(1e300, "1E+300")]
     [InlineData(0.000123456789, "0.000123457")]
     [InlineData(123456.7891234, "123456.7891")]
@@ -353,19 +354,25 @@ public class NumberFormatTests
         Assert.Equal("水曜日", F("[$-411]dddd", 45000));
         Assert.Equal("午前 9:00", F("[$-411]AM/PM h:mm", 0.375));
         Assert.Equal("令和5年", F("[$-411]ggge\"年\"", 45000));
-        Assert.Equal("112", F("[$-404]e", 45000));
+        Assert.Equal("2023", F("[$-404]e", 45000)); // observed in Excel: the Taiwan tag alone keeps the Gregorian year
         Assert.Equal("2566", F("bbbb", 45000));
     }
 
     [Fact]
     public void DbNum()
     {
-        Assert.Equal("一百二十三", F("[DBNum1]0", 123));
-        Assert.Equal("一万零五百", F("[DBNum1]0", 10500));
-        Assert.Equal("〇", F("[DBNum1]0", 0));
-        Assert.Equal("壹佰贰拾叁", F("[DBNum2]0", 123));
+        // All of these were read back from Excel (cell display, zh-CN and ja-JP tags): digits one by one, place values only for
+        // unpadded date parts, and no effect at all without a CJK locale.
+        Assert.Equal("123", F("[DBNum1]0", 123));
+        Assert.Equal("一二三", F("[DBNum1][$-804]0", 123));
+        Assert.Equal("一○五", F("[DBNum1][$-804]0", 105));
+        Assert.Equal("一〇五", F("[DBNum1][$-411]0", 105));
+        Assert.Equal("○", F("[DBNum1][$-804]0", 0));
+        Assert.Equal("壹贰叁", F("[DBNum2][$-804]0", 123));
         Assert.Equal("１２３", F("[$-411][DBNum3]0", 123));
-        Assert.Equal("二〇二三", F("[DBNum1]yyyy", 45000));
+        Assert.Equal("二○二三", F("[DBNum1][$-804]yyyy", 45000));
+        Assert.Equal("十二月三十一日", F("[DBNum1][$-804]m\"月\"d\"日\"", 44926));
+        Assert.Equal("壹拾贰月叁拾壹日", F("[DBNum2][$-804]m\"月\"d\"日\"", 44926));
     }
 
     [Fact]
@@ -522,14 +529,13 @@ public class NumberFormatTests
     public void GeneralInsideASectionAndOtherDetails()
     {
         Assert.Equal("-x1", F("\"x\"General", -1));
-        Assert.Equal("5 января".Substring(2), F("[$-419]mmmm", 45000 - 74).Length > 0 ? "января" : "");
-        Assert.Equal("15 марта 2023", F("[$-419]d mmmm yyyy", 45000));
-        Assert.Equal("март", F("[$-419]mmmm", 45000));
+        Assert.Equal("15 Март 2023", F("[$-419]d mmmm yyyy", 45000)); // observed in Excel: capitalised, nominative
+        Assert.Equal("Март", F("[$-419]mmmm", 45000));
         Assert.Equal("0    ", F("# ?/?", 0));
         Assert.Equal("0 0/1", F("0 0/0", 0));
         Assert.Equal("2    ", F("# ?/8", 2)); // observed in Excel: a zero numerator over a fixed denominator is blank
         Assert.Equal("0.333333333333333", NumberFormat.General.Format(1.0 / 3, new FormatOptions(GeneralWidth: 30)));
         Assert.Equal("1.23456789012346E+17", NumberFormat.General.Format(123456789012345678.0, new FormatOptions(GeneralWidth: 30)));
-        Assert.Equal("一十二月三十一日", F("[DBNum1][$-804]m\"月\"d\"日\"", 44926));
+        Assert.Equal("十二月三十一日", F("[DBNum1][$-804]m\"月\"d\"日\"", 44926));
     }
 }

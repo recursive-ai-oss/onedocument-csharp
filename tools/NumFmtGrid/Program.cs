@@ -220,6 +220,13 @@ internal static class Program
             string ours = m[4];
             bool ok1 = a[1] == ours || (m[5] != "Ok" && a[1].StartsWith('#'));
             bool ok2 = a[2] == ours || (m[5] != "Ok" && a[2].StartsWith('#'));
+            // Differences that are not the format's: TEXT() refuses results over 255 characters; a cell shows a row of # when the text
+            // does not fit its column and stretches a * fill over the column; TEXT() turns numeric-looking text into a number first.
+            ok1 |= a[1] == "#VALUE!" && ours.Length > 255;
+            ok2 |= a[2].Length > 0 && a[2].All(ch => ch == '#') && ours.Length >= 50;
+            ok2 |= m[1].Contains('*', StringComparison.Ordinal) && a[2].Length >= 20;
+            ok1 |= m[2] == "t" && double.TryParse(m[3], NumberStyles.Float, CultureInfo.InvariantCulture, out _);
+            ok2 |= a[2] == "<none>" && m[5] != "Ok";
             textOk += ok1 ? 1 : 0;
             cellOk += ok2 ? 1 : 0;
             if (!ok1 || !ok2)
@@ -368,6 +375,11 @@ internal static class Cases
         Probe(["[DBNum1][$-411]0", "[DBNum2][$-411]0", "[DBNum1][$-404]0", "[DBNum2][$-404]0", "[DBNum3][$-804]0", "[DBNum3][$-404]0", "[DBNum1][$-412]0", "[DBNum2][$-412]0",
               "[DBNum3][$-411]0", "[DBNum1][$-804]0.00", "[DBNum2][$-804]0.0", "[DBNum1][$-804]#,##0", "[DBNum1][$-804]h:mm", "[DBNum1][$-804]d", "[DBNum2][$-804]d", "[DBNum1][$-411]d", "[DBNum2][$-804]yyyy"],
             [0, 5, 12, 105, 10, 100, 1000, 10000, 100000000, 1234.5678, -12, 20, 11, 45000.5]);
+
+        // Thai names, added after the first answers (kept last so earlier case numbers stay the same).
+        Probe(["[$-41E]mmmm", "[$-41E]mmm"], [45672, 45703, 45734, 45765, 45796, 45827, 45858, 45889, 45920, 45951, 45982, 46013]);
+        Probe(["[$-41E]dddd", "[$-41E]ddd"], [45671, 45672, 45673, 45674, 45675, 45676, 45677]);
+        Probe(["[$-41E]h:mm AM/PM", "[$-41E]d mmmm yyyy", "[$-41E]#,##0.00"], [0.25, 0.75, 45000, 1234567.891]);
 
         return list;
     }

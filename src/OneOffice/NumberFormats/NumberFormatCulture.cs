@@ -144,7 +144,7 @@ public sealed class NumberFormatCulture
     /// <returns>The name.</returns>
     public string GetMonthName(int month, bool abbreviated) => (abbreviated ? _monthsAbbr : _months)[Math.Clamp(month, 1, 12) - 1];
 
-    /// <summary>Returns the full month name as it is written next to a day number (Russian uses the genitive form there).</summary>
+    /// <summary>Returns the full month name as it is written next to a day number (no locale in the table needs a different form; Excel uses the nominative name).</summary>
     /// <param name="month">1 to 12.</param>
     /// <returns>The name.</returns>
     public string GetMonthNameWithDay(int month) => _monthsGenitive[Math.Clamp(month, 1, 12) - 1];
@@ -179,8 +179,8 @@ public sealed class NumberFormatCulture
             "AM", "PM", "€", true, "dd/mm/yyyy", "dddd d mmmm yyyy", "hh:mm:ss", EraStyle.Gregorian),
         new(0x0C0A, "es-ES", ",", ".",
             "enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre",
-            "ene|feb|mar|abr|may|jun|jul|ago|sep|oct|nov|dic",
-            "domingo|lunes|martes|miércoles|jueves|viernes|sábado", "dom|lun|mar|mié|jue|vie|sáb",
+            "ene.|feb.|mar.|abr.|may.|jun.|jul.|ago.|sep.|oct.|nov.|dic.",
+            "domingo|lunes|martes|miércoles|jueves|viernes|sábado", "do.|lu.|ma.|mi.|ju.|vi.|sá.",
             "AM", "PM", "€", true, "d/m/yyyy", "dddd, d \"de\" mmmm \"de\" yyyy", "h:mm:ss", EraStyle.Gregorian),
         new(0x0410, "it-IT", ",", ".",
             "gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre",
@@ -198,14 +198,13 @@ public sealed class NumberFormatCulture
             "zondag|maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag", "zo|ma|di|wo|do|vr|za",
             "AM", "PM", "€", false, "d-m-yyyy", "dddd d mmmm yyyy", "h:mm:ss", EraStyle.Gregorian),
         new(0x0419, "ru-RU", ",", "\u00A0",
-            "январь|февраль|март|апрель|май|июнь|июль|август|сентябрь|октябрь|ноябрь|декабрь",
+            "Январь|Февраль|Март|Апрель|Май|Июнь|Июль|Август|Сентябрь|Октябрь|Ноябрь|Декабрь",
             "янв|фев|мар|апр|май|июн|июл|авг|сен|окт|ноя|дек",
-            "воскресенье|понедельник|вторник|среда|четверг|пятница|суббота", "вс|пн|вт|ср|чт|пт|сб",
-            "AM", "PM", "₽", true, "dd.mm.yyyy", "d mmmm yyyy \"г.\"", "h:mm:ss", EraStyle.Gregorian,
-            "января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря"),
+            "воскресенье|понедельник|вторник|среда|четверг|пятница|суббота", "Вс|Пн|Вт|Ср|Чт|Пт|Сб",
+            "AM", "PM", "₽", true, "dd.mm.yyyy", "d mmmm yyyy \"г.\"", "h:mm:ss", EraStyle.Gregorian),
         new(0x0411, "ja-JP", ".", ",",
             "1月|2月|3月|4月|5月|6月|7月|8月|9月|10月|11月|12月",
-            "1月|2月|3月|4月|5月|6月|7月|8月|9月|10月|11月|12月",
+            "1|2|3|4|5|6|7|8|9|10|11|12",
             "日曜日|月曜日|火曜日|水曜日|木曜日|金曜日|土曜日", "日|月|火|水|木|金|土",
             "午前", "午後", "¥", false, "yyyy/m/d", "yyyy\"年\"m\"月\"d\"日\"", "h:mm:ss", EraStyle.Japanese),
         new(0x0804, "zh-CN", ".", ",",
@@ -215,14 +214,19 @@ public sealed class NumberFormatCulture
             "上午", "下午", "¥", false, "yyyy/m/d", "yyyy\"年\"m\"月\"d\"日\"", "h:mm:ss", EraStyle.Gregorian),
         new(0x0404, "zh-TW", ".", ",",
             "一月|二月|三月|四月|五月|六月|七月|八月|九月|十月|十一月|十二月",
-            "1月|2月|3月|4月|5月|6月|7月|8月|9月|10月|11月|12月",
+            "一月|二月|三月|四月|五月|六月|七月|八月|九月|十月|十一月|十二月",
             "星期日|星期一|星期二|星期三|星期四|星期五|星期六", "週日|週一|週二|週三|週四|週五|週六",
-            "上午", "下午", "NT$", false, "yyyy/m/d", "yyyy\"年\"m\"月\"d\"日\"", "AM/PM hh:mm:ss", EraStyle.Minguo),
+            "上午", "下午", "NT$", false, "yyyy/m/d", "yyyy\"年\"m\"月\"d\"日\"", "AM/PM hh:mm:ss", EraStyle.Gregorian),
         new(0x0412, "ko-KR", ".", ",",
             "1월|2월|3월|4월|5월|6월|7월|8월|9월|10월|11월|12월",
-            "1월|2월|3월|4월|5월|6월|7월|8월|9월|10월|11월|12월",
+            "1|2|3|4|5|6|7|8|9|10|11|12",
             "일요일|월요일|화요일|수요일|목요일|금요일|토요일", "일|월|화|수|목|금|토",
             "오전", "오후", "₩", false, "yyyy-mm-dd", "yyyy\"년\" m\"월\" d\"일\" dddd", "AM/PM h:mm:ss", EraStyle.Gregorian),
+        new(0x041E, "th-TH", ".", ",",
+            "มกราคม|กุมภาพันธ์|มีนาคม|เมษายน|พฤษภาคม|มิถุนายน|กรกฎาคม|สิงหาคม|กันยายน|ตุลาคม|พฤศจิกายน|ธันวาคม",
+            "ม.ค.|ก.พ.|มี.ค.|เม.ย.|พ.ค.|มิ.ย.|ก.ค.|ส.ค.|ก.ย.|ต.ค.|พ.ย.|ธ.ค.",
+            "อาทิตย์|จันทร์|อังคาร|พุธ|พฤหัสบดี|ศุกร์|เสาร์", "อา.|จ.|อ.|พ.|พฤ.|ศ.|ส.",
+            "AM", "PM", "฿", false, "d/m/yyyy", "d mmmm yyyy", "h:mm:ss", EraStyle.Gregorian),
     ];
 
     /// <summary>The cultures in the table.</summary>

@@ -44,8 +44,13 @@ internal static class DateWriter
                     w.SetFill(e.Ch);
                     break;
                 case EK.Year:
-                    NumberWriter.AppendPadded(ref w, e.N == 2 ? t.Year % 100 : t.Year, e.N);
+                {
+                    // Observed in Excel: a Buddhist calendar in the locale tag ([$-D07041E]) makes yyyy the Buddhist year.
+                    int year = sec.CalendarId == 7 ? t.Year + 543 : t.Year;
+                    NumberWriter.AppendPadded(ref w, e.N == 2 ? year % 100 : year, e.N);
                     break;
+                }
+
                 case EK.Month:
                     switch (e.N)
                     {
@@ -135,8 +140,26 @@ internal static class DateWriter
                     w.Append(EraName(t, era, e.N));
                     break;
                 case EK.BuddhistYear:
-                    NumberWriter.AppendPadded(ref w, e.N == 2 ? (t.Year + 543) % 100 : t.Year + 543, e.N);
+                {
+                    // Observed in Excel: b is the Buddhist year on its own, but with any locale tag that does not name the Buddhist
+                    // calendar it is the Gregorian year.
+                    int year = sec.LocaleId != 0 && sec.CalendarId != 7 ? t.Year : t.Year + 543;
+                    NumberWriter.AppendPadded(ref w, e.N == 2 ? year % 100 : year, e.N);
                     break;
+                }
+            }
+        }
+
+        if (sec.NumeralSystem == 0x0D)
+        {
+            // Thai digits: the written date shows ๐-๙ for 0-9.
+            Span<char> done = w.Written;
+            for (int i = 0; i < done.Length; i++)
+            {
+                if (done[i] is >= '0' and <= '9')
+                {
+                    done[i] = (char)('\u0E50' + (done[i] - '0'));
+                }
             }
         }
 
@@ -169,12 +192,7 @@ internal static class DateWriter
     private static FormatStatus EmitOnlyElapsed(ref Writer w, NumberFormatSection sec, double value)
     {
         double a = Math.Abs(value);
-        if (a >= 1e11)
-        {
-            return FormatStatus.NotRepresentable;
-        }
-
-        long wholeSeconds = (long)Math.Round(a * 86_400.0, MidpointRounding.AwayFromZero);
+        double wholeSeconds = Math.Round(a * 86_400.0, MidpointRounding.AwayFromZero);
         bool wroteSign = false;
         foreach (Element e in sec.Elements)
         {
@@ -188,15 +206,15 @@ internal static class DateWriter
                     break;
                 case EK.ElapsedHour or EK.ElapsedMinute or EK.ElapsedSecond:
                     // Observed in Excel: the time is first rounded to whole seconds, as for every time format, then cut to the unit.
-                    long unitSeconds = e.Kind == EK.ElapsedHour ? 3600 : e.Kind == EK.ElapsedMinute ? 60 : 1;
-                    long count = wholeSeconds / unitSeconds;
+                    double unitSeconds = e.Kind == EK.ElapsedHour ? 3600 : e.Kind == EK.ElapsedMinute ? 60 : 1;
+                    double count = Math.Floor(wholeSeconds / unitSeconds);
                     if (value < 0 && count != 0 && !wroteSign)
                     {
                         w.Append('-');
                         wroteSign = true;
                     }
 
-                    NumberWriter.AppendPadded(ref w, count, e.N);
+                    NumberWriter.AppendWholeNumber(ref w, count, e.N);
                     break;
             }
         }
@@ -277,7 +295,8 @@ internal static class DateWriter
             }
         }
 
-        return "AD";
+        // Observed in Excel: the Gregorian calendar has no era name in a format code.
+        return string.Empty;
     }
 
     private static bool OnOrAfter(ExcelDateTime t, int y, int m, int d) =>
@@ -285,15 +304,24 @@ internal static class DateWriter
 }
 
 // [DBNum1], [DBNum2] and [DBNum3]: the digits of the displayed number written as CJK numerals.
-// Whole numbers become positional numerals (一百二十三); digits after a decimal point, and every digit of a date or time, are written one by one.
+// Observed in Excel (zh-CN, zh-TW, ja-JP and ko-KR tags, cell display): the digits of a number are written one by one (123 shows
+// as 一二三, 105 as 一〇五), and so are the digits of a year, of a padded two-digit part and after a decimal point. A month, day, hour,
+// minute or second written without a leading zero is a place-value numeral (12 is 十二, 31 is 三十一; DBNum2: 壹拾贰, 叁拾壹).
+// DBNum3 writes full-width digits throughout. Without a CJK locale (in the tag or in the options) the codes change nothing.
 internal static class DbNumbers
 {
     internal const int MaxChars = 256;
 
     internal static void Apply(scoped ReadOnlySpan<char> src, ref Writer w, NumberFormatSection sec, NumberFormatCulture culture, FormatOptions o)
     {
-        int len = src.Length;
         NumberFormatCulture c = sec.LocaleId != 0 ? NumberFormatCulture.Get(sec.LocaleId) : (o.Culture ?? culture);
+        if (c.Lcid is not (0x0804 or 0x0404 or 0x0411 or 0x0412))
+        {
+            w.Append(src);
+            return;
+        }
+
+        int len = src.Length;
         bool dateLike = sec.Kind == NumberFormatSectionKind.DateTime;
         int i = 0;
         while (i < len)
@@ -311,11 +339,11 @@ internal static class DbNumbers
                 j++;
             }
 
-            bool afterPoint = i > 0 && src[i - 1] == '.';
             ReadOnlySpan<char> run = src.Slice(i, j - i);
-            if ((!dateLike || run.Length <= 2) && !afterPoint && !(sec.DbNum == 3 && c.Lcid is 0x0411 or 0x0412) && run.Length <= 16 && !(run.Length > 1 && run[0] == '0'))
+            bool afterPoint = i > 0 && src[i - 1] == '.';
+            if (dateLike && sec.DbNum != 3 && !afterPoint && run.Length <= 2 && !(run.Length == 2 && run[0] == '0'))
             {
-                Positional(ref w, run, sec.DbNum, c);
+                PlaceValue(ref w, run, sec.DbNum, c);
             }
             else
             {
@@ -329,113 +357,84 @@ internal static class DbNumbers
         }
     }
 
-    private static string Set(int style, NumberFormatCulture c, out string units, out string big)
-    {
-        bool tw = c.Lcid == 0x0404;
-        bool jp = c.Lcid == 0x0411;
-        big = tw || jp ? "萬億兆" : "万亿兆";
-        if (jp)
-        {
-            big = "万億兆";
-        }
-
-        switch (style)
-        {
-            case 2:
-                units = jp ? "拾百千" : "拾佰仟";
-                return jp ? "零壱弐参四五六七八九" : tw ? "零壹貳參肆伍陸柒捌玖" : "零壹贰叁肆伍陆柒捌玖";
-            case 3:
-                units = "十百千";
-                return "0123456789";
-            default:
-                units = "十百千";
-                return "〇一二三四五六七八九";
-        }
-    }
-
     private static char Digit(int v, int style, NumberFormatCulture c)
     {
         if (style == 3)
         {
-            // Full-width digits for Japanese and Korean; the Chinese locales keep Arabic digits.
-            return c.Lcid is 0x0411 or 0x0412 ? (char)('０' + v) : (char)('0' + v);
+            return (char)('０' + v);
         }
 
-        return Set(style, c, out _, out _)[v];
+        if (style == 2)
+        {
+            if (c.Lcid == 0x0411)
+            {
+                return "〇壱弐参四伍六七八九"[v];
+            }
+
+            if (c.Lcid == 0x0412 && v == 0)
+            {
+                // Excel writes the Korean zero with the compatibility ideograph U+F9B2.
+                return '\uF9B2';
+            }
+
+            if (c.Lcid == 0x0412 && v == 3)
+            {
+                // Observed in Excel: the Korean three is the compatibility ideograph U+F96B.
+                return '\uF96B';
+            }
+
+            if (c.Lcid == 0x0412 && v == 4)
+            {
+                // Observed in Excel: the Korean four is the plain 四.
+                return '四';
+            }
+
+            return (c.Lcid == 0x0804 ? "零壹贰叁肆伍陆柒捌玖" : "零壹貳參肆伍陸柒捌玖")[v];
+        }
+
+        if (v == 0)
+        {
+            return c.Lcid switch { 0x0411 => '〇', 0x0412 => '０', _ => '○' };
+        }
+
+        return "〇一二三四五六七八九"[v];
     }
 
-    private static void Positional(ref Writer w, scoped ReadOnlySpan<char> digits, int style, NumberFormatCulture c)
+    // One or two digits without a leading zero as a place-value numeral: 10 is 十 (DBNum1) or 壹拾 (DBNum2), 25 is 二十五 or 贰拾伍.
+    private static void PlaceValue(ref Writer w, scoped ReadOnlySpan<char> digits, int style, NumberFormatCulture c)
     {
-        string set = Set(style, c, out string units, out string big);
-        string zero = "零"; // inside a numeral; a lone zero is written with the digit set
-        int len = digits.Length;
-        bool allZero = true;
+        int v = 0;
         foreach (char ch in digits)
         {
-            allZero &= ch == '0';
+            v = (v * 10) + (ch - '0');
         }
 
-        if (allZero)
+        if (v < 10)
         {
-            w.Append(Digit(0, style, c));
+            w.Append(Digit(v, style, c));
             return;
         }
 
-        bool pendingZero = false;
-        bool started = false;
-        for (int pos = len - 1; pos >= 0; pos--)
+        int tens = v / 10;
+        int ones = v % 10;
+        if (style == 2)
         {
-            int idx = len - 1 - pos;
-            int d = digits[idx] - '0';
-            int inGroup = pos % 4;
-            int group = pos / 4;
-            if (d == 0)
-            {
-                pendingZero = started;
-            }
-            else
-            {
-                if (pendingZero)
-                {
-                    w.Append(style == 3 ? '0' : zero[0]);
-                    pendingZero = false;
-                }
-
-                if (style == 3)
-                {
-                    w.Append(Digit(d, 3, c));
-                }
-                else
-                {
-                    w.Append(set[d]);
-                }
-
-                if (inGroup > 0)
-                {
-                    w.Append(units[inGroup - 1]);
-                }
-
-                started = true;
-            }
-
-            if (inGroup == 0 && group > 0 && AnyNonZero(digits, idx - 3, idx))
-            {
-                w.Append(big[group - 1]);
-                pendingZero = false;
-            }
+            w.Append(Digit(tens, 2, c));
+            w.Append('拾');
         }
-    }
-
-    private static bool AnyNonZero(ReadOnlySpan<char> digits, int from, int to)
-    {
-        for (int i = Math.Max(0, from); i <= to; i++)
+        else
         {
-            if (digits[i] != '0')
+            if (tens > 1)
             {
-                return true;
+                w.Append(Digit(tens, 1, c));
             }
+
+            w.Append('十');
         }
 
-        return false;
+        if (ones > 0)
+        {
+            w.Append(Digit(ones, style, c));
+        }
     }
 }
