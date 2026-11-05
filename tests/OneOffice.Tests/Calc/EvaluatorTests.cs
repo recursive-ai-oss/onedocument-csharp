@@ -38,6 +38,27 @@ public class EvaluatorTests
     [InlineData("\"12:00\"*2", "1")]
     public void OperatorsAndCoercion(string formula, string expected) => Assert.Equal(expected, Show(Eval(formula)));
 
+    [Theory]
+    [InlineData("\"_\"<\"a\"", "TRUE")]
+    [InlineData("\"a-b\"<\"ab\"", "FALSE")]
+    [InlineData("\"é\"<\"f\"", "TRUE")]
+    [InlineData("\"ä\"<\"b\"", "TRUE")]
+    [InlineData("\"ß\"=\"ss\"", "TRUE")]
+    [InlineData("\"é\"=\"e\"", "FALSE")]
+    [InlineData("\"a\"=\"A\"", "TRUE")]
+    [InlineData("\"10\"<\"9\"", "TRUE")]
+    [InlineData("123456789.123456789&\"\"", "\"123456789.123456\"")]
+    [InlineData("12345678901234567890&\"\"", "\"12345678901234500000\"")]
+    [InlineData("OR(\"x\",TRUE)", "TRUE")]
+    [InlineData("INDEX({1,2,3;4,5,6},-1,1)", "#VALUE!")]
+    [InlineData("MAP({1;2},{10,20},LAMBDA(a,b,a+b))", "{11,#N/A;#N/A,#N/A}")]
+    [InlineData("MAKEARRAY(2,2,LAMBDA(r,1))", "#VALUE!")]
+    [InlineData("IFS({TRUE,FALSE},1,TRUE,2)", "{1,2}")]
+    [InlineData("CHOOSE({1,2},\"a\",\"b\")", "{\"a\",\"b\"}")]
+    [InlineData("@{1,2,3}", "1")]
+    [InlineData("TEXT(1,\"\")", "\"\"")]
+    public void BehavioursSettledAgainstExcel(string formula, string expected) => Assert.Equal(expected, Show(Eval(formula)));
+
     [Fact]
     public void ParenthesisedDifferenceIsNotSnapped()
     {
@@ -196,11 +217,11 @@ public class EvaluatorTests
         Assert.Equal("0.3", CalcConvert.NumberToText(0.1 + 0.2));
         Assert.Equal("1E+20", CalcConvert.NumberToText(1e20));
         Assert.Equal("100000000000000", CalcConvert.NumberToText(1e14));
-        Assert.Equal("1E+15", CalcConvert.NumberToText(1e15));
-        Assert.Equal("1.23456789012346E+17", CalcConvert.NumberToText(123456789012345678));
+        Assert.Equal("1000000000000000", CalcConvert.NumberToText(1e15));
+        Assert.Equal("123456789012346000", CalcConvert.NumberToText(123456789012345678));
         Assert.Equal("-1234.5", CalcConvert.NumberToText(-1234.5));
         Assert.Equal("0.000123", CalcConvert.NumberToText(0.000123));
-        Assert.Equal("1E-10", CalcConvert.NumberToText(1e-10));
+        Assert.Equal("0.0000000001", CalcConvert.NumberToText(1e-10));
         Assert.Equal("0", CalcConvert.NumberToText(0));
     }
 

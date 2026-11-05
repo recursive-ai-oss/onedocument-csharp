@@ -58,7 +58,7 @@ internal static class TextCollation
             if (c == 'ß')
             {
                 p.Append(Letter('s')).Append(Letter('s'));
-                d.Append('\u0001').Append('\u0001');
+                d.Append('\u0000').Append('\u0000'); // Excel treats the sharp s as ss.
                 continue;
             }
 
