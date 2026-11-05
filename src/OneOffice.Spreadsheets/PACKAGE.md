@@ -7,12 +7,19 @@ This package is the spreadsheet part of OneOffice, an early preview. It opens, e
 - **Lossless.** Parts you did not edit are written back byte-identical. Editing one cell rewrites only its sheet part; unknown row and cell attributes, `extLst` and `mc:AlternateContent` survive.
 - **Compact.** Cells live in a columnar, sparse store: about 37 bytes per cell on a workbook with styles, strings and formulas, and about 0 bytes allocated per cell while iterating.
 - **Streaming.** `XlsxStreamReader` and `XlsxStreamWriter` work forward-only at constant memory with no allocation per cell.
+- **Typed rows.** Mark a `partial` class, struct or record with `[SpreadsheetRow]` and `Spreadsheet.Read<T>(path)` / `Spreadsheet.Write(path, rows)` move it to and from XLSX, CSV and TSV in one call, streaming. A source generator that ships in this package writes the binding when you compile, so there is no reflection and it works under trimming and NativeAOT.
 - **Safe.** The format is found from the content, never the extension. Damage is reported as typed defects with cell addresses or part offsets, and resource limits are on by default.
 - **Excel's number formats** (TEXT and cell display, 14 locales) are a shared service in the core package.
 
 ```csharp
 using RecursiveAI.OneOffice.Spreadsheets;
 using RecursiveAI.OneOffice.Spreadsheets.Streaming;
+
+[SpreadsheetRow(Sheet = "Orders")]
+public partial record Order(int Id, string Customer, decimal Total);
+
+Spreadsheet.Write("orders.xlsx", orders);                       // or .csv, .tsv
+foreach (Order o in Spreadsheet.Read<Order>("orders.xlsx")) { }  // lazy, streaming
 
 using var wb = Workbook.Open("sales.xlsx");
 wb.Sheets[0]["B2"].SetNumber(1200);

@@ -232,6 +232,11 @@ public static class XlsxStreamBench
 
             double ms = sw.Elapsed.TotalMilliseconds;
             long a1 = GC.GetTotalAllocatedBytes(true);
+            if (Environment.GetEnvironmentVariable("XLSXBENCH_VERBOSE") is not null)
+            {
+                Console.Error.WriteLine(string.Create(CultureInfo.InvariantCulture, $"{row} rep {i}: {ms:F1} ms, gen0/1/2 collections {GC.CollectionCount(0)}/{GC.CollectionCount(1)}/{GC.CollectionCount(2)}"));
+            }
+
             if (i > 0)
             {
                 times.Add(ms);
