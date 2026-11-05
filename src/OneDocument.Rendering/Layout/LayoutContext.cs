@@ -1,5 +1,6 @@
 using OneFont;
 using RecursiveAI.OneDocument.Documents;
+using RecursiveAI.OneDocument.Documents.Notes;
 using RecursiveAI.OneDocument.Documents.Numbering;
 using RecursiveAI.OneDocument.Markup;
 using RecursiveAI.OneDocument.Schema;
@@ -111,6 +112,24 @@ internal sealed class LayoutContext
 
     /// <summary>Set when a field needed the page totals (NUMPAGES, SECTIONPAGES), so a second pass with the first pass's counts is worth running.</summary>
     public bool UsesPageTotals { get; set; }
+
+    /// <summary>The numbering of the note references in the body (empty for a document without notes).</summary>
+    public NotePlan NotePlan { get; set; } = NotePlan.Empty;
+
+    /// <summary>The note whose text is being formatted; reference marks inside notes show nothing and the note's own mark shows its number.</summary>
+    public NoteKey? CurrentNote { get; set; }
+
+    /// <summary>The note references in the paragraphs formatted so far, by the run that holds them.</summary>
+    public Dictionary<Run, NoteKey> NoteRefs { get; } = [];
+
+    /// <summary>Set by the formatter when the run it just read is a note reference or a note's own mark: the link target for that run.</summary>
+    public string? PendingNoteLink { get; set; }
+
+    /// <summary>The page each note reference was placed on in this pass; the next pass numbers "restart each page" notes from it.</summary>
+    public Dictionary<NoteKey, int> NoteRefPages { get; } = [];
+
+    /// <summary>Formatted notes and separators for the widths used in this pass.</summary>
+    public NoteStore NoteStore { get; } = new();
 
     public ListLabel? LabelOf(Paragraph p) => _labels.GetValueOrDefault(p);
 
