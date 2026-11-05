@@ -34,7 +34,8 @@ internal sealed class ChartCanvas(DisplayList list, IChartFonts? fonts, ChartThe
 {
     private readonly ShapedRun _run = new();
     private readonly HashSet<string> _missing = [];
-    private uint _id;
+    // Item ids must be unique in a list: a second chart painted into the same list (two charts on a slide) continues after the items the list already holds.
+    private uint _id = (uint)Math.Min(list.Count, 0x3FFFFFFF);
 
     public DisplayList List { get; } = list;
 

@@ -475,6 +475,7 @@ public sealed class PresentationRenderTests
         Assert.Contains("A red square", figures);
         Assert.Contains("A line chart", figures);
         Assert.Contains("A diagram", figures);
+        Assert.Contains("A second line chart", figures); // two charts in one list need distinct item ids
     }
 
     [Fact]

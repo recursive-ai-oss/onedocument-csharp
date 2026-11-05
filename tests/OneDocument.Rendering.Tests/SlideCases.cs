@@ -215,7 +215,7 @@ internal static class SlideCases
         string diagram = $"<p:graphicFrame><p:nvGraphicFramePr><p:cNvPr id=\"22\" name=\"Diagram\" descr=\"A diagram\"/><p:cNvGraphicFramePr/><p:nvPr/></p:nvGraphicFramePr><p:xfrm><a:off x=\"{E(100)}\" y=\"{E(330)}\"/><a:ext cx=\"{E(180)}\" cy=\"{E(90)}\"/></p:xfrm><a:graphic><a:graphicData uri=\"{dgm}\"><dgm:relIds xmlns:dgm=\"{dgm}\" r:dm=\"rId20\" r:lo=\"rId20\" r:qs=\"rId20\" r:cs=\"rId20\"/></a:graphicData></a:graphic></p:graphicFrame>";
         var objects = new SlideSpec
         {
-            Shapes = pic + chart + diagram,
+            Shapes = pic + chart + chart.Replace("id=\"21\" name=\"Chart\" descr=\"A line chart\"", "id=\"23\" name=\"Second chart\" descr=\"A second line chart\"").Replace($"<a:off x=\"{E(200)}\" y=\"{E(40)}\"/><a:ext cx=\"{E(460)}\" cy=\"{E(240)}\"/>", $"<a:off x=\"{E(360)}\" y=\"{E(300)}\"/><a:ext cx=\"{E(320)}\" cy=\"{E(200)}\"/>") + diagram,
             Relationships =
             [
                 ("rId30", "image", "../media/image1.png", false),
