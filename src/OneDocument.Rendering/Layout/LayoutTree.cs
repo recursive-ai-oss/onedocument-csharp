@@ -269,6 +269,9 @@ public enum LayoutRunKind
 
     /// <summary>The list label text of a numbered paragraph.</summary>
     Label = 2,
+
+    /// <summary>An equation: <see cref="LayoutRun.Math"/> holds its glyphs and rules.</summary>
+    Math = 4,
 }
 
 /// <summary>A stretch of text with one font, size and direction on a line, or a tab or list label.</summary>
@@ -309,6 +312,9 @@ public sealed class LayoutRun : LayoutNode
 
     /// <summary>Gets each cluster's left x in page coordinates followed by the right edge; same count as <see cref="ClusterStarts"/>. Clusters of a right-to-left run run right to left.</summary>
     public IReadOnlyList<double> ClusterX { get; internal set; } = [];
+
+    /// <summary>Gets the laid-out equation of a <see cref="LayoutRunKind.Math"/> run (positions relative to the line's baseline and the run's left edge); null for other runs.</summary>
+    public global::RecursiveAI.OneDocument.Rendering.Equations.MathBox? Math { get; internal set; }
 
     internal RunPaintInfo Paint { get; set; } = new();
 
