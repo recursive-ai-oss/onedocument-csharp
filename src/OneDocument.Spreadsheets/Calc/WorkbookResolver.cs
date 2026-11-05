@@ -35,6 +35,9 @@ internal sealed class CalcWorker
     /// <summary>True in the sequential phase, where reading a formula that is not yet calculated calculates it first.</summary>
     public bool InlineAllowed { get; set; }
 
+    /// <summary>Set when the formula being evaluated called a web function that was denied.</summary>
+    public bool ServiceDenied { get; set; }
+
     /// <summary>The formulas being evaluated inline, outermost first.</summary>
     public List<int> Stack { get; } = [];
 
@@ -62,12 +65,20 @@ internal sealed class WorkbookResolver(CalcEngine engine) : ICalcResolver
 
     private CalcBook Book => engine.Book;
 
+    public CalcValue GetPivotData(string dataField, string? sheet, int row, int column, IReadOnlyList<KeyValuePair<string, CalcValue>> items) =>
+        Pivots.PivotLookup.Get(engine.Workbook, sheet, row, column, dataField, items);
+
     public CalcValue GetCell(string? sheet, int row, int column)
     {
         int si = Book.FindSheet(sheet, 0);
         if (si < 0 || row < 1 || row > CellArea.MaxRow || column < 1 || column > CellArea.MaxColumn)
         {
             return CalcValue.FromError(CalcError.Ref);
+        }
+
+        if (engine.TryGetOverlay(si, row, column, out CalcValue overlaid))
+        {
+            return overlaid;
         }
 
         Worksheet ws = Book.Sheets[si];
@@ -142,6 +153,7 @@ internal sealed class WorkbookResolver(CalcEngine engine) : ICalcResolver
             }
         }
 
+        engine.ApplyOverlay(si, area, cells);
         return new CalcArray(area.Rows, area.Columns, cells);
     }
 
@@ -247,6 +259,12 @@ internal sealed class WorkbookResolver(CalcEngine engine) : ICalcResolver
         CalcError e = StructuredRefs.Resolve(Book, node, osi, origin.Row, origin.Column, out CellArea[] areas);
         return e != CalcError.None ? CalcValue.FromError(e) : CalcValue.FromReference(new CalcReference(areas));
     }
+
+    public CalcValue ResolveExternal(SheetPrefix prefix, FormulaNode node) => engine.ReadExternal(prefix, node);
+
+    public CalcValue ResolveWebService(string url) => engine.WebService(url);
+
+    public CalcValue ResolveFilterXml(string xml, string xpath) => engine.FilterXml(xml, xpath);
 
     public bool TryGetSpill(string? sheet, int row, int column, out CellArea area) => engine.TryGetSpill(Book.FindSheet(sheet, 0), row, column, out area);
 }

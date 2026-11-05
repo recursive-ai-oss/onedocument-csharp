@@ -64,6 +64,7 @@ internal static class SmokeChecks
         Check("source stream", stream.ReadByte() == 1 && stream.Length == 3);
         failures.AddRange(SchemaSmoke.Run());
         failures.AddRange(SheetSmoke.Run());
+        failures.AddRange(PivotSmoke.Run());
         failures.AddRange(StreamSmoke.Run());
         failures.AddRange(CsvSmoke.Run());
         failures.AddRange(PocoSmoke.Run());

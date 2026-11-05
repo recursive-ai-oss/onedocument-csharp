@@ -4,7 +4,7 @@
 #   fuzz/run.sh <target> <seconds> [corpus dir] [extra libFuzzer flags...]
 #   fuzz/run.sh replay <target> <file>...      # run saved inputs once, without libFuzzer (reproduce a finding)
 #
-# Targets: formula, formulaeval, statfuncs, funcs, lookups, sniff, xml, markup, opc, cfb, sdt, sdtpath, text, revisions, stories, fieldinstr, fields, numfmt, numfmtfmt, sheet, sst, wbpart, styles, sheetfeat, table, csv, stream, streamwrite, template   (see fuzz/README.md)
+# Targets: formula, formulaeval, finfuncs, statfuncs, funcs, lookups, sniff, xml, markup, opc, cfb, sdt, sdtpath, text, revisions, stories, fieldinstr, fields, numfmt, numfmtfmt, sheet, sst, wbpart, styles, sheetfeat, table, pivot, csv, stream, streamwrite, template   (see fuzz/README.md)
 #
 # Environment (nothing is baked into the script):
 #   ONEDOCUMENT_FUZZ_WORK    required: where builds, corpora and findings go. Keep it outside the checkout.
@@ -46,12 +46,13 @@ case "$target" in
   opc) maxlen=262144 ;;
   cfb) maxlen=262144 ;;
   csv) maxlen=65536 ;;
-  xml|markup|sdt|sdtpath|sheet|sst|wbpart|styles|sheetfeat|table|stream) maxlen=262144 ;;
+  xml|markup|sdt|sdtpath|sheet|sst|wbpart|styles|sheetfeat|table|pivot|stream) maxlen=262144 ;;
   streamwrite) maxlen=4096 ;;
   formula|formulaeval) maxlen=2048 ;;
   statfuncs) maxlen=64 ;;
   funcs) maxlen=512 ;;
   lookups) maxlen=256 ;;
+  finfuncs) maxlen=512 ;;
   template) maxlen=2048 ;;
   *) echo "unknown target '$target'" >&2; exit 2 ;;
 esac

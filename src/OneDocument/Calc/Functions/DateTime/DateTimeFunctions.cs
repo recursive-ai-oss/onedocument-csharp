@@ -372,43 +372,6 @@ internal static class DateTimeFunctions
         return Fx.Num(end - start);
     }
 
-    private static bool IsLastDay(ExcelDateTime p) =>
-        p.Day == (p.Year == 1900 && p.Month == 2 ? 29 : ExcelDate.DaysInMonth(p.Year, p.Month));
-
-    // 30/360 day count. US (NASD): a start on the last day of a month counts as the 30th, and so does an end on the 31st once the start is the 30th;
-    // when both dates fall on the last day of February the end counts as the 30th too. European: any 31st counts as the 30th.
-    private static int Days360(ExcelDateTime s, ExcelDateTime e, bool european)
-    {
-        int d1 = s.Day;
-        int d2 = e.Day;
-        if (european)
-        {
-            d1 = Math.Min(d1, 30);
-            d2 = Math.Min(d2, 30);
-        }
-        else
-        {
-            bool startFeb = s.Month == 2 && IsLastDay(s);
-            bool endFeb = e.Month == 2 && IsLastDay(e);
-            if (startFeb && endFeb)
-            {
-                d2 = 30;
-            }
-
-            if (startFeb || d1 == 31)
-            {
-                d1 = 30;
-            }
-
-            if (d2 == 31 && d1 == 30)
-            {
-                d2 = 30;
-            }
-        }
-
-        return ((e.Year - s.Year) * 360) + ((e.Month - s.Month) * 30) + (d2 - d1);
-    }
-
     private static CalcValue Days360Fn(Evaluator ev, ReadOnlySpan<CalcValue> a)
     {
         if (!Day(ev, a[0], out int start, out CalcValue e) || !Day(ev, a[1], out int end, out e))
@@ -426,13 +389,10 @@ internal static class DateTimeFunctions
         }
 
         DateSystem sys = ev.Options.DateSystem;
-        ExcelDate.TryFromSerial(start, sys, out ExcelDateTime s);
-        ExcelDate.TryFromSerial(end, sys, out ExcelDateTime t);
-        return Fx.Num(Days360(s, t, european));
+        return DayCount.TryYmd(start, sys, out Ymd s) && DayCount.TryYmd(end, sys, out Ymd t)
+            ? Fx.Num(DayCount.Days360(s, t, european))
+            : Bad;
     }
-
-    private static int DaysInYear(int year, DateSystem sys) =>
-        year < 9999 && FirstOfMonth(year, 1, sys, out int a) && FirstOfMonth(year + 1, 1, sys, out int b) ? b - a : 365;
 
     private static CalcValue YearFracFn(Evaluator ev, ReadOnlySpan<CalcValue> a)
     {
@@ -457,65 +417,8 @@ internal static class DateTimeFunctions
             return Bad;
         }
 
-        if (d1 > d2)
-        {
-            (d1, d2) = (d2, d1);
-        }
-
-        DateSystem sys = ev.Options.DateSystem;
-        ExcelDate.TryFromSerial(d1, sys, out ExcelDateTime s);
-        ExcelDate.TryFromSerial(d2, sys, out ExcelDateTime t);
-        int days = d2 - d1;
-        switch (basis)
-        {
-            case 0:
-                return Fx.Num(Days360(s, t, false) / 360.0);
-            case 4:
-                return Fx.Num(Days360(s, t, true) / 360.0);
-            case 2:
-                return Fx.Num(days / 360.0);
-            case 3:
-                return Fx.Num(days / 365.0);
-            default:
-                break;
-        }
-
-        // Actual/actual. Same year: that year's length. Within a year of the start: 366 when a 29 February falls in the span, else 365.
-        // Longer: the average length of the years touched.
-        double denominator;
-        if (s.Year == t.Year)
-        {
-            denominator = DaysInYear(s.Year, sys);
-        }
-        else if (t.Year == s.Year + 1 && (t.Month < s.Month || (t.Month == s.Month && t.Day <= s.Day)))
-        {
-            denominator = SpansLeapDay(s, t, d1, d2, sys) ? 366 : 365;
-        }
-        else
-        {
-            long total = 0;
-            for (int y = s.Year; y <= t.Year; y++)
-            {
-                total += DaysInYear(y, sys);
-            }
-
-            denominator = total / (double)(t.Year - s.Year + 1);
-        }
-
-        return Fx.Num(days / denominator);
-    }
-
-    private static bool SpansLeapDay(ExcelDateTime s, ExcelDateTime t, int d1, int d2, DateSystem sys)
-    {
-        for (int y = s.Year; y <= t.Year; y++)
-        {
-            if (DaysInYear(y, sys) == 366 && ExcelDate.TryToSerial(y, 2, 29, sys, out int leap) && leap >= d1 && leap <= d2)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        double frac = DayCount.YearFrac(d1, d2, basis, ev.Options.DateSystem);
+        return double.IsNaN(frac) ? Bad : Fx.Num(frac);
     }
 
     // DATEDIF (undocumented by Microsoft beyond a compatibility note): units Y, M, D, MD, YM, YD.

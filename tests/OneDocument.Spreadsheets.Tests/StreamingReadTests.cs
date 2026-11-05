@@ -246,12 +246,22 @@ public class StreamingReadTests
             Thread.Sleep(20);
         }
 
-        long before = GC.GetAllocatedBytesForCurrentThread();
-        long b = Walk(r, 4000);
-        long small = GC.GetAllocatedBytesForCurrentThread() - before;
-        before = GC.GetAllocatedBytesForCurrentThread();
-        _ = Walk(r, 1000);
-        long smaller = GC.GetAllocatedBytesForCurrentThread() - before;
+        // Walks of 100 to 4,000 rows all allocate exactly 66,664 B on arm64 once warm, so nothing is allocated per row. Now and then a
+        // single walk is charged 7-8 KiB more (73,760 or 74,832 B), a one-off outside the reader. The smallest of several walks is
+        // the real cost; a per-row allocation would show in every one of them.
+        long b = 0;
+        long small = AllocationProbe.Min(() =>
+        {
+            long t0 = GC.GetAllocatedBytesForCurrentThread();
+            b = Walk(r, 4000);
+            return GC.GetAllocatedBytesForCurrentThread() - t0;
+        }, 8);
+        long smaller = AllocationProbe.Min(() =>
+        {
+            long t0 = GC.GetAllocatedBytesForCurrentThread();
+            _ = Walk(r, 1000);
+            return GC.GetAllocatedBytesForCurrentThread() - t0;
+        }, 8);
         Assert.Equal(a, b);
         // Opening the part and its buffers costs the same for any size; reading 3,000 more rows (15,000 cells) must cost nothing.
         Assert.True(small - smaller < 2_000, "allocated " + small + " for 4000 rows, " + smaller + " for 1000");
