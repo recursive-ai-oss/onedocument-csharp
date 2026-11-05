@@ -150,6 +150,7 @@ internal class FormattedParagraph
     public bool Rtl;
     public double BorderTopHeight;
     public double BorderBottomHeight;
+    public double FormattedWidth; // the text width the lines were cut for, so the flow can re-cut them in a column of another width
     public List<FormattedLine> Lines = [];
     public ParagraphPaintInfo Paint = new();
 }
@@ -164,7 +165,7 @@ internal static class ParagraphFormatter
     public static FormattedParagraph Format(Paragraph p, LayoutContext ctx, double width)
     {
         ResolvedParagraphProperties pp = p.ResolvedProperties;
-        var fp = new FormattedParagraph { Source = p, StyleId = pp.StyleId };
+        var fp = new FormattedParagraph { Source = p, StyleId = pp.StyleId, FormattedWidth = width };
 
         // ECMA-376 Part 1 §17.3.1.6 (bidi): the paragraph's base direction.
         bool rtl = pp.Flag("bidi") ?? false;
@@ -186,6 +187,7 @@ internal static class ParagraphFormatter
         double firstLine = (pp.FirstLineIndent ?? 0) / 20.0;
         double firstStart = hanging > 0 ? leftInd - hanging : leftInd + firstLine;
 
+        PageFieldScanner.Prepare(ctx, p);
         List<(Run Run, string? Link)> runs = CollectRuns(ctx, p);
         var infos = new List<RunInfo>(runs.Count);
         var text = new System.Text.StringBuilder();
@@ -469,6 +471,13 @@ internal static class ParagraphFormatter
     // noBreakHyphen and softHyphen their characters. Drawings and objects are not laid out yet and are reported once.
     private static void AppendRunText(LayoutContext ctx, Run run, System.Text.StringBuilder sb, Paragraph p)
     {
+        if (ctx.RunText is { } replaced && replaced.TryGetValue(run, out string? replacement))
+        {
+            // A page-number field in a header or footer shows the number of the page it is printed on (see PageFieldScanner).
+            sb.Append(replacement);
+            return;
+        }
+
         for (MarkupNode n = run.Markup.Node.FirstChild; !n.IsNull; n = n.NextSibling)
         {
             if (n.Kind != MarkupNodeKind.Element)
@@ -493,7 +502,8 @@ internal static class ParagraphFormatter
             else if (Xml.Eq(e.LocalName, "br"))
             {
                 string? type = Xml.Attr(e, "type");
-                sb.Append(type is "page" or "column" ? '\f' : '\n');
+                // A column break is U+000E (Word's own character for it) so the flow can tell it from a page break.
+                sb.Append(type == "page" ? '\f' : type == "column" ? '\u000E' : '\n');
             }
             else if (Xml.Eq(e.LocalName, "cr"))
             {
@@ -514,7 +524,7 @@ internal static class ParagraphFormatter
                     sb.Append(SymbolMap.Map(Xml.Attr(e, "font"), code));
                 }
             }
-            else if (Xml.Eq(e.LocalName, "drawing") || Xml.Eq(e.LocalName, "pict") || Xml.Eq(e.LocalName, "object"))
+            else if ((Xml.Eq(e.LocalName, "drawing") || Xml.Eq(e.LocalName, "pict") || Xml.Eq(e.LocalName, "object")) && !Watermarks.IsWatermark(n))
             {
                 ctx.NoteOnce("layout.drawing-skipped", "layout.drawing-skipped", "Pictures and drawn objects in paragraphs are not laid out yet; their space is not reserved.", p);
             }
@@ -787,13 +797,13 @@ internal static class ParagraphFormatter
             char ch = text[i];
             int runIndex = charRun[i];
             RunInfo info = infos[runIndex];
-            if (ch is '\t' or '\n' or '\f' or '\u00AD')
+            if (ch is '\t' or '\n' or '\f' or '\u000E' or '\u00AD')
             {
                 AtomKind kind = ch switch
                 {
                     '\t' => AtomKind.Tab,
                     '\n' => AtomKind.LineBreak,
-                    '\f' => AtomKind.PageBreak,
+                    '\f' or '\u000E' => AtomKind.PageBreak,
                     _ => AtomKind.Soft,
                 };
                 var special = new Piece { Kind = kind, Run = info, Start = i, Length = 1, Level = paragraphLevel, Size = info.Size, Text = ch.ToString() };
@@ -815,7 +825,7 @@ internal static class ParagraphFormatter
             while (j < text.Length && charRun[j] == runIndex && levels[j] == level)
             {
                 char cj = text[j];
-                if (cj is '\t' or '\n' or '\f' or '\u00AD')
+                if (cj is '\t' or '\n' or '\f' or '\u000E' or '\u00AD')
                 {
                     break;
                 }
