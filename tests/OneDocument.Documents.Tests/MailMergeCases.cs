@@ -26,7 +26,7 @@ internal static class MailMergeCases
 
     private static int _rsid;
 
-    private static string Rsid() => "00" + (0xA10 + _rsid++).ToString("X4", System.Globalization.CultureInfo.InvariantCulture);
+    private static string Rsid() => "0000" + (0xA10 + _rsid++).ToString("X4", System.Globalization.CultureInfo.InvariantCulture);
 
     /// <summary>A text run with a revision-session id, as Word leaves them.</summary>
     public static string Run(string text, string rPr = "") =>
@@ -112,7 +112,7 @@ internal static class MailMergeCases
                 P(Run("Body of the letter to ") + Mf("First") + Run(".")), People,
                 Header: P(Run("To: ") + Mf("Last") + Run(" – page ") + Cf("1", string.Empty, " PAGE ")), Settings: true),
 
-            new("single-document", P("<w:bookmarkStart w:id=\"0\" w:name=\"top\"/>" + Run("Letter to ") + Mf("First") + "<w:bookmarkEnd w:id=\"0\"/>") + P(Run("From ") + Mf("City")) + P("<w:r><w:drawing><wp:inline><wp:extent cx=\"100\" cy=\"100\"/><wp:docPr id=\"1\" name=\"Picture 1\"/></wp:inline></w:drawing></w:r>"),
+            new("single-document", P("<w:bookmarkStart w:id=\"0\" w:name=\"top\"/>" + Run("Letter to ") + Mf("First") + "<w:bookmarkEnd w:id=\"0\"/>") + P(Run("From ") + Mf("City")) + P("<w:r><w:drawing><wp:inline><wp:extent cx=\"100\" cy=\"100\"/><wp:docPr id=\"1\" name=\"Picture 1\"/><a:graphic xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"><a:graphicData uri=\"urn:x\"/></a:graphic></wp:inline></w:drawing></w:r>"),
                 People, Single: true),
 
             new("single-table-last", P(Run("List")) + "<w:tbl><w:tblPr><w:tblW w:w=\"0\" w:type=\"auto\"/></w:tblPr><w:tblGrid><w:gridCol w:w=\"3000\"/></w:tblGrid><w:tr><w:tc><w:tcPr><w:tcW w:w=\"3000\" w:type=\"dxa\"/></w:tcPr>" + P(Mf("First")) + "</w:tc></w:tr></w:tbl>",

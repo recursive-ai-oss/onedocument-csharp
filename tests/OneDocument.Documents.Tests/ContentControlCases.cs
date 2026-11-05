@@ -29,7 +29,7 @@ internal static class ContentControlCases
         "<w:sdt><w:sdtPr><w:alias w:val=\"" + tag + "\"/><w:tag w:val=\"" + tag + "\"/><w:id w:val=\"" + (1000 + _id++) + "\"/>" + Bind(xpath) + type + "</w:sdtPr><w:sdtContent>"
         + "<w:r><w:rPr>" + rPr + "</w:rPr><w:t>" + content + "</w:t></w:r></w:sdtContent></w:sdt>";
 
-    private static string P(string inner) => "<w:p w:rsidR=\"00A11000\">" + inner + "</w:p>";
+    private static string P(string inner) => "<w:p w:rsidR=\"0000A110\">" + inner + "</w:p>";
 
     private static string Row(string inner) => "<w:p>" + inner + "</w:p>";
 
@@ -50,7 +50,7 @@ internal static class ContentControlCases
     {
         _id = 0;
         string customer = "/ns0:order[1]/ns0:customer[1]";
-        const string DateType = "<w:date><w:dateFormat w:val=\"d MMMM yyyy\"/><w:lid w:val=\"en-US\"/><w:storeMappedDataType w:val=\"dateTime\"/><w:calendar w:val=\"gregorian\"/></w:date>";
+        const string DateType = "<w:date><w:dateFormat w:val=\"d MMMM yyyy\"/><w:lid w:val=\"en-US\"/><w:storeMappedDataAs w:val=\"dateTime\"/><w:calendar w:val=\"gregorian\"/></w:date>";
         const string Colours = "<w:dropDownList><w:listItem w:displayText=\"Red\" w:value=\"r\"/><w:listItem w:displayText=\"Green\" w:value=\"g\"/><w:listItem w:displayText=\"Blue\" w:value=\"b\"/></w:dropDownList>";
         const string ComboColours = "<w:comboBox><w:listItem w:displayText=\"Red\" w:value=\"r\"/><w:listItem w:displayText=\"Green\" w:value=\"g\"/></w:comboBox>";
         const string Data = """{"customer":"Globex & Sons","due":"2025-07-04","paid":true,"colour":"b","notes":"Line one\nLine two","lines":[{"name":"Bolt","qty":10},{"name":"Nut","qty":20},{"name":"Washer","qty":30}]}""";
