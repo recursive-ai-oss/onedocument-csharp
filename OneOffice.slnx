@@ -16,6 +16,7 @@
     <Project Path="tests/OneOffice.Documents.Tests/OneOffice.Documents.Tests.csproj" />
     <Project Path="tests/OneOffice.Spreadsheets.Tests/OneOffice.Spreadsheets.Tests.csproj" />
     <Project Path="tests/OneOffice.Schema.Tests/OneOffice.Schema.Tests.csproj" />
+    <Project Path="tests/OneOffice.Generators.Tests/OneOffice.Generators.Tests.csproj" />
   </Folder>
   <Folder Name="/tools/">
     <Project Path="tools/ViewGenerator/ViewGenerator.csproj" />
@@ -32,6 +33,7 @@
     <Project Path="tools/XlsxProbe/XlsxProbe.csproj" />
     <Project Path="tools/OracleCases/OracleCases.csproj" />
     <Project Path="tools/CsvProbe/CsvProbe.csproj" />
+    <Project Path="tools/PocoSample/PocoSample.csproj" />
   </Folder>
   <Folder Name="/fuzz/">
     <Project Path="fuzz/OneOffice.Fuzz/OneOffice.Fuzz.csproj" />
