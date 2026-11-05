@@ -23,6 +23,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Layout updates fields with the mail-merge picture and comparison code instead of keeping a second copy. -->
+    <InternalsVisibleTo Include="RecursiveAI.OneDocument.Rendering" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- The build assets travel in the package and are compiled into the application that references it, not into this library. -->
     <Compile Remove="build/**" />
     <None Include="build/RecursiveAI.OneDocument.Documents.targets;build/RecursiveAI.OneDocument.Documents.cs" Pack="true" PackagePath="buildTransitive/" />

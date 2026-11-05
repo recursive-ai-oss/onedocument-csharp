@@ -18,6 +18,7 @@ internal sealed class CompatSettings
     public bool MirrorMargins; // §17.15.1.57
     public bool GutterAtTop; // §17.15.1.46
     public bool DoNotUseHtmlParagraphAutoSpacing;
+    public bool UpdateFields; // w:updateFields: Word updates every field when it opens the file (ECMA-376 Part 1 §17.15.1.92)
 
     /// <summary>The document's equation settings (<c>m:mathPr</c> in the settings part).</summary>
     public RecursiveAI.OneDocument.Equations.MathSettings EquationSettings = RecursiveAI.OneDocument.Equations.MathSettings.Default;
@@ -45,6 +46,7 @@ internal sealed class CompatSettings
         c.EvenAndOddHeaders = Xml.Child(root, "evenAndOddHeaders") is { } eo && Xml.OnOff(eo);
         c.MirrorMargins = Xml.Child(root, "mirrorMargins") is { } mm && Xml.OnOff(mm);
         c.GutterAtTop = Xml.Child(root, "gutterAtTop") is { } gt && Xml.OnOff(gt);
+        c.UpdateFields = Xml.Child(root, "updateFields") is { } uf && Xml.OnOff(uf);
         if (Xml.Child(root, "compat") is { } compat)
         {
             // Word 2003-era documents carry no compatSetting; those lay out as mode 11.
@@ -122,8 +124,8 @@ internal sealed class LayoutContext
     /// <summary>Replacement text for runs of page-number fields in the story being formatted, keyed by run.</summary>
     public Dictionary<Run, string>? RunText { get; set; }
 
-    /// <summary>Set when a field needed the page totals (NUMPAGES, SECTIONPAGES), so a second pass with the first pass's counts is worth running.</summary>
-    public bool UsesPageTotals { get; set; }
+    /// <summary>What field evaluation reads in this pass (model, previous pass's facts, options); null when no field needs it.</summary>
+    public FieldEnv? Fields { get; set; }
 
     /// <summary>The numbering of the note references in the body (empty for a document without notes).</summary>
     public NotePlan NotePlan { get; set; } = NotePlan.Empty;
