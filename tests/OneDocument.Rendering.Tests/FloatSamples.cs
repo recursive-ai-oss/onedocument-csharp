@@ -115,6 +115,17 @@ internal static class FloatSamples
             list.Add(("floating-table", TestDocx.Bytes(Title("A floating table") + tbl + Para(string.Empty, 200))));
         }
 
+        // Drop caps and a text frame.
+        {
+            string cap(string mode, int lines) => "<w:p><w:pPr><w:framePr w:dropCap=\"" + mode + "\" w:lines=\"" + lines + "\" w:wrap=\"around\" w:vAnchor=\"text\" w:hAnchor=\"text\"/><w:spacing w:line=\"240\" w:lineRule=\"auto\"/></w:pPr><w:r><w:rPr><w:sz w:val=\"" + (lines * 24) + "\"/></w:rPr><w:t>L</w:t></w:r></w:p>";
+            list.Add(("dropcap", TestDocx.Bytes(Title("A drop cap over three lines") + cap("drop", 3) + "<w:p><w:r><w:t xml:space=\"preserve\">" + Words(130, "orem") + "</w:t></w:r></w:p>" + Title("A capital in the margin") + cap("margin", 2) + "<w:p><w:pPr><w:ind w:left=\"720\"/></w:pPr><w:r><w:t xml:space=\"preserve\">" + Words(40, "orem") + "</w:t></w:r></w:p>")));
+            string frame = "<w:framePr w:w=\"2400\" w:h=\"1200\" w:hRule=\"exact\" w:hSpace=\"180\" w:vSpace=\"90\" w:wrap=\"around\" w:hAnchor=\"margin\" w:vAnchor=\"text\" w:x=\"6000\" w:y=\"1\"/>";
+            list.Add(("frame", TestDocx.Bytes(Title("A text frame") +
+                "<w:p><w:pPr>" + frame + "<w:shd w:val=\"clear\" w:fill=\"FFF2CC\"/></w:pPr><w:r><w:t>Frame paragraph one, in a narrow box.</w:t></w:r></w:p>" +
+                "<w:p><w:pPr>" + frame + "<w:shd w:val=\"clear\" w:fill=\"FFF2CC\"/></w:pPr><w:r><w:t>Paragraph two of the same frame.</w:t></w:r></w:p>" +
+                Para(string.Empty, 200))));
+        }
+
         // An object anchored in a table cell, positioned from the cell (layoutInCell) and, in a second cell, from the page.
         {
             string cellOf(string body, int w) => "<w:tc><w:tcPr><w:tcW w:w=\"" + w + "\" w:type=\"dxa\"/></w:tcPr>" + body + "</w:tc>";

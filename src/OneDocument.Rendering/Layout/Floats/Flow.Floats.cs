@@ -14,6 +14,11 @@ public static partial class LayoutEngine
                 return false;
             }
 
+            if (fp.DropCap is not null)
+            {
+                return true;
+            }
+
             foreach (InlineDrawing d in fp.Floats)
             {
                 if (d.Info.Anchor is { Wrap: not DrawingWrap.None })
@@ -111,6 +116,11 @@ public static partial class LayoutEngine
             var boxes = new List<FloatBox>(_page!.FloatBoxes);
             if (includeOwn)
             {
+                if (DropCapBox(fp, y0, out _, out _) is { } capBox)
+                {
+                    boxes.Add(capBox);
+                }
+
                 foreach ((_, _, FloatBox box) in PlaceCandidates(fp, y0))
                 {
                     boxes.Add(box);

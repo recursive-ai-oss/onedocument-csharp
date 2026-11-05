@@ -105,6 +105,13 @@ internal sealed class Piece
     public double[] CAdv = []; // advance of the cluster in points before scale and spacing
 }
 
+internal sealed class DropCapInfo(FormattedParagraph paragraph, FrameInfo info)
+{
+    public FormattedParagraph Paragraph { get; } = paragraph;
+
+    public FrameInfo Info { get; } = info;
+}
+
 internal sealed class LineItem
 {
     public LayoutRunKind Kind;
@@ -159,6 +166,7 @@ internal class FormattedParagraph
     public double FormattedWidth; // the text width the lines were cut for, so the flow can re-cut them in a column of another width
     public List<FormattedLine> Lines = [];
     public List<InlineDrawing> Floats = [];
+    public DropCapInfo? DropCap; // a drop cap set at the start of this paragraph, formatted from the paragraph before it
     public bool Reflowed; // lines were cut around floating objects at a particular place
     public ParagraphPaintInfo Paint = new();
 }

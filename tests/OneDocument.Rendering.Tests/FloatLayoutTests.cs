@@ -267,6 +267,45 @@ public sealed class FloatLayoutTests
     }
 
     [Fact]
+    public void A_drop_cap_sits_left_of_the_first_lines_and_the_text_goes_round_it()
+    {
+        LayoutPage page = Lay("dropcap").Pages[0];
+        LayoutParagraph cap = page.BodyParagraphs.First(p => p.Text == "L");
+        LayoutParagraph para = page.BodyParagraphs.First(p => p.Text.StartsWith("orem", StringComparison.Ordinal));
+        Assert.Equal(72, cap.Bounds.X, 1);
+        var lines = para.Lines.ToList();
+        double capRight = cap.Lines.First().Runs.Max(r => r.Bounds.Right);
+        // The first three lines start right of the capital, the fourth is back at the margin.
+        for (int i = 0; i < 3; i++)
+        {
+            Assert.True(lines[i].Bounds.X >= capRight - 0.5, $"line {i} starts at {lines[i].Bounds.X}, the capital ends at {capRight}");
+        }
+
+        Assert.Equal(72, lines[3].Bounds.X, 1);
+        // The capital's baseline is the baseline of the third line.
+        Assert.Equal(lines[2].Baseline, cap.Lines.First().Baseline, 1);
+        // In the margin: the text is not moved, the capital stands left of the margin.
+        LayoutParagraph marginCap = page.BodyParagraphs.Last(p => p.Text == "L");
+        Assert.True(marginCap.Lines.First().Runs.Max(r => r.Bounds.Right) <= 72 + 0.5);
+    }
+
+    [Fact]
+    public void A_text_frame_sits_at_its_position_and_text_wraps_round_it()
+    {
+        LayoutPage page = Lay("frame").Pages[0];
+        var frameParas = page.BodyParagraphs.Where(p => p.Text.StartsWith("Frame", StringComparison.Ordinal) || p.Text.StartsWith("Paragraph two", StringComparison.Ordinal)).ToList();
+        Assert.Equal(2, frameParas.Count);
+        Assert.Equal(72 + 300, frameParas[0].Bounds.X, 1);
+        Assert.True(frameParas[1].Bounds.Y > frameParas[0].Bounds.Y);
+        LayoutParagraph body = page.BodyParagraphs.Single(p => p.Text.StartsWith("alpha", StringComparison.Ordinal) || p.Text.Length > 300);
+        var frameRect = new LayoutRect(372, frameParas[0].Bounds.Y, 120, 60);
+        foreach (LayoutLine l in body.Lines.Where(l => l.Baseline > frameRect.Y && l.Baseline - l.Ascent < frameRect.Bottom))
+        {
+            Assert.All(l.Runs, r => Assert.True(r.Bounds.Right <= frameRect.X - 8.9 || r.Bounds.X >= frameRect.Right - 0.01 || r.Text.Trim().Length == 0));
+        }
+    }
+
+    [Fact]
     public void A_table_in_a_text_box_is_laid_out_and_painted()
     {
         LayoutDocument layout = Lay("textbox-table");

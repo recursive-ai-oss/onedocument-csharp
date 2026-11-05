@@ -103,13 +103,48 @@ public static partial class LayoutEngine
 
         private void Collect(IEnumerable<BlockElement> elements, List<FormattedParagraph> into, CancellationToken ct)
         {
+            DropCapInfo? pendingCap = null;
+            FormattedFrameBlock? openFrame = null;
             foreach (BlockElement b in elements)
             {
                 ct.ThrowIfCancellationRequested();
+                if (b is not Paragraph)
+                {
+                    openFrame = null;
+                }
+
                 switch (b)
                 {
                     case Paragraph p:
+                        FrameInfo? frame = FrameInfo.Read(p.ResolvedProperties);
+                        if (frame is { DropCap: "drop" or "margin" })
+                        {
+                            // The capital belongs to the paragraph after it; it is set when that paragraph is placed.
+                            FormattedParagraph capFp = ParagraphFormatter.Format(p, ctx, 30000);
+                            pendingCap = new DropCapInfo(capFp, frame);
+                            break;
+                        }
+
+                        if (frame is not null)
+                        {
+                            if (openFrame is not null && openFrame.Frame.Key == frame.Key)
+                            {
+                                openFrame.Paragraphs.Add(p);
+                            }
+                            else
+                            {
+                                openFrame = new FormattedFrameBlock { Source = p, Frame = frame };
+                                openFrame.Paragraphs.Add(p);
+                                into.Add(openFrame);
+                            }
+
+                            break;
+                        }
+
+                        openFrame = null;
                         FormattedParagraph fp = ParagraphFormatter.Format(p, ctx, _textWidth);
+                        fp.DropCap = pendingCap;
+                        pendingCap = null;
                         SnapToGrid(fp);
                         into.Add(fp);
                         break;
@@ -173,6 +208,12 @@ public static partial class LayoutEngine
             if (fp is FormattedTableBlock tableBlock)
             {
                 PlaceTable(tableBlock.Table);
+                return;
+            }
+
+            if (fp is FormattedFrameBlock frameBlock)
+            {
+                PlaceFrame(frameBlock);
                 return;
             }
 
@@ -248,7 +289,9 @@ public static partial class LayoutEngine
                     double gapNow = Gap(fp);
                     double y0 = _y + (placed == 0 ? gapNow : 0);
                     ILineSpace? space = wantSpace ? BuildSpace(fp, y0, placed == 0 ? fp.BorderTopHeight : 0, includeOwn: placed == 0) : null;
+                    DropCapInfo? dropCap = fp.DropCap;
                     fp = ParagraphFormatter.Format(fp.Source, ctx, _textWidth, space, placed > 0 ? fp : null, placed);
+                    fp.DropCap = dropCap;
                     SnapToGrid(fp);
                     blocks[index] = fp;
                     if (placed >= fp.Lines.Count)
@@ -420,6 +463,19 @@ public static partial class LayoutEngine
             if (first)
             {
                 CommitFloats(fp, lp, top);
+                if (fp.DropCap is { } cap)
+                {
+                    FloatBox? capBox = DropCapBox(fp, top, out LayoutRect capRect, out double capTop);
+                    LayoutParagraph capLp = ParagraphEmitter.Build(cap.Paragraph, 0, cap.Paragraph.Lines.Count, capRect.X, capTop, true, true, out _, out _);
+                    capLp.Bounds = capLp.Bounds with { Width = capRect.Width };
+                    capLp.Story = _story;
+                    capLp.Column = _colIndex;
+                    page.Add(capLp);
+                    if (capBox is not null && _story == LayoutStory.Body)
+                    {
+                        page.FloatBoxes.Add(capBox);
+                    }
+                }
             }
 
             _y = y;
