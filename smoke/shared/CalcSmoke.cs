@@ -30,6 +30,12 @@ internal static class CalcSmoke
         Check("SEQUENCE(2,3)", "array 2x3");
         Check("TEXT(1234.5,\"#,##0.00\")", "1,234.50");
         Check("IFERROR(1/0,\"e\")", "e");
+        Check("ROUND(2.675,2)+MOD(-3,2)", "3.68");
+        Check("SUMIF(A1:A3,\">11\")", "52"); // 21 + 31
+        Check("TEXTJOIN(\"-\",TRUE,\"a\",\"\",\"b\")", "a-b");
+        Check("REGEXREPLACE(\"a1b2\",\"[0-9]\",\"#\")", "a#b#");
+        Check("MMULT({1,2;3,4},{5;6})", "array 2x1");
+        Check("ROMAN(2013)&SUBSTITUTE(\"x\",\"x\",\"y\")", "MMXIIIy");
         string printed = FormulaPrinter.Print(FormulaParser.Parse("_xlfn.SEQUENCE(2)+'S 1'!$A$1"));
         if (printed != "_xlfn.SEQUENCE(2)+'S 1'!$A$1")
         {
