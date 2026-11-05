@@ -29,6 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="../../tools/ChartProbe/ChartSamples.cs" Link="Charts/ChartSamples.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="../../src/OneDocument.Rendering/OneDocument.Rendering.csproj" />
   </ItemGroup>
 
