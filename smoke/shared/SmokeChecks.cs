@@ -64,6 +64,7 @@ internal static class SmokeChecks
         Check("source stream", stream.ReadByte() == 1 && stream.Length == 3);
         failures.AddRange(SchemaSmoke.Run());
         failures.AddRange(SheetSmoke.Run());
+        failures.AddRange(CsvSmoke.Run());
         failures.AddRange(DocumentSmoke.Run());
         failures.AddRange(NumFmtSmoke.Run());
         // Text extraction streams the main part through the package layer and the XML reader, and is registered statically.

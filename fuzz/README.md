@@ -14,6 +14,7 @@
 | `text` | one mode byte + a part | the OOXML text extractors (word-processing, drawing, shared strings and worksheet): typed rejections only, and extracting twice gives the same text |
 | `revisions` | raw bytes (a WordprocessingML part) | the revision model: scan, both text views, accept-all, reject-all, one revision, and an authoring call with positions taken from the input; the results re-parse |
 | `numfmt` | UTF-8 text (a format code) | the number-format parser: a rejection is a located `numfmt.` defect; an accepted code formats a spread of values in both date systems and several cultures without throwing, deterministically |
+| `csv` | one option byte + delimited text | the CSV reader, value parser, writer and workbook import: the same records whether read whole or in 1 to 8 byte pieces, write then read gives the same fields, every field parses as a value, the import then export works; typed rejections only |
 | `numfmtfmt` | 8 bytes double, 1 option byte, UTF-8 code | the formatter: string and span results agree, an exactly sized span succeeds, one character less reports `DestinationTooSmall` |
 
 Only `OfficeException` may come out of a library call: it is the typed rejection of bad input. Any other exception, a failed invariant, a hang (`-timeout`) or a memory blow-up (`-rss_limit_mb`) is a finding.

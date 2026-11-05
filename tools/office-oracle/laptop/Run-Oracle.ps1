@@ -264,6 +264,28 @@ function Invoke-Excel($app, $item, $path, $outDir, $res) {
             }
             $res.cells = $cells
         }
+        if ($item.mode -eq 'cells') {
+            # Cells mode: every used cell of the first sheet as row<TAB>col<TAB>type<TAB>value<TAB>numberFormat<TAB>text, to
+            # <workbook>.cells.tsv beside the results. type is string, number, boolean, error or empty; numbers are round-trip
+            # text in the invariant culture; errors are the numeric code Excel reports (2007 is #DIV/0!, 2042 is #N/A).
+            $ws = $wb.Worksheets.Item(1)
+            $ur = $ws.UsedRange
+            $r0 = [int]$ur.Row; $c0 = [int]$ur.Column
+            $lines = New-Object System.Collections.Generic.List[string]
+            $inv = [Globalization.CultureInfo]::InvariantCulture
+            foreach ($c in $ur.Cells) {
+                $v = $c.Value2
+                if ($v -eq $null) { $type = 'empty'; $vt = '' }
+                elseif ($v -is [string]) { $type = 'string'; $vt = $v }
+                elseif ($v -is [bool]) { $type = 'boolean'; $vt = [string]$v }
+                elseif ($v -is [double]) { $type = 'number'; $vt = $v.ToString('R', $inv) }
+                else { $type = 'error'; $vt = [string][int]$v }
+                $esc = { param($x) ([string]$x).Replace('\', '\\').Replace("`t", '\t').Replace("`n", '\n').Replace("`r", '\r') }
+                $lines.Add(([string]$c.Row) + "`t" + ([string]$c.Column) + "`t" + $type + "`t" + (& $esc $vt) + "`t" + (& $esc $c.NumberFormat) + "`t" + (& $esc $c.Text))
+            }
+            [IO.File]::WriteAllLines((Join-Path $outDir ([IO.Path]::GetFileNameWithoutExtension($path) + '.cells.tsv')), $lines, $utf8)
+            $res.cells = @{ rows = $lines.Count; usedRow = $r0; usedColumn = $c0; excelVersion = [string]$app.Version; build = [string]$app.Build }
+        }
         if ($item.mode -eq 'grid') {
             # Grid mode: column A holds an id; the answer is column D (sheet "text", the TEXT() result) or column B
             # (sheet "cells", the displayed text of a cell with a custom number format). Written as id<TAB>answer lines,
@@ -486,7 +508,7 @@ public class DialogWatcher
         }
         $path = Join-Path $jobRoot $item.file
         $ext = [IO.Path]::GetExtension($path).ToLowerInvariant()
-        $kind = switch -regex ($ext) { '^\.(docx|docm|dotx|dotm|doc|rtf|xml)$' { 'word' } '^\.(xlsx|xlsm|xltx|xltm|xlsb|xls)$' { 'excel' } '^\.(pptx|pptm|potx|ppsx|ppt)$' { 'powerpoint' } default { $null } }
+        $kind = switch -regex ($ext) { '^\.(docx|docm|dotx|dotm|doc|rtf|xml)$' { 'word' } '^\.(xlsx|xlsm|xltx|xltm|xlsb|xls|csv)$' { 'excel' } '^\.(pptx|pptm|potx|ppsx|ppt)$' { 'powerpoint' } default { $null } }
         $res = @{ kind = 'file'; file = $item.file; app = $kind; mode = $item.mode }
         if (-not $kind) { $res.outcome = 'error'; $res.error = 'unknown extension'; Write-Line $res; continue }
         $watch = [Diagnostics.Stopwatch]::StartNew()

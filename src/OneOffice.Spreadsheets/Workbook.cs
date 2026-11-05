@@ -134,6 +134,11 @@ public sealed partial class Workbook : OfficeFile
                 throw new OfficeFormatException(DefectKind.Structure, "format.unrecognised", "The content is not a format OneOffice knows.");
             }
 
+            if (sniffed is OfficeFormat.Csv or OfficeFormat.Tsv)
+            {
+                return Csv.CsvDocument.FromSource(source, sniffed, context, cancellationToken);
+            }
+
             if (!IsWorkbookFormat(sniffed))
             {
                 throw new FormatNotAvailableException(sniffed, "open as a workbook:");
@@ -611,6 +616,10 @@ public sealed partial class Workbook : OfficeFile
         if (IsWorkbookFormat(format))
         {
             Write(format, destination, cancellationToken);
+        }
+        else if (format is OfficeFormat.Csv or OfficeFormat.Tsv)
+        {
+            Csv.CsvDocument.Write(this, destination, new Csv.CsvWriteOptions { Delimiter = format == OfficeFormat.Tsv ? '\t' : ',' }, null, cancellationToken);
         }
         else
         {

@@ -39,6 +39,7 @@ internal static class Program
         ["sheet"] = SheetTarget.RunSheet,
         ["sst"] = SheetTarget.RunSst,
         ["wbpart"] = SheetTarget.RunWorkbookPart,
+        ["csv"] = CsvTarget.Run,
     };
 
     private static int Main(string[] args)
@@ -62,6 +63,7 @@ internal static class Program
                 "sdt" or "sdtpath" => SdtTarget.WriteSeeds(args[2]),
                 "numfmt" or "numfmtfmt" => NumFmtTarget.WriteSeeds(args[2]),
                 "sheet" or "sst" or "wbpart" => SheetTarget.WriteSeeds(args[2]),
+                "csv" => CsvTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }

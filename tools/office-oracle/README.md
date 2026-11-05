@@ -103,6 +103,13 @@ from column D (the result of a formula), any other sheet from column B (the disp
 id in column A. The `grid` field of the result line records Excel's decimal and thousands separators, country code and
 build. It is used by the number-format grid in `tools/NumFmtGrid`.
 
+## Cells mode (Excel)
+
+`office-oracle.sh run --cells ...` opens each file (a workbook, or a `.csv` that Excel parses itself), and writes
+`NAME.cells.tsv` beside the results: one line per used cell of the first sheet, `row<TAB>col<TAB>type<TAB>value<TAB>numberFormat<TAB>text`
+(escapes as in grid mode). `type` is `string`, `number` (round-trip text, invariant culture), `boolean`, `error` (Excel's numeric
+code, 2042 for `#N/A`) or `empty`. The CSV tests use it to compare Excel's reading of a text file with OneOffice's.
+
 ## Runs are self-contained
 
 Each `run` registers its own one-off task, `OneOfficeOracle-<run>` (`laptop/Start-Run.ps1`), whose command line carries the
