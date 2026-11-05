@@ -24,14 +24,15 @@ Each row is one operation on one generated input, with the same work for every l
 
 | Class | Operation | Rows |
 |---|---|---|
-| `DocxLoadSave` | open a package and save it, untouched | raw zip baseline, Open XML SDK (open + clone), NPOI (load + write) |
-| `DocxEdit` | change one paragraph's text, save | raw zip baseline (rewrite one part), Open XML SDK, NPOI |
-| `DocxLazyOpen` | open and read one small part | raw zip baseline, Open XML SDK (styles part), NPOI (loads everything) |
-| `DocxExtract` | read all body text | Open XML SDK DOM, Open XML SDK forward reader, NPOI extractor |
+| `DocxLoad` | open and read the first paragraph's text | raw zip baseline (read the main part), Open XML SDK (open read-only, load the main part's DOM), NPOI (load the model), OneOffice (`Document.Open`, first paragraph) |
+| `DocxLoadSave` | open a package and save it, untouched | raw zip baseline, Open XML SDK (open + clone), NPOI (load + write), OneOffice (`Document.Open`, `SaveAs`) |
+| `DocxEdit` | change one paragraph's text, save | raw zip baseline (rewrite one part), Open XML SDK, NPOI, OneOffice |
+| `DocxLazyOpen` | open and read one small part | raw zip baseline, Open XML SDK (styles part), NPOI (loads everything), OneOffice (open, styles) |
+| `DocxExtract` | read all body text | Open XML SDK DOM, Open XML SDK forward reader, NPOI extractor, OneOffice streaming extractor |
 
 The raw zip baseline is the BCL zip classes reading and writing every entry: the floor any tool that recompresses has to pay. It is the baseline row of its class, and ratios in the tables are relative to the first row of each class.
 
-Rows for OneOffice's own layers are listed by `dotnet <bench.dll> rows` as `pending:` until the layer exists. When a layer lands, its unit adds the row (see below).
+Rows for a layer that does not exist yet are listed by `dotnet <bench.dll> rows` as `pending:`. When a layer lands, its unit adds the row (see below).
 
 ### Like-for-like modes
 
@@ -84,6 +85,61 @@ wq run --class heavy --cores 4 --max 20m --label "oneoffice bench indicative" --
 ```
 
 Published rows use the bench class, once per machine, in groups of at most 20 minutes. A run that overlapped other work is not publishable.
+
+## Published rows: Word-processing documents, first preview
+
+Medians of five measured iterations after one warm-up (BenchmarkDotNet 0.15.8, .NET 10.0.14, SDK 10.0.403), one thread visible to the runtime (`--threads 1`). The operations are single-document and none of the comparators uses more than one core, so single-thread is the like-for-like mode; the all-cores mode is not published for these rows. Comparators: Open XML SDK 3.5.1 and NPOI 2.7.6 (XWPF). Inputs: `small`, `medium`, `pages1000` (the 1,000-page document, 11 MB of main-part XML). The `large` input is used only in the peak-memory pass. Like-for-like modes are as in the section above: the SDK's untouched-save row clones the package without parsing the main part, and its load row parses the whole main part.
+
+Each machine ran one timing group and one peak-memory group under the machine's exclusive benchmark queue class, each started alone on the machine. Full result pages, with the load log and per-class tables: [`published/x64-timing.md`](published/x64-timing.md), [`published/x64-peak.md`](published/x64-peak.md), [`published/arm64-timing.md`](published/arm64-timing.md), [`published/arm64-peak.md`](published/arm64-peak.md).
+
+| | x64 | arm64 |
+|---|---|---|
+| Machine | AMD Ryzen 9 7950X3D, 16 cores / 32 threads, AVX2/AVX-512, 125 GB, NVMe, Linux 7.0 | Apple M2 (Mac mini), 4 performance + 4 efficiency cores, 8 GB, NEON, macOS |
+| Load average (1 min) before / during (min–max of 48 samples) / after | 1.74 / 1.43–4.43 / 1.63 | 1.29 / 1.35–2.25 (47 samples) / 2.11 |
+
+The x64 peak-memory group started at a load average of 2.39 (limit 2.0) and was forced; memory figures do not depend on load. Other light work on both machines kept the load average above idle during the runs (the start check only guarantees an idle machine at the start), so treat ratios within a few percent of 1.00 as ties.
+
+### Ratios against the fastest comparator (OneOffice median / comparator median)
+
+| Class | Input | x64 | arm64 |
+|---|---|---:|---:|
+| DocxLoad | small | 0.38 | 0.34 |
+| DocxLoad | medium | 0.14 | 0.07 |
+| DocxLoad | pages1000 | 0.16 | 0.17 |
+| DocxLoadSave | small | 0.49 | 0.57 |
+| DocxLoadSave | medium | 0.69 | 0.19 |
+| DocxLoadSave | pages1000 | **0.93** | **1.09** |
+| DocxEdit | small | 0.85 | 0.59 |
+| DocxEdit | medium | 0.21 | 0.26 |
+| DocxEdit | pages1000 | 0.44 | 0.33 |
+| DocxExtract | small | 0.61 | 0.52 |
+| DocxExtract | medium | 0.07 | 0.07 |
+| DocxExtract | pages1000 | 0.47 | 0.33 |
+| **Geometric mean, 12 rows** | | **0.36** | **0.29** |
+| **Worst row** | | 0.93 | 1.09 |
+
+Every row is at the bar (geometric mean at most 1.00, no row above 1.25). The tightest rows are untouched save of the 1,000-page document: it is within noise of the SDK, which copies the package without reading the main part, while OneOffice reads and checks the 11 MB main part on open. About 85% of that row's time is the XML tokenizer; one pass of tuning in this release (skipping the namespace-declaration pass for tags that declare none) took the tokenizer from 110 ms to 95 ms on the same machine.
+
+**Opening a document and reading only a small part is not at the bar.** The `DocxLazyOpen` class opens a document and reads the style definitions. The SDK does not touch the main part for this; OneOffice's `Document.Open` parses and checks the main part (it must be well-formed XML), so on `medium` it is 7.4x (x64) and 12.5x (arm64) slower and on `pages1000` 110x and 99x (111 ms against 1.0 ms), while on `small` it is level (0.92x, 0.97x). Package-level access (`OpcPackage.Open`) is lazy and reads about 0.2 MB of a 48 MB file; it is the document hub that parses the main part up front. This row is not in the closing set above because the lazy-open comparison is between a hub that validates the main part and a package reader that does not, but it is a real gap for anything that wants only a style or a property of a large file. Making the main-part parse lazy would also bring untouched save of large documents well under the SDK; it changes when a malformed main part is reported (at first use instead of at open), so it is a design decision, not a tuning change.
+
+### Peak memory and allocations (fresh process per row, `pages1000`, 1.5 MB file, 11 MB main part)
+
+Baseline is about 31 MB on both sides (runtime and loaded input). Peak is the process high-water mark; allocated is managed bytes allocated by the row. Values from `published/x64-peak.md`.
+
+| Row | OneOffice peak / allocated | Open XML SDK peak / allocated | NPOI peak / allocated |
+|---|---|---|---|
+| load | 91 MB / 53 MB | 132 MB / 83 MB | 305 MB / 302 MB |
+| load + save untouched | 95 MB / 58 MB | 78 MB / 33 MB | 360 MB / 365 MB |
+| edit one paragraph | 102 MB / 82 MB | 169 MB / 132 MB | 361 MB / 365 MB |
+| extract text | 44 MB / 0.6 MB | 108–141 MB / 83–99 MB | 353 MB / 396 MB |
+
+Untouched save is the one row where OneOffice uses more memory than the SDK (1.2x peak, 1.8x allocated), for the same reason as above. On arm64 the peak columns read zero because the runtime does not report a high-water mark on macOS; the allocated column is valid (`published/arm64-peak.md` has the same figures as x64 to within 1%).
+
+Lazy open, bytes read from the source: `Document.Open` on the 1,000-page document reads 1.9 MB for a 1.5 MB file (the directory, then the main part, with some regions read twice) and 3.1 MB for the 47.6 MB `large` input (6.5%); opening only the package reads 0.2 MB of either.
+
+### Setting up another machine
+
+The arm64 numbers come from an Apple M2 Mac mini with a user-local SDK (`dotnet-install.sh --version 10.0.403 --install-dir <dir>`, no administrator rights). Restore needs the pinned preview of the archive library from a local source (`dotnet restore --source <feed dir> --source https://api.nuget.org/v3/index.json`) until it is on nuget.org. `run.sh` reads the load average and CPU details from `sysctl` on macOS.
 
 ## Adding a row
 
