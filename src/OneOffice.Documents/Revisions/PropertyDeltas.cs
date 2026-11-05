@@ -554,7 +554,7 @@ internal sealed class PropertyMerge
                     continue;
                 }
 
-                _items.Add((WordXml.InMain(c) ? c.LocalNameString : "\0", c.OuterXml, c));
+                _items.Add((WordXml.InMain(c) ? c.LocalNameString : "\0", WordXml.Portable(c), c));
             }
         }
     }

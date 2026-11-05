@@ -19,7 +19,7 @@ doc.SaveAs("contract.dotx");      // a copy, as a template
 string text = doc.ExtractText();
 ```
 
-The `Office` statics (`Office.Open`, `Office.ExtractText`) reach this package once an application calls `DocumentFormats.Register(FormatRegistry.Default)` at start; `Document.Open` needs no registration. Only DOCX-family formats are supported in this release; other formats raise `FormatNotAvailableException` naming the format.
+The `Office` statics (`Office.Open`, `Office.ExtractText`) reach this package as soon as an application references it: no registration call is needed (the package adds a module initializer to your C# project at build time; set `OneOfficeAutoRegister` to `false` to opt out and call `DocumentFormats.Register(registry)` yourself). Only DOCX-family formats are supported in this release; other formats raise `FormatNotAvailableException` naming the format.
 
 See the [repository](https://github.com/recursive-ai-oss/oneoffice-csharp) for the status table and the [changelog](https://github.com/recursive-ai-oss/oneoffice-csharp/blob/main/CHANGELOG.md).
 

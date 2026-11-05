@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk.WebAssembly">
+  <PropertyGroup>
+    <AssemblyName>ConsumerWasm</AssemblyName>
+    <DefineConstants>$(DefineConstants);WITH_SPREADSHEETS</DefineConstants>
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="RecursiveAI.OneOffice.Documents" Version="$(OneOfficeVersion)" />
+    <PackageReference Include="RecursiveAI.OneOffice.Spreadsheets" Version="$(OneOfficeVersion)" />
+  </ItemGroup>
+</Project>

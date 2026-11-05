@@ -7,9 +7,9 @@ namespace RecursiveAI.OneOffice.Documents;
 /// <see cref="Office.ExtractText(string, OpenContext?, CancellationToken)"/> and <c>SaveAs</c> reach it.
 /// </summary>
 /// <remarks>
-/// Nothing is found by scanning assemblies: an application that uses the <see cref="Office"/> statics calls
-/// <see cref="Register(FormatRegistry)"/> once at start, with <see cref="FormatRegistry.Default"/>. <see cref="Document.Open(string, OpenContext?, CancellationToken)"/>
-/// needs no registration.
+/// Nothing is found by scanning assemblies. A C# project that references this package gets a module initializer at build time
+/// that calls <see cref="Register(FormatRegistry)"/> with <see cref="FormatRegistry.Default"/>, so the <see cref="Office"/> statics need no setup; call it
+/// yourself for a custom registry, or when the project sets <c>OneOfficeAutoRegister</c> to <c>false</c>. Calling it again is harmless.
 /// </remarks>
 public static class DocumentFormats
 {

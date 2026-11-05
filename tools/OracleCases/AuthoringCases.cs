@@ -158,6 +158,55 @@ internal static class AuthoringCases
         {
             yield return (name, build);
         }
+
+        foreach ((string name, Func<Document> build) in ReportedCases())
+        {
+            yield return (name, build);
+        }
+    }
+
+    // Shapes a tracked-changes writer produced: a paragraph mark revision beside a property change (loaded, not authored), prefixes declared
+    // on the paragraph that is joined or copied, note ids after separators, and wrappers whose only content is a tracked change.
+    private static IEnumerable<(string Name, Func<Document> Build)> ReportedCases()
+    {
+        string auth = "w:author=\"Ann\" w:date=\"2024-03-01T10:00:00Z\"";
+        string markPara(string mark) => "<w:p><w:pPr><w:jc w:val=\"center\"/><w:rPr>" + mark + "</w:rPr><w:pPrChange w:id=\"20\" " + auth + "><w:pPr><w:jc w:val=\"left\"/></w:pPr></w:pPrChange></w:pPr><w:r><w:t>marked</w:t></w:r></w:p>" + Para("next");
+        foreach ((string kind, string mark) in new[] { ("ins", "<w:ins w:id=\"10\" " + auth + "/>"), ("del", "<w:del w:id=\"10\" " + auth + "/>") })
+        {
+            yield return ("loaded-mark-" + kind + "-pprchange", () => Base(markPara(mark)));
+            yield return ("loaded-mark-" + kind + "-pprchange-cell", () => Base("<w:tbl><w:tblPr><w:tblW w:w=\"0\" w:type=\"auto\"/></w:tblPr><w:tblGrid><w:gridCol w:w=\"4800\"/></w:tblGrid><w:tr><w:tc><w:tcPr><w:tcW w:w=\"4800\" w:type=\"dxa\"/></w:tcPr>" + markPara(mark) + "</w:tc></w:tr></w:tbl><w:p/>"));
+        }
+
+        const string R = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+        string declared = "<w:p xmlns:r=\"" + R + "\"><w:r><w:t>Hello world</w:t></w:r><w:hyperlink w:anchor=\"_Top\"><w:r><w:t>link</w:t></w:r></w:hyperlink></w:p>" + Para("Other");
+        yield return ("prefix-insert-paragraph", () => Edit(declared, (d, a) => a.InsertParagraph(P(d, 0), "added")));
+        string declaredPlain = "<w:p xmlns:r=\"" + R + "\"><w:r><w:t>Hello world</w:t></w:r></w:p>" + Para("Other");
+        yield return ("prefix-move-paragraph", () => Edit(declaredPlain, (d, a) => a.MoveParagraph(P(d, 0), P(d, 1), "prefix-move")));
+        yield return ("prefix-join", () => Base("<w:p xmlns:r=\"" + R + "\"><w:pPr><w:rPr><w:ins w:id=\"1\" " + auth + "/></w:rPr></w:pPr><w:ins w:id=\"2\" " + auth + "><w:r><w:t>one</w:t></w:r></w:ins><w:hyperlink w:anchor=\"_Top\"><w:r><w:t xml:space=\"preserve\"> link</w:t></w:r></w:hyperlink></w:p>" + Para("two")));
+
+        yield return ("note-ids", () =>
+        {
+            Document doc = Base(Para("first") + Para("second"));
+            doc.Footnotes.Add("One.").AppendReference(P(doc, 0));
+            doc.Footnotes.Add("Two.").AppendReference(P(doc, 1));
+            doc.Revisions.CreateAuthor("Redliner", s_date, RevisionIds.StartingAt(900)).InsertText(doc.Footnotes.Normal()[1].Paragraphs().First(), 3, "new ");
+            return doc;
+        });
+
+        string[] wrappers =
+        [
+            "<w:smartTag w:uri=\"urn:test\" w:element=\"thing\">{0}</w:smartTag>",
+            "<w:customXml w:uri=\"urn:test\" w:element=\"thing\">{0}</w:customXml>",
+            "<w:hyperlink w:anchor=\"_Top\">{0}</w:hyperlink>",
+            "<w:sdt><w:sdtPr><w:id w:val=\"101\"/><w:text/></w:sdtPr><w:sdtContent>{0}</w:sdtContent></w:sdt>",
+        ];
+        string[] names = ["smarttag", "customxml", "hyperlink", "sdt"];
+        for (int i = 0; i < wrappers.Length; i++)
+        {
+            string w = wrappers[i];
+            yield return ("wrapper-" + names[i] + "-ins", () => Base("<w:p><w:r><w:t xml:space=\"preserve\">before </w:t></w:r>" + string.Format(System.Globalization.CultureInfo.InvariantCulture, w, "<w:ins w:id=\"1\" " + auth + "><w:r><w:t>new</w:t></w:r></w:ins>") + "<w:r><w:t xml:space=\"preserve\"> after</w:t></w:r></w:p>"));
+            yield return ("wrapper-" + names[i] + "-del", () => Base("<w:p><w:r><w:t xml:space=\"preserve\">before </w:t></w:r>" + string.Format(System.Globalization.CultureInfo.InvariantCulture, w, "<w:del w:id=\"1\" " + auth + "><w:r><w:delText>old</w:delText></w:r></w:del>") + "<w:r><w:t xml:space=\"preserve\"> after</w:t></w:r></w:p>"));
+        }
     }
 
     // One tracked paragraph-properties change plus one other edit of the same paragraph, in both orders, in the body, in a table

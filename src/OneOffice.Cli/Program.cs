@@ -1,8 +1,6 @@
 using System.Text;
 using System.Text.Json;
 using RecursiveAI.OneOffice.Diagnostics;
-using RecursiveAI.OneOffice.Documents;
-using RecursiveAI.OneOffice.Formats;
 using RecursiveAI.OneOffice.IO;
 using RecursiveAI.OneOffice.Spreadsheets;
 using RecursiveAI.OneOffice.Spreadsheets.Calc;
@@ -23,9 +21,6 @@ internal static class Program
 
     private static int Main(string[] args)
     {
-        // The statics find readers through the registry; the tool references every package, so it fills it from each.
-        DocumentFormats.Register(FormatRegistry.Default);
-
         if (args.Length >= 2 && args[0] == "detect")
         {
             return Run(args, "detect", Detect);

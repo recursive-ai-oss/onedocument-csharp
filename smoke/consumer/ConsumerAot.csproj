@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Core + Documents + Spreadsheets under NativeAOT (also runs under JIT with dotnet run). -->
+  <PropertyGroup>
+    <AssemblyName>ConsumerAot</AssemblyName>
+    <DefineConstants>$(DefineConstants);WITH_SPREADSHEETS</DefineConstants>
+    <PublishAot>true</PublishAot>
+    <IsAotCompatible>true</IsAotCompatible>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="RecursiveAI.OneOffice.Documents" Version="$(OneOfficeVersion)" />
+    <PackageReference Include="RecursiveAI.OneOffice.Spreadsheets" Version="$(OneOfficeVersion)" />
+  </ItemGroup>
+</Project>

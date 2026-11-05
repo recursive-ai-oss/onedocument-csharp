@@ -167,6 +167,37 @@ public sealed class Evaluator
         }
     }
 
+    // The number of cells a result holds or points at; reading a reference later costs that many cell reads.
+    private static long ResultSize(in CalcValue v)
+    {
+        if (v.Array is { } a)
+        {
+            return (long)a.Rows * a.Columns;
+        }
+
+        if (v.Kind == ValueKind.Reference && v.Reference is { } r)
+        {
+            long n = 0;
+            foreach (CellArea area in r.Areas)
+            {
+                n += (long)area.Rows * area.Columns;
+            }
+
+            return n;
+        }
+
+        return 0;
+    }
+
+    private void ChargeSteps(long count)
+    {
+        _steps += count;
+        if (_steps > _options.MaxSteps)
+        {
+            throw new OfficeLimitException("MaxEvaluationSteps", _options.MaxSteps, _steps);
+        }
+    }
+
     /// <summary>Makes the cell storage for an array, refusing sizes past <see cref="OfficeLimits.MaxAllocationBytes"/>.</summary>
     /// <param name="rows">Rows.</param>
     /// <param name="columns">Columns.</param>
@@ -545,6 +576,8 @@ public sealed class Evaluator
                 }
 
                 CalcValue res = err ?? def.Eager!(this, scalars);
+                // Lifting runs a function once per element, so each call is a step and a call that returns a block is charged for it.
+                ChargeSteps(1 + ResultSize(res));
                 cells[(r * cols) + c] = ToScalar(res);
             }
         }
@@ -919,6 +952,7 @@ public sealed class Evaluator
         {
             for (int c = 0; c < cols; c++)
             {
+                Step();
                 cells[(r * cols) + c] = Apply(op, aa.Broadcasting(r, c), ba.Broadcasting(r, c));
             }
         }

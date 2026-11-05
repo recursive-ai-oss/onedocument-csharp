@@ -64,3 +64,7 @@ by the `w14:paraId` of the last paragraph, and the done state), `commentsIds` (d
 2. Whether a comments part without `mc:Ignorable="w14"` that gets `w14:paraId` added to an existing part (declared locally on the
    element) opens without repair; new parts declare it on the root.
 3. Whether `commentsExtended` alone (no `commentsIds`) is accepted for a reply thread.
+
+## New note and comment ids
+
+`Footnotes.Add`, `Endnotes.Add` and `Comments.Add` take one more than the highest id in use, and at least 1 for notes and 0 for comments. "In use" covers the notes or comments part (separator and continuation notes included, ids in any `mc:AlternateContent` branch included), the main part (references and comment ranges, also to notes that do not exist, since a dangling reference would attach to the new note) and the settings part (which names the separator notes). Notes and comments added earlier in the same session are in the part and so count. Ids of removed notes may be reused only when nothing refers to them.

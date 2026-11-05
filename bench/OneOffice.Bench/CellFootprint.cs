@@ -107,23 +107,14 @@ internal static class CellFootprint
             return 2;
         }
 
-        string dll = Environment.GetCommandLineArgs()[0];
-        string host = Environment.ProcessPath ?? "dotnet";
         using var output = new StreamWriter(args[1]);
         output.WriteLine("library\tfile\tcells\tretained_bytes\tbytes_per_cell\tallocated_bytes\tload_ms\tpeak_ws_mb");
         foreach (string file in Directory.EnumerateFiles(args[0], "*.xlsx").Order(StringComparer.Ordinal))
         {
             foreach (string lib in Libraries)
             {
-                var psi = new ProcessStartInfo(host) { RedirectStandardOutput = true, UseShellExecute = false };
-                psi.ArgumentList.Add(dll);
-                psi.ArgumentList.Add("bpc");
-                psi.ArgumentList.Add(lib);
-                psi.ArgumentList.Add(file);
-                using Process p = Process.Start(psi)!;
-                string line = p.StandardOutput.ReadToEnd().Trim();
-                p.WaitForExit();
-                string result = p.ExitCode == 0 ? line : $"{lib}\t{Path.GetFileName(file)}\tFAILED\t\t\t\t\texit {p.ExitCode}";
+                int exit = ChildProcess.Run(["bpc", lib, file], out string line, out long peakMb);
+                string result = exit == 0 ? ChildProcess.WithPeak(line, 7, peakMb) : $"{lib}\t{Path.GetFileName(file)}\tFAILED\t\t\t\t\texit {exit}";
                 output.WriteLine(result);
                 output.Flush();
                 Console.WriteLine(result);

@@ -4,6 +4,7 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ## [Unreleased]
 
+- The `Office` statics work with no registration call: each kind package compiles a module initializer into the referencing C# project (no reflection; NativeAOT and trimming keep only the referenced kinds). `Register` stays public and may be called any number of times; `OneOfficeAutoRegister=false` opts out.
 - Text boxes as block containers: `Document.TextBoxes()`, `BlockContainer.TextBoxes()`, `Paragraph.TextBoxes()`, `TextBox` (DrawingML and VML, the copy in `mc:Fallback` kept equal on commit, linked chains), and `Document.WrapParagraph`. Tracked changes and edits work on their paragraphs.
 - Document properties: `Document.Properties` with core, extended and custom properties (`RecursiveAI.OneOffice.Properties`), created on first write, untouched when not edited, no clock reads.
 - List labels for every story as Word counts them: `NumberingDefinitions.LabelStories()`; `DocumentText.ListLabels` now covers headers, footers, notes, comments and text boxes.

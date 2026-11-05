@@ -548,7 +548,7 @@ public sealed class CommentCollection : IReadOnlyList<Comment>
         ArgumentNullException.ThrowIfNull(author);
         ArgumentNullException.ThrowIfNull(text);
         EnsureCommentsPart();
-        long id = Items.Count == 0 ? 0 : Items.Max(c => c.Id) + 1;
+        long id = NoteIds.NextFree(_owner, _root.Node, 0, "comment", "commentReference", "commentRangeStart", "commentRangeEnd");
         MarkupNode root = _root.Node;
         EnsureW14Ignorable(root);
         string p = HubXml.Prefix(root, _owner.WordprocessingNamespaceUri, "w", out string decl);
