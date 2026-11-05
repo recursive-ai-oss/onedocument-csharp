@@ -73,8 +73,8 @@ internal static class PptxTarget
         {
             using var deck = Presentation.FromPackage(p, new OpenContext(s_limits));
             Read(deck);
-            Edit(() => deck.Slides[0].Shapes[0].TextBody!.SetText("a\nb"));
-            Edit(() => deck.Slides[0].Shapes[0].Table!.Rows[0].Cells[0].SetText("cell"));
+            Edit(() => deck.Slides[0].Shapes[0].TextBody?.SetText("a\nb"));
+            Edit(() => deck.Slides[0].Shapes[0].Table?.Rows[0].Cells[0].SetText("cell"));
             Edit(() => deck.Slides[0].SetNotesText("n"));
             Edit(() => deck.Slides[0].IsHidden = true);
             Edit(() => deck.DuplicateSlide(deck.Slides[0]));
@@ -181,7 +181,7 @@ internal static class PptxTarget
         Directory.CreateDirectory(directory);
         using Presentation deck = Presentation.Create();
         Slide slide = deck.AddSlide(deck.Masters[0].Layouts[1]);
-        slide.Shapes[0].TextBody!.SetText("Title");
+        slide.Shapes[0].TextBody?.SetText("Title");
         slide.Shapes[1].TextBody!.SetText("one\ntwo");
         deck.CommitChanges();
         string Part(string name) => Encoding.UTF8.GetString(deck.Package.FindPart(name)!.GetBytes().Span);
