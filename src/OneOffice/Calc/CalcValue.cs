@@ -555,6 +555,16 @@ public sealed class LambdaValue
         Captured = captured;
     }
 
+    // A registry function used as a value (MAP(x, SUM)): it has no body and takes any number of arguments the function accepts.
+    internal LambdaValue(FunctionDefinition function)
+    {
+        _parameters = [];
+        Body = new MissingNode();
+        Function = function;
+    }
+
+    internal FunctionDefinition? Function { get; }
+
     /// <summary>The parameter names, in order, without the file-form <c>_xlpm.</c> prefix.</summary>
     public ReadOnlySpan<string> Parameters => _parameters;
 

@@ -162,6 +162,10 @@ public sealed class FunctionRegistry
     {
         var r = new FunctionRegistry();
         SeedFunctions.Register(r);
+        LookupFunctions.Register(r);
+        ArrayFunctions.Register(r);
+        LambdaHelpers.Register(r);
+        GroupFunctions.Register(r);
         return r;
     }
 

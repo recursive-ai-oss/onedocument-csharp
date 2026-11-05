@@ -31,6 +31,9 @@ public sealed class EvaluatorOptions
 
     /// <summary>The culture for <c>TEXT</c> and number-to-text conversion in functions that format. Default US English.</summary>
     public NumberFormatCulture? Culture { get; init; }
+
+    /// <summary>The seed of the random sequence behind <c>RANDARRAY</c> and the other random functions. Default 0; the same seed gives the same numbers.</summary>
+    public ulong RandomSeed { get; init; }
 }
 
 /// <summary>
@@ -51,6 +54,7 @@ public sealed class Evaluator
     private Scope? _scope;
     private int _lambdaDepth;
     private long _steps;
+    private ulong _randomState;
     private FormulaNode? _snapRoot;
 
     /// <summary>Creates an evaluator.</summary>
@@ -65,6 +69,7 @@ public sealed class Evaluator
         _registry = registry ?? FunctionRegistry.CreateDefault();
         _limits = limits ?? OfficeLimits.Default;
         _options = options ?? new EvaluatorOptions();
+        _randomState = _options.RandomSeed;
     }
 
     /// <summary>The resolver.</summary>
@@ -361,6 +366,11 @@ public sealed class Evaluator
     public CalcValue Invoke(in CalcValue lambda, ReadOnlySpan<CalcValue> args)
     {
         LambdaValue? l = lambda.Lambda;
+        if (l is { Function: { } function })
+        {
+            return CallDefinition(function, args);
+        }
+
         if (l is null || args.Length != l.Parameters.Length)
         {
             return CalcValue.FromError(CalcError.Value);
@@ -390,6 +400,71 @@ public sealed class Evaluator
             _lambdaDepth--;
             _scope = saved;
         }
+    }
+
+    // Calls a registry function with values already computed (a function name used as a lambda). Lazy functions need syntax, so they are refused.
+    private CalcValue CallDefinition(FunctionDefinition def, ReadOnlySpan<CalcValue> args)
+    {
+        if (def.Eager is null || args.Length < def.MinArgs || args.Length > def.MaxArgs)
+        {
+            return CalcValue.FromError(CalcError.Value);
+        }
+
+        if (def.IsVolatile)
+        {
+            UsedVolatile = true;
+        }
+
+        bool handles = (def.Flags & FunctionTraits.HandlesErrors) != 0;
+        var prepared = new CalcValue[args.Length];
+        bool lift = false;
+        CalcValue? firstError = null;
+        for (int i = 0; i < args.Length; i++)
+        {
+            CalcValue v = args[i];
+            switch (def.KindOf(i))
+            {
+                case ArgKind.Value:
+                    v = DerefForValue(v);
+                    if (v.Kind == ValueKind.Array)
+                    {
+                        lift = true;
+                    }
+                    else if (v.IsError && !handles)
+                    {
+                        firstError ??= v;
+                    }
+
+                    break;
+                case ArgKind.Array:
+                    v = DerefForArray(v);
+                    break;
+                default:
+                    break;
+            }
+
+            prepared[i] = v;
+        }
+
+        if (firstError is { } fe && !lift)
+        {
+            return fe;
+        }
+
+        return lift ? LiftCall(def, prepared, handles) : def.Eager(this, prepared);
+    }
+
+    /// <summary>Gives the next number of the evaluator's random sequence, in [0, 1). The sequence starts from <see cref="EvaluatorOptions.RandomSeed"/>, so a recalculation with the same seed is repeatable.</summary>
+    /// <returns>A pseudo-random number.</returns>
+    public double NextRandom()
+    {
+        // SplitMix64: small, fast, and good enough for spreadsheet randomness.
+        _randomState += 0x9E3779B97F4A7C15UL;
+        ulong z = _randomState;
+        z = (z ^ (z >> 30)) * 0xBF58476D1CE4E5B9UL;
+        z = (z ^ (z >> 27)) * 0x94D049BB133111EBUL;
+        z ^= z >> 31;
+        return (z >> 11) * (1.0 / 9007199254740992.0);
     }
 
     internal CalcValue MakeLambda(string[] parameters, FormulaNode body) => CalcValue.FromLambda(new LambdaValue(parameters, body, _scope));
