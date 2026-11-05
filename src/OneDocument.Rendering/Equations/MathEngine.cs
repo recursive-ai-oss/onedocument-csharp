@@ -1105,19 +1105,19 @@ internal sealed class MathEngine
         _ => cp,
     };
 
-    // The code point to draw an accent with: the spacing character when the math font has it, else the combining mark itself
-    // (Noto Sans Math carries the combining forms), else the ASCII look-alike.
+    // The code point to draw an accent with. A math font's own accent is its combining mark (the glyph sits above the origin and the MATH
+    // table gives it wide variants); the spacing character is the second choice, then the ASCII look-alike.
     private int AccentCodePoint(int combining)
     {
+        if (_face.HasGlyph(combining))
+        {
+            return combining;
+        }
+
         int spacing = SpacingAccent(combining);
         if (_face.HasGlyph(spacing))
         {
             return spacing;
-        }
-
-        if (_face.HasGlyph(combining))
-        {
-            return combining;
         }
 
         int ascii = combining switch { 0x0302 => 0x5E, 0x0303 => 0x7E, 0x0300 => 0x60, _ => spacing };
