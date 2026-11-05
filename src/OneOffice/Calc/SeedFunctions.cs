@@ -17,7 +17,6 @@ internal static class SeedFunctions
         r.Add(FunctionDefinition.Create("OR", 1, int.MaxValue, Any, (c, a) => Logical(c, a, false), repeatLast: true));
         r.Add(FunctionDefinition.Create("NOT", 1, 1, V, Not));
         r.Add(FunctionDefinition.Create("CONCAT", 1, int.MaxValue, A, Concat, repeatLast: true));
-        r.Add(FunctionDefinition.Create("LEN", 1, 1, V, (_, a) => CalcValue.FromNumber(CalcConvert.ToText(a[0]).Length)));
         r.Add(FunctionDefinition.Create("ISERROR", 1, 1, V, (_, a) => CalcValue.FromBoolean(a[0].IsError), FunctionTraits.HandlesErrors));
         r.Add(FunctionDefinition.Create("ROWS", 1, 1, Any, (c, a) => Extent(c, a[0], true)));
         r.Add(FunctionDefinition.Create("COLUMNS", 1, 1, Any, (c, a) => Extent(c, a[0], false)));

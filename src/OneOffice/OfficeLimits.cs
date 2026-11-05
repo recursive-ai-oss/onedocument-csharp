@@ -59,6 +59,9 @@ public sealed class OfficeLimits
     /// <summary>The default for <see cref="MaxDefects"/>: 10,000.</summary>
     public const int DefaultMaxDefects = 10_000;
 
+    /// <summary>The default for <see cref="RegexMatchTimeoutMilliseconds"/>: 2,000.</summary>
+    public const int DefaultRegexMatchTimeoutMilliseconds = 2000;
+
     /// <summary>
     /// The number of produced bytes below which <see cref="MaxExpansionRatio"/> is not checked: 32 MiB. A tiny file that
     /// legitimately expands a lot is not a threat until it has expanded a lot. (This is the grace of the underlying zip reader.)
@@ -127,6 +130,9 @@ public sealed class OfficeLimits
     /// <summary>Gets the most bytes any single allocation driven by input may request (a table, a string, a buffer). Default 1 GiB.</summary>
     public long MaxAllocationBytes { get; init; } = DefaultMaxAllocationBytes;
 
+    /// <summary>Gets the longest time in milliseconds one <c>REGEXTEST</c>, <c>REGEXEXTRACT</c> or <c>REGEXREPLACE</c> match may run before the function gives <c>#VALUE!</c>. Default 2,000.</summary>
+    public int RegexMatchTimeoutMilliseconds { get; init; } = DefaultRegexMatchTimeoutMilliseconds;
+
     /// <summary>Gets the most defects a <see cref="Diagnostics.DefectCollection"/> made for an open keeps. Default 10,000.</summary>
     public int MaxDefects { get; init; } = DefaultMaxDefects;
 
@@ -160,6 +166,7 @@ public sealed class OfficeLimits
         Positive(MaxRecordSize, nameof(MaxRecordSize));
         Positive(MaxAllocationBytes, nameof(MaxAllocationBytes));
         Positive(MaxDefects, nameof(MaxDefects));
+        Positive(RegexMatchTimeoutMilliseconds, nameof(RegexMatchTimeoutMilliseconds));
     }
 
     private static void Positive(long value, string name)

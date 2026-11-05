@@ -76,55 +76,7 @@ internal static class LookupSupport
     public static bool HasWildcard(string s) => s.AsSpan().IndexOfAny('*', '?', '~') >= 0;
 
     /// <summary>Matches text against a pattern in which <c>*</c> is any run, <c>?</c> any one character and <c>~</c> escapes the next character; case-insensitive.</summary>
-    public static bool WildcardMatch(string pattern, string text)
-    {
-        int p = 0;
-        int t = 0;
-        int starP = -1;
-        int starT = 0;
-        while (t < text.Length)
-        {
-            if (p < pattern.Length)
-            {
-                char pc = pattern[p];
-                if (pc == '*')
-                {
-                    starP = ++p;
-                    starT = t;
-                    continue;
-                }
-
-                bool escaped = false;
-                if (pc == '~' && p + 1 < pattern.Length)
-                {
-                    pc = pattern[p + 1];
-                    escaped = true;
-                }
-
-                if ((!escaped && pc == '?') || char.ToUpperInvariant(pc) == char.ToUpperInvariant(text[t]))
-                {
-                    p += escaped ? 2 : 1;
-                    t++;
-                    continue;
-                }
-            }
-
-            if (starP < 0)
-            {
-                return false;
-            }
-
-            p = starP;
-            t = ++starT;
-        }
-
-        while (p < pattern.Length && pattern[p] == '*')
-        {
-            p++;
-        }
-
-        return p == pattern.Length;
-    }
+    public static bool WildcardMatch(string pattern, string text) => new WildcardPattern(pattern).IsMatch(text);
 
     /// <summary>Exact equality for lookups: the classes must agree (the number 1 never matches the text "1"); text may use wildcards.</summary>
     public static bool IsMatch(in CalcValue target, in CalcValue cell, bool wildcards)
