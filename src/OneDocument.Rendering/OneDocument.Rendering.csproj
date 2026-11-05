@@ -37,4 +37,8 @@
     <ProjectReference Include="../OneDocument.Presentations/OneDocument.Presentations.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="RecursiveAI.OneDocument.Rendering.Tests" />
+  </ItemGroup>
+
 </Project>

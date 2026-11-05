@@ -50,6 +50,9 @@ public static class LayoutPainter
     {
         private const double K = PixelsPerPoint;
         private uint _owner;
+        private int _untagged; // above 0 while painting content that is an artifact (repeated header rows)
+
+        private bool Tagged => options.Tagged && _untagged == 0;
 
         public DisplayList List { get; } = new();
 
@@ -57,10 +60,77 @@ public static class LayoutPainter
 
         public void Paint(LayoutPage page)
         {
-            bool listOpen = false;
-            foreach (LayoutParagraph p in page.Paragraphs)
+            // Behind the text: page borders, column separators and watermarks. Line numbers go on top, after the text.
+            foreach (LayoutDecoration d in page.Decorations)
             {
-                bool inList = p.Label is not null && options.Tagged;
+                if (d.DecorationKind != LayoutDecorationKind.LineNumber)
+                {
+                    PaintDecoration(d);
+                }
+            }
+
+            PaintBlocks(page.Children);
+
+            foreach (LayoutDecoration d in page.Decorations)
+            {
+                if (d.DecorationKind == LayoutDecorationKind.LineNumber)
+                {
+                    PaintDecoration(d);
+                }
+            }
+
+            List.Validate();
+        }
+
+        // The blocks of a page or of a table cell: paragraphs (consecutive numbered ones share a list) and tables.
+        private void PaintBlocks(IEnumerable<LayoutNode> blocks)
+        {
+            bool listOpen = false;
+            foreach (LayoutNode node in blocks)
+            {
+                if (node is LayoutTable table)
+                {
+                    if (listOpen)
+                    {
+                        List.EndTag();
+                        listOpen = false;
+                    }
+
+                    PaintTable(table);
+                    continue;
+                }
+
+                if (node is not LayoutParagraph p)
+                {
+                    continue;
+                }
+
+                if (p.Story != LayoutStory.Body)
+                {
+                    // Headers and footers are pagination artifacts (OneRender has no finer role for them yet).
+                    if (listOpen)
+                    {
+                        List.EndTag();
+                        listOpen = false;
+                    }
+
+                    _untagged++;
+                    if (options.Tagged)
+                    {
+                        List.BeginTag(Id(), TagRole.Artifact);
+                    }
+
+                    PaintParagraph(p, false);
+                    if (options.Tagged)
+                    {
+                        List.EndTag();
+                    }
+
+                    _untagged--;
+                    continue;
+                }
+
+                bool inList = p.Label is not null && Tagged;
                 if (listOpen && !inList)
                 {
                     List.EndTag();
@@ -80,14 +150,163 @@ public static class LayoutPainter
             {
                 List.EndTag();
             }
+        }
 
-            List.Validate();
+        // Tables: Table > TR > TH/TD > content. Header rows repeated from an earlier page are artifacts. Shading goes under the cell's
+        // content; borders are drawn last so the winning border of a shared edge lies on top of both cells' shading.
+        private void PaintTable(LayoutTable table)
+        {
+            if (Tagged)
+            {
+                List.BeginTag(Id(), TagRole.Table);
+            }
+
+            List<LayoutTableRow> rows = [.. table.Rows];
+            foreach (LayoutTableRow row in rows)
+            {
+                bool artifact = row.IsRepeatedHeader && options.Tagged && _untagged == 0;
+                if (artifact)
+                {
+                    List.BeginTag(Id(), TagRole.Artifact);
+                    _untagged++;
+                }
+                else if (Tagged)
+                {
+                    List.BeginTag(Id(), TagRole.TableRow);
+                }
+
+                foreach (LayoutTableCell cell in row.Cells)
+                {
+                    if (cell.Paint.Shading is { } fill)
+                    {
+                        LayoutRect cb = cell.Bounds;
+                        List.FillRect(Id(20), Rect(cb.X, cb.Y, cb.Width, cb.Height), Rgb(fill));
+                    }
+
+                    if (Tagged)
+                    {
+                        int last = cell.Row + cell.RowSpan - 1;
+                        int span = Math.Max(1, rows.Count(r => r.Index >= cell.Row && r.Index <= last));
+                        List.BeginTag(Id(), cell.IsHeader ? TagRole.TableHeaderCell : TagRole.TableDataCell, columnSpan: cell.ColumnSpan, rowSpan: span);
+                    }
+
+                    PaintBlocks(cell.Children);
+                    if (Tagged)
+                    {
+                        List.EndTag();
+                    }
+                }
+
+                if (artifact)
+                {
+                    _untagged--;
+                    List.EndTag();
+                }
+                else if (Tagged)
+                {
+                    List.EndTag();
+                }
+            }
+
+            if (Tagged)
+            {
+                List.EndTag();
+            }
+
+            foreach (LayoutTableRow row in rows)
+            {
+                foreach (LayoutTableCell cell in row.Cells)
+                {
+                    PaintCellBorders(cell);
+                }
+            }
+        }
+
+        // Collapsed borders straddle the cell edge; with cell spacing each cell's borders sit inside its own box.
+        private void PaintCellBorders(LayoutTableCell cell)
+        {
+            CellPaintInfo info = cell.Paint;
+            LayoutRect b = cell.Bounds;
+            double tw = info.Top?.Width ?? 0;
+            double bw = info.Bottom?.Width ?? 0;
+            double lw = info.Left?.Width ?? 0;
+            double rw = info.Right?.Width ?? 0;
+            if (info.Separate)
+            {
+                if (info.Top is { } t) { Edge(t, b.X, b.Y, b.Width, t.Width, true); }
+                if (info.Bottom is { } bt) { Edge(bt, b.X, b.Bottom - bt.Width, b.Width, bt.Width, true); }
+                if (info.Left is { } l) { Edge(l, b.X, b.Y, b.Height, l.Width, false); }
+                if (info.Right is { } r) { Edge(r, b.Right - r.Width, b.Y, b.Height, r.Width, false); }
+                return;
+            }
+
+            if (info.Top is { } top)
+            {
+                Edge(top, b.X - (lw / 2), b.Y - (tw / 2), b.Width + (lw / 2) + (rw / 2), tw, true);
+            }
+
+            if (info.Left is { } left)
+            {
+                Edge(left, b.X - (lw / 2), b.Y - (tw / 2), b.Height + (tw / 2) + (bw / 2), lw, false);
+            }
+
+            if (info.PaintBottom && info.Bottom is { } bottom)
+            {
+                Edge(bottom, b.X - (lw / 2), b.Bottom - (bw / 2), b.Width + (lw / 2) + (rw / 2), bw, true);
+            }
+
+            if (info.PaintRight && info.Right is { } right)
+            {
+                Edge(right, b.Right - (rw / 2), b.Y - (tw / 2), b.Height + (tw / 2) + (bw / 2), rw, false);
+            }
+        }
+
+        // One border line: (x, y) is the top-left of a box that is len long and thick across. Double and triple styles draw alternate
+        // strips; dotted and dashed draw segments; everything else is solid.
+        private void Edge(CellEdge e, double x, double y, double len, double thick, bool horizontal)
+        {
+            PaintColor color = Rgb(e.Color);
+            void Piece(double along, double length, double across, double width)
+            {
+                if (length <= 0 || width <= 0)
+                {
+                    return;
+                }
+
+                RectF rect = horizontal ? Rect(x + along, y + across, length, width) : Rect(x + across, y + along, width, length);
+                List.FillRect(Id(21), rect, color);
+            }
+
+            int lines = TableBorders.Lines(e.Style);
+            if (lines > 1)
+            {
+                double strip = thick / ((2 * lines) - 1);
+                for (int i = 0; i < lines; i++)
+                {
+                    Piece(0, len, i * 2 * strip, strip);
+                }
+
+                return;
+            }
+
+            if (e.Style is "dotted" or "dashed" or "dotDash" or "dotDotDash" or "dashSmallGap")
+            {
+                double seg = Math.Max(thick, 1) * (e.Style == "dotted" ? 1 : 3);
+                for (double a = 0; a < len; a += seg * 2)
+                {
+                    Piece(a, Math.Min(seg, len - a), 0, thick);
+                }
+
+                return;
+            }
+
+            Piece(0, len, 0, thick);
         }
 
         private void PaintParagraph(LayoutParagraph p, bool inList)
         {
             PaintDecoration(p);
-            bool tagged = options.Tagged;
+            bool tagged = Tagged;
             if (tagged && inList && !p.ContinuesFromPreviousPage)
             {
                 List.BeginTag(Id(), TagRole.ListItem);
@@ -155,6 +374,126 @@ public static class LayoutPainter
             if (tagged && inList && !p.ContinuesFromPreviousPage)
             {
                 List.EndTag();
+            }
+        }
+
+        // Borders, separators, line numbers and watermarks are page furniture, not content: artifacts.
+        private void PaintDecoration(LayoutDecoration d)
+        {
+            switch (d.DecorationKind)
+            {
+                case LayoutDecorationKind.PageBorder:
+                    PaintBorder(d);
+                    break;
+                case LayoutDecorationKind.ColumnSeparator:
+                    List.FillRect(Id(40), Rect(d.Bounds.X, d.Bounds.Y, d.Bounds.Width, d.Bounds.Height), Rgb(d.Color));
+                    break;
+                case LayoutDecorationKind.LineNumber or LayoutDecorationKind.Watermark when d.Glyphs is { } g && d.Face is { } face:
+                    PaintDecorationText(d, g, face);
+                    break;
+            }
+        }
+
+        private void PaintDecorationText(LayoutDecoration d, GlyphData g, OneFont.FontFace face)
+        {
+            if (options.Tagged)
+            {
+                List.BeginTag(Id(), TagRole.Artifact);
+            }
+
+            var x = new float[g.X.Length];
+            var y = new float[g.Y.Length];
+            for (int i = 0; i < x.Length; i++)
+            {
+                x[i] = (float)(g.X[i] * K);
+            }
+
+            for (int i = 0; i < y.Length; i++)
+            {
+                y[i] = (float)(g.Y[i] * K);
+            }
+
+            bool watermark = d.DecorationKind == LayoutDecorationKind.Watermark;
+            float originX = (float)(d.Bounds.X * K);
+            float originY = (float)(d.Baseline * K);
+            if (watermark)
+            {
+                // VML rotation is clockwise degrees about the shape's centre.
+                float cx = (float)((d.Bounds.X + (d.Bounds.Width / 2)) * K);
+                float cy = (float)((d.Bounds.Y + (d.Bounds.Height / 2)) * K);
+                List.PushGroup(Id(22), (float)d.Opacity);
+                List.PushTransform(Id(23), Matrix3x2.CreateRotation((float)(d.Rotation * Math.PI / 180), new Vector2(cx, cy)));
+            }
+
+            List.DrawGlyphRun(Id(21), face, (float)(d.FontSize * K), originX, originY, Rgb(d.Color), g.GlyphIds, x, y, g.Clusters, d.Text, false);
+            if (watermark)
+            {
+                List.PopTransform();
+                List.PopGroup();
+            }
+
+            if (options.Tagged)
+            {
+                List.EndTag();
+            }
+        }
+
+        // The style gives the pattern along the longer side: solid for single and thick, parallel lines for double and triple,
+        // dashes for dashed and dots for dotted. Art borders arrive here as single lines.
+        private void PaintBorder(LayoutDecoration d)
+        {
+            LayoutRect b = d.Bounds;
+            bool horizontal = b.Width >= b.Height;
+            double thick = horizontal ? b.Height : b.Width;
+            double length = horizontal ? b.Width : b.Height;
+            PaintColor color = Rgb(d.Color);
+
+            void Segments(double x, double y, double len, double t, bool horiz, int part)
+            {
+                bool dashed = d.Style.Contains("dash", StringComparison.OrdinalIgnoreCase) || d.Style.Contains("dot", StringComparison.OrdinalIgnoreCase);
+                if (!dashed)
+                {
+                    List.FillRect(Id(24, (ushort)part), horiz ? Rect(x, y, len, t) : Rect(x, y, t, len), color);
+                    return;
+                }
+
+                bool dot = d.Style.Contains("dot", StringComparison.OrdinalIgnoreCase) && !d.Style.Contains("dash", StringComparison.OrdinalIgnoreCase);
+                double on = dot ? Math.Max(t, 1) : Math.Max(t * 3, 3);
+                double off = dot ? on : on * 0.6;
+                int n = 0;
+                for (double p = 0; p < len && n < 60000; p += on + off, n++)
+                {
+                    double seg = Math.Min(on, len - p);
+                    List.FillRect(Id(25, (ushort)Math.Min(n, 65535)), horiz ? Rect(x + p, y, seg, t) : Rect(x, y + p, t, seg), color);
+                }
+            }
+
+            void Line(double offset, double t, int part)
+            {
+                if (horizontal)
+                {
+                    Segments(b.X, b.Y + offset, length, t, true, part);
+                }
+                else
+                {
+                    Segments(b.X + offset, b.Y, length, t, false, part);
+                }
+            }
+
+            if (d.Style is "double")
+            {
+                Line(0, thick / 3, 0);
+                Line(thick * 2 / 3, thick / 3, 1);
+            }
+            else if (d.Style is "triple" or "thinThickSmallGap" or "thickThinSmallGap")
+            {
+                Line(0, thick / 5, 0);
+                Line(thick * 2 / 5, thick / 5, 1);
+                Line(thick * 4 / 5, thick / 5, 2);
+            }
+            else
+            {
+                Line(0, thick, 0);
             }
         }
 
@@ -231,8 +570,8 @@ public static class LayoutPainter
                 return;
             }
 
-            bool link = options.Tagged && paint.LinkTarget is not null && run.RunKind == LayoutRunKind.Text;
-            bool span = options.Tagged && !link && paint.Language is { Length: > 0 } lang && !string.Equals(lang, options.Language, StringComparison.OrdinalIgnoreCase);
+            bool link = Tagged && paint.LinkTarget is not null && run.RunKind == LayoutRunKind.Text;
+            bool span = Tagged && !link && paint.Language is { Length: > 0 } lang && !string.Equals(lang, options.Language, StringComparison.OrdinalIgnoreCase);
             if (link)
             {
                 List.BeginTag(Id(), TagRole.Link, linkTarget: paint.LinkTarget, language: null);

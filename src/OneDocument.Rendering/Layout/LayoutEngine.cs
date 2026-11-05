@@ -1,13 +1,15 @@
 using RecursiveAI.OneDocument.Documents;
+using RecursiveAI.OneDocument.Documents.Numbering;
 
 namespace RecursiveAI.OneDocument.Layout;
 
 /// <summary>
-/// Lays a document out into pages. This stage flows paragraphs down single-column pages of each section's size and margins, with
-/// widow and orphan control, keep-with-next, keep-lines-together and page-break-before. Tables, headers and footers, columns, floating
-/// objects, notes and fields are later stages and are reported in <see cref="LayoutDocument.Notes"/>.
+/// Lays a document out into pages: sections with their page sizes, margins and columns, headers and footers with page numbers, page
+/// borders, watermarks and line numbers, and the paragraphs with widow and orphan control, keep-with-next, keep-lines-together and
+/// page-break-before. Tables (see docs/layout-tables.md); floating objects, notes and fields other than page numbers are later stages and are reported in
+/// <see cref="LayoutDocument.Notes"/>.
 /// </summary>
-public static class LayoutEngine
+public static partial class LayoutEngine
 {
     /// <summary>Lays out a document.</summary>
     /// <param name="document">The document. It is read, not changed.</param>
@@ -21,22 +23,38 @@ public static class LayoutEngine
         ArgumentNullException.ThrowIfNull(document);
         LayoutOptions opt = options ?? new LayoutOptions();
         IFontProvider fonts = opt.Fonts ?? CreateFonts(document, opt);
-        var ctx = new LayoutContext(document, fonts, CompatSettings.Read(document), DocumentFonts.ReadFontTable(document));
-        var flow = new Flow(ctx, opt);
+        CompatSettings compat = CompatSettings.Read(document);
+        IReadOnlyDictionary<string, DocumentFontInfo> fontTable = DocumentFonts.ReadFontTable(document);
 
-        IReadOnlyList<Section> sections = document.Sections;
-        for (int s = 0; s < sections.Count; s++)
+        // NUMPAGES and SECTIONPAGES in a header or footer need the page counts, which exist only after the pages do: lay out again with
+        // the previous pass's counts until they stop changing (at most three passes). This is the small loop the general field update
+        // replaces.
+        PageTotals? totals = null;
+        for (int pass = 0; ; pass++)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            flow.RunSection(sections[s], cancellationToken);
-            if (flow.Stopped)
+            var ctx = new LayoutContext(document, fonts, compat, fontTable);
+            var flow = new Flow(ctx, opt, totals, probe: false);
+            IReadOnlyList<Section> sections = document.Sections;
+            for (int s = 0; s < sections.Count; s++)
             {
-                break;
+                cancellationToken.ThrowIfCancellationRequested();
+                bool balance = s + 1 < sections.Count && sections[s + 1].BreakType == SectionBreakType.Continuous;
+                flow.RunSection(sections[s], balance, cancellationToken);
+                if (flow.Stopped)
+                {
+                    break;
+                }
             }
-        }
 
-        flow.Finish();
-        return new LayoutDocument(flow.Pages, ctx.FontNotes, ctx.Notes, ctx.Compat.Mode);
+            flow.Finish();
+            PageTotals measured = PageTotals.Of(flow.Pages, sections.Count);
+            if (!ctx.UsesPageTotals || pass >= 2 || (totals is not null && totals.Equals(measured)))
+            {
+                return new LayoutDocument(flow.Pages, ctx.FontNotes, ctx.Notes, ctx.Compat.Mode);
+            }
+
+            totals = measured;
+        }
     }
 
     private static FontLibrary CreateFonts(Document document, LayoutOptions opt)
@@ -51,8 +69,8 @@ public static class LayoutEngine
         return fonts;
     }
 
-    // The page-by-page placement state.
-    private sealed class Flow(LayoutContext ctx, LayoutOptions options)
+    // The page-by-page placement state. Page set-up (section geometry, headers and footers, columns, decorations) is in Pages/Flow.Pages.cs.
+    private sealed partial class Flow(LayoutContext ctx, LayoutOptions options, PageTotals? totals, bool probe)
     {
         private readonly List<LayoutPage> _pages = [];
         private LayoutPage? _page;
@@ -62,11 +80,11 @@ public static class LayoutEngine
         private double _pendingAfter;
         private FormattedParagraph? _previous;
         private int _sectionIndex;
-        private LayoutRect _content;
-        private double _pageWidth;
-        private double _pageHeight;
         private double _textWidth;
         private bool _forceBreakBeforeNext;
+        private bool _forceIsColumn;
+
+        private LayoutContext Ctx => ctx;
 
         public bool Stopped { get; private set; }
 
@@ -79,58 +97,8 @@ public static class LayoutEngine
                 // An empty document still has one page.
                 StartPage();
             }
-        }
 
-        public void RunSection(Section section, CancellationToken ct)
-        {
-            _sectionIndex = section.Index;
-            PageSize size = section.PageSize;
-            PageMargins m = section.Margins;
-            double width = size.Width / 20.0;
-            double height = size.Height / 20.0;
-            double left = (m.Left + m.Gutter) / 20.0;
-            double right = m.Right / 20.0;
-            double top = m.Top / 20.0;
-            double bottom = m.Bottom / 20.0;
-            var content = new LayoutRect(left, top, Math.Max(1, width - left - right), Math.Max(1, height - top - bottom));
-
-            bool continuous = section.BreakType == SectionBreakType.Continuous && _page is not null && Math.Abs(width - _pageWidth) < 0.5 && Math.Abs(height - _pageHeight) < 0.5;
-            if (!continuous)
-            {
-                if (_page is not null)
-                {
-                    _page = null;
-                }
-
-                _pageWidth = width;
-                _pageHeight = height;
-                _content = content;
-                _textWidth = content.Width;
-                bool odd = section.BreakType == SectionBreakType.OddPage;
-                bool even = section.BreakType == SectionBreakType.EvenPage;
-                if ((odd && _pages.Count % 2 == 1) || (even && _pages.Count % 2 == 0))
-                {
-                    // A blank page keeps the section on an odd or even page.
-                    StartPage();
-                    _page = null;
-                    ctx.NoteOnce("layout.blank-page", "layout.blank-page", "A blank page was inserted to start a section on an odd or even page.", null);
-                }
-
-                _previous = null;
-                _pendingAfter = 0;
-            }
-            else
-            {
-                _textWidth = _content.Width;
-            }
-
-            var blocks = new List<FormattedParagraph>();
-            Collect(section.Blocks(), blocks, ct);
-            for (int i = 0; i < blocks.Count && !Stopped; i++)
-            {
-                ct.ThrowIfCancellationRequested();
-                Place(blocks, i);
-            }
+            FinalizePage();
         }
 
         private void Collect(IEnumerable<BlockElement> elements, List<FormattedParagraph> into, CancellationToken ct)
@@ -141,13 +109,15 @@ public static class LayoutEngine
                 switch (b)
                 {
                     case Paragraph p:
-                        into.Add(ParagraphFormatter.Format(p, ctx, _textWidth));
+                        FormattedParagraph fp = ParagraphFormatter.Format(p, ctx, _textWidth);
+                        SnapToGrid(fp);
+                        into.Add(fp);
                         break;
                     case BlockContentControl cc:
                         Collect(cc.Content.Blocks(), into, ct);
                         break;
-                    case Table:
-                        ctx.NoteOnce("layout.table-skipped", "layout.table-skipped", "Tables are not laid out yet; their content is left out of the pages.", b);
+                    case Table t:
+                        into.Add(TableFormatter.FormatBlock(t, ctx, _textWidth));
                         break;
                     default:
                         ctx.NoteOnce("layout.block-skipped", "layout.block-skipped", "A block that is not a paragraph or a table is left out of the pages.", b);
@@ -156,24 +126,15 @@ public static class LayoutEngine
             }
         }
 
-        private void StartPage()
+        // Overflow: the next column of the region if there is one, else a new page.
+        private void NewPage(bool honourSpace)
         {
-            if (_pages.Count >= options.MaxPages)
-            {
-                Stopped = true;
-                ctx.NoteOnce("layout.page-limit", "layout.page-limit", "Layout stopped at the page limit.", null);
-                return;
-            }
-
-            _page = new LayoutPage(_pages.Count + 1, _sectionIndex, _pageWidth == 0 ? 612 : _pageWidth, _pageHeight == 0 ? 792 : _pageHeight, _content.Width == 0 ? new LayoutRect(72, 72, 468, 648) : _content);
-            _pages.Add(_page);
-            _y = _page.ContentArea.Y;
-            _pageHasContent = false;
-            _honourSpaceBefore = _pages.Count == 1;
-            _pendingAfter = 0;
+            AdvanceColumnOrPage();
+            _honourSpaceBefore = honourSpace || _pages.Count == 1;
         }
 
-        private void NewPage(bool honourSpace)
+        // A hard page break or page-break-before: always a new page, even in a multi-column section.
+        private void ForcePage(bool honourSpace)
         {
             StartPage();
             _honourSpaceBefore = honourSpace || _pages.Count == 1;
@@ -209,7 +170,13 @@ public static class LayoutEngine
         private void Place(List<FormattedParagraph> blocks, int index)
         {
             FormattedParagraph fp = blocks[index];
-            if (_page is null)
+            if (fp is FormattedTableBlock tableBlock)
+            {
+                PlaceTable(tableBlock.Table);
+                return;
+            }
+
+            if (NeedsPage)
             {
                 StartPage();
                 if (Stopped)
@@ -221,15 +188,24 @@ public static class LayoutEngine
             if (_forceBreakBeforeNext)
             {
                 _forceBreakBeforeNext = false;
-                if (_pageHasContent)
+                if (!_pageHasContent)
                 {
+                    // Nothing follows a break on an empty page or column: no blank one is made.
+                }
+                else if (_forceIsColumn)
+                {
+                    // ECMA-376 Part 1 §17.3.3.1 (br type=column): the text after it starts in the next column; with one column that is the next page.
                     NewPage(honourSpace: true);
+                }
+                else
+                {
+                    ForcePage(honourSpace: true);
                 }
             }
 
             if (fp.PageBreakBefore && _pageHasContent)
             {
-                NewPage(honourSpace: true);
+                ForcePage(honourSpace: true);
             }
 
             // Keep with next: the paragraph stays on the page with the first lines of the next one.
@@ -255,7 +231,7 @@ public static class LayoutEngine
                     break;
                 }
 
-                if (_y + need > _page!.ContentArea.Bottom + 0.01 && need <= _page.ContentArea.Height)
+                if (_y + need > _limitBottom + 0.01 && need <= _limitBottom - _regionTop)
                 {
                     NewPage(honourSpace: false);
                 }
@@ -264,8 +240,27 @@ public static class LayoutEngine
             int placed = 0;
             while (placed < fp.Lines.Count && !Stopped)
             {
+                if (Math.Abs(fp.FormattedWidth - _textWidth) > 0.5)
+                {
+                    // The column the text moved to has another width: cut the lines again and resume where the text had got to.
+                    int consumed = placed < fp.Lines.Count ? fp.Lines[placed].TextStart : fp.Text.Length;
+                    fp = ParagraphFormatter.Format(fp.Source, ctx, _textWidth);
+                    SnapToGrid(fp);
+                    blocks[index] = fp;
+                    placed = 0;
+                    while (placed < fp.Lines.Count && fp.Lines[placed].TextStart < consumed)
+                    {
+                        placed++;
+                    }
+
+                    if (placed >= fp.Lines.Count)
+                    {
+                        break;
+                    }
+                }
+
                 double gap = Gap(fp);
-                double avail = _page!.ContentArea.Bottom - (_y + (placed == 0 ? gap : 0));
+                double avail = _limitBottom - (_y + (placed == 0 ? gap : 0));
                 double remainingHeight = Total(fp, placed, fp.Lines.Count - placed, includeTop: placed == 0);
                 int count;
                 if (remainingHeight <= avail + 0.01)
@@ -307,11 +302,36 @@ public static class LayoutEngine
                     }
                 }
 
+                // A page or column break in the middle of a paragraph ends the lines on this page after the line that holds it.
+                for (int k = placed; k < placed + count; k++)
+                {
+                    if (fp.Lines[k].EndsWithPageBreak)
+                    {
+                        count = k - placed + 1;
+                        break;
+                    }
+                }
+
                 Emit(fp, placed, count, gap, placed == 0, placed + count >= fp.Lines.Count);
                 placed += count;
                 if (placed < fp.Lines.Count)
                 {
-                    NewPage(honourSpace: false);
+                    if (_forceBreakBeforeNext)
+                    {
+                        _forceBreakBeforeNext = false;
+                        if (_forceIsColumn)
+                        {
+                            NewPage(honourSpace: true);
+                        }
+                        else
+                        {
+                            ForcePage(honourSpace: true);
+                        }
+                    }
+                    else
+                    {
+                        NewPage(honourSpace: false);
+                    }
                 }
             }
 
@@ -367,83 +387,43 @@ public static class LayoutEngine
                 top = _y;
             }
 
-            double y = top + (first ? fp.BorderTopHeight : 0);
-            var lp = new LayoutParagraph(fp.Source, fp.Text)
+            LayoutParagraph lp = ParagraphEmitter.Build(fp, from, count, _colX, top, first, last, out double y, out bool breakAfter);
+            lp.Story = _story;
+            lp.Column = _colIndex;
+            bool columnBreak = false;
+            if (breakAfter)
             {
-                Label = first ? fp.Label : null,
-                HeadingLevel = fp.Heading,
-                IsRightToLeft = fp.Rtl,
-                ContinuesFromPreviousPage = !first,
-                ContinuesOnNextPage = !last,
-                Paint = fp.Paint,
-            };
-
-            double left = page.ContentArea.X;
-            bool breakAfter = false;
-            for (int i = from; i < from + count; i++)
-            {
-                FormattedLine fl = fp.Lines[i];
-                var line = new LayoutLine
+                // The break that ended the lines is a column break when its character is U+000E.
+                for (int i = from + count - 1; i >= from; i--)
                 {
-                    Ascent = fl.Ascent,
-                    Descent = fl.Descent,
-                    Baseline = y + fl.Ascent,
-                    TextStart = fl.TextStart,
-                    TextLength = fl.TextLength,
-                    Text = fl.Text,
-                    IsLastLine = fl.IsLast,
-                };
-                double minX = double.MaxValue;
-                double maxX = double.MinValue;
-                foreach (LineItem item in fl.Items)
-                {
-                    var run = new LayoutRun(item.Kind)
+                    FormattedLine fl = fp.Lines[i];
+                    if (fl.EndsWithPageBreak)
                     {
-                        Text = item.Text,
-                        TextStart = item.TextStart,
-                        Source = item.Source,
-                        Font = item.Font,
-                        FontSize = item.Size,
-                        BidiLevel = item.Level,
-                        Bounds = new LayoutRect(left + item.X, y, item.Width, fl.Height),
-                        ClusterStarts = item.ClusterStarts,
-                        ClusterX = [.. item.ClusterX.Select(v => v + left)],
-                        Paint = item.Paint,
-                        Glyphs = item.Glyphs,
-                    };
-                    line.Add(run);
-                    minX = Math.Min(minX, left + item.X);
-                    maxX = Math.Max(maxX, left + item.X + item.Width);
-                }
-
-                if (minX > maxX)
-                {
-                    minX = left + fp.Paint.LeftEdge;
-                    maxX = minX;
-                }
-
-                line.Bounds = new LayoutRect(minX, y, maxX - minX, fl.Height);
-                lp.Add(line);
-                y += fl.Height;
-                if (fl.EndsWithPageBreak)
-                {
-                    breakAfter = true;
+                        columnBreak = fl.TextLength > 0 && fp.Text[fl.TextStart + fl.TextLength - 1] == '\u000E';
+                        break;
+                    }
                 }
             }
 
-            if (last)
+            if (_story == LayoutStory.Body)
             {
-                y += fp.BorderBottomHeight;
+                int n = 0;
+                foreach (LayoutLine line in lp.Lines)
+                {
+                    FormattedLine fl = fp.Lines[from + n++];
+                    NumberLine(fp, fl, line, line.Baseline - fl.Ascent, _colX);
+                }
             }
 
-            lp.Bounds = new LayoutRect(left + fp.Paint.LeftEdge, top, Math.Max(0, fp.Paint.RightEdge - fp.Paint.LeftEdge), y - top);
             page.Add(lp);
             _y = y;
             _pageHasContent = true;
             _honourSpaceBefore = true;
-            if (breakAfter)
+            _regionMaxY = Math.Max(_regionMaxY, y);
+            if (breakAfter && _story == LayoutStory.Body)
             {
                 _forceBreakBeforeNext = true;
+                _forceIsColumn = columnBreak;
             }
         }
     }
