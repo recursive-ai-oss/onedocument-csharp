@@ -55,6 +55,7 @@ internal static class Program
         ["funcs"] = FuncsTarget.Run,
         ["lookups"] = LookupTarget.Run,
         ["template"] = TemplateTarget.Run,
+        ["mailmerge"] = MailMergeTarget.Run,
         ["richtext"] = RichTextTarget.Run,
     };
 
@@ -91,6 +92,7 @@ internal static class Program
                 "funcs" => FuncsTarget.WriteSeeds(args[2]),
                 "lookups" => LookupTarget.WriteSeeds(args[2]),
                 "template" => TemplateTarget.WriteSeeds(args[2]),
+                "mailmerge" => MailMergeTarget.WriteSeeds(args[2]),
                 "richtext" => RichTextTarget.WriteSeeds(args[2]),
                 _ => 2,
             };

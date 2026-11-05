@@ -273,6 +273,19 @@ function Invoke-Word($app, $item, $path, $outDir, $res) {
                         'reject' { $d2.Revisions.Item([int]$arg).Reject() }
                         'accept-all-stories' { Invoke-AllStories $d2 $true }
                         'reject-all-stories' { Invoke-AllStories $d2 $false }
+                        'mailmerge' {
+                            # mailmerge:DATA.csv|single -- Word's own merge of the template with the data file beside it into a new document
+                            # (every record, a next-page section break between them). The merged document is what is read and saved below.
+                            $dataName = ($arg -split '\|', 2)[0]
+                            $dataPath = Join-Path (Split-Path -Parent $path) $dataName
+                            $tpl = $d2
+                            $tpl.MailMerge.OpenDataSource([string]$dataPath, [int]0, [bool]$false, [bool]$true, [bool]$false, [bool]$false)
+                            $tpl.MailMerge.Destination = 0
+                            $tpl.MailMerge.Execute([bool]$false)
+                            $d2 = $app.ActiveDocument
+                            $d2.Activate()
+                            try { $tpl.Close(0) } catch { }
+                        }
                         'accept-para' { $d2.Paragraphs.Item([int]$arg).Range.Revisions.AcceptAll() }
                         'reject-para' { $d2.Paragraphs.Item([int]$arg).Range.Revisions.RejectAll() }
                         default { throw "unknown action $act" }

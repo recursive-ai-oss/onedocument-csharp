@@ -274,3 +274,27 @@ Located by the binder's unit location plus the offset in the unit's text, or by 
 | `template.markup-dropped` | dropped | An `{% html %}` or `{% markdown %}` value held markup the converter does not carry over (scripts, event handlers, unknown elements, disallowed link targets, images, tables, raw HTML, content over the size or nesting limit). The rest is inserted. |
 
 Limits surface as `OfficeLimitException`: `limit.max-iterations`, `limit.max-output-characters`, `limit.max-block-depth` (block nesting and include depth), `limit.max-recursion-depth` and the formula limits.
+
+### Mail merge (`mailmerge.`)
+
+Reported in `MailMergeResult.Warnings`, with the part and offset of the field in the template. See `mail-merge.md`.
+
+| Code | Action | Meaning |
+|---|---|---|
+| `mailmerge.field-missing` | repaired | A `MERGEFIELD` names a field the record does not have; it merged as empty. |
+| `mailmerge.field-malformed` | repaired | A field instruction cannot be read (no name, bad switch argument); the field merged as empty or stays. |
+| `mailmerge.field-unsupported` | dropped | `ADDRESSBLOCK`, `GREETINGLINE`, `DATABASE`, `MERGEBARCODE` or `COMPARE`: the field is left as written. |
+| `mailmerge.field-unbalanced` | dropped | A field with no end marker, a stray end marker, or a field spanning paragraphs; it is left as written. |
+
+### Content-control binding (`binding.`, continued)
+
+Reported in `ContentBindingReport.Warnings`. See `docx-content-controls.md`.
+
+| Code | Action | Meaning |
+|---|---|---|
+| `binding.store-not-found` | dropped | A control's `w:storeItemID` matches no custom XML part; the control is left. |
+| `binding.unsupported-path` | dropped | The binding path is outside the XPath subset or cannot be written to (for example a predicate-only path with nothing to create). |
+| `binding.no-data` | dropped | The data has no value for the control; its content is kept. |
+| `binding.unsupported-control` | dropped | The control type cannot show a bound value (group, picture, building block …). |
+| `binding.value-not-in-list` | repaired | A drop-down value is not one of its items; the control keeps its selection. |
+| `binding.no-template-item` | dropped | A repeating section has no item to copy as its pattern. |

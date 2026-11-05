@@ -52,7 +52,31 @@ internal static class DocumentSmoke
             failures.Add("document edit");
         }
 
+        // Mail merge: a MERGEFIELD with a picture and a switch, merged into one document per record.
+        failures.AddRange(MailMergeSmoke());
         failures.AddRange(RunTemplate());
+        return failures;
+    }
+
+    private static List<string> MailMergeSmoke()
+    {
+        var failures = new List<string>();
+        using Document merged = Document.Open(new MemoryStream(DocxZip(
+            "<w:p><w:fldSimple w:instr=\" MERGEFIELD Name \\b &quot;Dear &quot; \"><w:r><w:t>x</w:t></w:r></w:fldSimple>"
+            + "<w:fldSimple w:instr=\" MERGEFIELD Qty \\# x## \"><w:r><w:t>y</w:t></w:r></w:fldSimple></w:p>")));
+        var records = new List<object?>
+        {
+            new Dictionary<string, object?> { ["Name"] = "Ann", ["Qty"] = 222492 },
+            new Dictionary<string, object?> { ["Name"] = "Bo", ["Qty"] = 3 },
+        };
+        using (RecursiveAI.OneDocument.Documents.MailMerge.MailMergeResult result = merged.MailMerge(records))
+        {
+            if (result.Documents.Count != 2 || result.Documents[0].ExtractText().Trim() != "Dear Ann492" || result.Documents[1].ExtractText().Trim() != "Dear Bo3")
+            {
+                failures.Add("mail merge");
+            }
+        }
+
         return failures;
     }
 
@@ -82,5 +106,25 @@ internal static class DocumentSmoke
         }
 
         return failures;
+    }
+
+    private static byte[] DocxZip(string body)
+    {
+        const string W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+        using var ms = new MemoryStream();
+        using (var zip = new System.IO.Compression.ZipArchive(ms, System.IO.Compression.ZipArchiveMode.Create, leaveOpen: true))
+        {
+            void Add(string name, string content)
+            {
+                using Stream s = zip.CreateEntry(name, System.IO.Compression.CompressionLevel.NoCompression).Open();
+                s.Write(System.Text.Encoding.UTF8.GetBytes(content));
+            }
+
+            Add("[Content_Types].xml", "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/></Types>");
+            Add("_rels/.rels", "<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships>");
+            Add("word/document.xml", "<w:document xmlns:w=\"" + W + "\"><w:body>" + body + "</w:body></w:document>");
+        }
+
+        return ms.ToArray();
     }
 }
