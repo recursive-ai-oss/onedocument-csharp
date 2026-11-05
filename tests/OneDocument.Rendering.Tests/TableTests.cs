@@ -453,7 +453,6 @@ public sealed class TableTests
         Assert.Equal(150, t.Bounds.Y, 3);
         List<LayoutParagraph> paras = [.. l.Pages[0].Paragraphs];
         Assert.Equal(paras[0].Bounds.Bottom, paras[1].Bounds.Y, 2);
-        Assert.Contains(l.Notes, n => n.Code == "layout.table-floating");
     }
 
     // ---- painting ----

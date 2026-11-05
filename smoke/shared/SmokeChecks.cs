@@ -73,6 +73,7 @@ internal static class SmokeChecks
         failures.AddRange(RenderSmoke.Run());
         failures.AddRange(DrawingSmoke.Run());
         failures.AddRange(SmartArtSmoke.Run());
+        failures.AddRange(FloatSmoke.Run());
         failures.AddRange(PresentationSmoke.Run());
         failures.AddRange(NumFmtSmoke.Run());
         failures.AddRange(CalcSmoke.Run());

@@ -71,6 +71,25 @@ public sealed partial class Document
         return new Paragraph(this, element);
     }
 
+    /// <summary>Wraps any <c>w:tbl</c> element of this document's parts as a table, wherever it sits (for example in a text box).</summary>
+    /// <param name="element">An element from one of this document's trees.</param>
+    /// <returns>The table.</returns>
+    /// <exception cref="ArgumentException">The element is not a WordprocessingML <c>w:tbl</c>, or belongs to another document.</exception>
+    public Table WrapTable(MarkupRef element)
+    {
+        if (!element.IsValid || element.Namespace != SchemaNamespace.Wordprocessing || !element.LocalName.SequenceEqual("tbl"u8))
+        {
+            throw new ArgumentException("The element is not a w:tbl element.", nameof(element));
+        }
+
+        if (Parts.PartNameOf(element.Node) is null)
+        {
+            throw new ArgumentException("The element does not belong to this document.", nameof(element));
+        }
+
+        return new Table(this, element);
+    }
+
     internal TextBox TextBoxFor(MarkupRef content, MarkupRef alternate)
     {
         lock (Parts.Gate)

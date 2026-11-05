@@ -65,7 +65,7 @@ taken off the width first.
 - **Cell content** is laid out as on a page at the cell's inner width; nested tables are laid out recursively (limit: 6 levels, then
   the table is left out with `layout.table-depth`). Space before the first paragraph and after the last count.
 - **Floating tables** (`w:tblpPr`, §17.4.57) are painted at their position (`tblpX`/`tblpY` or the alignment keywords, relative to
-  page, margin or text) without text wrapping around them, take no room in the flow and do not split (`layout.table-floating`).
+  page, margin or text) take no room in the flow and do not split; the text that follows wraps around them (`layout-floats.md`).
 - **Text direction** in cells other than left-to-right is laid out horizontally (`layout.table-text-direction`).
 
 ## Borders (§17.4.38 tblBorders, §17.4.66 tcBorders, §17.3.4 border)
@@ -113,6 +113,6 @@ approximated as `pct50`. The cell's own shading beats the table style's, which b
 | Widow control inside cells, keep-with-next into tables | not applied | needs Word output |
 | Rows with only merged-continuation cells | their covered cells' paragraphs add no height | Word counts the empty paragraph |
 | Repeated header with merged cells that reach below the header | the merged cell is drawn clipped to the header rows | rare |
-| Floating tables | painted without wrap; do not split | wrapping is the floats stage |
+| Floating tables | placed at their position, text wraps round them; do not split | see `layout-floats.md` |
 | Text direction `btLr`/`tbRl` | horizontal | basics only |
 | Nested table width from a percentage while measuring | ignored (measured by content) | |

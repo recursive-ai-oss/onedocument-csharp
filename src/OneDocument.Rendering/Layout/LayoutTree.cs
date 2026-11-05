@@ -43,6 +43,12 @@ public enum LayoutNodeKind
 
     /// <summary>A cell of a table row.</summary>
     TableCell = 6,
+
+    /// <summary>A floating (anchored) object: a picture, shape, text box or chart placed on the page (<see cref="LayoutFloat"/>).</summary>
+    FloatingObject = 20,
+
+    /// <summary>The notes of one column of a page: a footnote, a separator or a continuation notice (<see cref="LayoutNoteBlock"/>).</summary>
+    NoteBlock = 8,
 }
 
 /// <summary>
@@ -88,6 +94,12 @@ public enum LayoutStory
 
     /// <summary>The page footer; painted as an artifact.</summary>
     Footer = 2,
+
+    /// <summary>A footnote in the note area of a page.</summary>
+    Footnote = 3,
+
+    /// <summary>An endnote.</summary>
+    Endnote = 4,
 }
 
 /// <summary>The columns of one stretch of a page, between two continuous section breaks (or the whole body).</summary>
@@ -170,10 +182,22 @@ public sealed class LayoutPage : LayoutNode
     public IReadOnlyList<LayoutColumnRegion> ColumnRegions { get; internal set; } = [];
 
     /// <summary>
-    /// Gets the space at the bottom of the body that a later stage keeps for footnotes. Layout lowers the body's bottom edge by this
-    /// much; it is 0 until notes are laid out.
+    /// Gets the height of the footnote area at the bottom of the page: the tallest note area of any column, separator and continuation
+    /// notice included. The body's bottom edge (<see cref="ContentArea"/>) is lowered by this much; it is 0 on a page without footnotes.
     /// </summary>
     public double NotesReservation { get; internal set; }
+
+    /// <summary>Gets the floating objects on the page in the order they were anchored.</summary>
+    public IEnumerable<LayoutFloat> Floats => Children.OfType<LayoutFloat>();
+
+    // What text on this page has to go around, for the objects placed so far (drawings, floating tables, frames).
+    internal List<FloatBox> FloatBoxes { get; } = [];
+
+    /// <summary>Gets the note areas on the page, column by column: separators, footnotes (or parts of them) and continuation notices.</summary>
+    public IEnumerable<LayoutNoteBlock> NoteBlocks => Children.OfType<LayoutNoteBlock>();
+
+    /// <summary>Gets the footnote paragraphs on the page in order (separators and notices left out).</summary>
+    public IEnumerable<LayoutParagraph> FootnoteParagraphs => NoteBlocks.Where(static b => b.Role == LayoutNoteRole.Footnote).SelectMany(static b => b.Paragraphs);
 
     /// <summary>Gets the tables on the page in order (the part of each that sits on this page). Paragraphs inside cells are under their cells, not here.</summary>
     public IEnumerable<LayoutTable> Tables => Children.OfType<LayoutTable>();
@@ -218,6 +242,12 @@ public sealed class LayoutParagraph : LayoutNode
 
     /// <summary>Gets the 0-based column of the page's column region the paragraph sits in (0 for a single column).</summary>
     public int Column { get; internal set; }
+
+    /// <summary>Gets what kind of note text the paragraph is, or null for ordinary text. Endnote paragraphs flow in the body and carry <see cref="LayoutNoteRole.Endnote"/>.</summary>
+    public LayoutNoteRole? NoteRole { get; internal set; }
+
+    /// <summary>Gets the <c>w:id</c> of the note a note paragraph belongs to; 0 for ordinary text.</summary>
+    public long NoteId { get; internal set; }
 
     /// <summary>Gets the lines of this block in order.</summary>
     public IEnumerable<LayoutLine> Lines => Children.OfType<LayoutLine>();
@@ -332,13 +362,24 @@ public sealed class LayoutRun : LayoutNode
 /// <summary>The result of laying out a document.</summary>
 public sealed class LayoutDocument
 {
-    internal LayoutDocument(IReadOnlyList<LayoutPage> pages, IReadOnlyList<FontSubstitutionNote> fontNotes, IReadOnlyList<LayoutNote> notes, int compatibilityMode)
+    internal LayoutDocument(IReadOnlyList<LayoutPage> pages, IReadOnlyList<FontSubstitutionNote> fontNotes, IReadOnlyList<LayoutNote> notes, int compatibilityMode, int fieldPasses = 1, Document? workingCopy = null)
     {
         Pages = pages;
         FontNotes = fontNotes;
         Notes = notes;
         CompatibilityMode = compatibilityMode;
+        FieldPasses = fieldPasses;
+        WorkingCopy = workingCopy;
     }
+
+    /// <summary>Gets how many layout passes ran; 1 when no field needed the layout, more while page-dependent fields settled.</summary>
+    public int FieldPasses { get; }
+
+    /// <summary>
+    /// Gets the copy of the document the pages were laid out from when a table of contents, index or table of authorities had to be built (the
+    /// paragraphs of such pages belong to it, not to the document passed in); null when the document itself was laid out.
+    /// </summary>
+    public Document? WorkingCopy { get; }
 
     /// <summary>Gets the pages in order.</summary>
     public IReadOnlyList<LayoutPage> Pages { get; }
@@ -370,4 +411,76 @@ public sealed class LayoutOptions
 
     /// <summary>Gets or sets the most pages to lay out; layout stops there and adds a note. Default 100,000.</summary>
     public int MaxPages { get; set; } = 100_000;
+
+    /// <summary>
+    /// Gets or sets whether every field is updated, as Word does when it prints with "update fields before printing" on. Default false: fields
+    /// that depend on the page (<c>PAGE</c>, <c>NUMPAGES</c>, <c>SECTIONPAGES</c>, <c>SECTION</c>, <c>PAGEREF</c>, <c>NOTEREF</c>, <c>REF</c>,
+    /// <c>STYLEREF</c>, <c>SEQ</c>) are computed from the layout and the others show the result stored in the file; a <c>TOC</c> with no stored
+    /// result is built, and one with a result keeps its entries and gets the page numbers of its <c>PAGEREF</c> fields recomputed. When true,
+    /// the table of contents, index and table of authorities are rebuilt and the date, property, <c>IF</c>, <c>=</c>, <c>SYMBOL</c> and <c>QUOTE</c>
+    /// fields are computed too. A document whose settings carry <c>w:updateFields</c> is laid out as if this were true, as Word updates its
+    /// fields when it opens such a file. The document itself is never changed.
+    /// </summary>
+    public bool UpdateFields { get; set; }
+
+    /// <summary>
+    /// Gets or sets the clock <c>DATE</c> and <c>TIME</c> read when <see cref="UpdateFields"/> is on. Null (the default) keeps their stored results:
+    /// layout never reads the system time on its own, so the same input gives the same pages.
+    /// </summary>
+    public TimeProvider? Clock { get; set; }
+
+    /// <summary>
+    /// Gets or sets how many layout passes may run while fields settle (page numbers that depend on layout that depends on page numbers).
+    /// Default 6. When the fields still change after the last pass the layout keeps that pass and adds the note <c>layout.fields-unsettled</c>.
+    /// </summary>
+    public int MaxFieldPasses { get; set; } = 6;
+
+    // The same options with every field updated: what a document that asks Word to update its fields on open gets.
+    internal LayoutOptions WithUpdateFields()
+    {
+        var copy = (LayoutOptions)MemberwiseClone();
+        copy.UpdateFields = true;
+        return copy;
+    }
+}
+
+/// <summary>
+/// A floating object placed on a page: where an anchored picture, shape, text box or chart ended up, how text goes around it and how it
+/// stacks. <see cref="LayoutNode.Bounds"/> is the object's own box in points on the page, without the wrap distances.
+/// </summary>
+public sealed class LayoutFloat : LayoutNode
+{
+    internal LayoutFloat(InlineDrawing drawing, LayoutRect bounds, LayoutStory story)
+        : base(LayoutNodeKind.FloatingObject)
+    {
+        Drawing = drawing;
+        Bounds = bounds;
+        Story = story;
+        Info = drawing.Info;
+    }
+
+    internal InlineDrawing Drawing { get; }
+
+    internal Rendering.Drawing.DrawingInfo Info { get; }
+
+    /// <summary>Gets the story the anchor paragraph belongs to.</summary>
+    public LayoutStory Story { get; }
+
+    /// <summary>Gets how text wraps around the object.</summary>
+    public Rendering.Drawing.DrawingWrap Wrap => Info.Anchor?.Wrap ?? Rendering.Drawing.DrawingWrap.None;
+
+    /// <summary>Gets whether the object is drawn behind the text (<c>behindDoc</c>).</summary>
+    public bool BehindText => Info.BehindText;
+
+    /// <summary>Gets the stacking order; larger is in front. Equal values keep anchor order.</summary>
+    public long ZOrder => Info.Anchor?.RelativeHeight ?? 0;
+
+    /// <summary>Gets the object's alternative text, or null.</summary>
+    public string? AltText => Info.AltText;
+
+    /// <summary>Gets the paragraph the object is anchored in.</summary>
+    public LayoutParagraph? AnchorParagraph { get; internal set; }
+
+    /// <summary>Gets the order the object was anchored in on its page.</summary>
+    public int Order { get; internal set; }
 }

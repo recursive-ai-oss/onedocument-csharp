@@ -88,4 +88,10 @@ internal sealed class InlineDrawing(MarkupNode node, DrawingInfo info, DrawingSo
     public DrawingInfo Info { get; } = info;
 
     public DrawingSources Sources { get; } = sources;
+
+    // Where in the paragraph text the anchor sits (an anchored drawing takes no character).
+    public int TextOffset { get; set; }
+
+    // Set once layout has placed the drawing on a page; the painter then draws it from the page's floats.
+    public bool Placed { get; set; }
 }

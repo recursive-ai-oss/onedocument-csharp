@@ -16,7 +16,7 @@ nothing here is tied to a machine. Oracles (LibreOffice, Jing, python-docx and f
 | `StreamProbe/` | Streaming workbook cursors: `compare` (cursor against the workbook model over a directory), `read` and `write` (throughput, allocation and working-set checkpoints), `layers` (where read time goes), `sample` (small generated workbooks for opening in an application), `xcompare` (values of two workbooks). |
 | `RoundTrip/` | Per-part comparison of two packages (zip or Flat OPC). |
 | `validate/validate_ooxml.py` | Schema validation of every XML part, with markup-compatibility preprocessing. |
-| `LayoutProbe/`, `layout-differential.sh` | The generated layout case set (`gen`), rendering of a directory of DOCX to PDF and page-1 PNG with a layout log (`render`), per-page text lines of PDFs (`lines`), and page-count and line-break comparison of two PDF directories (`compare`). The script chains gen, render, the Word oracle's PDF export and compare; its answers come at the milestone gate. |
+| `LayoutProbe/`, `layout-differential.sh` | The generated layout case set (`gen`: DOCX and the `slide-*.pptx` decks), rendering of a directory of DOCX and PPTX to PDF and page-1 PNG with a layout log (`render`), a recursive PPTX sweep with page and note counts (`sweep-pptx`), per-page text lines of PDFs (`lines`), and page-count and line-break comparison of two PDF directories (`compare`). The script chains gen, render, the Word and PowerPoint oracle's PDF exports and compare; its answers come at the milestone gate. |
 | `fuzz-run.sh` | Builds and runs one fuzz target for N seconds and prints executions, features and findings. |
 | `tests/selftest.sh` | Checks the round-trip tool and the validator against small generated packages. |
 

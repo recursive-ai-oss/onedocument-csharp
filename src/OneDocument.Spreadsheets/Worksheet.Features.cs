@@ -34,6 +34,28 @@ public sealed partial class Worksheet
         }
     }
 
+    /// <summary>
+    /// Gets the worksheet element with everything in the part except the rows' cells (<c>sheetPr</c>, <c>sheetViews</c>, <c>sheetFormatPr</c>,
+    /// <c>cols</c>, <c>pageSetup</c>, <c>headerFooter</c>, breaks, <c>drawing</c>, and so on), for readers that need settings the model has no
+    /// property for, such as print rendering. The <c>sheetData</c> element is an empty marker. Reading it does not mark the sheet changed;
+    /// do not edit it.
+    /// </summary>
+    /// <exception cref="NotSupportedException">The sheet is not a worksheet.</exception>
+    /// <exception cref="OfficeFormatException">The part is not well-formed XML or is not a worksheet.</exception>
+    public MarkupNode LayoutMarkup => FrameRoot;
+
+    /// <summary>
+    /// Tells whether a text value is an entry of the shared string table, and which. Text set in this session and not yet saved is not.
+    /// </summary>
+    /// <param name="value">A value read from this sheet.</param>
+    /// <param name="index">The 0-based index into <see cref="Workbook.SharedStrings"/>.</param>
+    /// <returns>True for a stored shared string.</returns>
+    public bool TryGetSharedStringIndex(CellValue value, out int index)
+    {
+        index = value.StringRef;
+        return value.Kind == CellValueKind.Text && index >= 0 && index < _workbook.SharedStrings.Count;
+    }
+
     internal MarkupNode InsertFrameElement(string local, string xml)
     {
         EnsureModel();

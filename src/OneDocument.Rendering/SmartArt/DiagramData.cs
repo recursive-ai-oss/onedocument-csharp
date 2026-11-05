@@ -318,7 +318,11 @@ internal sealed class DiagramData
 
         if (data.Document is null)
         {
-            return null;
+            // A data model without its document point is damaged but still names the stored drawing; read it as an empty tree.
+            var synthetic = new DiagramPoint { Id = string.Empty, Type = DiagramPointType.Document };
+            points.Add(synthetic);
+            data._points[string.Empty] = synthetic;
+            data.Document = synthetic;
         }
 
         var cxns = new List<DiagramConnection>();

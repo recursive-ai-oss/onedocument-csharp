@@ -6,7 +6,7 @@ namespace RecursiveAI.OneDocument.Layout;
 /// <summary>
 /// Lays a document out into pages: sections with their page sizes, margins and columns, headers and footers with page numbers, page
 /// borders, watermarks and line numbers, and the paragraphs with widow and orphan control, keep-with-next, keep-lines-together and
-/// page-break-before. Tables (see docs/layout-tables.md); floating objects, notes and fields other than page numbers are later stages and are reported in
+/// page-break-before. Tables (see docs/layout-tables.md); footnotes and endnotes (see docs/layout.md); floating objects and fields other than page numbers are later stages and are reported in
 /// <see cref="LayoutDocument.Notes"/>.
 /// </summary>
 public static partial class LayoutEngine
@@ -22,19 +22,40 @@ public static partial class LayoutEngine
     {
         ArgumentNullException.ThrowIfNull(document);
         LayoutOptions opt = options ?? new LayoutOptions();
-        IFontProvider fonts = opt.Fonts ?? CreateFonts(document, opt);
         CompatSettings compat = CompatSettings.Read(document);
-        IReadOnlyDictionary<string, DocumentFontInfo> fontTable = DocumentFonts.ReadFontTable(document);
-
-        // NUMPAGES and SECTIONPAGES in a header or footer need the page counts, which exist only after the pages do: lay out again with
-        // the previous pass's counts until they stop changing (at most three passes). This is the small loop the general field update
-        // replaces.
-        PageTotals? totals = null;
-        for (int pass = 0; ; pass++)
+        if (compat.UpdateFields && !opt.UpdateFields)
         {
-            var ctx = new LayoutContext(document, fonts, compat, fontTable);
-            var flow = new Flow(ctx, opt, totals, probe: false);
-            IReadOnlyList<Section> sections = document.Sections;
+            // ECMA-376 Part 1 §17.15.1.90 (updateFields): the file asks for its fields to be updated when it is opened, as Word then does.
+            opt = opt.WithUpdateFields();
+        }
+
+        // Fields first: a table of contents, index or table of authorities that has to be built is built in a private copy, and every
+        // field that depends on pages reads the facts of the previous pass (docs/layout-fields.md).
+        var pending = new List<LayoutNote>();
+        FieldModel model = FieldModel.Build(document);
+        Document work = document;
+        if (FieldUpdater.NeedsBuild(model, opt))
+        {
+            (work, model) = FieldUpdater.Apply(document, model, opt, pending);
+        }
+
+        IFontProvider fonts = opt.Fonts ?? CreateFonts(work, opt);
+        IReadOnlyDictionary<string, DocumentFontInfo> fontTable = DocumentFonts.ReadFontTable(work);
+        Document? copy = ReferenceEquals(work, document) ? null : work;
+
+        // One loop for everything that needs the pages of the pass before: field facts (page numbers that move text that moves page
+        // numbers) and footnote numbers that restart on each page. A pass stands when it reproduces what it was given.
+        FieldFacts? facts = null;
+        Dictionary<NoteKey, int>? notePages = null;
+        int maxPasses = Math.Clamp(opt.MaxFieldPasses, 1, 50);
+        for (int pass = 1; ; pass++)
+        {
+            var env = new FieldEnv { Doc = work, Model = model, Options = opt, Facts = facts };
+            var ctx = new LayoutContext(work, fonts, compat, fontTable) { Fields = env, NotePlan = NotePlan.Build(work, work.Sections, notePages) };
+            env.Notes = ctx.NotePlan;
+            ctx.Notes.AddRange(pending);
+            var flow = new Flow(ctx, opt, facts?.Totals, probe: false);
+            IReadOnlyList<Section> sections = work.Sections;
             for (int s = 0; s < sections.Count; s++)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -47,13 +68,28 @@ public static partial class LayoutEngine
             }
 
             flow.Finish();
-            PageTotals measured = PageTotals.Of(flow.Pages, sections.Count);
-            if (!ctx.UsesPageTotals || pass >= 2 || (totals is not null && totals.Equals(measured)))
+            // Footnote numbers that restart on each page depend on where the references land.
+            bool notesSettled = !ctx.NotePlan.UsesPageRestart || ctx.NoteRefPages.Count == (notePages?.Count ?? -1) && ctx.NoteRefPages.All(p => notePages!.TryGetValue(p.Key, out int pg) && pg == p.Value);
+            FieldFacts? built = env.UsedFacts ? FieldFacts.Build(flow.Pages, model, PageTotals.Of(flow.Pages, sections.Count), work) : null;
+            bool fieldsSettled = built is null || (facts is not null && facts.Equals(built));
+            int limit = Math.Max(env.UsedFacts ? maxPasses : 1, ctx.NotePlan.UsesPageRestart ? 4 : 1);
+            if ((fieldsSettled && notesSettled) || pass >= limit)
             {
-                return new LayoutDocument(flow.Pages, ctx.FontNotes, ctx.Notes, ctx.Compat.Mode);
+                if (!fieldsSettled)
+                {
+                    ctx.Notes.Add(new LayoutNote("layout.fields-unsettled", $"Page-dependent fields still changed the pages after {pass} passes; the last pass stands.", null));
+                }
+
+                if (!notesSettled)
+                {
+                    ctx.NoteOnce("layout.note-numbering-unsettled", "layout.note-numbering-unsettled", "Footnote numbers that restart on each page did not settle after four layout passes; the last pass is used.", null);
+                }
+
+                return new LayoutDocument(flow.Pages, ctx.FontNotes, ctx.Notes, ctx.Compat.Mode, pass, copy);
             }
 
-            totals = measured;
+            facts = built;
+            notePages = new Dictionary<NoteKey, int>(ctx.NoteRefPages);
         }
     }
 
@@ -98,18 +134,59 @@ public static partial class LayoutEngine
                 StartPage();
             }
 
+            // Footnote text that did not fit continues on pages of its own; each page takes at least one more line of it.
+            while (_carry.Count > 0 && !Stopped && !probe)
+            {
+                StartPage();
+            }
+
             FinalizePage();
         }
 
         private void Collect(IEnumerable<BlockElement> elements, List<FormattedParagraph> into, CancellationToken ct)
         {
+            DropCapInfo? pendingCap = null;
+            FormattedFrameBlock? openFrame = null;
             foreach (BlockElement b in elements)
             {
                 ct.ThrowIfCancellationRequested();
+                if (b is not Paragraph)
+                {
+                    openFrame = null;
+                }
+
                 switch (b)
                 {
                     case Paragraph p:
+                        FrameInfo? frame = FrameInfo.Read(p.ResolvedProperties);
+                        if (frame is { DropCap: "drop" or "margin" })
+                        {
+                            // The capital belongs to the paragraph after it; it is set when that paragraph is placed.
+                            FormattedParagraph capFp = ParagraphFormatter.Format(p, ctx, 30000);
+                            pendingCap = new DropCapInfo(capFp, frame);
+                            break;
+                        }
+
+                        if (frame is not null)
+                        {
+                            if (openFrame is not null && openFrame.Frame.Key == frame.Key)
+                            {
+                                openFrame.Paragraphs.Add(p);
+                            }
+                            else
+                            {
+                                openFrame = new FormattedFrameBlock { Source = p, Frame = frame };
+                                openFrame.Paragraphs.Add(p);
+                                into.Add(openFrame);
+                            }
+
+                            break;
+                        }
+
+                        openFrame = null;
                         FormattedParagraph fp = ParagraphFormatter.Format(p, ctx, _textWidth);
+                        fp.DropCap = pendingCap;
+                        pendingCap = null;
                         SnapToGrid(fp);
                         into.Add(fp);
                         break;
@@ -173,6 +250,12 @@ public static partial class LayoutEngine
             if (fp is FormattedTableBlock tableBlock)
             {
                 PlaceTable(tableBlock.Table);
+                return;
+            }
+
+            if (fp is FormattedFrameBlock frameBlock)
+            {
+                PlaceFrame(frameBlock);
                 return;
             }
 
@@ -240,19 +323,19 @@ public static partial class LayoutEngine
             int placed = 0;
             while (placed < fp.Lines.Count && !Stopped)
             {
-                if (Math.Abs(fp.FormattedWidth - _textWidth) > 0.5)
+                bool wantSpace = NeedsFloatSpace(fp);
+                if (Math.Abs(fp.FormattedWidth - _textWidth) > 0.5 || wantSpace || fp.Reflowed)
                 {
-                    // The column the text moved to has another width: cut the lines again and resume where the text had got to.
-                    int consumed = placed < fp.Lines.Count ? fp.Lines[placed].TextStart : fp.Text.Length;
-                    fp = ParagraphFormatter.Format(fp.Source, ctx, _textWidth);
+                    // The column the text moved to has another width, or objects on the page take part of it: cut the lines again, keeping
+                    // the ones already placed, and resume where the text had got to. The lines are cut around what is on the page now.
+                    double gapNow = Gap(fp);
+                    double y0 = _y + (placed == 0 ? gapNow : 0);
+                    ILineSpace? space = wantSpace ? BuildSpace(fp, y0, placed == 0 ? fp.BorderTopHeight : 0, includeOwn: placed == 0) : null;
+                    DropCapInfo? dropCap = fp.DropCap;
+                    fp = ParagraphFormatter.Format(fp.Source, ctx, _textWidth, space, placed > 0 ? fp : null, placed);
+                    fp.DropCap = dropCap;
                     SnapToGrid(fp);
                     blocks[index] = fp;
-                    placed = 0;
-                    while (placed < fp.Lines.Count && fp.Lines[placed].TextStart < consumed)
-                    {
-                        placed++;
-                    }
-
                     if (placed >= fp.Lines.Count)
                     {
                         break;
@@ -263,15 +346,16 @@ public static partial class LayoutEngine
                 double avail = _limitBottom - (_y + (placed == 0 ? gap : 0));
                 double remainingHeight = Total(fp, placed, fp.Lines.Count - placed, includeTop: placed == 0);
                 int count;
-                if (remainingHeight <= avail + 0.01)
+                bool withNotes = fp.HasNoteRefs && NotesActive;
+                if (!withNotes && remainingHeight <= avail + 0.01)
                 {
                     count = fp.Lines.Count - placed;
                 }
                 else
                 {
-                    count = FitLines(fp, placed, avail);
+                    count = withNotes ? FitLinesNotes(fp, placed, placed == 0 ? gap : 0) : FitLines(fp, placed, avail);
                     int remainingLines = fp.Lines.Count - placed;
-                    bool keepTogether = fp.KeepLines && placed == 0;
+                    bool keepTogether = fp.KeepLines && placed == 0 && count < remainingLines;
                     if (fp.WidowControl && count < remainingLines)
                     {
                         // Orphan control keeps two lines at the bottom, widow control two at the top of the next page.
@@ -298,7 +382,7 @@ public static partial class LayoutEngine
                             continue;
                         }
 
-                        count = Math.Max(1, FitLines(fp, placed, avail));
+                        count = Math.Max(1, withNotes ? FitLinesNotes(fp, placed, placed == 0 ? gap : 0) : FitLines(fp, placed, avail));
                     }
                 }
 
@@ -344,7 +428,7 @@ public static partial class LayoutEngine
             double h = 0;
             for (int i = from; i < from + count && i < fp.Lines.Count; i++)
             {
-                h += fp.Lines[i].Height;
+                h += fp.Lines[i].Advance;
             }
 
             if (includeTop && from == 0)
@@ -366,7 +450,7 @@ public static partial class LayoutEngine
             int n = 0;
             for (int i = from; i < fp.Lines.Count; i++)
             {
-                h += fp.Lines[i].Height;
+                h += fp.Lines[i].Advance;
                 if (h > avail + 0.01)
                 {
                     break;
@@ -390,6 +474,12 @@ public static partial class LayoutEngine
             LayoutParagraph lp = ParagraphEmitter.Build(fp, from, count, _colX, top, first, last, out double y, out bool breakAfter);
             lp.Story = _story;
             lp.Column = _colIndex;
+            if (fp.NoteRole is { } noteRole)
+            {
+                lp.NoteRole = noteRole;
+                lp.NoteId = fp.NoteId;
+            }
+
             bool columnBreak = false;
             if (breakAfter)
             {
@@ -411,11 +501,46 @@ public static partial class LayoutEngine
                 foreach (LayoutLine line in lp.Lines)
                 {
                     FormattedLine fl = fp.Lines[from + n++];
-                    NumberLine(fp, fl, line, line.Baseline - fl.Ascent, _colX);
+                    if (!fl.SameRow)
+                    {
+                        NumberLine(fp, fl, line, line.Baseline - fl.Ascent, _colX);
+                    }
                 }
             }
 
             page.Add(lp);
+            if (_story == LayoutStory.Body && !probe)
+            {
+                if (fp.HasNoteRefs)
+                {
+                    CommitNoteRefs(fp, from, lp);
+                }
+
+                if (fp.NoteRole == LayoutNoteRole.Separator)
+                {
+                    AddEndnoteRule(page, lp);
+                }
+            }
+
+            // After the notes: the footnote area the references reserved is known, and objects keep above it.
+            if (first)
+            {
+                CommitFloats(fp, lp, top);
+                if (fp.DropCap is { } cap)
+                {
+                    FloatBox? capBox = DropCapBox(fp, top, out LayoutRect capRect, out double capTop);
+                    LayoutParagraph capLp = ParagraphEmitter.Build(cap.Paragraph, 0, cap.Paragraph.Lines.Count, capRect.X, capTop, true, true, out _, out _);
+                    capLp.Bounds = capLp.Bounds with { Width = capRect.Width };
+                    capLp.Story = _story;
+                    capLp.Column = _colIndex;
+                    page.Add(capLp);
+                    if (capBox is not null && _story == LayoutStory.Body)
+                    {
+                        page.FloatBoxes.Add(capBox);
+                    }
+                }
+            }
+
             _y = y;
             _pageHasContent = true;
             _honourSpaceBefore = true;

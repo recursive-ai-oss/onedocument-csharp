@@ -123,6 +123,25 @@ public sealed class DrawingContext
     /// </summary>
     public Func<SmartArt.DiagramPaintRequest, bool>? DiagramPainter { get; set; }
 
+    /// <summary>
+    /// Gets or sets a hook that tells the painter which shapes a shape inherits from (see <see cref="ShapeInheritance"/>). Null means
+    /// every shape stands on its own, as in a Word drawing.
+    /// </summary>
+    public Func<MarkupNode, ShapeInheritance?>? ShapeResolver { get; set; }
+
+    /// <summary>
+    /// Gets or sets a painter for graphic frames the shape painter does not know (tables, diagrams, objects). It receives the
+    /// <c>p:graphicFrame</c> element, the display list and the frame's box in CSS pixels, and returns true when it painted the frame;
+    /// on false the frame goes on to the chart painter. Null leaves such frames unpainted (note <c>drawing.graphic-frame</c>).
+    /// </summary>
+    public Func<MarkupNode, DisplayList, double, double, double, double, bool>? FramePainter { get; set; }
+
+    /// <summary>
+    /// Gets or sets a hook that says how a shape appears in the structure tree: a figure with alternative text, or an artifact. Null
+    /// means shapes are not tagged by the painter (a Word drawing is tagged by the caller). A null result leaves one shape untagged.
+    /// </summary>
+    public Func<MarkupNode, DrawingTag?>? ShapeTagger { get; set; }
+
     /// <summary>Gets or sets the font provider metafile text uses; null takes the default library.</summary>
     public RecursiveAI.OneDocument.Layout.IFontProvider? Fonts { get; set; }
 
@@ -135,6 +154,11 @@ public sealed class DrawingContext
     }
 }
 
+/// <summary>How the painter tags one shape.</summary>
+/// <param name="Role">The structure role: <see cref="TagRole.Figure"/>, <see cref="TagRole.Artifact"/> or another.</param>
+/// <param name="AltText">Alternative text for a figure; null for none.</param>
+public sealed record DrawingTag(TagRole Role, string? AltText);
+
 /// <summary>A request to paint the text of one shape.</summary>
 /// <param name="List">The list to paint into; its coordinates are CSS pixels on the page.</param>
 /// <param name="Shape">The shape element (<c>wps:wsp</c>, <c>p:sp</c>).</param>
@@ -143,7 +167,39 @@ public sealed class DrawingContext
 /// <param name="Height">The text rectangle's height in points, insets already removed.</param>
 /// <param name="NextId">Allocates item ids.</param>
 /// <param name="BodyProperties">The <c>bodyPr</c> element: anchoring, wrap, vertical text; may be a null node.</param>
-public sealed record ShapeTextRequest(DisplayList List, MarkupNode Shape, System.Numerics.Matrix3x2 Transform, double Width, double Height, Func<ItemId> NextId, MarkupNode BodyProperties);
+public sealed record ShapeTextRequest(DisplayList List, MarkupNode Shape, System.Numerics.Matrix3x2 Transform, double Width, double Height, Func<ItemId> NextId, MarkupNode BodyProperties)
+{
+    /// <summary>Gets the left edge of the shape's text rectangle (before insets) in the shape's own space, in points.</summary>
+    public double RectX { get; init; }
+
+    /// <summary>Gets the top edge of the shape's text rectangle (before insets) in the shape's own space, in points.</summary>
+    public double RectY { get; init; }
+
+    /// <summary>Gets the width of the shape's text rectangle before insets, in points.</summary>
+    public double RectWidth { get; init; }
+
+    /// <summary>Gets the height of the shape's text rectangle before insets, in points.</summary>
+    public double RectHeight { get; init; }
+
+    /// <summary>Gets the matrix from the shape's own space (points, origin at the top-left of its box) to page pixels, rotation and flips included.</summary>
+    public System.Numerics.Matrix3x2 ShapeMatrix { get; init; } = System.Numerics.Matrix3x2.Identity;
+}
+
+/// <summary>
+/// What a host knows about a shape beyond its own markup: the shapes it inherits properties from (a slide placeholder takes its
+/// position, geometry, fill and line from its layout and master placeholders) and a size the host has decided on.
+/// </summary>
+public sealed class ShapeInheritance
+{
+    /// <summary>Gets the shape elements that supply a property the shape does not write, nearest first.</summary>
+    public IReadOnlyList<MarkupNode> Parents { get; init; } = [];
+
+    /// <summary>Gets a replacement top edge in EMU, or null to keep the shape's.</summary>
+    public long? TopEmu { get; init; }
+
+    /// <summary>Gets a replacement height in EMU, or null to keep the shape's (a shape that grows to fit its text).</summary>
+    public long? HeightEmu { get; init; }
+}
 
 /// <summary>The place a drawing takes on the page, in points.</summary>
 /// <param name="X">Left edge from the page's left.</param>
@@ -193,6 +249,9 @@ public sealed class DrawingInfo
 
     /// <summary>Gets whether an anchored drawing sits behind the text (<c>behindDoc</c>).</summary>
     public bool BehindText { get; init; }
+
+    /// <summary>Gets the positioning and wrapping details of an anchored drawing; null for inline drawings.</summary>
+    public DrawingAnchor? Anchor { get; init; }
 
     /// <summary>Reads a <c>w:drawing</c> element.</summary>
     /// <param name="drawing">The <c>w:drawing</c> element.</param>
@@ -263,8 +322,17 @@ public sealed class DrawingInfo
             AlignH = ah,
             AlignV = av,
             BehindText = holder.GetAttribute("behindDoc") is "1" or "true",
+            Anchor = inline ? null : DrawingAnchor.Read(holder, cx, cy),
         };
     }
+
+    /// <summary>
+    /// Reads a legacy <c>w:pict</c> that holds one VML shape (<c>v:shape</c>, <c>v:rect</c>, <c>v:roundrect</c>, <c>v:oval</c>, <c>v:line</c>):
+    /// its size and position from the CSS-like <c>style</c> attribute and its wrapping from <c>w10:wrap</c>.
+    /// </summary>
+    /// <param name="pict">The <c>w:pict</c> element.</param>
+    /// <returns>The information, or null when the element holds no shape with a width and height.</returns>
+    public static DrawingInfo? ReadPict(MarkupNode pict) => VmlShapes.Read(pict);
 
     private static IEnumerable<MarkupNode> Descendants(MarkupNode n)
     {
@@ -279,4 +347,174 @@ public sealed class DrawingInfo
     }
 
     internal static double Emu(string? s) => double.TryParse(s, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double v) && double.IsFinite(v) ? v : 0;
+}
+
+/// <summary>How text wraps around an anchored drawing (ECMA-376 Part 1 §20.4.2.15 to §20.4.2.19, the <c>wrap*</c> elements).</summary>
+public enum DrawingWrap
+{
+    /// <summary>No wrapping: the drawing floats over or behind the text (<c>wrapNone</c>, also when no wrap element is present).</summary>
+    None = 0,
+
+    /// <summary>Text wraps around the drawing's rectangle (<c>wrapSquare</c>).</summary>
+    Square = 1,
+
+    /// <summary>Text wraps close around the drawing's outline (<c>wrapTight</c>).</summary>
+    Tight = 2,
+
+    /// <summary>Text wraps around the outline and may enter concave parts (<c>wrapThrough</c>).</summary>
+    Through = 3,
+
+    /// <summary>Text stops above the drawing and resumes below it (<c>wrapTopAndBottom</c>).</summary>
+    TopAndBottom = 4,
+}
+
+/// <summary>
+/// The positioning and wrapping an anchored drawing (<c>wp:anchor</c>) states: where it sits relative to what, how text wraps around it,
+/// and how it stacks. Lengths are in points; percentages are fractions (1 is 100 %).
+/// </summary>
+public sealed class DrawingAnchor
+{
+    /// <summary>Gets whether <c>simplePos</c> is on: the drawing sits at <see cref="SimpleX"/>, <see cref="SimpleY"/> from the page's top-left corner.</summary>
+    public bool SimplePosition { get; init; }
+
+    /// <summary>Gets the simple position's x in points.</summary>
+    public double SimpleX { get; init; }
+
+    /// <summary>Gets the simple position's y in points.</summary>
+    public double SimpleY { get; init; }
+
+    /// <summary>Gets the horizontal position as a fraction of the base (<c>wp14:pctPosHOffset</c>), or null.</summary>
+    public double? PercentX { get; init; }
+
+    /// <summary>Gets the vertical position as a fraction of the base (<c>wp14:pctPosVOffset</c>), or null.</summary>
+    public double? PercentY { get; init; }
+
+    /// <summary>Gets what the percentage width is relative to (<c>wp14:sizeRelH/@relativeFrom</c>), or null.</summary>
+    public string? SizeRelativeH { get; init; }
+
+    /// <summary>Gets the width as a fraction of that base (<c>wp14:pctWidth</c>), or null.</summary>
+    public double? PercentWidth { get; init; }
+
+    /// <summary>Gets what the percentage height is relative to, or null.</summary>
+    public string? SizeRelativeV { get; init; }
+
+    /// <summary>Gets the height as a fraction of that base (<c>wp14:pctHeight</c>), or null.</summary>
+    public double? PercentHeight { get; init; }
+
+    /// <summary>Gets the stacking order (<c>relativeHeight</c>); larger is in front.</summary>
+    public long RelativeHeight { get; init; }
+
+    /// <summary>Gets whether the drawing may overlap other drawings (<c>allowOverlap</c>; default true).</summary>
+    public bool AllowOverlap { get; init; } = true;
+
+    /// <summary>Gets whether the drawing is positioned relative to its table cell when anchored in one (<c>layoutInCell</c>; default true).</summary>
+    public bool LayoutInCell { get; init; } = true;
+
+    /// <summary>Gets how text wraps.</summary>
+    public DrawingWrap Wrap { get; init; }
+
+    /// <summary>Gets the sides text may be on (<c>wrapText</c>: <c>bothSides</c>, <c>left</c>, <c>right</c>, <c>largest</c>).</summary>
+    public string WrapText { get; init; } = "bothSides";
+
+    /// <summary>Gets the distance from text above in points.</summary>
+    public double DistanceTop { get; init; }
+
+    /// <summary>Gets the distance from text below in points.</summary>
+    public double DistanceBottom { get; init; }
+
+    /// <summary>Gets the distance from text on the left in points.</summary>
+    public double DistanceLeft { get; init; }
+
+    /// <summary>Gets the distance from text on the right in points.</summary>
+    public double DistanceRight { get; init; }
+
+    /// <summary>Gets the wrap polygon of tight and through wrapping in 21600ths of the drawing's width and height, or null when the drawing's own outline is used.</summary>
+    public IReadOnlyList<(double X, double Y)>? Polygon { get; init; }
+
+    /// <summary>Gets the extra room effects take around the drawing (<c>wp:effectExtent</c>): left, top, right, bottom in points.</summary>
+    public (double Left, double Top, double Right, double Bottom) EffectExtent { get; init; }
+
+    internal static DrawingAnchor Read(MarkupNode holder, double cx, double cy)
+    {
+        _ = cx;
+        _ = cy;
+        MarkupNode simple = DrawingTheme.Child(holder, "simplePos");
+        double Pt(MarkupNode e, string a) => DrawingInfo.Emu(e.GetAttribute(a)) / 12700.0;
+        bool simpleOn = holder.GetAttribute("simplePos") is "1" or "true";
+        // wp14 percentages are in thousandths of a percent.
+        double? Pct(MarkupNode e) => e.IsNull ? null : DrawingInfo.Emu(e.InnerText) / 100000.0;
+        MarkupNode ph = DrawingTheme.Child(holder, "positionH"), pv = DrawingTheme.Child(holder, "positionV");
+        MarkupNode srH = DrawingTheme.Child(holder, "sizeRelH"), srV = DrawingTheme.Child(holder, "sizeRelV");
+        MarkupNode ee = DrawingTheme.Child(holder, "effectExtent");
+        DrawingWrap wrap = DrawingWrap.None;
+        string wrapText = "bothSides";
+        MarkupNode wrapEl = default;
+        foreach (MarkupNode c in holder.ChildElements)
+        {
+            DrawingWrap w = c.LocalNameString switch
+            {
+                "wrapSquare" => DrawingWrap.Square,
+                "wrapTight" => DrawingWrap.Tight,
+                "wrapThrough" => DrawingWrap.Through,
+                "wrapTopAndBottom" => DrawingWrap.TopAndBottom,
+                _ => DrawingWrap.None,
+            };
+            if (c.LocalNameString is "wrapNone" or "wrapSquare" or "wrapTight" or "wrapThrough" or "wrapTopAndBottom")
+            {
+                wrap = w;
+                wrapEl = c;
+            }
+        }
+
+        if (!wrapEl.IsNull && wrapEl.GetAttribute("wrapText") is { Length: > 0 } wt)
+        {
+            wrapText = wt;
+        }
+
+        // The distances may sit on the wrap element or on the anchor; the wrap element's own values win.
+        double Dist(string name) => !wrapEl.IsNull && wrapEl.GetAttribute(name) is { } v ? DrawingInfo.Emu(v) / 12700.0 : DrawingInfo.Emu(holder.GetAttribute(name)) / 12700.0;
+        List<(double, double)>? poly = null;
+        MarkupNode wp = DrawingTheme.Child(wrapEl, "wrapPolygon");
+        if (!wp.IsNull)
+        {
+            poly = [];
+            foreach (MarkupNode pt in wp.ChildElements)
+            {
+                if (pt.LocalNameString is "start" or "lineTo")
+                {
+                    poly.Add((DrawingInfo.Emu(pt.GetAttribute("x")), DrawingInfo.Emu(pt.GetAttribute("y"))));
+                }
+            }
+
+            if (poly.Count < 3)
+            {
+                poly = null;
+            }
+        }
+
+        long.TryParse(holder.GetAttribute("relativeHeight"), System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out long rh);
+        return new DrawingAnchor
+        {
+            SimplePosition = simpleOn,
+            SimpleX = simple.IsNull ? 0 : Pt(simple, "x"),
+            SimpleY = simple.IsNull ? 0 : Pt(simple, "y"),
+            PercentX = Pct(DrawingTheme.Child(ph, "pctPosHOffset")),
+            PercentY = Pct(DrawingTheme.Child(pv, "pctPosVOffset")),
+            SizeRelativeH = srH.IsNull ? null : srH.GetAttribute("relativeFrom"),
+            PercentWidth = Pct(DrawingTheme.Child(srH, "pctWidth")),
+            SizeRelativeV = srV.IsNull ? null : srV.GetAttribute("relativeFrom"),
+            PercentHeight = Pct(DrawingTheme.Child(srV, "pctHeight")),
+            RelativeHeight = rh,
+            AllowOverlap = holder.GetAttribute("allowOverlap") is not ("0" or "false"),
+            LayoutInCell = holder.GetAttribute("layoutInCell") is not ("0" or "false"),
+            Wrap = wrap,
+            WrapText = wrapText,
+            DistanceTop = Dist("distT"),
+            DistanceBottom = Dist("distB"),
+            DistanceLeft = Dist("distL"),
+            DistanceRight = Dist("distR"),
+            Polygon = poly,
+            EffectExtent = ee.IsNull ? default : (Pt(ee, "l"), Pt(ee, "t"), Pt(ee, "r"), Pt(ee, "b")),
+        };
+    }
 }

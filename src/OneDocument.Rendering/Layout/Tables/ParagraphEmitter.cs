@@ -30,14 +30,18 @@ internal static class ParagraphEmitter
         };
 
         breakAfter = false;
+        double lastTop = y;
         for (int i = from; i < from + count; i++)
         {
             FormattedLine fl = fp.Lines[i];
+            // A line that continues the row above (text on the far side of a floating object) shares its top and baseline.
+            double rowTop = fl.SameRow ? lastTop : y + fl.GapBefore;
+            lastTop = rowTop;
             var line = new LayoutLine
             {
                 Ascent = fl.Ascent,
                 Descent = fl.Descent,
-                Baseline = y + fl.Ascent,
+                Baseline = rowTop + fl.Ascent,
                 TextStart = fl.TextStart,
                 TextLength = fl.TextLength,
                 Text = fl.Text,
@@ -55,7 +59,7 @@ internal static class ParagraphEmitter
                     Font = item.Font,
                     FontSize = item.Size,
                     BidiLevel = item.Level,
-                    Bounds = new LayoutRect(left + item.X, y, item.Width, fl.Height),
+                    Bounds = new LayoutRect(left + item.X, rowTop, item.Width, fl.Height),
                     ClusterStarts = item.ClusterStarts,
                     ClusterX = [.. item.ClusterX.Select(v => v + left)],
                     Paint = item.Paint,
@@ -74,9 +78,9 @@ internal static class ParagraphEmitter
                 maxX = minX;
             }
 
-            line.Bounds = new LayoutRect(minX, y, maxX - minX, fl.Height);
+            line.Bounds = new LayoutRect(minX, rowTop, maxX - minX, fl.Height);
             lp.Add(line);
-            y += fl.Height;
+            y = Math.Max(y, rowTop + fl.Height);
             if (fl.EndsWithPageBreak)
             {
                 breakAfter = true;

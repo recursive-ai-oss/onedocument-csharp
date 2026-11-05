@@ -146,6 +146,7 @@ public static partial class LayoutEngine
 
             var blocks = new List<FormattedParagraph>();
             Collect(section.Blocks(), blocks, ct);
+            AppendEndnotes(section, blocks);
             if (balance && !probe && _cols.Length > 1 && blocks.Count > 0)
             {
                 // ECMA-376 Part 1 §17.6.22: a continuous break after a multi-column section balances that section's columns, so the
@@ -153,7 +154,7 @@ public static partial class LayoutEngine
                 double h = Balance(blocks);
                 if (h > 0)
                 {
-                    _limitBottom = _regionTop + h;
+                    SetBase(_regionTop + h);
                 }
             }
 
@@ -163,7 +164,7 @@ public static partial class LayoutEngine
                 Place(blocks, i);
             }
 
-            _limitBottom = _bodyBottom;
+            SetBase(_bodyBottom);
         }
 
         // ---- pages ----
@@ -215,16 +216,15 @@ public static partial class LayoutEngine
             _areaX = area.X;
             _regions = [];
             _region = null;
+            _colNotes = null;
 
             (double top, double bottom) = LayStories(page, geo, area, printed, first);
-            double notes = ReserveForNotes(page);
-            page.NotesReservation = notes;
-            bottom -= notes;
             bottom = Math.Max(bottom, top + 12);
             page.ContentArea = new LayoutRect(area.X, top, area.Width, bottom - top);
             _bodyTop = top;
             _bodyBottom = bottom;
             _limitBottom = bottom;
+            _baseBottom = bottom;
             _cols = geo.Columns;
             _colIndex = 0;
             OpenRegion(top, geo, area.X);
@@ -236,10 +236,6 @@ public static partial class LayoutEngine
                 _lineCounter = ln.Start - 1;
             }
         }
-
-        // The space at the bottom of the body that footnotes will take. Notes are a later stage; this is where it plugs in, and the
-        // page records the amount in LayoutPage.NotesReservation.
-        private static double ReserveForNotes(LayoutPage page) => 0 * page.Number;
 
         private void OpenRegion(double top, SectionGeometry geo, double areaX)
         {
@@ -264,6 +260,7 @@ public static partial class LayoutEngine
             _y = _regionTop;
             _pageHasContent = false;
             _pendingAfter = 0;
+            NotesEnterColumn();
         }
 
         private void AdvanceColumnOrPage()
@@ -292,11 +289,13 @@ public static partial class LayoutEngine
                 _region.MaxY = Math.Max(_region.MaxY, _regionMaxY);
             }
 
+            // Footnotes take the bottom of the page; the body regions end above them.
+            EmitNotes(page);
             var list = new List<LayoutColumnRegion>();
             for (int r = 0; r < _regions.Count; r++)
             {
                 RegionState reg = _regions[r];
-                double bottom = r == _regions.Count - 1 ? Math.Max(_bodyBottom, reg.MaxY) : reg.MaxY;
+                double bottom = r == _regions.Count - 1 ? Math.Max(_bodyBottom - page.NotesReservation, reg.MaxY) : reg.MaxY;
                 var rects = new List<LayoutRect>(reg.Geo.Columns.Length);
                 foreach (ColumnSlot c in reg.Geo.Columns)
                 {
@@ -405,6 +404,8 @@ public static partial class LayoutEngine
                 NumPages = totals?.NumPages ?? 0,
                 SectionPages = totals is not null && sec.Index < totals.SectionPages.Length ? totals.SectionPages[sec.Index] : 0,
                 SectionNumber = sec.Index + 1,
+                Physical = page.Number,
+                Totals = totals,
             };
 
             HeaderFooter? header = sec.ForPage(HeaderFooterKind.Header, first, printed).Story;

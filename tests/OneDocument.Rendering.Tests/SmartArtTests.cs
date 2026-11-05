@@ -5,6 +5,7 @@ using RecursiveAI.OneDocument.Layout;
 using RecursiveAI.OneDocument.Markup;
 using RecursiveAI.OneDocument.Packaging;
 using RecursiveAI.OneDocument.Rendering.Drawing;
+using RecursiveAI.OneDocument.Rendering.Presentations;
 using RecursiveAI.OneDocument.Rendering.SmartArt;
 using static RecursiveAI.OneDocument.Rendering.Tests.SmartArtSamples;
 
@@ -529,6 +530,37 @@ public sealed class SmartArtTests
                 Assert.Equal(255, img.Pixels[((y * 960) + x) * 4]);
             }
         }
+    }
+
+    [Fact]
+    public void The_slide_renderer_paints_stored_drawings_and_regenerates_missing_or_forced_ones()
+    {
+        Node[] roots = Flat("Collect", "Process", "Report");
+        string cache = CacheFor("process", roots, 648, 400);
+
+        PresentationRenderReport Render(byte[] pptx, DiagramRegeneration mode, out int glyphs)
+        {
+            using RecursiveAI.OneDocument.Presentations.Presentation p = RecursiveAI.OneDocument.Presentations.Presentation.Open(new MemoryStream(pptx), leaveOpen: false);
+            using var ms = new MemoryStream();
+            PresentationRenderReport report = PresentationRenderer.WritePdf(p, ms, new PresentationRenderOptions { Fonts = TestFonts.Library, Compress = false, Diagrams = new DiagramOptions { Regeneration = mode } });
+            string pdf = System.Text.Encoding.Latin1.GetString(ms.ToArray());
+            glyphs = pdf.Split("Tj").Length + pdf.Split("TJ").Length - 2;
+            return report;
+        }
+
+        PresentationRenderReport missing = Render(Pptx("process", roots), DiagramRegeneration.WhenMissingOrStale, out int missingText);
+        Assert.Contains(missing.Notes, n => n.Code == "slide.smartart-regenerated");
+        Assert.DoesNotContain(missing.Notes, n => n.Code is "slide.smartart-not-painted" or "drawing.graphic-frame");
+
+        PresentationRenderReport cached = Render(Pptx("process", roots, 648, 400, cache), DiagramRegeneration.WhenMissingOrStale, out int cachedText);
+        Assert.Contains(cached.Notes, n => n.Code == "slide.smartart-cached");
+        Assert.DoesNotContain(cached.Notes, n => n.Code == "slide.smartart-regenerated");
+
+        PresentationRenderReport forced = Render(Pptx("process", roots, 648, 400, cache), DiagramRegeneration.Always, out int forcedText);
+        Assert.Contains(forced.Notes, n => n.Code == "slide.smartart-regenerated");
+        Assert.Equal(cachedText, forcedText);
+        Assert.Equal(missingText, cachedText);
+        Assert.True(cachedText >= 3, "each node's text is in the page");
     }
 
     [Fact]

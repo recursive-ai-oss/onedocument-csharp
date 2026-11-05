@@ -15,10 +15,10 @@
     <PackageVersion Include="RecursiveAI.OneRender.Fonts.Noto.Hebrew" Version="1.3.3" />
     <PackageVersion Include="RecursiveAI.OneRender.Fonts.Noto.Thai" Version="1.3.3" />
     <PackageVersion Include="RecursiveAI.OneRender.Fonts.Cjk" Version="1.3.3" />
-    <PackageVersion Include="RecursiveAI.OneImage" Version="1.11.0-preview.2" />
-    <PackageVersion Include="RecursiveAI.OneImage.Text" Version="1.11.0-preview.2" />
-    <PackageVersion Include="RecursiveAI.OneImage.Metafile" Version="1.11.0-preview.2" />
-    <PackageVersion Include="RecursiveAI.OneImage.Svg" Version="1.11.0-preview.2" />
+    <PackageVersion Include="RecursiveAI.OneImage" Version="1.11.0-preview.4" />
+    <PackageVersion Include="RecursiveAI.OneImage.Text" Version="1.11.0-preview.4" />
+    <PackageVersion Include="RecursiveAI.OneImage.Metafile" Version="1.11.0-preview.4" />
+    <PackageVersion Include="RecursiveAI.OneImage.Svg" Version="1.11.0-preview.4" />
     <PackageVersion Include="RecursiveAI.OnePdf" Version="1.18.0" />
     <PackageVersion Include="RecursiveAI.OneFont" Version="1.4.0" />
     <PackageVersion Include="RecursiveAI.OneHtml" Version="1.5.1" />

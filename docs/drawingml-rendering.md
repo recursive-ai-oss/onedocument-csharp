@@ -119,8 +119,7 @@ text at the rectangle's width (at its height for vertical text); paragraph spaci
 `anchor` (`t`, `ctr`, `b`). Vertical text: `vert`, `eaVert` turn the lines 90° clockwise (the first line at the right); `vert270`
 turns them 90° counter-clockwise (the first line at the left); `wordArtVert`, `mongolianVert` and `wordArtVertRtl` are treated the same
 way and noted (`drawing.text-vertical-approximated`). Text taller than the box is painted past its edge, where Word clips it
-(`drawing.text-overflow`). `wrap="none"` wraps at the box width (`drawing.text-wrap-none-approximated`). Tables and content controls
-inside a text box are skipped (`drawing.text-block-skipped`). Shape text takes its colour from the runs; the style's `fontRef`
+(`drawing.text-overflow`). `wrap="none"` wraps at the box width (`drawing.text-wrap-none-approximated`). A table in a text box is laid out at the box's width; a content control inside one is skipped (`drawing.text-block-skipped`). Shape text takes its colour from the runs; the style's `fontRef`
 colour is not applied.
 
 Presentation text bodies (`a:txBody`) are painted by the slide renderer, which supplies its own `TextPainter`; without one the
@@ -130,9 +129,9 @@ painter notes `drawing.text-body-not-painted`.
 
 - An inline drawing (`wp:inline`) is an atom of the paragraph: U+FFFC in the text, as wide as `wp:extent`, standing on the baseline
   and raising the line to hold it (`LayoutRunKind.Drawing`).
-- An anchored drawing (`wp:anchor`) is painted at its own position (offset or alignment relative to the page, margins, paragraph or
-  line, §20.4.2.10 and §20.4.2.11); `behindDoc` ones before the paragraph. Text does not wrap around it
-  (`layout.anchored-drawing-unwrapped`).
+- An anchored drawing (`wp:anchor`) is positioned and wrapped by the page layout (`layout-floats.md`) and painted from the page's floating
+  objects: those behind the text first, the text, then those in front, each in `relativeHeight` order. An object anchored in a table
+  cell is placed from the cell (`layoutInCell`, the default) or the page, and text does not wrap around it.
 - A drawing with no extent is skipped with `layout.drawing-skipped`; layout continues.
 - `docPr/@descr` (else `title`) is the figure's alt text; `adec:decorative` makes it an artifact. A shape's own text is tagged as
   paragraphs inside the figure.
@@ -153,3 +152,18 @@ rectangle, triangle, rounded rectangle, ellipse, five-point star and custom geom
 formulas and Office's accent palette; pixel tests for fill and line, flips, gradients, dashes, compound lines, theme style
 references, crop, groups; text anchoring, insets and vertical text measured on the raster. `testdata/drawingml` holds the generated
 differential inputs (see its README); the comparison with Office's own PDF runs at the 1.0 gate.
+
+## Hooks for slides
+
+A slide renderer drives the same painter through hooks on `DrawingContext` (all optional; a Word drawing sets none):
+
+| Hook | Use |
+|---|---|
+| `ShapeResolver(shape)` | Returns `ShapeInheritance`: the shapes a placeholder inherits from, nearest first, and optionally a replacement top edge and height. Position (`a:xfrm`), geometry, fill, line, effects and `p:style` are each taken from the first shape in the list that writes them; the slide's own always comes first. A shape with no geometry anywhere in its chain draws no outline and keeps its text box. |
+| `TextPainter(request)` | Paints a shape's text. `ShapeTextRequest` carries the text rectangle after the shape's own insets (`Transform`, `Width`, `Height`) and, additively, the rectangle before insets (`RectX`, `RectY`, `RectWidth`, `RectHeight`) and the shape's matrix (`ShapeMatrix`), so a host that resolves insets through inheritance can place text itself. |
+| `FramePainter(frame, list, x, y, w, h)` | Paints a `p:graphicFrame` the painter does not know (a table, a diagram, an embedded object); returning false passes the frame on to the chart painter. |
+| `ShapeTagger(shape)` | Says how a shape appears in the structure tree: a figure with alternative text, an artifact, or nothing (a shape whose text paragraphs carry their own tags). |
+
+`DrawingPainter.DrawShapes(..., include)` takes a filter for the top-level shapes (slides skip hidden shapes, and layouts and masters
+skip placeholders). `DrawingPainter.DrawBackground` paints a `p:bg` over a rectangle (`bgPr` fills, or `bgRef` into the theme's
+background fill styles). How slides use them: `presentation-rendering.md`.
