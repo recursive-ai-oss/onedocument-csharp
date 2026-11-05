@@ -40,6 +40,7 @@ internal static class SheetSmoke
         if (t.MergedCells.Count != 1 || t.MergedCells[0].ToString() != "E1:F2") failures.Add("sheet merge");
         FeatureChecks(failures);
         RecalcChecks(failures);
+        WhatIfChecks(failures);
         return failures;
     }
 
@@ -72,6 +73,29 @@ internal static class SheetSmoke
         if (s["A310"].Number != 600) failures.Add("recalc parallel");
         s["A1"].SetNumber(5);
         if (wb.Recalculate().Evaluated != 302 || s["B1"].Number != 16) failures.Add("recalc incremental");
+    }
+
+    /// <summary>Iterative calculation, a data table, Goal Seek and a web function with no resolver.</summary>
+    private static void WhatIfChecks(List<string> failures)
+    {
+        using Workbook wb = Workbook.Create();
+        Worksheet s = wb.Sheets[0];
+        wb.SetIterativeCalculation(true, 100, 1e-9);
+        s["A1"].Formula = "A1/2+10";
+        s["C1"].SetNumber(2);
+        s["D3"].Formula = "C1*10";
+        s["C4"].SetNumber(1);
+        s["C5"].SetNumber(2);
+        s["D4"].FormulaDetail = new CellFormula(string.Empty, CellFormulaKind.DataTable, "D4:D5", -1, "dt2D=\"0\" dtr=\"0\" r1=\"C1\"");
+        s["F1"].Formula = "WEBSERVICE(\"https://example.invalid/\")";
+        wb.Recalculate();
+        if (System.Math.Abs(s["A1"].Number - 20) > 1e-6) failures.Add("iterate");
+        if (s["D4"].Number != 10 || s["D5"].Number != 20 || s["C1"].Number != 2) failures.Add("data table");
+        if (s["F1"].Value.Error != CellError.Value) failures.Add("web denied");
+        s["G1"].SetNumber(1);
+        s["G2"].Formula = "G1*4+1";
+        GoalSeekResult g = wb.GoalSeek(s["G2"], 9, s["G1"]);
+        if (!g.Found || System.Math.Abs(s["G1"].Number - 2) > 1e-3) failures.Add("goal seek");
     }
 
     /// <summary>Styles, formatted text, a table, a conditional format, a validation and a name, written and read back.</summary>

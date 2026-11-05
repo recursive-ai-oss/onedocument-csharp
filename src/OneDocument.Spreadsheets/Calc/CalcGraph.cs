@@ -14,6 +14,7 @@ internal sealed class CalcGraph : IPrecedentSink
     public const byte FlagSpilling = 4;
     public const byte FlagArray = 8;
     public const byte FlagUnparsable = 16;
+    public const byte FlagExternal = 32;
 
     // A block of at most this many cells is stored as one edge per cell; larger blocks as one entry per column.
     private const int ExpandLimit = 16;
@@ -73,6 +74,9 @@ internal sealed class CalcGraph : IPrecedentSink
     public long[] Keys { get; private set; } = [];
 
     public byte[] Flags { get; private set; } = [];
+
+    /// <summary>The data-table blocks (the cell holding the <c>t="dataTable"</c> formula, and that formula). They are not nodes: the engine calculates them after the formulas.</summary>
+    public List<(int Sheet, int Row, int Column, CellFormula Formula)> DataTables { get; } = [];
 
     public static long Key(int sheet, int row, int column) => ((long)sheet << 34) | ((long)(row - 1) << 14) | (uint)(column - 1);
 
@@ -164,6 +168,7 @@ internal sealed class CalcGraph : IPrecedentSink
                     CellFormula f = store.FormulaAt(r.Formulas[i]);
                     if (f.Kind == CellFormulaKind.DataTable)
                     {
+                        DataTables.Add((s, r.Row, r.Cols[i] + 1, f));
                         continue;
                     }
 
@@ -194,6 +199,11 @@ internal sealed class CalcGraph : IPrecedentSink
                     if (walker.Volatile)
                     {
                         flag |= FlagVolatile;
+                    }
+
+                    if (walker.External)
+                    {
+                        flag |= FlagExternal;
                     }
 
                     flags.Add(flag);
