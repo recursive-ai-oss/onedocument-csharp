@@ -20,6 +20,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
 | `calc.` | workbook calculation | `Formula`, `Limit` |
 | `binding.` | reading and writing rows of plain objects (`Spreadsheet.Read<T>`, `Write<T>`) | `Structure`, `Reference`, `Value` |
+| `template.` | the template engine: reading, checking and rendering templates | `Markup`, `Structure`, `Formula`, `Reference`, `Value` |
 
 ## Codes in use
 
@@ -204,3 +205,28 @@ Locations are the sheet and cell address. These are reported to `OpenContext.Def
 | `calc.circular-reference` | repaired | A formula is part of a circular reference (or reads itself). Without iterative calculation it reads as 0, and so does every formula on the cycle. |
 | `calc.formula-unparsable` | dropped | A formula's text cannot be read; the cell keeps its stored value and is left out of the dependency graph. |
 | `calc.limit-exceeded` | repaired | Evaluating a formula passed a limit (steps, allocation); the cell shows `#VALUE!`. |
+
+### Template engine (`template.`)
+
+Located by the binder's unit location plus the offset in the unit's text, or by a character offset in the whole text for plain-text templates. Errors make `ParsedTemplate.IsValid` false and `Render` throws `TemplateException` with the first one; every error found is listed. Warnings are in `TemplateResult.Defects`.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `template.unclosed-tag` | fatal | A tag opener has no closer in its unit (a tag never spans two paragraphs, lines or shapes). The rest of the unit is kept as text. |
+| `template.unclosed-block` | fatal | A `for`, `if` or `raw` block is never closed. Located at its opening tag. |
+| `template.unexpected-tag` | fatal | `endfor`, `endif`, `elif` or `else` with no matching open block, `else` twice, or `elif` after `else`. |
+| `template.unknown-tag` | fatal | A block tag whose name is not one of the known tags. |
+| `template.empty-expression` | fatal | `{{ }}`, or a block tag that needs an expression and has none. |
+| `template.expression-syntax` | fatal | An expression is not a formula. Located inside the expression; the message carries the `formula.` code. |
+| `template.bad-for` | fatal | A loop is not written `for item in expression`. |
+| `template.bad-option` | fatal | An option after an expression is not `name=value`, a value is not closed, or the tag takes no such option. |
+| `template.unknown-scope` | fatal | `scope=` names a scope the engine does not know. |
+| `template.scope-invalid` | fatal | The binder's unit range for a block does not contain both of the block's tags. |
+| `template.unknown-function` | dropped | An expression calls a function that is not in the registry; it will evaluate to `#NAME?`. A warning, not an error. |
+| `template.missing-data` | repaired (strict: fatal) | The template names data the data does not have, and renders empty. Handled missing data (`IFERROR(x, ...)`) is not reported. |
+| `template.expression-error` | repaired (strict: fatal) | A formula evaluated to an error value, which is printed as Excel shows it. |
+| `template.not-a-collection` | repaired (strict: fatal) | A loop's source is a single value; the loop runs once for it. |
+| `template.include-denied` | repaired (strict: fatal) | `include` was used but no `ITemplateIncludes` was supplied; nothing is read. |
+| `template.include-not-found` | repaired (strict: fatal) | The supplied `ITemplateIncludes` has no template of that name. |
+
+Limits surface as `OfficeLimitException`: `limit.max-iterations`, `limit.max-output-characters`, `limit.max-block-depth` (block nesting and include depth), `limit.max-recursion-depth` and the formula limits.
