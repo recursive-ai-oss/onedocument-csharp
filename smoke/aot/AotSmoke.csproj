@@ -24,6 +24,8 @@
     <ProjectReference Include="../../src/OneOffice/OneOffice.csproj" />
     <ProjectReference Include="../../src/OneOffice.Schema/OneOffice.Schema.csproj" />
     <ProjectReference Include="../../src/OneOffice.Spreadsheets/OneOffice.Spreadsheets.csproj" />
+    <Compile Include="../shared/DocumentSmoke.cs" Link="DocumentSmoke.cs" />
+    <ProjectReference Include="../../src/OneOffice.Documents/OneOffice.Documents.csproj" />
   </ItemGroup>
 
 </Project>

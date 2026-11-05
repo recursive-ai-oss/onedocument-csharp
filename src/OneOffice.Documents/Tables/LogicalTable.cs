@@ -43,7 +43,7 @@ public sealed class LogicalCell
 /// <param name="VerticalRegions">Vertical merge regions that cover at least two rows.</param>
 /// <param name="VerticalContinuations">Cells that continue a region above.</param>
 /// <param name="LegacyHorizontalContinuations">Cells that continue a legacy <c>w:hMerge</c> region.</param>
-/// <param name="Orphans">Merge continuations with nothing to continue; read as plain cells and reported as defects.</param>
+/// <param name="Orphans">Merge continuations without a restart: merged into the cell above when there is one (as Word does), otherwise read as plain cells; each is reported as a defect.</param>
 public readonly record struct MergeCounts(int GridSpans, int VerticalRegions, int VerticalContinuations, int LegacyHorizontalContinuations, int Orphans);
 
 /// <summary>
@@ -52,7 +52,7 @@ public readonly record struct MergeCounts(int GridSpans, int VerticalRegions, in
 /// </summary>
 /// <remarks>
 /// Malformed merges are repaired the way the reader treats them and reported as defects: <c>docx.table-merge-orphan</c> (a continuation
-/// with nothing above or to its left), <c>docx.table-merge-span-mismatch</c> (a continuation whose span differs from the cell above),
+/// without a restart: merged upward when a cell is above, else a plain cell; a horizontal one with nothing to its left is a plain cell), <c>docx.table-merge-span-mismatch</c> (a continuation whose span differs from the cell above),
 /// <c>docx.table-grid-mismatch</c> (rows wider than <c>w:tblGrid</c>) and <c>docx.table-span-invalid</c> (a <c>w:gridSpan</c> below 1 or
 /// above 16384).
 /// </remarks>
@@ -169,8 +169,20 @@ public sealed class LogicalTable
                 if (v == CellMerge.Continue && h != CellMerge.Continue)
                 {
                     LogicalCell? above = r > 0 && start < columns ? grid[r - 1][start] : null;
-                    if (above is not null && above.Column == start && (above.RowSpan > 1 || PhysicalIsMerged(phys[above.Row], start)))
+                    if (above is not null && above.Column == start)
                     {
+                        // Observed in Word 365 (16.0.20527): a continuation under a cell that is not part of a merge still merges
+                        // upward, so the cell above becomes the start of the region. The file is malformed, so it is reported.
+                        if (above.RowSpan == 1 && !PhysicalIsMerged(phys[above.Row], start))
+                        {
+                            orphans++;
+                            if (report)
+                            {
+                                doc.ReportDefect("docx.table-merge-orphan", DefectKind.Structure, DefectSeverity.Repaired,
+                                    "A vertical merge continuation has no restart above it; it is merged into the cell above, as Word does.", cell.Container);
+                            }
+                        }
+
                         if (above.ColumnSpan != span && report)
                         {
                             doc.ReportDefect("docx.table-merge-span-mismatch", DefectKind.Structure, DefectSeverity.Repaired,
@@ -198,7 +210,7 @@ public sealed class LogicalTable
                     if (report)
                     {
                         doc.ReportDefect("docx.table-merge-orphan", DefectKind.Structure, DefectSeverity.Repaired,
-                            "A vertical merge continuation has no merged cell above it to continue; it is read as a plain cell.", cell.Container);
+                            "A vertical merge continuation has no cell above it to continue; it is read as a plain cell.", cell.Container);
                     }
                 }
 

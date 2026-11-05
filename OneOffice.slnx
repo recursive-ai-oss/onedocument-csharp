@@ -23,9 +23,12 @@
     <Project Path="tools/PackageSweep/PackageSweep.csproj" />
     <Project Path="tools/PackageTiming/PackageTiming.csproj" />
     <Project Path="tools/MarkupProbe/MarkupProbe.csproj" />
+    <Project Path="tools/TextCompare/TextCompare.csproj" />
     <Project Path="tools/RevisionProbe/RevisionProbe.csproj" />
+    <Project Path="tools/DocumentSweep/DocumentSweep.csproj" />
     <Project Path="tools/DocxProbe/DocxProbe.csproj" />
     <Project Path="tools/XlsxProbe/XlsxProbe.csproj" />
+    <Project Path="tools/OracleCases/OracleCases.csproj" />
   </Folder>
   <Folder Name="/fuzz/">
     <Project Path="fuzz/OneOffice.Fuzz/OneOffice.Fuzz.csproj" />

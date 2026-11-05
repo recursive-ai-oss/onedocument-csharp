@@ -109,6 +109,12 @@ public sealed class MarkupReader : IDisposable
     public ReadOnlySpan<byte> NamespaceUri =>
         _info.Kind is XmlTokenKind.StartElement or XmlTokenKind.EmptyElement or XmlTokenKind.EndElement && _state.TryResolve(_info.Prefix(Block), out ReadOnlySpan<byte> uri) ? uri : default;
 
+    /// <summary>Looks up the namespace a prefix is bound to in the scope of the current start, empty-element or end tag.</summary>
+    /// <param name="prefix">The prefix as written; empty for the default namespace.</param>
+    /// <param name="uri">The namespace URI as written. Valid until the next <see cref="Read"/>.</param>
+    /// <returns>True when a declaration binds the prefix.</returns>
+    public bool TryResolvePrefix(ReadOnlySpan<byte> prefix, out ReadOnlySpan<byte> uri) => _state.TryResolve(prefix, out uri);
+
     /// <summary>Gets the decoded text of a text, whitespace or CDATA token (allocates); null for other tokens.</summary>
     /// <returns>The text with references decoded and line ends normalised (CDATA is taken literally).</returns>
     public string? GetText() => _info.Kind switch

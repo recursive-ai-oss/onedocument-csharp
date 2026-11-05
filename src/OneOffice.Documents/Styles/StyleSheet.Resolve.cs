@@ -170,7 +170,7 @@ public sealed partial class StyleSheet
 
         // The numbering reference itself is a resolved property too, with the origin of whoever supplied it.
         SortedDictionary<string, ResolvedProperty> result = Combine(layers, toggleLayers: null);
-        return new ResolvedParagraphProperties(result, Theme, style?.Id);
+        return new ResolvedParagraphProperties(result, Theme, style?.Id, wordSpacingDefaults: DefaultParagraphProperties is null);
     }
 
     /// <summary>

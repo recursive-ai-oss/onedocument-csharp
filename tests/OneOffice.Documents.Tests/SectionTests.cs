@@ -175,6 +175,29 @@ public class SectionTests
         Assert.Equal("H1", s.ForPage(HeaderFooterKind.Header, false, 2).Story!.Text);
     }
 
+    // Generated cases layout-evenodd-restart and layout-evenodd-restart2; observed in Word 365 (16.0.20527): section two restarts at 1 (or 2)
+    // and its first page is physical page 5 (or 4), after a blank page; headers follow the printed number.
+    [Fact]
+    public void EvenAndOdd_FollowsThePrintedNumber_AndBlankPageKeepsParity()
+    {
+        InMemoryPackage p = WithStories(Sect(Hdr("header", "default", "rId11") + Hdr("header", "even", "rId12")), evenAndOdd: true);
+        using var doc = Document.FromPackage(p);
+        Section s = doc.Sections.Single();
+        Assert.Equal(4, s.FirstPrintedPageNumber(3));
+        s.SetPageNumbering(new PageNumbering(1, null, null, null));
+        Assert.Equal(1, s.FirstPrintedPageNumber(3));
+        Assert.False(s.RequiresBlankPageBefore(5, 1));
+        Assert.True(s.RequiresBlankPageBefore(4, 1));
+        Assert.True(s.RequiresBlankPageBefore(3, 2));
+        s.SetPageNumbering(new PageNumbering(2, null, null, null));
+        Assert.Equal(2, s.FirstPrintedPageNumber(9));
+        // Physical page 3 prints 2, so the even header is used for it once the blank page is accounted for (physical 4).
+        Assert.Equal("H2", s.ForPage(HeaderFooterKind.Header, isFirstPageOfSection: true, pageNumber: 2).Story!.Text);
+        Assert.Equal("H1", s.ForPage(HeaderFooterKind.Header, false, 3).Story!.Text);
+        doc.EvenAndOddHeaders = false;
+        Assert.False(s.RequiresBlankPageBefore(4, 1));
+    }
+
     [Fact]
     public void BrokenReferences_AreDefects()
     {

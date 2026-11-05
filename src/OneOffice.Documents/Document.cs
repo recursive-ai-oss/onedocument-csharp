@@ -17,17 +17,17 @@ namespace RecursiveAI.OneOffice.Documents;
 /// <para>A document is not safe for concurrent mutation. After it is loaded, read-only access from several threads is safe as
 /// long as nobody edits it.</para>
 /// </remarks>
-public sealed partial class Document : IDisposable
+public sealed partial class Document : OfficeFile
 {
     internal const string OfficeDocumentRelationship = "officeDocument";
 
     private readonly bool _ownsPackage;
     private Body? _body;
 
-    private Document(IOpcPackage package, OpenContext context, string mainPartName, bool ownsPackage)
+    private Document(IOpcPackage package, OpenContext context, string mainPartName, bool ownsPackage, OfficeFormat format, string? filePath)
+        : base(format, context, filePath)
     {
         Package = package;
-        Context = context;
         MainPartName = mainPartName;
         _ownsPackage = ownsPackage;
         Parts = new PartStore(package, context);
@@ -37,7 +37,7 @@ public sealed partial class Document : IDisposable
     public IOpcPackage Package { get; }
 
     /// <summary>Gets the limits and defect sink the document was opened with. Repairs found while reading any part are reported to <see cref="OpenContext.Defects"/>.</summary>
-    public OpenContext Context { get; }
+    public new OpenContext Context => base.Context;
 
     /// <summary>Gets the part name of the main document part, for example <c>/word/document.xml</c>.</summary>
     public string MainPartName { get; }
@@ -66,7 +66,7 @@ public sealed partial class Document : IDisposable
                 DefectLocation.InPart("/_rels/.rels"));
         }
 
-        var document = new Document(package, context, main, ownsPackage);
+        var document = new Document(package, context, main, ownsPackage, FormatOf(package, main), package.FilePath);
         document.LoadMain();
         return document;
     }
@@ -150,12 +150,15 @@ public sealed partial class Document : IDisposable
     /// <summary>Gets a value indicating whether any parsed part has been edited since it was read.</summary>
     public bool HasUncommittedChanges => Parts.HasEdits;
 
-    /// <summary>Releases the document, and the package when the document owns it.</summary>
-    public void Dispose()
+    /// <summary>Releases the package when the document owns it.</summary>
+    /// <param name="disposing">True when called from <see cref="OfficeFile.Dispose()"/>.</param>
+    protected override void Dispose(bool disposing)
     {
-        if (_ownsPackage)
+        if (disposing && _ownsPackage)
         {
             Package.Dispose();
         }
+
+        base.Dispose(disposing);
     }
 }
