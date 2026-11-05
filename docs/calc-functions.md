@@ -75,7 +75,7 @@ What each family does, written from Microsoft's function reference pages. Where 
 * **Approximate search** is a binary search that assumes sorted data and, on unsorted data, answers whatever the probing finds. Cells of another type than the target are stepped over towards the low end.
 * **`XLOOKUP`** returns a reference when `return_array` is one (so `XLOOKUP(...):XLOOKUP(...)` is a range). A `lookup_array` that is not one row or one column is `#VALUE!`; a `return_array` of the wrong length is `#VALUE!`.
 * **`OFFSET`** needs a reference (`#VALUE!` otherwise), a zero height or width is `#REF!`, a negative one extends up or left, a result off the sheet is `#REF!`. Volatile. **`INDIRECT`** reads A1 or R1C1 text through the formula parser and accepts only a cell, a range, a defined name or a structured reference; anything else, and an external workbook, is `#REF!`. Volatile.
-* **`GETPIVOTDATA`** is `#REF!` until pivot tables are modelled. **`HYPERLINK`** returns `friendly_name`, or the link text; opening the link is the host's.
+* **`GETPIVOTDATA`** reads what the pivot table shows (see `spreadsheets-pivots.md`): the answer is the table as last refreshed, `#REF!` when the sheet has no pivot table at the cell, the data field or an item is unknown, or the combination is not shown. Through `ICalcResolver.GetPivotData`; without a workbook it is `#REF!`. **`HYPERLINK`** returns `friendly_name`, or the link text; opening the link is the host's.
 * **`TRIMRANGE`** removes empty edge rows and columns (modes 0 none, 1 leading, 2 trailing, 3 both). The trim-ref operators (`A1:.E8`) are not parsed yet.
 
 ## Dynamic arrays

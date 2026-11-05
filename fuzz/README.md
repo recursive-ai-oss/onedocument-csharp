@@ -25,6 +25,7 @@
 | `styles` | a style sheet part | the style model: every cell format resolved, every number format parsed, colours resolved through palette and theme, a format and a differential format added, the part written and read back |
 | `sheetfeat` | a worksheet part | tables, conditional formats and validations of a worksheet read in full, then a validation, a rule, a table and a name added and the file written and read back |
 | `table` | a table part | a table read, restyled, resized and renamed; refusals are typed or documented argument errors |
+| `pivot` | a pivot table definition, or a cache definition and a table definition split by a zero byte | read through the views, refreshed against a small source sheet and written; refusals are typed |
 
 Only `OfficeException` may come out of a library call: it is the typed rejection of bad input. Any other exception, a failed invariant, a hang (`-timeout`) or a memory blow-up (`-rss_limit_mb`) is a finding.
 

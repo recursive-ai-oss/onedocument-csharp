@@ -150,6 +150,15 @@ public interface ICalcResolver
     /// <returns>Empty (the default) for a workbook that has not been saved.</returns>
     string GetFileName(string? sheet) => string.Empty;
 
+    /// <summary>Resolves <c>GETPIVOTDATA</c> against the pivot table that holds a cell: the value the table shows for a data field and field/item pairs.</summary>
+    /// <param name="dataField">The data field's caption or its source field's name.</param>
+    /// <param name="sheet">The sheet of the cell that identifies the pivot table.</param>
+    /// <param name="row">1-based row of that cell.</param>
+    /// <param name="column">1-based column of that cell.</param>
+    /// <param name="items">The field name and item value pairs, in the order written.</param>
+    /// <returns>The value the table shows, or <c>#REF!</c> (the default) when there is no such pivot table or the combination is not shown.</returns>
+    CalcValue GetPivotData(string dataField, string? sheet, int row, int column, IReadOnlyList<KeyValuePair<string, CalcValue>> items) => CalcValue.FromError(CalcError.Ref);
+
     /// <summary>Gives the text <c>INFO</c> returns for a type such as <c>"osversion"</c>.</summary>
     /// <param name="type">The lower-case type name.</param>
     /// <returns>The text or number, or null (the default) for the built-in answer.</returns>

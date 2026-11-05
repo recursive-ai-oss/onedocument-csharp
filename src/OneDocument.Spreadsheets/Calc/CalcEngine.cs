@@ -47,6 +47,8 @@ internal sealed class CalcEngine
 
     public CalcEngine(Workbook workbook) => _wb = workbook;
 
+    public Workbook Workbook => _wb;
+
     public CalcBook Book { get; private set; } = null!;
 
     public Evaluator NewEvaluator(bool legacy) =>

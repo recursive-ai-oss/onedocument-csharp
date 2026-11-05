@@ -84,14 +84,14 @@ public sealed partial class Workbook
 
     internal bool FeaturePartsModified()
     {
-        if (_styles?.IsModified == true)
+        if (_styles?.IsModified == true || (_pivotCaches?.IsModified ?? false))
         {
             return true;
         }
 
         foreach (Worksheet s in _sheets)
         {
-            if (s.TablesModified)
+            if (s.TablesModified || s.PivotTablesModified)
             {
                 return true;
             }
@@ -105,7 +105,10 @@ public sealed partial class Workbook
         foreach (Worksheet s in _sheets)
         {
             s.CommitTables();
+            s.CommitPivotTables();
         }
+
+        _pivotCaches?.Commit();
 
         if (_styles is { IsModified: true } st)
         {

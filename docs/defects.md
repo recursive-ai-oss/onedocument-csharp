@@ -175,6 +175,10 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `xlsx.theme-unreadable` | repaired | The theme part is not well-formed XML; theme colours use the default Office scheme. |
 | `xlsx.table-part-missing` | dropped | A `tablePart` does not lead to a table part that exists; the table is ignored (the element stays in the sheet). |
 | `xlsx.table-unreadable` | dropped | A table part is not well-formed or does not start with `table`; the table is ignored and the part is kept as stored. |
+| `xlsx.pivot-table-part-missing` | dropped | A `pivotTable` relationship of a sheet does not lead to a part; the pivot table is ignored. |
+| `xlsx.pivot-table-unreadable` | dropped | A pivot table part is not well-formed or does not start with `pivotTableDefinition`; it is ignored and kept as stored. |
+| `xlsx.pivot-cache-part-missing` | dropped | A `pivotCache` element of the workbook does not lead to a cache definition part; the cache is ignored. |
+| `xlsx.pivot-cache-unreadable` | dropped | A pivot cache definition is not well-formed or does not start with `pivotCacheDefinition`; it is ignored and kept as stored. |
 
 The XML layer repairs nothing: Office refuses an ill-formed part, and so does this layer. The limits it enforces (`MaxXmlDepth`, `MaxXmlAttributeCount`, `MaxXmlNameLength`, and `MaxPartSize` for a part held whole) raise `limit.*` as above.
 
@@ -204,3 +208,18 @@ Locations are the sheet and cell address. These are reported to `OpenContext.Def
 | `calc.circular-reference` | repaired | A formula is part of a circular reference (or reads itself). Without iterative calculation it reads as 0, and so does every formula on the cycle. |
 | `calc.formula-unparsable` | dropped | A formula's text cannot be read; the cell keeps its stored value and is left out of the dependency graph. |
 | `calc.limit-exceeded` | repaired | Evaluating a formula passed a limit (steps, allocation); the cell shows `#VALUE!`. |
+
+### Pivot refresh (`pivot.`)
+
+Locations are the table's definition part (and offset). Reported to `OpenContext.Defects` by `PivotTable.Refresh` and `Workbook.RefreshPivots`; see `spreadsheets-pivots.md`.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `pivot.source-field-missing` | dropped | The source range no longer has a column the cache listed; the field leaves the cache. |
+| `pivot.axis-field-dropped` | dropped | A row, column or page field referred to a column that is gone; it leaves the table. |
+| `pivot.data-field-dropped` | dropped | A data field referred to a column that is gone; it leaves the table. |
+| `pivot.group-unsupported` | dropped | A field is grouped in a way refresh does not reproduce (a `groupBy` it does not know); the group is dropped. |
+| `pivot.calculated-field-unparsable` | dropped | A calculated field's formula cannot be read; its cells show `#VALUE!`. |
+| `pivot.custom-subtotals-unsupported` | repaired | A field asks for subtotal functions other than automatic; the automatic subtotal is shown. |
+| `pivot.show-data-as-unsupported` | repaired | A data field uses a show-values-as form refresh does not compute (percent of parent, percent running total, rank); the normal value is shown. |
+| `pivot.filters-not-applied` | repaired | The table has label, value or date filters (`filters`); refresh does not apply them. Hidden items and report filters are applied. |
