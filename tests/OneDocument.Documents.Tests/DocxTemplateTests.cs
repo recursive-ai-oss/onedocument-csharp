@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using RecursiveAI.OneDocument.Formats;
 using RecursiveAI.OneDocument.Templating;
 
@@ -45,6 +46,12 @@ public class DocxTemplateTests
             int t = 0;
             while ((t = para.IndexOf("<w:t", t, StringComparison.Ordinal)) >= 0)
             {
+                if (para[t + 4] is not (' ' or '>'))
+                {
+                    t += 4;
+                    continue;
+                }
+
                 int gt = para.IndexOf('>', t);
                 int close = para.IndexOf("</w:t>", gt, StringComparison.Ordinal);
                 text.Append(para[(gt + 1)..close]);
@@ -179,5 +186,70 @@ public class DocxTemplateTests
         string xml = Render(P("{{ link(\"javascript:alert(1)\", \"click\") }}"), Json("{}"));
         Assert.DoesNotContain("<w:hyperlink", xml, StringComparison.Ordinal);
         Assert.Contains("click", xml, StringComparison.Ordinal);
+    }
+
+    private static readonly byte[] Png1x1 = Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==");
+
+    [Fact]
+    public void An_image_tag_inserts_a_picture_once_per_distinct_content_and_sizes_it()
+    {
+        var data = new Dictionary<string, object?> { ["logo"] = Png1x1, ["items"] = new[] { 1, 2 } };
+        string xml = Render(P("Logo: {% image logo width=2cm %}!") + P("{% for i in items %}") + P("{% image logo width=1cm height=3cm fit=stretch alt='x' %}") + P("{% endfor %}"), data, check: doc =>
+        {
+            Assert.Single(doc.Package.Parts, p => p.Name.StartsWith("/word/media/", StringComparison.Ordinal));
+            Assert.Single(doc.Package.GetRelationships("/word/document.xml"), r => r.Type.EndsWith("/image", StringComparison.Ordinal));
+        });
+        Assert.Contains("<wp:extent cx=\"720000\" cy=\"720000\"/>", xml, StringComparison.Ordinal);
+        Assert.Contains("<wp:extent cx=\"360000\" cy=\"1080000\"/>", xml, StringComparison.Ordinal);
+        Assert.Equal(3, Count(xml, "<wp:docPr"));
+        Assert.Contains("descr=\"x\"", xml, StringComparison.Ordinal);
+        var ids = Regex.Matches(xml, "<wp:docPr id=\"(\\d+)\"").Select(m => m.Groups[1].Value).ToList();
+        Assert.Equal(ids.Count, ids.Distinct().Count());
+    }
+
+    [Fact]
+    public void An_image_that_is_not_a_picture_is_dropped_with_a_warning()
+    {
+        DocumentFormats.Register(FormatRegistry.Default);
+        using Document doc = TestDocs.Open(P("a{% image x %}b"));
+        var warnings = Template.Render(doc, new Dictionary<string, object?> { ["x"] = new byte[] { 1, 2, 3 } });
+        Assert.Contains(warnings, d => d.Code == "template.image-unsupported");
+    }
+
+    [Fact]
+    public void Markdown_becomes_headings_lists_and_formatted_runs_and_html_drops_unsafe_markup()
+    {
+        string md = "# Title\n\nSome **bold** and *italic* text with a [link](https://example.com).\n\n- one\n- two\n  - nested\n\n1. first\n2. second";
+        string xml = Render(P("{% markdown body %}"), new Dictionary<string, object?> { ["body"] = md }, check: doc =>
+        {
+            Assert.NotNull(doc.Styles.Find("Heading1"));
+            Assert.Contains(doc.Package.GetRelationships("/word/document.xml"), r => r.Target == "https://example.com");
+        });
+        Assert.Contains("<w:pStyle w:val=\"Heading1\"/>", xml, StringComparison.Ordinal);
+        Assert.Contains("<w:b/>", xml, StringComparison.Ordinal);
+        Assert.Contains("<w:i/>", xml, StringComparison.Ordinal);
+        Assert.Equal(5, Count(xml, "<w:numPr>"));
+        Assert.Contains("<w:ilvl w:val=\"1\"/>", xml, StringComparison.Ordinal);
+        Assert.Equal("Title|Some bold and italic text with a link.|one|two|nested|first|second|", Texts(xml));
+
+        DocumentFormats.Register(FormatRegistry.Default);
+        using Document doc2 = TestDocs.Open(P("{% html h %}"));
+        var warnings = Template.Render(doc2, new Dictionary<string, object?> { ["h"] = "<h2>Head</h2><p onclick='x()'>Hi <b>there</b><script>alert(1)</script></p><a href='javascript:evil()'>no</a>" });
+        string xml2 = doc2.MainMarkup.Root.OuterXml;
+        Assert.DoesNotContain("script", xml2, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("onclick", xml2, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("javascript", xml2, StringComparison.OrdinalIgnoreCase);
+        Assert.Equal("Head|Hi there|no|", Texts(xml2));
+        Assert.Contains(warnings, d => d.Code == "template.markup-dropped");
+    }
+
+    [Fact]
+    public void Text_in_tracked_insertions_and_mixed_runs_binds()
+    {
+        string body = "<w:p><w:ins w:id=\"1\" w:author=\"a\"><w:r><w:t>Hi {{ na</w:t></w:r></w:ins><w:r><w:t>me }}</w:t><w:tab/><w:t>and {{ other }}</w:t></w:r></w:p>";
+        string xml = Render(body, Json("{\"name\":\"A\",\"other\":\"B\"}"));
+        Assert.Equal("Hi A\tand B|".Replace("\t", string.Empty), Texts(xml).Replace("\t", string.Empty));
+        Assert.Contains("<w:ins w:id=\"1\" w:author=\"a\"><w:r><w:t xml:space=\"preserve\">Hi A</w:t></w:r></w:ins>", xml, StringComparison.Ordinal);
+        Assert.Contains("<w:tab/>", xml, StringComparison.Ordinal);
     }
 }
