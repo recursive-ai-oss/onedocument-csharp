@@ -61,7 +61,7 @@ public readonly record struct TextBoxFrame(MarkupRef Shape, Paragraph? Anchor, T
 /// </remarks>
 public sealed class TextBox : BlockContainer
 {
-    private readonly MarkupRef _alternate;
+    private MarkupRef _alternate;
     private string? _snapshot;
 
     internal TextBox(Document owner, MarkupRef content, MarkupRef alternate)
@@ -100,7 +100,20 @@ public sealed class TextBox : BlockContainer
     /// Gets the same story as the other branch of the enclosing <c>mc:AlternateContent</c> (the VML copy of a DrawingML box), or an
     /// invalid reference when the box is not inside alternate content or the other branch has no matching box.
     /// </summary>
-    public MarkupRef Alternate => _alternate;
+    public MarkupRef Alternate
+    {
+        get
+        {
+            // Edits such as accepting a change can replace the alternate's elements; look the copy up again then.
+            if (_alternate.IsValid && !TextBoxScanner.IsAttached(_alternate.Node) && TextBoxScanner.IsAttached(Container.Node))
+            {
+                MarkupNode again = TextBoxScanner.AlternateOf(Container.Node);
+                _alternate = again.IsNull ? default : new MarkupRef(again);
+            }
+
+            return _alternate;
+        }
+    }
 
     /// <summary>Gets the text of the box's paragraphs, joined by line feeds.</summary>
     public string Text => string.Join('\n', Paragraphs().Select(p => p.Text));
@@ -124,7 +137,13 @@ public sealed class TextBox : BlockContainer
     /// <returns>True when the alternate was rewritten.</returns>
     public bool SyncAlternate()
     {
-        if (!_alternate.IsValid || _snapshot is null)
+        if (!_alternate.IsValid || _snapshot is null || !TextBoxScanner.IsAttached(Container.Node))
+        {
+            return false;
+        }
+
+        MarkupRef alternate = Alternate;
+        if (!alternate.IsValid)
         {
             return false;
         }
@@ -135,7 +154,7 @@ public sealed class TextBox : BlockContainer
             return false;
         }
 
-        _alternate.Node.ReplaceWithXml(HubXml.Bytes(now));
+        alternate.Node.ReplaceWithXml(HubXml.Bytes(now));
         _snapshot = now;
         return true;
     }
@@ -209,6 +228,52 @@ internal static class TextBoxScanner
         || uri.StartsWith("http://schemas.openxmlformats.org/", StringComparison.Ordinal)
         || uri.StartsWith("http://purl.oclc.org/ooxml/", StringComparison.Ordinal)
         || uri == VmlNs;
+
+    /// <summary>Tells whether the node is still part of its tree (removed and replaced nodes are not).</summary>
+    public static bool IsAttached(MarkupNode node)
+    {
+        MarkupNode n = node;
+        while (!n.Parent.IsNull)
+        {
+            n = n.Parent;
+        }
+
+        return n.Kind == MarkupNodeKind.Document;
+    }
+
+    /// <summary>Finds the copy of a box in the other branch of its enclosing <c>mc:AlternateContent</c>, pairing by order.</summary>
+    public static MarkupNode AlternateOf(MarkupNode content)
+    {
+        for (MarkupNode branch = content.Parent; !branch.IsNull; branch = branch.Parent)
+        {
+            MarkupNode ac = branch.Parent;
+            if (ac.IsNull || !MarkupCompatibility.IsAlternateContent(ac))
+            {
+                continue;
+            }
+
+            var mine = new List<Found>();
+            Collect(branch, mine);
+            int index = mine.FindIndex(f => f.Content == content);
+            if (index < 0)
+            {
+                return default;
+            }
+
+            var others = new List<Found>();
+            foreach (MarkupNode other in ac.ChildElements)
+            {
+                if (other != branch && (MarkupCompatibility.IsChoice(other) || MarkupCompatibility.IsFallback(other)))
+                {
+                    Collect(other, others);
+                }
+            }
+
+            return index < others.Count ? others[index].Content : default;
+        }
+
+        return default;
+    }
 
     public static Paragraph? AnchorOf(Document owner, MarkupNode from)
     {

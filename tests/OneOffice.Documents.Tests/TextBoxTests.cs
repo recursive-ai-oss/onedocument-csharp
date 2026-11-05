@@ -109,6 +109,12 @@ public class TextBoxTests
         Assert.Equal("Hello, world", box.Paragraphs().First().GetText(RevisionView.Accepted));
         string xml = Encoding.UTF8.GetString(d.Package.FindPart("/word/document.xml")!.GetBytes().Span);
         Assert.Equal(2, CountOf(xml, "<w:ins "));
+        d.Revisions.AcceptAll();
+        Assert.Empty(d.Revisions.Revisions);
+        d.CommitChanges();
+        xml = Encoding.UTF8.GetString(d.Package.FindPart("/word/document.xml")!.GetBytes().Span);
+        Assert.DoesNotContain("<w:ins ", xml, StringComparison.Ordinal);
+        Assert.Equal(2, CountOf(xml, "Hello"));
     }
 
     [Fact]

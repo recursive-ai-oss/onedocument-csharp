@@ -199,7 +199,9 @@ function Invoke-Word($app, $item, $path, $outDir, $res) {
                         $lf = $pp.Range.ListFormat
                         $rows += @{ text = ($pp.Range.Text -replace '[\r\n\a]', ''); listString = $lf.ListString; listType = $lf.ListType; listLevel = $lf.ListLevelNumber; listValue = $lf.ListValue }
                     }
-                    $stories += @{ storyType = $r.StoryType; chainIndex = $k; paragraphs = $rows }
+                    $srevs = @()
+                    try { foreach ($rv in $r.Revisions) { $srevs += @{ type = $rv.Type; author = $rv.Author; text = ($rv.Range.Text -replace '[\r\n\a]', '\u00b6') } } } catch { }
+                    $stories += @{ storyType = $r.StoryType; chainIndex = $k; paragraphs = $rows; revisions = $srevs }
                     $k++
                     $nx = $null
                     try { $nx = $r.NextStoryRange } catch { }

@@ -77,6 +77,18 @@ internal static class Program
             ("rev-move-one-end-accepted", () => MoveOneEnd(accept: true)),
             ("rev-move-one-end-rejected", () => MoveOneEnd(accept: false)),
             ("cc-values", ContentControlValues),
+            ("u23-tb-dml-insert", () => Boxed(drawing: true, (a, box) => a.InsertText(box.Paragraphs().First().Markup.Node, 5, " NEW"))),
+            ("u23-tb-dml-delete", () => Boxed(drawing: true, (a, box) => a.DeleteText(box.Paragraphs().First().Markup.Node, 0, 5))),
+            ("u23-tb-dml-replace-move", () => Boxed(drawing: true, (a, box) => { a.ReplaceText(box.Paragraphs().First().Markup.Node, 0, 5, "ALPHA"); a.InsertParagraph(box.Paragraphs().Last().Markup.Node, "added in box"); })),
+            ("u23-tb-dml-settext", () => Boxed(drawing: true, (_, box) => box.Paragraphs().First().SetText("set by OneOffice"))),
+            ("u23-tb-dml-accept", () => Boxed(drawing: true, (a, box) => a.InsertText(box.Paragraphs().First().Markup.Node, 5, " NEW"), accept: true)),
+            ("u23-tb-vml-insert", () => Boxed(drawing: false, (a, box) => a.InsertText(box.Paragraphs().First().Markup.Node, 5, " NEW"))),
+            ("u23-tb-vml-delete-paragraph", () => Boxed(drawing: false, (a, box) => a.DeleteParagraph(box.Paragraphs().Last().Markup.Node))),
+            ("u23-tb-vml-settext", () => Boxed(drawing: false, (_, box) => box.Paragraphs().First().SetText("set by OneOffice"))),
+            ("u23-props-core", PropertiesCore),
+            ("u23-props-custom", PropertiesCustom),
+            ("u23-props-created-all", PropertiesCreatedFromNothing),
+            ("u23-default-typed-main", DefaultTypedMain),
             ("create-docx", () => Created(OfficeFormat.Docx, ".docx")),
             ("create-dotx", () => Created(OfficeFormat.Dotx, ".dotx")),
             ("create-docm", () => Created(OfficeFormat.Docm, ".docm")),
@@ -392,6 +404,136 @@ internal static class Program
         }
 
         Save(doc, Current());
+    }
+
+    // ------------------------------------------------------------------ text boxes, properties, content types
+
+    private const string BoxNamespaces = "xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\" " +
+        "xmlns:wps=\"http://schemas.microsoft.com/office/word/2010/wordprocessingShape\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns:v=\"urn:schemas-microsoft-com:vml\"";
+
+    private static string BoxContent() =>
+        "<w:txbxContent><w:p><w:r><w:t>Inside the box</w:t></w:r></w:p><w:p><w:r><w:t>Second line</w:t></w:r></w:p></w:txbxContent>";
+
+    private static string BoxXml(bool drawing) => drawing
+        ? "<w:p " + BoxNamespaces + "><w:r><w:t>Anchor paragraph</w:t></w:r><w:r><mc:AlternateContent><mc:Choice Requires=\"wps\"><w:drawing>" +
+          "<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" relativeHeight=\"1\" behindDoc=\"0\" locked=\"0\" layoutInCell=\"1\" allowOverlap=\"1\">" +
+          "<wp:simplePos x=\"0\" y=\"0\"/><wp:positionH relativeFrom=\"column\"><wp:posOffset>3000000</wp:posOffset></wp:positionH><wp:positionV relativeFrom=\"paragraph\"><wp:posOffset>0</wp:posOffset></wp:positionV>" +
+          "<wp:extent cx=\"2000000\" cy=\"1000000\"/><wp:wrapSquare wrapText=\"bothSides\"/><wp:docPr id=\"1\" name=\"Box 1\"/><wp:cNvGraphicFramePr/>" +
+          "<a:graphic><a:graphicData uri=\"http://schemas.microsoft.com/office/word/2010/wordprocessingShape\"><wps:wsp><wps:cNvSpPr txBox=\"1\"/>" +
+          "<wps:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"2000000\" cy=\"1000000\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom></wps:spPr>" +
+          "<wps:txbx>" + BoxContent() + "</wps:txbx><wps:bodyPr/></wps:wsp></a:graphicData></a:graphic></wp:anchor></w:drawing></mc:Choice>" +
+          "<mc:Fallback><w:pict><v:shape id=\"fb1\" type=\"#_x0000_t202\" style=\"position:absolute;margin-left:236pt;margin-top:0;width:157pt;height:79pt;z-index:1\"><v:textbox>" +
+          BoxContent() + "</v:textbox></v:shape></w:pict></mc:Fallback></mc:AlternateContent></w:r></w:p>"
+        : "<w:p " + BoxNamespaces + "><w:r><w:t>Anchor paragraph</w:t></w:r><w:r><w:pict><v:shape id=\"vb1\" type=\"#_x0000_t202\" style=\"position:absolute;margin-left:236pt;margin-top:0;width:157pt;height:79pt;z-index:1\"><v:textbox>" +
+          BoxContent() + "</v:textbox></v:shape></w:pict></w:r></w:p>";
+
+    private static void Boxed(bool drawing, Action<RevisionAuthor, TextBox> edit, bool accept = false)
+    {
+        using Document doc = Base("before");
+        Raw(doc, BoxXml(drawing));
+        TextBox box = doc.TextBoxes().Single();
+        edit(doc.Revisions.CreateAuthor("Reviewer", s_date), box);
+        if (accept)
+        {
+            doc.Revisions.AcceptAll();
+        }
+
+        Save(doc, Current());
+    }
+
+    private static void PropertiesCore()
+    {
+        using Document doc = Base("properties");
+        doc.Properties.Core.Title = "A title & more";
+        doc.Properties.Core.Subject = "Subject";
+        doc.Properties.Core.Creator = "Ann";
+        doc.Properties.Core.Keywords = "one, two";
+        doc.Properties.Core.Description = "Comments";
+        doc.Properties.Core.LastModifiedBy = "Bob";
+        doc.Properties.Core.Revision = "4";
+        doc.Properties.Core.Category = "Cat";
+        doc.Properties.Core.ContentStatus = "Draft";
+        doc.Properties.Core.Language = "en-US";
+        doc.Properties.Core.Created = s_date;
+        doc.Properties.Core.Modified = s_date.AddDays(2);
+        doc.Properties.Core.LastPrinted = s_date.AddDays(1);
+        doc.Properties.Extended.Company = "Example Co";
+        doc.Properties.Extended.Manager = "Cy";
+        doc.Properties.Extended.Application = "Microsoft Office Word";
+        doc.Properties.Extended.ApplicationVersion = "16.0000";
+        doc.Properties.Extended.Pages = 1;
+        doc.Properties.Extended.Words = 2;
+        Save(doc, Current());
+        using Document again = Document.Open(Path.Combine(s_dir, Current() + ".docx"));
+        again.Properties.Core.Title = "Edited again";
+        again.Properties.Core.Keywords = null;
+        again.Properties.Extended.Company = null;
+        Save(again, Current() + "-edited");
+    }
+
+    private static void PropertiesCustom()
+    {
+        using Document doc = Base("custom");
+        doc.Properties.Custom.SetString("Project", "Apollo & Co");
+        doc.Properties.Custom.SetInt32("Count", 7);
+        doc.Properties.Custom.SetInt64("Big", 5_000_000_000);
+        doc.Properties.Custom.SetDouble("Ratio", 0.1);
+        doc.Properties.Custom.SetBoolean("Reviewed", true);
+        doc.Properties.Custom.SetDateTime("Due", s_date);
+        Save(doc, Current());
+        using Document again = Document.Open(Path.Combine(s_dir, Current() + ".docx"));
+        again.Properties.Custom.SetString("Project", "Gemini");
+        again.Properties.Custom.Remove("Count");
+        again.Properties.Custom.SetBoolean("Added", false);
+        Save(again, Current() + "-edited");
+    }
+
+    private static void PropertiesCreatedFromNothing()
+    {
+        // A package with no docProps at all gets every part created on the first write.
+        using Document doc = Base("bare");
+        doc.Properties.Core.Title = "Bare";
+        doc.Properties.Custom.SetString("K", "V");
+        doc.Properties.Extended.Company = "Co";
+        Save(doc, Current());
+    }
+
+    private static void DefaultTypedMain()
+    {
+        using Document doc = Base("default typed main part");
+        doc.SaveAs(Path.Combine(s_dir, Current() + ".tmp"), OfficeFormat.Docx);
+        string source = Path.Combine(s_dir, Current() + ".tmp");
+        string target = Path.Combine(s_dir, Current() + ".docx");
+        using (var inZip = System.IO.Compression.ZipFile.OpenRead(source))
+        using (var outZip = System.IO.Compression.ZipFile.Open(target, System.IO.Compression.ZipArchiveMode.Create))
+        {
+            foreach (System.IO.Compression.ZipArchiveEntry e in inZip.Entries)
+            {
+                System.IO.Compression.ZipArchiveEntry n = outZip.CreateEntry(e.FullName);
+                using Stream r = e.Open();
+                using Stream w = n.Open();
+                if (e.FullName == "[Content_Types].xml")
+                {
+                    string text = new StreamReader(r, Encoding.UTF8).ReadToEnd();
+                    // The main part keeps its type through the xml default only; every other part keeps its override.
+                    text = System.Text.RegularExpressions.Regex.Replace(text, "<Override PartName=\"/word/document.xml\"[^>]*/>", string.Empty);
+                    text = System.Text.RegularExpressions.Regex.Replace(text, "<Default Extension=\"xml\"[^>]*/>",
+                        "<Default Extension=\"xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/>");
+                    w.Write(Encoding.UTF8.GetBytes(text));
+                }
+                else
+                {
+                    r.CopyTo(w);
+                }
+            }
+        }
+
+        File.Delete(source);
+        using Document back = Document.Open(target);
+        if (!back.Paragraphs.Any())
+        {
+            throw new InvalidOperationException("The default-typed package did not open.");
+        }
     }
 
     private static void Created(OfficeFormat format, string extension)

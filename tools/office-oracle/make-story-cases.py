@@ -131,6 +131,14 @@ def case_textboxes(out):
         build(os.path.join(out, f'story-textbox-{name}.docx'), body)
 
 
+def case_textbox_hosts(out):
+    """A text box in a header next to ones in the body: does the header's box count on its own? (Word keeps shapes out of notes and comments.)"""
+    refs = '<w:headerReference w:type="default" r:id="rIdH1"/>'
+    body = f'<w:p><w:r><w:t>b1</w:t></w:r>{vml_box(["tb1", "tb2"], 1)}</w:p>' + sect(refs)
+    parts = [hf('hdr', 'rIdH1', 'header1.xml', f'<w:p><w:r><w:t>hdr</w:t></w:r>{vml_box(["hb1", "hb2"], 2)}</w:p>')]
+    build(os.path.join(out, 'story-textbox-hosts.docx'), body, parts)
+
+
 if __name__ == '__main__':
     out = sys.argv[1]
     os.makedirs(out, exist_ok=True)
@@ -138,4 +146,5 @@ if __name__ == '__main__':
     case_notes(out)
     case_comments(out)
     case_textboxes(out)
+    case_textbox_hosts(out)
     print('wrote', len(os.listdir(out)), 'files to', out)

@@ -1,3 +1,4 @@
+using System.Linq;
 using RecursiveAI.OneOffice.Schema;
 
 namespace RecursiveAI.OneOffice.Documents;
@@ -89,6 +90,12 @@ public sealed partial class Document
         List<TextBox> boxes;
         lock (Parts.Gate)
         {
+            // Boxes whose elements an edit removed (accepting a change can replace a whole paragraph) are forgotten.
+            foreach (MarkupRef gone in _textBoxes.Keys.Where(k => !TextBoxScanner.IsAttached(k.Node)).ToList())
+            {
+                _textBoxes.Remove(gone);
+            }
+
             boxes = [.. _textBoxes.Values];
         }
 
