@@ -241,7 +241,7 @@ public class WordTextTests
     [Fact]
     public void The_default_registry_extracts_through_the_statics()
     {
-        string path = Path.Combine(Path.GetTempPath(), "u11-" + Guid.NewGuid().ToString("N") + ".docx");
+        string path = Path.Combine(Path.GetTempPath(), "extract-registry-" + Guid.NewGuid().ToString("N") + ".docx");
         try
         {
             File.WriteAllBytes(path, Docx(Para("through the registry")));

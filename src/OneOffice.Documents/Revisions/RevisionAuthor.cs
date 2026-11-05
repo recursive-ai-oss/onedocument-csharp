@@ -207,6 +207,17 @@ public sealed partial class RevisionAuthor
         WmlWriter w = WmlWriter.For(paragraph);
         MarkupNode pPr = WordXml.Child(paragraph, "pPr");
         string newProps = pPr.IsNull ? string.Empty : CopyParagraphProperties(pPr, w);
+        MarkupNode oldChange = pPr.IsNull ? default : WordXml.Child(pPr, "pPrChange");
+        if (!oldChange.IsNull && newProps.Length > 0)
+        {
+            // Pressing Enter copies the paragraph's pending property change too, so that rejecting it restores the original
+            // properties on the paragraph that rejecting the inserted mark leaves behind (ECMA-376 Part 1 §17.13.5.29).
+            MarkupNode before = WordXml.Child(oldChange, "pPr");
+            string old = before.IsNull ? w.Empty("pPr") : before.OuterXml;
+            string copy = w.Wrap("pPrChange", Attributes(w), old);
+            newProps = newProps.Insert(newProps.Length - ("</" + w.Name("pPr") + ">").Length, copy);
+        }
+
         if (!pPr.IsNull)
         {
             MarkupNode sect = WordXml.Child(pPr, "sectPr");

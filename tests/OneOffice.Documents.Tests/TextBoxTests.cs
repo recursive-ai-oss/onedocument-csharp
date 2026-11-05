@@ -104,7 +104,7 @@ public class TextBoxTests
         author.InsertText(box.Paragraphs().First().Markup.Node, 5, ",");
         d.CommitChanges();
         d.Revisions.Refresh();
-        Assert.Equal(2, d.Revisions.Revisions.Count); // one per branch; the copy carries the same id
+        Assert.Single(d.Revisions.Revisions); // the copy in the other branch is not listed
         Assert.Contains("Hello", box.Paragraphs().First().GetText(RevisionView.Rejected));
         Assert.Equal("Hello world", box.Paragraphs().First().GetText(RevisionView.Rejected));
         Assert.Equal("Hello, world", box.Paragraphs().First().GetText(RevisionView.Accepted));
@@ -116,6 +116,47 @@ public class TextBoxTests
         xml = Encoding.UTF8.GetString(d.Package.FindPart("/word/document.xml")!.GetBytes().Span);
         Assert.DoesNotContain("<w:ins ", xml, StringComparison.Ordinal);
         Assert.Equal(2, CountOf(xml, "Hello"));
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void RevisionsInABoxAreListedOnceAndResolvedInBothBranches(bool drawing)
+    {
+        string content = "<w:txbxContent><w:p><w:r><w:t>Keep </w:t></w:r><w:ins w:id=\"5\" w:author=\"Ann\"><w:r><w:t>new</w:t></w:r></w:ins>" +
+            "<w:del w:id=\"6\" w:author=\"Ann\"><w:r><w:delText>old</w:delText></w:r></w:del></w:p></w:txbxContent>";
+        string box = drawing
+            ? $"<w:r><mc:AlternateContent><mc:Choice Requires=\"wps\"><w:drawing><wps:wsp><wps:txbx>{content}</wps:txbx></wps:wsp></w:drawing></mc:Choice><mc:Fallback><w:pict><v:shape id=\"s1\"><v:textbox>{content}</v:textbox></v:shape></w:pict></mc:Fallback></mc:AlternateContent></w:r>"
+            : $"<w:r><w:pict><v:shape id=\"s1\"><v:textbox>{content}</v:textbox></v:shape></w:pict></w:r>";
+        foreach (int mode in new[] { 0, 1, 2 })
+        {
+            using Document d = Open($"<w:p>{box}</w:p>");
+            Assert.Equal([5, 6], d.Revisions.Revisions.Select(r => r.Id).ToArray());
+            Assert.Equal(2, d.Revisions.Census().Total);
+            if (mode == 0)
+            {
+                Assert.Equal(2, d.Revisions.AcceptAll());
+            }
+            else if (mode == 1)
+            {
+                Assert.Equal(2, d.Revisions.RejectAll());
+            }
+            else
+            {
+                // One revision at a time: the copy follows its original.
+                Assert.True(d.Revisions.Accept(d.Revisions.Revisions[0]));
+                Assert.Equal(6, Assert.Single(d.Revisions.Revisions).Id);
+                Assert.True(d.Revisions.Reject(d.Revisions.Revisions[0]));
+            }
+
+            Assert.Empty(d.Revisions.Revisions);
+            string xml = d.MainMarkup.Root.OuterXml;
+            Assert.DoesNotContain("<w:ins ", xml, StringComparison.Ordinal);
+            Assert.DoesNotContain("<w:del ", xml, StringComparison.Ordinal);
+            int copies = drawing ? 2 : 1;
+            Assert.Equal(mode == 0 ? 0 : copies, CountOf(xml, "<w:t>old</w:t>") + CountOf(xml, "<w:t xml:space=\"preserve\">old</w:t>"));
+            Assert.Equal(mode == 1 ? 0 : copies, CountOf(xml, "<w:t>new</w:t>"));
+        }
     }
 
     [Fact]
