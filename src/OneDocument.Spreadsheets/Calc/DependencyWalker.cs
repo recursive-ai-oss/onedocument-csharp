@@ -28,6 +28,9 @@ internal sealed class DependencyWalker(CalcBook book, FunctionRegistry registry)
     /// <summary>The formula builds references at run time (<c>INDIRECT</c>, <c>OFFSET</c>), so its precedents are not all known.</summary>
     public bool Dynamic { get; private set; }
 
+    /// <summary>The formula reads another workbook.</summary>
+    public bool External { get; private set; }
+
     /// <summary>Walks a formula.</summary>
     /// <param name="tree">The formula.</param>
     /// <param name="sheet">The sheet index of the cell holding it.</param>
@@ -42,6 +45,7 @@ internal sealed class DependencyWalker(CalcBook book, FunctionRegistry registry)
         _sink = sink;
         Volatile = false;
         Dynamic = false;
+        External = false;
         Visit(tree, 0);
     }
 
@@ -91,6 +95,11 @@ internal sealed class DependencyWalker(CalcBook book, FunctionRegistry registry)
             case NodeKind.Call:
                 {
                     var f = (FunctionCallNode)n;
+                    if (f.Name.Equals("WEBSERVICE", StringComparison.OrdinalIgnoreCase) || f.Name.Equals("FILTERXML", StringComparison.OrdinalIgnoreCase))
+                    {
+                        External = true;
+                    }
+
                     if (registry.TryGet(f.Name, out FunctionDefinition? def) && def is not null)
                     {
                         if (def.IsVolatile)
@@ -127,6 +136,7 @@ internal sealed class DependencyWalker(CalcBook book, FunctionRegistry registry)
     {
         if (depth >= MaxNameDepth || prefix?.Workbook is not null)
         {
+            External |= prefix?.Workbook is not null;
             return;
         }
 
@@ -142,7 +152,8 @@ internal sealed class DependencyWalker(CalcBook book, FunctionRegistry registry)
     {
         if (prefix?.Workbook is not null)
         {
-            return; // external references are not resolved here
+            External = true; // answered from the file's cache or a resolver, so there is nothing to wait for
+            return;
         }
 
         if (prefix?.LastSheet is { } last && prefix.Sheet is { } first)

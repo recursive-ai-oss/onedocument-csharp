@@ -7,14 +7,14 @@ public class AllocationTests
     {
         using Workbook wb = TestBook.Open();
         CellStore store = wb.Sheets["Data"].Store;
-        long sum = Walk(store); // warm up the JIT
-        long before = GC.GetAllocatedBytesForCurrentThread();
-        for (int i = 0; i < 1000; i++)
+        long sum = 0;
+        long allocated = AllocationProbe.Measure(() =>
         {
-            sum += Walk(store);
-        }
-
-        long allocated = GC.GetAllocatedBytesForCurrentThread() - before;
+            for (int i = 0; i < 1000; i++)
+            {
+                sum += Walk(store);
+            }
+        });
         Assert.True(sum != 0);
         Assert.Equal(0, allocated);
     }

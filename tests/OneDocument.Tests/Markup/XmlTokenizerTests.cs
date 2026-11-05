@@ -285,9 +285,11 @@ public class XmlTokenizerTests
 
         byte[] small = Doc(1_000);
         byte[] large = Doc(40_000);
+        // Smallest of several runs: a collection triggered by a parallel test can trim the shared array pool between runs and charge
+        // the refill to one of them.
         Run(small);
-        long a = Run(small);
-        long b = Run(large);
+        long a = AllocationProbe.Min(() => Run(small), 8);
+        long b = AllocationProbe.Min(() => Run(large), 8);
         // The fixed cost is the state's few arrays (just over 8 KiB once other tests have warmed shared pools); the gate is that
         // ten times the tokens cost nothing more.
         Assert.True(a < 16384, $"allocated {a} bytes");

@@ -18,7 +18,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.` | the word-processing hub | `Structure`, `Reference`, `Value`, `Packaging` |
 | `csv.` | delimited text (CSV, TSV) | `Structure`, `Markup`, `Encoding`, `Value` |
 | `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
-| `calc.` | workbook calculation | `Formula`, `Limit` |
+| `calc.` | workbook calculation | `Formula`, `Limit`, `Reference` |
 | `binding.` | reading and writing rows of plain objects (`Spreadsheet.Read<T>`, `Write<T>`) | `Structure`, `Reference`, `Value` |
 
 ## Codes in use
@@ -133,6 +133,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `xlsx.no-main-part` | fatal | No `officeDocument` relationship points at a part that exists. |
 | `xlsx.wrong-root` | fatal | The workbook part does not start with a `workbook` element, or a worksheet part with a `worksheet` element. The location holds the part and offset. |
 | `xlsx.no-sheets` | repaired | The workbook part has no `sheets` element; the workbook reads as having no sheets. |
+| `xlsx.external-link-unreadable` | dropped | An external reference points at a part that is missing, or the part is not well-formed XML. The link has no sheets and no cached values, so references to it read `#REF!`; the other links keep their numbers. |
 | `xlsx.sheet-name-duplicate` | repaired | Two sheets have the same name (ignoring case); lookups by name find the first. |
 | `xlsx.sheet-part-missing` | dropped | A sheet's relationship does not lead to a part that exists; the sheet reads as empty and is not written. |
 | `xlsx.sheetdata-unexpected-element` | dropped | An element other than `row` stands inside `sheetData`; it is dropped. |
@@ -208,6 +209,8 @@ Locations are the sheet and cell address. These are reported to `OpenContext.Def
 | `calc.circular-reference` | repaired | A formula is part of a circular reference (or reads itself). Without iterative calculation it reads as 0, and so does every formula on the cycle. |
 | `calc.formula-unparsable` | dropped | A formula's text cannot be read; the cell keeps its stored value and is left out of the dependency graph. |
 | `calc.limit-exceeded` | repaired | Evaluating a formula passed a limit (steps, allocation); the cell shows `#VALUE!`. |
+| `calc.iteration-limit` | repaired | Iterative calculation is on and a circular reference was still changing by more than the maximum change after the maximum number of iterations. The cells keep their last values. Located at the first cell of the cycle. |
+| `calc.external-resolve-failed` | repaired | The `IExternalWorkbookResolver` threw an `OfficeException` or `IOException` for a link. The link's cached values are used. Located at the link's part. |
 
 ### Pivot refresh (`pivot.`)
 

@@ -272,8 +272,9 @@ public class WordTextTests
             return GC.GetAllocatedBytesForCurrentThread() - before;
         }
 
-        long small = Extractor(Part(200));
-        long large = Extractor(Part(40_200));
+        byte[] smallPart = Part(200), largePart = Part(40_200);
+        long small = AllocationProbe.Min(() => Extractor(smallPart));
+        long large = AllocationProbe.Min(() => Extractor(largePart));
         Assert.True(large - small < 4_000, $"{large - small} extra bytes for 40,000 more paragraphs ({small} for 200, {large} for 40,200)");
 
         // The whole path, through the package: parts over the package layer's streaming threshold (8 MiB) are read as a stream, so the
@@ -288,7 +289,7 @@ public class WordTextTests
             return GC.GetAllocatedBytesForCurrentThread() - before;
         }
 
-        double perParagraph = (Whole(300_000) - Whole(100_000)) / 200_000.0;
+        double perParagraph = (AllocationProbe.Min(() => Whole(300_000), 3) - AllocationProbe.Min(() => Whole(100_000), 3)) / 200_000.0;
         Assert.True(perParagraph < 4.0, $"{perParagraph} bytes per paragraph through the package");
     }
 

@@ -30,6 +30,12 @@ internal static class CalcSmoke
         Check("SEQUENCE(2,3)", "array 2x3");
         Check("TEXT(1234.5,\"#,##0.00\")", "1,234.50");
         Check("IFERROR(1/0,\"e\")", "e");
+        Check("PMT(0,10,1000)", "-100"); // the financial, engineering and database families register through explicit code
+        Check("DEC2HEX(255)", "FF");
+        Check("CONVERT(1,\"km\",\"m\")", "1000");
+        Check("IMSUM(\"1+i\",\"2\")", "3+i");
+        Check("TEXT(BESSELY(1,0),\"0.00000000\")", "0.08825696");
+        Check("DCOUNT(A1:B3,1,A1:A2)", "0");
         Check("ROUND(2.675,2)+MOD(-3,2)", "3.68");
         Check("SUMIF(A1:A3,\">11\")", "52"); // 21 + 31
         Check("TEXTJOIN(\"-\",TRUE,\"a\",\"\",\"b\")", "a-b");
@@ -41,6 +47,15 @@ internal static class CalcSmoke
         Check("REDUCE(0,{1,2,3},SUM)", "6");
         Check("INDIRECT(\"B2\")", "22");
         Check("GROUPBY({\"a\";\"b\";\"a\"},{1;2;3},SUM,0,0)", "array 2x2");
+        Check("ROUND(NORM.S.INV(0.975),6)", "1.959964");
+        Check("ROUND(T.DIST.2T(2.228139,10),5)", "0.05");
+        Check("ROUND(CHISQ.INV.RT(0.05,1),5)", "3.84146");
+        Check("MEDIAN(A1:B2)+STDEV.S({1,2,3})", "17.5");
+        Check("INDEX(LINEST({1;9;5;7},{0;4;2;3}),1,2)", "1");
+        Check("DATE(2008,14,2)", "39846");
+        Check("DATEDIF(DATE(2001,1,1),DATE(2003,1,1),\"Y\")&WEEKDAY(DATE(2008,2,14))", "25");
+        Check("NETWORKDAYS(DATE(2012,10,1),DATE(2013,3,1))", "110");
+        Check("DATEVALUE(\"22-AUG-2011\")", "40777");
         string printed = FormulaPrinter.Print(FormulaParser.Parse("_xlfn.SEQUENCE(2)+'S 1'!$A$1"));
         if (printed != "_xlfn.SEQUENCE(2)+'S 1'!$A$1")
         {

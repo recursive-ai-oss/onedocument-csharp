@@ -4,7 +4,7 @@
 #
 #   tools/fuzz-run.sh <target> <seconds> [libFuzzer flags...]
 #
-# Environment (defaults under $ONEDOCUMENT_HOME, itself defaulting to ~/oneoffice):
+# Environment (defaults under $ONEDOCUMENT_HOME):
 #   ONEDOCUMENT_FUZZ_WORK    builds, corpora and findings (default $ONEDOCUMENT_HOME/fuzz); outside the checkout
 #   LIBFUZZER_DOTNET       the libFuzzer host binary (default $ONEDOCUMENT_HOME/tools/libfuzzer-dotnet)
 #   SHARPFUZZ              the SharpFuzz instrumenter (default $ONEDOCUMENT_HOME/tools/sharpfuzz)
@@ -14,7 +14,7 @@
 # minimize one with the libFuzzer flags `-minimize_crash=1 -runs=10000 <file>` through this script.
 set -euo pipefail
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-home="${ONEDOCUMENT_HOME:-$HOME/oneoffice}"
+home="${ONEDOCUMENT_HOME:?set ONEDOCUMENT_HOME}"
 export ONEDOCUMENT_FUZZ_WORK="${ONEDOCUMENT_FUZZ_WORK:-$home/fuzz}"
 export LIBFUZZER_DOTNET="${LIBFUZZER_DOTNET:-$home/tools/libfuzzer-dotnet}"
 export SHARPFUZZ="${SHARPFUZZ:-$home/tools/sharpfuzz}"

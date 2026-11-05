@@ -7,6 +7,8 @@
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <NoWarn>$(NoWarn);xUnit1051</NoWarn>
+    <!-- Allocation tests need final-tier code from the first call; see tests/Shared/AllocationProbe.cs. -->
+    <TieredCompilation>false</TieredCompilation>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +19,10 @@
     <Using Include="System.Threading" />
     <Using Include="System.Threading.Tasks" />
     <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../Shared/AllocationProbe.cs" Link="AllocationProbe.cs" />
   </ItemGroup>
 
   <ItemGroup>

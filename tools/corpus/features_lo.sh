@@ -11,7 +11,7 @@ out="${2:?}"
 sample="${3:-34}"
 jobs="${4:-8}"
 minutes="${5:-12}"
-home="${ONEDOCUMENT_HOME:-$HOME/oneoffice}"
+home="${ONEDOCUMENT_HOME:?set ONEDOCUMENT_HOME}"
 mkdir -p "$out"
 export here feat out sample minutes home
 for c in style cf dv name table; do
