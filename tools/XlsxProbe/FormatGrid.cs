@@ -50,7 +50,7 @@ internal static class FormatGrid
 
         candidates.Sort(StringComparer.Ordinal);
         int written = 0, rows = 0;
-        int step = Math.Max(1, candidates.Count / (files * 3));
+        int step = Math.Max(1, candidates.Count / (files * 8));
         for (int ci = 0; ci < candidates.Count && written < files; ci += step)
         {
             List<(string Code, double Value)>? pairs;
@@ -64,7 +64,7 @@ internal static class FormatGrid
                 continue;
             }
 
-            if (pairs is null || pairs.Select(p => p.Code).Distinct(StringComparer.Ordinal).Count() < 3)
+            if (pairs is null || pairs.Select(p => p.Code).Distinct(StringComparer.Ordinal).Count() < 2)
             {
                 continue;
             }

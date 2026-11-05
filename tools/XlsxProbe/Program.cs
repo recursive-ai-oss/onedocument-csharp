@@ -44,6 +44,7 @@ internal static class Program
                 "model" => Model(args[1]),
                 "features" => FeatureSweep.Run(args[1..]),
                 "fmtgrid" => FormatGrid.Run(args[1..]),
+                "gen" => GenerateFeatures.Run(args[1]),
                 "fmtgrid-compare" => FormatGrid.Compare(args[1]),
                 _ => 2,
             };
