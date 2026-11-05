@@ -25,6 +25,8 @@
     <!-- The generated test set is shared with the test project. -->
     <Compile Include="../../tests/OneDocument.Rendering.Tests/LayoutCases.cs" Link="LayoutCases.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/TestDocx.cs" Link="TestDocx.cs" />
+    <Compile Include="../../tests/OneDocument.Rendering.Tests/PageLayoutCases.cs" Link="PageLayoutCases.cs" />
+    <Compile Include="../../tests/OneDocument.Rendering.Tests/PageDocs.cs" Link="PageDocs.cs" />
   </ItemGroup>
 
 </Project>
