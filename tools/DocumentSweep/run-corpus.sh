@@ -9,6 +9,7 @@ sets=()
 while [ $# -gt 0 ]; do
   case $1 in
     --edit) extra+=(--edit);;
+    --edit-stories) extra+=(--edit-stories);;
     --limit) extra+=(--limit "$2"); shift;;
     *) sets+=("$1");;
   esac

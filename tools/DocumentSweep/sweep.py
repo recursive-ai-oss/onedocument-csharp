@@ -17,12 +17,13 @@ def main():
     ap.add_argument('--sweep', required=True)
     ap.add_argument('--roundtrip', required=True)
     ap.add_argument('--edit', action='store_true')
+    ap.add_argument('--edit-stories', action='store_true', help='tracked insert in the first text box, plus title and custom property')
     ap.add_argument('--limit', type=int, default=0)
     ap.add_argument('--jobs', type=int, default=4)
     ap.add_argument('--dotnet', default='dotnet')
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
-    cmd = [a.dotnet, a.sweep, a.input, a.out] + (['--edit'] if a.edit else []) + (['--limit', str(a.limit)] if a.limit else [])
+    cmd = [a.dotnet, a.sweep, a.input, a.out] + (['--edit'] if a.edit else []) + (['--edit-stories'] if a.edit_stories else []) + (['--limit', str(a.limit)] if a.limit else [])
     res = subprocess.run(cmd, capture_output=True, text=True)
     rows = [json.loads(l) for l in res.stdout.splitlines() if l.startswith('{')]
     sys.stderr.write(res.stderr[-2000:])
@@ -54,7 +55,15 @@ def main():
     print(f"files {len(rows)} saved {len(saved)} failed {len(rows) - len(saved)}")
     for (e, c), n in fails.most_common():
         print(f"  {n:5d} {e} {c}")
-    if not a.edit:
+    if a.edit_stories:
+        edited = [r for r in saved if r["edited"]]
+        boxes = [r for r in edited if r.get("boxEdited")]
+        allowed = {"/word/document.xml", "word/document.xml", "/docProps/core.xml", "/docProps/custom.xml", "[Content_Types].xml", "/_rels/.rels", "_rels/.rels"}
+        odd = [r for r in edited if not set(r["changed"]) <= allowed]
+        print(f"edited {len(edited)} files, {len(boxes)} with a text box edited; files changing parts beyond the main part, core, custom, content types and package relationships: {len(odd)}")
+        for r in odd[:20]:
+            print("  other", r["file"], r["changed"][:6])
+    elif not a.edit:
         clean = [r for r in saved if not r['changed'] and r['rawNotPreserved'] == 0]
         print(f"untouched round trip: {len(clean)}/{len(saved)} files with every part byte-identical and every raw entry preserved")
         print(f"parts: {sum(r['identical'] for r in saved)} identical, {sum(len(r['changed']) for r in saved)} differing; raw entries preserved {sum(r['rawPreserved'] for r in saved)}, not preserved {sum(r['rawNotPreserved'] for r in saved)}")

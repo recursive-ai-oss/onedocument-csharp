@@ -18,6 +18,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.` | the word-processing hub | `Structure`, `Reference`, `Value`, `Packaging` |
 | `csv.` | delimited text (CSV, TSV) | `Structure`, `Markup`, `Encoding`, `Value` |
 | `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
+| `binding.` | reading and writing rows of plain objects (`Spreadsheet.Read<T>`, `Write<T>`) | `Structure`, `Reference`, `Value` |
 
 ## Codes in use
 
@@ -127,6 +128,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.section-columns-mismatch` | repaired | `w:cols` names a count that differs from the number of `w:col` entries of an unequal layout; the entries win. |
 | `docx.header-missing` | repaired | A header or footer reference names a relationship that does not lead to a readable part; the reference is ignored. |
 | `docx.header-reference-duplicate` | repaired | A section has two header (or footer) references of one type; the first is used. |
+| `props.part-unreadable` | dropped | A properties part (`docProps/core.xml`, `app.xml` or `custom.xml`) is not well-formed XML; it reads as empty. Writing a property into it raises this code instead of overwriting the part. |
 | `xlsx.no-main-part` | fatal | No `officeDocument` relationship points at a part that exists. |
 | `xlsx.wrong-root` | fatal | The workbook part does not start with a `workbook` element, or a worksheet part with a `worksheet` element. The location holds the part and offset. |
 | `xlsx.no-sheets` | repaired | The workbook part has no `sheets` element; the workbook reads as having no sheets. |
@@ -164,3 +166,16 @@ The XML layer repairs nothing: Office refuses an ill-formed part, and so does th
 ## Locations
 
 The location says where, in the terms of the layer: a part URI and byte offset (`/word/document.xml@1042`), a stream path and record offset (`/WordDocument@512`), a sheet and cell (`Sheet1!B7`), or a character offset in text (`text@88`). Offsets count bytes of the uncompressed part or stream from zero; -1 means not known.
+
+### Row binding (`binding.`)
+
+Locations are the sheet and cell address (for CSV and TSV, the record number and field position, under the type's sheet name or `Sheet1`). A type marked `Strict` raises the fatal form as an `OfficeFormatException`; otherwise the repair is reported to `OpenContext.Defects`. See `spreadsheets-poco.md`.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `binding.column-missing` | repaired (fatal when strict and the member cannot be null) | The header row has no column for a member; the member keeps its default. Located at the first cell of the header row. |
+| `binding.header-duplicate` | dropped | Two header cells match the same member; the first is used and the second ignored. |
+| `binding.cell-unconvertible` | repaired (fatal when strict) | A cell cannot be read as the member's type (text that is not a number, a number out of range or not whole, an unknown enum name); the member keeps its default. |
+| `binding.cell-empty` | fatal (strict types only) | A cell is empty and the member cannot be null. Lenient types leave the default silently. |
+| `binding.sheet-not-found` | fatal | The sheet the type names does not exist, or the workbook has no visible worksheet. |
+| `binding.value-out-of-range` | fatal | Writing: a date lies outside the range of the workbook's date system (`DateTime.MinValue` alone is written as an empty cell). |

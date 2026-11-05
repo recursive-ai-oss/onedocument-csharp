@@ -80,7 +80,7 @@ public abstract class BlockElement : IEquatable<BlockElement>
 /// Something that holds blocks: the body, a content control's content, and (as the other hub units add them) table cells,
 /// headers, footers and notes. Enumeration is lazy and live over the markup tree.
 /// </summary>
-public abstract class BlockContainer
+public abstract partial class BlockContainer
 {
     private protected BlockContainer(Document owner, MarkupRef container)
     {
