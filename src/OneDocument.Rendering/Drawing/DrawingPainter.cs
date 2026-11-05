@@ -15,7 +15,7 @@ namespace RecursiveAI.OneDocument.Rendering.Drawing;
 /// turned into filled outlines because the display list has no stroke item. Outer shadows and glows are drop-shadow filters; soft edges,
 /// reflections, inner shadows and 3D are not drawn and are reported as notes on the <see cref="DrawingContext"/>.
 /// </remarks>
-public static class DrawingPainter
+public static partial class DrawingPainter
 {
     private const double PointsToPixels = 96.0 / 72.0;
     private const double EmuPerPoint = 12700.0;
@@ -101,7 +101,7 @@ public static class DrawingPainter
                         MarkupNode next = default;
                         foreach (MarkupNode c in n.ChildElements)
                         {
-                            if (c.LocalNameString is "graphic" or "inline" or "anchor" or "group" or "shape")
+                            if (c.LocalNameString is "graphic" or "inline" or "anchor" or "group" or "shape" or "rect" or "roundrect" or "oval" or "line")
                             {
                                 next = c;
                                 break;
@@ -163,7 +163,7 @@ public static class DrawingPainter
 
     private static bool IsShape(MarkupNode n) => n.LocalNameString is "sp" or "wsp" or "pic" or "cxnSp" or "grpSp" or "wgp" or "graphicFrame" or "graphic" or "drawing";
 
-    private sealed class Scene(DisplayList list, Func<ItemId> nextId, DrawingContext ctx)
+    private sealed partial class Scene(DisplayList list, Func<ItemId> nextId, DrawingContext ctx)
     {
         private int _shapes;
 
@@ -179,6 +179,9 @@ public static class DrawingPainter
             {
                 case "sp" or "wsp" or "cxnSp" or "pic":
                     PaintShape(node, parent, top);
+                    break;
+                case "shape" or "rect" or "roundrect" or "oval" or "line":
+                    PaintVml(node, parent, top);
                     break;
                 case "grpSp" or "wgp":
                     PaintGroup(node, parent, top, depth);
@@ -507,6 +510,11 @@ public static class DrawingPainter
             MarkupNode body = DrawingTheme.Child(shape, "bodyPr");
             MarkupNode txBody = DrawingTheme.Child(shape, "txBody");
             MarkupNode txbx = DrawingTheme.Child(shape, "txbx");
+            if (txbx.IsNull)
+            {
+                txbx = DrawingTheme.Child(shape, "textbox"); // VML
+            }
+
             if (body.IsNull && !txBody.IsNull)
             {
                 body = DrawingTheme.Child(txBody, "bodyPr");
@@ -525,6 +533,11 @@ public static class DrawingPainter
 
             // ECMA-376 Part 1 §21.1.2.1.1 (bodyPr): insets default to 0.1 inch left and right and 0.05 inch top and bottom.
             double l = Inset(body, "lIns", 91440), t = Inset(body, "tIns", 45720), r = Inset(body, "rIns", 91440), b = Inset(body, "bIns", 45720);
+            if (!DrawingTheme.Child(shape, "textbox").IsNull)
+            {
+                (l, t, r, b) = VmlShapes.Insets(DrawingTheme.Child(shape, "textbox"));
+            }
+
             double x0 = eg.TextLeft + l, y0 = eg.TextTop + t;
             double w = eg.TextRight - eg.TextLeft - l - r, h = eg.TextBottom - eg.TextTop - t - b;
             if (w <= 0 || h <= 0)
@@ -724,11 +737,11 @@ public static class DrawingPainter
 
         // ECMA-376 Part 1 §20.1.8.14 (blipFill): srcRect crops the picture; stretch/fillRect fits what is left to the shape (or inset
         // rectangle); tile repeats it at its natural size scaled by sx and sy.
-        private void PaintBlip(PathBuffer path, MarkupNode blipFill, double w, double h)
+        private void PaintBlip(PathBuffer path, MarkupNode blipFill, double w, double h, string? embedOverride = null)
         {
             MarkupNode blip = DrawingTheme.Child(blipFill, "blip");
-            string? embed = null;
-            if (!blip.IsNull)
+            string? embed = embedOverride;
+            if (embedOverride is null && !blip.IsNull)
             {
                 foreach (MarkupAttributeRef a in blip.Attributes)
                 {

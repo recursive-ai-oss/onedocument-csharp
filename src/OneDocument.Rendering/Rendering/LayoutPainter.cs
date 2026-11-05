@@ -541,7 +541,13 @@ public static class LayoutPainter
         // Text taller than the box is not clipped; Word clips it at the box, which is reported as a note.
         private void PaintShapeText(ShapeTextRequest req, DrawingSources sources, DrawingContext dctx)
         {
-            MarkupNode content = DrawingTheme.Child(DrawingTheme.Child(req.Shape, "txbx"), "txbxContent");
+            MarkupNode box = DrawingTheme.Child(req.Shape, "txbx");
+            if (box.IsNull)
+            {
+                box = DrawingTheme.Child(req.Shape, "textbox");
+            }
+
+            MarkupNode content = DrawingTheme.Child(box, "txbxContent");
             if (content.IsNull)
             {
                 dctx.Note("drawing.text-body-not-painted", "The text body of a presentation or worksheet shape is not painted by the document renderer.");

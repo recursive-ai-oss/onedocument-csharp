@@ -115,6 +115,14 @@ internal static class FloatSamples
             list.Add(("floating-table", TestDocx.Bytes(Title("A floating table") + tbl + Para(string.Empty, 200))));
         }
 
+        // VML shapes: an inline rectangle with text, and an anchored text box that text wraps round.
+        {
+            const string ns = "xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:w10=\"urn:schemas-microsoft-com:office:word\" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"";
+            string inlineRect = "<w:r><w:pict " + ns + "><v:rect style=\"width:110pt;height:40pt\" fillcolor=\"#FFF2CC\" strokecolor=\"#7F6000\" strokeweight=\"1.5pt\"><v:textbox><w:txbxContent><w:p><w:r><w:t>Inline VML</w:t></w:r></w:p></w:txbxContent></v:textbox></v:rect></w:pict></w:r>";
+            string floating = "<w:r><w:pict " + ns + "><v:roundrect style=\"position:absolute;margin-left:160pt;margin-top:4pt;width:130pt;height:80pt;z-index:251659264;mso-position-horizontal-relative:margin;mso-position-vertical-relative:text\" arcsize=\"0.2\" fillcolor=\"#C5E0B3\" stroked=\"t\" strokecolor=\"#385723\"><v:textbox inset=\"4pt,4pt,4pt,4pt\"><w:txbxContent><w:p><w:r><w:t>Anchored VML text box with square wrapping.</w:t></w:r></w:p></w:txbxContent></v:textbox><w10:wrap type=\"square\" side=\"both\"/></v:roundrect></w:pict></w:r>";
+            list.Add(("vml", TestDocx.Bytes(Title("VML shapes") + "<w:p>" + inlineRect + "</w:p>" + Para(floating, 150))));
+        }
+
         // Drop caps and a text frame.
         {
             string cap(string mode, int lines) => "<w:p><w:pPr><w:framePr w:dropCap=\"" + mode + "\" w:lines=\"" + lines + "\" w:wrap=\"around\" w:vAnchor=\"text\" w:hAnchor=\"text\"/><w:spacing w:line=\"240\" w:lineRule=\"auto\"/></w:pPr><w:r><w:rPr><w:sz w:val=\"" + (lines * 24) + "\"/></w:rPr><w:t>L</w:t></w:r></w:p>";

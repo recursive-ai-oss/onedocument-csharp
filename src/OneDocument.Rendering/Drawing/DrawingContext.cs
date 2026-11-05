@@ -264,6 +264,14 @@ public sealed class DrawingInfo
         };
     }
 
+    /// <summary>
+    /// Reads a legacy <c>w:pict</c> that holds one VML shape (<c>v:shape</c>, <c>v:rect</c>, <c>v:roundrect</c>, <c>v:oval</c>, <c>v:line</c>):
+    /// its size and position from the CSS-like <c>style</c> attribute and its wrapping from <c>w10:wrap</c>.
+    /// </summary>
+    /// <param name="pict">The <c>w:pict</c> element.</param>
+    /// <returns>The information, or null when the element holds no shape with a width and height.</returns>
+    public static DrawingInfo? ReadPict(MarkupNode pict) => VmlShapes.Read(pict);
+
     private static IEnumerable<MarkupNode> Descendants(MarkupNode n)
     {
         foreach (MarkupNode c in n.ChildElements)

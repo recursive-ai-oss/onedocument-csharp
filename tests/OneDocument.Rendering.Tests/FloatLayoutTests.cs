@@ -306,6 +306,35 @@ public sealed class FloatLayoutTests
     }
 
     [Fact]
+    public void VML_shapes_are_laid_out_painted_and_wrapped_like_drawings()
+    {
+        LayoutDocument layout = Lay("vml");
+        LayoutPage page = layout.Pages[0];
+        LayoutFloat f = Assert.Single(page.Floats);
+        Assert.Equal(DrawingWrap.Square, f.Wrap);
+        Assert.Equal(72 + 160, f.Bounds.X, 1);
+        Assert.Equal(130, f.Bounds.Width, 1);
+        foreach ((LayoutLine line, LayoutRun run) in TextRuns(page).Where(t => t.Line.Baseline > f.Bounds.Y && t.Line.Baseline - t.Line.Ascent < f.Bounds.Bottom && t.Run.Bounds.Y > 0))
+        {
+            Assert.False(Overlaps(run.Bounds with { Y = line.Baseline - line.Ascent, Height = line.Ascent + line.Descent }, f.Bounds));
+        }
+
+        // The inline shape stands in a line and raises it.
+        LayoutLine inlineLine = page.BodyParagraphs.SelectMany(p => p.Lines).First(l => l.Runs.Any(r => r.RunKind == LayoutRunKind.Drawing));
+        Assert.True(inlineLine.Ascent >= 40 - 0.01);
+        var notes = new List<DrawingNote>();
+        DisplayList list = LayoutPainter.Paint(page, new PaintOptions { Images = new DrawingImages(), DrawingNotes = notes });
+        int glyphRuns = 0;
+        for (int i = 0; i < list.Count; i++)
+        {
+            glyphRuns += list[i].Kind == ItemKind.GlyphRun ? 1 : 0;
+        }
+
+        Assert.True(glyphRuns > 10, "text in both shapes and in the body");
+        Assert.DoesNotContain(notes, n => n.Code is "drawing.text-not-painted" or "drawing.text-body-not-painted");
+    }
+
+    [Fact]
     public void A_table_in_a_text_box_is_laid_out_and_painted()
     {
         LayoutDocument layout = Lay("textbox-table");

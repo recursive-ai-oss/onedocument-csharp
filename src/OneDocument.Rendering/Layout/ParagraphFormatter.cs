@@ -566,13 +566,13 @@ internal static partial class ParagraphFormatter
                     sb.Append(SymbolMap.Map(Xml.Attr(e, "font"), code));
                 }
             }
-            else if (Xml.Eq(e.LocalName, "drawing") && !Watermarks.IsWatermark(n))
+            else if ((Xml.Eq(e.LocalName, "drawing") || Xml.Eq(e.LocalName, "pict") && RecursiveAI.OneDocument.Rendering.Drawing.DrawingInfo.ReadPict(n) is not null) && !Watermarks.IsWatermark(n))
             {
                 AddDrawing(ctx, n, sb, p, drawings, floats);
             }
             else if ((Xml.Eq(e.LocalName, "pict") || Xml.Eq(e.LocalName, "object")) && !Watermarks.IsWatermark(n))
             {
-                ctx.NoteOnce("layout.drawing-skipped", "layout.drawing-skipped", "Legacy pictures and embedded objects in paragraphs are not laid out yet; their space is not reserved.", p);
+                ctx.NoteOnce("layout.drawing-skipped", "layout.drawing-skipped", "Embedded objects in paragraphs are not laid out yet; their space is not reserved.", p);
             }
         }
     }
@@ -608,7 +608,7 @@ internal static partial class ParagraphFormatter
     // is painted at its position and the text does not wrap around it yet.
     private static void AddDrawing(LayoutContext ctx, MarkupNode drawing, System.Text.StringBuilder sb, Paragraph p, Dictionary<int, InlineDrawing> drawings, List<InlineDrawing> floats)
     {
-        if (RecursiveAI.OneDocument.Rendering.Drawing.DrawingInfo.Read(drawing) is not { } info)
+        if ((drawing.LocalNameString == "pict" ? RecursiveAI.OneDocument.Rendering.Drawing.DrawingInfo.ReadPict(drawing) : RecursiveAI.OneDocument.Rendering.Drawing.DrawingInfo.Read(drawing)) is not { } info)
         {
             ctx.NoteOnce("layout.drawing-skipped", "layout.drawing-skipped", "A drawing without an inline or anchor extent is not laid out.", p);
             return;
