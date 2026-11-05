@@ -11,8 +11,16 @@ internal sealed class Utf8Buffer(Stream sink, int size = 65536)
     // (checked for a following xHHHH_), surrogates (checked for pairing) and the two non-characters.
     private static readonly SearchValues<char> Special = SearchValues.Create(BuildSpecial());
 
+    private static readonly SearchValues<char> PlainSpecial = SearchValues.Create(BuildPlainSpecial());
+
     private readonly byte[] _buffer = new byte[size];
     private int _length;
+
+    private static string BuildPlainSpecial()
+    {
+        // Like Special without the escape lead; tab and line feed pass.
+        return BuildSpecial().Replace("_", string.Empty, StringComparison.Ordinal);
+    }
 
     private static string BuildSpecial()
     {
@@ -168,6 +176,47 @@ internal sealed class Utf8Buffer(Stream sink, int size = 65536)
             }
 
             s = s[(i + consumed)..];
+        }
+    }
+
+    /// <summary>
+    /// Writes text that is not an ST_Xstring (a formula): markup characters are escaped and nothing else changes, so it reads back exactly.
+    /// </summary>
+    /// <exception cref="ArgumentException">The text has a character XML cannot carry.</exception>
+    public void Plain(ReadOnlySpan<char> s)
+    {
+        while (s.Length > 0)
+        {
+            int i = s.IndexOfAny(PlainSpecial);
+            Encoded(i < 0 ? s : s[..i]);
+            if (i < 0)
+            {
+                return;
+            }
+
+            switch (s[i])
+            {
+                case '&':
+                    Raw("&amp;"u8);
+                    break;
+                case '<':
+                    Raw("&lt;"u8);
+                    break;
+                case '>':
+                    Raw("&gt;"u8);
+                    break;
+                default:
+                    if (char.IsHighSurrogate(s[i]) && i + 1 < s.Length && char.IsLowSurrogate(s[i + 1]))
+                    {
+                        Encoded(s.Slice(i, 2));
+                        s = s[(i + 2)..];
+                        continue;
+                    }
+
+                    throw new ArgumentException("The text has a character that XML cannot carry.");
+            }
+
+            s = s[(i + 1)..];
         }
     }
 

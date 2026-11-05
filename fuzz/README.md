@@ -15,6 +15,8 @@
 | `revisions` | raw bytes (a WordprocessingML part) | the revision model: scan, both text views, accept-all, reject-all, one revision, and an authoring call with positions taken from the input; the results re-parse |
 | `numfmt` | UTF-8 text (a format code) | the number-format parser: a rejection is a located `numfmt.` defect; an accepted code formats a spread of values in both date systems and several cultures without throwing, deterministically |
 | `numfmtfmt` | 8 bytes double, 1 option byte, UTF-8 code | the formatter: string and span results agree, an exactly sized span succeeds, one character less reports `DestinationTooSmall` |
+| `stream` | one mode byte + a part (worksheet, shared strings or style sheet) | the streaming workbook cursor: every row and cell is read through every accessor, typed rejections only, and a second walk gives the same result |
+| `streamwrite` | a script of writer calls | the streaming writer: numbers, any text (controls, lone surrogates), booleans, errors, formulas, gaps and merges are written, and the cursor and the workbook model read back exactly the cells that were written |
 
 Only `OfficeException` may come out of a library call: it is the typed rejection of bad input. Any other exception, a failed invariant, a hang (`-timeout`) or a memory blow-up (`-rss_limit_mb`) is a finding.
 

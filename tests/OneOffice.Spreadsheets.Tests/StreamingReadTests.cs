@@ -69,6 +69,21 @@ public class StreamingReadTests
     }
 
     [Fact]
+    public void CachedStringResultsKeepReferencesAndCarriageReturnsAsWritten()
+    {
+        // The text of a formula's string result is decoded once: &amp;lt; is the text &lt;, and &#13; is a carriage return that line-end normalisation must not touch.
+        string sheet = "<?xml version=\"1.0\"?><worksheet xmlns=\"" + TestBook.Main + "\"><sheetData><row r=\"1\"><c r=\"A1\" t=\"str\"><v>a&amp;lt;b&#13;&#10;c</v></c></row></sheetData></worksheet>";
+        byte[] bytes = TestBook.Bytes(sheet);
+        using Workbook wb = TestBook.Open(bytes);
+        using XlsxStreamReader r = Open(bytes);
+        using SheetCursor c = r.OpenSheet(0);
+        Assert.True(c.ReadRow());
+        Assert.True(c.ReadCell());
+        Assert.Equal("a&lt;b\r\nc", c.GetText());
+        Assert.Equal(c.GetText(), wb.Sheets[0]["A1"].Text);
+    }
+
+    [Fact]
     public void RichSharedStringsAreFlattenedWithoutPhonetics()
     {
         using XlsxStreamReader r = Open();

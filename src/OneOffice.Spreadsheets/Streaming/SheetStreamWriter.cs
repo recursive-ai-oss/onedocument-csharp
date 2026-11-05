@@ -361,7 +361,7 @@ public sealed class SheetStreamWriter
     /// <summary>Writes a formula with no cached value. The workbook then asks the application to calculate on opening.</summary>
     /// <param name="formula">The formula text without the leading <c>=</c>, in the file's notation (A1 references, comma separators, English names).</param>
     /// <param name="style">The style index.</param>
-    /// <exception cref="ArgumentException">The formula has a character XML cannot carry.</exception>
+    /// <exception cref="ArgumentException">The formula has a character XML cannot carry, or is longer than 8,192 characters.</exception>
     public void WriteFormula(ReadOnlySpan<char> formula, int style = 0)
     {
         _owner.NoteFormulaWithoutValue();
@@ -443,7 +443,7 @@ public sealed class SheetStreamWriter
             formula = formula[1..];
         }
 
-        _w.Text(formula);
+        _w.Plain(formula);
     }
 
     /// <summary>Merges a range of cells. Ranges are collected and written after the rows, so this can be called at any time before the sheet is completed. Overlaps are not checked.</summary>
