@@ -23,6 +23,7 @@ public sealed partial class Document : OfficeFile
 
     private readonly bool _ownsPackage;
     private Body? _body;
+    private MarkupDocument? _main;
 
     private Document(IOpcPackage package, OpenContext context, string mainPartName, bool ownsPackage, OfficeFormat format, string? filePath)
         : base(format, context, filePath)
@@ -44,14 +45,28 @@ public sealed partial class Document : OfficeFile
 
     internal PartStore Parts { get; }
 
+    // First-use initialisation shared by concurrent readers: one instance, built under the document's gate.
+    private T Init<T>(ref T? field, Func<T> create) where T : class
+    {
+        if (Volatile.Read(ref field) is { } existing)
+        {
+            return existing;
+        }
+
+        lock (Parts.Gate)
+        {
+            return field ??= create();
+        }
+    }
+
     /// <summary>
     /// Opens the hub over a package that has a main document part.
     /// </summary>
     /// <param name="package">An OPC package holding a word-processing document.</param>
     /// <param name="context">Limits and defect sink; null for the defaults.</param>
     /// <param name="ownsPackage">True to dispose the package when the document is disposed.</param>
-    /// <returns>The document. Nothing but the package relationships is read yet.</returns>
-    /// <exception cref="OfficeFormatException">The package has no main document part (<c>docx.no-main-part</c>) or the part is not well-formed XML.</exception>
+    /// <returns>The document. Nothing but the package relationships is read yet; the main part is parsed on first use.</returns>
+    /// <exception cref="OfficeFormatException">The package has no main document part (<c>docx.no-main-part</c>). A main part that is not well-formed XML raises at its first use instead (see <see cref="MainMarkup"/>).</exception>
     public static Document FromPackage(IOpcPackage package, OpenContext? context = null, bool ownsPackage = false)
     {
         ArgumentNullException.ThrowIfNull(package);
@@ -66,9 +81,8 @@ public sealed partial class Document : OfficeFile
                 DefectLocation.InPart("/_rels/.rels"));
         }
 
-        var document = new Document(package, context, main, ownsPackage, FormatOf(package, main), package.FilePath);
-        document.LoadMain();
-        return document;
+        // The main part is parsed on first use (MainMarkup), so opening and saving an untouched document never reads it.
+        return new Document(package, context, main, ownsPackage, FormatOf(package, main), package.FilePath);
     }
 
     private static string? FindMainPart(IOpcPackage package)
@@ -85,11 +99,11 @@ public sealed partial class Document : OfficeFile
         return null;
     }
 
-    private void LoadMain()
+    private MarkupDocument LoadMain()
     {
         // The main part must parse: without it there is no document. Other parts degrade to defects.
-        MainMarkup = Parts.Load(MainPartName, required: true)!;
-        MarkupNode root = MainMarkup.Root;
+        MarkupDocument main = Parts.Load(MainPartName, required: true)!;
+        MarkupNode root = main.Root;
         if (root.IsNull || !new MarkupRef(root).As<W.Document>().HasValue)
         {
             throw new OfficeFormatException(
@@ -98,10 +112,30 @@ public sealed partial class Document : OfficeFile
                 "The main document part does not start with a w:document element.",
                 DefectLocation.InPart(MainPartName, root.IsNull ? -1 : root.SourceStart));
         }
+
+        return main;
     }
 
-    /// <summary>Gets the markup tree of the main part.</summary>
-    public MarkupDocument MainMarkup { get; private set; } = null!;
+    /// <summary>
+    /// Gets the markup tree of the main part, parsed on first use and shared afterwards. Safe to call from several threads at once.
+    /// </summary>
+    /// <exception cref="OfficeFormatException">The part is not well-formed XML or does not start with <c>w:document</c> (<c>docx.wrong-root</c>); raised at every access until the part is fixed, with the part name and offset.</exception>
+    public MarkupDocument MainMarkup
+    {
+        get
+        {
+            MarkupDocument? main = Volatile.Read(ref _main);
+            if (main is not null)
+            {
+                return main;
+            }
+
+            lock (Parts.Gate)
+            {
+                return _main ??= LoadMain();
+            }
+        }
+    }
 
     /// <summary>Gets the <c>w:document</c> element: the hop from the hub to the markup layer.</summary>
     public MarkupRef Markup => new(MainMarkup.Root);
@@ -120,25 +154,33 @@ public sealed partial class Document : OfficeFile
     {
         get
         {
-            if (_body is not null)
+            Body? existing = Volatile.Read(ref _body);
+            if (existing is not null)
             {
-                return _body;
+                return existing;
             }
 
-            MarkupRef? element = Markup.FindChild(SchemaNamespace.Wordprocessing, "body"u8);
-            if (element is null)
+            lock (Parts.Gate)
             {
-                Context.Defects.Report(new Defect(
-                    DefectKind.Structure,
-                    "docx.no-body",
-                    DefectSeverity.Repaired,
-                    "The document has no w:body element; it reads as empty.",
-                    DefectLocation.InPart(MainPartName, Markup.Node.SourceStart)));
+                return _body ??= CreateBody();
             }
-
-            _body = new Body(this, element ?? default);
-            return _body;
         }
+    }
+
+    private Body CreateBody()
+    {
+        MarkupRef? element = Markup.FindChild(SchemaNamespace.Wordprocessing, "body"u8);
+        if (element is null)
+        {
+            Context.Defects.Report(new Defect(
+                DefectKind.Structure,
+                "docx.no-body",
+                DefectSeverity.Repaired,
+                "The document has no w:body element; it reads as empty.",
+                DefectLocation.InPart(MainPartName, Markup.Node.SourceStart)));
+        }
+
+        return new Body(this, element ?? default);
     }
 
     /// <summary>
