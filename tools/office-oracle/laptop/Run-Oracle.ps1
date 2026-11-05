@@ -726,6 +726,13 @@ public class DialogWatcher
 } finally {
     foreach ($k in @($apps.Keys)) {
         if ($apps[$k] -ne 'busy') {
+            # No prompt may keep an invisible application alive: discard every open document first.
+            try { $apps[$k].DisplayAlerts = $(if ($k -eq 'excel') { $false } elseif ($k -eq 'word') { 0 } else { 1 }) } catch { }
+            try {
+                if ($k -eq 'excel') { foreach ($w in @($apps[$k].Workbooks)) { try { $w.Saved = $true; $w.Close($false) } catch { } } }
+                elseif ($k -eq 'word') { foreach ($d in @($apps[$k].Documents)) { try { $d.Close(0) } catch { } } }
+                else { foreach ($d in @($apps[$k].Presentations)) { try { $d.Saved = -1; $d.Close() } catch { } } }
+            } catch { }
             try { $apps[$k].Quit() } catch { }
             try { [void][Runtime.InteropServices.Marshal]::ReleaseComObject($apps[$k]) } catch { }
         }
@@ -734,14 +741,17 @@ public class DialogWatcher
     [GC]::Collect(); [GC]::WaitForPendingFinalizers()
     # Every application we launched must be gone; wait for Quit, then kill only that process id.
     $killed = @()
+    $quitSeconds = @{}
     $survivors = @()
     foreach ($k in @($startedPids.Keys)) {
         $e = $startedPids[$k]
-        for ($t = 0; $t -lt 20; $t++) {
+        $waited = 0
+        for ($t = 0; $t -lt 60; $t++) {
             $p = Get-Process -Id $e.Id -ErrorAction SilentlyContinue
             if (-not $p -or $p.StartTime.ToUniversalTime().ToString('o') -ne $e.Start) { $p = $null; break }
-            Start-Sleep -Milliseconds 500
+            Start-Sleep -Milliseconds 500; $waited++
         }
+        $quitSeconds[$k] = $waited / 2
         if ($p) {
             try { $p.Kill(); $killed += $k; $p.WaitForExit(5000) | Out-Null } catch { }
             $p = Get-Process -Id $e.Id -ErrorAction SilentlyContinue
@@ -753,7 +763,7 @@ public class DialogWatcher
     if ($out) {
         $left = @()
         foreach ($n in @('WINWORD', 'EXCEL', 'POWERPNT')) { $left += @(Get-Process -Name $n -ErrorAction SilentlyContinue | ForEach-Object { $_.Name }) }
-        Write-Line @{ kind = 'end'; lockReleased = [bool]$lockHeld; officeProcessesLeft = $left; launchedPidsKilled = $killed; launchedPidsSurvived = $survivors }
+        Write-Line @{ kind = 'end'; lockReleased = [bool]$lockHeld; officeProcessesLeft = $left; launchedPidsKilled = $killed; launchedPidsSurvived = $survivors; secondsToExitAfterQuit = $quitSeconds }
         [IO.File]::WriteAllText((Join-Path $out 'done.json'), '{"done":true}', $utf8)
     }
 }
