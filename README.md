@@ -12,7 +12,7 @@ What works today is **word-processing documents in the DOCX family**, and text e
 - **Text extraction** from OOXML documents, workbooks and presentations: `Office.ExtractText(path)` and `oneoffice extract <file> [-o out.txt] [--json]`; `Document.ExtractText()` for an open document, edits included.
 - **The foundation:** byte sources, one limits object, typed defects and exceptions with locations, content-based format identification, the format registry and the part/package model (OPC on zip and Flat OPC; compound files).
 
-Not done yet: the "opens in Word without a repair prompt" check is pending, and there is no calculation, templating, rendering, sanitising or redaction. Every other format below is planned.
+Not done yet: calculation, templating, rendering, sanitising and redaction. Every other format below is planned.
 
 ```csharp
 using RecursiveAI.OneOffice.Documents;
@@ -40,6 +40,19 @@ The `Office` statics (`Office.Open`, `Office.ExtractText`, `Office.Convert`) fin
 | CSV/TSV | planned | planned |
 | HTML, Markdown | planned (import) | planned (export) |
 | PDF, images, SVG, text | not applicable | planned (export) |
+
+## Support and measurements (DOCX family)
+
+| Check | Result |
+|---|---|
+| Untouched open and save, every part byte-identical | 2,763 of 2,763 readable public-web and bug-tracker documents (56,157 parts); unreadable inputs (truncated zips, a duplicate attribute) fail with typed errors |
+| One-paragraph edit changes only `word/document.xml` | 188 of 188 |
+| Edited output against the ECMA-376 schemas | no new schema errors (files invalid before an edit stay invalid in the same way) |
+| Opens in Word without a repair prompt | all 45 generated and edited test documents (tables, sections, comments, notes, fields, revisions authored and resolved, content controls; DOCX, DOTX, DOCM, Flat OPC), Word 365 build 16.0.20527 |
+| Fuzzing | every parser 600 s with no findings (libFuzzer via SharpFuzz) |
+| Speed against the fastest of the Open XML SDK 3.5.1 and NPOI 2.7.6 | geomean 0.36× (x64) and 0.29× (arm64) over load, load+save, edit and extract; worst row 1.09× (untouched save of a 1,000-page document, arm64). Opening and reading only the styles is slower than the SDK on large documents because the main part is parsed on open. Method and tables: `bench/README.md` |
+
+Deviations and gaps: band regions of table styles in rows with merged cells are not yet verified against Word; text extraction leaves out embedded objects and `altChunk` content.
 
 ## Packages
 
