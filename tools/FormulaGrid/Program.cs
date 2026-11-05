@@ -165,6 +165,8 @@ internal static class Program
         {
             "gen" => Generate(args[1]),
             "compare" => Compare(args[1], args.Length > 2 ? args[2] : args[1]),
+            "localgen" => LocalGenerate(args[1]),
+            "localcompare" => LocalCompare(args[1], args.Length > 2 ? args[2] : args[1]),
             "futuregen" => FutureGenerate(args[1], args.Length > 2 ? args[2] : ""),
             "futurecompare" => FutureCompare(args[1], args.Length > 2 ? args[2] : args[1]),
             _ => 2,
@@ -239,6 +241,68 @@ internal static class Program
         }
 
         Console.WriteLine($"wrote {tests.Count} tests");
+        return 0;
+    }
+
+    // Comma-decimal locale: formulas typed with Excel's comma-decimal separators (arguments ';', array columns '.', rows ';') must give the same
+    // file form as the English spelling, and Formula2Local must print what our display form prints for that locale.
+    private static readonly string[] LocalFormulas =
+    [
+        "=SUM(1,5;2)", "=1,5+2", "={1.2;3.4}", "={1,5.2,5;3.4}", "=SUM(A1:B2;C3)", "=SUM((A1:B2;C3:D4))", "=TEXT(1,5;\"0,00\")", "=IF(TRUE;\"a\";\"b\")", "=1,5E+3",
+        "=1,5E-3", "=\"a;b\"", "=SUM(1;2;3)", "=IF(A1>1,5;1;2)", "=SUM({1.2;3.4})", "=0,5%", "=-1,25", "=2^0,5", "=SUM(1;;2)", "=IF(A1;;1,5)", "=SEQUENCE(2;2;1,5;0,5)",
+        "=LET(x;1,5;x*2)", "=LAMBDA(x;x+1,5)(2)", "=AND(1;0,5)", "=CONCAT(\"a\";1,5)", "={\"a\".\"b\";1,5.2}", "=ROWS(A1:B3;)",
+    ];
+
+    private static int LocalGenerate(string dir)
+    {
+        Directory.CreateDirectory(dir);
+        File.WriteAllLines(Path.Combine(dir, "loc.comma.fgrid"), LocalFormulas.Select((f, i) => $"lc{i}\tlocal\t{Esc(f)}"), new UTF8Encoding(false));
+        return 0;
+    }
+
+    private static int LocalCompare(string testDir, string answerDir)
+    {
+        var comma = FormulaLocale.ForDecimalSeparator(",");
+        int bad = 0;
+        int n = 0;
+        string[] lines = File.ReadAllLines(Path.Combine(answerDir, "loc.comma.fgrid.tsv"));
+        for (int i = 0; i < LocalFormulas.Length; i++)
+        {
+            string[] p = lines[i].Split('\t');
+            string text = LocalFormulas[i].TrimStart('=');
+            if (p.Length < 5 || p[1] != "ok")
+            {
+                Console.WriteLine($"lc{i} {text} :: excel {(p.Length > 1 ? p[1] : "?")}");
+                continue;
+            }
+
+            n++;
+            string excelFile = Unesc(p[2]).TrimStart('=');
+            string excelLocal = Unesc(p[4]).TrimStart('=');
+            string? err = null;
+            try
+            {
+                FormulaNode node = FormulaParser.Parse(text, new FormulaParserOptions { FileForm = false, Locale = comma });
+                string ourFile = FormulaPrinter.Print(node, new FormulaPrintOptions { Form = FormulaForm.Display });
+                string ourLocal = FormulaPrinter.Print(node, new FormulaPrintOptions { Form = FormulaForm.Display, Locale = comma });
+                if (ourFile != excelFile || ourLocal != excelLocal)
+                {
+                    err = $"file ours '{ourFile}' excel '{excelFile}'; local ours '{ourLocal}' excel '{excelLocal}'";
+                }
+            }
+            catch (OfficeException ex)
+            {
+                err = "ours rejects: " + ex.Message;
+            }
+
+            if (err is not null)
+            {
+                bad++;
+                Console.WriteLine($"lc{i} {text} :: {err}");
+            }
+        }
+
+        Console.WriteLine($"local (comma decimal): compared={n} disagree={bad}");
         return 0;
     }
 

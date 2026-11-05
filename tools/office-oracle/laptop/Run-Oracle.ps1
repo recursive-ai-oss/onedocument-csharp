@@ -331,6 +331,10 @@ function Invoke-ExcelFormulas($app, $item, $path, $outDir, $res) {
     $esc = { param($x) ([string]$x).Replace('\', '\\').Replace("`t", '\t').Replace("`n", '\n').Replace("`r", '\r') }
     $inv = [Globalization.CultureInfo]::InvariantCulture
     $sep = [string][char]31
+    # A file named *.comma.fgrid is entered with a comma decimal separator (Excel's own setting, restored afterwards), to see how
+    # Formula2Local writes separators for such a locale. Function names stay English: the language is the installed one.
+    $comma = $path -like '*.comma.fgrid'
+    if ($comma) { $app.UseSystemSeparators = $false; $app.DecimalSeparator = ','; $app.ThousandsSeparator = '.' }
     $wb = $app.Workbooks.Add()
     try {
         # Manual calculation keeps closing the workbook quick; a slow shutdown makes Windows relaunch Excel with /restore.
@@ -380,9 +384,10 @@ function Invoke-ExcelFormulas($app, $item, $path, $outDir, $res) {
         [IO.File]::WriteAllLines((Join-Path $outDir ([IO.Path]::GetFileName($path) + '.tsv')), $lines, $utf8)
         # The file form of every formula (prefixes, array flags) is only visible in the saved file.
         try { $wb.SaveCopyAs((Join-Path $outDir ([IO.Path]::GetFileName($path) + '.xlsx'))) } catch { $res.saveCopyError = $_.Exception.Message }
-        $res.formulas = @{ tests = $tests.Count; decimal = [string]$app.International(3); list = [string]$app.International(5); country = [string]$app.International(1); excelVersion = [string]$app.Version; build = [string]$app.Build }
+        $res.formulas = @{ tests = $tests.Count; decimal = [string]$app.International(3); list = [string]$app.International(5); arrayCol = [string]$app.International(14); arrayRow = [string]$app.International(15); arrayAlt = [string]$app.International(16); country = [string]$app.International(1); excelVersion = [string]$app.Version; build = [string]$app.Build }
     } finally {
         try { $wb.Close($false) } catch { }
+        if ($comma) { try { $app.UseSystemSeparators = $true } catch { } }
     }
 }
 
