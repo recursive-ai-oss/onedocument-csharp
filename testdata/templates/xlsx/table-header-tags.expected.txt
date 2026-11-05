@@ -1,0 +1,8 @@
+[Sheet1] merges=
+A1 s=0 t Part
+B1 s=0 t Count
+A2 s=0 t Bolt
+B2 s=0 n 3
+A3 s=0 t Nut
+B3 s=0 n 10
+extra: {xl/tables/table1.xml} <table xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" id="1" name="Parts" displayName="Parts" ref="A1:B3" totalsRowShown="0"><autoFilter ref="A1:B3"/><tableColumns count="2"><tableColumn id="1" name="Part"/><tableColumn id="2" name="Count"/></tableColumns><tableStyleInfo name="TableStyleMedium2" showFirstColumn="0" showLastColumn="0" showRowStripes="1" showColumnStripes="0"/></table>

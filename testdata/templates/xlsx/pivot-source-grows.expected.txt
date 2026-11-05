@@ -1,0 +1,23 @@
+[Data] merges=
+A1 s=0 t Region
+B1 s=0 t Product
+C1 s=0 t Qtr
+D1 s=0 t Sales
+E1 s=0 t Units
+A2 s=0 t East
+B2 s=0 t A
+C2 s=0 t H1
+D2 s=0 n 100
+E2 s=0 n 1
+A3 s=0 t West
+B3 s=0 t B
+C3 s=0 t H2
+D3 s=0 n 50
+E3 s=0 n 5
+A4 s=0 t East
+B4 s=0 t B
+C4 s=0 t H2
+D4 s=0 n 80
+E4 s=0 n 7
+[Pivot] merges=
+extra: {xl/pivotCache/pivotCacheDefinition1.xml} <pivotCacheDefinition xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" recordCount="0" refreshOnLoad="1"><cacheSource type="worksheet"><worksheetSource ref="A1:E4" sheet="Data"/></cacheSource><cacheFields count="5"><cacheField name="Region" numFmtId="0"><sharedItems/></cacheField><cacheField name="Product" numFmtId="0"><sharedItems/></cacheField><cacheField name="Qtr" numFmtId="0"><sharedItems/></cacheField><cacheField name="Sales" numFmtId="0"><sharedItems/></cacheField><cacheField name="Units" numFmtId="0"><sharedItems/></cacheField></cacheFields></pivotCacheDefinition>

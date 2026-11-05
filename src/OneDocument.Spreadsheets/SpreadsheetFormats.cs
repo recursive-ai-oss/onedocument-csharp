@@ -47,5 +47,6 @@ public static class SpreadsheetFormats
                 workbook.Write(format, destination, cancellationToken);
             },
             formats);
+        registry.RegisterTemplateBinder(Templating.XlsxTemplateBinderAdapter.Instance, formats);
     }
 }
