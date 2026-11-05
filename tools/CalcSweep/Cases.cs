@@ -157,5 +157,133 @@ internal static class Cases
             s["B3"].Formula = "ROWS(A:A)";
             s["B4"].Formula = "SUM(1:1)";
         }),
+        // ---- what-if: iteration, data tables, other workbooks, web calls ---------------------------------------------------------
+        // Open behaviour these settle: how many rounds Excel makes and where it stops (iterate-*), the order cells of one cycle are
+        // calculated in, which input cell takes the top row of a two-variable table, what Excel shows for a link cell its cache lacks,
+        // and what WEBSERVICE gives with no network.
+        ("iterate-self", wb =>
+        {
+            wb.SetIterativeCalculation(true, 100, 0.001);
+            Worksheet s = wb.Sheets[0];
+            s["A1"].Formula = "A1/2+10";
+            s["B1"].Formula = "A1*2";
+        }),
+        ("iterate-count", wb =>
+        {
+            wb.SetIterativeCalculation(true, 5, 0);
+            Worksheet s = wb.Sheets[0];
+            s["A1"].Formula = "A1+1";
+            s["A2"].Formula = "A2*2+1";
+        }),
+        ("iterate-pair-order", wb =>
+        {
+            wb.SetIterativeCalculation(true, 3, 0);
+            Worksheet s = wb.Sheets[0];
+            s["A1"].Formula = "B1+1";
+            s["B1"].Formula = "A1+1";
+            s["A3"].Formula = "B3+1";
+            s["B3"].Formula = "A3+1";
+            s["C3"].Formula = "A3*10+B3";
+        }),
+        ("datatable-column", wb =>
+        {
+            Worksheet s = wb.Sheets[0];
+            s["A1"].SetNumber(2);
+            s["B3"].Formula = "A1*10";
+            s["C3"].Formula = "A1^2";
+            for (int i = 0; i < 3; i++)
+            {
+                s[4 + i, 1].SetNumber(i + 1);
+                s[4 + i, 2].SetNumber(0);
+                s[4 + i, 3].SetNumber(0);
+            }
+
+            s["B4"].FormulaDetail = new CellFormula(string.Empty, CellFormulaKind.DataTable, "B4:C6", -1, "dt2D=\"0\" dtr=\"0\" r1=\"A1\"");
+        }),
+        ("datatable-row", wb =>
+        {
+            Worksheet s = wb.Sheets[0];
+            s["A1"].SetNumber(2);
+            s["A3"].Formula = "A1*10";
+            s["A4"].Formula = "A1^2";
+            for (int i = 0; i < 3; i++)
+            {
+                s[2, 2 + i].SetNumber(i + 1);
+                s[3, 2 + i].SetNumber(0);
+                s[4, 2 + i].SetNumber(0);
+            }
+
+            s["B3"].FormulaDetail = new CellFormula(string.Empty, CellFormulaKind.DataTable, "B3:D4", -1, "dt2D=\"0\" dtr=\"1\" r1=\"A1\"");
+        }),
+        ("datatable-2d", wb =>
+        {
+            Worksheet s = wb.Sheets[0];
+            s["A1"].SetNumber(1);
+            s["B1"].SetNumber(1);
+            s["A3"].Formula = "A1+B1*100";
+            for (int i = 0; i < 2; i++)
+            {
+                s[3, 2 + i].SetNumber(i + 1);
+                s[4 + i, 1].SetNumber((i + 1) * 10);
+                s[4 + i, 2].SetNumber(0);
+                s[4 + i, 3].SetNumber(0);
+            }
+
+            // r1 is the row input cell (fed from the top row), r2 the column input cell (fed from the left column).
+            s["B4"].FormulaDetail = new CellFormula(string.Empty, CellFormulaKind.DataTable, "B4:C5", -1, "dt2D=\"1\" dtr=\"1\" r1=\"A1\" r2=\"B1\"");
+        }),
+        ("external-cached", wb =>
+        {
+            Worksheet s = ExternalLinkCase.Add(wb);
+            s["A1"].Formula = "[1]Sheet1!A1+1";
+            s["A2"].Formula = "SUM([1]Sheet1!A1:A2)";
+            s["A3"].Formula = "[1]Sheet1!B1";
+            s["A4"].Formula = "[1]Sheet1!Z9";
+            s["A5"].Formula = "[1]Sheet1!C1:C2";
+            s["A6"].Formula = "SUM([1]Sheet1!A:A)";
+        }),
+        ("web-offline", wb =>
+        {
+            Worksheet s = wb.Sheets[0];
+            s["A1"].Formula = "WEBSERVICE(\"http://example.invalid/x\")";
+            s["A2"].Formula = "LEN(WEBSERVICE(\"http://example.invalid/x\"))";
+            s["A3"].Formula = "FILTERXML(\"<a><b>1</b></a>\",\"//b\")";
+            s["A4"].Formula = "ISERROR(WEBSERVICE(\"http://example.invalid/x\"))";
+        }),
     ];
+}
+
+/// <summary>Adds an external-link part to a workbook: link 1 to a workbook that is never opened, with five cached cells on <c>Sheet1</c>.</summary>
+internal static class ExternalLinkCase
+{
+    private const string Rel = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/";
+    private const string Main = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+    private const string R = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+
+    public static Worksheet Add(Workbook wb)
+    {
+        var p = wb.Package;
+        const string part = "/xl/externalLinks/externalLink1.xml";
+        string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<externalLink xmlns=\"" + Main + "\" xmlns:r=\"" + R + "\"><externalBook r:id=\"rId1\">"
+            + "<sheetNames><sheetName val=\"Sheet1\"/></sheetNames><sheetDataSet><sheetData sheetId=\"0\">"
+            + "<row r=\"1\"><cell r=\"A1\"><v>5</v></cell><cell r=\"B1\" t=\"str\"><v>hi</v></cell></row><row r=\"2\"><cell r=\"A2\"><v>7</v></cell></row>"
+            + "</sheetData></sheetDataSet></externalBook></externalLink>";
+        p.AddPart(part, "application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml", System.Text.Encoding.UTF8.GetBytes(xml));
+        p.SetRelationships(part, [new RecursiveAI.OneDocument.Packaging.Relationship("rId1", Rel + "externalLinkPath", "Source.xlsx", RecursiveAI.OneDocument.Packaging.RelationshipTargetMode.External)]);
+        var rels = new List<RecursiveAI.OneDocument.Packaging.Relationship>(p.GetRelationships(wb.MainPartName))
+        {
+            new("rIdExt1", Rel + "externalLink", "externalLinks/externalLink1.xml"),
+        };
+        p.SetRelationships(wb.MainPartName, rels);
+        foreach (var c in wb.Markup.Root.ChildElements)
+        {
+            if (c.LocalNameString == "sheets")
+            {
+                c.InsertXmlAfter(System.Text.Encoding.UTF8.GetBytes("<externalReferences xmlns:r=\"" + R + "\"><externalReference r:id=\"rIdExt1\"/></externalReferences>"));
+                break;
+            }
+        }
+
+        return wb.Sheets[0];
+    }
 }

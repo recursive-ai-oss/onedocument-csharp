@@ -31,13 +31,50 @@ internal static class LookupFunctions
         r.Add(FunctionDefinition.Create("ADDRESS", 2, 5, V, Address));
         r.Add(FunctionDefinition.Create("TRANSPOSE", 1, 1, A, Transpose));
         r.Add(FunctionDefinition.Create("HYPERLINK", 1, 2, V, Hyperlink));
-        r.Add(FunctionDefinition.Create("GETPIVOTDATA", 2, int.MaxValue, Any, (_, _) => LookupSupport.Err(CalcError.Ref), repeatLast: true));
+        r.Add(FunctionDefinition.Create("GETPIVOTDATA", 2, int.MaxValue, Any, GetPivotData, repeatLast: true));
         r.Add(FunctionDefinition.Create("TRIMRANGE", 1, 3, [ArgKind.Any, ArgKind.Value, ArgKind.Value], TrimRange));
     }
 
     private static CalcValue Err(CalcError e) => CalcValue.FromError(e);
 
     private static CalcValue Num(int n) => CalcValue.FromNumber(n);
+
+    // Microsoft's GETPIVOTDATA page: data_field, then any cell of the pivot table, then field/item pairs. The pivot table itself is the resolver's
+    // (it reads what the table shows); without one, or when the combination is not shown, the result is #REF!.
+    private static CalcValue GetPivotData(Evaluator ev, ReadOnlySpan<CalcValue> args)
+    {
+        CalcValue name = ev.ToScalar(args[0]);
+        if (name.IsError)
+        {
+            return name;
+        }
+
+        if (args[1].Reference is not { } reference || args.Length % 2 != 0)
+        {
+            return Err(CalcError.Ref);
+        }
+
+        CellArea first = reference.First;
+        var items = new List<KeyValuePair<string, CalcValue>>();
+        for (int i = 2; i + 1 < args.Length; i += 2)
+        {
+            CalcValue field = ev.ToScalar(args[i]);
+            CalcValue item = ev.ToScalar(args[i + 1]);
+            if (field.IsError)
+            {
+                return field;
+            }
+
+            if (item.IsError)
+            {
+                return item;
+            }
+
+            items.Add(new KeyValuePair<string, CalcValue>(CalcConvert.ToText(field), item));
+        }
+
+        return ev.Resolver.GetPivotData(CalcConvert.ToText(name), first.Sheet ?? ev.Origin.Sheet, first.Row1, first.Column1, items);
+    }
 
     // ---- MATCH ------------------------------------------------------------------------------------------------------------
 

@@ -19,6 +19,7 @@
 | `formula` | 1 option byte, UTF-8 formula text | the formula parser and printer: a rejection is a located `formula.` error; text that parses prints back to the same characters in file form, and its printed A1, R1C1, display and translated forms parse again |
 | `funcs` | 2 bytes pick a function, then bytes for the argument count and values | calls of the math, logical, information and text functions with random arguments over a fixed grid: only a typed `OfficeException` may escape; results are finite, never references, and repeat on a second run |
 | `formulaeval` | 1 option byte, UTF-8 formula text | the evaluator over a deterministic grid with small limits: only a typed `OfficeException` may escape; results are finite, never references, and the same on a second run |
+| `finfuncs` | function index, argument count, then typed arguments | the financial, engineering and database functions called with random numbers, pool text, ranges over a small database and omitted arguments: only a typed `OfficeException` may escape; number results are finite, never references, and repeatable |
 | `statfuncs` | function index byte, argument count byte, one byte per argument | random calls of every registered function over a deterministic grid with a fixed clock: only a typed `OfficeException` may escape; no result is a reference or a non-finite number, and a second evaluation gives the same value |
 | `lookups` | a function byte + bytes that make arrays and scalar arguments | the lookup, reference, dynamic-array and LAMBDA-helper functions called over small mixed arrays with small limits: only a typed `OfficeException` may escape, results are never references and repeat on a second run |
 | `pptx` | the presentation part, a slide, its layout, the layout's master and a comments part, separated by NUL bytes | the presentation hub wired from those parts: typed rejections only on reading; text, table-cell, add, duplicate, move and delete edits may refuse with argument or state errors, and every part that parsed before an edit parses after it |
@@ -27,6 +28,7 @@
 | `styles` | a style sheet part | the style model: every cell format resolved, every number format parsed, colours resolved through palette and theme, a format and a differential format added, the part written and read back |
 | `sheetfeat` | a worksheet part | tables, conditional formats and validations of a worksheet read in full, then a validation, a rule, a table and a name added and the file written and read back |
 | `table` | a table part | a table read, restyled, resized and renamed; refusals are typed or documented argument errors |
+| `pivot` | a pivot table definition, or a cache definition and a table definition split by a zero byte | read through the views, refreshed against a small source sheet and written; refusals are typed |
 
 Only `OfficeException` may come out of a library call: it is the typed rejection of bad input. Any other exception, a failed invariant, a hang (`-timeout`) or a memory blow-up (`-rss_limit_mb`) is a finding.
 

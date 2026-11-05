@@ -85,6 +85,17 @@ public interface ICalcResolver
     /// <returns>The cached value, an array of them, or <c>#REF!</c> (the default).</returns>
     CalcValue ResolveExternal(SheetPrefix prefix, FormulaNode node) => CalcValue.FromError(CalcError.Ref);
 
+    /// <summary>Answers <c>WEBSERVICE(url)</c>. The evaluator itself never makes a request; a resolver that wants to supports it here.</summary>
+    /// <param name="url">The address, 1 to 2048 characters.</param>
+    /// <returns>The response text, or <c>#VALUE!</c> (the default, Excel's answer when the service cannot be reached).</returns>
+    CalcValue ResolveWebService(string url) => CalcValue.FromError(CalcError.Value);
+
+    /// <summary>Answers <c>FILTERXML(xml, xpath)</c>. The default denies it, like <see cref="ResolveWebService"/>.</summary>
+    /// <param name="xml">The XML text.</param>
+    /// <param name="xpath">The XPath expression.</param>
+    /// <returns>A value or an array of them, or <c>#VALUE!</c> (the default).</returns>
+    CalcValue ResolveFilterXml(string xml, string xpath) => CalcValue.FromError(CalcError.Value);
+
     /// <summary>Finds the extent of the dynamic-array result anchored at a cell (<c>A1#</c>).</summary>
     /// <param name="sheet">The sheet.</param>
     /// <param name="row">The anchor row.</param>
@@ -153,6 +164,15 @@ public interface ICalcResolver
     /// <param name="sheet">The sheet.</param>
     /// <returns>Empty (the default) for a workbook that has not been saved.</returns>
     string GetFileName(string? sheet) => string.Empty;
+
+    /// <summary>Resolves <c>GETPIVOTDATA</c> against the pivot table that holds a cell: the value the table shows for a data field and field/item pairs.</summary>
+    /// <param name="dataField">The data field's caption or its source field's name.</param>
+    /// <param name="sheet">The sheet of the cell that identifies the pivot table.</param>
+    /// <param name="row">1-based row of that cell.</param>
+    /// <param name="column">1-based column of that cell.</param>
+    /// <param name="items">The field name and item value pairs, in the order written.</param>
+    /// <returns>The value the table shows, or <c>#REF!</c> (the default) when there is no such pivot table or the combination is not shown.</returns>
+    CalcValue GetPivotData(string dataField, string? sheet, int row, int column, IReadOnlyList<KeyValuePair<string, CalcValue>> items) => CalcValue.FromError(CalcError.Ref);
 
     /// <summary>Gives the text <c>INFO</c> returns for a type such as <c>"osversion"</c>.</summary>
     /// <param name="type">The lower-case type name.</param>

@@ -30,6 +30,12 @@ internal static class CalcSmoke
         Check("SEQUENCE(2,3)", "array 2x3");
         Check("TEXT(1234.5,\"#,##0.00\")", "1,234.50");
         Check("IFERROR(1/0,\"e\")", "e");
+        Check("PMT(0,10,1000)", "-100"); // the financial, engineering and database families register through explicit code
+        Check("DEC2HEX(255)", "FF");
+        Check("CONVERT(1,\"km\",\"m\")", "1000");
+        Check("IMSUM(\"1+i\",\"2\")", "3+i");
+        Check("TEXT(BESSELY(1,0),\"0.00000000\")", "0.08825696");
+        Check("DCOUNT(A1:B3,1,A1:A2)", "0");
         Check("ROUND(2.675,2)+MOD(-3,2)", "3.68");
         Check("SUMIF(A1:A3,\">11\")", "52"); // 21 + 31
         Check("TEXTJOIN(\"-\",TRUE,\"a\",\"\",\"b\")", "a-b");

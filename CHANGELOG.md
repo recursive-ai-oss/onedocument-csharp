@@ -4,7 +4,9 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ## [Unreleased]
 
-- Renamed from OneDocument to OneDocument: packages `RecursiveAI.OneDocument*`, namespaces, the `onedocument` tool and the `ONEDOCUMENT_*` environment variables. The `Office` statics and the `Office*` types keep their names.
+- Calculation of what-if features: iterative calculation (`calcPr iterate`, `iterateCount`, `iterateDelta`; `Workbook.SetIterativeCalculation`), data tables (one- and two-variable, calculated in an overlay so the grid is never touched), `Workbook.GoalSeek`, external links (`Workbook.ExternalLinks`; references read the file's cached values, or live workbooks through an opt-in `IExternalWorkbookResolver`, with refreshed values saved back), and `WEBSERVICE`/`FILTERXML` through an opt-in `IWebServiceResolver`. Nothing is opened or fetched unless the caller supplies a resolver.
+
+- Renamed from OneOffice to OneDocument: packages `RecursiveAI.OneDocument*`, namespaces, the `onedocument` tool and the `ONEDOCUMENT_*` environment variables. The `Office` statics and the `Office*` types keep their names.
 
 - The `Office` statics work with no registration call: each kind package compiles a module initializer into the referencing C# project (no reflection; NativeAOT and trimming keep only the referenced kinds). `Register` stays public and may be called any number of times; `OneDocumentAutoRegister=false` opts out.
 - Text boxes as block containers: `Document.TextBoxes()`, `BlockContainer.TextBoxes()`, `Paragraph.TextBoxes()`, `TextBox` (DrawingML and VML, the copy in `mc:Fallback` kept equal on commit, linked chains), and `Document.WrapParagraph`. Tracked changes and edits work on their paragraphs.

@@ -9,7 +9,7 @@ namespace RecursiveAI.OneDocument.Spreadsheets.Calc;
 /// the formulas those edits made dirty, level by level: formulas on one level do not read each other, so a level runs on all the cores
 /// and the answers do not depend on how many there are.
 /// </summary>
-internal sealed class CalcEngine
+internal sealed partial class CalcEngine
 {
     private const byte Clean = 0;
     private const byte Dirty = 1;
@@ -44,8 +44,13 @@ internal sealed class CalcEngine
     private RecalcResult _result = new();
     private List<(int, int, int)> _spillChanged = [];
     private int _evaluated;
+    private IExternalWorkbookResolver? _externalResolver;
+    private IWebServiceResolver? _webResolver;
+    private ExternalBooks _books = null!;
 
     public CalcEngine(Workbook workbook) => _wb = workbook;
+
+    public Workbook Workbook => _wb;
 
     public CalcBook Book { get; private set; } = null!;
 
@@ -236,6 +241,11 @@ internal sealed class CalcEngine
     {
         _result = new RecalcResult();
         _evaluated = 0;
+        _cancel = ct;
+        ReadIterationSettings();
+        _externalResolver = options.ExternalWorkbooks;
+        _webResolver = options.WebServices;
+        _books = new ExternalBooks(_wb, _externalResolver);
         FunctionRegistry registry = options.Functions ?? DefaultRegistry.Value;
         string signature = CalcBook.Signature(_wb);
         bool full = options.Full;
@@ -286,12 +296,20 @@ internal sealed class CalcEngine
         try
         {
             bool all = full;
+            CalcWorker? tableWorker = null;
             List<(int, int, int)> valueSeeds = seeds;
             for (int pass = 1; pass <= MaxPasses; pass++)
             {
                 _result.Passes = pass;
                 _spillChanged = [];
+                int evaluatedBefore = _evaluated;
                 RunPass(all, valueSeeds, pass == 1, dop, options.ParallelThreshold, ct);
+                // Tables are calculated after the formulas they read. A later pass re-runs them only if it calculated something.
+                if (_graph!.DataTables.Count > 0 && (pass == 1 ? all || valueSeeds.Count > 0 || _evaluated > 0 : _evaluated > evaluatedBefore))
+                {
+                    RunDataTables(tableWorker ??= new CalcWorker(this));
+                }
+
                 if (_spillChanged.Count == 0)
                 {
                     break;
@@ -307,6 +325,13 @@ internal sealed class CalcEngine
         }
 
         _result.Evaluated = _evaluated;
+        _result.ExternalResolved = _books.Resolved;
+        _result.ExternalMissing = _books.Missing;
+        if (_externalResolver is not null)
+        {
+            _books.Flush();
+        }
+
         return _result;
     }
 
@@ -374,7 +399,8 @@ internal sealed class CalcEngine
 
                 for (int i = 0; i < count; i++)
                 {
-                    if ((g.Flags[i] & (CalcGraph.FlagDynamic | CalcGraph.FlagVolatile)) != 0)
+                    if ((g.Flags[i] & (CalcGraph.FlagDynamic | CalcGraph.FlagVolatile)) != 0
+                        || ((g.Flags[i] & CalcGraph.FlagExternal) != 0 && (_externalResolver is not null || _webResolver is not null)))
                     {
                         Mark(i);
                     }
@@ -661,13 +687,59 @@ internal sealed class CalcEngine
         Evaluator ev = (g.Flags[n] & (CalcGraph.FlagSpilling | CalcGraph.FlagArray)) != 0 ? w.Dynamic : w.Legacy;
         try
         {
-            return ev.Evaluate(tree, new CalcCell(ws.Name, r, c));
+            w.ServiceDenied = false;
+            CalcValue result = ev.Evaluate(tree, new CalcCell(ws.Name, r, c));
+            if (w.ServiceDenied)
+            {
+                // A web call that was denied: the cell keeps the value the file cached for it, if it has one.
+                w.ServiceDenied = false;
+                if (ws.Store.TryGetCell(r, c, out CellValue cached, out _) && !cached.IsEmpty)
+                {
+                    return NoChange;
+                }
+            }
+
+            return result;
         }
         catch (OfficeLimitException)
         {
             _wb.OpenContext.Defects.Report(new Defect(DefectKind.Limit, "calc.limit-exceeded", DefectSeverity.Repaired,
                 "The formula exceeded a calculation limit; the cell shows #VALUE!.", DefectLocation.InCell(ws.Name, new CellAddress(r, c).ToString())));
             return CalcValue.FromError(CalcError.Value);
+        }
+    }
+
+    // ---- other workbooks and web services -------------------------------------------------------------------------------
+
+    public CalcValue ReadExternal(SheetPrefix prefix, FormulaNode node) => _books.Read(prefix, node);
+
+    public CalcValue WebService(string url)
+    {
+        if (_webResolver is null)
+        {
+            Deny();
+            return CalcValue.FromError(CalcError.Value);
+        }
+
+        return _webResolver.Fetch(url) is { } text ? CalcValue.FromText(text) : CalcValue.FromError(CalcError.Value);
+    }
+
+    public CalcValue FilterXml(string xml, string xpath)
+    {
+        if (_webResolver is null)
+        {
+            Deny();
+            return CalcValue.FromError(CalcError.Value);
+        }
+
+        return _webResolver.FilterXml(xml, xpath) ?? CalcValue.FromError(CalcError.Value);
+    }
+
+    private static void Deny()
+    {
+        if (CalcWorker.Current is { } w)
+        {
+            w.ServiceDenied = true;
         }
     }
 
@@ -753,6 +825,7 @@ internal sealed class CalcEngine
         var onStack = new HashSet<int>();
         var stack = new Stack<int>();
         var cycle = new List<int>();
+        var components = new List<List<int>>();
         int counter = 0;
         foreach (int root in left)
         {
@@ -803,6 +876,7 @@ internal sealed class CalcEngine
                     if (component.Count > 1 || Array.IndexOf(Adj(v), v) >= 0)
                     {
                         cycle.AddRange(component);
+                        components.Add(component);
                     }
                 }
 
@@ -817,6 +891,46 @@ internal sealed class CalcEngine
         if (cycle.Count == 0)
         {
             cycle.Add(left[0]); // cannot happen with a consistent graph; keeps the run moving
+        }
+        else if (_iterate)
+        {
+            // ECMA-376 Part 1 §18.2.2 (calcPr iterate): circular chains are calculated repeatedly instead of being cut. A cycle waits until
+            // everything it reads from outside itself is finished, so cycles that feed each other are iterated in dependency order.
+            var ready = new List<int>();
+            foreach (List<int> comp in components)
+            {
+                var members = new HashSet<int>(comp);
+                bool closed = true;
+                foreach (int m in comp)
+                {
+                    foreach (int d in Adj(m))
+                    {
+                        if (!members.Contains(d))
+                        {
+                            closed = false;
+                            break;
+                        }
+                    }
+
+                    if (!closed)
+                    {
+                        break;
+                    }
+                }
+
+                if (closed)
+                {
+                    comp.Sort();
+                    IterateCycle(comp, w);
+                    ready.AddRange(comp);
+                }
+            }
+
+            if (ready.Count > 0)
+            {
+                ready.Sort();
+                return ready;
+            }
         }
 
         cycle.Sort();
