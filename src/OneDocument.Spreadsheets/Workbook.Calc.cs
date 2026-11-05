@@ -30,6 +30,27 @@ public sealed partial class Workbook
         return _calc.Run(options ?? new RecalcOptions(), cancellationToken);
     }
 
+    /// <summary>
+    /// Evaluates a formula against the cells' present values without calculating anything else: other formula cells are read as stored
+    /// (their cached results), nothing is written, and the dependency graph is not built. This is how a conditional-format rule is
+    /// evaluated for painting.
+    /// </summary>
+    /// <param name="formula">The formula text in file form, A1 references, without a leading <c>=</c>.</param>
+    /// <param name="sheet">The sheet that unqualified references and the evaluation cell belong to.</param>
+    /// <param name="row">The 1-based row of the cell the formula is evaluated for.</param>
+    /// <param name="column">The 1-based column of that cell.</param>
+    /// <param name="originRow">The row the formula text is written relative to (a conditional format's first range starts there); relative references move by the difference to <paramref name="row"/>.</param>
+    /// <param name="originColumn">The column the formula text is written relative to.</param>
+    /// <returns>The value; a formula that does not parse is <c>#NAME?</c>.</returns>
+    /// <exception cref="OfficeLimitException">The formula is past a limit.</exception>
+    public RecursiveAI.OneDocument.Calc.CalcValue EvaluateFormula(string formula, Worksheet sheet, int row, int column, int originRow, int originColumn)
+    {
+        ArgumentNullException.ThrowIfNull(formula);
+        ArgumentNullException.ThrowIfNull(sheet);
+        _calc ??= new CalcEngine(this);
+        return _calc.EvaluateAdHoc(formula, sheet.Name, row, column, originRow, originColumn);
+    }
+
     /// <summary>Calculates every formula, whether or not anything it reads changed. Same as <see cref="Recalculate"/> with <see cref="RecalcOptions.Full"/>.</summary>
     /// <param name="options">Threads and functions; null for the defaults.</param>
     /// <param name="cancellationToken">Cancels between levels of formulas.</param>

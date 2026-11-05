@@ -1,4 +1,5 @@
 using RecursiveAI.OneDocument.Documents;
+using RecursiveAI.OneDocument.Documents.Notes;
 using RecursiveAI.OneDocument.Documents.Numbering;
 using RecursiveAI.OneDocument.Documents.Styles;
 using RecursiveAI.OneDocument.Markup;
@@ -62,6 +63,8 @@ internal enum AtomKind
     LineBreak,
     PageBreak,
     Soft,
+    Math,
+    Object,
 }
 
 // One line-breaking unit: a shaped cluster, a tab, or a break character.
@@ -74,6 +77,7 @@ internal struct Atom
     public double Width;
     public byte Level;
     public bool BreakBefore;
+    public bool Display; // an equation set on its own line
     public AtomKind Kind;
 }
 
@@ -90,6 +94,10 @@ internal sealed class Piece
     public string Text = string.Empty;
     public string? Shown; // what was shaped when the run is drawn in capitals, otherwise null
     public bool IsLabel;
+    public global::RecursiveAI.OneDocument.Rendering.Equations.MathBox? Box; // the laid-out equation of a Math piece
+    public AlignMode MathAlign;
+    public bool Display;
+    public InlineDrawing? Drawing;
     public int ClusterCount;
     public int[] CStart = [];
     public int[] CLength = [];
@@ -118,7 +126,9 @@ internal sealed class LineItem
     public GlyphData? Glyphs;
     public int[] ClusterStarts = [];
     public double[] ClusterX = [];
-    }
+    public InlineDrawing? Drawing;
+    public global::RecursiveAI.OneDocument.Rendering.Equations.MathBox? Math;
+}
 
 internal sealed class FormattedLine
 {
@@ -150,8 +160,12 @@ internal class FormattedParagraph
     public bool Rtl;
     public double BorderTopHeight;
     public double BorderBottomHeight;
+    public bool HasNoteRefs; // the paragraph holds footnote or endnote references
+    public LayoutNoteRole? NoteRole; // set on the paragraphs of an endnote and its separator that flow in the body
+    public long NoteId;
     public double FormattedWidth; // the text width the lines were cut for, so the flow can re-cut them in a column of another width
     public List<FormattedLine> Lines = [];
+    public List<InlineDrawing> Floats = [];
     public ParagraphPaintInfo Paint = new();
 }
 
@@ -188,13 +202,23 @@ internal static class ParagraphFormatter
         double firstStart = hanging > 0 ? leftInd - hanging : leftInd + firstLine;
 
         PageFieldScanner.Prepare(ctx, p);
-        List<(Run Run, string? Link)> runs = CollectRuns(ctx, p);
+        List<(Run? Run, string? Link, OtherInline? Math)> runs = CollectRuns(ctx, p);
         var infos = new List<RunInfo>(runs.Count);
         var text = new System.Text.StringBuilder();
         var charRun = new List<int>();
-        foreach ((Run run, string? link) in runs)
+        Dictionary<int, MathSpan>? maths = null;
+        var drawings = new Dictionary<int, InlineDrawing>();
+        foreach ((Run? run, string? link, OtherInline? mathElement) in runs)
         {
-            RunInfo info = ReadRun(ctx, run, link);
+            if (mathElement is not null)
+            {
+                // Equations take the paragraph's own character formatting; the math runs inside carry their own overrides.
+                maths ??= [];
+                ParagraphMath.Add(ctx, p, mathElement, LabelFormat(ctx, pp, null), width - leftInd - rightInd, text, infos, charRun, maths);
+                continue;
+            }
+
+            RunInfo info = ReadRun(ctx, run!, link);
             if (info.Hidden)
             {
                 // Hidden text takes no space (ECMA-376 Part 1 §17.3.2.41, vanish).
@@ -202,7 +226,15 @@ internal static class ParagraphFormatter
             }
 
             int before = text.Length;
-            AppendRunText(ctx, run, text, p);
+            ctx.PendingNoteLink = null;
+            AppendRunText(ctx, run!, text, p, drawings, fp.Floats);
+            if (ctx.PendingNoteLink is { } noteLink)
+            {
+                // A reference mark links to its note and the note's own mark links back (the PDF backend writes the link when the host declares the target).
+                info.Paint.LinkTarget ??= noteLink;
+                fp.HasNoteRefs |= run is not null && ctx.NoteRefs.ContainsKey(run) && ctx.CurrentNote is null;
+            }
+
             if (text.Length > before)
             {
                 infos.Add(info);
@@ -247,7 +279,7 @@ internal static class ParagraphFormatter
         }
 
         int labelAtoms = atoms.Count;
-        BuildPieces(ctx, paragraphText, charRun, infos, rtl, pieces, atoms, p);
+        BuildPieces(ctx, paragraphText, charRun, infos, rtl, pieces, atoms, p, drawings, maths);
 
         TabStop[] stops = ReadTabs(pp, rtl);
         (double asc, double desc) mark = MarkMetrics(ctx, p, pp);
@@ -426,14 +458,14 @@ internal static class ParagraphFormatter
         return ((m.Ascender + m.LineGap) * s, Math.Abs(m.Descender) * s);
     }
 
-    private static List<(Run, string?)> CollectRuns(LayoutContext ctx, Paragraph p)
+    private static List<(Run? Run, string? Link, OtherInline? Math)> CollectRuns(LayoutContext ctx, Paragraph p)
     {
-        var list = new List<(Run, string?)>();
+        var list = new List<(Run?, string?, OtherInline?)>();
         Walk(ctx, p.Inlines(), null, list, 0);
         return list;
     }
 
-    private static void Walk(LayoutContext ctx, IEnumerable<InlineElement> inlines, string? link, List<(Run, string?)> acc, int depth)
+    private static void Walk(LayoutContext ctx, IEnumerable<InlineElement> inlines, string? link, List<(Run?, string?, OtherInline?)> acc, int depth)
     {
         if (depth > 32)
         {
@@ -445,7 +477,10 @@ internal static class ParagraphFormatter
             switch (e)
             {
                 case Run r:
-                    acc.Add((r, link));
+                    acc.Add((r, link, null));
+                    break;
+                case OtherInline o when ParagraphMath.IsMath(o):
+                    acc.Add((null, link, o));
                     break;
                 case Hyperlink h:
                     string? target = link;
@@ -469,7 +504,7 @@ internal static class ParagraphFormatter
 
     // The characters a run shows. ECMA-376 Part 1 §17.3.3: t is text, tab a tab, br a break (page and column breaks end the page),
     // noBreakHyphen and softHyphen their characters. Drawings and objects are not laid out yet and are reported once.
-    private static void AppendRunText(LayoutContext ctx, Run run, System.Text.StringBuilder sb, Paragraph p)
+    private static void AppendRunText(LayoutContext ctx, Run run, System.Text.StringBuilder sb, Paragraph p, Dictionary<int, InlineDrawing> drawings, List<InlineDrawing> floats)
     {
         if (ctx.RunText is { } replaced && replaced.TryGetValue(run, out string? replacement))
         {
@@ -486,6 +521,18 @@ internal static class ParagraphFormatter
             }
 
             var e = new MarkupRef(n);
+            if (Xml.Eq(e.LocalName, "AlternateContent"))
+            {
+                // A drawing wrapped for older readers: the Choice holds the modern form, the Fallback a legacy picture.
+                MarkupNode alt = AlternateDrawing(n);
+                if (!alt.IsNull)
+                {
+                    AddDrawing(ctx, alt, sb, p, drawings, floats);
+                }
+
+                continue;
+            }
+
             if (e.Namespace != SchemaNamespace.Wordprocessing)
             {
                 continue;
@@ -494,6 +541,19 @@ internal static class ParagraphFormatter
             if (Xml.Eq(e.LocalName, "t"))
             {
                 sb.Append(n.InnerText);
+            }
+            else if (Xml.Eq(e.LocalName, "footnoteReference") || Xml.Eq(e.LocalName, "endnoteReference"))
+            {
+                AppendNoteReference(ctx, run, e, Xml.Eq(e.LocalName, "footnoteReference") ? NoteKind.Footnote : NoteKind.Endnote, sb);
+            }
+            else if (Xml.Eq(e.LocalName, "footnoteRef") || Xml.Eq(e.LocalName, "endnoteRef"))
+            {
+                // ECMA-376 Part 1 §17.11 (footnoteRef), §17.11 (endnoteRef): the note's own number mark, the same text as its reference.
+                if (ctx.CurrentNote is { } current && ctx.NotePlan.TryGet(current.Kind, current.Id, out NoteMark own))
+                {
+                    sb.Append(own.Text);
+                    ctx.PendingNoteLink = "#_" + (current.Kind == NoteKind.Footnote ? "ftnref" : "enref") + current.Id.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                }
             }
             else if (Xml.Eq(e.LocalName, "tab") || Xml.Eq(e.LocalName, "ptab"))
             {
@@ -524,11 +584,79 @@ internal static class ParagraphFormatter
                     sb.Append(SymbolMap.Map(Xml.Attr(e, "font"), code));
                 }
             }
-            else if ((Xml.Eq(e.LocalName, "drawing") || Xml.Eq(e.LocalName, "pict") || Xml.Eq(e.LocalName, "object")) && !Watermarks.IsWatermark(n))
+            else if (Xml.Eq(e.LocalName, "drawing") && !Watermarks.IsWatermark(n))
             {
-                ctx.NoteOnce("layout.drawing-skipped", "layout.drawing-skipped", "Pictures and drawn objects in paragraphs are not laid out yet; their space is not reserved.", p);
+                AddDrawing(ctx, n, sb, p, drawings, floats);
+            }
+            else if ((Xml.Eq(e.LocalName, "pict") || Xml.Eq(e.LocalName, "object")) && !Watermarks.IsWatermark(n))
+            {
+                ctx.NoteOnce("layout.drawing-skipped", "layout.drawing-skipped", "Legacy pictures and embedded objects in paragraphs are not laid out yet; their space is not reserved.", p);
             }
         }
+    }
+
+    // ECMA-376 Part 1 §17.11 (footnoteReference), §17.11 (endnoteReference): the reference mark shows the note's number in the
+    // note's number format. With customMarkFollows the text that follows in the run is the mark and no number is used. Word allows no
+    // notes in headers, footers or in other notes, so references there show nothing.
+    private static void AppendNoteReference(LayoutContext ctx, Run run, MarkupRef e, NoteKind kind, System.Text.StringBuilder sb)
+    {
+        if (ctx.PageFields is not null || ctx.CurrentNote is not null || Xml.Long(Xml.Attr(e, "id")) is not { } id || !ctx.NotePlan.TryGet(kind, id, out NoteMark mark))
+        {
+            return;
+        }
+
+        ctx.NoteRefs[run] = new NoteKey(kind, id);
+        sb.Append(mark.Text);
+        ctx.PendingNoteLink = "#_" + (kind == NoteKind.Footnote ? "ftn" : "en") + id.ToString(System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    private static MarkupNode AlternateDrawing(MarkupNode alternate)
+    {
+        foreach (MarkupNode branch in alternate.ChildElements)
+        {
+            foreach (MarkupNode child in branch.ChildElements)
+            {
+                if (child.LocalNameString == "drawing" && branch.LocalNameString == "Choice")
+                {
+                    return child;
+                }
+            }
+        }
+
+        foreach (MarkupNode branch in alternate.ChildElements)
+        {
+            foreach (MarkupNode child in branch.ChildElements)
+            {
+                if (child.LocalNameString == "drawing")
+                {
+                    return child;
+                }
+            }
+        }
+
+        return default;
+    }
+
+    // ECMA-376 Part 1 §20.4.2.8 (inline) and §20.4.2.3 (anchor): an inline drawing takes a character's place in the line; an anchored one
+    // is painted at its position and the text does not wrap around it yet.
+    private static void AddDrawing(LayoutContext ctx, MarkupNode drawing, System.Text.StringBuilder sb, Paragraph p, Dictionary<int, InlineDrawing> drawings, List<InlineDrawing> floats)
+    {
+        if (RecursiveAI.OneDocument.Rendering.Drawing.DrawingInfo.Read(drawing) is not { } info)
+        {
+            ctx.NoteOnce("layout.drawing-skipped", "layout.drawing-skipped", "A drawing without an inline or anchor extent is not laid out.", p);
+            return;
+        }
+
+        var item = new InlineDrawing(drawing, info, ctx.Drawings);
+        if (info.Inline)
+        {
+            drawings[sb.Length] = item;
+            sb.Append('\uFFFC');
+            return;
+        }
+
+        floats.Add(item);
+        ctx.NoteOnce("layout.anchored-drawing-unwrapped", "layout.anchored-drawing-unwrapped", "Anchored drawings are painted at their position; text does not wrap around them yet.", p);
     }
 
     private static RunInfo ReadRun(LayoutContext ctx, Run run, string? link)
@@ -669,7 +797,7 @@ internal static class ParagraphFormatter
         return piece;
     }
 
-    private static (string Family, double Size, bool Bold, bool Italic, uint Color) LabelFormat(LayoutContext ctx, ResolvedParagraphProperties pp, ListLabel label)
+    internal static (string Family, double Size, bool Bold, bool Italic, uint Color) LabelFormat(LayoutContext ctx, ResolvedParagraphProperties pp, ListLabel? label)
     {
         double size = 10;
         string family = "Times New Roman";
@@ -683,7 +811,7 @@ internal static class ParagraphFormatter
             ApplyLabelProps(ctx, rp.Get, ref size, ref family, ref bold, ref italic, ref color);
         }
 
-        if (label.Definition.RunProperties is { } lvlRpr)
+        if (label?.Definition.RunProperties is { } lvlRpr)
         {
             foreach (MarkupRef e in Xml.Elements(lvlRpr))
             {
@@ -780,7 +908,7 @@ internal static class ParagraphFormatter
         return Category.HighAnsi;
     }
 
-    private static void BuildPieces(LayoutContext ctx, string text, List<int> charRun, List<RunInfo> infos, bool rtl, List<Piece> pieces, List<Atom> atoms, Paragraph p)
+    private static void BuildPieces(LayoutContext ctx, string text, List<int> charRun, List<RunInfo> infos, bool rtl, List<Piece> pieces, List<Atom> atoms, Paragraph p, Dictionary<int, InlineDrawing> drawings, Dictionary<int, MathSpan>? maths)
     {
         if (text.Length == 0)
         {
@@ -797,6 +925,24 @@ internal static class ParagraphFormatter
             char ch = text[i];
             int runIndex = charRun[i];
             RunInfo info = infos[runIndex];
+            if (maths is not null && maths.TryGetValue(i, out MathSpan? span))
+            {
+                pieces.Add(ParagraphMath.MakePiece(span, info, i, paragraphLevel));
+                atoms.Add(ParagraphMath.MakeAtom(span, pieces.Count - 1, i, paragraphLevel, opps[i] != global::OneFont.LineBreakOpportunity.None));
+                i += span.Length;
+                continue;
+            }
+
+            if (ch == '\uFFFC' && drawings.TryGetValue(i, out InlineDrawing? drawing))
+            {
+                // An inline drawing is one unbreakable box that sits on the baseline. ECMA-376 Part 1 §20.4.2.8 (inline).
+                var box = new Piece { Kind = AtomKind.Object, Run = info, Start = i, Length = 1, Level = paragraphLevel, Size = info.Size, Text = "\uFFFC", Drawing = drawing };
+                pieces.Add(box);
+                atoms.Add(new Atom { Piece = pieces.Count - 1, TextStart = i, TextLength = 1, Kind = AtomKind.Object, Level = levels[i], BreakBefore = opps[i] != global::OneFont.LineBreakOpportunity.None, Width = drawing.Info.Width });
+                i++;
+                continue;
+            }
+
             if (ch is '\t' or '\n' or '\f' or '\u000E' or '\u00AD')
             {
                 AtomKind kind = ch switch
@@ -1060,6 +1206,12 @@ internal static class ParagraphFormatter
                 lastOpp = i;
             }
 
+            if (a.Kind == AtomKind.Math && a.Display)
+            {
+                // A display equation has its own line: whatever precedes it ends the line before it, and it ends its own.
+                return i > start ? i : i + 1;
+            }
+
             if (a.Kind == AtomKind.LineBreak)
             {
                 hardBreak = true;
@@ -1194,6 +1346,12 @@ internal static class ParagraphFormatter
         (double Ascent, double Descent) mark, string paragraphText)
     {
         int count = end - start;
+        if (count == 1 && atoms[start].Kind == AtomKind.Math && atoms[start].Display)
+        {
+            // ECMA-376 Part 1 §22.1.2.57 (jc): a display equation is placed by its own justification, not the paragraph's.
+            align = pieces[atoms[start].Piece].MathAlign;
+        }
+
         // Positions along the flow for each atom, in logical order, and the width the line's content takes.
         var widths = new double[count];
         var leaders = new string[count];
@@ -1207,7 +1365,7 @@ internal static class ParagraphFormatter
             widths[k] = w;
             leaders[k] = leader;
             x += w;
-            if (a.Kind is AtomKind.Glyphs or AtomKind.Tab)
+            if (a.Kind is AtomKind.Glyphs or AtomKind.Tab or AtomKind.Math or AtomKind.Object)
             {
                 lastVisible = k;
             }
@@ -1300,6 +1458,20 @@ internal static class ParagraphFormatter
         {
             Atom a = atoms[start + k];
             Piece pc = pieces[a.Piece];
+            if (pc.Kind == AtomKind.Math && pc.Box is { } mathBox)
+            {
+                asc = Math.Max(asc, mathBox.Ascent);
+                desc = Math.Max(desc, mathBox.Descent);
+                continue;
+            }
+
+            if (a.Kind == AtomKind.Object)
+            {
+                // The box rests on the baseline, so it only adds to the height above it.
+                asc = Math.Max(asc, pc.Drawing!.Info.Height);
+                continue;
+            }
+
             if (pc.Font is null && pc.Faces.Length == 0)
             {
                 continue;
@@ -1385,6 +1557,22 @@ internal static class ParagraphFormatter
                 continue;
             }
 
+            if (first.Kind == AtomKind.Math)
+            {
+                line.Items.Add(new LineItem { Kind = LayoutRunKind.Math, X = cx, Width = visualWidth[v0], Text = pc.Text, TextStart = first.TextStart, Size = pc.Size, Level = first.Level, Paint = pc.Run!.Paint, Math = pc.Box });
+                cx += visualWidth[v0];
+                v0++;
+                continue;
+            }
+
+            if (first.Kind == AtomKind.Object)
+            {
+                line.Items.Add(new LineItem { Kind = LayoutRunKind.Drawing, X = cx, Width = visualWidth[v0], Text = "\uFFFC", TextStart = first.TextStart, Source = pc.Run?.Source, Size = pc.Size, Level = first.Level, Paint = pc.Run?.Paint ?? new RunPaintInfo(), Drawing = pc.Drawing });
+                cx += visualWidth[v0];
+                v0++;
+                continue;
+            }
+
             if (first.Kind == AtomKind.Tab)
             {
                 line.Items.Add(new LineItem { Kind = LayoutRunKind.Tab, X = cx, Width = visualWidth[v0], Text = "\t", TextStart = first.TextStart, Source = pc.Run?.Source, Size = pc.Size, Level = first.Level, Paint = WithLeader(pc.Run?.Paint, leaders[k0]) });
@@ -1398,7 +1586,7 @@ internal static class ParagraphFormatter
             while (v1 < count)
             {
                 Atom b = atoms[start + order[v1]];
-                if (b.Piece != first.Piece || b.Kind is AtomKind.Tab or AtomKind.LineBreak or AtomKind.PageBreak or AtomKind.Soft || pc.CFace[b.Cluster] != face)
+                if (b.Piece != first.Piece || b.Kind is AtomKind.Tab or AtomKind.LineBreak or AtomKind.PageBreak or AtomKind.Soft or AtomKind.Object || pc.CFace[b.Cluster] != face)
                 {
                     break;
                 }

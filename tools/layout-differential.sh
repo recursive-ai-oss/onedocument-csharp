@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Layout differential: renders the generated layout cases with OneDocument, asks the Word oracle for its own PDF export of the
-# same files, and compares page counts and per-page text lines.
+# Layout differential: renders the generated layout cases (documents and workbooks) with OneDocument, asks the Word and Excel oracle for
+# their own PDF export of the same files, and compares page counts and per-page text lines.
 #
 #   layout-differential.sh [OUTDIR]
 #
@@ -16,7 +16,7 @@ set -euo pipefail
 
 here=$(cd "$(dirname "$0")" && pwd)
 out=${1:-${ONEDOCUMENT_HOME:?set ONEDOCUMENT_HOME or pass OUTDIR}/results/layout}
-mkdir -p "$out/cases" "$out/ours" "$out/word"
+mkdir -p "$out/cases" "$out/ours" "$out/word" "$out/powerpoint"
 probe=(dotnet run --project "$here/LayoutProbe" -c Release --)
 
 "${probe[@]}" gen "$out/cases"
@@ -24,10 +24,18 @@ IFS=: read -r -a fonts <<< "${ONEDOCUMENT_FONTS:-}"
 "${probe[@]}" render "$out/cases" "$out/ours" "${fonts[@]}"
 
 "$here/office-oracle/office-oracle.sh" run --run layout --instance "${ONEDOCUMENT_INSTANCE:-onedocument}" --pdf --out "$out/oracle" "$out/cases"
-for f in "$out"/oracle/*.word.pdf; do
+for f in "$out"/oracle/*.word.pdf "$out"/oracle/*.excel.pdf; do
   [ -e "$f" ] || continue
-  name=$(basename "$f" .word.pdf)
+  name=$(basename "$f")
+  name=${name%.word.pdf}
+  name=${name%.excel.pdf}
   cp "$f" "$out/word/$name.pdf"
+done
+
+# Presentations have no renderer of ours yet: PowerPoint's own PDFs are kept in powerpoint/ for the slide stage to compare against.
+for f in "$out"/oracle/*.powerpoint.pdf; do
+  [ -e "$f" ] || continue
+  cp "$f" "$out/powerpoint/$(basename "$f" .powerpoint.pdf).pdf"
 done
 
 # Exit status 1 means some page count differs; the summary lines are kept either way.

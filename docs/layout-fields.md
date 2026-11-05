@@ -63,7 +63,7 @@ follow the pages like `PAGEREF` does.
 | `PAGE` | the printed number of the page (§17.16.5.44) in the section's `pgNumType` format; in the body, the page of the paragraph the field is in |
 | `NUMPAGES`, `SECTIONPAGES`, `SECTION` | page count, pages of the section, section number (§17.16.5.42, .54, .55) |
 | `PAGEREF` | the printed page of the bookmark in the format of that page; `\p` gives `above`/`below` on the same page and `on page N` on another (§17.16.5.45); `\h` has no effect on the text |
-| `NOTEREF` | the mark of the footnote or endnote referenced inside the bookmark, numbered from the notes numbering of the document (format, start, restart per section; a restart on every page counts through the document and adds `layout.noteref-page-restart`); `\p` as `REF` |
+| `NOTEREF` | the mark the note prints (the numbering the notes are laid out with: format, start, restart per section or page, custom marks), for the note referenced inside the bookmark; `\p` as `REF` |
 | `REF` | the text of the bookmark (a SEQ result inside it is the computed number); `\n` the paragraph number without trailing periods, `\r` the levels the field's paragraph does not share, `\w` all levels, the levels joined as written (`1.` `a.` `i.` read `1.a.i`); `\p` gives `above` (the bookmark is before the field) or `below`, and after a number switch it is appended (`i above`) (§17.16.5.51) |
 | `STYLEREF` | in a header or footer: the first (`\l`: last) text of the style on the page, else the nearest before the page, else after; in the body: the nearest before the field, else after (`\l`: after, else before); paragraph styles give the paragraph text, character styles the first or last stretch of runs; `\n`, `\r`, `\w`, `\p` as `REF` (§17.16.5.59) |
 | `SEQ` | a counter per identifier in document order; `\c` repeats, `\r n` resets, `\h` hides unless a `\*` switch is present (the number still counts), `\s n` restarts at each heading of level *n*; a SEQ inside the stored result of a TOC, index, `REF`, `STYLEREF` or `PAGEREF` is a copy and does not count (§17.16.5.56) |
@@ -85,7 +85,7 @@ A reference to a bookmark that does not exist keeps the stored result and adds `
 
 ## Notes
 
-`layout.fields-unsettled`, `layout.field-source-missing`, `layout.field-skipped`, `layout.noteref-page-restart`.
+`layout.fields-unsettled`, `layout.field-source-missing`, `layout.field-skipped`.
 
 ## Open points (to check against Word)
 

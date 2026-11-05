@@ -19,6 +19,9 @@ internal sealed class FieldEnv
     /// <summary>Set when a field looked at the facts (or would have, on the first pass), so another pass is worth running.</summary>
     public bool UsedFacts;
 
+    /// <summary>The numbering of notes in this pass (the marks the notes print).</summary>
+    public NotePlan? Notes;
+
     public bool Update => Options.UpdateFields;
 
     public IReadOnlyList<RecursiveAI.OneDocument.Documents.Numbering.ListLabel> Labels

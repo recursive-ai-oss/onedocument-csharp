@@ -103,9 +103,14 @@ internal sealed class WordTextExtractor
                 _alternate.OnStart(r, name);
                 return;
             case NsKind.Math:
-                if (start && name.SequenceEqual("t"u8))
+                if (_depth > 0 && (name.SequenceEqual("oMath"u8) || name.SequenceEqual("oMathPara"u8)))
                 {
-                    _collect = _deletedDepth == 0 || _options.IncludeDeletedText;
+                    // An equation is written as its linear text (UnicodeMath style), not as the loose characters of its runs.
+                    string linear = Equations.MathLinearizer.Linearize(Equations.OmmlReader.ReadStream(r));
+                    if (_deletedDepth == 0 || _options.IncludeDeletedText)
+                    {
+                        Target().Append(linear.AsSpan());
+                    }
                 }
 
                 return;

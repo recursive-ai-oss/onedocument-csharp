@@ -60,6 +60,8 @@ internal static class ParagraphEmitter
                     ClusterX = [.. item.ClusterX.Select(v => v + left)],
                     Paint = item.Paint,
                     Glyphs = item.Glyphs,
+                    Math = item.Math,
+                    Drawing = item.Drawing,
                 };
                 line.Add(run);
                 minX = Math.Min(minX, left + item.X);
@@ -84,6 +86,11 @@ internal static class ParagraphEmitter
         if (last)
         {
             y += fp.BorderBottomHeight;
+        }
+
+        if (first)
+        {
+            lp.Floats.AddRange(fp.Floats);
         }
 
         lp.Bounds = new LayoutRect(left + fp.Paint.LeftEdge, top, Math.Max(0, fp.Paint.RightEdge - fp.Paint.LeftEdge), y - top);

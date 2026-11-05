@@ -191,12 +191,8 @@ internal static class FieldEvaluator
             return env.Update ? SourceMissing : null;
         }
 
-        if (env.Model.NotesRestartEachPage(kind))
-        {
-            site.Ctx.NoteOnce("layout.noteref-page-restart", "layout.noteref-page-restart", "Notes restart on every page; NOTEREF numbers count through the document.", site.Paragraph);
-        }
-
-        return env.Model.TryNoteNumber(kind, bm.NoteId, out string text) ? Finish(text, f) : null;
+        // The mark the note prints, from the same numbering the notes are laid out with.
+        return env.Notes is { } plan && plan.TryGet(kind, bm.NoteId, out NoteMark mark) ? Finish(mark.Text, f) : null;
     }
 
     // ECMA-376 Part 1 §17.16.5.51 (REF): the text of a bookmark, or with \n, \r and \w its paragraph number; \p gives "above" or "below".

@@ -6,7 +6,7 @@ namespace RecursiveAI.OneDocument.Layout;
 /// <summary>
 /// Lays a document out into pages: sections with their page sizes, margins and columns, headers and footers with page numbers, page
 /// borders, watermarks and line numbers, and the paragraphs with widow and orphan control, keep-with-next, keep-lines-together and
-/// page-break-before. Tables (see docs/layout-tables.md); floating objects, notes and fields other than page numbers are later stages and are reported in
+/// page-break-before. Tables (see docs/layout-tables.md); footnotes and endnotes (see docs/layout.md); floating objects and fields other than page numbers are later stages and are reported in
 /// <see cref="LayoutDocument.Notes"/>.
 /// </summary>
 public static partial class LayoutEngine
@@ -25,7 +25,7 @@ public static partial class LayoutEngine
         CompatSettings compat = CompatSettings.Read(document);
         if (compat.UpdateFields && !opt.UpdateFields)
         {
-            // ECMA-376 Part 1 §17.15.1.92 (updateFields): the file asks for its fields to be updated when it is opened, as Word then does.
+            // ECMA-376 Part 1 §17.15.1.90 (updateFields): the file asks for its fields to be updated when it is opened, as Word then does.
             opt = opt.WithUpdateFields();
         }
 
@@ -43,14 +43,16 @@ public static partial class LayoutEngine
         IReadOnlyDictionary<string, DocumentFontInfo> fontTable = DocumentFonts.ReadFontTable(work);
         Document? copy = ReferenceEquals(work, document) ? null : work;
 
-        // Layout runs again with the facts of the pass before until a pass produces the facts it was given: page numbers that move
-        // text that moves page numbers settle, or after MaxFieldPasses the last pass stands with a note.
+        // One loop for everything that needs the pages of the pass before: field facts (page numbers that move text that moves page
+        // numbers) and footnote numbers that restart on each page. A pass stands when it reproduces what it was given.
         FieldFacts? facts = null;
+        Dictionary<NoteKey, int>? notePages = null;
         int maxPasses = Math.Clamp(opt.MaxFieldPasses, 1, 50);
         for (int pass = 1; ; pass++)
         {
             var env = new FieldEnv { Doc = work, Model = model, Options = opt, Facts = facts };
-            var ctx = new LayoutContext(work, fonts, compat, fontTable) { Fields = env };
+            var ctx = new LayoutContext(work, fonts, compat, fontTable) { Fields = env, NotePlan = NotePlan.Build(work, work.Sections, notePages) };
+            env.Notes = ctx.NotePlan;
             ctx.Notes.AddRange(pending);
             var flow = new Flow(ctx, opt, facts?.Totals, probe: false);
             IReadOnlyList<Section> sections = work.Sections;
@@ -66,24 +68,28 @@ public static partial class LayoutEngine
             }
 
             flow.Finish();
-            if (!env.UsedFacts)
+            // Footnote numbers that restart on each page depend on where the references land.
+            bool notesSettled = !ctx.NotePlan.UsesPageRestart || ctx.NoteRefPages.Count == (notePages?.Count ?? -1) && ctx.NoteRefPages.All(p => notePages!.TryGetValue(p.Key, out int pg) && pg == p.Value);
+            FieldFacts? built = env.UsedFacts ? FieldFacts.Build(flow.Pages, model, PageTotals.Of(flow.Pages, sections.Count), work) : null;
+            bool fieldsSettled = built is null || (facts is not null && facts.Equals(built));
+            int limit = Math.Max(env.UsedFacts ? maxPasses : 1, ctx.NotePlan.UsesPageRestart ? 4 : 1);
+            if ((fieldsSettled && notesSettled) || pass >= limit)
             {
-                return new LayoutDocument(flow.Pages, ctx.FontNotes, ctx.Notes, ctx.Compat.Mode, pass, copy);
-            }
+                if (!fieldsSettled)
+                {
+                    ctx.Notes.Add(new LayoutNote("layout.fields-unsettled", $"Page-dependent fields still changed the pages after {pass} passes; the last pass stands.", null));
+                }
 
-            FieldFacts built = FieldFacts.Build(flow.Pages, model, PageTotals.Of(flow.Pages, sections.Count), work);
-            if (facts is not null && facts.Equals(built))
-            {
-                return new LayoutDocument(flow.Pages, ctx.FontNotes, ctx.Notes, ctx.Compat.Mode, pass, copy);
-            }
+                if (!notesSettled)
+                {
+                    ctx.NoteOnce("layout.note-numbering-unsettled", "layout.note-numbering-unsettled", "Footnote numbers that restart on each page did not settle after four layout passes; the last pass is used.", null);
+                }
 
-            if (pass >= maxPasses)
-            {
-                ctx.Notes.Add(new LayoutNote("layout.fields-unsettled", $"Page-dependent fields still changed the pages after {pass} passes; the last pass stands.", null));
                 return new LayoutDocument(flow.Pages, ctx.FontNotes, ctx.Notes, ctx.Compat.Mode, pass, copy);
             }
 
             facts = built;
+            notePages = new Dictionary<NoteKey, int>(ctx.NoteRefPages);
         }
     }
 
@@ -125,6 +131,12 @@ public static partial class LayoutEngine
             if (_pages.Count == 0)
             {
                 // An empty document still has one page.
+                StartPage();
+            }
+
+            // Footnote text that did not fit continues on pages of its own; each page takes at least one more line of it.
+            while (_carry.Count > 0 && !Stopped && !probe)
+            {
                 StartPage();
             }
 
@@ -293,15 +305,16 @@ public static partial class LayoutEngine
                 double avail = _limitBottom - (_y + (placed == 0 ? gap : 0));
                 double remainingHeight = Total(fp, placed, fp.Lines.Count - placed, includeTop: placed == 0);
                 int count;
-                if (remainingHeight <= avail + 0.01)
+                bool withNotes = fp.HasNoteRefs && NotesActive;
+                if (!withNotes && remainingHeight <= avail + 0.01)
                 {
                     count = fp.Lines.Count - placed;
                 }
                 else
                 {
-                    count = FitLines(fp, placed, avail);
+                    count = withNotes ? FitLinesNotes(fp, placed, placed == 0 ? gap : 0) : FitLines(fp, placed, avail);
                     int remainingLines = fp.Lines.Count - placed;
-                    bool keepTogether = fp.KeepLines && placed == 0;
+                    bool keepTogether = fp.KeepLines && placed == 0 && count < remainingLines;
                     if (fp.WidowControl && count < remainingLines)
                     {
                         // Orphan control keeps two lines at the bottom, widow control two at the top of the next page.
@@ -328,7 +341,7 @@ public static partial class LayoutEngine
                             continue;
                         }
 
-                        count = Math.Max(1, FitLines(fp, placed, avail));
+                        count = Math.Max(1, withNotes ? FitLinesNotes(fp, placed, placed == 0 ? gap : 0) : FitLines(fp, placed, avail));
                     }
                 }
 
@@ -420,6 +433,12 @@ public static partial class LayoutEngine
             LayoutParagraph lp = ParagraphEmitter.Build(fp, from, count, _colX, top, first, last, out double y, out bool breakAfter);
             lp.Story = _story;
             lp.Column = _colIndex;
+            if (fp.NoteRole is { } noteRole)
+            {
+                lp.NoteRole = noteRole;
+                lp.NoteId = fp.NoteId;
+            }
+
             bool columnBreak = false;
             if (breakAfter)
             {
@@ -446,6 +465,19 @@ public static partial class LayoutEngine
             }
 
             page.Add(lp);
+            if (_story == LayoutStory.Body && !probe)
+            {
+                if (fp.HasNoteRefs)
+                {
+                    CommitNoteRefs(fp, from, lp);
+                }
+
+                if (fp.NoteRole == LayoutNoteRole.Separator)
+                {
+                    AddEndnoteRule(page, lp);
+                }
+            }
+
             _y = y;
             _pageHasContent = true;
             _honourSpaceBefore = true;

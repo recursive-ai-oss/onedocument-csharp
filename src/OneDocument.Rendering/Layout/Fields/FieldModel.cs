@@ -46,7 +46,6 @@ internal sealed class FieldModel
     private readonly HashSet<int> _paragraphsWithFields = [];
     private int[]? _outline;
     private int[] _sectionOf = [];
-    private readonly List<(NoteKind Kind, long Id, int Paragraph)> _noteReferences = [];
 
     private FieldModel(Document doc)
     {
@@ -326,12 +325,6 @@ internal sealed class FieldModel
             {
                 NoteKind kind = local.SequenceEqual("footnoteReference"u8) ? NoteKind.Footnote : NoteKind.Endnote;
                 long id = long.TryParse(c.GetAttribute(c.NamespaceUri, "id"), System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out long v) ? v : 0;
-                bool custom = c.GetAttribute(c.NamespaceUri, "customMarkFollows") is "1" or "true" or "on";
-                if (!custom)
-                {
-                    _noteReferences.Add((kind, id, paragraph));
-                }
-
                 foreach (BookmarkInfo b in _open)
                 {
                     if (b.NoteKind is null)
@@ -543,43 +536,4 @@ internal sealed class FieldModel
 
         return false;
     }
-
-    // --- notes -----------------------------------------------------------------------------------------------------------------
-
-    /// <summary>
-    /// The number a note reference prints (ECMA-376 Part 1 §17.11): references count in document order from the start value, restarting at each
-    /// section when the numbering says so. Per-page restarts need the pages and are not applied (the count continues).
-    /// </summary>
-    public bool TryNoteNumber(NoteKind kind, long id, out string text)
-    {
-        text = string.Empty;
-        EffectiveNoteNumbering eff = NoteNumbering.Combine(null, Doc.GetNoteNumbering(kind));
-        long n = eff.Start - 1;
-        int section = -1;
-        foreach ((NoteKind k, long refId, int paragraph) in _noteReferences)
-        {
-            if (k != kind)
-            {
-                continue;
-            }
-
-            int s = SectionOf(paragraph);
-            if (eff.Restart == NoteRestart.EachSection && s != section)
-            {
-                n = eff.Start - 1;
-            }
-
-            section = s;
-            n++;
-            if (refId == id)
-            {
-                text = NumberFormatter.Format(eff.Format, n).Text;
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public bool NotesRestartEachPage(NoteKind kind) => NoteNumbering.Combine(null, Doc.GetNoteNumbering(kind)).Restart == NoteRestart.EachPage;
 }
