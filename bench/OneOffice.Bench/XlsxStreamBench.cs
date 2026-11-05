@@ -206,9 +206,12 @@ public static class XlsxStreamBench
         long alloc = 0;
         long checksum = 0;
         long fileBytes = 0;
-        for (int i = 0; i <= reps; i++)
+        // Whole-model rows run big loops that the runtime only promotes to optimised code after a couple of runs, so they warm up three times;
+        // the streaming rows reach steady state after one.
+        int warmups = model ? 3 : 1;
+        for (int i = 0; i < warmups + reps; i++)
         {
-            // Repetition 0 is a warm-up: the JIT and the first read of the file are not what is measured.
+            // The first repetitions are warm-ups: the JIT and the first read of the file are not what is measured.
             GC.Collect();
             long a0 = GC.GetTotalAllocatedBytes(true);
             var sw = Stopwatch.StartNew();
@@ -237,7 +240,7 @@ public static class XlsxStreamBench
                 Console.Error.WriteLine(string.Create(CultureInfo.InvariantCulture, $"{row} rep {i}: {ms:F1} ms, gen0/1/2 collections {GC.CollectionCount(0)}/{GC.CollectionCount(1)}/{GC.CollectionCount(2)}"));
             }
 
-            if (i > 0)
+            if (i >= warmups)
             {
                 times.Add(ms);
                 alloc = a1 - a0;
