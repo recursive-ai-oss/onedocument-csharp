@@ -1,5 +1,5 @@
 [North] merges=
-A1 s=0 t {% for r in regions scope=sheet %}Name
+A1 s=0 t Name
 B1 s=0 t Total
 A2 s=0 t North
 B2 s=0 n 10

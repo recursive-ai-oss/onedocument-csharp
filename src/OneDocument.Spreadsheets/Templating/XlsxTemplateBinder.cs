@@ -904,8 +904,46 @@ public static class XlsxTemplateBinder
                 CellRange r = t.Range;
                 if (MapRange(plan, o, r) is { } nr && nr.IsValid)
                 {
+                    if (t.HeaderRowCount > 0)
+                    {
+                        NameColumnsFromHeader(target, t, nr);
+                    }
+
                     t.Resize(nr);
                 }
+            }
+        }
+    }
+
+    // ECMA-376 Part 1 §18.5.1.3: a table's column names are the texts of its header cells. A header that holds a tag has been rendered by now,
+    // so the columns take the rendered text instead of the cells being overwritten with the template's.
+    private static void NameColumnsFromHeader(Worksheet target, Table table, CellRange range)
+    {
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        int column = range.TopLeft.Column;
+        foreach (TableColumn c in table.Columns)
+        {
+            CellValue v = target[range.TopLeft.Row, column++].Value;
+            string? name = v.Kind switch
+            {
+                CellValueKind.Text => target.GetText(v),
+                CellValueKind.Number => v.Number.ToString("R", CultureInfo.InvariantCulture),
+                _ => null,
+            };
+            if (string.IsNullOrEmpty(name))
+            {
+                name = c.Name;
+            }
+
+            string unique = name;
+            for (int n = 2; !seen.Add(unique); n++)
+            {
+                unique = name + n.ToString(CultureInfo.InvariantCulture);
+            }
+
+            if (unique != c.Name)
+            {
+                c.Markup.SetAttribute("name", unique);
             }
         }
     }

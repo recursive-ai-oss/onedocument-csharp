@@ -239,9 +239,17 @@ public partial class XlsxTemplateTests
             s.Validations.Add(CellRange.Parse("B2:B2"), DataValidationSpec.List("a", "b"));
             Frame(s, "pageMargins", "<pageMargins xmlns=\"" + Main + "\" left=\"0.5\" right=\"0.5\" top=\"0.75\" bottom=\"0.75\" header=\"0.3\" footer=\"0.3\"/>");
             Frame(s, "pageSetup", "<pageSetup xmlns=\"" + Main + "\" orientation=\"landscape\"/>");
-            AddChart(wb, s, "Sheet1", "$A$2:$A$2", "$B$2:$B$2");
+            AddChart(wb, s, "'{{ r.name }}'", "$A$2:$A$2", "$B$2:$B$2");
         }, regions, wb => string.Join(";", wb.Sheets.Select(x => x.Name + ":" + string.Join(",", x.Tables.Select(t => t.Name + "=" + t.Range)))) + "\n"
             + string.Join("\n", wb.Sheets.Select(x => x.Name + " " + Parts(wb, "xl/worksheets/sheet" + (x.Index + 1) + ".xml").Split("</sheetData>").Last().Replace("</worksheet>", string.Empty))));
+
+        yield return new("table-header-tags", wb =>
+        {
+            Worksheet s = First(wb);
+            Put(s, "A1", "{{ h1 }}"); Put(s, "B1", "{{ h2 }}");
+            Put(s, "A2", "{% for it in items %}{{ it.name }}"); Put(s, "B2", "{{ it.qty }}{% endfor %}");
+            s.Tables.Add("Parts", CellRange.Parse("A1:B2"));
+        }, """{"h1":"Part","h2":"Count","items":[{"name":"Bolt","qty":3},{"name":"Nut","qty":10}]}""", wb => Parts(wb, "xl/tables/"));
 
         yield return new("header-footer-tags", wb =>
         {
