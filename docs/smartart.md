@@ -136,6 +136,11 @@ the label, the colour index and count, and the shape's fill and line. The quick 
 - Office's algorithms are specified only in outline. Row length in `snake`, ring scale in `cycle`, hierarchy spacing, the `span` blend and
   the text margins' unit (points) are this engine's reading of the standard; the layout differential decides them.
 - Rules other than the font floor do not act (above), so the proportions of layouts that depend on them differ.
+- Measured against the drawings Office stored with 29 diagrams in public sample files (built-in layouts such as list, process, hierarchy and
+  organisation chart; `tools/SmartArtProbe compare`): the engine makes a shape for 123 of their 135 text shapes, reproduces the stored
+  drawing of the block-list layout almost exactly, and puts 2 of 27 frames within 5 % of Office's positions and 0.8 to 1.25 times its
+  sizes. The built-in layouts lean on growth rules and on constructs this engine does not run (assistants, secondary children,
+  `INF` rules), so regeneration of those is a fallback for missing or stale drawings, not a substitute for Office's own layout.
 - A diagram painted in a header, footer or note reads its parts through the main part's relationships.
 - Right-to-left and vertical text in diagram shapes is laid out left to right and horizontal.
 
