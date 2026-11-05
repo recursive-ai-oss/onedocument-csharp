@@ -680,6 +680,9 @@ public static partial class DrawingPainter
             return sources[0];
         }
 
+        // A shape that stands on its own (a VML text box) has no inherited property blocks.
+        private void PaintShapeText(MarkupNode shape, EvaluatedGeometry? eg, Matrix3x2 m) => PaintShapeText(shape, eg, m, []);
+
         private void PaintShapeText(MarkupNode shape, EvaluatedGeometry? eg, Matrix3x2 m, List<MarkupNode> sources)
         {
             MarkupNode body = DrawingTheme.Child(shape, "bodyPr");
