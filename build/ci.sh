@@ -39,8 +39,9 @@ for step in "${steps[@]}"; do
       "$dotnet_bin" build smoke/wasm/WasmSmoke.csproj -c "$config"
       ;;
     pack)
-      for project in OneOffice OneOffice.Schema OneOffice.Documents; do
-        "$dotnet_bin" pack "src/$project/$project.csproj" -c "$config" --no-build -o "$out/packages"
+      # Every project under src/, as the release workflow does: those with IsPackable false produce nothing.
+      for project in src/*/*.csproj; do
+        "$dotnet_bin" pack "$project" -c "$config" --no-build -o "$out/packages"
       done
       ;;
     *) echo "unknown step '$step'" >&2; exit 2 ;;
