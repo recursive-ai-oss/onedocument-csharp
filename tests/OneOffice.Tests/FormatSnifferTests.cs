@@ -188,6 +188,8 @@ public class FormatSnifferTests
         Assert.Equal(OfficeFormat.Csv, FormatSniffer.Detect(Samples.Text("a,b,c\n1,2,3\n\"x,y\",5,6\n")));
         Assert.Equal(OfficeFormat.Tsv, FormatSniffer.Detect(Samples.Text("a\tb\n1\t2\n")));
         Assert.Equal(OfficeFormat.Csv, FormatSniffer.Detect(Samples.Text("a;b\r\n1;2\r\n")));
+        // A quoted field may hold line breaks; the record is still one record.
+        Assert.Equal(OfficeFormat.Csv, FormatSniffer.Detect(Samples.Text("a,b\r\nc,\"x\ny\"\r\n1,2\r\n")));
         // Prose with a comma, one line, ragged columns, binary junk and empty input are not tables.
         Assert.Equal(OfficeFormat.Unknown, FormatSniffer.Detect(Samples.Text("Hello, world\n")));
         Assert.Equal(OfficeFormat.Unknown, FormatSniffer.Detect(Samples.Text("a,b\n1,2,3\n")));

@@ -26,7 +26,8 @@ internal static class Probe
     {
         [CellError.Null] = -2146826288, [CellError.DivideByZero] = -2146826281, [CellError.Value] = -2146826273, [CellError.Reference] = -2146826265,
         [CellError.Name] = -2146826259, [CellError.Number] = -2146826252, [CellError.NotAvailable] = -2146826246, [CellError.GettingData] = -2146826245,
-        [CellError.Spill] = -2146826243, [CellError.Calc] = -2146826238,
+        [CellError.Spill] = -2146826243, [CellError.Calc] = -2146826238, [CellError.Unknown] = -2146826240, [CellError.Field] = -2146826239,
+        [CellError.Blocked] = -2146826241, [CellError.Connect] = -2146826242, [CellError.Python] = -2146826233, [CellError.Busy] = -2146826236,
     };
 
     internal static int Run(string[] args)

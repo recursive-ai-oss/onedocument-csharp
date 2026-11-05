@@ -95,6 +95,12 @@ public sealed class CsvValueOptions
     /// </summary>
     public int DefaultYear { get; init; }
 
+    /// <summary>
+    /// Gets the two-digit year at which the century changes: below it years are 20xx, from it 19xx. The default 50 is Windows' default
+    /// window (1950 to 2049), which is what Excel uses unless the system setting was changed.
+    /// </summary>
+    public int TwoDigitYearPivot { get; init; } = 50;
+
     /// <summary>Gets the date system dates are numbered in. The default is the 1900 system.</summary>
     public DateSystem DateSystem { get; init; } = DateSystem.Date1900;
 }
@@ -119,6 +125,8 @@ public sealed class CsvValueParser
     private readonly bool _currencyAfter;
     private readonly string _currencyWhole;
     private readonly string _currencyDecimals;
+    private readonly string _euroWhole;
+    private readonly string _euroDecimals;
     private readonly string[] _months;
     private readonly string[] _monthsAbbreviated;
     private readonly int _order; // 0 = month day year, 1 = day month year, 2 = year month day
@@ -139,6 +147,8 @@ public sealed class CsvValueParser
         string q = _currency == "$" ? "$" : "\"" + _currency + "\"";
         _currencyWhole = q + "#,##0_);[Red](" + q + "#,##0)";
         _currencyDecimals = q + "#,##0.00_);[Red](" + q + "#,##0.00)";
+        _euroWhole = "[$\u20AC-2] #,##0;[Red]-[$\u20AC-2] #,##0";
+        _euroDecimals = "[$\u20AC-2] #,##0.00;[Red]-[$\u20AC-2] #,##0.00";
         _months = new string[12];
         _monthsAbbreviated = new string[12];
         for (int k = 0; k < 12; k++)
@@ -176,7 +186,7 @@ public sealed class CsvValueParser
         char c0 = text[0];
         if (c0 == '#')
         {
-            return CellErrors.TryParse(text, out CellError e) ? new CsvValue(CsvValueKind.Error, error: e) : new CsvValue(CsvValueKind.Text);
+            return CellErrors.TryParse(text, out CellError e) && e != CellError.External ? new CsvValue(CsvValueKind.Error, error: e) : new CsvValue(CsvValueKind.Text);
         }
 
         if (c0 is 'T' or 't' or 'F' or 'f')
@@ -203,7 +213,7 @@ public sealed class CsvValueParser
             return number;
         }
 
-        if (_options.InferDates && TryParseDateTime(s, out CsvValue date))
+        if (_options.InferDates && TryParseDateTime(s, text[0] == ' ', out CsvValue date))
         {
             return date;
         }
@@ -213,6 +223,44 @@ public sealed class CsvValueParser
 
     // ---- numbers ----
 
+    // Counts the signs and spaces at the front; flips says whether an odd number of them are minus signs.
+    private static int SkipSigns(ReadOnlySpan<char> s, out bool flips)
+    {
+        int i = 0;
+        flips = false;
+        while (i < s.Length && s[i] is '+' or '-' or ' ')
+        {
+            flips ^= s[i] == '-';
+            i++;
+        }
+
+        return i;
+    }
+
+    // Excel's English reading takes $ and the euro sign as currency whatever the culture says; the culture's own symbol too.
+    private int CurrencyLength(ReadOnlySpan<char> s, out bool euro)
+    {
+        euro = false;
+        if (s.Length == 0)
+        {
+            return 0;
+        }
+
+        if (_currency.Length > 0 && s.StartsWith(_currency, StringComparison.Ordinal))
+        {
+            euro = _currency == "\u20AC";
+            return _currency.Length;
+        }
+
+        if (s[0] == '$')
+        {
+            return 1;
+        }
+
+        euro = s[0] == '\u20AC';
+        return euro ? 1 : 0;
+    }
+
     // What Excel does with a number written in a text file, found by opening generated files in Excel (see docs/csv.md).
     private bool TryParseNumber(ReadOnlySpan<char> s, out CsvValue value)
     {
@@ -221,15 +269,33 @@ public sealed class CsvValueParser
         bool parentheses = false;
         bool percent = false;
         bool currency = false;
-        if (s.Length >= 2 && s[0] == '(' && s[^1] == ')')
+        string? whole = _currencyWhole;
+        string? fraction = _currencyDecimals;
+
+        // Excel reads the front of a number like an expression: any run of signs (each - flips), a currency symbol, signs again.
+        int skipped = SkipSigns(s, out bool flips);
+        negative ^= flips;
+        s = s[skipped..];
+        int symbol = CurrencyLength(s, out bool euro);
+        if (symbol > 0)
         {
-            // Parentheses make a negative number; a sign inside them is not a number.
-            parentheses = true;
-            s = s[1..^1].Trim(' ');
-            if (s.Length > 0 && s[0] is '+' or '-')
+            currency = true;
+            (whole, fraction) = euro ? (_euroWhole, _euroDecimals) : (whole, fraction);
+            s = s[symbol..];
+            bool signBefore = skipped > 0 && s.Length >= 0 && flips || (skipped > 0);
+            skipped = SkipSigns(s, out flips);
+            if (skipped > 0 && signBefore && s[..skipped].IndexOfAny('+', '-') >= 0)
+            {
+                return false; // -$-5 and $--5 are text; $-5 and -$5 are numbers
+            }
+
+            if (s[..skipped].Count('-') + s[..skipped].Count('+') > 1)
             {
                 return false;
             }
+
+            negative ^= flips;
+            s = s[skipped..];
         }
 
         if (s.Length > 1 && s[0] == '%')
@@ -238,25 +304,40 @@ public sealed class CsvValueParser
             s = s[1..].TrimStart(' ');
         }
 
-        // Up to two signs: Excel reads --5 as 5 and +-5 as -5.
-        int signs = 0;
-        while (s.Length > 0 && s[0] is '+' or '-' && signs < 2)
+        if (s.Length >= 2 && s[0] == '(')
         {
-            negative ^= s[0] == '-';
-            s = s[1..];
-            signs++;
-        }
-
-        s = s.TrimStart(' ');
-        if (_currency.Length > 0 && s.StartsWith(_currency, StringComparison.Ordinal))
-        {
-            currency = true;
-            s = s[_currency.Length..].TrimStart(' ');
-            if (signs == 0 && s.Length > 0 && s[0] is '+' or '-')
+            // Parentheses make a negative number; a sign inside them is not a number. A percent sign may follow the closing one.
+            int close = s.LastIndexOf(')');
+            if (close < 0)
             {
-                negative ^= s[0] == '-';
-                s = s[1..];
+                return false;
             }
+
+            ReadOnlySpan<char> after = s[(close + 1)..].Trim(' ');
+            if (after.Length > 0)
+            {
+                if (after is not "%" || percent)
+                {
+                    return false;
+                }
+
+                percent = true;
+            }
+
+            s = s[1..close].Trim(' ');
+            if (!currency && (symbol = CurrencyLength(s, out euro)) > 0)
+            {
+                currency = true;
+                (whole, fraction) = euro ? (_euroWhole, _euroDecimals) : (whole, fraction);
+                s = s[symbol..].TrimStart(' ');
+            }
+
+            if (s.Length > 0 && s[0] is '+' or '-')
+            {
+                return false;
+            }
+
+            parentheses = true;
         }
         else if (_currencyAfter && _currency.Length > 0 && s.EndsWith(_currency, StringComparison.Ordinal))
         {
@@ -273,6 +354,11 @@ public sealed class CsvValueParser
 
             percent = true;
             s = s[..^1].TrimEnd(' ');
+        }
+
+        if (currency && percent)
+        {
+            return false;
         }
 
         if (s.Length == 0)
@@ -296,6 +382,11 @@ public sealed class CsvValueParser
         for (; i < s.Length; i++)
         {
             char c = s[i];
+            if (c is >= '\u0660' and <= '\u0669')
+            {
+                c = (char)('0' + (c - '\u0660')); // Excel reads Arabic-Indic digits as digits
+            }
+
             if (c is >= '0' and <= '9')
             {
                 if (i >= MaxDigits)
@@ -342,7 +433,7 @@ public sealed class CsvValueParser
             else if ((c == _group || (c == ' ' && _group is '\u00A0' or '\u202F')) && !hasDecimal && !hasExponent)
             {
                 // Groups: one to three digits first (no leading zero), then three or more in each later group.
-                if (groups == 0 ? intDigits is < 1 or > 3 || clean[0] == '0' : groupDigits < 3)
+                if (groups == 0 ? intDigits < 1 || clean[0] == '0' : groupDigits < 3)
                 {
                     return false;
                 }
@@ -433,14 +524,25 @@ public sealed class CsvValueParser
             return false;
         }
 
-        // Excel holds 2.2250738585072014E-308 to 9.99999999999999E+307; anything outside stays text.
+        // Excel holds 2.2251E-308 to 9.99999999999999E+307. Above that the text stays text; below it, down to 1E-308, the number is 0;
+        // a nonzero text that parses to nothing, or to a magnitude past 1E-308, stays text.
         double magnitude = Math.Abs(v);
-        if (double.IsInfinity(v) || magnitude > 9.99999999999999E+307 || (anyNonZero && magnitude < 2.2250738585072014E-308))
+        if (double.IsInfinity(v) || magnitude > 9.99999999999999E+307)
         {
             return false;
         }
 
-        if (negative ^ parentheses)
+        if (anyNonZero && (magnitude == 0 || Math.Floor(Math.Log10(magnitude)) < -308))
+        {
+            return false;
+        }
+
+        if (magnitude < 2.2251E-308)
+        {
+            v = 0;
+        }
+
+        if (negative || parentheses)
         {
             v = -v;
         }
@@ -455,8 +557,8 @@ public sealed class CsvValueParser
         }
         else
         {
-            string? code = currency ? hasDecimal ? _currencyDecimals : _currencyWhole
-                : hasExponent ? "0.00E+00" : groups > 0 ? hasDecimal ? "#,##0.00" : "#,##0" : null;
+            string? code = hasExponent ? "0.00E+00" : currency ? hasDecimal ? fraction : whole
+                : groups > 0 ? hasDecimal ? "#,##0.00" : "#,##0" : null;
             value = new CsvValue(CsvValueKind.Number, v, code);
         }
 
@@ -468,15 +570,15 @@ public sealed class CsvValueParser
 
     private const int MaxTokens = 4;
 
-    private bool TryParseDateTime(ReadOnlySpan<char> s, out CsvValue value)
+    private bool TryParseDateTime(ReadOnlySpan<char> s, bool leadingSpace, out CsvValue value)
     {
         value = default;
-        if (s.Length < 2 || s.Length > 64)
+        if (s.Length < 2 || s.Length > 64 || leadingSpace)
         {
-            return false;
+            return false; // Excel keeps " 1/2/2020" as text
         }
 
-        // A time of day starts at the number before the first colon, if a single space (or the start) comes before it.
+        // A time of day starts at the number before the first colon, if spaces (or the start) come before it.
         ReadOnlySpan<char> datePart = s;
         ReadOnlySpan<char> timePart = default;
         int colon = s.IndexOf(':');
@@ -490,20 +592,17 @@ public sealed class CsvValueParser
 
             if (k == colon)
             {
-                if (colon != 0 && s.IndexOfAnyExcept(' ') != colon)
-                {
-                    return false;
-                }
+                return false;
             }
 
             if (k == 0)
             {
-                datePart = default;
                 timePart = s;
+                datePart = default;
             }
-            else if (s[k - 1] == ' ' && (k < 2 || s[k - 2] != ' '))
+            else if (s[k - 1] == ' ')
             {
-                datePart = s[..(k - 1)];
+                datePart = s[..(k - 1)].TrimEnd(' ');
                 timePart = s[k..];
             }
             else
@@ -526,7 +625,7 @@ public sealed class CsvValueParser
             return true;
         }
 
-        if (!TryParseTime(timePart, out double seconds, out int hours, out bool hasSeconds, out bool fraction, out bool ampm))
+        if (!TryParseTime(timePart, out double seconds, out int hours, out bool hasSeconds, out bool fraction, out bool ampm, out bool overflow))
         {
             return false;
         }
@@ -534,27 +633,29 @@ public sealed class CsvValueParser
         double days = seconds / 86400.0;
         if (!hasDate)
         {
-            // Excel shows a duration of a day or more as elapsed time, and General when the clock overflowed (23:59:60).
-            string? code = fraction ? "mm:ss.0" : days >= 1 ? hours >= 24 ? "[h]:mm:ss" : null : ampm ? hasSeconds ? "h:mm:ss AM/PM" : "h:mm AM/PM" : hasSeconds ? "h:mm:ss" : "h:mm";
+            // Excel shows a duration of a day or more as elapsed time, and General when minutes or seconds ran past 59.
+            string? code = overflow ? null : fraction ? "mm:ss.0" : days >= 1 ? hours >= 24 ? "[h]:mm:ss" : null : ampm ? hasSeconds ? "h:mm:ss AM/PM" : "h:mm AM/PM" : hasSeconds ? "h:mm:ss" : "h:mm";
             value = new CsvValue(CsvValueKind.Time, days, code);
         }
         else
         {
-            string? code = fraction ? "mm:ss.0" : days >= 1 ? null : _dateTimeCode;
+            string? code = overflow ? null : fraction ? "mm:ss.0" : days >= 1 ? null : _dateTimeCode;
             value = new CsvValue(CsvValueKind.DateTime, dateSerial + days, code);
         }
 
         return true;
     }
 
-    // h:mm, h:mm:ss, h:mm:ss.fff, h:, each optionally followed by a space and AM, PM, A or P. Returns the seconds since midnight.
-    private static bool TryParseTime(ReadOnlySpan<char> t, out double totalSeconds, out int hours, out bool hasSeconds, out bool fraction, out bool ampm)
+    // h:mm, h:mm:ss, h:mm:ss.fff, h:, each optionally followed by spaces and AM, PM, A or P. Returns the seconds since midnight.
+    // Minutes and seconds may run past 59 (1:99 is 2:39); fractions of a second keep three digits.
+    private static bool TryParseTime(ReadOnlySpan<char> t, out double totalSeconds, out int hours, out bool hasSeconds, out bool fraction, out bool ampm, out bool overflow)
     {
         totalSeconds = 0;
         hours = 0;
         hasSeconds = false;
         fraction = false;
         ampm = false;
+        overflow = false;
         bool pm = false;
         int space = t.LastIndexOf(' ');
         if (space > 0)
@@ -574,7 +675,7 @@ public sealed class CsvValueParser
                 return false;
             }
 
-            t = t[..space];
+            t = t[..space].TrimEnd(' ');
         }
 
         int pos = 0;
@@ -589,7 +690,7 @@ public sealed class CsvValueParser
         double frac = 0;
         if (pos < t.Length)
         {
-            if (!ReadInt(t, ref pos, 2, out m) || m > 59)
+            if (!ReadInt(t, ref pos, 2, out m))
             {
                 return false;
             }
@@ -602,7 +703,7 @@ public sealed class CsvValueParser
                 }
 
                 pos++;
-                if (!ReadInt(t, ref pos, 2, out sec) || sec > 60)
+                if (!ReadInt(t, ref pos, 2, out sec))
                 {
                     return false;
                 }
@@ -611,20 +712,21 @@ public sealed class CsvValueParser
                 if (pos < t.Length && t[pos] == '.')
                 {
                     pos++;
-                    int start = pos;
                     double scale = 0.1;
+                    int digits = 0;
                     while (pos < t.Length && t[pos] is >= '0' and <= '9')
                     {
-                        frac += (t[pos] - '0') * scale;
-                        scale /= 10;
+                        if (digits < 3)
+                        {
+                            frac += (t[pos] - '0') * scale;
+                            scale /= 10;
+                        }
+
+                        digits++;
                         pos++;
                     }
 
-                    fraction = pos > start;
-                    if (!fraction)
-                    {
-                        return false;
-                    }
+                    fraction = digits > 0;
                 }
             }
         }
@@ -636,14 +738,20 @@ public sealed class CsvValueParser
 
         if (ampm)
         {
-            if (h > 12)
+            if (h is < 1 or > 12 && !(h == 0))
             {
                 return false;
+            }
+
+            if (m > 59 || sec > 59)
+            {
+                return false; // Excel keeps "12:60 PM" as text
             }
 
             h = h % 12 + (pm ? 12 : 0);
         }
 
+        overflow = m > 59 || sec > 59;
         hours = h;
         totalSeconds = h * 3600.0 + m * 60 + sec + frac;
         return true;
@@ -662,14 +770,15 @@ public sealed class CsvValueParser
         return pos > start;
     }
 
-    // Tokens of a date: numbers, month names and the separators between them.
+    // Tokens of a date: numbers and month names, with the separators between them. A separator is spaces around one of / - ,
+    // or spaces alone; Excel does not care which of / and - is used where, or about spaces next to them.
     private bool TryParseDate(ReadOnlySpan<char> s, out int serial, out string? code)
     {
         serial = 0;
         code = null;
         Span<int> vals = stackalloc int[MaxTokens]; // a fifth token fails the parse
         Span<int> digs = stackalloc int[MaxTokens]; // digits of a number, 0 for a month name
-        Span<char> seps = stackalloc char[MaxTokens]; // separator after each token: '/', '-', '.', ' ' or ',' for ", "
+        Span<char> seps = stackalloc char[MaxTokens]; // separator after each token: '/', '-', ',', '.', or ' ' for spaces alone
         int n = 0;
         int i = 0;
         while (i < s.Length)
@@ -716,21 +825,31 @@ public sealed class CsvValueParser
 
             if (i < s.Length)
             {
-                char c = s[i];
-                if (c is '/' or '-' || (c == '.' && !(_dotDate && i + 1 < s.Length && s[i + 1] == ' ')) || (c == ' ' && !(i + 1 < s.Length && s[i + 1] == ' ')))
+                int spaces = 0;
+                while (i < s.Length && s[i] == ' ')
                 {
-                    seps[n] = c;
                     i++;
+                    spaces++;
                 }
-                else if (c == ',' && i + 1 < s.Length && s[i + 1] == ' ')
+
+                if (i < s.Length && s[i] is '/' or '-' or ',' or '.')
                 {
-                    seps[n] = ',';
-                    i += 2;
+                    char c = s[i];
+                    if (c == '.' && !_dotDate)
+                    {
+                        return false;
+                    }
+
+                    seps[n] = c == ',' && !(i + 1 < s.Length && s[i + 1] == ' ') ? ';' : c; // "Jan 2,2020" is text
+                    i++;
+                    while (i < s.Length && s[i] == ' ')
+                    {
+                        i++;
+                    }
                 }
-                else if (c == '.' && _dotDate && i + 1 < s.Length && s[i + 1] == ' ')
+                else if (spaces > 0)
                 {
-                    seps[n] = ' '; // "15. Januar 2020"
-                    i += 2;
+                    seps[n] = ' ';
                 }
                 else
                 {
@@ -761,13 +880,17 @@ public sealed class CsvValueParser
         int yearDigits;
         if (names == 0)
         {
-            char sep = seps[0];
-            if (sep == '.' ? !_dotDate : sep is not ('/' or '-'))
+            // Numeric: / and - mix freely; a dot only where the culture writes dates with dots (and then only dots).
+            bool dots = seps[0] == '.';
+            for (int k = 0; k < n - 1; k++)
             {
-                return false;
+                if (dots ? seps[k] != '.' : seps[k] is not ('/' or '-'))
+                {
+                    return false;
+                }
             }
 
-            if (n == 3 && seps[1] == sep)
+            if (n == 3)
             {
                 if (digs[0] == 4)
                 {
@@ -775,7 +898,7 @@ public sealed class CsvValueParser
                     m = vals[1];
                     d = vals[2];
                     yearDigits = 4;
-                    if (digs[1] > 2 || digs[2] > 2 || sep == '.')
+                    if (digs[1] > 2 || digs[2] > 2 || dots)
                     {
                         return false;
                     }
@@ -808,11 +931,9 @@ public sealed class CsvValueParser
             else if (n == 2 && _options.DefaultYear > 0 && digs[0] <= 2 && digs[1] <= 2)
             {
                 // A month and a day: Excel uses the current year, which would make the result depend on the clock.
-                y = _options.DefaultYear;
-                yearDigits = 4;
                 (m, d) = _order == 1 ? (vals[1], vals[0]) : (vals[0], vals[1]);
                 code = "d-mmm";
-                return ExcelDate.TryToSerial(y, m, d, _options.DateSystem, out serial);
+                return ExcelDate.TryToSerial(_options.DefaultYear, m, d, _options.DateSystem, out serial);
             }
             else
             {
@@ -833,8 +954,8 @@ public sealed class CsvValueParser
             return false;
         }
 
-        // 2-Jan-2020, 2 Jan 20, 2-Jan-2020
-        if (n == 3 && digs[1] == 0 && digs[0] is >= 1 and <= 2 && digs[2] is 2 or 4 && seps[0] == seps[1] && seps[0] is '-' or ' ' or '/')
+        // 2-Jan-2020, 2 Jan 20, 5/May/2020: day, month name, year, joined by - / or spaces
+        if (n == 3 && digs[1] == 0 && digs[0] is >= 1 and <= 2 && digs[2] is 2 or 4 && seps[0] is '-' or '/' or ' ' or '.' && seps[1] is '-' or '/' or ' ')
         {
             (d, m, y, yearDigits) = (vals[0], vals[1], vals[2], digs[2]);
         }
@@ -843,24 +964,39 @@ public sealed class CsvValueParser
             // Jan 2, 2020
             (m, d, y, yearDigits) = (vals[0], vals[1], vals[2], digs[2]);
         }
-        else if (n == 2 && digs[0] == 0 && digs[1] == 4 && seps[0] is ' ' or '-')
+        else if (n == 2 && digs[0] == 0 && digs[1] is 2 or 4 && seps[0] is ' ' or '-')
         {
-            // Jan 2020, Jan-2020: the first of the month
-            (m, d, y, yearDigits) = (vals[0], 1, vals[1], 4);
-            if (!ExcelDate.TryToSerial(y, m, d, _options.DateSystem, out serial))
+            // Jan 2020, Jan-2020: the first of the month. A two-digit number is a day when it can be one (Jan 20 is the 20th of the
+            // current year, which needs DefaultYear) and otherwise a year (Jan 32 is January 2032).
+            m = vals[0];
+            y = vals[1];
+            if (digs[1] == 2 && y <= DaysIn(m))
             {
-                return false;
+                if (_options.DefaultYear <= 0)
+                {
+                    return false; // the 20th, or the year 2020: Excel decides with today's date
+                }
+
+                if (ExcelDate.TryToSerial(_options.DefaultYear, m, y, _options.DateSystem, out serial))
+                {
+                    code = "d-mmm";
+                    return true;
+                }
             }
 
-            code = "mmm-yy";
-            return true;
+            return FirstOfMonth(m, y, digs[1], out serial, out code);
         }
-        else if (n == 2 && _options.DefaultYear > 0 && seps[0] is ' ' or '-' && ((digs[0] == 0 && digs[1] is >= 1 and <= 2) || (digs[1] == 0 && digs[0] is >= 1 and <= 2)))
+        else if (n == 2 && digs[0] == 0 && digs[1] == 1 && seps[0] is ' ' or '-' && _options.DefaultYear > 0)
         {
-            // 2-Jan, Jan 2, Jan-20: no year
-            (m, d) = digs[0] == 0 ? (vals[0], vals[1]) : (vals[1], vals[0]);
+            m = vals[0];
             code = "d-mmm";
-            return ExcelDate.TryToSerial(_options.DefaultYear, m, d, _options.DateSystem, out serial);
+            return ExcelDate.TryToSerial(_options.DefaultYear, m, vals[1], _options.DateSystem, out serial);
+        }
+        else if (n == 2 && digs[1] == 0 && digs[0] is >= 1 and <= 2 && seps[0] is ' ' or '-' && _options.DefaultYear > 0)
+        {
+            // 2-Jan: no year
+            code = "d-mmm";
+            return ExcelDate.TryToSerial(_options.DefaultYear, vals[1], vals[0], _options.DateSystem, out serial);
         }
         else
         {
@@ -876,7 +1012,16 @@ public sealed class CsvValueParser
         return true;
     }
 
-    private static bool YearOf(ref int year, int digits)
+    private static int DaysIn(int month) => month == 2 ? 29 : month is 4 or 6 or 9 or 11 ? 30 : 31;
+
+    private bool FirstOfMonth(int month, int year, int digits, out int serial, out string? code)
+    {
+        code = "mmm-yy";
+        serial = 0;
+        return YearOf(ref year, digits) && ExcelDate.TryToSerial(year, month, 1, _options.DateSystem, out serial);
+    }
+
+    private bool YearOf(ref int year, int digits)
     {
         if (digits == 4)
         {
@@ -885,14 +1030,16 @@ public sealed class CsvValueParser
 
         if (digits is 1 or 2)
         {
-            // Excel's two-digit pivot: 00 to 29 are 2000 to 2029, 30 to 99 are 1930 to 1999.
-            year += year < 30 ? 2000 : 1900;
+            // Two-digit years: below the pivot are 20xx, from it 19xx (Windows' default window is 1950 to 2049).
+            year += year < _options.TwoDigitYearPivot ? 2000 : 1900;
             return true;
         }
 
         return false;
     }
 
+    // A month name is the English or culture name in full, its abbreviation, or any prefix of the full name of three or more letters
+    // (Excel reads Janu, Marc and Septe).
     private int MonthOf(ReadOnlySpan<char> name)
     {
         if (name.Length < 3)
@@ -902,13 +1049,17 @@ public sealed class CsvValueParser
 
         for (int k = 0; k < 12; k++)
         {
-            if (name.Equals(_months[k], StringComparison.OrdinalIgnoreCase) || name.Equals(_monthsAbbreviated[k], StringComparison.OrdinalIgnoreCase))
+            if (name.Length <= _months[k].Length && _months[k].AsSpan(0, name.Length).Equals(name, StringComparison.OrdinalIgnoreCase))
+            {
+                return k + 1;
+            }
+
+            if (name.Equals(_monthsAbbreviated[k], StringComparison.OrdinalIgnoreCase))
             {
                 return k + 1;
             }
         }
 
-        // Excel also reads the four-letter English abbreviation of September.
-        return name.Equals("Sept", StringComparison.OrdinalIgnoreCase) && _months[8].StartsWith("Sep", StringComparison.Ordinal) ? 9 : 0;
+        return 0;
     }
 }
