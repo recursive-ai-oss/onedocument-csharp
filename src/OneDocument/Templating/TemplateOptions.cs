@@ -145,11 +145,23 @@ public sealed record TemplateInsertion(ITemplateData Value, IReadOnlyDictionary<
 /// <param name="Typed">For the printed value of a <c>{{ }}</c> tag: the value as a number, boolean, error or text rather than its printed form, so a binder whose unit is a single tag (a spreadsheet cell) can keep the type. Null for kept template text, other tags, and values that are collections or records.</param>
 public sealed record TemplatePiece(TemplatePieceKind Kind, int Segment, string Text, TemplateInsertion? Insertion = null, CalcValue? Typed = null);
 
+/// <summary>One running loop, as recorded on a rendered unit.</summary>
+/// <param name="Block">The index of the loop in <see cref="ParsedTemplate.Blocks"/>.</param>
+/// <param name="Iteration">The iteration, from 0.</param>
+public readonly record struct TemplateLoopFrame(int Block, int Iteration);
+
 /// <summary>One copy of a source unit in the output, with what it now says.</summary>
 /// <param name="SourceUnit">The index of the unit in the <see cref="TemplateSource"/> it is a copy of.</param>
 /// <param name="Pieces">The pieces in order. A binder rebuilds the unit with one run per piece, each taking the formatting of the segment it names.</param>
 public sealed record TemplateRenderedUnit(int SourceUnit, IReadOnlyList<TemplatePiece> Pieces)
 {
+    /// <summary>
+    /// The loops that were running when the unit was produced, outermost first: for every <c>for</c> block whose body spans units, the index of the block in
+    /// <see cref="ParsedTemplate.Blocks"/> and the iteration (from 0). A binder that repeats structures (table rows, sections) uses it to tell a repeat of a
+    /// whole structure from a repeat of units inside it.
+    /// </summary>
+    public IReadOnlyList<TemplateLoopFrame> Loops { get; init; } = [];
+
     /// <summary>The text pieces joined (non-text pieces contribute nothing).</summary>
     public string Text
     {

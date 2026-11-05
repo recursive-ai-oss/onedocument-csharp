@@ -43,5 +43,6 @@ public static class PresentationFormats
                 presentation.Write(format, destination, cancellationToken);
             },
             formats);
+        registry.RegisterTemplateBinder(Templating.PresentationTemplateBinder.Instance, formats);
     }
 }

@@ -55,6 +55,7 @@ internal static class Program
         ["funcs"] = FuncsTarget.Run,
         ["lookups"] = LookupTarget.Run,
         ["template"] = TemplateTarget.Run,
+        ["richtext"] = RichTextTarget.Run,
     };
 
     private static int Main(string[] args)
@@ -90,6 +91,7 @@ internal static class Program
                 "funcs" => FuncsTarget.WriteSeeds(args[2]),
                 "lookups" => LookupTarget.WriteSeeds(args[2]),
                 "template" => TemplateTarget.WriteSeeds(args[2]),
+                "richtext" => RichTextTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }

@@ -40,5 +40,6 @@ public static class DocumentFormats
                 document.Write(format, destination, cancellationToken);
             },
             formats);
+        registry.RegisterTemplateBinder(Templating.DocxTemplateBinder.Instance, formats);
     }
 }

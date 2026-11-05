@@ -14,6 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="RecursiveAI.OneHtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="../OneDocument/OneDocument.csproj" />
     <ProjectReference Include="../OneDocument.Schema/OneDocument.Schema.csproj" />
   </ItemGroup>
