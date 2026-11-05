@@ -89,6 +89,12 @@ public sealed class CsvValueOptions
     /// <summary>Gets a value indicating whether dates and times are recognised. The default is true.</summary>
     public bool InferDates { get; init; } = true;
 
+    /// <summary>
+    /// Gets the year given to a date written without one (<c>1/2</c>, <c>Jan 5</c>, <c>5-Jan</c>). Excel uses the current year; this library
+    /// never reads the clock, so the default 0 keeps such text as text. Set the year to match Excel.
+    /// </summary>
+    public int DefaultYear { get; init; }
+
     /// <summary>Gets the date system dates are numbered in. The default is the 1900 system.</summary>
     public DateSystem DateSystem { get; init; } = DateSystem.Date1900;
 }
@@ -117,6 +123,8 @@ public sealed class CsvValueParser
     private readonly string[] _monthsAbbreviated;
     private readonly int _order; // 0 = month day year, 1 = day month year, 2 = year month day
     private readonly bool _dotDate;
+    private readonly string _numericDateCode;
+    private readonly string _dateTimeCode;
 
     /// <summary>Creates a parser.</summary>
     /// <param name="options">The options; null for the defaults.</param>
@@ -144,6 +152,8 @@ public sealed class CsvValueParser
         int m = pattern.IndexOf('m');
         int y = pattern.IndexOf('y');
         _order = y >= 0 && y < d && y < m ? 2 : d >= 0 && d < m ? 1 : 0;
+        _numericDateCode = c.Lcid == 0x0409 ? "m/d/yyyy" : c.ShortDatePattern;
+        _dateTimeCode = _numericDateCode + " h:mm";
         _dotDate = pattern.Contains('.', StringComparison.Ordinal);
     }
 
@@ -435,7 +445,11 @@ public sealed class CsvValueParser
             v = -v;
         }
 
-        if (percent)
+        if (percent && hasExponent)
+        {
+            value = new CsvValue(CsvValueKind.Number, v / 100, "0.00E+00");
+        }
+        else if (percent)
         {
             value = new CsvValue(CsvValueKind.Percent, v / 100, fractionDigits > 0 ? "0.00%" : "0%");
         }
@@ -450,47 +464,47 @@ public sealed class CsvValueParser
     }
 
     // ---- dates and times ----
+    // What Excel accepts was found by opening generated files in Excel; the forms are listed in docs/csv.md.
+
+    private const int MaxTokens = 4;
 
     private bool TryParseDateTime(ReadOnlySpan<char> s, out CsvValue value)
     {
         value = default;
-        if (s.Length < 3 || s.Length > 64)
+        if (s.Length < 2 || s.Length > 64)
         {
             return false;
         }
 
-        // split into a date part and a time part at the first space or T that has a colon after it
-        int colon = s.IndexOf(':');
+        // A time of day starts at the number before the first colon, if a single space (or the start) comes before it.
         ReadOnlySpan<char> datePart = s;
         ReadOnlySpan<char> timePart = default;
+        int colon = s.IndexOf(':');
         if (colon >= 0)
         {
-            int split = -1;
-            for (int k = colon - 1; k >= 0; k--)
+            int k = colon;
+            while (k > 0 && s[k - 1] is >= '0' and <= '9')
             {
-                char c = s[k];
-                if (c is >= '0' and <= '9')
-                {
-                    continue;
-                }
-
-                if (c is ' ' or 'T')
-                {
-                    split = k;
-                }
-
-                break;
+                k--;
             }
 
-            if (split > 0)
+            if (k == colon)
             {
-                datePart = s[..split];
-                timePart = s[(split + 1)..].Trim(' ');
+                if (colon != 0 && s.IndexOfAnyExcept(' ') != colon)
+                {
+                    return false;
+                }
             }
-            else if (split < 0 && colon > 0 && colon <= 2 || colon == 0)
+
+            if (k == 0)
             {
                 datePart = default;
                 timePart = s;
+            }
+            else if (s[k - 1] == ' ' && (k < 2 || s[k - 2] != ' '))
+            {
+                datePart = s[..(k - 1)];
+                timePart = s[k..];
             }
             else
             {
@@ -499,92 +513,118 @@ public sealed class CsvValueParser
         }
 
         int dateSerial = 0;
+        string? dateCode = null;
         bool hasDate = datePart.Length > 0;
-        if (hasDate && !TryParseDate(datePart, out dateSerial))
+        if (hasDate && !TryParseDate(datePart, out dateSerial, out dateCode))
         {
             return false;
         }
 
-        double fraction = 0;
-        bool seconds = false;
-        bool ampm = false;
-        if (timePart.Length > 0 && !TryParseTime(timePart, out fraction, out seconds, out ampm))
+        if (timePart.Length == 0)
+        {
+            value = new CsvValue(CsvValueKind.Date, dateSerial, dateCode);
+            return true;
+        }
+
+        if (!TryParseTime(timePart, out double seconds, out int hours, out bool hasSeconds, out bool fraction, out bool ampm))
         {
             return false;
         }
 
+        double days = seconds / 86400.0;
         if (!hasDate)
         {
-            value = new CsvValue(CsvValueKind.Time, fraction, ampm ? seconds ? "h:mm:ss AM/PM" : "h:mm AM/PM" : seconds ? "h:mm:ss" : "h:mm");
-        }
-        else if (timePart.Length == 0)
-        {
-            value = new CsvValue(CsvValueKind.Date, dateSerial, "m/d/yyyy");
+            // Excel shows a duration of a day or more as elapsed time, and General when the clock overflowed (23:59:60).
+            string? code = fraction ? "mm:ss.0" : days >= 1 ? hours >= 24 ? "[h]:mm:ss" : null : ampm ? hasSeconds ? "h:mm:ss AM/PM" : "h:mm AM/PM" : hasSeconds ? "h:mm:ss" : "h:mm";
+            value = new CsvValue(CsvValueKind.Time, days, code);
         }
         else
         {
-            value = new CsvValue(CsvValueKind.DateTime, dateSerial + fraction, ampm ? "m/d/yyyy h:mm AM/PM" : seconds ? "m/d/yyyy h:mm:ss" : "m/d/yyyy h:mm");
+            string? code = fraction ? "mm:ss.0" : days >= 1 ? null : _dateTimeCode;
+            value = new CsvValue(CsvValueKind.DateTime, dateSerial + days, code);
         }
 
         return true;
     }
 
-    private static bool TryParseTime(ReadOnlySpan<char> t, out double fraction, out bool seconds, out bool ampm)
+    // h:mm, h:mm:ss, h:mm:ss.fff, h:, each optionally followed by a space and AM, PM, A or P. Returns the seconds since midnight.
+    private static bool TryParseTime(ReadOnlySpan<char> t, out double totalSeconds, out int hours, out bool hasSeconds, out bool fraction, out bool ampm)
     {
-        fraction = 0;
-        seconds = false;
+        totalSeconds = 0;
+        hours = 0;
+        hasSeconds = false;
+        fraction = false;
         ampm = false;
         bool pm = false;
-        if (t.Length > 1 && t[^1] is 'M' or 'm' && t[^2] is 'A' or 'a' or 'P' or 'p')
+        int space = t.LastIndexOf(' ');
+        if (space > 0)
         {
-            ampm = true;
-            pm = t[^2] is 'P' or 'p';
-            t = t[..^2].TrimEnd(' ');
+            ReadOnlySpan<char> marker = t[(space + 1)..];
+            if (marker.Equals("AM", StringComparison.OrdinalIgnoreCase) || marker.Equals("A", StringComparison.OrdinalIgnoreCase))
+            {
+                ampm = true;
+            }
+            else if (marker.Equals("PM", StringComparison.OrdinalIgnoreCase) || marker.Equals("P", StringComparison.OrdinalIgnoreCase))
+            {
+                ampm = true;
+                pm = true;
+            }
+            else
+            {
+                return false;
+            }
+
+            t = t[..space];
         }
 
         int pos = 0;
-        if (!ReadInt(t, ref pos, 2, out int h) || pos >= t.Length || t[pos] != ':')
+        if (!ReadInt(t, ref pos, 4, out int h) || pos >= t.Length || t[pos] != ':')
         {
             return false;
         }
 
         pos++;
-        if (!ReadInt(t, ref pos, 2, out int m) || m > 59)
-        {
-            return false;
-        }
-
+        int m = 0;
         int sec = 0;
         double frac = 0;
         if (pos < t.Length)
         {
-            if (t[pos] != ':')
+            if (!ReadInt(t, ref pos, 2, out m) || m > 59)
             {
                 return false;
             }
 
-            pos++;
-            if (!ReadInt(t, ref pos, 2, out sec) || sec > 59)
+            if (pos < t.Length)
             {
-                return false;
-            }
-
-            seconds = true;
-            if (pos < t.Length && t[pos] == '.')
-            {
-                pos++;
-                int start = pos;
-                double scale = 0.1;
-                while (pos < t.Length && t[pos] is >= '0' and <= '9')
-                {
-                    frac += (t[pos] - '0') * scale;
-                    scale /= 10;
-                    pos++;
-                }
-
-                if (pos == start)
+                if (t[pos] != ':')
                 {
                     return false;
+                }
+
+                pos++;
+                if (!ReadInt(t, ref pos, 2, out sec) || sec > 60)
+                {
+                    return false;
+                }
+
+                hasSeconds = true;
+                if (pos < t.Length && t[pos] == '.')
+                {
+                    pos++;
+                    int start = pos;
+                    double scale = 0.1;
+                    while (pos < t.Length && t[pos] is >= '0' and <= '9')
+                    {
+                        frac += (t[pos] - '0') * scale;
+                        scale /= 10;
+                        pos++;
+                    }
+
+                    fraction = pos > start;
+                    if (!fraction)
+                    {
+                        return false;
+                    }
                 }
             }
         }
@@ -596,19 +636,16 @@ public sealed class CsvValueParser
 
         if (ampm)
         {
-            if (h is < 1 or > 12)
+            if (h > 12)
             {
                 return false;
             }
 
             h = h % 12 + (pm ? 12 : 0);
         }
-        else if (h > 23)
-        {
-            return false;
-        }
 
-        fraction = (h * 3600.0 + m * 60 + sec + frac) / 86400.0;
+        hours = h;
+        totalSeconds = h * 3600.0 + m * 60 + sec + frac;
         return true;
     }
 
@@ -625,48 +662,37 @@ public sealed class CsvValueParser
         return pos > start;
     }
 
-    private bool TryParseDate(ReadOnlySpan<char> s, out int serial)
+    // Tokens of a date: numbers, month names and the separators between them.
+    private bool TryParseDate(ReadOnlySpan<char> s, out int serial, out string? code)
     {
         serial = 0;
-        Span<int> vals = stackalloc int[3]; // at most three parts are read; a fourth fails the parse
-        Span<int> digs = stackalloc int[3]; // digit count of a number, or 0 for a month name
-        int parts = 0;
-        char sep = '\0';
-        bool anyName = false;
-        bool nameExpected = false;
-        foreach (char ch in s)
-        {
-            if (char.IsLetter(ch))
-            {
-                nameExpected = true;
-                break;
-            }
-        }
-
+        code = null;
+        Span<int> vals = stackalloc int[MaxTokens]; // a fifth token fails the parse
+        Span<int> digs = stackalloc int[MaxTokens]; // digits of a number, 0 for a month name
+        Span<char> seps = stackalloc char[MaxTokens]; // separator after each token: '/', '-', '.', ' ' or ',' for ", "
+        int n = 0;
         int i = 0;
         while (i < s.Length)
         {
-            if (parts == 3)
+            if (n == MaxTokens)
             {
                 return false;
             }
 
-            char c = s[i];
-            if (c is >= '0' and <= '9')
+            if (s[i] is >= '0' and <= '9')
             {
                 int start = i;
                 int v = 0;
-                while (i < s.Length && s[i] is >= '0' and <= '9' && i - start < 5)
+                while (i < s.Length && s[i] is >= '0' and <= '9' && i - start < 6)
                 {
                     v = v * 10 + (s[i] - '0');
                     i++;
                 }
 
-                vals[parts] = v;
-                digs[parts] = i - start;
-                parts++;
+                vals[n] = v;
+                digs[n] = i - start;
             }
-            else if (char.IsLetter(c))
+            else if (char.IsLetter(s[i]))
             {
                 int start = i;
                 while (i < s.Length && char.IsLetter(s[i]))
@@ -675,157 +701,179 @@ public sealed class CsvValueParser
                 }
 
                 int month = MonthOf(s[start..i]);
-                if (month == 0 || anyName)
+                if (month == 0)
                 {
                     return false;
                 }
 
-                anyName = true;
-                vals[parts] = month;
-                digs[parts] = 0;
-                parts++;
+                vals[n] = month;
+                digs[n] = 0;
             }
             else
             {
                 return false;
             }
 
-            // separator run after a part
-            if (i >= s.Length)
+            if (i < s.Length)
             {
-                break;
-            }
-
-            int sepStart = i;
-            while (i < s.Length && s[i] is '/' or '-' or '.' or ' ' or ',')
-            {
-                i++;
-            }
-
-            ReadOnlySpan<char> run = s[sepStart..i];
-            if (run.Length == 0 || i >= s.Length)
-            {
-                return false; // trailing separator or an unknown character
-            }
-
-            if (run.Length == 1 && run[0] is '/' or '-' or '.')
-            {
-                if (run[0] == '.' && !_dotDate && !nameExpected)
+                char c = s[i];
+                if (c is '/' or '-' || (c == '.' && !(_dotDate && i + 1 < s.Length && s[i + 1] == ' ')) || (c == ' ' && !(i + 1 < s.Length && s[i + 1] == ' ')))
+                {
+                    seps[n] = c;
+                    i++;
+                }
+                else if (c == ',' && i + 1 < s.Length && s[i + 1] == ' ')
+                {
+                    seps[n] = ',';
+                    i += 2;
+                }
+                else if (c == '.' && _dotDate && i + 1 < s.Length && s[i + 1] == ' ')
+                {
+                    seps[n] = ' '; // "15. Januar 2020"
+                    i += 2;
+                }
+                else
                 {
                     return false;
                 }
 
-                if (sep != '\0' && sep != run[0])
+                if (i >= s.Length)
                 {
-                    return false;
+                    return false; // a trailing separator
                 }
-
-                sep = run[0];
             }
-            else if (!nameExpected || run.Length > 2)
+
+            n++;
+        }
+
+        int names = 0;
+        for (int k = 0; k < n; k++)
+        {
+            if (digs[k] == 0)
             {
-                return false;
+                names++;
             }
         }
 
-        if (parts < 2)
+        int y;
+        int m;
+        int d;
+        int yearDigits;
+        if (names == 0)
+        {
+            char sep = seps[0];
+            if (sep == '.' ? !_dotDate : sep is not ('/' or '-'))
+            {
+                return false;
+            }
+
+            if (n == 3 && seps[1] == sep)
+            {
+                if (digs[0] == 4)
+                {
+                    y = vals[0];
+                    m = vals[1];
+                    d = vals[2];
+                    yearDigits = 4;
+                    if (digs[1] > 2 || digs[2] > 2 || sep == '.')
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    (int a, int b, int c) = _order switch
+                    {
+                        1 => (vals[1], vals[0], vals[2]),
+                        2 => (vals[1], vals[2], vals[0]),
+                        _ => (vals[0], vals[1], vals[2]),
+                    };
+                    int yi = _order == 2 ? 0 : 2;
+                    if (_order == 2 && digs[0] != 4)
+                    {
+                        return false;
+                    }
+
+                    if (digs[0] > 2 && yi != 0 || digs[1] > 2 || (yi == 2 && digs[2] > 4) || digs[yi] == 3)
+                    {
+                        return false;
+                    }
+
+                    m = a;
+                    d = b;
+                    y = c;
+                    yearDigits = digs[yi];
+                }
+            }
+            else if (n == 2 && _options.DefaultYear > 0 && digs[0] <= 2 && digs[1] <= 2)
+            {
+                // A month and a day: Excel uses the current year, which would make the result depend on the clock.
+                y = _options.DefaultYear;
+                yearDigits = 4;
+                (m, d) = _order == 1 ? (vals[1], vals[0]) : (vals[0], vals[1]);
+                code = "d-mmm";
+                return ExcelDate.TryToSerial(y, m, d, _options.DateSystem, out serial);
+            }
+            else
+            {
+                return false;
+            }
+
+            if (!YearOf(ref y, yearDigits) || !ExcelDate.TryToSerial(y, m, d, _options.DateSystem, out serial))
+            {
+                return false;
+            }
+
+            code = _numericDateCode;
+            return true;
+        }
+
+        if (names != 1)
         {
             return false;
         }
 
-        int y, m, d = 1;
-        if (anyName)
+        // 2-Jan-2020, 2 Jan 20, 2-Jan-2020
+        if (n == 3 && digs[1] == 0 && digs[0] is >= 1 and <= 2 && digs[2] is 2 or 4 && seps[0] == seps[1] && seps[0] is '-' or ' ' or '/')
         {
-            int mi = digs[0] == 0 ? 0 : digs[1] == 0 ? 1 : 2;
-            m = vals[mi];
-            int yearDigits;
-            if (parts == 2)
-            {
-                if (digs[1 - mi] != 4)
-                {
-                    return false; // a month and a day without a year depends on today's date
-                }
-
-                y = vals[1 - mi];
-                yearDigits = 4;
-            }
-            else if (digs[0] == 4 && mi == 1)
-            {
-                y = vals[0];
-                d = vals[2];
-                yearDigits = 4;
-            }
-            else if (mi == 0)
-            {
-                d = vals[1];
-                y = vals[2];
-                yearDigits = digs[2];
-            }
-            else if (mi == 1)
-            {
-                d = vals[0];
-                y = vals[2];
-                yearDigits = digs[2];
-            }
-            else
+            (d, m, y, yearDigits) = (vals[0], vals[1], vals[2], digs[2]);
+        }
+        else if (n == 3 && digs[0] == 0 && seps[0] == ' ' && seps[1] == ',' && digs[1] is >= 1 and <= 2 && digs[2] is 2 or 4)
+        {
+            // Jan 2, 2020
+            (m, d, y, yearDigits) = (vals[0], vals[1], vals[2], digs[2]);
+        }
+        else if (n == 2 && digs[0] == 0 && digs[1] == 4 && seps[0] is ' ' or '-')
+        {
+            // Jan 2020, Jan-2020: the first of the month
+            (m, d, y, yearDigits) = (vals[0], 1, vals[1], 4);
+            if (!ExcelDate.TryToSerial(y, m, d, _options.DateSystem, out serial))
             {
                 return false;
             }
 
-            if (!YearOf(ref y, yearDigits))
-            {
-                return false;
-            }
+            code = "mmm-yy";
+            return true;
+        }
+        else if (n == 2 && _options.DefaultYear > 0 && seps[0] is ' ' or '-' && ((digs[0] == 0 && digs[1] is >= 1 and <= 2) || (digs[1] == 0 && digs[0] is >= 1 and <= 2)))
+        {
+            // 2-Jan, Jan 2, Jan-20: no year
+            (m, d) = digs[0] == 0 ? (vals[0], vals[1]) : (vals[1], vals[0]);
+            code = "d-mmm";
+            return ExcelDate.TryToSerial(_options.DefaultYear, m, d, _options.DateSystem, out serial);
         }
         else
         {
-            if (parts != 3)
-            {
-                return false;
-            }
-
-            int order = digs[0] == 4 ? 2 : _order;
-            switch (order)
-            {
-                case 2:
-                    y = vals[0];
-                    m = vals[1];
-                    d = vals[2];
-                    if (digs[0] != 4 && digs[0] != 2)
-                    {
-                        return false;
-                    }
-
-                    if (digs[0] == 2 && !YearOf(ref y, 2))
-                    {
-                        return false;
-                    }
-
-                    break;
-                case 1:
-                    d = vals[0];
-                    m = vals[1];
-                    y = vals[2];
-                    if (!YearOf(ref y, digs[2]))
-                    {
-                        return false;
-                    }
-
-                    break;
-                default:
-                    m = vals[0];
-                    d = vals[1];
-                    y = vals[2];
-                    if (!YearOf(ref y, digs[2]))
-                    {
-                        return false;
-                    }
-
-                    break;
-            }
+            return false;
         }
 
-        return ExcelDate.TryToSerial(y, m, d, _options.DateSystem, out serial);
+        if (!YearOf(ref y, yearDigits) || !ExcelDate.TryToSerial(y, m, d, _options.DateSystem, out serial))
+        {
+            return false;
+        }
+
+        code = "d-mmm-yy";
+        return true;
     }
 
     private static bool YearOf(ref int year, int digits)
@@ -860,6 +908,7 @@ public sealed class CsvValueParser
             }
         }
 
-        return 0;
+        // Excel also reads the four-letter English abbreviation of September.
+        return name.Equals("Sept", StringComparison.OrdinalIgnoreCase) && _months[8].StartsWith("Sep", StringComparison.Ordinal) ? 9 : 0;
     }
 }

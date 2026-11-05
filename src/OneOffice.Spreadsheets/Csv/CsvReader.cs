@@ -252,7 +252,21 @@ public sealed class CsvReader : IDisposable
 
     private void ChooseEncoding()
     {
+        // Fill the whole first block, however the stream hands out bytes, so the choice does not depend on read sizes.
         FillBytes();
+        while (!_bEof && _bEnd < _bytes!.Length)
+        {
+            int n = _stream!.Read(_bytes, _bEnd, _bytes.Length - _bEnd);
+            if (n <= 0)
+            {
+                _bEof = true;
+            }
+            else
+            {
+                _bEnd += n;
+            }
+        }
+
         ReadOnlySpan<byte> b = _bytes.AsSpan(_bPos, _bEnd - _bPos);
         if (b.StartsWith((ReadOnlySpan<byte>)[0xEF, 0xBB, 0xBF]))
         {
@@ -290,9 +304,10 @@ public sealed class CsvReader : IDisposable
         }
         else
         {
-            // A prefix that ends inside a multi-byte sequence is still UTF-8; try cutting up to three bytes off the end.
-            bool valid = Utf8.IsValid(b);
-            for (int cut = 1; !valid && cut <= 3 && !_bEof && cut < b.Length; cut++)
+            // A seekable stream is checked whole, so a file that turns out to be Windows-1252 late in the text is not read as UTF-8.
+            // Otherwise the first block decides; a prefix that ends inside a multi-byte sequence is still UTF-8.
+            bool valid = _stream!.CanSeek ? ScanUtf8(_stream, _bPos, _bEnd) : Utf8.IsValid(b);
+            for (int cut = 1; !_stream.CanSeek && !valid && cut <= 3 && !_bEof && cut < b.Length; cut++)
             {
                 valid = Utf8.IsValid(b[..^cut]);
             }
@@ -307,6 +322,56 @@ public sealed class CsvReader : IDisposable
                 Report("csv.encoding-assumed", DefectKind.Encoding, DefectSeverity.Repaired,
                     "The bytes are not valid UTF-8 and have no byte-order mark; they are read as Windows-1252.", 0);
             }
+        }
+    }
+
+    // Reads the rest of a seekable stream (after the bytes already buffered) and says whether all of it is valid UTF-8.
+    private static bool ScanUtf8(Stream stream, int bufferedStart, int bufferedEnd)
+    {
+        long start = stream.Position;
+        byte[] block = ArrayPool<byte>.Shared.Rent(ByteBufferSize + 4);
+        try
+        {
+            // The stream is already past the buffered bytes; rewind to the start of the file's content and walk it in blocks, carrying an
+            // unfinished multi-byte sequence into the next block.
+            stream.Position = start - (bufferedEnd - bufferedStart);
+            int carry = 0;
+            for (;;)
+            {
+                int n = stream.Read(block, carry, ByteBufferSize);
+                int len = carry + n;
+                if (n == 0)
+                {
+                    return Utf8.IsValid(block.AsSpan(0, len));
+                }
+
+                // Cut back to a sequence boundary (at most 3 bytes) before testing.
+                int cut = len;
+                int back = 0;
+                while (back < 3 && cut > 0 && (block[cut - 1] & 0xC0) == 0x80)
+                {
+                    cut--;
+                    back++;
+                }
+
+                if (cut > 0 && block[cut - 1] >= 0xC0)
+                {
+                    cut--;
+                }
+
+                if (!Utf8.IsValid(block.AsSpan(0, cut)))
+                {
+                    return false;
+                }
+
+                carry = len - cut;
+                Buffer.BlockCopy(block, cut, block, 0, carry);
+            }
+        }
+        finally
+        {
+            stream.Position = start;
+            ArrayPool<byte>.Shared.Return(block);
         }
     }
 
@@ -517,15 +582,53 @@ public sealed class CsvReader : IDisposable
                 case Decoding.Utf16Le:
                 case Decoding.Utf16Be:
                     {
-                        int pairs = Math.Min(src.Length / 2, dst.Length);
+                        int units = src.Length / 2;
                         bool le = _decoding == Decoding.Utf16Le;
-                        for (int i = 0; i < pairs; i++)
+                        int i = 0;
+                        bool replaced = false;
+                        while (i < units && written + 2 <= dst.Length)
                         {
-                            dst[i] = le ? (char)(src[2 * i] | (src[2 * i + 1] << 8)) : (char)((src[2 * i] << 8) | src[2 * i + 1]);
+                            char ch = le ? (char)(src[2 * i] | (src[2 * i + 1] << 8)) : (char)((src[2 * i] << 8) | src[2 * i + 1]);
+                            if (char.IsHighSurrogate(ch))
+                            {
+                                if (i + 1 >= units && !_bEof)
+                                {
+                                    break; // the low half may be in the next block
+                                }
+
+                                char next = i + 1 < units ? (le ? (char)(src[2 * i + 2] | (src[2 * i + 3] << 8)) : (char)((src[2 * i + 2] << 8) | src[2 * i + 3])) : '\0';
+                                if (char.IsLowSurrogate(next))
+                                {
+                                    dst[written++] = ch;
+                                    dst[written++] = next;
+                                    i += 2;
+                                    continue;
+                                }
+
+                                dst[written++] = '\uFFFD';
+                                replaced = true;
+                            }
+                            else if (char.IsLowSurrogate(ch))
+                            {
+                                dst[written++] = '\uFFFD';
+                                replaced = true;
+                            }
+                            else
+                            {
+                                dst[written++] = ch;
+                            }
+
+                            i++;
                         }
 
-                        read = pairs * 2;
-                        written = pairs;
+                        read = i * 2;
+                        if (replaced && !_reportedInvalid)
+                        {
+                            _reportedInvalid = true;
+                            Report("csv.encoding-invalid", DefectKind.Encoding, DefectSeverity.Repaired,
+                                "The UTF-16 text holds an unpaired surrogate; it reads as U+FFFD.", _base + _end);
+                        }
+
                         if (_bEof && src.Length - read == 1)
                         {
                             read = src.Length;

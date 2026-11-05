@@ -37,11 +37,11 @@ internal static class CsvTarget
         };
         try
         {
-            List<string[]> whole = ReadAll(new MemoryStream(file), options, out char delimiter);
+            List<string[]> whole = ReadAll(new TrickleStream(file, int.MaxValue), options, out char delimiter);
             List<string[]> pieces = ReadAll(new TrickleStream(file, 1 + (mode >> 5)), options, out _);
             if (!Same(whole, pieces))
             {
-                throw new InvalidOperationException("reading in small pieces gives different records");
+                throw new InvalidOperationException("reading in small pieces gives different records (forward-only streams)");
             }
 
             var parser = new CsvValueParser(new CsvValueOptions { PreserveLeadingZeros = (mode & 0x04) != 0 });
@@ -53,7 +53,8 @@ internal static class CsvTarget
                 }
             }
 
-            if (options.Quote == '"' && (options.Delimiter ?? delimiter) != '\r')
+            // A text that begins with U+FEFF cannot make the trip: the next reader takes it for a byte-order mark.
+            if (options.Quote == '"' && (options.Delimiter ?? delimiter) != '\r' && !(whole.Count > 0 && whole[0][0].StartsWith('\uFEFF')))
             {
                 var ms = new MemoryStream();
                 using (var w = new CsvWriter(ms, new CsvWriteOptions { Delimiter = delimiter, FormulaInjection = CsvFormulaInjection.None, ByteOrderMark = false }))

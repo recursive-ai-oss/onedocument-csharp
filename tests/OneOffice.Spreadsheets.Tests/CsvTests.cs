@@ -124,7 +124,14 @@ public class CsvTests
     {
         var ctx = new OpenContext();
         byte[] b = [.. Encoding.ASCII.GetBytes(new string('a', 70000)), 0xFF, 0x0A, 0x62];
-        using var r = new CsvReader(new MemoryStream(b), context: ctx);
+        // A seekable stream is checked whole, so the late byte makes the file Windows-1252; a forward-only stream is decided by its first block.
+        using (var seekable = new CsvReader(new MemoryStream(b), context: new OpenContext()))
+        {
+            Assert.True(seekable.ReadRecord());
+            Assert.EndsWith("\u00FF", seekable.GetField(0).ToString());
+        }
+
+        using var r = new CsvReader(new ForwardOnly(b), context: ctx);
         Assert.True(r.ReadRecord());
         Assert.EndsWith("\uFFFD", r.GetField(0).ToString());
         Assert.Contains("csv.encoding-invalid", Codes(ctx));
@@ -133,6 +140,11 @@ public class CsvTests
         Assert.True(r2.ReadRecord());
         Assert.Equal("a", r2.GetField(0).ToString());
         Assert.Contains("csv.encoding-invalid", Codes(ctx2));
+    }
+
+    private sealed class ForwardOnly(byte[] data) : MemoryStream(data)
+    {
+        public override bool CanSeek => false;
     }
 
     [Fact]
@@ -261,7 +273,9 @@ public class CsvTests
     [InlineData("15 Jan 20", CsvValueKind.Date, 43845.0)]
     [InlineData("Jan 2020", CsvValueKind.Date, 43831.0)]
     [InlineData("2020-01-15 12:00", CsvValueKind.DateTime, 43845.5)]
-    [InlineData("2020-01-15T06:00:00", CsvValueKind.DateTime, 43845.25)]
+    [InlineData("2020-01-15 06:00:00", CsvValueKind.DateTime, 43845.25)]
+    [InlineData("25:30", CsvValueKind.Time, 1.0625)]
+    [InlineData("1:45 P", CsvValueKind.Time, 0.57291666666666663)]
     [InlineData("12:00", CsvValueKind.Time, 0.5)]
     [InlineData("6:00 PM", CsvValueKind.Time, 0.75)]
     [InlineData("12:00 AM", CsvValueKind.Time, 0.0)]
@@ -290,7 +304,10 @@ public class CsvTests
     [InlineData("Jan 5")]
     [InlineData("13/13/2020")]
     [InlineData("2/30/2020")]
-    [InlineData("25:00")]
+    [InlineData("2020-01-15T06:00:00")]
+    [InlineData("1:45PM")]
+    [InlineData("Jan 2 2020")]
+    [InlineData("99-01-02")]
     [InlineData("1.2.3")]
     [InlineData("-")]
     [InlineData("%")]

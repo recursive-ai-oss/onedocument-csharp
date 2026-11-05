@@ -16,6 +16,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `numfmt.` | number-format codes | `Value` |
 | `text.` | text extraction | `Structure`, `Reference`, `Markup`, `Packaging` |
 | `docx.` | the word-processing hub | `Structure`, `Reference`, `Value`, `Packaging` |
+| `csv.` | delimited text (CSV, TSV) | `Structure`, `Markup`, `Encoding`, `Value` |
 | `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
 
 ## Codes in use
@@ -143,6 +144,12 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `xlsx.column-range-invalid` | dropped | A `col` has no valid `min`/`max`; it is dropped. |
 | `xlsx.merge-range-invalid` | dropped | A `mergeCell` has a `ref` that is not a range of the sheet; it is dropped. |
 | `xlsx.shared-string-missing` | repaired | A cell refers to a shared string index the table does not have; its text reads as empty. |
+| `csv.ragged-record` | repaired | A delimited-text record has a different number of fields from the first; it is returned as it is. Located by character offset. |
+| `csv.stray-quote` | repaired | Text follows the closing quote of a quoted field; it is kept after the quoted text. |
+| `csv.quote-unterminated` | repaired | A quoted field is still open at the end of the input; it ends there. |
+| `csv.encoding-assumed` | repaired | No byte-order mark and not valid UTF-8; read as Windows-1252. |
+| `csv.encoding-invalid` | repaired | A byte sequence is not valid in the encoding in use (UTF-8 past the first block of a forward-only stream, or half a UTF-16 unit at the end); it reads as U+FFFD or is dropped. Once per reader. |
+| `csv.grid-exceeded` | dropped | Importing delimited text: more than 1,048,576 records, or 16,384 fields in a record; the rest are dropped. |
 
 The XML layer repairs nothing: Office refuses an ill-formed part, and so does this layer. The limits it enforces (`MaxXmlDepth`, `MaxXmlAttributeCount`, `MaxXmlNameLength`, and `MaxPartSize` for a part held whole) raise `limit.*` as above.
 

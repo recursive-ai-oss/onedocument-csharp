@@ -70,6 +70,10 @@ Code that calls the archive readers wraps every call and translates what it catc
 
 A damaged or unreadable container is `Unknown` (opening it reports the damage with its location). A resource limit being hit raises `OfficeLimitException`, so a bomb is not mistaken for junk. Remote sources are decided from the prefix when possible and buffered whole only for containers.
 
+## Loss reports (`RecursiveAI.OneOffice.Diagnostics`)
+
+A format that is narrower than the model it is written from, and every conversion, says what it dropped. `ILossSink.Report(code, feature, count, message)` is the one method; `LossReport` is the collector (one `LossItem` per code, counts added, `IsLossless` when empty, `CountOf(code)`). A writer takes an optional `ILossSink`; null means the caller does not care. Codes are `loss.<feature>`, lower case, never reused, and are listed with the format that reports them (CSV: `loss.formulas`, `loss.cell-styles`, `loss.number-formats`, `loss.sheets`, `loss.merged-cells`, `loss.embedded-objects`; see `csv.md`). `feature` is words for people ("formulas"), `count` is the number of cells, sheets or paragraphs affected (at least 1), and `message` says what happened to them. Loss is not a defect: defects describe damage in the input, losses describe what the output cannot hold.
+
 ## Packages and parts (`RecursiveAI.OneOffice.Packaging`)
 
 `IPackage` is a set of named parts over a container; `IOpcPackage` adds relationships; the OPC and compound-file readers implement them. A part's bytes load lazily. **A part is untouched until someone replaces or opens it for writing**; reading never touches it. The writer copies untouched parts raw (a zip entry's compressed bytes), so they come out byte-identical. `PartUri` validates and compares OPC part names (ASCII case-insensitive; spelling kept) and resolves relationship targets.
