@@ -26,7 +26,7 @@ internal static class MailMergeTarget
 
     public static void Run(ReadOnlySpan<byte> data)
     {
-        string instruction = SecurityElement.Escape(Encoding.UTF8.GetString(data).Replace("\0", string.Empty)) ?? string.Empty;
+        string instruction = SecurityElement.Escape(XmlSafe(Encoding.UTF8.GetString(data))) ?? string.Empty;
         string body = "<w:p><w:fldSimple w:instr=\"" + instruction + "\"><w:r><w:t>x</w:t></w:r></w:fldSimple></w:p>"
             + "<w:p><w:r><w:fldChar w:fldCharType=\"begin\"/></w:r><w:r><w:instrText xml:space=\"preserve\"> " + instruction
             + " </w:instrText></w:r><w:r><w:fldChar w:fldCharType=\"separate\"/></w:r><w:r><w:t>y</w:t></w:r><w:r><w:fldChar w:fldCharType=\"end\"/></w:r></w:p>";
@@ -41,6 +41,18 @@ internal static class MailMergeTarget
                 }
             }
         }
+    }
+
+    // The instruction goes into XML markup; characters XML forbids would only test the tokenizer, which has its own target.
+    private static string XmlSafe(string text)
+    {
+        var sb = new StringBuilder(text.Length);
+        foreach (char c in text)
+        {
+            sb.Append(c < ' ' && c is not ('\t' or '\n' or '\r') ? ' ' : c);
+        }
+
+        return sb.ToString();
     }
 
     private static byte[] DocxZip(string body)
