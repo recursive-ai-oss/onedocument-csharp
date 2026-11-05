@@ -181,7 +181,7 @@ internal sealed class SheetPlan
             {
                 if (cp.Width >= 0)
                 {
-                    widths[c - c0] = ctx.ColumnWidthPoints(cp.Width);
+                    widths[c - c0] = ctx.ColumnWidthPoints(Math.Min(cp.Width, 255));
                 }
 
                 hidden[c - c0] = (cp.Flags & ColumnOptions.Hidden) != 0;
@@ -221,7 +221,7 @@ internal sealed class SheetPlan
 
             if (h >= 0)
             {
-                heights[r - r0] = h;
+                heights[r - r0] = Math.Min(h, 409.5);
                 continue;
             }
 
@@ -257,7 +257,7 @@ internal sealed class SheetPlan
             if (al.WrapText && v.Kind == CellValueKind.Text && Geo.Covers(row.Row, col) && al.TextRotation == 0)
             {
                 string text = Sheet.GetText(v);
-                double width = Math.Max(1, Geo.ColWidth(col) - 3.5 - (al.Indent * ctx.MaxDigitWidth * 0.75));
+                double width = Math.Max(1, Geo.ColWidth(col) - 3.5 - (Math.Clamp(al.Indent, 0, 250) * ctx.MaxDigitWidth * 0.75));
                 lines = Math.Max(1, ctx.Text.Layout([(text, st.Text)], width, false, null).Lines.Count);
             }
             else if (v.Kind == CellValueKind.Text && Sheet.GetText(v).Contains('\n', StringComparison.Ordinal) && al.WrapText)
@@ -361,12 +361,12 @@ internal sealed class SheetPlan
                     ReadMarker(c, out tc, out tco, out tr, out tro);
                     break;
                 case "ext":
-                    ex = X.Double(c.GetAttribute("cx"), 0) / EmuPerPoint;
-                    ey = X.Double(c.GetAttribute("cy"), 0) / EmuPerPoint;
+                    ex = Points(c.GetAttribute("cx"));
+                    ey = Points(c.GetAttribute("cy"));
                     break;
                 case "pos":
-                    fco = X.Double(c.GetAttribute("x"), 0) / EmuPerPoint;
-                    fro = X.Double(c.GetAttribute("y"), 0) / EmuPerPoint;
+                    fco = Points(c.GetAttribute("x"));
+                    fro = Points(c.GetAttribute("y"));
                     break;
                 case "pic": objectKind = SheetObjectKind.Picture; name = Name(c); break;
                 case "graphicFrame": objectKind = SheetObjectKind.Chart; name = Name(c); break;
@@ -400,12 +400,15 @@ internal sealed class SheetPlan
             switch (c.LocalNameString)
             {
                 case "col": col = X.Int(c.InnerText, 0); break;
-                case "colOff": colOff = X.Double(c.InnerText, 0) / EmuPerPoint; break;
+                case "colOff": colOff = Points(c.InnerText); break;
                 case "row": row = X.Int(c.InnerText, 0); break;
-                case "rowOff": rowOff = X.Double(c.InnerText, 0) / EmuPerPoint; break;
+                case "rowOff": rowOff = Points(c.InnerText); break;
             }
         }
     }
+
+    // EMU to points, kept within a few pages of the sheet so a hostile offset cannot push coordinates out of range.
+    private static double Points(string? emu) => Math.Clamp(X.Double(emu, 0) / EmuPerPoint, -14400, 14400);
 
     private static string Name(MarkupNode c)
     {

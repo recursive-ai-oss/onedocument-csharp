@@ -582,6 +582,28 @@ public sealed class SheetRenderTests
     }
 
     [Fact]
+    public void ExtremeSettingsStayInsideTheDisplayListsCoordinateRange()
+    {
+        // A fuzz finding: a margin of 2e34 inches reached the glyph runs of the header as a coordinate the display list refuses.
+        var s = new TestXlsx.Sheet("Hostile");
+        s.Set("A1", "x").Set("B1", "<si><r><rPr><sz val=\"1e30\"/></rPr><t>big</t></r></si>").Set("C1", 12.5, TestXlsx.Indent);
+        s.FormatPr = "<sheetFormatPr defaultRowHeight=\"1e30\" defaultColWidth=\"1e30\"/>";
+        s.Cols = "<cols><col min=\"1\" max=\"2\" width=\"1e30\" customWidth=\"1\"/></cols>";
+        s.PageMargins = "<pageMargins left=\"0.5\" right=\"22222222222222222222222222222222221\" top=\"-4\" bottom=\"1e300\" header=\"1e30\" footer=\"-1e30\"/>";
+        s.HeaderFooter = "<headerFooter><oddHeader>&amp;L&amp;99Big &amp;C&amp;P</oddHeader></headerFooter>";
+        s.RowAttributes[1] = " ht=\"1e30\" customHeight=\"1\"";
+        using Workbook wb = Workbook.Open(new MemoryStream(TestXlsx.Build([s])), leaveOpen: false);
+        SheetLayoutDocument l = WorkbookRenderer.Layout(wb, Options());
+        Assert.NotEmpty(l.Pages);
+        foreach (SheetPage p in l.Pages.Take(3))
+        {
+            _ = WorkbookRenderer.Paint(l, p);
+        }
+
+        Assert.Equal(0.7 * 72, SheetPrintSettings.Read(wb.Sheets[0]).MarginLeft, 1e-9);
+    }
+
+    [Fact]
     public void PrintSettingsReadPaperMarginsAndNames()
     {
         using Workbook wb = Open("x09-a4-landscape-centred");

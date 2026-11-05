@@ -194,7 +194,8 @@ public sealed class SheetPrintSettings
         int paper = X.Int(page.GetAttribute("paperSize"), 1);
         bool landscape = page.GetAttribute("orientation") == "landscape";
         (double w, double h) = PaperSizes.Get(paper);
-        if (PaperSizes.ParseLength(page.GetAttribute("paperWidth")) is { } pw && PaperSizes.ParseLength(page.GetAttribute("paperHeight")) is { } ph)
+        if (PaperSizes.ParseLength(page.GetAttribute("paperWidth")) is { } pw && PaperSizes.ParseLength(page.GetAttribute("paperHeight")) is { } ph
+            && pw is >= 18 and <= 14400 && ph is >= 18 and <= 14400)
         {
             // ECMA-376 Part 1 §18.3.1.51: paperWidth and paperHeight give a custom size and override paperSize.
             (w, h) = (pw, ph);
@@ -222,12 +223,12 @@ public sealed class SheetPrintSettings
             PageOrder = page.GetAttribute("pageOrder") == "overThenDown" ? SheetPageOrder.OverThenDown : SheetPageOrder.DownThenOver,
             Errors = page.GetAttribute("errors") switch { "blank" => SheetErrorPrinting.Blank, "dash" => SheetErrorPrinting.Dash, "NA" => SheetErrorPrinting.NotAvailable, _ => SheetErrorPrinting.Displayed },
             BlackAndWhite = X.Flag(page.GetAttribute("blackAndWhite")),
-            MarginLeft = X.Double(margins.GetAttribute("left"), 0.7) * 72,
-            MarginRight = X.Double(margins.GetAttribute("right"), 0.7) * 72,
-            MarginTop = X.Double(margins.GetAttribute("top"), 0.75) * 72,
-            MarginBottom = X.Double(margins.GetAttribute("bottom"), 0.75) * 72,
-            MarginHeader = X.Double(margins.GetAttribute("header"), 0.3) * 72,
-            MarginFooter = X.Double(margins.GetAttribute("footer"), 0.3) * 72,
+            MarginLeft = Margin(margins, "left", 0.7, w, 0.7, "right"),
+            MarginRight = Margin(margins, "right", 0.7, w, 0.7, "left"),
+            MarginTop = Margin(margins, "top", 0.75, h, 0.75, "bottom"),
+            MarginBottom = Margin(margins, "bottom", 0.75, h, 0.75, "top"),
+            MarginHeader = Math.Clamp(X.Double(margins.GetAttribute("header"), 0.3), 0, 100) * 72,
+            MarginFooter = Math.Clamp(X.Double(margins.GetAttribute("footer"), 0.3), 0, 100) * 72,
             CenterHorizontally = X.Flag(options.GetAttribute("horizontalCentered")),
             CenterVertically = X.Flag(options.GetAttribute("verticalCentered")),
             PrintGridlines = X.Flag(options.GetAttribute("gridLines")),
@@ -235,13 +236,27 @@ public sealed class SheetPrintSettings
             HeaderFooter = ReadHeaderFooter(hf),
             RowBreaks = ReadBreaks(X.Child(root, "rowBreaks")),
             ColumnBreaks = ReadBreaks(X.Child(root, "colBreaks")),
-            DefaultRowHeight = X.Double(fmt.GetAttribute("defaultRowHeight"), 0),
-            DefaultColumnWidth = X.Double(fmt.GetAttribute("defaultColWidth"), 0),
-            BaseColumnWidth = X.Int(fmt.GetAttribute("baseColWidth"), 8),
+            // Excel's own limits: a row is at most 409.5 pt high and a column 255 characters wide.
+            DefaultRowHeight = Math.Clamp(X.Double(fmt.GetAttribute("defaultRowHeight"), 0), 0, 409.5),
+            DefaultColumnWidth = Math.Clamp(X.Double(fmt.GetAttribute("defaultColWidth"), 0), 0, 255),
+            BaseColumnWidth = Math.Clamp(X.Int(fmt.GetAttribute("baseColWidth"), 8), 1, 255),
             RowsHiddenByDefault = X.Flag(fmt.GetAttribute("zeroHeight")),
         };
 
         return ApplyNames(settings, sheet);
+    }
+
+    // A margin in points. One that leaves under half an inch of the page between it and the opposite margin is not believable; both fall back to the default.
+    private static double Margin(MarkupNode margins, string name, double fallback, double pageExtent, double oppositeFallback, string opposite)
+    {
+        double v = X.Double(margins.GetAttribute(name), fallback);
+        double o = X.Double(margins.GetAttribute(opposite), oppositeFallback);
+        if (v < 0 || o < 0 || (v + o) * 72 > pageExtent - 36)
+        {
+            return fallback * 72;
+        }
+
+        return v * 72;
     }
 
     private static SheetPrintSettings ApplyNames(SheetPrintSettings s, Worksheet sheet)

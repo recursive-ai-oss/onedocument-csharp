@@ -865,7 +865,7 @@ internal sealed class SheetPainter
 
         (double _, double _, double w, double _) = ItemBox(r, c, merge);
         double iconInset = cf?.Icon is not null ? Math.Min(st.Text.Size, 20) + 2 : 0;
-        double available = Math.Max(1, w - (2 * Pad) - iconInset - (st.Style.Alignment.Indent * _ctx.MaxDigitWidth * 0.75));
+        double available = Math.Max(1, w - (2 * Pad) - iconInset - (Math.Clamp(st.Style.Alignment.Indent, 0, 250) * _ctx.MaxDigitWidth * 0.75));
         CellContent? content = CellContents.Build(_ctx, _plan.Sheet, _s, value, st, available, null);
         if (content is null || content.IsEmptyText)
         {
@@ -880,7 +880,7 @@ internal sealed class SheetPainter
         (double x, double y, double w, double h) = ItemBox(r, c, merge);
         CellAlignment al = st.Style.Alignment;
         double iconInset = cf?.Icon is not null ? Math.Min(st.Text.Size, 20) + 2 : 0;
-        double indent = al.Indent * _ctx.MaxDigitWidth * 0.75;
+        double indent = Math.Clamp(al.Indent, 0, 250) * _ctx.MaxDigitWidth * 0.75;
         double left = x + Pad + iconInset;
         double inner = Math.Max(1, w - (2 * Pad) - iconInset);
         bool wrap = al.WrapText;

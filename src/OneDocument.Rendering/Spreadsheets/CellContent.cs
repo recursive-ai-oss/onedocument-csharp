@@ -233,7 +233,7 @@ internal static class CellContents
             switch (p.LocalNameString)
             {
                 case "rFont": s = s with { Family = val }; break;
-                case "sz": s = s with { Size = X.Double(val, s.Size) }; break;
+                case "sz": s = s with { Size = Math.Clamp(X.Double(val, s.Size), 1, 409) }; break;
                 case "b": s = s with { Bold = val is not ("0" or "false") }; break;
                 case "i": s = s with { Italic = val is not ("0" or "false") }; break;
                 case "strike": s = s with { Strike = val is not ("0" or "false") }; break;

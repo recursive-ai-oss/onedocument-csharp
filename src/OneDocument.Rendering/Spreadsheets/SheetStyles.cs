@@ -82,7 +82,7 @@ internal sealed class StyleCache(Workbook workbook)
     }
 
     public static TextStyle ToTextStyle(CellFont f, uint rgb) =>
-        new(string.IsNullOrEmpty(f.Name) ? "Calibri" : f.Name, f.Size > 0 ? f.Size : 11, f.Bold, f.Italic, f.Strike, f.Underline, f.VerticalAlignment, rgb);
+        new(string.IsNullOrEmpty(f.Name) ? "Calibri" : f.Name, f.Size > 0 ? Math.Min(f.Size, 409) : 11, f.Bold, f.Italic, f.Strike, f.Underline, f.VerticalAlignment, rgb);
 
     // Automatic colours print black for text and borders.
     public uint Rgb(StyleColor c, uint auto)
