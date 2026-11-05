@@ -196,7 +196,10 @@ public sealed class SheetStreamWriter
     {
         if (!_rowOpen)
         {
+            // A column skipped before the first cell of the sheet still counts for the row that cell starts.
+            int column = _nextColumn;
             BeginRow();
+            _nextColumn = column;
         }
 
         if (_nextColumn > CellAddress.MaxColumns)

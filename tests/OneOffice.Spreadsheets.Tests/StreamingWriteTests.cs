@@ -18,6 +18,23 @@ public class StreamingWriteTests
     }
 
     [Fact]
+    public void ColumnSkippedBeforeTheFirstCellOfASheetIsKept()
+    {
+        byte[] file = Write(w =>
+        {
+            SheetStreamWriter s = w.AddSheet("S");
+            s.SkipColumns(3);
+            s.WriteNumber(7);
+            s.Complete();
+        });
+        using var r = XlsxStreamReader.Open(new MemoryStream(file));
+        using SheetCursor c = r.OpenSheet(0);
+        Assert.True(c.ReadRow());
+        Assert.True(c.ReadCell());
+        Assert.Equal(4, c.Column);
+    }
+
+    [Fact]
     public void WrittenWorkbookReadsBackThroughTheModelAndTheCursor()
     {
         byte[] file = Write(w =>
