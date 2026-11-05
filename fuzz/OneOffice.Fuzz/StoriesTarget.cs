@@ -61,7 +61,7 @@ internal static class StoriesTarget
 
         p.SetRelationships(null, root);
         // Only parts that were well-formed to begin with must be well-formed after editing.
-        var wellFormed = new HashSet<string>(StringComparer.Ordinal);
+        var wellFormed = new HashSet<string>(StringComparer.Ordinal) { "/docProps/app.xml" };
         foreach (string part in new[] { "/word/document.xml", "/docProps/core.xml", "/docProps/custom.xml" })
         {
             if (p.FindPart(part) is { } original && RecursiveAI.OneOffice.Markup.MarkupDocument.TryParse(original.GetBytes(), out _, null))
