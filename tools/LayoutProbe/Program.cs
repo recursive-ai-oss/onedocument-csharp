@@ -40,12 +40,17 @@ internal static class Program
                 File.WriteAllBytes(Path.Combine(args[1], "drawing-" + name + ".docx"), docx);
             }
 
+            foreach ((string name, byte[] docx) in FloatSamples.All())
+            {
+                File.WriteAllBytes(Path.Combine(args[1], "float-" + name + ".docx"), docx);
+            }
+
             foreach ((string name, byte[] pptx) in DrawingSamples.Presentations())
             {
                 File.WriteAllBytes(Path.Combine(args[1], "drawing-" + name + ".pptx"), pptx);
             }
 
-            Console.WriteLine($"{LayoutCases.All().Count + DrawingSamples.All().Count} documents, {SheetCases.All().Count} workbooks and {DrawingSamples.Presentations().Count} presentations in {args[1]}");
+            Console.WriteLine($"{LayoutCases.All().Count + DrawingSamples.All().Count + FloatSamples.All().Count} documents, {SheetCases.All().Count} workbooks and {DrawingSamples.Presentations().Count} presentations in {args[1]}");
             return 0;
         }
 

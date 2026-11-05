@@ -111,6 +111,13 @@ internal sealed class Piece
     public double[] CAdv = []; // advance of the cluster in points before scale and spacing
 }
 
+internal sealed class DropCapInfo(FormattedParagraph paragraph, FrameInfo info)
+{
+    public FormattedParagraph Paragraph { get; } = paragraph;
+
+    public FrameInfo Info { get; } = info;
+}
+
 internal sealed class LineItem
 {
     public LayoutRunKind Kind;
@@ -139,8 +146,11 @@ internal sealed class FormattedLine
     public double Descent;
     public bool IsLast;
     public bool EndsWithPageBreak;
+    public bool SameRow; // another segment of the row the previous line is on: text on the far side of a floating object
     public List<LineItem> Items = [];
     public double Height => Ascent + Descent;
+    public double GapBefore; // empty space above the line: the rows above it were skipped because a floating object takes the full width
+    public double Advance => GapBefore + (SameRow ? 0 : Height);
 }
 
 internal class FormattedParagraph
@@ -166,17 +176,23 @@ internal class FormattedParagraph
     public double FormattedWidth; // the text width the lines were cut for, so the flow can re-cut them in a column of another width
     public List<FormattedLine> Lines = [];
     public List<InlineDrawing> Floats = [];
+    public DropCapInfo? DropCap; // a drop cap set at the start of this paragraph, formatted from the paragraph before it
+    public bool Reflowed; // lines were cut around floating objects at a particular place
     public ParagraphPaintInfo Paint = new();
 }
 
 // Lays out the lines of one paragraph for a given text width. Rules are cited where they come from; the choices the specification
 // leaves open (and that need Word's own output to settle) are listed in docs/layout.md.
-internal static class ParagraphFormatter
+internal static partial class ParagraphFormatter
 {
     private const double SmallCapsScale = 0.8;
     private const double ScriptScale = 0.65;
 
-    public static FormattedParagraph Format(Paragraph p, LayoutContext ctx, double width)
+    public static FormattedParagraph Format(Paragraph p, LayoutContext ctx, double width) => Format(p, ctx, width, null, null, 0);
+
+    // Lays the paragraph out with text flowing around floating objects: `space` says, for a band of the page, where text may go. When
+    // `continuation` is given its first `keepLines` lines (already on earlier pages) are kept and only the rest is cut again.
+    public static FormattedParagraph Format(Paragraph p, LayoutContext ctx, double width, ILineSpace? space, FormattedParagraph? continuation, int keepLines)
     {
         ResolvedParagraphProperties pp = p.ResolvedProperties;
         var fp = new FormattedParagraph { Source = p, StyleId = pp.StyleId, FormattedWidth = width };
@@ -293,7 +309,16 @@ internal static class ParagraphFormatter
         ReadBorders(ctx, pp, fp, leftInd, rightInd, width, rtl);
         _ = labelAtoms;
 
-        BreakLines(ctx, fp, pieces, atoms, stops, firstStart, leftInd, limit, width, rtl, align, lineRule, lineValue, mark, wordWrap, paragraphText);
+        if (space is null && continuation is null)
+        {
+            BreakLines(ctx, fp, pieces, atoms, stops, firstStart, leftInd, limit, width, rtl, align, lineRule, lineValue, mark, wordWrap, paragraphText);
+        }
+        else
+        {
+            BreakLinesAround(ctx, fp, pieces, atoms, stops, firstStart, leftInd, limit, width, rtl, align, lineRule, lineValue, mark, wordWrap, paragraphText, space, continuation, keepLines);
+            fp.Reflowed = space is not null;
+        }
+
         if (fp.Lines.Count > 0)
         {
             fp.Lines[^1].IsLast = true;
@@ -584,13 +609,13 @@ internal static class ParagraphFormatter
                     sb.Append(SymbolMap.Map(Xml.Attr(e, "font"), code));
                 }
             }
-            else if (Xml.Eq(e.LocalName, "drawing") && !Watermarks.IsWatermark(n))
+            else if ((Xml.Eq(e.LocalName, "drawing") || Xml.Eq(e.LocalName, "pict") && RecursiveAI.OneDocument.Rendering.Drawing.DrawingInfo.ReadPict(n) is not null) && !Watermarks.IsWatermark(n))
             {
                 AddDrawing(ctx, n, sb, p, drawings, floats);
             }
             else if ((Xml.Eq(e.LocalName, "pict") || Xml.Eq(e.LocalName, "object")) && !Watermarks.IsWatermark(n))
             {
-                ctx.NoteOnce("layout.drawing-skipped", "layout.drawing-skipped", "Legacy pictures and embedded objects in paragraphs are not laid out yet; their space is not reserved.", p);
+                ctx.NoteOnce("layout.drawing-skipped", "layout.drawing-skipped", "Embedded objects in paragraphs are not laid out yet; their space is not reserved.", p);
             }
         }
     }
@@ -638,10 +663,10 @@ internal static class ParagraphFormatter
     }
 
     // ECMA-376 Part 1 §20.4.2.8 (inline) and §20.4.2.3 (anchor): an inline drawing takes a character's place in the line; an anchored one
-    // is painted at its position and the text does not wrap around it yet.
+    // is placed by the page layout (Floats/) and the text wraps around it.
     private static void AddDrawing(LayoutContext ctx, MarkupNode drawing, System.Text.StringBuilder sb, Paragraph p, Dictionary<int, InlineDrawing> drawings, List<InlineDrawing> floats)
     {
-        if (RecursiveAI.OneDocument.Rendering.Drawing.DrawingInfo.Read(drawing) is not { } info)
+        if ((drawing.LocalNameString == "pict" ? RecursiveAI.OneDocument.Rendering.Drawing.DrawingInfo.ReadPict(drawing) : RecursiveAI.OneDocument.Rendering.Drawing.DrawingInfo.Read(drawing)) is not { } info)
         {
             ctx.NoteOnce("layout.drawing-skipped", "layout.drawing-skipped", "A drawing without an inline or anchor extent is not laid out.", p);
             return;
@@ -655,8 +680,8 @@ internal static class ParagraphFormatter
             return;
         }
 
+        item.TextOffset = sb.Length;
         floats.Add(item);
-        ctx.NoteOnce("layout.anchored-drawing-unwrapped", "layout.anchored-drawing-unwrapped", "Anchored drawings are painted at their position; text does not wrap around them yet.", p);
     }
 
     private static RunInfo ReadRun(LayoutContext ctx, Run run, string? link)
