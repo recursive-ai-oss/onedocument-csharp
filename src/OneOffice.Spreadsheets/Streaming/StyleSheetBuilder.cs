@@ -24,6 +24,8 @@ internal sealed class StyleSheetBuilder
     private readonly List<string> _xfs = ["<xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\" xfId=\"0\"/>"];
     private readonly Dictionary<string, int> _xfIndex = [];
 
+    public int Count => _xfs.Count;
+
     public int Add(StreamCellFormat f)
     {
         int numFmt = 0;

@@ -34,6 +34,7 @@ internal static class Program
                 "compare" => Compare(args[1..]),
                 "read" => Read(args[1], args.Length > 2 ? args[2] : null),
                 "write" => Write(args[1..]),
+                "xcompare" => XCompare(args[1], args[2]),
                 _ => 2,
             };
         }
@@ -294,6 +295,104 @@ internal static class Program
         return 0;
     }
 
+    // ------------------------------------------------------------------ xcompare
+
+    // Compares the values of two workbooks sheet by sheet with two cursors (for example a file and what another application made of it).
+    private static int XCompare(string pathA, string pathB)
+    {
+        using XlsxStreamReader ra = XlsxStreamReader.Open(pathA);
+        using XlsxStreamReader rb = XlsxStreamReader.Open(pathB);
+        long cells = 0, bad = 0, onlyA = 0, onlyB = 0;
+        string? first = null;
+        int sheets = Math.Min(ra.Sheets.Count, rb.Sheets.Count);
+        for (int si = 0; si < sheets; si++)
+        {
+            using SheetCursor a = ra.OpenSheet(si);
+            using SheetCursor b = rb.OpenSheet(si);
+            bool haveA = Next(a);
+            bool haveB = Next(b);
+            while (haveA || haveB)
+            {
+                int cmp = !haveA ? 1 : !haveB ? -1 : a.RowNumber != b.RowNumber ? a.RowNumber.CompareTo(b.RowNumber) : a.Column.CompareTo(b.Column);
+                if (cmp < 0)
+                {
+                    if (a.Kind != CellValueKind.Empty)
+                    {
+                        onlyA++;
+                        first ??= "only in A: " + a.Address;
+                    }
+
+                    haveA = Next(a);
+                }
+                else if (cmp > 0)
+                {
+                    if (b.Kind != CellValueKind.Empty)
+                    {
+                        onlyB++;
+                        first ??= "only in B: " + b.Address;
+                    }
+
+                    haveB = Next(b);
+                }
+                else
+                {
+                    cells++;
+                    if (!SameValue(a, b))
+                    {
+                        bad++;
+                        first ??= "sheet " + si + " " + a.Address + ": " + Describe(a) + " vs " + Describe(b);
+                    }
+
+                    haveA = Next(a);
+                    haveB = Next(b);
+                }
+            }
+        }
+
+        Json(new Dictionary<string, object?> { ["sheets"] = sheets, ["cellsCompared"] = cells, ["different"] = bad, ["onlyInA"] = onlyA, ["onlyInB"] = onlyB, ["first"] = first });
+        return bad + onlyA + onlyB == 0 ? 0 : 1;
+    }
+
+    private static bool Next(SheetCursor c)
+    {
+        while (true)
+        {
+            if (c.ReadCell())
+            {
+                return true;
+            }
+
+            if (!c.ReadRow())
+            {
+                return false;
+            }
+        }
+    }
+
+    private static bool SameValue(SheetCursor a, SheetCursor b)
+    {
+        if (a.Kind != b.Kind)
+        {
+            return false;
+        }
+
+        switch (a.Kind)
+        {
+            case CellValueKind.Number:
+                return a.Number == b.Number || Math.Abs(a.Number - b.Number) <= 1e-12 * Math.Max(Math.Abs(a.Number), Math.Abs(b.Number));
+            case CellValueKind.Boolean:
+                return a.Boolean == b.Boolean;
+            case CellValueKind.Error:
+                return a.Error == b.Error;
+            case CellValueKind.Text:
+                return a.TextUtf8.SequenceEqual(b.TextUtf8) || a.GetText() == b.GetText();
+            default:
+                return true;
+        }
+    }
+
+    private static string Describe(SheetCursor c) => c.Kind + ":" + (c.Kind == CellValueKind.Text ? c.GetText() : c.Number.ToString("R", System.Globalization.CultureInfo.InvariantCulture));
+
     // ------------------------------------------------------------------ write
 
     private static int Write(string[] a)
@@ -302,6 +401,7 @@ internal static class Program
         int rows = int.Parse(a[1]);
         int cols = int.Parse(a[2]);
         bool inline = a.Contains("--inline");
+        int sheets = a.Contains("--sheets") ? int.Parse(a[Array.IndexOf(a, "--sheets") + 1]) : 1;
         var sw = Stopwatch.StartNew();
         var points = new List<Dictionary<string, object?>>();
         long nextCheck = 10_000;
@@ -311,7 +411,10 @@ internal static class Program
             int bold = w.AddFormat(new StreamCellFormat { Bold = true });
             int money = w.AddFormat(new StreamCellFormat { NumberFormat = "#,##0.00" });
             int date = w.AddFormat(StreamCellFormat.Date);
-            SheetStreamWriter s = w.AddSheet("Data", new SheetWriteOptions { FreezeRows = 1, Columns = [new ColumnProperties(1, cols, 14, 0, ColumnOptions.None)] });
+            Span<char> f = stackalloc char[16];
+            for (int sheetNo = 1; sheetNo <= sheets; sheetNo++)
+            {
+            SheetStreamWriter s = w.AddSheet("Data" + sheetNo, new SheetWriteOptions { FreezeRows = 1, Columns = [new ColumnProperties(1, cols, 14, 0, ColumnOptions.None)] });
             s.BeginRow();
             for (int c = 1; c <= cols; c++)
             {
@@ -342,7 +445,10 @@ internal static class Program
                         default:
                             if (r % 5 == 0)
                             {
-                                s.WriteFormula("A" + r + "+1", r + 1);
+                                f[0] = 'A';
+                                r.TryFormat(f[1..], out int fl);
+                                "+1".CopyTo(f[(1 + fl)..]);
+                                s.WriteFormulaNumber(f[..(fl + 3)], r + 2);
                             }
                             else
                             {
@@ -353,19 +459,20 @@ internal static class Program
                     }
                 }
 
-                if (r == nextCheck)
+                if (r == nextCheck || (sheetNo > 1 && r == rows))
                 {
                     Process p = Process.GetCurrentProcess();
-                    points.Add(new Dictionary<string, object?> { ["rows"] = r, ["workingSetMB"] = p.WorkingSet64 >> 20, ["peakWorkingSetMB"] = p.PeakWorkingSet64 >> 20 });
-                    nextCheck *= 10;
+                    points.Add(new Dictionary<string, object?> { ["sheet"] = sheetNo, ["rows"] = r, ["workingSetMB"] = p.WorkingSet64 >> 20, ["peakWorkingSetMB"] = p.PeakWorkingSet64 >> 20 });
+                    nextCheck = nextCheck == r ? nextCheck * 10 : nextCheck;
                 }
+            }
             }
         }
 
         double secs = sw.Elapsed.TotalSeconds;
         Process pe = Process.GetCurrentProcess();
         long alloc = GC.GetAllocatedBytesForCurrentThread() - a0;
-        long cells = (long)rows * cols;
+        long cells = (long)rows * cols * sheets;
         Json(new Dictionary<string, object?>
         {
             ["out"] = Path.GetFileName(path), ["rows"] = rows, ["cols"] = cols, ["cells"] = cells, ["fileMB"] = new FileInfo(path).Length >> 20, ["seconds"] = Math.Round(secs, 3),

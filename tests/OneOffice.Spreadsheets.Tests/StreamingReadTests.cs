@@ -222,7 +222,7 @@ public class StreamingReadTests
                 s.WriteNumber(i * 1.25);
                 s.WriteText(i % 7 == 0 ? "seven" : "x" + (i % 50), 0);
                 s.WriteBoolean(i % 2 == 0);
-                s.WriteFormula("A1+1", i);
+                s.WriteFormulaNumber("A1+1", i);
                 s.WriteDate(new DateTime(2020, 1, 1).AddDays(i), 0);
             }
         }
@@ -232,6 +232,8 @@ public class StreamingReadTests
         _ = r.SharedStringCount; // load the table before measuring
         _ = r.IsDateStyle(0);
         long a = Walk(r, 4000);
+        _ = Walk(r, 4000); // let the JIT tier up first: re-compilation allocates too
+        _ = Walk(r, 4000);
         long before = GC.GetAllocatedBytesForCurrentThread();
         long b = Walk(r, 4000);
         long small = GC.GetAllocatedBytesForCurrentThread() - before;

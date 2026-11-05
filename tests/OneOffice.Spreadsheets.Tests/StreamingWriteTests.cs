@@ -35,7 +35,7 @@ public class StreamingWriteTests
             s.WriteError(CellError.NotAvailable);
             s.WriteDate(new DateTime(2024, 2, 29, 12, 0, 0), date);
             s.SkipColumns(1);
-            s.WriteFormulaText("A3&\"x\"", "yx");
+            s.WriteFormulaString("A3&\"x\"", "yx");
             s.WriteFormula("SUM(B3:B3)");
             s.WriteText("\uD83D\uDE00 emoji \uD800 lone");
             s.Merge(CellRange.Parse("A5:B6"));
@@ -170,6 +170,10 @@ public class StreamingWriteTests
         s.WriteNumber(1);
         s.WriteNumber(2);
         Assert.Throws<ArgumentOutOfRangeException>(() => s.MoveToColumn(1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => s.WriteNumber(1, 5));
+        Assert.Throws<ArgumentException>(() => s.WriteFormula("A1\u0001"));
+        Assert.Throws<ArgumentException>(() => s.WriteFormula(new string('1', 9000)));
+        s.WriteFormula("=1+1");
     }
 
     [Fact]
@@ -189,7 +193,7 @@ public class StreamingWriteTests
                 s.WriteNumber(i + 0.5, fmt);
                 s.WriteText(words[i & 3]);
                 s.WriteBoolean(true);
-                s.WriteFormula("A1+1", i);
+                s.WriteFormulaNumber("A1+1", i);
                 s.WriteDate(new DateTime(2020, 1, 1), 0);
             }
 

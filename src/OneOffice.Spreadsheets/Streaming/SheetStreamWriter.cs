@@ -10,7 +10,7 @@ namespace RecursiveAI.OneOffice.Spreadsheets.Streaming;
 /// begins or the sheet is completed. Writing a cell allocates nothing.
 /// </summary>
 /// <remarks>
-/// A style index is what <see cref="XlsxStreamWriter.AddFormat"/> returned (0 is the default format). Text that XML cannot carry is
+/// A style index is what <see cref="XlsxStreamWriter.AddFormat"/> returned (0 is the default format); an index that was not returned yet raises <see cref="ArgumentOutOfRangeException"/>. Text that XML cannot carry is
 /// written with Excel's <c>_xHHHH_</c> escapes (ECMA-376 Part 1 ST_Xstring). A number that is NaN or infinite, which a cell cannot hold,
 /// is written as the error <c>#NUM!</c>.
 /// </remarks>
@@ -204,6 +204,11 @@ public sealed class SheetStreamWriter
             throw new InvalidOperationException("The row has no column left.");
         }
 
+        if ((uint)style >= (uint)_owner.StyleCount)
+        {
+            throw new ArgumentOutOfRangeException(nameof(style), "The style index was not returned by AddFormat (add formats before the cells that use them).");
+        }
+
         Span<byte> d = _w.Reserve(48);
         "<c r=\""u8.CopyTo(d);
         int n = 6;
@@ -364,10 +369,11 @@ public sealed class SheetStreamWriter
     /// <exception cref="ArgumentException">The formula has a character XML cannot carry, or is longer than 8,192 characters.</exception>
     public void WriteFormula(ReadOnlySpan<char> formula, int style = 0)
     {
+        formula = CheckFormula(formula);
         _owner.NoteFormulaWithoutValue();
         OpenCell(style);
         _w.Raw("><f>"u8);
-        WriteFormulaText(formula);
+        FormulaBody(formula);
         _w.Raw("</f></c>"u8);
     }
 
@@ -375,8 +381,9 @@ public sealed class SheetStreamWriter
     /// <param name="formula">The formula text without the leading <c>=</c>.</param>
     /// <param name="cached">The result as calculated.</param>
     /// <param name="style">The style index.</param>
-    public void WriteFormula(ReadOnlySpan<char> formula, double cached, int style = 0)
+    public void WriteFormulaNumber(ReadOnlySpan<char> formula, double cached, int style = 0)
     {
+        formula = CheckFormula(formula);
         if (!double.IsFinite(cached))
         {
             WriteFormulaError(formula, CellError.Number, style);
@@ -385,7 +392,7 @@ public sealed class SheetStreamWriter
 
         OpenCell(style);
         _w.Raw("><f>"u8);
-        WriteFormulaText(formula);
+        FormulaBody(formula);
         _w.Raw("</f><v>"u8);
         _w.Double(cached);
         _w.Raw("</v></c>"u8);
@@ -395,11 +402,12 @@ public sealed class SheetStreamWriter
     /// <param name="formula">The formula text without the leading <c>=</c>.</param>
     /// <param name="cached">The result as calculated.</param>
     /// <param name="style">The style index.</param>
-    public void WriteFormula(ReadOnlySpan<char> formula, bool cached, int style = 0)
+    public void WriteFormulaBoolean(ReadOnlySpan<char> formula, bool cached, int style = 0)
     {
+        formula = CheckFormula(formula);
         OpenCell(style);
         _w.Raw(" t=\"b\"><f>"u8);
-        WriteFormulaText(formula);
+        FormulaBody(formula);
         _w.Raw(cached ? "</f><v>1</v></c>"u8 : "</f><v>0</v></c>"u8);
     }
 
@@ -407,11 +415,12 @@ public sealed class SheetStreamWriter
     /// <param name="formula">The formula text without the leading <c>=</c>.</param>
     /// <param name="cachedText">The result as calculated.</param>
     /// <param name="style">The style index.</param>
-    public void WriteFormulaText(ReadOnlySpan<char> formula, ReadOnlySpan<char> cachedText, int style = 0)
+    public void WriteFormulaString(ReadOnlySpan<char> formula, ReadOnlySpan<char> cachedText, int style = 0)
     {
+        formula = CheckFormula(formula);
         OpenCell(style);
         _w.Raw(" t=\"str\"><f>"u8);
-        WriteFormulaText(formula);
+        FormulaBody(formula);
         _w.Raw("</f><v>"u8);
         _w.Text(cachedText);
         _w.Raw("</v></c>"u8);
@@ -423,28 +432,32 @@ public sealed class SheetStreamWriter
     /// <param name="style">The style index.</param>
     public void WriteFormulaError(ReadOnlySpan<char> formula, CellError cached, int style = 0)
     {
+        formula = CheckFormula(formula);
         OpenCell(style);
         _w.Raw(" t=\"e\"><f>"u8);
-        WriteFormulaText(formula);
+        FormulaBody(formula);
         _w.Raw("</f><v>"u8);
         _w.Ascii(CellErrors.ToText(cached));
         _w.Raw("</v></c>"u8);
     }
 
-    private void WriteFormulaText(ReadOnlySpan<char> formula)
+    // Checked before the cell is started, so a refused formula leaves the part as it was.
+    private static ReadOnlySpan<char> CheckFormula(ReadOnlySpan<char> formula)
     {
         if (formula.Length > 8192)
         {
             throw new ArgumentException("A formula is at most 8,192 characters.", nameof(formula));
         }
 
-        if (formula.Length > 0 && formula[0] == '=')
+        if (!Utf8Buffer.IsPlainSafe(formula))
         {
-            formula = formula[1..];
+            throw new ArgumentException("The formula has a character that XML cannot carry.", nameof(formula));
         }
 
-        _w.Plain(formula);
+        return formula.Length > 0 && formula[0] == '=' ? formula[1..] : formula;
     }
+
+    private void FormulaBody(ReadOnlySpan<char> formula) => _w.Plain(formula);
 
     /// <summary>Merges a range of cells. Ranges are collected and written after the rows, so this can be called at any time before the sheet is completed. Overlaps are not checked.</summary>
     /// <param name="range">The range; more than one cell.</param>

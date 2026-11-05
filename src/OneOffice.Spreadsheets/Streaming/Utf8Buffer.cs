@@ -13,8 +13,13 @@ internal sealed class Utf8Buffer(Stream sink, int size = 65536)
 
     private static readonly SearchValues<char> PlainSpecial = SearchValues.Create(BuildPlainSpecial());
 
+    private static readonly SearchValues<char> PlainBad = SearchValues.Create(BuildPlainBad());
+
     private readonly byte[] _buffer = new byte[size];
     private int _length;
+
+    private static string BuildPlainBad() => BuildSpecial().Replace("_", string.Empty, StringComparison.Ordinal).Replace("&", string.Empty, StringComparison.Ordinal)
+        .Replace("<", string.Empty, StringComparison.Ordinal).Replace(">", string.Empty, StringComparison.Ordinal);
 
     private static string BuildPlainSpecial()
     {
@@ -217,6 +222,27 @@ internal sealed class Utf8Buffer(Stream sink, int size = 65536)
             }
 
             s = s[(i + 1)..];
+        }
+    }
+
+    /// <summary>Tells whether <see cref="Plain"/> can write the text.</summary>
+    public static bool IsPlainSafe(ReadOnlySpan<char> s)
+    {
+        while (true)
+        {
+            int i = s.IndexOfAny(PlainBad);
+            if (i < 0)
+            {
+                return true;
+            }
+
+            if (char.IsHighSurrogate(s[i]) && i + 1 < s.Length && char.IsLowSurrogate(s[i + 1]))
+            {
+                s = s[(i + 2)..];
+                continue;
+            }
+
+            return false;
         }
     }
 

@@ -63,6 +63,8 @@ public sealed class XlsxStreamWriter : IDisposable
         DateSystem = options.Date1904 ? DateSystem.Date1904 : DateSystem.Date1900;
     }
 
+    internal int StyleCount => _options.StylesXml.IsEmpty ? _styles.Count : int.MaxValue;
+
     internal bool SheetCountIsOne => _sheets.Count == 1;
 
     internal DateSystem DateSystem { get; }
