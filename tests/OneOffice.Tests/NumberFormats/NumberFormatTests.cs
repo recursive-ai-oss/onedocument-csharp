@@ -507,9 +507,14 @@ public class NumberFormatTests
     {
         NumberFormat[] formats = [NumberFormat.Parse("#,##0.00"), NumberFormat.Parse("yyyy-mm-dd hh:mm:ss"), NumberFormat.Parse("0.00E+00"), NumberFormat.Parse("# ??/??"), NumberFormat.General, NumberFormat.Parse("0.0%;[Red]-0.0%")];
         char[] buf = new char[128];
-        foreach (NumberFormat f in formats)
+
+        // Warm up with the measured loop itself, so tiered compilation has promoted these paths before the count starts.
+        for (int i = 0; i < 2000; i++)
         {
-            _ = f.TryFormat(12345.6789, buf);
+            foreach (NumberFormat f in formats)
+            {
+                _ = f.TryFormat(12345.6789 + i, buf);
+            }
         }
 
         long before = GC.GetAllocatedBytesForCurrentThread();

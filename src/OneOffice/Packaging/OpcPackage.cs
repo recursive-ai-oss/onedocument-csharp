@@ -1301,7 +1301,7 @@ public sealed class OpcPackage : IOpcPackage
             {
                 if (disposing)
                 {
-                    part.Set(ToArray());
+                    part.Set(new ReadOnlyMemory<byte>(GetBuffer(), 0, (int)Length)); // the buffer is ours alone once disposed; no second copy of a large part
                 }
 
                 base.Dispose(disposing);
