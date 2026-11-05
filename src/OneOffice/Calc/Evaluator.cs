@@ -26,6 +26,12 @@ public sealed class EvaluatorOptions
     /// <summary>The date system for date text and date functions. Default 1900.</summary>
     public DateSystem DateSystem { get; init; } = DateSystem.Date1900;
 
+    /// <summary>
+    /// The clock <c>TODAY</c> and <c>NOW</c> read when the resolver supplies none (<see cref="ICalcResolver.Clock"/>). Null falls back to
+    /// <see cref="TimeProvider.System"/>, the only place the evaluator reads the wall clock; pass a fixed provider for repeatable results.
+    /// </summary>
+    public TimeProvider? Clock { get; init; }
+
     /// <summary>The most nodes one <see cref="Evaluator.Evaluate(FormulaNode, CalcCell)"/> call may visit before <see cref="OfficeLimitException"/> (limit name <c>MaxEvaluationSteps</c>). Default 50,000,000.</summary>
     public long MaxSteps { get; init; } = 50_000_000;
 
