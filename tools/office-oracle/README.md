@@ -13,7 +13,7 @@ input) may be sent. Downloaded corpus files never leave the build host.
 |---|---|---|
 | `office-oracle.sh` | build host | `install` places the scripts and registers the task; `run` copies inputs, starts the task, waits, pulls results. |
 | `laptop/Install.ps1` | Windows | Registers the on-demand task `OneOfficeOracle`, logon type *Interactive* (runs only while the user is logged on). |
-| `laptop/Run-Oracle.ps1` | Windows, inside the task | Takes the shared lock, opens each file in its application through COM, writes `results.jsonl`, quits what it started, releases the lock. |
+| `laptop/Run-Oracle.ps1` | Windows, inside the task | Takes the shared lock, opens each file in its application through COM, writes `results.jsonl`, quits what it started (recording each launched process id, verifying it exited and killing only that id otherwise), releases the lock. |
 | `make-cases.py` | build host | Writes the small clean and deliberately damaged files and the style-precedence document. |
 
 Office automation needs the signed-in user's desktop, so SSH is only used to copy files, start the task and fetch
@@ -56,7 +56,8 @@ and reported in the `lock` result line. The lock is removed in a `finally` block
 | `env` | `word`, `excel`, `powerpoint` (file versions), `fontFamilyCount`, `fontsPresent`, `fontsAbsent`, `os` |
 | `app` | `app`, `version`, `build` as the application reports them |
 | `file` | `file`, `app`, `outcome`, `dialogs`, `error`, `seconds`, plus `pages`/`paragraphs`/`paragraphInfo` (Word), `sheets` (Excel), `slides` (PowerPoint), `exportedPdf`, `savedDocx` |
-| `end` | `lockReleased`, `officeProcessesLeft` |
+| `stale` | `killedFromEarlierRun`: applications an earlier, interrupted run launched (found by process id and start time in `<profile>\oneoffice\started-pids.json`) and that were still alive |
+| `end` | `lockReleased`, `officeProcessesLeft`, `launchedPidsKilled` (launched applications that ignored Quit and were killed by id), `launchedPidsSurvived` (should be empty) |
 
 `outcome` is one of:
 
@@ -109,6 +110,15 @@ build. It is used by the number-format grid in `tools/NumFmtGrid`.
 `NAME.cells.tsv` beside the results: one line per used cell of the first sheet, `row<TAB>col<TAB>type<TAB>value<TAB>numberFormat<TAB>text`
 (escapes as in grid mode). `type` is `string`, `number` (round-trip text, invariant culture), `boolean`, `error` (Excel's numeric
 code, 2042 for `#N/A`) or `empty`. The CSV tests use it to compare Excel's reading of a text file with OneOffice's.
+
+## Formulas mode (Excel)
+
+`office-oracle.sh run --formulas ...` takes `NAME.fgrid` files: one test per line, `id<TAB>how<TAB>text` with `how` one of `a1`,
+`r1c1`, `local` and the text escaped as above. Each text is entered with `Formula2`, `Formula2R1C1` or `Formula2Local` (dynamic-array
+semantics) into its own block of 60 rows of a new workbook; after a full recalculation `NAME.fgrid.tsv` has, per test,
+`id<TAB>ok<TAB>Formula2<TAB>Formula2R1C1<TAB>Formula2Local<TAB>rows<TAB>cols<TAB>cells` (cells as `t:value` items separated by U+001F;
+`z` blank, `n` number, `s` text, `b` boolean, `e` error code over the whole spill range), or `id<TAB>rejected: message` when Excel
+refuses the text. The result line's `formulas` field records Excel's separators and build. Used by `tools/FormulaGrid`.
 
 ## Runs are self-contained
 

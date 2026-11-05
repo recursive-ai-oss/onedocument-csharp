@@ -1,0 +1,700 @@
+op5600	ok	="B"<"3"	="B"<"3"	="B"<"3"	1	1	b:False
+op5601	ok	="B"<="3"	="B"<="3"	="B"<="3"	1	1	b:False
+op5602	ok	="B">"3"	="B">"3"	="B">"3"	1	1	b:True
+op5603	ok	="B">="3"	="B">="3"	="B">="3"	1	1	b:True
+op5604	ok	="B"+"a"	="B"+"a"	="B"+"a"	1	1	e:-2146826273
+op5605	ok	="B"-"a"	="B"-"a"	="B"-"a"	1	1	e:-2146826273
+op5606	ok	="B"*"a"	="B"*"a"	="B"*"a"	1	1	e:-2146826273
+op5607	ok	="B"/"a"	="B"/"a"	="B"/"a"	1	1	e:-2146826273
+op5608	ok	="B"^"a"	="B"^"a"	="B"^"a"	1	1	e:-2146826273
+op5609	ok	="B"&"a"	="B"&"a"	="B"&"a"	1	1	s:Ba
+op5610	ok	="B"="a"	="B"="a"	="B"="a"	1	1	b:False
+op5611	ok	="B"<>"a"	="B"<>"a"	="B"<>"a"	1	1	b:True
+op5612	ok	="B"<"a"	="B"<"a"	="B"<"a"	1	1	b:False
+op5613	ok	="B"<="a"	="B"<="a"	="B"<="a"	1	1	b:False
+op5614	ok	="B">"a"	="B">"a"	="B">"a"	1	1	b:True
+op5615	ok	="B">="a"	="B">="a"	="B">="a"	1	1	b:True
+op5616	ok	="B"+""	="B"+""	="B"+""	1	1	e:-2146826273
+op5617	ok	="B"-""	="B"-""	="B"-""	1	1	e:-2146826273
+op5618	ok	="B"*""	="B"*""	="B"*""	1	1	e:-2146826273
+op5619	ok	="B"/""	="B"/""	="B"/""	1	1	e:-2146826273
+op5620	ok	="B"^""	="B"^""	="B"^""	1	1	e:-2146826273
+op5621	ok	="B"&""	="B"&""	="B"&""	1	1	s:B
+op5622	ok	="B"=""	="B"=""	="B"=""	1	1	b:False
+op5623	ok	="B"<>""	="B"<>""	="B"<>""	1	1	b:True
+op5624	ok	="B"<""	="B"<""	="B"<""	1	1	b:False
+op5625	ok	="B"<=""	="B"<=""	="B"<=""	1	1	b:False
+op5626	ok	="B">""	="B">""	="B">""	1	1	b:True
+op5627	ok	="B">=""	="B">=""	="B">=""	1	1	b:True
+op5628	ok	="B"+TRUE	="B"+TRUE	="B"+TRUE	1	1	e:-2146826273
+op5629	ok	="B"-TRUE	="B"-TRUE	="B"-TRUE	1	1	e:-2146826273
+op5630	ok	="B"*TRUE	="B"*TRUE	="B"*TRUE	1	1	e:-2146826273
+op5631	ok	="B"/TRUE	="B"/TRUE	="B"/TRUE	1	1	e:-2146826273
+op5632	ok	="B"^TRUE	="B"^TRUE	="B"^TRUE	1	1	e:-2146826273
+op5633	ok	="B"&TRUE	="B"&TRUE	="B"&TRUE	1	1	s:BTRUE
+op5634	ok	="B"=TRUE	="B"=TRUE	="B"=TRUE	1	1	b:False
+op5635	ok	="B"<>TRUE	="B"<>TRUE	="B"<>TRUE	1	1	b:True
+op5636	ok	="B"<TRUE	="B"<TRUE	="B"<TRUE	1	1	b:True
+op5637	ok	="B"<=TRUE	="B"<=TRUE	="B"<=TRUE	1	1	b:True
+op5638	ok	="B">TRUE	="B">TRUE	="B">TRUE	1	1	b:False
+op5639	ok	="B">=TRUE	="B">=TRUE	="B">=TRUE	1	1	b:False
+op5640	ok	="B"+FALSE	="B"+FALSE	="B"+FALSE	1	1	e:-2146826273
+op5641	ok	="B"-FALSE	="B"-FALSE	="B"-FALSE	1	1	e:-2146826273
+op5642	ok	="B"*FALSE	="B"*FALSE	="B"*FALSE	1	1	e:-2146826273
+op5643	ok	="B"/FALSE	="B"/FALSE	="B"/FALSE	1	1	e:-2146826273
+op5644	ok	="B"^FALSE	="B"^FALSE	="B"^FALSE	1	1	e:-2146826273
+op5645	ok	="B"&FALSE	="B"&FALSE	="B"&FALSE	1	1	s:BFALSE
+op5646	ok	="B"=FALSE	="B"=FALSE	="B"=FALSE	1	1	b:False
+op5647	ok	="B"<>FALSE	="B"<>FALSE	="B"<>FALSE	1	1	b:True
+op5648	ok	="B"<FALSE	="B"<FALSE	="B"<FALSE	1	1	b:True
+op5649	ok	="B"<=FALSE	="B"<=FALSE	="B"<=FALSE	1	1	b:True
+op5650	ok	="B">FALSE	="B">FALSE	="B">FALSE	1	1	b:False
+op5651	ok	="B">=FALSE	="B">=FALSE	="B">=FALSE	1	1	b:False
+op5652	ok	="B"+#N/A	="B"+#N/A	="B"+#N/A	1	1	e:-2146826273
+op5653	ok	="B"-#N/A	="B"-#N/A	="B"-#N/A	1	1	e:-2146826273
+op5654	ok	="B"*#N/A	="B"*#N/A	="B"*#N/A	1	1	e:-2146826273
+op5655	ok	="B"/#N/A	="B"/#N/A	="B"/#N/A	1	1	e:-2146826273
+op5656	ok	="B"^#N/A	="B"^#N/A	="B"^#N/A	1	1	e:-2146826273
+op5657	ok	="B"&#N/A	="B"&#N/A	="B"&#N/A	1	1	e:-2146826246
+op5658	ok	="B"=#N/A	="B"=#N/A	="B"=#N/A	1	1	e:-2146826246
+op5659	ok	="B"<>#N/A	="B"<>#N/A	="B"<>#N/A	1	1	e:-2146826246
+op5660	ok	="B"<#N/A	="B"<#N/A	="B"<#N/A	1	1	e:-2146826246
+op5661	ok	="B"<=#N/A	="B"<=#N/A	="B"<=#N/A	1	1	e:-2146826246
+op5662	ok	="B">#N/A	="B">#N/A	="B">#N/A	1	1	e:-2146826246
+op5663	ok	="B">=#N/A	="B">=#N/A	="B">=#N/A	1	1	e:-2146826246
+op5664	ok	="B"+#DIV/0!	="B"+#DIV/0!	="B"+#DIV/0!	1	1	e:-2146826273
+op5665	ok	="B"-#DIV/0!	="B"-#DIV/0!	="B"-#DIV/0!	1	1	e:-2146826273
+op5666	ok	="B"*#DIV/0!	="B"*#DIV/0!	="B"*#DIV/0!	1	1	e:-2146826273
+op5667	ok	="B"/#DIV/0!	="B"/#DIV/0!	="B"/#DIV/0!	1	1	e:-2146826273
+op5668	ok	="B"^#DIV/0!	="B"^#DIV/0!	="B"^#DIV/0!	1	1	e:-2146826273
+op5669	ok	="B"&#DIV/0!	="B"&#DIV/0!	="B"&#DIV/0!	1	1	e:-2146826281
+op5670	ok	="B"=#DIV/0!	="B"=#DIV/0!	="B"=#DIV/0!	1	1	e:-2146826281
+op5671	ok	="B"<>#DIV/0!	="B"<>#DIV/0!	="B"<>#DIV/0!	1	1	e:-2146826281
+op5672	ok	="B"<#DIV/0!	="B"<#DIV/0!	="B"<#DIV/0!	1	1	e:-2146826281
+op5673	ok	="B"<=#DIV/0!	="B"<=#DIV/0!	="B"<=#DIV/0!	1	1	e:-2146826281
+op5674	ok	="B">#DIV/0!	="B">#DIV/0!	="B">#DIV/0!	1	1	e:-2146826281
+op5675	ok	="B">=#DIV/0!	="B">=#DIV/0!	="B">=#DIV/0!	1	1	e:-2146826281
+op5676	ok	="B"+A1	="B"+R[-4560]C[-1]	="B"+A1	1	1	e:-2146826273
+op5677	ok	="B"-A1	="B"-R[-4620]C[-1]	="B"-A1	1	1	e:-2146826273
+op5678	ok	="B"*A1	="B"*R[-4680]C[-1]	="B"*A1	1	1	e:-2146826273
+op5679	ok	="B"/A1	="B"/R[-4740]C[-1]	="B"/A1	1	1	e:-2146826273
+op5680	ok	="B"^A1	="B"^R[-4800]C[-1]	="B"^A1	1	1	e:-2146826273
+op5681	ok	="B"&A1	="B"&R[-4860]C[-1]	="B"&A1	1	1	s:B
+op5682	ok	="B"=A1	="B"=R[-4920]C[-1]	="B"=A1	1	1	b:False
+op5683	ok	="B"<>A1	="B"<>R[-4980]C[-1]	="B"<>A1	1	1	b:True
+op5684	ok	="B"<A1	="B"<R[-5040]C[-1]	="B"<A1	1	1	b:False
+op5685	ok	="B"<=A1	="B"<=R[-5100]C[-1]	="B"<=A1	1	1	b:False
+op5686	ok	="B">A1	="B">R[-5160]C[-1]	="B">A1	1	1	b:True
+op5687	ok	="B">=A1	="B">=R[-5220]C[-1]	="B">=A1	1	1	b:True
+op5688	ok	="B"+"1/2/2020"	="B"+"1/2/2020"	="B"+"1/2/2020"	1	1	e:-2146826273
+op5689	ok	="B"-"1/2/2020"	="B"-"1/2/2020"	="B"-"1/2/2020"	1	1	e:-2146826273
+op5690	ok	="B"*"1/2/2020"	="B"*"1/2/2020"	="B"*"1/2/2020"	1	1	e:-2146826273
+op5691	ok	="B"/"1/2/2020"	="B"/"1/2/2020"	="B"/"1/2/2020"	1	1	e:-2146826273
+op5692	ok	="B"^"1/2/2020"	="B"^"1/2/2020"	="B"^"1/2/2020"	1	1	e:-2146826273
+op5693	ok	="B"&"1/2/2020"	="B"&"1/2/2020"	="B"&"1/2/2020"	1	1	s:B1/2/2020
+op5694	ok	="B"="1/2/2020"	="B"="1/2/2020"	="B"="1/2/2020"	1	1	b:False
+op5695	ok	="B"<>"1/2/2020"	="B"<>"1/2/2020"	="B"<>"1/2/2020"	1	1	b:True
+op5696	ok	="B"<"1/2/2020"	="B"<"1/2/2020"	="B"<"1/2/2020"	1	1	b:False
+op5697	ok	="B"<="1/2/2020"	="B"<="1/2/2020"	="B"<="1/2/2020"	1	1	b:False
+op5698	ok	="B">"1/2/2020"	="B">"1/2/2020"	="B">"1/2/2020"	1	1	b:True
+op5699	ok	="B">="1/2/2020"	="B">="1/2/2020"	="B">="1/2/2020"	1	1	b:True
+op5700	ok	="B"+"50%"	="B"+"50%"	="B"+"50%"	1	1	e:-2146826273
+op5701	ok	="B"-"50%"	="B"-"50%"	="B"-"50%"	1	1	e:-2146826273
+op5702	ok	="B"*"50%"	="B"*"50%"	="B"*"50%"	1	1	e:-2146826273
+op5703	ok	="B"/"50%"	="B"/"50%"	="B"/"50%"	1	1	e:-2146826273
+op5704	ok	="B"^"50%"	="B"^"50%"	="B"^"50%"	1	1	e:-2146826273
+op5705	ok	="B"&"50%"	="B"&"50%"	="B"&"50%"	1	1	s:B50%
+op5706	ok	="B"="50%"	="B"="50%"	="B"="50%"	1	1	b:False
+op5707	ok	="B"<>"50%"	="B"<>"50%"	="B"<>"50%"	1	1	b:True
+op5708	ok	="B"<"50%"	="B"<"50%"	="B"<"50%"	1	1	b:False
+op5709	ok	="B"<="50%"	="B"<="50%"	="B"<="50%"	1	1	b:False
+op5710	ok	="B">"50%"	="B">"50%"	="B">"50%"	1	1	b:True
+op5711	ok	="B">="50%"	="B">="50%"	="B">="50%"	1	1	b:True
+op5712	ok	="B"+"1,000"	="B"+"1,000"	="B"+"1,000"	1	1	e:-2146826273
+op5713	ok	="B"-"1,000"	="B"-"1,000"	="B"-"1,000"	1	1	e:-2146826273
+op5714	ok	="B"*"1,000"	="B"*"1,000"	="B"*"1,000"	1	1	e:-2146826273
+op5715	ok	="B"/"1,000"	="B"/"1,000"	="B"/"1,000"	1	1	e:-2146826273
+op5716	ok	="B"^"1,000"	="B"^"1,000"	="B"^"1,000"	1	1	e:-2146826273
+op5717	ok	="B"&"1,000"	="B"&"1,000"	="B"&"1,000"	1	1	s:B1,000
+op5718	ok	="B"="1,000"	="B"="1,000"	="B"="1,000"	1	1	b:False
+op5719	ok	="B"<>"1,000"	="B"<>"1,000"	="B"<>"1,000"	1	1	b:True
+op5720	ok	="B"<"1,000"	="B"<"1,000"	="B"<"1,000"	1	1	b:False
+op5721	ok	="B"<="1,000"	="B"<="1,000"	="B"<="1,000"	1	1	b:False
+op5722	ok	="B">"1,000"	="B">"1,000"	="B">"1,000"	1	1	b:True
+op5723	ok	="B">="1,000"	="B">="1,000"	="B">="1,000"	1	1	b:True
+op5724	ok	="B"+"12:30"	="B"+"12:30"	="B"+"12:30"	1	1	e:-2146826273
+op5725	ok	="B"-"12:30"	="B"-"12:30"	="B"-"12:30"	1	1	e:-2146826273
+op5726	ok	="B"*"12:30"	="B"*"12:30"	="B"*"12:30"	1	1	e:-2146826273
+op5727	ok	="B"/"12:30"	="B"/"12:30"	="B"/"12:30"	1	1	e:-2146826273
+op5728	ok	="B"^"12:30"	="B"^"12:30"	="B"^"12:30"	1	1	e:-2146826273
+op5729	ok	="B"&"12:30"	="B"&"12:30"	="B"&"12:30"	1	1	s:B12:30
+op5730	ok	="B"="12:30"	="B"="12:30"	="B"="12:30"	1	1	b:False
+op5731	ok	="B"<>"12:30"	="B"<>"12:30"	="B"<>"12:30"	1	1	b:True
+op5732	ok	="B"<"12:30"	="B"<"12:30"	="B"<"12:30"	1	1	b:False
+op5733	ok	="B"<="12:30"	="B"<="12:30"	="B"<="12:30"	1	1	b:False
+op5734	ok	="B">"12:30"	="B">"12:30"	="B">"12:30"	1	1	b:True
+op5735	ok	="B">="12:30"	="B">="12:30"	="B">="12:30"	1	1	b:True
+op5736	ok	="B"+" 7 "	="B"+" 7 "	="B"+" 7 "	1	1	e:-2146826273
+op5737	ok	="B"-" 7 "	="B"-" 7 "	="B"-" 7 "	1	1	e:-2146826273
+op5738	ok	="B"*" 7 "	="B"*" 7 "	="B"*" 7 "	1	1	e:-2146826273
+op5739	ok	="B"/" 7 "	="B"/" 7 "	="B"/" 7 "	1	1	e:-2146826273
+op5740	ok	="B"^" 7 "	="B"^" 7 "	="B"^" 7 "	1	1	e:-2146826273
+op5741	ok	="B"&" 7 "	="B"&" 7 "	="B"&" 7 "	1	1	s:B 7 
+op5742	ok	="B"=" 7 "	="B"=" 7 "	="B"=" 7 "	1	1	b:False
+op5743	ok	="B"<>" 7 "	="B"<>" 7 "	="B"<>" 7 "	1	1	b:True
+op5744	ok	="B"<" 7 "	="B"<" 7 "	="B"<" 7 "	1	1	b:False
+op5745	ok	="B"<=" 7 "	="B"<=" 7 "	="B"<=" 7 "	1	1	b:False
+op5746	ok	="B">" 7 "	="B">" 7 "	="B">" 7 "	1	1	b:True
+op5747	ok	="B">=" 7 "	="B">=" 7 "	="B">=" 7 "	1	1	b:True
+op5748	ok	="B"+"1e3"	="B"+"1e3"	="B"+"1e3"	1	1	e:-2146826273
+op5749	ok	="B"-"1e3"	="B"-"1e3"	="B"-"1e3"	1	1	e:-2146826273
+op5750	ok	="B"*"1e3"	="B"*"1e3"	="B"*"1e3"	1	1	e:-2146826273
+op5751	ok	="B"/"1e3"	="B"/"1e3"	="B"/"1e3"	1	1	e:-2146826273
+op5752	ok	="B"^"1e3"	="B"^"1e3"	="B"^"1e3"	1	1	e:-2146826273
+op5753	ok	="B"&"1e3"	="B"&"1e3"	="B"&"1e3"	1	1	s:B1e3
+op5754	ok	="B"="1e3"	="B"="1e3"	="B"="1e3"	1	1	b:False
+op5755	ok	="B"<>"1e3"	="B"<>"1e3"	="B"<>"1e3"	1	1	b:True
+op5756	ok	="B"<"1e3"	="B"<"1e3"	="B"<"1e3"	1	1	b:False
+op5757	ok	="B"<="1e3"	="B"<="1e3"	="B"<="1e3"	1	1	b:False
+op5758	ok	="B">"1e3"	="B">"1e3"	="B">"1e3"	1	1	b:True
+op5759	ok	="B">="1e3"	="B">="1e3"	="B">="1e3"	1	1	b:True
+op5760	ok	="B"+"$5"	="B"+"$5"	="B"+"$5"	1	1	e:-2146826273
+op5761	ok	="B"-"$5"	="B"-"$5"	="B"-"$5"	1	1	e:-2146826273
+op5762	ok	="B"*"$5"	="B"*"$5"	="B"*"$5"	1	1	e:-2146826273
+op5763	ok	="B"/"$5"	="B"/"$5"	="B"/"$5"	1	1	e:-2146826273
+op5764	ok	="B"^"$5"	="B"^"$5"	="B"^"$5"	1	1	e:-2146826273
+op5765	ok	="B"&"$5"	="B"&"$5"	="B"&"$5"	1	1	s:B$5
+op5766	ok	="B"="$5"	="B"="$5"	="B"="$5"	1	1	b:False
+op5767	ok	="B"<>"$5"	="B"<>"$5"	="B"<>"$5"	1	1	b:True
+op5768	ok	="B"<"$5"	="B"<"$5"	="B"<"$5"	1	1	b:False
+op5769	ok	="B"<="$5"	="B"<="$5"	="B"<="$5"	1	1	b:False
+op5770	ok	="B">"$5"	="B">"$5"	="B">"$5"	1	1	b:True
+op5771	ok	="B">="$5"	="B">="$5"	="B">="$5"	1	1	b:True
+op5772	ok	="B"+100000000000000000000	="B"+100000000000000000000	="B"+100000000000000000000	1	1	e:-2146826273
+op5773	ok	="B"-100000000000000000000	="B"-100000000000000000000	="B"-100000000000000000000	1	1	e:-2146826273
+op5774	ok	="B"*100000000000000000000	="B"*100000000000000000000	="B"*100000000000000000000	1	1	e:-2146826273
+op5775	ok	="B"/100000000000000000000	="B"/100000000000000000000	="B"/100000000000000000000	1	1	e:-2146826273
+op5776	ok	="B"^100000000000000000000	="B"^100000000000000000000	="B"^100000000000000000000	1	1	e:-2146826273
+op5777	ok	="B"&100000000000000000000	="B"&100000000000000000000	="B"&100000000000000000000	1	1	s:B1E+20
+op5778	ok	="B"=100000000000000000000	="B"=100000000000000000000	="B"=100000000000000000000	1	1	b:False
+op5779	ok	="B"<>100000000000000000000	="B"<>100000000000000000000	="B"<>100000000000000000000	1	1	b:True
+op5780	ok	="B"<100000000000000000000	="B"<100000000000000000000	="B"<100000000000000000000	1	1	b:False
+op5781	ok	="B"<=100000000000000000000	="B"<=100000000000000000000	="B"<=100000000000000000000	1	1	b:False
+op5782	ok	="B">100000000000000000000	="B">100000000000000000000	="B">100000000000000000000	1	1	b:True
+op5783	ok	="B">=100000000000000000000	="B">=100000000000000000000	="B">=100000000000000000000	1	1	b:True
+op5784	ok	="B"+0.1	="B"+0.1	="B"+0.1	1	1	e:-2146826273
+op5785	ok	="B"-0.1	="B"-0.1	="B"-0.1	1	1	e:-2146826273
+op5786	ok	="B"*0.1	="B"*0.1	="B"*0.1	1	1	e:-2146826273
+op5787	ok	="B"/0.1	="B"/0.1	="B"/0.1	1	1	e:-2146826273
+op5788	ok	="B"^0.1	="B"^0.1	="B"^0.1	1	1	e:-2146826273
+op5789	ok	="B"&0.1	="B"&0.1	="B"&0.1	1	1	s:B0.1
+op5790	ok	="B"=0.1	="B"=0.1	="B"=0.1	1	1	b:False
+op5791	ok	="B"<>0.1	="B"<>0.1	="B"<>0.1	1	1	b:True
+op5792	ok	="B"<0.1	="B"<0.1	="B"<0.1	1	1	b:False
+op5793	ok	="B"<=0.1	="B"<=0.1	="B"<=0.1	1	1	b:False
+op5794	ok	="B">0.1	="B">0.1	="B">0.1	1	1	b:True
+op5795	ok	="B">=0.1	="B">=0.1	="B">=0.1	1	1	b:True
+op5796	ok	="B"+"B"	="B"+"B"	="B"+"B"	1	1	e:-2146826273
+op5797	ok	="B"-"B"	="B"-"B"	="B"-"B"	1	1	e:-2146826273
+op5798	ok	="B"*"B"	="B"*"B"	="B"*"B"	1	1	e:-2146826273
+op5799	ok	="B"/"B"	="B"/"B"	="B"/"B"	1	1	e:-2146826273
+op5800	ok	="B"^"B"	="B"^"B"	="B"^"B"	1	1	e:-2146826273
+op5801	ok	="B"&"B"	="B"&"B"	="B"&"B"	1	1	s:BB
+op5802	ok	="B"="B"	="B"="B"	="B"="B"	1	1	b:True
+op5803	ok	="B"<>"B"	="B"<>"B"	="B"<>"B"	1	1	b:False
+op5804	ok	="B"<"B"	="B"<"B"	="B"<"B"	1	1	b:False
+op5805	ok	="B"<="B"	="B"<="B"	="B"<="B"	1	1	b:True
+op5806	ok	="B">"B"	="B">"B"	="B">"B"	1	1	b:False
+op5807	ok	="B">="B"	="B">="B"	="B">="B"	1	1	b:True
+fn0	rejected: Exception from HRESULT: 0x800A03EC
+fn1	ok	=SUM(1,2,3)	=SUM(1,2,3)	=SUM(1,2,3)	1	1	n:6
+fn2	ok	=SUM("3",TRUE)	=SUM("3",TRUE)	=SUM("3",TRUE)	1	1	n:4
+fn3	ok	=SUM("x")	=SUM("x")	=SUM("x")	1	1	e:-2146826273
+fn4	ok	=SUM(A1,1)	=SUM(R[-12720]C[-1],1)	=SUM(A1,1)	1	1	n:1
+fn5	ok	=SUM({1,"a",TRUE})	=SUM({1,"a",TRUE})	=SUM({1,"a",TRUE})	1	1	n:1
+fn6	ok	=SUM(#N/A,1)	=SUM(#N/A,1)	=SUM(#N/A,1)	1	1	e:-2146826246
+fn7	ok	=SUM({1,#N/A})	=SUM({1,#N/A})	=SUM({1,#N/A})	1	1	e:-2146826246
+fn8	ok	=SUM(1,2,,3)	=SUM(1,2,,3)	=SUM(1,2,,3)	1	1	n:6
+fn9	ok	=SUM(X1:X3,2)	=SUM(R[-13020]C[22]:R[-13018]C[22],2)	=SUM(X1:X3,2)	1	1	n:2
+fn10	ok	=IF(TRUE,1,2)	=IF(TRUE,1,2)	=IF(TRUE,1,2)	1	1	n:1
+fn11	ok	=IF(FALSE,1)	=IF(FALSE,1)	=IF(FALSE,1)	1	1	b:False
+fn12	ok	=IF(TRUE,,2)	=IF(TRUE,,2)	=IF(TRUE,,2)	1	1	n:0
+fn13	ok	=IF(FALSE,1,)	=IF(FALSE,1,)	=IF(FALSE,1,)	1	1	n:0
+fn14	ok	=IF("TRUE",1,2)	=IF("TRUE",1,2)	=IF("TRUE",1,2)	1	1	n:1
+fn15	ok	=IF("x",1,2)	=IF("x",1,2)	=IF("x",1,2)	1	1	e:-2146826273
+fn16	ok	=IF(0,1,2)	=IF(0,1,2)	=IF(0,1,2)	1	1	n:2
+fn17	ok	=IF(2,1,2)	=IF(2,1,2)	=IF(2,1,2)	1	1	n:1
+fn18	ok	=IF(#N/A,1,2)	=IF(#N/A,1,2)	=IF(#N/A,1,2)	1	1	e:-2146826246
+fn19	ok	=IF(A1,1,2)	=IF(R[-13620]C[-1],1,2)	=IF(A1,1,2)	1	1	n:2
+fn20	ok	=IF({TRUE,FALSE,TRUE},1,2)	=IF({TRUE,FALSE,TRUE},1,2)	=IF({TRUE,FALSE,TRUE},1,2)	1	3	n:1n:2n:1
+fn21	ok	=IF({1,0},{10,20},{30,40})	=IF({1,0},{10,20},{30,40})	=IF({1,0},{10,20},{30,40})	1	2	n:10n:40
+fn22	ok	=IF({TRUE;FALSE},{1,2},3)	=IF({TRUE;FALSE},{1,2},3)	=IF({TRUE;FALSE},{1,2},3)	2	2	n:1n:2n:3n:3
+fn23	ok	=IF({TRUE,FALSE},"a")	=IF({TRUE,FALSE},"a")	=IF({TRUE,FALSE},"a")	1	2	s:ab:False
+fn24	ok	=IF({TRUE,FALSE},,"b")	=IF({TRUE,FALSE},,"b")	=IF({TRUE,FALSE},,"b")	1	2	n:0s:b
+fn25	ok	=AND(TRUE,TRUE)	=AND(TRUE,TRUE)	=AND(TRUE,TRUE)	1	1	b:True
+fn26	ok	=AND(TRUE,FALSE)	=AND(TRUE,FALSE)	=AND(TRUE,FALSE)	1	1	b:False
+fn27	ok	=AND(1,2)	=AND(1,2)	=AND(1,2)	1	1	b:True
+fn28	ok	=AND(0,#N/A)	=AND(0,#N/A)	=AND(0,#N/A)	1	1	e:-2146826246
+fn29	ok	=AND("x")	=AND("x")	=AND("x")	1	1	e:-2146826273
+fn30	ok	=AND("TRUE")	=AND("TRUE")	=AND("TRUE")	1	1	b:True
+fn31	ok	=AND({TRUE,"x"})	=AND({TRUE,"x"})	=AND({TRUE,"x"})	1	1	b:True
+fn32	ok	=AND(A1)	=AND(R[-14400]C[-1])	=AND(A1)	1	1	e:-2146826273
+fn33	ok	=AND(X1:X3)	=AND(R[-14460]C[22]:R[-14458]C[22])	=AND(X1:X3)	1	1	e:-2146826273
+fn34	ok	=AND({1,2},{0})	=AND({1,2},{0})	=AND({1,2},{0})	1	1	b:False
+fn35	rejected: Exception from HRESULT: 0x800A03EC
+fn36	ok	=OR(FALSE,FALSE)	=OR(FALSE,FALSE)	=OR(FALSE,FALSE)	1	1	b:False
+fn37	ok	=OR(FALSE,1)	=OR(FALSE,1)	=OR(FALSE,1)	1	1	b:True
+fn38	ok	=OR(0,0)	=OR(0,0)	=OR(0,0)	1	1	b:False
+fn39	ok	=OR(1,#N/A)	=OR(1,#N/A)	=OR(1,#N/A)	1	1	e:-2146826246
+fn40	ok	=OR("x",TRUE)	=OR("x",TRUE)	=OR("x",TRUE)	1	1	b:True
+fn41	ok	=OR({FALSE,"x"})	=OR({FALSE,"x"})	=OR({FALSE,"x"})	1	1	b:False
+fn42	ok	=OR(X1:X3)	=OR(R[-15000]C[22]:R[-14998]C[22])	=OR(X1:X3)	1	1	e:-2146826273
+fn43	ok	=NOT(TRUE)	=NOT(TRUE)	=NOT(TRUE)	1	1	b:False
+fn44	ok	=NOT(0)	=NOT(0)	=NOT(0)	1	1	b:True
+fn45	ok	=NOT(5)	=NOT(5)	=NOT(5)	1	1	b:False
+fn46	ok	=NOT("TRUE")	=NOT("TRUE")	=NOT("TRUE")	1	1	b:False
+fn47	ok	=NOT("x")	=NOT("x")	=NOT("x")	1	1	e:-2146826273
+fn48	ok	=NOT(#N/A)	=NOT(#N/A)	=NOT(#N/A)	1	1	e:-2146826246
+fn49	ok	=NOT({TRUE,FALSE})	=NOT({TRUE,FALSE})	=NOT({TRUE,FALSE})	1	2	b:Falseb:True
+fn50	ok	=NOT(A1)	=NOT(R[-15480]C[-1])	=NOT(A1)	1	1	b:True
+fn51	ok	=NOT("")	=NOT("")	=NOT("")	1	1	e:-2146826273
+fn52	ok	=CONCAT("a","b")	=CONCAT("a","b")	=CONCAT("a","b")	1	1	s:ab
+fn53	ok	=CONCAT(1,2,TRUE)	=CONCAT(1,2,TRUE)	=CONCAT(1,2,TRUE)	1	1	s:12TRUE
+fn54	ok	=CONCAT({"a","b";"c","d"})	=CONCAT({"a","b";"c","d"})	=CONCAT({"a","b";"c","d"})	1	1	s:abcd
+fn55	ok	=CONCAT(A1,"x")	=CONCAT(R[-15780]C[-1],"x")	=CONCAT(A1,"x")	1	1	s:x
+fn56	ok	=CONCAT(#N/A)	=CONCAT(#N/A)	=CONCAT(#N/A)	1	1	e:-2146826246
+fn57	ok	=CONCAT({1,#N/A})	=CONCAT({1,#N/A})	=CONCAT({1,#N/A})	1	1	e:-2146826246
+fn58	ok	=CONCAT(0.1+0.2)	=CONCAT(0.1+0.2)	=CONCAT(0.1+0.2)	1	1	s:0.3
+fn59	ok	=CONCAT(100000000000000000000)	=CONCAT(100000000000000000000)	=CONCAT(100000000000000000000)	1	1	s:1E+20
+fn60	ok	=CONCAT(0.0000000001)	=CONCAT(0.0000000001)	=CONCAT(0.0000000001)	1	1	s:0.0000000001
+fn61	ok	=CONCAT(123456789012345000)	=CONCAT(123456789012345000)	=CONCAT(123456789012345000)	1	1	s:123456789012345000
+fn62	ok	=CONCAT(0.000001)	=CONCAT(0.000001)	=CONCAT(0.000001)	1	1	s:0.000001
+fn63	ok	=CONCAT(0.0000001)	=CONCAT(0.0000001)	=CONCAT(0.0000001)	1	1	s:0.0000001
+fn64	ok	=CONCAT(1/3)	=CONCAT(1/3)	=CONCAT(1/3)	1	1	s:0.333333333333333
+fn65	ok	=CONCAT(-0.5)	=CONCAT(-0.5)	=CONCAT(-0.5)	1	1	s:-0.5
+fn66	ok	=CONCAT(1000000000000000)	=CONCAT(1000000000000000)	=CONCAT(1000000000000000)	1	1	s:1000000000000000
+fn67	ok	=CONCAT(100000000000000)	=CONCAT(100000000000000)	=CONCAT(100000000000000)	1	1	s:100000000000000
+fn68	ok	=CONCAT(123456789.123456)	=CONCAT(123456789.123456)	=CONCAT(123456789.123456)	1	1	s:123456789.123456
+fn69	ok	=LEN("abc")	=LEN("abc")	=LEN("abc")	1	1	n:3
+fn70	ok	=LEN("")	=LEN("")	=LEN("")	1	1	n:0
+fn71	ok	=LEN(123)	=LEN(123)	=LEN(123)	1	1	n:3
+fn72	ok	=LEN(TRUE)	=LEN(TRUE)	=LEN(TRUE)	1	1	n:4
+fn73	ok	=LEN(A1)	=LEN(R[-16860]C[-1])	=LEN(A1)	1	1	n:0
+fn74	ok	=LEN(#N/A)	=LEN(#N/A)	=LEN(#N/A)	1	1	e:-2146826246
+fn75	ok	=LEN({"a","bb",12345})	=LEN({"a","bb",12345})	=LEN({"a","bb",12345})	1	3	n:1n:2n:5
+fn76	ok	=LEN(1/3)	=LEN(1/3)	=LEN(1/3)	1	1	n:17
+fn77	ok	=LEN(100000000000000000000)	=LEN(100000000000000000000)	=LEN(100000000000000000000)	1	1	n:5
+fn78	ok	=LEN(0.1+0.2)	=LEN(0.1+0.2)	=LEN(0.1+0.2)	1	1	n:3
+fn79	ok	=ISERROR(1)	=ISERROR(1)	=ISERROR(1)	1	1	b:False
+fn80	ok	=ISERROR(#N/A)	=ISERROR(#N/A)	=ISERROR(#N/A)	1	1	b:True
+fn81	ok	=ISERROR(1/0)	=ISERROR(1/0)	=ISERROR(1/0)	1	1	b:True
+fn82	ok	=ISERROR("x")	=ISERROR("x")	=ISERROR("x")	1	1	b:False
+fn83	ok	=ISERROR({1,#N/A,"a"})	=ISERROR({1,#N/A,"a"})	=ISERROR({1,#N/A,"a"})	1	3	b:Falseb:Trueb:False
+fn84	ok	=ISERROR(A1)	=ISERROR(R[-17520]C[-1])	=ISERROR(A1)	1	1	b:False
+fn85	ok	=ISERROR(#REF!)	=ISERROR(#REF!)	=ISERROR(#REF!)	1	1	b:True
+fn86	rejected: Exception from HRESULT: 0x800A03EC
+fn87	rejected: Exception from HRESULT: 0x800A03EC
+fn88	ok	=ROWS(X1:X5)	=ROWS(R[-17760]C[22]:R[-17756]C[22])	=ROWS(X1:X5)	1	1	n:5
+fn89	ok	=ROWS(X1:Z2)	=ROWS(R[-17820]C[22]:R[-17819]C[24])	=ROWS(X1:Z2)	1	1	n:2
+fn90	ok	=ROWS(5)	=ROWS(5)	=ROWS(5)	1	1	n:1
+fn91	ok	=ROWS({1,2;3,4;5,6})	=ROWS({1,2;3,4;5,6})	=ROWS({1,2;3,4;5,6})	1	1	n:3
+fn92	ok	=ROWS("a")	=ROWS("a")	=ROWS("a")	1	1	n:1
+fn93	ok	=ROWS(#N/A)	=ROWS(#N/A)	=ROWS(#N/A)	1	1	e:-2146826246
+fn94	ok	=COLUMNS(X1:Z2)	=COLUMNS(R[-18120]C[22]:R[-18119]C[24])	=COLUMNS(X1:Z2)	1	1	n:3
+fn95	ok	=COLUMNS({1,2,3})	=COLUMNS({1,2,3})	=COLUMNS({1,2,3})	1	1	n:3
+fn96	ok	=COLUMNS(7)	=COLUMNS(7)	=COLUMNS(7)	1	1	n:1
+fn97	ok	=COLUMNS(X:Z)	=COLUMNS(C[22]:C[24])	=COLUMNS(X:Z)	1	1	n:3
+fn98	ok	=ROWS(1:3)	=ROWS(R[-18360]:R[-18358])	=ROWS(1:3)	1	1	n:3
+fn99	ok	=ROWS(A:A)	=ROWS(C[-1])	=ROWS(A:A)	1	1	n:1048576
+fn100	ok	=INDEX({1,2,3;4,5,6},2,3)	=INDEX({1,2,3;4,5,6},2,3)	=INDEX({1,2,3;4,5,6},2,3)	1	1	n:6
+fn101	ok	=INDEX({1,2,3;4,5,6},0,2)	=INDEX({1,2,3;4,5,6},0,2)	=INDEX({1,2,3;4,5,6},0,2)	2	1	n:2n:5
+fn102	ok	=INDEX({1,2,3;4,5,6},2,0)	=INDEX({1,2,3;4,5,6},2,0)	=INDEX({1,2,3;4,5,6},2,0)	1	3	n:4n:5n:6
+fn103	ok	=INDEX({1,2,3;4,5,6},2)	=INDEX({1,2,3;4,5,6},2)	=INDEX({1,2,3;4,5,6},2)	1	3	n:4n:5n:6
+fn104	ok	=INDEX({1,2,3},2)	=INDEX({1,2,3},2)	=INDEX({1,2,3},2)	1	1	n:2
+fn105	ok	=INDEX({1;2;3},2)	=INDEX({1;2;3},2)	=INDEX({1;2;3},2)	1	1	n:2
+fn106	ok	=INDEX({1,2,3},0,2)	=INDEX({1,2,3},0,2)	=INDEX({1,2,3},0,2)	1	1	n:2
+fn107	ok	=INDEX({1;2;3},2,1)	=INDEX({1;2;3},2,1)	=INDEX({1;2;3},2,1)	1	1	n:2
+fn108	ok	=INDEX({1,2,3},1,4)	=INDEX({1,2,3},1,4)	=INDEX({1,2,3},1,4)	1	1	e:-2146826265
+fn109	ok	=INDEX({1,2,3},4)	=INDEX({1,2,3},4)	=INDEX({1,2,3},4)	1	1	e:-2146826265
+fn110	ok	=INDEX({1,2,3;4,5,6},3,1)	=INDEX({1,2,3;4,5,6},3,1)	=INDEX({1,2,3;4,5,6},3,1)	1	1	e:-2146826265
+fn111	ok	=INDEX({1,2,3;4,5,6},-1,1)	=INDEX({1,2,3;4,5,6},-1,1)	=INDEX({1,2,3;4,5,6},-1,1)	1	1	e:-2146826273
+fn112	ok	=INDEX({1,2,3;4,5,6},0,0)	=INDEX({1,2,3;4,5,6},0,0)	=INDEX({1,2,3;4,5,6},0,0)	2	3	n:1n:2n:3n:4n:5n:6
+fn113	ok	=INDEX({1,2,3;4,5,6},,2)	=INDEX({1,2,3;4,5,6},,2)	=INDEX({1,2,3;4,5,6},,2)	2	1	n:2n:5
+fn114	ok	=INDEX(X1:Z3,2,2)	=INDEX(R[-19320]C[22]:R[-19318]C[24],2,2)	=INDEX(X1:Z3,2,2)	1	1	n:0
+fn115	ok	=INDEX(X1:Z3,4,1)	=INDEX(R[-19380]C[22]:R[-19378]C[24],4,1)	=INDEX(X1:Z3,4,1)	1	1	e:-2146826265
+fn116	ok	=INDEX(X1:Z3,0,0)	=INDEX(R[-19440]C[22]:R[-19438]C[24],0,0)	=INDEX(X1:Z3,0,0)	3	3	n:0n:0n:0n:0n:0n:0n:0n:0n:0
+fn117	ok	=ROWS(INDEX(X1:Z3,0,2))	=ROWS(INDEX(R[-19500]C[22]:R[-19498]C[24],0,2))	=ROWS(INDEX(X1:Z3,0,2))	1	1	n:3
+fn118	ok	=INDEX(5,1,1)	=INDEX(5,1,1)	=INDEX(5,1,1)	1	1	n:5
+fn119	ok	=INDEX(5,2)	=INDEX(5,2)	=INDEX(5,2)	1	1	e:-2146826265
+fn120	ok	=INDEX({1,2,3},1.9)	=INDEX({1,2,3},1.9)	=INDEX({1,2,3},1.9)	1	1	n:1
+fn121	ok	=INDEX({1,2,3},"2")	=INDEX({1,2,3},"2")	=INDEX({1,2,3},"2")	1	1	n:2
+fn122	ok	=INDEX({1,2,3},"x")	=INDEX({1,2,3},"x")	=INDEX({1,2,3},"x")	1	1	e:-2146826273
+fn123	ok	=INDEX({1,2;3,4},{1,2},1)	=INDEX({1,2;3,4},{1,2},1)	=INDEX({1,2;3,4},{1,2},1)	1	2	n:1n:3
+fn124	ok	=SEQUENCE(3)	=SEQUENCE(3)	=SEQUENCE(3)	3	1	n:1n:2n:3
+fn125	ok	=SEQUENCE(2,3)	=SEQUENCE(2,3)	=SEQUENCE(2,3)	2	3	n:1n:2n:3n:4n:5n:6
+fn126	ok	=SEQUENCE(2,3,10)	=SEQUENCE(2,3,10)	=SEQUENCE(2,3,10)	2	3	n:10n:11n:12n:13n:14n:15
+fn127	ok	=SEQUENCE(2,3,10,5)	=SEQUENCE(2,3,10,5)	=SEQUENCE(2,3,10,5)	2	3	n:10n:15n:20n:25n:30n:35
+fn128	ok	=SEQUENCE(3,,5)	=SEQUENCE(3,,5)	=SEQUENCE(3,,5)	3	1	n:5n:6n:7
+fn129	ok	=SEQUENCE(0)	=SEQUENCE(0)	=SEQUENCE(0)	1	1	e:-2146826238
+fn130	ok	=SEQUENCE(-1)	=SEQUENCE(-1)	=SEQUENCE(-1)	1	1	e:-2146826273
+fn131	ok	=SEQUENCE(1,0)	=SEQUENCE(1,0)	=SEQUENCE(1,0)	1	1	e:-2146826238
+fn132	ok	=SEQUENCE(2.9)	=SEQUENCE(2.9)	=SEQUENCE(2.9)	2	1	n:1n:2
+fn133	ok	=SEQUENCE("2")	=SEQUENCE("2")	=SEQUENCE("2")	2	1	n:1n:2
+fn134	ok	=SEQUENCE("x")	=SEQUENCE("x")	=SEQUENCE("x")	1	1	e:-2146826273
+fn135	ok	=SEQUENCE(#N/A)	=SEQUENCE(#N/A)	=SEQUENCE(#N/A)	1	1	e:-2146826246
+fn136	ok	=SEQUENCE(1,1,-1,-0.5)	=SEQUENCE(1,1,-1,-0.5)	=SEQUENCE(1,1,-1,-0.5)	1	1	n:-1
+fn137	ok	=SEQUENCE(1,3,1,0)	=SEQUENCE(1,3,1,0)	=SEQUENCE(1,3,1,0)	1	3	n:1n:1n:1
+fn138	ok	=SEQUENCE(TRUE)	=SEQUENCE(TRUE)	=SEQUENCE(TRUE)	1	1	n:1
+fn139	ok	=SEQUENCE(2,2,"1")	=SEQUENCE(2,2,"1")	=SEQUENCE(2,2,"1")	2	2	n:1n:2n:3n:4
+fn140	ok	=SEQUENCE({2,3})	=SEQUENCE({2,3})	=SEQUENCE({2,3})	1	2	n:1n:1
+fn141	ok	=SEQUENCE(A1)	=SEQUENCE(R[-20940]C[-1])	=SEQUENCE(A1)	1	1	e:-2146826238
+fn142	ok	=MAKEARRAY(2,3,LAMBDA(r,c,r*10+c))	=MAKEARRAY(2,3,LAMBDA(r,c,r*10+c))	=MAKEARRAY(2,3,LAMBDA(r,c,r*10+c))	2	3	n:11n:12n:13n:21n:22n:23
+fn143	ok	=MAKEARRAY(0,1,LAMBDA(r,c,1))	=MAKEARRAY(0,1,LAMBDA(r,c,1))	=MAKEARRAY(0,1,LAMBDA(r,c,1))	1	1	e:-2146826273
+fn144	ok	=MAKEARRAY(1,1,LAMBDA(r,c,{1,2}))	=MAKEARRAY(1,1,LAMBDA(r,c,{1,2}))	=MAKEARRAY(1,1,LAMBDA(r,c,{1,2}))	1	1	e:-2146826238
+fn145	ok	=MAKEARRAY(2,2,LAMBDA(r,c,IF(r=c,1,0)))	=MAKEARRAY(2,2,LAMBDA(r,c,IF(r=c,1,0)))	=MAKEARRAY(2,2,LAMBDA(r,c,IF(r=c,1,0)))	2	2	n:1n:0n:0n:1
+fn146	ok	=MAKEARRAY(2,2,LAMBDA(r,c,r/(c-1)))	=MAKEARRAY(2,2,LAMBDA(r,c,r/(c-1)))	=MAKEARRAY(2,2,LAMBDA(r,c,r/(c-1)))	2	2	e:-2146826281n:1e:-2146826281n:2
+fn147	ok	=MAKEARRAY(1,2,LAMBDA(r,c,"a"&c))	=MAKEARRAY(1,2,LAMBDA(r,c,"a"&c))	=MAKEARRAY(1,2,LAMBDA(r,c,"a"&c))	1	2	s:a1s:a2
+fn148	ok	=MAKEARRAY(1,1,5)	=MAKEARRAY(1,1,5)	=MAKEARRAY(1,1,5)	1	1	e:-2146826273
+fn149	ok	=MAKEARRAY(2,2,LAMBDA(r,c,SEQUENCE(1)))	=MAKEARRAY(2,2,LAMBDA(r,c,SEQUENCE(1)))	=MAKEARRAY(2,2,LAMBDA(r,c,SEQUENCE(1)))	2	2	n:1n:1n:1n:1
+fn150	ok	=MAKEARRAY(2,2,LAMBDA(r,1))	=MAKEARRAY(2,2,LAMBDA(r,1))	=MAKEARRAY(2,2,LAMBDA(r,1))	1	1	e:-2146826273
+fn151	ok	=MAP({1,2,3},LAMBDA(x,x*2))	=MAP({1,2,3},LAMBDA(x,x*2))	=MAP({1,2,3},LAMBDA(x,x*2))	1	3	n:2n:4n:6
+fn152	ok	=MAP({1,2;3,4},LAMBDA(x,x+1))	=MAP({1,2;3,4},LAMBDA(x,x+1))	=MAP({1,2;3,4},LAMBDA(x,x+1))	2	2	n:2n:3n:4n:5
+fn153	ok	=MAP({1,2},{10,20},LAMBDA(a,b,a+b))	=MAP({1,2},{10,20},LAMBDA(a,b,a+b))	=MAP({1,2},{10,20},LAMBDA(a,b,a+b))	1	2	n:11n:22
+fn154	ok	=MAP({1,2,3},{10,20},LAMBDA(a,b,a+b))	=MAP({1,2,3},{10,20},LAMBDA(a,b,a+b))	=MAP({1,2,3},{10,20},LAMBDA(a,b,a+b))	1	3	n:11n:22e:-2146826246
+fn155	ok	=MAP({1;2},{10,20},LAMBDA(a,b,a+b))	=MAP({1;2},{10,20},LAMBDA(a,b,a+b))	=MAP({1;2},{10,20},LAMBDA(a,b,a+b))	2	2	n:11e:-2146826246e:-2146826246e:-2146826246
+fn156	ok	=MAP(5,LAMBDA(x,x*2))	=MAP(5,LAMBDA(x,x*2))	=MAP(5,LAMBDA(x,x*2))	1	1	n:10
+fn157	ok	=MAP({1,2},LAMBDA(x,{1,2}))	=MAP({1,2},LAMBDA(x,{1,2}))	=MAP({1,2},LAMBDA(x,{1,2}))	1	1	e:-2146826238
+fn158	ok	=MAP({1,2},LAMBDA(x,#N/A))	=MAP({1,2},LAMBDA(x,#N/A))	=MAP({1,2},LAMBDA(x,#N/A))	1	2	e:-2146826246e:-2146826246
+fn159	ok	=MAP({1,"a"},LAMBDA(x,x&"!"))	=MAP({1,"a"},LAMBDA(x,x&"!"))	=MAP({1,"a"},LAMBDA(x,x&"!"))	1	2	s:1!s:a!
+fn160	ok	=MAP({1,2},5)	=MAP({1,2},5)	=MAP({1,2},5)	1	1	e:-2146826273
+fn161	ok	=MAP(SEQUENCE(3),LAMBDA(x,x^2))	=MAP(SEQUENCE(3),LAMBDA(x,x^2))	=MAP(SEQUENCE(3),LAMBDA(x,x^2))	3	1	n:1n:4n:9
+fn162	ok	=MAP({1,2},LAMBDA(x,y,x))	=MAP({1,2},LAMBDA(x,y,x))	=MAP({1,2},LAMBDA(x,y,x))	1	1	e:-2146826273
+fn163	ok	=MAP(X1:X2,LAMBDA(x,x))	=MAP(R[-22260]C[22]:R[-22259]C[22],LAMBDA(x,x))	=MAP(X1:X2,LAMBDA(x,x))	2	1	n:0n:0
+fn164	ok	=MAP({1,2},LAMBDA(x,IF(x>1,"big","small")))	=MAP({1,2},LAMBDA(x,IF(x>1,"big","small")))	=MAP({1,2},LAMBDA(x,IF(x>1,"big","small")))	1	2	s:smalls:big
+fn165	ok	=MAP({1,2,3},LAMBDA(x,SEQUENCE(x)))	=MAP({1,2,3},LAMBDA(x,SEQUENCE(x)))	=MAP({1,2,3},LAMBDA(x,SEQUENCE(x)))	1	1	e:-2146826238
+fn166	ok	=TEXT(1234.5,"#,##0.00")	=TEXT(1234.5,"#,##0.00")	=TEXT(1234.5,"#,##0.00")	1	1	s:1,234.50
+fn167	ok	=TEXT(0.5,"0%")	=TEXT(0.5,"0%")	=TEXT(0.5,"0%")	1	1	s:50%
+fn168	ok	=TEXT(43831,"yyyy-mm-dd")	=TEXT(43831,"yyyy-mm-dd")	=TEXT(43831,"yyyy-mm-dd")	1	1	s:2020-01-01
+fn169	ok	=TEXT("abc","0")	=TEXT("abc","0")	=TEXT("abc","0")	1	1	s:abc
+fn170	ok	=TEXT("1","0.00")	=TEXT("1","0.00")	=TEXT("1","0.00")	1	1	s:1.00
+fn171	ok	=TEXT(TRUE,"0")	=TEXT(TRUE,"0")	=TEXT(TRUE,"0")	1	1	s:TRUE
+fn172	ok	=TEXT(A1,"0.0")	=TEXT(R[-22800]C[-1],"0.0")	=TEXT(A1,"0.0")	1	1	s:0.0
+fn173	ok	=TEXT(-1,"0;(0)")	=TEXT(-1,"0;(0)")	=TEXT(-1,"0;(0)")	1	1	s:(1)
+fn174	ok	=TEXT(1,"")	=TEXT(1,"")	=TEXT(1,"")	1	1	s:
+fn175	ok	=TEXT(1,"General")	=TEXT(1,"General")	=TEXT(1,"General")	1	1	s:1
+fn176	ok	=TEXT(#N/A,"0")	=TEXT(#N/A,"0")	=TEXT(#N/A,"0")	1	1	e:-2146826246
+fn177	ok	=TEXT({1,2},"0.0")	=TEXT({1,2},"0.0")	=TEXT({1,2},"0.0")	1	2	s:1.0s:2.0
+fn178	ok	=TEXT(1.5,"0")	=TEXT(1.5,"0")	=TEXT(1.5,"0")	1	1	s:2
+fn179	ok	=TEXT("abc","@@")	=TEXT("abc","@@")	=TEXT("abc","@@")	1	1	s:abcabc
+fn180	ok	=TEXT(0.123,"0.0%")	=TEXT(0.123,"0.0%")	=TEXT(0.123,"0.0%")	1	1	s:12.3%
+fn181	ok	=TEXT(1,"[")	=TEXT(1,"[")	=TEXT(1,"[")	1	1	e:-2146826273
+fn182	ok	=IFERROR(1,2)	=IFERROR(1,2)	=IFERROR(1,2)	1	1	n:1
+fn183	ok	=IFERROR(1/0,2)	=IFERROR(1/0,2)	=IFERROR(1/0,2)	1	1	n:2
+fn184	ok	=IFERROR(#N/A,"x")	=IFERROR(#N/A,"x")	=IFERROR(#N/A,"x")	1	1	s:x
+fn185	ok	=IFERROR({1,#N/A},0)	=IFERROR({1,#N/A},0)	=IFERROR({1,#N/A},0)	1	2	n:1n:0
+fn186	ok	=IFERROR({1,#N/A},{5,6})	=IFERROR({1,#N/A},{5,6})	=IFERROR({1,#N/A},{5,6})	1	2	n:1n:6
+fn187	ok	=IFERROR(A1,5)	=IFERROR(R[-23700]C[-1],5)	=IFERROR(A1,5)	1	1	n:0
+fn188	ok	=IFNA(#N/A,1)	=IFNA(#N/A,1)	=IFNA(#N/A,1)	1	1	n:1
+fn189	ok	=IFNA(1/0,1)	=IFNA(1/0,1)	=IFNA(1/0,1)	1	1	e:-2146826281
+fn190	ok	=IFNA({1,#N/A},0)	=IFNA({1,#N/A},0)	=IFNA({1,#N/A},0)	1	2	n:1n:0
+fn191	ok	=IFERROR(1/0,)	=IFERROR(1/0,)	=IFERROR(1/0,)	1	1	n:0
+fn192	ok	=IFERROR(,1)	=IFERROR(,1)	=IFERROR(,1)	1	1	n:0
+fn193	ok	=IFS(FALSE,1,TRUE,2)	=IFS(FALSE,1,TRUE,2)	=IFS(FALSE,1,TRUE,2)	1	1	n:2
+fn194	ok	=IFS(FALSE,1)	=IFS(FALSE,1)	=IFS(FALSE,1)	1	1	e:-2146826246
+fn195	ok	=IFS(1,"a")	=IFS(1,"a")	=IFS(1,"a")	1	1	s:a
+fn196	ok	=IFS("x",1)	=IFS("x",1)	=IFS("x",1)	1	1	e:-2146826273
+fn197	ok	=IFS(#N/A,1,TRUE,2)	=IFS(#N/A,1,TRUE,2)	=IFS(#N/A,1,TRUE,2)	1	1	e:-2146826246
+fn198	ok	=IFS({TRUE,FALSE},1,TRUE,2)	=IFS({TRUE,FALSE},1,TRUE,2)	=IFS({TRUE,FALSE},1,TRUE,2)	1	2	n:1n:2
+fn199	ok	=IFS(TRUE,1/0)	=IFS(TRUE,1/0)	=IFS(TRUE,1/0)	1	1	e:-2146826281
+fn200	ok	=CHOOSE(2,"a","b","c")	=CHOOSE(2,"a","b","c")	=CHOOSE(2,"a","b","c")	1	1	s:b
+fn201	ok	=CHOOSE(0,1,2)	=CHOOSE(0,1,2)	=CHOOSE(0,1,2)	1	1	e:-2146826273
+fn202	ok	=CHOOSE(4,1,2,3)	=CHOOSE(4,1,2,3)	=CHOOSE(4,1,2,3)	1	1	e:-2146826273
+fn203	ok	=CHOOSE(1.9,"a","b")	=CHOOSE(1.9,"a","b")	=CHOOSE(1.9,"a","b")	1	1	s:a
+fn204	ok	=CHOOSE("2",1,2)	=CHOOSE("2",1,2)	=CHOOSE("2",1,2)	1	1	n:2
+fn205	ok	=CHOOSE("x",1,2)	=CHOOSE("x",1,2)	=CHOOSE("x",1,2)	1	1	e:-2146826273
+fn206	ok	=CHOOSE({1,2},"a","b")	=CHOOSE({1,2},"a","b")	=CHOOSE({1,2},"a","b")	1	2	s:as:b
+fn207	ok	=CHOOSE(#N/A,1)	=CHOOSE(#N/A,1)	=CHOOSE(#N/A,1)	1	1	e:-2146826246
+fn208	ok	=CHOOSE(TRUE,5,6)	=CHOOSE(TRUE,5,6)	=CHOOSE(TRUE,5,6)	1	1	n:5
+fn209	ok	=LET(x,5,x*2)	=LET(x,5,x*2)	=LET(x,5,x*2)	1	1	n:10
+fn210	ok	=LET(x,5,y,x+1,x*y)	=LET(x,5,y,x+1,x*y)	=LET(x,5,y,x+1,x*y)	1	1	n:30
+fn211	ok	=LET(x,{1,2,3},SUM(x))	=LET(x,{1,2,3},SUM(x))	=LET(x,{1,2,3},SUM(x))	1	1	n:6
+fn212	ok	=LET(x,1,x)	=LET(x,1,x)	=LET(x,1,x)	1	1	n:1
+fn213	ok	=LET(x,A1,x)	=LET(x,R[-25260]C[-1],x)	=LET(x,A1,x)	1	1	n:0
+fn214	rejected: Exception from HRESULT: 0x800A03EC
+fn215	ok	=LET(x,1/0,5)	=LET(x,1/0,5)	=LET(x,1/0,5)	1	1	n:5
+fn216	rejected: Exception from HRESULT: 0x800A03EC
+fn217	ok	=LET(a,1,b,a+1,c,b+1,c)	=LET(a,1,b,a+1,c,b+1,c)	=LET(a,1,b,a+1,c,b+1,c)	1	1	n:3
+fn218	ok	=LET(f,LAMBDA(a,a+1),f(1))	=LET(f,LAMBDA(a,a+1),f(1))	=LET(f,LAMBDA(a,a+1),f(1))	1	1	n:2
+fn219	ok	=LET(f,LAMBDA(a,a+1),f)	=LET(f,LAMBDA(a,a+1),f)	=LET(f,LAMBDA(a,a+1),f)	1	1	e:-2146826238
+fn220	ok	=LET(x,SEQUENCE(3),x*2)	=LET(x,SEQUENCE(3),x*2)	=LET(x,SEQUENCE(3),x*2)	3	1	n:2n:4n:6
+fn221	ok	=LET(x,5,LAMBDA(y,x+y)(1))	=LET(x,5,LAMBDA(y,x+y)(1))	=LET(x,5,LAMBDA(y,x+y)(1))	1	1	n:6
+fn222	ok	=LET(sum,3,sum+1)	=LET(sum,3,sum+1)	=LET(sum,3,sum+1)	1	1	n:4
+fn223	ok	=LAMBDA(x,x+1)(3)	=LAMBDA(x,x+1)(3)	=LAMBDA(x,x+1)(3)	1	1	n:4
+fn224	ok	=LAMBDA(x,y,x*y)(3,4)	=LAMBDA(x,y,x*y)(3,4)	=LAMBDA(x,y,x*y)(3,4)	1	1	n:12
+fn225	ok	=LAMBDA(x,x)(1,2)	=LAMBDA(x,x)(1,2)	=LAMBDA(x,x)(1,2)	1	1	e:-2146826273
+fn226	ok	=LAMBDA(x,x)()	=LAMBDA(x,x)()	=LAMBDA(x,x)()	1	1	e:-2146826273
+fn227	ok	=LAMBDA(x,x+1)({1,2,3})	=LAMBDA(x,x+1)({1,2,3})	=LAMBDA(x,x+1)({1,2,3})	1	3	n:2n:3n:4
+fn228	ok	=LAMBDA(x,x)	=LAMBDA(x,x)	=LAMBDA(x,x)	1	1	e:-2146826238
+fn229	ok	=LAMBDA(5)()	=LAMBDA(5)()	=LAMBDA(5)()	1	1	n:5
+fn230	ok	=LAMBDA(x,LAMBDA(y,x+y))(1)(2)	=LAMBDA(x,LAMBDA(y,x+y))(1)(2)	=LAMBDA(x,LAMBDA(y,x+y))(1)(2)	1	1	n:3
+fn231	ok	=LET(f,LAMBDA(n,IF(n<=1,1,n*f(n-1))),f(5))	=LET(f,LAMBDA(n,IF(n<=1,1,n*f(n-1))),f(5))	=LET(f,LAMBDA(n,IF(n<=1,1,n*f(n-1))),f(5))	1	1	e:-2146826259
+fn232	ok	=LET(f,LAMBDA(self,n,IF(n<=1,1,n*self(self,n-1))),f(f,5))	=LET(f,LAMBDA(self,n,IF(n<=1,1,n*self(self,n-1))),f(f,5))	=LET(f,LAMBDA(self,n,IF(n<=1,1,n*self(self,n-1))),f(f,5))	1	1	n:120
+fn233	ok	=A1	=R[-26460]C[-1]	=A1	1	1	n:0
+fn234	ok	=X1:Y2	=R[-26520]C[22]:R[-26519]C[23]	=X1:Y2	2	2	n:0n:0n:0n:0
+fn235	ok	=A1+1	=R[-26580]C[-1]+1	=A1+1	1	1	n:1
+fn236	ok	=A1&"x"	=R[-26640]C[-1]&"x"	=A1&"x"	1	1	s:x
+fn237	ok	=A1=0	=R[-26700]C[-1]=0	=A1=0	1	1	b:True
+fn238	ok	=X1:X3+1	=R[-26760]C[22]:R[-26758]C[22]+1	=X1:X3+1	3	1	n:1n:1n:1
+fn239	ok	=X1:X3=0	=R[-26820]C[22]:R[-26818]C[22]=0	=X1:X3=0	3	1	b:Trueb:Trueb:True
+fn240	ok	=SUM(X1:X3+1)	=SUM(R[-26880]C[22]:R[-26878]C[22]+1)	=SUM(X1:X3+1)	1	1	n:3
+fn241	ok	=-X1:X2	=-R[-26940]C[22]:R[-26939]C[22]	=-X1:X2	2	1	n:0n:0
+fn242	ok	={1,2;3,4}	={1,2;3,4}	={1,2;3,4}	2	2	n:1n:2n:3n:4
+fn243	ok	={1,2;3,4}+10	={1,2;3,4}+10	={1,2;3,4}+10	2	2	n:11n:12n:13n:14
+fn244	ok	={1,2;3,4}*{1;2}	={1,2;3,4}*{1;2}	={1,2;3,4}*{1;2}	2	2	n:1n:2n:6n:8
+fn245	ok	={1,2;3,4}*{1,2}	={1,2;3,4}*{1,2}	={1,2;3,4}*{1,2}	2	2	n:1n:4n:3n:8
+fn246	ok	={1,2,3}+{1;2}	={1,2,3}+{1;2}	={1,2,3}+{1;2}	2	3	n:2n:3n:4n:3n:4n:5
+fn247	ok	={1,2}+{1,2,3}	={1,2}+{1,2,3}	={1,2}+{1,2,3}	1	3	n:2n:4e:-2146826246
+fn248	ok	={1,2;3,4}+{1,2;3,4;5,6}	={1,2;3,4}+{1,2;3,4;5,6}	={1,2;3,4}+{1,2;3,4;5,6}	3	2	n:2n:4n:6n:8e:-2146826246e:-2146826246
+fn249	ok	={1,2}^2	={1,2}^2	={1,2}^2	1	2	n:1n:4
+fn250	ok	={"a","b"}&1	={"a","b"}&1	={"a","b"}&1	1	2	s:a1s:b1
+fn251	ok	=-{1,2}	=-{1,2}	=-{1,2}	1	2	n:-1n:-2
+fn252	ok	={1,2}%	={1,2}%	={1,2}%	1	2	n:0.01n:0.02
+fn253	ok	={1,2}={1,3}	={1,2}={1,3}	={1,2}={1,3}	1	2	b:Trueb:False
+fn254	ok	={TRUE,FALSE}+1	={TRUE,FALSE}+1	={TRUE,FALSE}+1	1	2	n:2n:1
+fn255	ok	={1,#N/A}+1	={1,#N/A}+1	={1,#N/A}+1	1	2	n:2e:-2146826246
+fn256	ok	={1,"a"}+1	={1,"a"}+1	={1,"a"}+1	1	2	n:2e:-2146826273
+fn257	ok	=1+{1,2}	=1+{1,2}	=1+{1,2}	1	2	n:2n:3
+fn258	rejected: Exception from HRESULT: 0x800A03EC
+fn259	ok	=(1.1-1-0.1)	=(1.1-1-0.1)	=(1.1-1-0.1)	1	1	n:8.3266726846886741E-17
+fn260	ok	=1.1-1-0.1	=1.1-1-0.1	=1.1-1-0.1	1	1	n:0
+fn261	ok	=1-0.9-0.1	=1-0.9-0.1	=1-0.9-0.1	1	1	n:0
+fn262	ok	=0.1+0.2-0.3	=0.1+0.2-0.3	=0.1+0.2-0.3	1	1	n:0
+fn263	ok	=(0.1+0.2-0.3)	=(0.1+0.2-0.3)	=(0.1+0.2-0.3)	1	1	n:5.5511151231257827E-17
+fn264	ok	=(0.1+0.2)-0.3	=(0.1+0.2)-0.3	=(0.1+0.2)-0.3	1	1	n:0
+fn265	rejected: Exception from HRESULT: 0x800A03EC
+fn266	ok	=1.15-1.1	=1.15-1.1	=1.15-1.1	1	1	n:0.049999999999999822
+fn267	ok	=1.15-1.1-0.05	=1.15-1.1-0.05	=1.15-1.1-0.05	1	1	n:-1.8041124150158794E-16
+fn268	ok	=100.1-100-0.1	=100.1-100-0.1	=100.1-100-0.1	1	1	n:-5.6898930012039273E-15
+fn269	ok	=0.000000000000001+1-1	=0.000000000000001+1-1	=0.000000000000001+1-1	1	1	n:0
+fn270	ok	=1+0.000000000000001-1	=1+0.000000000000001-1	=1+0.000000000000001-1	1	1	n:0
+fn271	ok	=(1+0.000000000000001)-1	=(1+0.000000000000001)-1	=(1+0.000000000000001)-1	1	1	n:0
+fn272	ok	=10000000000000000+1-10000000000000000	=10000000000000000+1-10000000000000000	=10000000000000000+1-10000000000000000	1	1	n:0
+fn273	ok	=3*1.1-3.3	=3*1.1-3.3	=3*1.1-3.3	1	1	n:0
+fn274	ok	=10.2-10-0.2	=10.2-10-0.2	=10.2-10-0.2	1	1	n:-7.2164496600635175E-16
+fn275	ok	=-(0.1+0.2-0.3)	=-(0.1+0.2-0.3)	=-(0.1+0.2-0.3)	1	1	n:-5.5511151231257827E-17
+fn276	ok	=SUM(1.1,-1,-0.1)	=SUM(1.1,-1,-0.1)	=SUM(1.1,-1,-0.1)	1	1	n:0
+fn277	ok	=0.1*3-0.3	=0.1*3-0.3	=0.1*3-0.3	1	1	n:0
+fn278	ok	=(0.1*3)=0.3	=(0.1*3)=0.3	=(0.1*3)=0.3	1	1	b:True
+fn279	ok	=0.1*3=0.3	=0.1*3=0.3	=0.1*3=0.3	1	1	b:True
+fn280	ok	=(0.1+0.2)=0.3	=(0.1+0.2)=0.3	=(0.1+0.2)=0.3	1	1	b:True
+fn281	ok	=1=1	=1=1	=1=1	1	1	b:True
+fn282	ok	=1=1	=1=1	=1=1	1	1	b:True
+fn283	ok	=1.00000000000001=1	=1.00000000000001=1	=1.00000000000001=1	1	1	b:False
+fn284	ok	=123456789012345=123456789012346	=123456789012345=123456789012346	=123456789012345=123456789012346	1	1	b:False
+fn285	ok	=1234567890123450=1234567890123450	=1234567890123450=1234567890123450	=1234567890123450=1234567890123450	1	1	b:True
+fn286	ok	=0.1+0.7=0.8	=0.1+0.7=0.8	=0.1+0.7=0.8	1	1	b:True
+fn287	ok	=4.35*100=435	=4.35*100=435	=4.35*100=435	1	1	b:True
+fn288	ok	=1E-300=2E-300	=1E-300=2E-300	=1E-300=2E-300	1	1	b:False
+fn289	ok	=0=0	=0=0	=0=0	1	1	b:True
+fn290	ok	=1/3*3=1	=1/3*3=1	=1/3*3=1	1	1	b:True
+fn291	ok	=2^0.5*2^0.5=2	=2^0.5*2^0.5=2	=2^0.5*2^0.5=2	1	1	b:True
+fn292	ok	=1.1+2.2=3.3	=1.1+2.2=3.3	=1.1+2.2=3.3	1	1	b:True
+fn293	ok	=10%	=10%	=10%	1	1	n:0.1
+fn294	ok	=-5%	=-5%	=-5%	1	1	n:-0.05
+fn295	ok	=5%%	=5%%	=5%%	1	1	n:0.0005
+fn296	ok	=-2^2	=-2^2	=-2^2	1	1	n:4
+fn297	ok	=2^-1	=2^-1	=2^-1	1	1	n:0.5
+fn298	ok	=2^3^2	=2^3^2	=2^3^2	1	1	n:64
+fn299	ok	=-2^-2	=-2^-2	=-2^-2	1	1	n:0.25
+fn300	ok	=+"5"	=+"5"	=+"5"	1	1	s:5
+fn301	ok	=+"a"	=+"a"	=+"a"	1	1	s:a
+fn302	ok	=-"a"	=-"a"	=-"a"	1	1	e:-2146826273
+fn303	ok	=-"5"	=-"5"	=-"5"	1	1	n:-5
+fn304	ok	=--"5"	=--"5"	=--"5"	1	1	n:5
+fn305	ok	=-TRUE	=-TRUE	=-TRUE	1	1	n:-1
+fn306	ok	=-A1	=-R[-30840]C[-1]	=-A1	1	1	n:0
+fn307	ok	=-""	=-""	=-""	1	1	e:-2146826273
+fn308	ok	=+TRUE	=+TRUE	=+TRUE	1	1	b:True
+fn309	ok	=+A1	=+R[-31020]C[-1]	=+A1	1	1	n:0
+fn310	ok	=+#N/A	=+#N/A	=+#N/A	1	1	e:-2146826246
+fn311	ok	=-#N/A	=-#N/A	=-#N/A	1	1	e:-2146826246
+fn312	ok	=#N/A%	=#N/A%	=#N/A%	1	1	e:-2146826246
+fn313	ok	="a"%	="a"%	="a"%	1	1	e:-2146826273
+fn314	ok	="5"%	="5"%	="5"%	1	1	n:0.05
+fn315	ok	=TRUE%	=TRUE%	=TRUE%	1	1	n:0.01
+fn316	ok	=A1%	=R[-31440]C[-1]%	=A1%	1	1	n:0
+fn317	rejected: Exception from HRESULT: 0x800A03EC
+fn318	rejected: Exception from HRESULT: 0x800A03EC
+fn319	rejected: Exception from HRESULT: 0x800A03EC
+fn320	ok	=2^1024	=2^1024	=2^1024	1	1	e:-2146826252
+fn321	ok	=2^-1080	=2^-1080	=2^-1080	1	1	n:0
+fn322	ok	=(-8)^(1/3)	=(-8)^(1/3)	=(-8)^(1/3)	1	1	n:-1.9999999999999998
+fn323	ok	=(-8)^3	=(-8)^3	=(-8)^3	1	1	n:-512
+fn324	ok	=0^0	=0^0	=0^0	1	1	e:-2146826252
+fn325	ok	=0^1	=0^1	=0^1	1	1	n:0
+fn326	ok	=0^-1	=0^-1	=0^-1	1	1	e:-2146826281
+fn327	ok	=(0)^-1	=(0)^-1	=(0)^-1	1	1	e:-2146826281
+fn328	ok	=1^1E+300	=1^1E+300	=1^1E+300	1	1	n:1
+fn329	ok	=(-1)^1E+300	=(-1)^1E+300	=(-1)^1E+300	1	1	e:-2146826252
+fn330	ok	=(-1)^0.5	=(-1)^0.5	=(-1)^0.5	1	1	e:-2146826252
+fn331	ok	=4^0.5	=4^0.5	=4^0.5	1	1	n:2
+fn332	ok	=9^-0.5	=9^-0.5	=9^-0.5	1	1	n:0.33333333333333331
+fn333	ok	=10^308	=10^308	=10^308	1	1	n:1E+308
+fn334	ok	=10^309	=10^309	=10^309	1	1	e:-2146826252
+fn335	ok	=0/0	=0/0	=0/0	1	1	e:-2146826281
+fn336	ok	=1/0	=1/0	=1/0	1	1	e:-2146826281
+fn337	ok	=-1/0	=-1/0	=-1/0	1	1	e:-2146826281
+fn338	ok	=0/1	=0/1	=0/1	1	1	n:0
+fn339	ok	="1"/"2"	="1"/"2"	="1"/"2"	1	1	n:0.5
+fn340	ok	=1&2	=1&2	=1&2	1	1	s:12
+fn341	ok	=1&""	=1&""	=1&""	1	1	s:1
+fn342	ok	=TRUE&FALSE	=TRUE&FALSE	=TRUE&FALSE	1	1	s:TRUEFALSE
+fn343	ok	=A1&A1	=R[-33060]C[-1]&R[-33060]C[-1]	=A1&A1	1	1	s:
+fn344	ok	=A1&1	=R[-33120]C[-1]&1	=A1&1	1	1	s:1
+fn345	ok	=#N/A&1	=#N/A&1	=#N/A&1	1	1	e:-2146826246
+fn346	ok	=1&#N/A	=1&#N/A	=1&#N/A	1	1	e:-2146826246
+fn347	ok	=#N/A&#REF!	=#N/A&#REF!	=#N/A&#REF!	1	1	e:-2146826246
+fn348	ok	="a"&"b"	="a"&"b"	="a"&"b"	1	1	s:ab
+fn349	ok	=0.1+0.2&""	=0.1+0.2&""	=0.1+0.2&""	1	1	s:0.3
+fn350	ok	=1/3&""	=1/3&""	=1/3&""	1	1	s:0.333333333333333
+fn351	ok	=100000000000000000000&""	=100000000000000000000&""	=100000000000000000000&""	1	1	s:1E+20
+fn352	ok	=0.00001&""	=0.00001&""	=0.00001&""	1	1	s:0.00001
+fn353	ok	=0.0000000001&""	=0.0000000001&""	=0.0000000001&""	1	1	s:0.0000000001
+fn354	ok	=100000000000000&""	=100000000000000&""	=100000000000000&""	1	1	s:100000000000000
+fn355	ok	=1000000000000000&""	=1000000000000000&""	=1000000000000000&""	1	1	s:1000000000000000
+fn356	ok	=0.000001&""	=0.000001&""	=0.000001&""	1	1	s:0.000001
+fn357	ok	=0.0000001&""	=0.0000001&""	=0.0000001&""	1	1	s:0.0000001
+fn358	ok	=0.00000001&""	=0.00000001&""	=0.00000001&""	1	1	s:0.00000001
+fn359	ok	=0.000000001&""	=0.000000001&""	=0.000000001&""	1	1	s:0.000000001
+fn360	ok	=-1.5&""	=-1.5&""	=-1.5&""	1	1	s:-1.5
+fn361	ok	=1234567.891&""	=1234567.891&""	=1234567.891&""	1	1	s:1234567.891
+fn362	ok	=12345678901234500000&""	=12345678901234500000&""	=12345678901234500000&""	1	1	s:12345678901234500000
+fn363	ok	="a"<"b"	="a"<"b"	="a"<"b"	1	1	b:True
+fn364	ok	="a"<"B"	="a"<"B"	="a"<"B"	1	1	b:True
+fn365	ok	="B"<"a"	="B"<"a"	="B"<"a"	1	1	b:False
+fn366	ok	="a"="A"	="a"="A"	="a"="A"	1	1	b:True
+fn367	ok	="a"<"A"	="a"<"A"	="a"<"A"	1	1	b:False
+fn368	ok	="a">"A"	="a">"A"	="a">"A"	1	1	b:False
+fn369	ok	="Z"<"a"	="Z"<"a"	="Z"<"a"	1	1	b:False
+fn370	ok	="_"<"a"	="_"<"a"	="_"<"a"	1	1	b:True
+fn371	ok	="_"<"A"	="_"<"A"	="_"<"A"	1	1	b:True
+fn372	ok	="-"<"a"	="-"<"a"	="-"<"a"	1	1	b:True
+fn373	ok	="a-b"<"ab"	="a-b"<"ab"	="a-b"<"ab"	1	1	b:False
+fn374	ok	="ab"<"a b"	="ab"<"a b"	="ab"<"a b"	1	1	b:False
+fn375	ok	="a b"<"ab"	="a b"<"ab"	="a b"<"ab"	1	1	b:True
+fn376	ok	="10"<"9"	="10"<"9"	="10"<"9"	1	1	b:True
+fn377	ok	="é"<"f"	="é"<"f"	="é"<"f"	1	1	b:True
+fn378	ok	="é"="e"	="é"="e"	="é"="e"	1	1	b:False
+fn379	ok	="ä"<"b"	="ä"<"b"	="ä"<"b"	1	1	b:True
+fn380	ok	="ß"="ss"	="ß"="ss"	="ß"="ss"	1	1	b:True
+fn381	ok	=""<"a"	=""<"a"	=""<"a"	1	1	b:True
+fn382	ok	="a"<TRUE	="a"<TRUE	="a"<TRUE	1	1	b:True
+fn383	ok	=1<"a"	=1<"a"	=1<"a"	1	1	b:True
+fn384	ok	=TRUE>100	=TRUE>100	=TRUE>100	1	1	b:True
+fn385	ok	=FALSE<0	=FALSE<0	=FALSE<0	1	1	b:False
+fn386	ok	=FALSE=0	=FALSE=0	=FALSE=0	1	1	b:False
+fn387	ok	=TRUE=1	=TRUE=1	=TRUE=1	1	1	b:False
+fn388	ok	=""=0	=""=0	=""=0	1	1	b:False
+fn389	ok	=A1=""	=R[-35820]C[-1]=""	=A1=""	1	1	b:True
+fn390	ok	=A1=0	=R[-35880]C[-1]=0	=A1=0	1	1	b:True
+fn391	ok	=A1=FALSE	=R[-35940]C[-1]=FALSE	=A1=FALSE	1	1	b:True
+fn392	ok	=A1<1	=R[-36000]C[-1]<1	=A1<1	1	1	b:True
+fn393	ok	=A1>-1	=R[-36060]C[-1]>-1	=A1>-1	1	1	b:True
+fn394	ok	=A1<"a"	=R[-36120]C[-1]<"a"	=A1<"a"	1	1	b:True
+fn395	ok	=A1>TRUE	=R[-36180]C[-1]>TRUE	=A1>TRUE	1	1	b:False
+fn396	ok	=#N/A=#N/A	=#N/A=#N/A	=#N/A=#N/A	1	1	e:-2146826246
+fn397	ok	=#N/A=1	=#N/A=1	=#N/A=1	1	1	e:-2146826246
+fn398	ok	=1<>#DIV/0!	=1<>#DIV/0!	=1<>#DIV/0!	1	1	e:-2146826281
+fn399	ok	="3"=3	="3"=3	="3"=3	1	1	b:False
+fn400	ok	="3"+0=3	="3"+0=3	="3"+0=3	1	1	b:True
+fn401	ok	=#NULL!	=#NULL!	=#NULL!	1	1	e:-2146826288
+fn402	ok	=#DIV/0!	=#DIV/0!	=#DIV/0!	1	1	e:-2146826281
+fn403	ok	=#VALUE!	=#VALUE!	=#VALUE!	1	1	e:-2146826273
+fn404	ok	=#REF!	=#REF!	=#REF!	1	1	e:-2146826265
+fn405	ok	=#NAME?	=#NAME?	=#NAME?	1	1	e:-2146826259
+fn406	ok	=#NUM!	=#NUM!	=#NUM!	1	1	e:-2146826252
+fn407	ok	=#N/A	=#N/A	=#N/A	1	1	e:-2146826246
+fn408	ok	=#GETTING_DATA	=#GETTING_DATA	=#GETTING_DATA	1	1	e:-2146826245
+fn409	rejected: Exception from HRESULT: 0x800A03EC
+fn410	rejected: Exception from HRESULT: 0x800A03EC
+fn411	rejected: Exception from HRESULT: 0x800A03EC
+fn412	rejected: Exception from HRESULT: 0x800A03EC
+fn413	rejected: Exception from HRESULT: 0x800A03EC
+fn414	rejected: Exception from HRESULT: 0x800A03EC
+fn415	rejected: Exception from HRESULT: 0x800A03EC
+fn416	ok	=NOSUCHFUNCTION(1)	=NOSUCHFUNCTION(1)	=NOSUCHFUNCTION(1)	1	1	e:-2146826259
+fn417	ok	=UnknownName	=UnknownName	=UnknownName	1	1	e:-2146826259
+fn418	ok	=UnknownName+1	=UnknownName+1	=UnknownName+1	1	1	e:-2146826259
+fn419	ok	=SUM(UnknownName)	=SUM(UnknownName)	=SUM(UnknownName)	1	1	e:-2146826259
+fn420	ok	=IFERROR(UnknownName,3)	=IFERROR(UnknownName,3)	=IFERROR(UnknownName,3)	1	1	n:3
+fn421	ok	=ISERROR(UnknownName)	=ISERROR(UnknownName)	=ISERROR(UnknownName)	1	1	b:True
+fn422	ok	=@X1:X3	=@R[-37800]C[22]:R[-37798]C[22]	=@X1:X3	1	1	e:-2146826273
+fn423	ok	=@{1,2,3}	=@{1,2,3}	=@{1,2,3}	1	1	n:1
+fn424	ok	=@5	=@5	=@5	1	1	n:5
+fn425	ok	=@SEQUENCE(3)	=@SEQUENCE(3)	=@SEQUENCE(3)	1	1	n:1
+fn426	ok	=@A1	=@R[-38040]C[-1]	=@A1	1	1	n:0
+pr0	ok	=1000000000000000&""	=1000000000000000&""	=1000000000000000&""	1	1	s:1000000000000000
+pr1	ok	=10000000000000000&""	=10000000000000000&""	=10000000000000000&""	1	1	s:10000000000000000
+pr2	ok	=100000000000000000&""	=100000000000000000&""	=100000000000000000&""	1	1	s:100000000000000000
+pr3	ok	=1000000000000000000&""	=1000000000000000000&""	=1000000000000000000&""	1	1	s:1000000000000000000
+pr4	ok	=10000000000000000000&""	=10000000000000000000&""	=10000000000000000000&""	1	1	s:10000000000000000000
+pr5	ok	=99999999999999900000&""	=99999999999999900000&""	=99999999999999900000&""	1	1	s:99999999999999900000
+pr6	ok	=150000000000000000000&""	=150000000000000000000&""	=150000000000000000000&""	1	1	s:1.5E+20
+pr7	ok	=100000000000000000000&""	=100000000000000000000&""	=100000000000000000000&""	1	1	s:1E+20
+pr8	ok	=1E+21&""	=1E+21&""	=1E+21&""	1	1	s:1E+21
+pr9	ok	=1E+22&""	=1E+22&""	=1E+22&""	1	1	s:1E+22
+pr10	ok	=1.5E+25&""	=1.5E+25&""	=1.5E+25&""	1	1	s:1.5E+25
+pr11	ok	=1E+100&""	=1E+100&""	=1E+100&""	1	1	s:1E+100
+pr12	ok	=0.0001&""	=0.0001&""	=0.0001&""	1	1	s:0.0001
+pr13	ok	=0.00001&""	=0.00001&""	=0.00001&""	1	1	s:0.00001
+pr14	ok	=0.000001&""	=0.000001&""	=0.000001&""	1	1	s:0.000001
+pr15	ok	=0.000000001&""	=0.000000001&""	=0.000000001&""	1	1	s:0.000000001
+pr16	ok	=0.0000000001&""	=0.0000000001&""	=0.0000000001&""	1	1	s:0.0000000001
+pr17	ok	=0.00000000001&""	=0.00000000001&""	=0.00000000001&""	1	1	s:0.00000000001
+pr18	ok	=0.000000000001&""	=0.000000000001&""	=0.000000000001&""	1	1	s:0.000000000001
+pr19	ok	=0.000000000000001&""	=0.000000000000001&""	=0.000000000000001&""	1	1	s:0.000000000000001
+pr20	ok	=1E-20&""	=1E-20&""	=1E-20&""	1	1	s:1E-20
+pr21	ok	=0.000000000015&""	=0.000000000015&""	=0.000000000015&""	1	1	s:0.000000000015
+pr22	ok	=0.00001234&""	=0.00001234&""	=0.00001234&""	1	1	s:0.00001234
+pr23	ok	=0.000000001234&""	=0.000000001234&""	=0.000000001234&""	1	1	s:0.000000001234
+pr24	ok	=0.0000000001234&""	=0.0000000001234&""	=0.0000000001234&""	1	1	s:0.0000000001234
+pr25	ok	=0.00000000001234&""	=0.00000000001234&""	=0.00000000001234&""	1	1	s:0.00000000001234
+pr26	ok	=1.234E-20&""	=1.234E-20&""	=1.234E-20&""	1	1	s:1.234E-20
+pr27	ok	=1E-300&""	=1E-300&""	=1E-300&""	1	1	s:1E-300
+pr28	ok	=-0.00000000001&""	=-0.00000000001&""	=-0.00000000001&""	1	1	s:-0.00000000001
+pr29	ok	=0.000000000123456789&""	=0.000000000123456789&""	=0.000000000123456789&""	1	1	s:0.000000000123456789
+pr30	ok	=1+0.000000000000001-1	=1+0.000000000000001-1	=1+0.000000000000001-1	1	1	n:0
+pr31	ok	=(1+0.000000000000001)-1	=(1+0.000000000000001)-1	=(1+0.000000000000001)-1	1	1	n:0
+pr32	ok	=1-(1-0.000000000000001)	=1-(1-0.000000000000001)	=1-(1-0.000000000000001)	1	1	n:0
+pr33	ok	=1+0.000000000000002-1	=1+0.000000000000002-1	=1+0.000000000000002-1	1	1	n:1.9984014443252818E-15
+pr34	ok	=(1+0.000000000000002)-1	=(1+0.000000000000002)-1	=(1+0.000000000000002)-1	1	1	n:1.9984014443252818E-15
+pr35	ok	=1-(1-0.000000000000002)	=1-(1-0.000000000000002)	=1-(1-0.000000000000002)	1	1	n:1.9984014443252818E-15
+pr36	ok	=1+0.000000000000003-1	=1+0.000000000000003-1	=1+0.000000000000003-1	1	1	n:3.1086244689504383E-15
+pr37	ok	=(1+0.000000000000003)-1	=(1+0.000000000000003)-1	=(1+0.000000000000003)-1	1	1	n:3.1086244689504383E-15
+pr38	ok	=1-(1-0.000000000000003)	=1-(1-0.000000000000003)	=1-(1-0.000000000000003)	1	1	n:2.9976021664879227E-15
+pr39	ok	=1+0.000000000000004-1	=1+0.000000000000004-1	=1+0.000000000000004-1	1	1	n:3.9968028886505635E-15
+pr40	ok	=(1+0.000000000000004)-1	=(1+0.000000000000004)-1	=(1+0.000000000000004)-1	1	1	n:3.9968028886505635E-15
+pr41	ok	=1-(1-0.000000000000004)	=1-(1-0.000000000000004)	=1-(1-0.000000000000004)	1	1	n:3.9968028886505635E-15
+pr42	ok	=1+0.000000000000005-1	=1+0.000000000000005-1	=1+0.000000000000005-1	1	1	n:5.10702591327572E-15
+pr43	ok	=(1+0.000000000000005)-1	=(1+0.000000000000005)-1	=(1+0.000000000000005)-1	1	1	n:5.10702591327572E-15
+pr44	ok	=1-(1-0.000000000000005)	=1-(1-0.000000000000005)	=1-(1-0.000000000000005)	1	1	n:4.9960036108132044E-15
+pr45	ok	=1+0.000000000000006-1	=1+0.000000000000006-1	=1+0.000000000000006-1	1	1	n:5.9952043329758453E-15
+pr46	ok	=(1+0.000000000000006)-1	=(1+0.000000000000006)-1	=(1+0.000000000000006)-1	1	1	n:5.9952043329758453E-15
+pr47	ok	=1-(1-0.000000000000006)	=1-(1-0.000000000000006)	=1-(1-0.000000000000006)	1	1	n:5.9952043329758453E-15
+pr48	ok	=1+0.000000000000007-1	=1+0.000000000000007-1	=1+0.000000000000007-1	1	1	n:7.1054273576010019E-15
+pr49	ok	=(1+0.000000000000007)-1	=(1+0.000000000000007)-1	=(1+0.000000000000007)-1	1	1	n:7.1054273576010019E-15
+pr50	ok	=1-(1-0.000000000000007)	=1-(1-0.000000000000007)	=1-(1-0.000000000000007)	1	1	n:6.9944050551384862E-15
+pr51	ok	=1+0.000000000000008-1	=1+0.000000000000008-1	=1+0.000000000000008-1	1	1	n:7.9936057773011271E-15
+pr52	ok	=(1+0.000000000000008)-1	=(1+0.000000000000008)-1	=(1+0.000000000000008)-1	1	1	n:7.9936057773011271E-15
+pr53	ok	=1-(1-0.000000000000008)	=1-(1-0.000000000000008)	=1-(1-0.000000000000008)	1	1	n:7.9936057773011271E-15
+pr54	ok	=1+0.000000000000009-1	=1+0.000000000000009-1	=1+0.000000000000009-1	1	1	n:9.1038288019262836E-15
+pr55	ok	=(1+0.000000000000009)-1	=(1+0.000000000000009)-1	=(1+0.000000000000009)-1	1	1	n:9.1038288019262836E-15
+pr56	ok	=1-(1-0.000000000000009)	=1-(1-0.000000000000009)	=1-(1-0.000000000000009)	1	1	n:8.992806499463768E-15
+pr57	ok	=1+0.00000000000001-1	=1+0.00000000000001-1	=1+0.00000000000001-1	1	1	n:9.9920072216264089E-15
+pr58	ok	=(1+0.00000000000001)-1	=(1+0.00000000000001)-1	=(1+0.00000000000001)-1	1	1	n:9.9920072216264089E-15
+pr59	ok	=1-(1-0.00000000000001)	=1-(1-0.00000000000001)	=1-(1-0.00000000000001)	1	1	n:9.9920072216264089E-15
+pr60	ok	=1+0.000000000000011-1	=1+0.000000000000011-1	=1+0.000000000000011-1	1	1	n:1.1102230246251565E-14
+pr61	ok	=(1+0.000000000000011)-1	=(1+0.000000000000011)-1	=(1+0.000000000000011)-1	1	1	n:1.1102230246251565E-14
+pr62	ok	=1-(1-0.000000000000011)	=1-(1-0.000000000000011)	=1-(1-0.000000000000011)	1	1	n:1.099120794378905E-14
+pr63	ok	=1+0.000000000000012-1	=1+0.000000000000012-1	=1+0.000000000000012-1	1	1	n:1.1990408665951691E-14
+pr64	ok	=(1+0.000000000000012)-1	=(1+0.000000000000012)-1	=(1+0.000000000000012)-1	1	1	n:1.1990408665951691E-14

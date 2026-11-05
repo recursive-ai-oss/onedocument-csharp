@@ -24,6 +24,7 @@ $out = $null
 $lockHeld = $null
 $lockPath = $null
 $startedPids = @{}
+$pidFile = Join-Path $Base 'started-pids.json'
 
 function Write-Line($obj) {
     $json = ConvertTo-Json -InputObject $obj -Compress -Depth 8
@@ -34,6 +35,31 @@ function Get-Pids($names) {
     $ids = @()
     foreach ($n in $names) { $ids += @(Get-Process -Name $n -ErrorAction SilentlyContinue | ForEach-Object { $_.Id }) }
     return $ids
+}
+
+function Save-StartedPids {
+    $list = @()
+    foreach ($k in $startedPids.Keys) { $list += @{ kind = $k; id = $startedPids[$k].Id; start = $startedPids[$k].Start } }
+    $json = ConvertTo-Json -InputObject @($list) -Compress
+    [IO.File]::WriteAllText($pidFile, $json, $utf8)
+}
+
+# A previous run that was killed before its cleanup may have left an application we launched. The pid file names
+# only processes a run launched; the start time must match so a reused id is never touched.
+function Stop-StalePids {
+    $stale = @()
+    if (Test-Path $pidFile) {
+        try {
+            foreach ($e in @(Get-Content $pidFile -Raw | ConvertFrom-Json)) {
+                $p = Get-Process -Id $e.id -ErrorAction SilentlyContinue
+                if ($p -and $p.StartTime.ToUniversalTime().ToString('o') -eq $e.start) {
+                    try { $p.Kill(); $stale += $e.kind } catch { }
+                }
+            }
+        } catch { }
+        Remove-Item $pidFile -Force -ErrorAction SilentlyContinue
+    }
+    return $stale
 }
 
 
@@ -295,7 +321,86 @@ function Get-StoryRevisionCount($doc) {
     return $n
 }
 
+function Invoke-ExcelFormulas($app, $item, $path, $outDir, $res) {
+    # Formulas mode: the input is <name>.fgrid, one line per test, id<TAB>how<TAB>text (a1, r1c1 or local; tabs, newlines and
+    # backslashes escaped). Each text is entered with Formula2 / Formula2R1C1 / Formula2Local (dynamic-array semantics) into
+    # its own block of 60 rows of a new workbook, which is recalculated in full. The answer file <name>.fgrid.tsv has
+    # id<TAB>entered-or-error<TAB>Formula2<TAB>Formula2R1C1<TAB>Formula2Local<TAB>rows<TAB>cols<TAB>cells, where cells are
+    # t:value items (t = z blank, n number, s text, b boolean, e error code) separated by U+001F, row-major over the spill range.
+    $un = { param($x) [regex]::Replace([string]$x, '\\(.)', { param($m) switch ($m.Groups[1].Value) { 't' { "`t" } 'n' { "`n" } 'r' { "`r" } default { $m.Groups[1].Value } } }) }
+    $esc = { param($x) ([string]$x).Replace('\', '\\').Replace("`t", '\t').Replace("`n", '\n').Replace("`r", '\r') }
+    $inv = [Globalization.CultureInfo]::InvariantCulture
+    $sep = [string][char]31
+    # A file named *.comma.fgrid is entered with a comma decimal separator (Excel's own setting, restored afterwards), to see how
+    # Formula2Local writes separators for such a locale. Function names stay English: the language is the installed one.
+    $comma = $path -like '*.comma*.fgrid'
+    if ($comma) { $app.UseSystemSeparators = $false; $app.DecimalSeparator = ','; $app.ThousandsSeparator = $(if ($path -like '*.commasp.fgrid') { ' ' } else { '.' }) }
+    $wb = $app.Workbooks.Add()
+    try {
+        # Manual calculation keeps closing the workbook quick; a slow shutdown makes Windows relaunch Excel with /restore.
+        $app.Calculation = -4135
+        $ws = $wb.Worksheets.Item(1)
+        # Sheets the tests refer to; a reference to a missing sheet would make Excel ask for a file.
+        foreach ($sn in @('Sheet2', 'Sheet3', 'My Sheet')) {
+            $ns = $wb.Worksheets.Add($missing, $wb.Worksheets.Item($wb.Worksheets.Count))
+            $ns.Name = [string]$sn
+        }
+        $ws.Activate()
+        $tests = New-Object System.Collections.Generic.List[object]
+        foreach ($line in [IO.File]::ReadAllLines($path, $utf8)) {
+            if ($line.Length -eq 0) { continue }
+            $p = $line.Split("`t")
+            $tests.Add(@{ id = $p[0]; how = $p[1]; text = (& $un $p[2]) })
+        }
+        $entered = @{}
+        for ($i = 0; $i -lt $tests.Count; $i++) {
+            $t = $tests[$i]
+            $cell = $ws.Cells.Item(1 + 60 * $i, 2)
+            try {
+                if ($t.how -eq 'r1c1') { $cell.Formula2R1C1 = [string]$t.text }
+                elseif ($t.how -eq 'local') { $cell.Formula2Local = [string]$t.text }
+                else { $cell.Formula2 = [string]$t.text }
+                $entered[$i] = 'ok'
+            } catch { $entered[$i] = 'rejected: ' + $_.Exception.Message }
+        }
+        $app.CalculateFull()
+        $lines = New-Object System.Collections.Generic.List[string]
+        for ($i = 0; $i -lt $tests.Count; $i++) {
+            $t = $tests[$i]
+            $cell = $ws.Cells.Item(1 + 60 * $i, 2)
+            if ($entered[$i] -ne 'ok') { $lines.Add($t.id + "`t" + (& $esc $entered[$i])); continue }
+            $rng = $cell
+            try { if ($cell.HasSpill) { $rng = $cell.SpillingToRange } } catch { }
+            $v = $rng.Value2
+            $items = New-Object System.Collections.Generic.List[string]
+            $rows = 1; $cols = 1
+            if ($v -is [System.Array]) {
+                $r0 = $v.GetLowerBound(0); $c0 = $v.GetLowerBound(1)
+                $rows = $v.GetLength(0); $cols = $v.GetLength(1)
+                for ($r = 0; $r -lt $rows; $r++) { for ($c = 0; $c -lt $cols; $c++) { $items.Add((Format-Cell ($v.GetValue($r0 + $r, $c0 + $c)) $inv $esc)) } }
+            } else { $items.Add((Format-Cell $v $inv $esc)) }
+            $lines.Add($t.id + "`tok`t" + (& $esc $cell.Formula2) + "`t" + (& $esc $cell.Formula2R1C1) + "`t" + (& $esc $cell.Formula2Local) + "`t" + $rows + "`t" + $cols + "`t" + ($items -join $sep))
+        }
+        [IO.File]::WriteAllLines((Join-Path $outDir ([IO.Path]::GetFileName($path) + '.tsv')), $lines, $utf8)
+        # The file form of every formula (prefixes, array flags) is only visible in the saved file.
+        try { $wb.SaveCopyAs((Join-Path $outDir ([IO.Path]::GetFileName($path) + '.xlsx'))) } catch { $res.saveCopyError = $_.Exception.Message }
+        $res.formulas = @{ tests = $tests.Count; decimal = [string]$app.International(3); list = [string]$app.International(5); arrayCol = [string]$app.International(14); arrayRow = [string]$app.International(15); arrayAlt = [string]$app.International(16); country = [string]$app.International(1); excelVersion = [string]$app.Version; build = [string]$app.Build }
+    } finally {
+        try { $wb.Close($false) } catch { }
+        if ($comma) { try { $app.UseSystemSeparators = $true } catch { } }
+    }
+}
+
+function Format-Cell($v, $inv, $esc) {
+    if ($v -eq $null) { return 'z:' }
+    if ($v -is [string]) { return 's:' + (& $esc $v) }
+    if ($v -is [bool]) { return 'b:' + [string]$v }
+    if ($v -is [double]) { return 'n:' + $v.ToString('R', $inv) }
+    return 'e:' + [string][int]$v
+}
+
 function Invoke-Excel($app, $item, $path, $outDir, $res) {
+    if ($item.mode -eq 'formulas') { Invoke-ExcelFormulas $app $item $path $outDir $res; return }
     $wb = $null
     try {
         try {
@@ -408,6 +513,8 @@ try {
     if (-not $lock.ok) { throw 'laptop lock not acquired in time' }
     $lockHeld = $true
     $started = Get-Date
+    $staleKilled = @(Stop-StalePids)
+    if ($staleKilled.Count -gt 0) { Write-Line @{ kind = 'stale'; killedFromEarlierRun = $staleKilled } }
 
     $fonts = Get-Fonts
     $relevant = @('Calibri', 'Cambria', 'Aptos', 'Aptos Display', 'Aptos Narrow', 'Times New Roman', 'Arial', 'Courier New', 'Segoe UI',
@@ -562,7 +669,7 @@ public class DialogWatcher
         }
         $path = Join-Path $jobRoot $item.file
         $ext = [IO.Path]::GetExtension($path).ToLowerInvariant()
-        $kind = switch -regex ($ext) { '^\.(docx|docm|dotx|dotm|doc|rtf|xml)$' { 'word' } '^\.(xlsx|xlsm|xltx|xltm|xlsb|xls|csv)$' { 'excel' } '^\.(pptx|pptm|potx|ppsx|ppt)$' { 'powerpoint' } default { $null } }
+        $kind = switch -regex ($ext) { '^\.(docx|docm|dotx|dotm|doc|rtf|xml)$' { 'word' } '^\.(xlsx|xlsm|xltx|xltm|xlsb|xls|csv|fgrid)$' { 'excel' } '^\.(pptx|pptm|potx|ppsx|ppt)$' { 'powerpoint' } default { $null } }
         $res = @{ kind = 'file'; file = $item.file; app = $kind; mode = $item.mode }
         if (-not $kind) { $res.outcome = 'error'; $res.error = 'unknown extension'; Write-Line $res; continue }
         $watch = [Diagnostics.Stopwatch]::StartNew()
@@ -575,6 +682,13 @@ public class DialogWatcher
                 } else {
                     $before = Get-Pids @($exeNames[$kind])
                     $a = New-Object -ComObject $progIds[$kind]
+                    foreach ($np in @(Get-Pids @($exeNames[$kind]))) {
+                        if ($before -notcontains $np) {
+                            $proc = Get-Process -Id $np -ErrorAction SilentlyContinue
+                            if ($proc) { $startedPids[$kind] = @{ Id = $np; Start = $proc.StartTime.ToUniversalTime().ToString('o') } }
+                        }
+                    }
+                    Save-StartedPids
                     if ($kind -ne 'powerpoint') { $a.Visible = $false }
                     $a.DisplayAlerts = $(if ($kind -eq 'word') { if ($null -ne $job.wordAlerts) { [int]$job.wordAlerts } else { -1 } } elseif ($kind -eq 'powerpoint') { 2 } else { $true })
                     $apps[$kind] = $a
@@ -621,25 +735,56 @@ public class DialogWatcher
 } finally {
     foreach ($k in @($apps.Keys)) {
         if ($apps[$k] -ne 'busy') {
+            # No prompt may keep an invisible application alive: discard every open document first.
+            try { $apps[$k].DisplayAlerts = $(if ($k -eq 'excel') { $false } elseif ($k -eq 'word') { 0 } else { 1 }) } catch { }
+            try {
+                if ($k -eq 'excel') { foreach ($w in @($apps[$k].Workbooks)) { try { $w.Saved = $true; $w.Close($false) } catch { } } }
+                elseif ($k -eq 'word') { foreach ($d in @($apps[$k].Documents)) { try { $d.Close(0) } catch { } } }
+                else { foreach ($d in @($apps[$k].Presentations)) { try { $d.Saved = -1; $d.Close() } catch { } } }
+            } catch { }
             try { $apps[$k].Quit() } catch { }
             try { [void][Runtime.InteropServices.Marshal]::ReleaseComObject($apps[$k]) } catch { }
         }
     }
+    $apps = @{}
     [GC]::Collect(); [GC]::WaitForPendingFinalizers()
-    if ($true) {
-        # Applications we started that did not exit on Quit (never the ones that were already running).
-        Start-Sleep -Seconds 3
-        foreach ($n in @('WINWORD', 'EXCEL', 'POWERPNT')) {
-            foreach ($p in @(Get-Process -Name $n -ErrorAction SilentlyContinue)) {
-                if ($prePids -notcontains $p.Id) { try { $p.Kill() } catch { } }
-            }
+    # Every application we launched must be gone; wait for Quit, then kill only that process id.
+    $killed = @()
+    $quitSeconds = @{}
+    $survivors = @()
+    foreach ($k in @($startedPids.Keys)) {
+        $e = $startedPids[$k]
+        $waited = 0
+        for ($t = 0; $t -lt 60; $t++) {
+            $p = Get-Process -Id $e.Id -ErrorAction SilentlyContinue
+            if (-not $p -or $p.StartTime.ToUniversalTime().ToString('o') -ne $e.Start) { $p = $null; break }
+            Start-Sleep -Milliseconds 500; $waited++
+        }
+        $quitSeconds[$k] = $waited / 2
+        if ($p) {
+            try { $p.Kill(); $killed += $k; $p.WaitForExit(5000) | Out-Null } catch { }
+            $p = Get-Process -Id $e.Id -ErrorAction SilentlyContinue
+            if ($p -and $p.StartTime.ToUniversalTime().ToString('o') -eq $e.Start) { $survivors += $k }
+        }
+    }
+    if ($survivors.Count -eq 0) { Remove-Item $pidFile -Force -ErrorAction SilentlyContinue }
+    # Windows may relaunch a slow-closing application with /restore. While we still hold the lock, a windowless Office
+    # process that did not exist when the run began and was created after it began is that relaunch; close it by id.
+    $relaunched = @()
+    Start-Sleep -Seconds 10
+    foreach ($n in $(if ($lockHeld -and $started -and $null -ne $prePids) { @('WINWORD', 'EXCEL', 'POWERPNT') } else { @() })) {
+        foreach ($p in @(Get-Process -Name $n -ErrorAction SilentlyContinue)) {
+            if ($prePids -contains $p.Id) { continue }
+            if ($p.StartTime -lt $started) { continue }
+            if ($p.MainWindowHandle -ne 0) { continue }
+            try { $p.Kill(); $relaunched += ($n + ':' + $p.Id) } catch { }
         }
     }
     if ($lockHeld -and $lockPath -and (Test-Path $lockPath)) { Remove-Item $lockPath -Force }
     if ($out) {
         $left = @()
         foreach ($n in @('WINWORD', 'EXCEL', 'POWERPNT')) { $left += @(Get-Process -Name $n -ErrorAction SilentlyContinue | ForEach-Object { $_.Name }) }
-        Write-Line @{ kind = 'end'; lockReleased = [bool]$lockHeld; officeProcessesLeft = $left }
+        Write-Line @{ kind = 'end'; lockReleased = [bool]$lockHeld; officeProcessesLeft = $left; launchedPidsKilled = $killed; launchedPidsSurvived = $survivors; secondsToExitAfterQuit = $quitSeconds; relaunchedAndClosed = $relaunched }
         [IO.File]::WriteAllText((Join-Path $out 'done.json'), '{"done":true}', $utf8)
     }
 }

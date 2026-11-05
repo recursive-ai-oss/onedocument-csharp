@@ -1,0 +1,8 @@
+op4132 [a1] ="12:30"^"1,000" :: [0,0] ours 4.9977128142052963E-284 excel n:4.9977128142053531E-284: value
+op4168 [a1] ="12:30"^"1e3" :: [0,0] ours 4.9977128142052963E-284 excel n:4.9977128142053531E-284: value
+fn86 [a1] =ISERROR(#CALC!) :: excel rejects at entry (rejected: Exception from HRESULT: 0x800A03EC) but ours evaluates to TRUE
+fn87 [a1] =ISERROR(#SPILL!) :: excel rejects at entry (rejected: Exception from HRESULT: 0x800A03EC) but ours evaluates to TRUE
+fn216 [a1] =LET(x,1,x,2,x) :: excel rejects at entry (rejected: Exception from HRESULT: 0x800A03EC) but ours evaluates to 2
+fn265 [a1] ==0.1+0.2=0.3 :: excel rejects at entry (rejected: Exception from HRESULT: 0x800A03EC) but ours evaluates to TRUE
+fn319 [a1] =1E-320/1E10 :: excel rejects at entry (rejected: Exception from HRESULT: 0x800A03EC) but ours evaluates to 0
+pr98 [a1] =ABS(1.1-1-0.1) :: [0,0] ours #NAME? excel n:8.3266726846886741E-17: kind

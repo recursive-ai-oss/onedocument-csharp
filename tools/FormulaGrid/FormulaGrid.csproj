@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RecursiveAI.OneOffice.Tools.FormulaGrid</RootNamespace>
+    <AssemblyName>FormulaGrid</AssemblyName>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/OneOffice/OneOffice.csproj" />
+  </ItemGroup>
+
+</Project>
