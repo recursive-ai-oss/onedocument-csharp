@@ -605,7 +605,7 @@ internal static partial class ParagraphFormatter
     }
 
     // ECMA-376 Part 1 §20.4.2.8 (inline) and §20.4.2.3 (anchor): an inline drawing takes a character's place in the line; an anchored one
-    // is painted at its position and the text does not wrap around it yet.
+    // is placed by the page layout (Floats/) and the text wraps around it.
     private static void AddDrawing(LayoutContext ctx, MarkupNode drawing, System.Text.StringBuilder sb, Paragraph p, Dictionary<int, InlineDrawing> drawings, List<InlineDrawing> floats)
     {
         if ((drawing.LocalNameString == "pict" ? RecursiveAI.OneDocument.Rendering.Drawing.DrawingInfo.ReadPict(drawing) : RecursiveAI.OneDocument.Rendering.Drawing.DrawingInfo.Read(drawing)) is not { } info)

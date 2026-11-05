@@ -36,8 +36,7 @@ from several threads.
 - `LayoutDocument.FontNotes` has one `FontSubstitutionNote` per replaced family and `Notes` has `layout.*` notes for what was skipped.
   Codes so far: `layout.font-missing`, `layout.drawing-skipped`, `layout.block-skipped`, `layout.blank-page`, `layout.page-limit`,
   `layout.page-border-art`, `layout.valign-both`, and for tables `layout.table-skipped` (a table in a header or footer),
-  `layout.table-floating`, `layout.table-text-direction`, `layout.table-depth` (see `layout-tables.md`), and
-  `layout.anchored-drawing-unwrapped`. Drawing notes (`drawing.*`) come from painting and are listed in `drawingml-rendering.md`.
+  `layout.table-text-direction`, `layout.table-depth` (see `layout-tables.md`). Floating objects are in `layout-floats.md`. Drawing notes (`drawing.*`) come from painting and are listed in `drawingml-rendering.md`.
 
 ## Paint contract
 
@@ -202,7 +201,8 @@ stages that lay out those features and are added to this table with them.
 | Justification in lines with tabs or bidi | spreads over spaces only | |
 | Bidi mirrored punctuation, trailing spaces in right-to-left lines | not handled specially | |
 | Hyphenation, kashida, the East Asian character grid and `w:eastAsianLayout` | not implemented | later |
-| Inline pictures and shapes | laid out as objects in the line (see `drawingml-rendering.md`); anchored ones are painted without wrap | wrap is a later stage |
+| Inline pictures and shapes | laid out as objects in the line (see `drawingml-rendering.md`) | |
+| Anchored objects, floating tables, frames, drop caps | positioned and wrapped, see `layout-floats.md` | the figures listed there need Word's own output |
 | Notes, fields other than page numbers | not laid out (reported) | later stages |
 | Tables | laid out; see `layout-tables.md`. In columns they keep the width cut for the first column; in headers and footers they are skipped | |
 | Blank page from an odd/even break | has the header and footer of the following section, counted in the numbering | needs Word output |
