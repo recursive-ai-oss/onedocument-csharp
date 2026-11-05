@@ -259,11 +259,13 @@ internal sealed class RevisionResolver
         string prefix = t.Prefix.Length == 0 ? string.Empty : t.Name[..^t.LocalNameString.Length];
         string newRaw = prefix + newLocal;
         string xml = t.OuterXml;
-        string endTag = "</" + oldRaw + ">";
         xml = "<" + newRaw + xml[(1 + oldRaw.Length)..];
-        if (xml.EndsWith(endTag, StringComparison.Ordinal))
+
+        // XML 1.0 §3.1: an end tag may have white space between its name and ">", so find the tag by its name and not by its exact text.
+        int end = xml.LastIndexOf("</", StringComparison.Ordinal);
+        if (end >= 0 && string.CompareOrdinal(xml, end + 2, oldRaw, 0, oldRaw.Length) == 0)
         {
-            xml = xml[..^endTag.Length] + "</" + newRaw + ">";
+            xml = xml[..(end + 2)] + newRaw + xml[(end + 2 + oldRaw.Length)..];
         }
 
         t.ReplaceWithXml(WordXml.Bytes(xml));

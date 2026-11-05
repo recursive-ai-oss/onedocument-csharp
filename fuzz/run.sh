@@ -83,7 +83,6 @@ mkdir -p "$corpus" "$findings"
 [[ ! -f "$bin/RecursiveAI.OneOffice.Documents.dll" ]] || "$instrument" "$bin/RecursiveAI.OneOffice.Documents.dll" >/dev/null
 [[ ! -f "$bin/RecursiveAI.OneOffice.Spreadsheets.dll" ]] || "$instrument" "$bin/RecursiveAI.OneOffice.Spreadsheets.dll" >/dev/null
 "$instrument" "$bin/RecursiveAI.OneArchive.dll" >/dev/null
-[[ "$target" != sdt* ]] || "$instrument" "$bin/RecursiveAI.OneOffice.Documents.dll" >/dev/null
 
 # An extra seed directory is read-only for libFuzzer: new finds go to $corpus.
 dirs=("$corpus")
