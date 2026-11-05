@@ -13,7 +13,7 @@ input) may be sent. Downloaded corpus files never leave the build host.
 |---|---|---|
 | `office-oracle.sh` | build host | `install` places the scripts and registers the task; `run` copies inputs, starts the task, waits, pulls results. |
 | `laptop/Install.ps1` | Windows | Registers the on-demand task `OneOfficeOracle`, logon type *Interactive* (runs only while the user is logged on). |
-| `laptop/Run-Oracle.ps1` | Windows, inside the task | Takes the shared lock, opens each file in its application through COM, writes `results.jsonl`, quits what it started, releases the lock. |
+| `laptop/Run-Oracle.ps1` | Windows, inside the task | Takes the shared lock, opens each file in its application through COM, writes `results.jsonl`, quits what it started (recording each launched process id, verifying it exited and killing only that id otherwise), releases the lock. |
 | `make-cases.py` | build host | Writes the small clean and deliberately damaged files and the style-precedence document. |
 
 Office automation needs the signed-in user's desktop, so SSH is only used to copy files, start the task and fetch
@@ -56,7 +56,8 @@ and reported in the `lock` result line. The lock is removed in a `finally` block
 | `env` | `word`, `excel`, `powerpoint` (file versions), `fontFamilyCount`, `fontsPresent`, `fontsAbsent`, `os` |
 | `app` | `app`, `version`, `build` as the application reports them |
 | `file` | `file`, `app`, `outcome`, `dialogs`, `error`, `seconds`, plus `pages`/`paragraphs`/`paragraphInfo` (Word), `sheets` (Excel), `slides` (PowerPoint), `exportedPdf`, `savedDocx` |
-| `end` | `lockReleased`, `officeProcessesLeft` |
+| `stale` | `killedFromEarlierRun`: applications an earlier, interrupted run launched (found by process id and start time in `<profile>\oneoffice\started-pids.json`) and that were still alive |
+| `end` | `lockReleased`, `officeProcessesLeft`, `launchedPidsKilled` (launched applications that ignored Quit and were killed by id), `launchedPidsSurvived` (should be empty) |
 
 `outcome` is one of:
 

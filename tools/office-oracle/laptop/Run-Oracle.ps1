@@ -24,6 +24,7 @@ $out = $null
 $lockHeld = $null
 $lockPath = $null
 $startedPids = @{}
+$pidFile = Join-Path $Base 'started-pids.json'
 
 function Write-Line($obj) {
     $json = ConvertTo-Json -InputObject $obj -Compress -Depth 8
@@ -34,6 +35,31 @@ function Get-Pids($names) {
     $ids = @()
     foreach ($n in $names) { $ids += @(Get-Process -Name $n -ErrorAction SilentlyContinue | ForEach-Object { $_.Id }) }
     return $ids
+}
+
+function Save-StartedPids {
+    $list = @()
+    foreach ($k in $startedPids.Keys) { $list += @{ kind = $k; id = $startedPids[$k].Id; start = $startedPids[$k].Start } }
+    $json = ConvertTo-Json -InputObject @($list) -Compress
+    [IO.File]::WriteAllText($pidFile, $json, $utf8)
+}
+
+# A previous run that was killed before its cleanup may have left an application we launched. The pid file names
+# only processes a run launched; the start time must match so a reused id is never touched.
+function Stop-StalePids {
+    $stale = @()
+    if (Test-Path $pidFile) {
+        try {
+            foreach ($e in @(Get-Content $pidFile -Raw | ConvertFrom-Json)) {
+                $p = Get-Process -Id $e.id -ErrorAction SilentlyContinue
+                if ($p -and $p.StartTime.ToUniversalTime().ToString('o') -eq $e.start) {
+                    try { $p.Kill(); $stale += $e.kind } catch { }
+                }
+            }
+        } catch { }
+        Remove-Item $pidFile -Force -ErrorAction SilentlyContinue
+    }
+    return $stale
 }
 
 
@@ -478,6 +504,8 @@ try {
     if (-not $lock.ok) { throw 'laptop lock not acquired in time' }
     $lockHeld = $true
     $started = Get-Date
+    $staleKilled = @(Stop-StalePids)
+    if ($staleKilled.Count -gt 0) { Write-Line @{ kind = 'stale'; killedFromEarlierRun = $staleKilled } }
 
     $fonts = Get-Fonts
     $relevant = @('Calibri', 'Cambria', 'Aptos', 'Aptos Display', 'Aptos Narrow', 'Times New Roman', 'Arial', 'Courier New', 'Segoe UI',
@@ -645,6 +673,13 @@ public class DialogWatcher
                 } else {
                     $before = Get-Pids @($exeNames[$kind])
                     $a = New-Object -ComObject $progIds[$kind]
+                    foreach ($np in @(Get-Pids @($exeNames[$kind]))) {
+                        if ($before -notcontains $np) {
+                            $proc = Get-Process -Id $np -ErrorAction SilentlyContinue
+                            if ($proc) { $startedPids[$kind] = @{ Id = $np; Start = $proc.StartTime.ToUniversalTime().ToString('o') } }
+                        }
+                    }
+                    Save-StartedPids
                     if ($kind -ne 'powerpoint') { $a.Visible = $false }
                     $a.DisplayAlerts = $(if ($kind -eq 'word') { if ($null -ne $job.wordAlerts) { [int]$job.wordAlerts } else { -1 } } elseif ($kind -eq 'powerpoint') { 2 } else { $true })
                     $apps[$kind] = $a
@@ -695,21 +730,30 @@ public class DialogWatcher
             try { [void][Runtime.InteropServices.Marshal]::ReleaseComObject($apps[$k]) } catch { }
         }
     }
+    $apps = @{}
     [GC]::Collect(); [GC]::WaitForPendingFinalizers()
-    if ($true) {
-        # Applications we started that did not exit on Quit (never the ones that were already running).
-        Start-Sleep -Seconds 3
-        foreach ($n in @('WINWORD', 'EXCEL', 'POWERPNT')) {
-            foreach ($p in @(Get-Process -Name $n -ErrorAction SilentlyContinue)) {
-                if ($prePids -notcontains $p.Id) { try { $p.Kill() } catch { } }
-            }
+    # Every application we launched must be gone; wait for Quit, then kill only that process id.
+    $killed = @()
+    $survivors = @()
+    foreach ($k in @($startedPids.Keys)) {
+        $e = $startedPids[$k]
+        for ($t = 0; $t -lt 20; $t++) {
+            $p = Get-Process -Id $e.Id -ErrorAction SilentlyContinue
+            if (-not $p -or $p.StartTime.ToUniversalTime().ToString('o') -ne $e.Start) { $p = $null; break }
+            Start-Sleep -Milliseconds 500
+        }
+        if ($p) {
+            try { $p.Kill(); $killed += $k; $p.WaitForExit(5000) | Out-Null } catch { }
+            $p = Get-Process -Id $e.Id -ErrorAction SilentlyContinue
+            if ($p -and $p.StartTime.ToUniversalTime().ToString('o') -eq $e.Start) { $survivors += $k }
         }
     }
+    if ($survivors.Count -eq 0) { Remove-Item $pidFile -Force -ErrorAction SilentlyContinue }
     if ($lockHeld -and $lockPath -and (Test-Path $lockPath)) { Remove-Item $lockPath -Force }
     if ($out) {
         $left = @()
         foreach ($n in @('WINWORD', 'EXCEL', 'POWERPNT')) { $left += @(Get-Process -Name $n -ErrorAction SilentlyContinue | ForEach-Object { $_.Name }) }
-        Write-Line @{ kind = 'end'; lockReleased = [bool]$lockHeld; officeProcessesLeft = $left }
+        Write-Line @{ kind = 'end'; lockReleased = [bool]$lockHeld; officeProcessesLeft = $left; launchedPidsKilled = $killed; launchedPidsSurvived = $survivors }
         [IO.File]::WriteAllText((Join-Path $out 'done.json'), '{"done":true}', $utf8)
     }
 }
