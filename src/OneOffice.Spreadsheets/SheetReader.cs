@@ -724,7 +724,7 @@ internal static class SheetReader
                 else
                 {
                     kind = (byte)CellValueKind.Error;
-                    data = store.AddPoolString(XmlText.GetString(vSpan));
+                    data = store.AddPoolString(Encoding.UTF8.GetString(vSpan));
                 }
             }
         }
@@ -732,7 +732,7 @@ internal static class SheetReader
         {
             if (haveV)
             {
-                vText = XString.Decode(XmlText.GetString(vSpan));
+                vText = XString.Decode(Encoding.UTF8.GetString(vSpan));
                 kind = (byte)CellValueKind.Text;
                 data = store.AddPoolString(vText);
             }
@@ -747,7 +747,7 @@ internal static class SheetReader
             else if (haveV)
             {
                 kind = (byte)CellValueKind.Text;
-                data = store.AddPoolString(XString.Decode(XmlText.GetString(vSpan)));
+                data = store.AddPoolString(XString.Decode(Encoding.UTF8.GetString(vSpan)));
             }
         }
         else if (typeCode == 6)
@@ -755,7 +755,7 @@ internal static class SheetReader
             if (haveV)
             {
                 kind = (byte)((byte)CellValueKind.Text | RowData.IsoDateBit);
-                data = store.AddPoolString(XmlText.GetString(vSpan).Trim());
+                data = store.AddPoolString(Encoding.UTF8.GetString(vSpan).Trim());
             }
         }
         else
@@ -770,7 +770,7 @@ internal static class SheetReader
             else if (haveV)
             {
                 kind = (byte)CellValueKind.Text;
-                data = store.AddPoolString(XmlText.GetString(vSpan));
+                data = store.AddPoolString(Encoding.UTF8.GetString(vSpan));
             }
         }
 

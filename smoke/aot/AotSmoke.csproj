@@ -22,6 +22,7 @@
     <Compile Include="../shared/DocumentSmoke.cs" Link="DocumentSmoke.cs" />
     <Compile Include="../shared/NumFmtSmoke.cs" Link="NumFmtSmoke.cs" />
     <Compile Include="../shared/SheetSmoke.cs" Link="SheetSmoke.cs" />
+    <Compile Include="../shared/StreamSmoke.cs" Link="StreamSmoke.cs" />
     <Compile Include="../shared/CsvSmoke.cs" Link="CsvSmoke.cs" />
     <Compile Include="../../tests/OneOffice.Schema.Tests/TextTree.cs" Link="TextTree.cs" />
     <ProjectReference Include="../../src/OneOffice/OneOffice.csproj" />

@@ -22,6 +22,8 @@ internal static class Program
                 return CellFootprint.Run(args.Skip(1).ToArray());
             case "bpcall":
                 return CellFootprint.RunAll(args.Skip(1).ToArray());
+            case "xlsxstream":
+                return XlsxStreamBench.Run(args.Skip(1).ToArray());
             case "report":
                 return Report.Run(args.Skip(1).ToArray());
             case "versions":
