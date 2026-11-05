@@ -117,6 +117,25 @@ public sealed class DrawingContext
     /// </summary>
     public Func<string, DisplayList, double, double, double, double, bool>? ChartPainter { get; set; }
 
+    /// <summary>
+    /// Gets or sets a hook that tells the painter which shapes a shape inherits from (see <see cref="ShapeInheritance"/>). Null means
+    /// every shape stands on its own, as in a Word drawing.
+    /// </summary>
+    public Func<MarkupNode, ShapeInheritance?>? ShapeResolver { get; set; }
+
+    /// <summary>
+    /// Gets or sets a painter for graphic frames the shape painter does not know (tables, diagrams, objects). It receives the
+    /// <c>p:graphicFrame</c> element, the display list and the frame's box in CSS pixels, and returns true when it painted the frame;
+    /// on false the frame goes on to the chart painter. Null leaves such frames unpainted (note <c>drawing.graphic-frame</c>).
+    /// </summary>
+    public Func<MarkupNode, DisplayList, double, double, double, double, bool>? FramePainter { get; set; }
+
+    /// <summary>
+    /// Gets or sets a hook that says how a shape appears in the structure tree: a figure with alternative text, or an artifact. Null
+    /// means shapes are not tagged by the painter (a Word drawing is tagged by the caller). A null result leaves one shape untagged.
+    /// </summary>
+    public Func<MarkupNode, DrawingTag?>? ShapeTagger { get; set; }
+
     /// <summary>Gets or sets the font provider metafile text uses; null takes the default library.</summary>
     public RecursiveAI.OneDocument.Layout.IFontProvider? Fonts { get; set; }
 
@@ -129,6 +148,11 @@ public sealed class DrawingContext
     }
 }
 
+/// <summary>How the painter tags one shape.</summary>
+/// <param name="Role">The structure role: <see cref="TagRole.Figure"/>, <see cref="TagRole.Artifact"/> or another.</param>
+/// <param name="AltText">Alternative text for a figure; null for none.</param>
+public sealed record DrawingTag(TagRole Role, string? AltText);
+
 /// <summary>A request to paint the text of one shape.</summary>
 /// <param name="List">The list to paint into; its coordinates are CSS pixels on the page.</param>
 /// <param name="Shape">The shape element (<c>wps:wsp</c>, <c>p:sp</c>).</param>
@@ -137,7 +161,39 @@ public sealed class DrawingContext
 /// <param name="Height">The text rectangle's height in points, insets already removed.</param>
 /// <param name="NextId">Allocates item ids.</param>
 /// <param name="BodyProperties">The <c>bodyPr</c> element: anchoring, wrap, vertical text; may be a null node.</param>
-public sealed record ShapeTextRequest(DisplayList List, MarkupNode Shape, System.Numerics.Matrix3x2 Transform, double Width, double Height, Func<ItemId> NextId, MarkupNode BodyProperties);
+public sealed record ShapeTextRequest(DisplayList List, MarkupNode Shape, System.Numerics.Matrix3x2 Transform, double Width, double Height, Func<ItemId> NextId, MarkupNode BodyProperties)
+{
+    /// <summary>Gets the left edge of the shape's text rectangle (before insets) in the shape's own space, in points.</summary>
+    public double RectX { get; init; }
+
+    /// <summary>Gets the top edge of the shape's text rectangle (before insets) in the shape's own space, in points.</summary>
+    public double RectY { get; init; }
+
+    /// <summary>Gets the width of the shape's text rectangle before insets, in points.</summary>
+    public double RectWidth { get; init; }
+
+    /// <summary>Gets the height of the shape's text rectangle before insets, in points.</summary>
+    public double RectHeight { get; init; }
+
+    /// <summary>Gets the matrix from the shape's own space (points, origin at the top-left of its box) to page pixels, rotation and flips included.</summary>
+    public System.Numerics.Matrix3x2 ShapeMatrix { get; init; } = System.Numerics.Matrix3x2.Identity;
+}
+
+/// <summary>
+/// What a host knows about a shape beyond its own markup: the shapes it inherits properties from (a slide placeholder takes its
+/// position, geometry, fill and line from its layout and master placeholders) and a size the host has decided on.
+/// </summary>
+public sealed class ShapeInheritance
+{
+    /// <summary>Gets the shape elements that supply a property the shape does not write, nearest first.</summary>
+    public IReadOnlyList<MarkupNode> Parents { get; init; } = [];
+
+    /// <summary>Gets a replacement top edge in EMU, or null to keep the shape's.</summary>
+    public long? TopEmu { get; init; }
+
+    /// <summary>Gets a replacement height in EMU, or null to keep the shape's (a shape that grows to fit its text).</summary>
+    public long? HeightEmu { get; init; }
+}
 
 /// <summary>The place a drawing takes on the page, in points.</summary>
 /// <param name="X">Left edge from the page's left.</param>

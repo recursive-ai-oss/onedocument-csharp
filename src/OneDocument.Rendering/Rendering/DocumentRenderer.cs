@@ -174,6 +174,20 @@ public static class RenderingFormats
         registry.RegisterWriter(
             static (file, format, destination, cancellationToken) =>
             {
+                if (file is RecursiveAI.OneDocument.Presentations.Presentation presentation)
+                {
+                    if (format == OfficeFormat.Pdf)
+                    {
+                        Presentations.PresentationRenderer.WritePdf(presentation, destination, null, cancellationToken);
+                    }
+                    else
+                    {
+                        destination.Write(Presentations.PresentationRenderer.RenderPng(presentation));
+                    }
+
+                    return;
+                }
+
                 if (file is not Document document)
                 {
                     throw new FormatNotAvailableException(format, "render a " + file.Kind + " as");
