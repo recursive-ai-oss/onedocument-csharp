@@ -160,6 +160,28 @@ public readonly struct MarkupNode : IEquatable<MarkupNode>
         return _doc.TryFindPrefix(_index, namespaceUri, out prefix);
     }
 
+    /// <summary>Finds the namespace a prefix is bound to in the scope of this node (the nearest element at or above it), without changing anything.</summary>
+    /// <param name="prefix">The prefix; empty for the default namespace.</param>
+    /// <param name="namespaceUri">The namespace URI the prefix is bound to.</param>
+    /// <returns>True when the prefix is bound here. An empty default namespace (<c>xmlns=""</c>) is a binding to the empty string.</returns>
+    public bool TryResolvePrefix(string prefix, out string namespaceUri)
+    {
+        ArgumentNullException.ThrowIfNull(prefix);
+        namespaceUri = string.Empty;
+        if (_doc is null)
+        {
+            return false;
+        }
+
+        if (!_doc.TryResolvePrefix(_index, Encoding.UTF8.GetBytes(prefix), out ReadOnlySpan<byte> raw))
+        {
+            return false;
+        }
+
+        namespaceUri = XmlText.GetString(raw, true);
+        return true;
+    }
+
     /// <summary>Tells whether this is an element with the given namespace and local name, without allocating.</summary>
     /// <param name="namespaceUri">The namespace URI in UTF-8; empty for no namespace.</param>
     /// <param name="localName">The local name in UTF-8.</param>

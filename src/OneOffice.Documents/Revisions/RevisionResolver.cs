@@ -24,7 +24,9 @@ internal sealed class RevisionResolver
             Revision r = inDocumentOrder[i];
             try
             {
+                MarkupNode parent = r.Scope == RevisionScope.Content ? r.Element.Parent : default;
                 Resolve(r, accept);
+                PruneEmptyWrappers(parent);
                 done++;
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
@@ -36,6 +38,40 @@ internal sealed class RevisionResolver
         }
 
         return done;
+    }
+
+    /// <summary>
+    /// Removes the grouping wrappers (<c>w:smartTag</c>, <c>w:customXml</c>, <c>w:bdo</c>, <c>w:dir</c>) that resolving a change left with no
+    /// content, and the ones that emptying those leaves empty in turn. Observed in Word 365 (16.0.20527): rejecting the only insertion
+    /// in, or accepting the only deletion in, a smart tag or custom XML element removes the element, while an emptied content control
+    /// (<c>w:sdt</c>) and an emptied <c>w:hyperlink</c> stay; a simple field is rewritten as a complex field. Those stay here too.
+    /// </summary>
+    private static void PruneEmptyWrappers(MarkupNode wrapper)
+    {
+        while (!wrapper.IsNull && WordXml.IsAny(wrapper, "smartTag", "customXml", "bdo", "dir") && !WrapperHasContent(wrapper))
+        {
+            MarkupNode up = wrapper.Parent;
+            wrapper.Remove();
+            wrapper = up;
+        }
+    }
+
+    private static bool WrapperHasContent(MarkupNode container)
+    {
+        foreach (MarkupNode c in container.Children)
+        {
+            if (c.Kind == MarkupNodeKind.Element && !WordXml.Is(c, "smartTagPr") && !WordXml.Is(c, "customXmlPr"))
+            {
+                return true;
+            }
+
+            if (c.Kind is MarkupNodeKind.Text or MarkupNodeKind.CData && c.InnerText.AsSpan().Trim().Length > 0)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static void Resolve(Revision r, bool accept)
@@ -375,7 +411,7 @@ internal sealed class RevisionResolver
                 any = true;
             }
 
-            sb.Append(c.OuterXml);
+            sb.Append(WordXml.Portable(c));
         }
 
         return any ? sb.ToString() : string.Empty;
