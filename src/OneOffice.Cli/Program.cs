@@ -4,6 +4,8 @@ using RecursiveAI.OneOffice.Diagnostics;
 using RecursiveAI.OneOffice.Documents;
 using RecursiveAI.OneOffice.Formats;
 using RecursiveAI.OneOffice.IO;
+using RecursiveAI.OneOffice.Spreadsheets;
+using RecursiveAI.OneOffice.Spreadsheets.Calc;
 
 namespace RecursiveAI.OneOffice.Cli;
 
@@ -16,7 +18,8 @@ internal static class Program
 {
     private const string Usage =
         "usage: oneoffice detect <file> [--json]\n" +
-        "       oneoffice extract <file> [-o <out.txt>] [--json]\n";
+        "       oneoffice extract <file> [-o <out.txt>] [--json]\n" +
+        "       oneoffice recalc <workbook> [-o <out.xlsx>] [--full] [--threads <n>] [--json]\n";
 
     private static int Main(string[] args)
     {
@@ -33,17 +36,24 @@ internal static class Program
             return Run(args, "extract", Extract);
         }
 
+        if (args.Length >= 2 && args[0] == "recalc")
+        {
+            return Run(args, "recalc", Recalc);
+        }
+
         Console.Error.Write(Usage);
         return 2;
     }
 
-    private sealed record Options(string File, string? Output, bool Json);
+    private sealed record Options(string File, string? Output, bool Json, bool Full = false, int Threads = 0);
 
     private static int Run(string[] args, string command, Func<Options, DefectCollection, int> body)
     {
         string? file = null;
         string? output = null;
         bool json = false;
+        bool full = false;
+        int threads = 0;
         for (int i = 1; i < args.Length; i++)
         {
             switch (args[i])
@@ -51,8 +61,15 @@ internal static class Program
                 case "--json":
                     json = true;
                     break;
-                case "-o" or "--output" when command == "extract" && i + 1 < args.Length:
+                case "-o" or "--output" when command is "extract" or "recalc" && i + 1 < args.Length:
                     output = args[++i];
+                    break;
+                case "--full" when command == "recalc":
+                    full = true;
+                    break;
+                case "--threads" when command == "recalc" && i + 1 < args.Length && int.TryParse(args[i + 1], out int n):
+                    threads = n;
+                    i++;
                     break;
                 default:
                     if (file is not null || args[i].StartsWith('-'))
@@ -72,7 +89,7 @@ internal static class Program
             return 2;
         }
 
-        var options = new Options(file, output, json);
+        var options = new Options(file, output, json, full, threads);
         var defects = new DefectCollection();
         try
         {
@@ -147,6 +164,43 @@ internal static class Program
         {
             using var writer = new StreamWriter(Console.OpenStandardOutput(), new UTF8Encoding(false), 4096);
             Office.ExtractText(o.File, writer, context);
+        }
+
+        return 0;
+    }
+
+    private static int Recalc(Options o, DefectCollection defects)
+    {
+        var context = new OpenContext(defects: defects);
+        using Workbook wb = Workbook.Open(o.File, context);
+        RecalcResult r = wb.Recalculate(new RecalcOptions { Full = o.Full, MaxDegreeOfParallelism = o.Threads });
+        if (o.Output is null)
+        {
+            wb.Save();
+        }
+        else
+        {
+            wb.SaveAs(o.Output);
+        }
+
+        if (o.Json)
+        {
+            WriteJson(w =>
+            {
+                w.WriteString("file", o.File);
+                w.WriteNumber("formulas", r.Formulas);
+                w.WriteNumber("evaluated", r.Evaluated);
+                w.WriteNumber("levels", r.Levels);
+                w.WriteNumber("passes", r.Passes);
+                w.WriteNumber("circular", r.CircularCells);
+                w.WriteNumber("spillErrors", r.SpillErrors);
+                w.WriteString("output", o.Output ?? o.File);
+                WriteDefects(w, defects);
+            });
+        }
+        else
+        {
+            Console.WriteLine($"{r.Evaluated} of {r.Formulas} formulas calculated in {r.Levels} levels; {r.CircularCells} circular, {r.SpillErrors} #SPILL!");
         }
 
         return 0;
