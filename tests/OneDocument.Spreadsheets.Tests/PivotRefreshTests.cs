@@ -40,6 +40,18 @@ public sealed class PivotRefreshTests
     private static PivotBook One(params string[] data) => new() { RowFields = [0], DataFields = [.. data.Length == 0 ? [PivotBook.DataField("Sum of Sales", 3)] : data] };
 
     [Fact]
+    public void AxisFieldWhoseStoredPivotFieldHasNoItemsStillRefreshes()
+    {
+        var b = One();
+        b.ColFields = [2];
+        string table = b.TableDef().Replace(" axis=\"axisCol\"", string.Empty, StringComparison.Ordinal).Replace("<items count=\"1\"><item t=\"default\"/></items></pivotField><pivotField showAll=\"0\"", "</pivotField><pivotField showAll=\"0\"", StringComparison.Ordinal);
+        using Workbook wb = TestBook.Open(b.Build(table));
+        Assert.True(wb.RefreshPivots().AllRefreshed);
+        Assert.Equal(["Row Labels|Q1|Q2|Grand Total", "East|300|230|530"], PivotRefreshTests.Grid(wb.Sheets["Pivot"], "A4:D5"));
+        Assert.Contains("axis=\"axisCol\"", System.Text.Encoding.UTF8.GetString(Table(wb).Markup.ToArray()));
+    }
+
+    [Fact]
     public void CompactOneRowFieldWithGrandTotal()
     {
         using Workbook wb = One().Refreshed(out PivotRefreshResult res);

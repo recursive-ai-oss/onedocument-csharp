@@ -231,6 +231,16 @@ internal sealed class TableModel
             }
         }
 
+        // A field on an axis needs an item list even when the stored definition gives it no pivot field or no items.
+        for (int ni = 0; ni < n; ni++)
+        {
+            FieldPlan plan = m.Fields[ni];
+            if (plan.Axis is FieldAxis.Row or FieldAxis.Col or FieldAxis.Page && !plan.HasItems)
+            {
+                BuildItems(plan, plan.Node, data.Fields[ni], []);
+            }
+        }
+
         foreach ((int f, MarkupNode p) in pageNodes)
         {
             var pm = new PageModel { Field = f, Name = p.GetAttribute("name") };
