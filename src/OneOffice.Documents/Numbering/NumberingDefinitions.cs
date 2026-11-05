@@ -163,7 +163,7 @@ public sealed record ListLabel(Paragraph Paragraph, long NumberingId, int Level,
 /// The numbering definitions of a document (<c>/word/numbering.xml</c>): abstract definitions, numbering instances with their
 /// overrides, and the list labels of numbered paragraphs. A document without a numbering part has none; adding a definition creates it.
 /// </summary>
-public sealed class NumberingDefinitions
+public sealed partial class NumberingDefinitions
 {
     private readonly Document _owner;
     private MarkupRef _markup;
@@ -355,17 +355,23 @@ public sealed class NumberingDefinitions
         return new ListLabeler(this).Run(paragraphs);
     }
 
-    /// <summary>Gets the label of one paragraph, counting from the start of the body; null when the paragraph is not numbered.</summary>
-    /// <param name="paragraph">A paragraph of the body.</param>
+    /// <summary>
+    /// Gets the label of one paragraph, counting as Word does in the story the paragraph is in (see <see cref="LabelStories"/>); null
+    /// when the paragraph is not numbered or is in no story the document lists.
+    /// </summary>
+    /// <param name="paragraph">A paragraph of the body, a header or footer, a note, a comment or a text box.</param>
     /// <returns>The label, or null.</returns>
     public ListLabel? LabelOf(Paragraph paragraph)
     {
         ArgumentNullException.ThrowIfNull(paragraph);
-        foreach (ListLabel l in LabelBody())
+        foreach (StoryLabels story in LabelStories())
         {
-            if (l.Paragraph == paragraph)
+            foreach (ListLabel l in story.Labels)
             {
-                return l;
+                if (l.Paragraph.Equals(paragraph))
+                {
+                    return l;
+                }
             }
         }
 
