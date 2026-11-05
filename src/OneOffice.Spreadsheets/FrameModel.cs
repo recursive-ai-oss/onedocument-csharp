@@ -36,6 +36,8 @@ internal sealed class FrameModel
         _prefixColon = frame.Prefix.Length == 0 ? string.Empty : Encoding.UTF8.GetString(frame.Prefix) + ":";
     }
 
+    public MarkupNode Root => _doc.Root;
+
     public CellRange Dimension { get; private set; }
 
     public List<ColumnProperties> Columns { get; set; } = [];
@@ -236,6 +238,8 @@ internal sealed class FrameModel
 
         return new ColumnProperties(min, max, width, style, flags, Math.Clamp(outline, 0, 7), raw?.ToString());
     }
+
+    public MarkupNode InsertElement(string local, string xml) => Xl.InsertInOrder(_doc.Root, Order, local, xml);
 
     private void InsertInOrder(string local, string xml)
     {

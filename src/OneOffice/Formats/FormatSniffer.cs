@@ -520,9 +520,9 @@ public static class FormatSniffer
             }
         }
 
-        string[] lines = text.TrimStart('\uFEFF').Split('\n');
-        int count = lines.Length;
-        if (truncated || (count > 0 && lines[^1].Length == 0))
+        List<string> lines = SplitRecords(text.TrimStart('\uFEFF'), out bool openQuote);
+        int count = lines.Count;
+        if (truncated || openQuote || (count > 0 && lines[^1].Length == 0))
         {
             // The last line is cut by the prefix, or is the empty remainder after the final newline.
             count--;
@@ -564,6 +564,31 @@ public static class FormatSniffer
         }
 
         return OfficeFormat.Unknown;
+    }
+
+    // Splits at line feeds that are not inside double quotes, so a quoted field with line breaks stays in one record. The last element
+    // is the text after the final line feed (empty when the text ends with one); openQuote says a quote was still open at the end.
+    private static List<string> SplitRecords(string text, out bool openQuote)
+    {
+        var records = new List<string>();
+        bool quoted = false;
+        int start = 0;
+        for (int i = 0; i < text.Length; i++)
+        {
+            if (text[i] == '"')
+            {
+                quoted = !quoted;
+            }
+            else if (text[i] == '\n' && !quoted)
+            {
+                records.Add(text[start..i]);
+                start = i + 1;
+            }
+        }
+
+        records.Add(text[start..]);
+        openQuote = quoted;
+        return records;
     }
 
     private static int CountOutsideQuotes(string line, char delimiter)

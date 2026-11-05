@@ -7,7 +7,7 @@ namespace RecursiveAI.OneOffice.Spreadsheets;
 /// writing creates it. The handle is a small object that holds no data of its own (so that <c>sheet["B2"].Value = 1</c> compiles);
 /// bulk work goes through <see cref="CellStore"/>, which creates no objects per cell.
 /// </summary>
-public sealed class Cell : IEquatable<Cell>
+public sealed partial class Cell : IEquatable<Cell>
 {
     private readonly Worksheet _sheet;
     private readonly int _row;

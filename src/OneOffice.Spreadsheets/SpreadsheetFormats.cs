@@ -18,9 +18,24 @@ public static class SpreadsheetFormats
     {
         ArgumentNullException.ThrowIfNull(registry);
         OfficeFormat[] formats = [.. Formats];
+        OfficeFormat[] delimited = [OfficeFormat.Csv, OfficeFormat.Tsv];
         registry.RegisterReader(
             static (source, _, context, filePath, cancellationToken) => Workbook.OpenSource(source, context, filePath, cancellationToken),
             formats);
+        registry.RegisterReader(
+            static (source, _, context, filePath, cancellationToken) => Workbook.OpenSource(source, context, filePath, cancellationToken),
+            delimited);
+        registry.RegisterWriter(
+            static (file, format, destination, cancellationToken) =>
+            {
+                if (file is not Workbook workbook)
+                {
+                    throw new FormatNotAvailableException(format, "write a " + file.Kind + " as");
+                }
+
+                Csv.CsvDocument.Write(workbook, destination, new Csv.CsvWriteOptions { Delimiter = format == OfficeFormat.Tsv ? '\t' : ',' }, null, cancellationToken);
+            },
+            delimited);
         registry.RegisterWriter(
             static (file, format, destination, cancellationToken) =>
             {

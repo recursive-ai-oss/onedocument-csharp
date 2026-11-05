@@ -131,7 +131,7 @@ internal static class DateWriter
                 }
 
                 case EK.AmPm:
-                    AmPm(ref w, e.N, t.Hour < 12, culture);
+                    AmPm(ref w, e.N, t.Hour < 12, culture, sec.LocaleId != 0);
                     break;
                 case EK.EraYear:
                     NumberWriter.AppendPadded(ref w, EraYear(t, era), e.N == 2 ? 2 : (era == EraStyle.Gregorian ? 4 : 1));
@@ -228,7 +228,7 @@ internal static class DateWriter
         return s.Length == 0 ? s : s.Substring(0, 1);
     }
 
-    private static void AmPm(ref Writer w, int style, bool am, NumberFormatCulture c)
+    private static void AmPm(ref Writer w, int style, bool am, NumberFormatCulture c, bool tagged)
     {
         if (style >= 4)
         {
@@ -240,6 +240,14 @@ internal static class DateWriter
         }
 
         string full = am ? c.AmDesignator : c.PmDesignator;
+        if (tagged)
+        {
+            // Observed in Excel: under a [$-LCID] tag, A/P and a/p give the locale's whole designator ("PM", "du.", "午後"); only an
+            // untagged section shortens it to one letter.
+            w.Append(full);
+            return;
+        }
+
         switch (style)
         {
             case 0:

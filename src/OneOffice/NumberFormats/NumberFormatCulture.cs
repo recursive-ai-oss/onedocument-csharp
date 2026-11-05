@@ -27,7 +27,7 @@ public enum EraStyle
 /// <remarks>
 /// The names follow the Windows/Office conventions for each locale (for example German abbreviates March as "Mrz"). Lookups by
 /// language identifier use <see cref="Get"/>; an unknown identifier falls back to <see cref="EnglishUnitedStates"/>. The table covers
-/// en-US, en-GB, de-DE, fr-FR, es-ES, it-IT, pt-BR, nl-NL, ru-RU, ja-JP, zh-CN, zh-TW and ko-KR.
+/// en-US, en-GB, de-DE, fr-FR, es-ES, it-IT, pt-BR, nl-NL, ru-RU, ja-JP, zh-CN, zh-TW, ko-KR, th-TH, hu-HU, da-DK, nb-NO, sv-SE, fi-FI, lt-LT, pl-PL, cs-CZ, tr-TR and dv-MV.
 /// </remarks>
 public sealed class NumberFormatCulture
 {
@@ -227,6 +227,56 @@ public sealed class NumberFormatCulture
             "ม.ค.|ก.พ.|มี.ค.|เม.ย.|พ.ค.|มิ.ย.|ก.ค.|ส.ค.|ก.ย.|ต.ค.|พ.ย.|ธ.ค.",
             "อาทิตย์|จันทร์|อังคาร|พุธ|พฤหัสบดี|ศุกร์|เสาร์", "อา.|จ.|อ.|พ.|พฤ.|ศ.|ส.",
             "AM", "PM", "฿", false, "d/m/yyyy", "d mmmm yyyy", "h:mm:ss", EraStyle.Gregorian),
+        new(0x040E, "hu-HU", ",", "\u00A0",
+            "január|február|március|április|május|június|július|augusztus|szeptember|október|november|december",
+            "jan.|febr.|márc.|ápr.|máj.|jún.|júl.|aug.|szept.|okt.|nov.|dec.",
+            "vasárnap|hétfő|kedd|szerda|csütörtök|péntek|szombat", "V|H|K|Sze|Cs|P|Szo",
+            "de.", "du.", "Ft", true, "yyyy. mm. dd.", "yyyy. mmmm d.", "h:mm:ss", EraStyle.Gregorian),
+        new(0x0406, "da-DK", ",", ".",
+            "januar|februar|marts|april|maj|juni|juli|august|september|oktober|november|december",
+            "jan|feb|mar|apr|maj|jun|jul|aug|sep|okt|nov|dec",
+            "søndag|mandag|tirsdag|onsdag|torsdag|fredag|lørdag", "sø|ma|ti|on|to|fr|lø",
+            "AM", "PM", "kr.", true, "dd-mm-yyyy", "d. mmmm yyyy", "hh:mm:ss", EraStyle.Gregorian),
+        new(0x0414, "nb-NO", ",", "\u00A0",
+            "januar|februar|mars|april|mai|juni|juli|august|september|oktober|november|desember",
+            "jan|feb|mar|apr|mai|jun|jul|aug|sep|okt|nov|des",
+            "søndag|mandag|tirsdag|onsdag|torsdag|fredag|lørdag", "søn|man|tir|ons|tor|fre|lør",
+            "a.m.", "p.m.", "kr", false, "dd.mm.yyyy", "d. mmmm yyyy", "hh:mm:ss", EraStyle.Gregorian),
+        new(0x041D, "sv-SE", ",", "\u00A0",
+            "januari|februari|mars|april|maj|juni|juli|augusti|september|oktober|november|december",
+            "jan|feb|mar|apr|maj|jun|jul|aug|sep|okt|nov|dec",
+            "söndag|måndag|tisdag|onsdag|torsdag|fredag|lördag", "sön|mån|tis|ons|tor|fre|lör",
+            "AM", "PM", "kr", true, "yyyy-mm-dd", "d mmmm yyyy", "hh:mm:ss", EraStyle.Gregorian),
+        new(0x040B, "fi-FI", ",", "\u00A0",
+            "tammikuu|helmikuu|maaliskuu|huhtikuu|toukokuu|kesäkuu|heinäkuu|elokuu|syyskuu|lokakuu|marraskuu|joulukuu",
+            "tammi|helmi|maalis|huhti|touko|kesä|heinä|elo|syys|loka|marras|joulu",
+            "sunnuntai|maanantai|tiistai|keskiviikko|torstai|perjantai|lauantai", "su|ma|ti|ke|to|pe|la",
+            "ap.", "ip.", "€", true, "d.m.yyyy", "d. mmmm yyyy", "h.mm.ss", EraStyle.Gregorian),
+        new(0x0427, "lt-LT", ",", "\u00A0",
+            "sausis|vasaris|kovas|balandis|gegužė|birželis|liepa|rugpjūtis|rugsėjis|spalis|lapkritis|gruodis",
+            "saus.|vas.|kov.|bal.|geg.|birž.|liep.|rugp.|rugs.|spal.|lapkr.|gruod.",
+            "sekmadienis|pirmadienis|antradienis|trečiadienis|ketvirtadienis|penktadienis|šeštadienis", "sk|pr|an|tr|kt|pn|št",
+            "priešpiet", "popiet", "€", true, "yyyy-mm-dd", "yyyy \"m.\" mmmm d \"d.\"", "hh:mm:ss", EraStyle.Gregorian),
+        new(0x0415, "pl-PL", ",", "\u00A0",
+            "styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień",
+            "sty|lut|mar|kwi|maj|cze|lip|sie|wrz|paź|lis|gru",
+            "niedziela|poniedziałek|wtorek|środa|czwartek|piątek|sobota", "niedz.|pon.|wt.|śr.|czw.|pt.|sob.",
+            "AM", "PM", "zł", true, "dd.mm.yyyy", "d mmmm yyyy", "hh:mm:ss", EraStyle.Gregorian),
+        new(0x0405, "cs-CZ", ",", "\u00A0",
+            "leden|únor|březen|duben|květen|červen|červenec|srpen|září|říjen|listopad|prosinec",
+            "I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII",
+            "neděle|pondělí|úterý|středa|čtvrtek|pátek|sobota", "ne|po|út|st|čt|pá|so",
+            "dop.", "odp.", "Kč", true, "d.m.yyyy", "d. mmmm yyyy", "h:mm:ss", EraStyle.Gregorian),
+        new(0x041F, "tr-TR", ",", ".",
+            "Ocak|Şubat|Mart|Nisan|Mayıs|Haziran|Temmuz|Ağustos|Eylül|Ekim|Kasım|Aralık",
+            "Oca|Şub|Mar|Nis|May|Haz|Tem|Ağu|Eyl|Eki|Kas|Ara",
+            "Pazar|Pazartesi|Salı|Çarşamba|Perşembe|Cuma|Cumartesi", "Paz|Pzt|Sal|Çar|Per|Cum|Cmt",
+            "ÖÖ", "ÖS", "₺", false, "d.mm.yyyy", "d mmmm yyyy dddd", "hh:mm:ss", EraStyle.Gregorian),
+        new(0x0465, "dv-MV", ".", ",",
+            "ޖަނަވަރީ|ފެބްރުއަރީ|މާރޗް|އޭޕްރިލް|މެއި|ޖޫން|ޖުލައި|އޮގަސްޓް|ސެޕްޓެމްބަރ|އޮކްޓޯބަރ|ނޮވެމްބަރ|ޑިސެމްބަރ",
+            "ޖަނަވަރީ|ފެބްރުއަރީ|މާރޗް|އޭޕްރިލް|މެއި|ޖޫން|ޖުލައި|އޮގަސްޓް|ސެޕްޓެމްބަރ|އޮކްޓޯބަރ|ނޮވެމްބަރ|ޑިސެމްބަރ",
+            "އާދީއްތަ|ހޯމަ|އަންގާރަ|ބުދަ|ބުރާސްފަތި|ހުކުރު|ހޮނިހިރު", "އާދީއްތަ|ހޯމަ|އަންގާރަ|ބުދަ|ބުރާސްފަތި|ހުކުރު|ހޮނިހިރު",
+            "މކ", "މފ", "ރ.", false, "dd/mm/yy", "dddd d mmmm yyyy", "hh:mm:ss", EraStyle.Gregorian),
     ];
 
     /// <summary>The cultures in the table.</summary>
