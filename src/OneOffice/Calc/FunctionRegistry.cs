@@ -153,6 +153,9 @@ public sealed class FunctionRegistry
     {
     }
 
+    /// <summary>The names added a second time (the later definition won); a built-in registry must have none.</summary>
+    internal List<string> ReplacedNames { get; } = [];
+
     /// <summary>The functions registered.</summary>
     public int Count => _map.Count;
 
@@ -166,6 +169,10 @@ public sealed class FunctionRegistry
         LogicalFunctions.Register(r);
         InformationFunctions.Register(r);
         TextFunctions.Register(r);
+        LookupFunctions.Register(r);
+        ArrayFunctions.Register(r);
+        LambdaHelpers.Register(r);
+        GroupFunctions.Register(r);
         return r;
     }
 
@@ -174,6 +181,11 @@ public sealed class FunctionRegistry
     public void Add(FunctionDefinition definition)
     {
         ArgumentNullException.ThrowIfNull(definition);
+        if (_map.ContainsKey(definition.Name))
+        {
+            ReplacedNames.Add(definition.Name);
+        }
+
         _map[definition.Name] = definition;
     }
 

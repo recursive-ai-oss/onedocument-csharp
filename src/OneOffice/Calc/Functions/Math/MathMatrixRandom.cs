@@ -250,9 +250,8 @@ internal static partial class MathFunctions
 
     private static void RegisterRandom(FunctionRegistry r)
     {
-        r.Add(FunctionDefinition.Create("RAND", 0, 0, V, (ev, _) => CalcValue.FromNumber(ev.Rng.NextDouble()), FunctionTraits.Volatile));
+        r.Add(FunctionDefinition.Create("RAND", 0, 0, V, (ev, _) => CalcValue.FromNumber(ev.NextRandom()), FunctionTraits.Volatile));
         r.Add(FunctionDefinition.Create("RANDBETWEEN", 2, 2, V, RandBetween, FunctionTraits.Volatile));
-        r.Add(FunctionDefinition.Create("RANDARRAY", 0, 5, V, RandArray, FunctionTraits.Volatile));
     }
 
     private static CalcValue RandBetween(Evaluator ev, ReadOnlySpan<CalcValue> a)
@@ -269,68 +268,6 @@ internal static partial class MathFunctions
             return Fx.Err(CalcError.Num);
         }
 
-        return CalcValue.FromNumber(lo + Math.Floor(ev.Rng.NextDouble() * (hi - lo + 1)));
-    }
-
-    private static CalcValue RandArray(Evaluator ev, ReadOnlySpan<CalcValue> a)
-    {
-        double rows = 1;
-        double cols = 1;
-        double min = 0;
-        double max = 1;
-        bool integer = false;
-        CalcValue e;
-        if ((!Fx.Omitted(a, 0) && !Fx.TryNum(a[0], out rows, out e)) || (!Fx.Omitted(a, 1) && !Fx.TryNum(a[1], out cols, out e)))
-        {
-            return Fx.Err(CalcError.Value);
-        }
-
-        if (!Fx.Omitted(a, 2) && !Fx.TryNum(a[2], out min, out e))
-        {
-            return e;
-        }
-
-        if (!Fx.Omitted(a, 3) && !Fx.TryNum(a[3], out max, out e))
-        {
-            return e;
-        }
-
-        if (!Fx.Omitted(a, 4) && !Fx.TryBool(a[4], out integer, out e))
-        {
-            return e;
-        }
-
-        rows = Math.Truncate(rows);
-        cols = Math.Truncate(cols);
-        if (rows < 1 || cols < 1 || min > max)
-        {
-            return Fx.Err(CalcError.Value);
-        }
-
-        if (integer)
-        {
-            min = Math.Ceiling(min);
-            max = Math.Floor(max);
-            if (min > max)
-            {
-                return Fx.Err(CalcError.Value);
-            }
-        }
-
-        if (rows * cols > CalcArray.MaxCells)
-        {
-            return Fx.Err(CalcError.Num);
-        }
-
-        int ri = (int)rows;
-        int ci = (int)cols;
-        CalcValue[] cells = ev.NewCells(ri, ci);
-        for (int i = 0; i < cells.Length; i++)
-        {
-            double u = ev.Rng.NextDouble();
-            cells[i] = CalcValue.FromNumber(integer ? min + Math.Floor(u * (max - min + 1)) : min + (u * (max - min)));
-        }
-
-        return CalcValue.FromArray(new CalcArray(ri, ci, cells));
+        return CalcValue.FromNumber(lo + Math.Floor(ev.NextRandom() * (hi - lo + 1)));
     }
 }

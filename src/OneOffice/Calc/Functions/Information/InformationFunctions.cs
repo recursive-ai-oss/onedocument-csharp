@@ -24,7 +24,6 @@ internal static class InformationFunctions
         r.Add(FunctionDefinition.Create("ISREF", 1, 1, Any, (_, a) => CalcValue.FromBoolean(a[0].Kind == ValueKind.Reference)));
         r.Add(FunctionDefinition.Create("ISFORMULA", 1, 1, Any, IsFormula));
         r.Add(FunctionDefinition.Create("FORMULATEXT", 1, 1, Any, FormulaText));
-        r.Add(FunctionDefinition.CreateLazy("ISOMITTED", 1, 1, IsOmitted));
         r.Add(FunctionDefinition.Create("N", 1, 1, V, N));
         r.Add(FunctionDefinition.Create("T", 1, 1, V, (_, a) => a[0].Kind == ValueKind.Text ? a[0] : CalcValue.EmptyText));
         r.Add(FunctionDefinition.Create("NA", 0, 0, V, (_, _) => Fx.Err(CalcError.NA)));
@@ -160,26 +159,6 @@ internal static class InformationFunctions
 
     private static CalcValue FormulaText(Evaluator ev, ReadOnlySpan<CalcValue> a) =>
         a[0].IsError ? a[0] : PerCell(ev, a[0], (s, r, c) => ev.Resolver.GetFormulaText(s, r, c) is { } t ? CalcValue.FromText(t) : Fx.Err(CalcError.NA));
-
-    // ISOMITTED(arg) asks whether the LAMBDA parameter was left out of the call. A parameter bound to a missing value is the only case.
-    private static CalcValue IsOmitted(Evaluator ev, ReadOnlySpan<FormulaNode> args)
-    {
-        if (args[0] is not NameNode { Prefix: null } nn)
-        {
-            return Fx.Err(CalcError.Value);
-        }
-
-        string bare = nn.BareName;
-        for (Scope? s = ev.CurrentScope; s is not null; s = s.Parent)
-        {
-            if (string.Equals(s.Name, bare, StringComparison.OrdinalIgnoreCase))
-            {
-                return CalcValue.FromBoolean(s.Value.IsMissing);
-            }
-        }
-
-        return Fx.Err(CalcError.Name);
-    }
 
     private static CalcValue Sheet(Evaluator ev, ReadOnlySpan<CalcValue> a)
     {

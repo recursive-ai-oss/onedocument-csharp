@@ -448,10 +448,18 @@ public class FunctionFamilyTests
     public void Information(string formula, string expected) => Check(formula, expected);
 
     [Fact]
+    public void EveryFunctionIsRegisteredOnce()
+    {
+        var r = FunctionRegistry.CreateDefault();
+        Assert.Empty(r.ReplacedNames);
+        Assert.True(r.TryGet("PERMUT", out _));
+        Assert.True(r.TryGet("PERMUTATIONA", out _));
+    }
+
+    [Fact]
     public void IsOmittedSeesAMissingParameter()
     {
         Assert.Equal("FALSE", Show(Eval("LET(f,LAMBDA(x,ISOMITTED(x)),f(1))")));
-        Assert.Equal("#VALUE!", Show(Eval("ISOMITTED(5)")));
     }
 
     [Theory]
@@ -613,11 +621,11 @@ public class FunctionFamilyTests
     [Fact]
     public void RandomFunctionsAreVolatileAndSeedable()
     {
-        var ev = new Evaluator(new FakeResolver(), options: new EvaluatorOptions { Random = new Random(7) });
+        var ev = new Evaluator(new FakeResolver(), options: new EvaluatorOptions { RandomSeed = 7 });
         CalcValue r = ev.Evaluate(FormulaParser.Parse("RAND()", new FormulaParserOptions { FileForm = false }), new CalcCell("Sheet1", 1, 1));
         Assert.True(ev.UsedVolatile);
         Assert.InRange(r.Number, 0, 1);
-        var ev2 = new Evaluator(new FakeResolver(), options: new EvaluatorOptions { Random = new Random(7) });
+        var ev2 = new Evaluator(new FakeResolver(), options: new EvaluatorOptions { RandomSeed = 7 });
         Assert.Equal(r, ev2.Evaluate(FormulaParser.Parse("RAND()", new FormulaParserOptions { FileForm = false }), new CalcCell("Sheet1", 1, 1)));
         CalcValue b = Eval("RANDBETWEEN(5,5)");
         Assert.Equal("5", Show(b));

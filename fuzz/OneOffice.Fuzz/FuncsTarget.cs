@@ -93,7 +93,7 @@ internal static class FuncsTarget
         try
         {
             var limits = new OfficeLimits { MaxRecursionDepth = 32, MaxAllocationBytes = 4 << 20, RegexMatchTimeoutMilliseconds = 50 };
-            var options = new EvaluatorOptions { MaxSteps = 100_000, Random = new Random(1) };
+            var options = new EvaluatorOptions { MaxSteps = 100_000, RandomSeed = 1 };
             CalcValue v = new Evaluator(new Grid(), registry, limits, options).Evaluate(node, new CalcCell("Sheet1", 3, 2));
             if (v.Kind == ValueKind.Reference)
             {

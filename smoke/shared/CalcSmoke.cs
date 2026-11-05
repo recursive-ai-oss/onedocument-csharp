@@ -36,6 +36,11 @@ internal static class CalcSmoke
         Check("REGEXREPLACE(\"a1b2\",\"[0-9]\",\"#\")", "a#b#");
         Check("MMULT({1,2;3,4},{5;6})", "array 2x1");
         Check("ROMAN(2013)&SUBSTITUTE(\"x\",\"x\",\"y\")", "MMXIIIy");
+        Check("XLOOKUP(2,{1,2,3},{10,20,30})", "20");
+        Check("SORT({3;1;2})", "array 3x1");
+        Check("REDUCE(0,{1,2,3},SUM)", "6");
+        Check("INDIRECT(\"B2\")", "22");
+        Check("GROUPBY({\"a\";\"b\";\"a\"},{1;2;3},SUM,0,0)", "array 2x2");
         string printed = FormulaPrinter.Print(FormulaParser.Parse("_xlfn.SEQUENCE(2)+'S 1'!$A$1"));
         if (printed != "_xlfn.SEQUENCE(2)+'S 1'!$A$1")
         {

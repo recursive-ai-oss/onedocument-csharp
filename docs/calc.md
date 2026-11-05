@@ -67,7 +67,7 @@ Namespace `RecursiveAI.OneOffice.Calc` in the core package. This page is the con
 * **Arity**: too few or too many arguments is `#VALUE!`.
 * **Custom C# functions**: `registry.AddCustom(name, min, max, args => value, isVolatile)`: value arguments that lift over arrays, errors propagate before the call, delegate-based and AOT-safe.
 
-Shipped now (the seed set that proves the contract): `SUM AND OR NOT CONCAT LEN ISERROR ROWS COLUMNS INDEX SEQUENCE MAKEARRAY MAP TEXT IF IFS CHOOSE IFERROR IFNA LET LAMBDA SINGLE ANCHORARRAY`. `TEXT` runs on the number-format service. The other families come as their own units.
+Shipped now (the seed set that proves the contract): `SUM AND OR NOT CONCAT LEN ISERROR ROWS COLUMNS INDEX SEQUENCE MAKEARRAY MAP TEXT IF IFS CHOOSE IFERROR IFNA LET LAMBDA SINGLE ANCHORARRAY`. `TEXT` runs on the number-format service. The lookup, dynamic-array and LAMBDA-helper families are in `docs/calc-functions.md`; the other families come as their own units. A registry function written bare (`REDUCE(0, a, SUM)`) works as a lambda in the helpers that take one.
 
 ## Future-function prefixes
 

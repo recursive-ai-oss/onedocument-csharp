@@ -237,7 +237,7 @@ internal static class Program
 
     private static int Compare(string dir)
     {
-        var ev = new Evaluator(new Blank(), options: new EvaluatorOptions { Random = new Random(1) });
+        var ev = new Evaluator(new Blank(), options: new EvaluatorOptions { RandomSeed = 1 });
         int compared = 0;
         int bad = 0;
         foreach (string f in Directory.EnumerateFiles(dir, "*.expected.tsv").Order(StringComparer.Ordinal))

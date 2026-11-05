@@ -17,14 +17,11 @@ internal static class SeedFunctions
         r.Add(FunctionDefinition.Create("OR", 1, int.MaxValue, Any, (c, a) => Logical(c, a, false), repeatLast: true));
         r.Add(FunctionDefinition.Create("NOT", 1, 1, V, Not));
         r.Add(FunctionDefinition.Create("CONCAT", 1, int.MaxValue, A, Concat, repeatLast: true));
-        r.Add(FunctionDefinition.Create("LEN", 1, 1, V, (_, a) => CalcValue.FromNumber(CalcConvert.ToText(a[0]).Length)));
         r.Add(FunctionDefinition.Create("ISERROR", 1, 1, V, (_, a) => CalcValue.FromBoolean(a[0].IsError), FunctionTraits.HandlesErrors));
         r.Add(FunctionDefinition.Create("ROWS", 1, 1, Any, (c, a) => Extent(c, a[0], true)));
         r.Add(FunctionDefinition.Create("COLUMNS", 1, 1, Any, (c, a) => Extent(c, a[0], false)));
         r.Add(FunctionDefinition.Create("INDEX", 2, 4, [ArgKind.Any, ArgKind.Value, ArgKind.Value, ArgKind.Value], Index));
         r.Add(FunctionDefinition.Create("SEQUENCE", 1, 4, V, Sequence, repeatLast: true));
-        r.Add(FunctionDefinition.Create("MAKEARRAY", 3, 3, [ArgKind.Value, ArgKind.Value, ArgKind.Any], MakeArray));
-        r.Add(FunctionDefinition.Create("MAP", 2, int.MaxValue, A, Map, repeatLast: true));
         r.Add(FunctionDefinition.Create("TEXT", 2, 2, V, Text));
         r.Add(FunctionDefinition.CreateLazy("IF", 2, 3, If));
         r.Add(FunctionDefinition.CreateLazy("IFS", 2, int.MaxValue, Ifs));
@@ -417,136 +414,6 @@ internal static class SeedFunctions
 
         _ = v;
         return CalcValue.FromArray(new CalcArray((int)rowsD, (int)colsD, cells));
-    }
-
-    private static CalcValue MakeArray(Evaluator ev, ReadOnlySpan<CalcValue> args)
-    {
-        CalcError e = CalcConvert.ToNumber(args[0], out double rowsD);
-        if (e != CalcError.None)
-        {
-            return Err(e);
-        }
-
-        e = CalcConvert.ToNumber(args[1], out double colsD);
-        if (e != CalcError.None)
-        {
-            return Err(e);
-        }
-
-        CalcValue fn = ev.Dereference(args[2]);
-        if (fn.Kind != ValueKind.Lambda)
-        {
-            return Err(CalcError.Value);
-        }
-
-        rowsD = Math.Truncate(rowsD);
-        colsD = Math.Truncate(colsD);
-        if (rowsD < 1 || colsD < 1 || fn.Lambda!.Parameters.Length != 2)
-        {
-            return Err(CalcError.Value);
-        }
-
-        int rows = (int)Math.Min(rowsD, int.MaxValue);
-        int cols = (int)Math.Min(colsD, int.MaxValue);
-        CalcValue[] cells = ev.NewCells(rows, cols);
-        var pair = new CalcValue[2];
-        for (int r = 0; r < rows; r++)
-        {
-            for (int c = 0; c < cols; c++)
-            {
-                pair[0] = CalcValue.FromNumber(r + 1);
-                pair[1] = CalcValue.FromNumber(c + 1);
-                CalcValue res = ev.Dereference(ev.Invoke(fn, pair));
-                if (res.Kind == ValueKind.Array)
-                {
-                    if (res.Array!.Count != 1)
-                    {
-                        return Err(CalcError.Calc); // A lambda that returns an array makes the whole result #CALC!.
-                    }
-
-                    res = res.Array[0, 0];
-                }
-
-                if (res.Kind == ValueKind.Lambda)
-                {
-                    return Err(CalcError.Calc);
-                }
-
-                cells[(r * cols) + c] = res;
-            }
-        }
-
-        return CalcValue.FromArray(new CalcArray(rows, cols, cells));
-    }
-
-    private static CalcValue Map(Evaluator ev, ReadOnlySpan<CalcValue> args)
-    {
-        CalcValue fn = ev.Dereference(args[^1]);
-        if (fn.Kind != ValueKind.Lambda)
-        {
-            return Err(CalcError.Value);
-        }
-
-        int n = args.Length - 1;
-        if (fn.Lambda!.Parameters.Length != n)
-        {
-            return Err(CalcError.Value);
-        }
-
-        var arrays = new CalcArray[n];
-        int rows = 1;
-        int cols = 1;
-        for (int i = 0; i < n; i++)
-        {
-            CalcValue v = args[i];
-            if (v.IsError)
-            {
-                return v;
-            }
-
-            if (v.Kind == ValueKind.Lambda)
-            {
-                return Err(CalcError.Value);
-            }
-
-            arrays[i] = v.Array ?? CalcArray.OfValue(v);
-            rows = Math.Max(rows, arrays[i].Rows);
-            cols = Math.Max(cols, arrays[i].Columns);
-        }
-
-        CalcValue[] cells = ev.NewCells(rows, cols);
-        var call = new CalcValue[n];
-        for (int r = 0; r < rows; r++)
-        {
-            for (int c = 0; c < cols; c++)
-            {
-                for (int i = 0; i < n; i++)
-                {
-                    // MAP does not stretch a one-row or one-column array: a cell outside a smaller array is #N/A.
-                    call[i] = r < arrays[i].Rows && c < arrays[i].Columns ? arrays[i][r, c] : Err(CalcError.NA);
-                }
-
-                CalcValue res = ev.Dereference(ev.Invoke(fn, call));
-                if (res.Kind == ValueKind.Array)
-                {
-                    if (res.Array!.Count != 1)
-                    {
-                        return Err(CalcError.Calc);
-                    }
-
-                    res = res.Array[0, 0];
-                }
-
-                if (res.Kind == ValueKind.Lambda)
-                {
-                    return Err(CalcError.Calc);
-                }
-
-                cells[(r * cols) + c] = res;
-            }
-        }
-
-        return CalcValue.FromArray(new CalcArray(rows, cols, cells));
     }
 
     private static CalcValue Text(Evaluator ev, ReadOnlySpan<CalcValue> args)

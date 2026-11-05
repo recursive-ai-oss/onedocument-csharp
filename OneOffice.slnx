@@ -32,6 +32,7 @@
     <Project Path="tools/StreamProbe/StreamProbe.csproj" />
     <Project Path="tools/FormulaGrid/FormulaGrid.csproj" />
     <Project Path="tools/FunctionGrid/FunctionGrid.csproj" />
+    <Project Path="tools/LookupGrid/LookupGrid.csproj" />
     <Project Path="tools/FormulaSweep/FormulaSweep.csproj" />
     <Project Path="tools/XlsxProbe/XlsxProbe.csproj" />
     <Project Path="tools/OracleCases/OracleCases.csproj" />

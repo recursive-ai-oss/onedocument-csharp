@@ -20,7 +20,7 @@ public class FunctionGridTests
     {
         string dir = GridDir();
         int n = 0;
-        var ev = new Evaluator(new Empty(), options: new EvaluatorOptions { Random = new Random(1) });
+        var ev = new Evaluator(new Empty(), options: new EvaluatorOptions { RandomSeed = 1 });
         foreach (string f in Directory.EnumerateFiles(dir, "*.expected.tsv"))
         {
             foreach (string line in File.ReadAllLines(f))
