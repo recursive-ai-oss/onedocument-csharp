@@ -441,7 +441,7 @@ internal static class Program
     private static string BoxContent() =>
         "<w:txbxContent><w:p><w:r><w:t>Inside the box</w:t></w:r></w:p><w:p><w:r><w:t>Second line</w:t></w:r></w:p></w:txbxContent>";
 
-    private static string BoxXml(bool drawing) => drawing
+    internal static string BoxXml(bool drawing) => drawing
         ? "<w:p " + BoxNamespaces + "><w:r><w:t>Anchor paragraph</w:t></w:r><w:r><mc:AlternateContent><mc:Choice Requires=\"wps\"><w:drawing>" +
           "<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" relativeHeight=\"1\" behindDoc=\"0\" locked=\"0\" layoutInCell=\"1\" allowOverlap=\"1\">" +
           "<wp:simplePos x=\"0\" y=\"0\"/><wp:positionH relativeFrom=\"column\"><wp:posOffset>3000000</wp:posOffset></wp:positionH><wp:positionV relativeFrom=\"paragraph\"><wp:posOffset>0</wp:posOffset></wp:positionV>" +

@@ -20,6 +20,18 @@ internal static class AuthoringCases
     private static readonly DateTimeOffset s_date = new(2024, 3, 1, 10, 0, 0, TimeSpan.Zero);
     private const string Pilcrow = "\u00b6";
 
+    /// <summary>The application's revision type (WdRevisionType) for the kinds the grid authors; 0 for the rest.</summary>
+    private static int WordType(RevisionKind kind) => kind switch
+    {
+        RevisionKind.Insertion or RevisionKind.ParagraphMarkInserted => 1,
+        RevisionKind.Deletion or RevisionKind.ParagraphMarkDeleted => 2,
+        RevisionKind.RunPropertiesChange => 3,
+        RevisionKind.ParagraphPropertiesChange => 10,
+        RevisionKind.MoveFrom or RevisionKind.ParagraphMarkMovedFrom => 14,
+        RevisionKind.MoveTo or RevisionKind.ParagraphMarkMovedTo => 15,
+        _ => 0,
+    };
+
     private static Paragraph P(Document d, int i) => d.Body.Paragraphs().ElementAt(i);
 
     private static Document Base(string bodyXml)
@@ -31,6 +43,29 @@ internal static class AuthoringCases
         }
 
         doc.Body.SectionProperties!.Value.Node.InsertXmlBefore(Encoding.UTF8.GetBytes(bodyXml));
+        return doc;
+    }
+
+    /// <summary>
+    /// Gives the document a settings part that asks for the current compatibility mode. Without one the application opens the file in its
+    /// oldest mode, and saving it again (which the accept and reject actions do) stops on the Compatibility Checker when the file has a
+    /// DrawingML text box.
+    /// </summary>
+    private static Document WithCurrentCompatibilityMode(Document doc)
+    {
+        const string Settings = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings";
+        if (doc.Package.FindPart("/word/settings.xml") is null)
+        {
+            doc.Package.AddPart("/word/settings.xml", "application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml",
+                Encoding.UTF8.GetBytes("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<w:settings xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\">" +
+                    "<w:compat><w:compatSetting w:name=\"compatibilityMode\" w:uri=\"http://schemas.microsoft.com/office/word\" w:val=\"15\"/></w:compat></w:settings>"));
+            var rels = new List<RecursiveAI.OneOffice.Packaging.Relationship>(doc.Package.GetRelationships("/word/document.xml"))
+            {
+                new("rIdCompat", Settings, "settings.xml"),
+            };
+            doc.Package.SetRelationships("/word/document.xml", rels);
+        }
+
         return doc;
     }
 
@@ -119,6 +154,66 @@ internal static class AuthoringCases
             a.ReplaceText(doc.Comments[0].Paragraphs().First(), 9, 7, "reply");
             return doc;
         });
+        foreach ((string name, Func<Document> build) in GridCases())
+        {
+            yield return (name, build);
+        }
+    }
+
+    // One tracked paragraph-properties change plus one other edit of the same paragraph, in both orders, in the body, in a table
+    // cell and in a text box (a DrawingML box with its VML copy, and a plain VML box). Resolving all of them must leave nothing.
+    private static readonly (string Name, Action<RevisionAuthor, Paragraph, Paragraph> Edit)[] GridEdits =
+    [
+        ("insert-paragraph", (a, p, _) => a.InsertParagraph(p, "added")),
+        ("insert-text", (a, p, _) => a.InsertText(p, 5, ",")),
+        ("delete-text", (a, p, _) => a.DeleteText(p, 0, 5)),
+        ("replace-text", (a, p, _) => a.ReplaceText(p, 0, 5, "HELLO")),
+        ("delete-paragraph", (a, p, _) => a.DeleteParagraph(p)),
+        ("move-paragraph", (a, p, q) => a.MoveParagraph(p, q, null)),
+        ("move-text", (a, p, q) => a.MoveText(p, 0, 5, q, 2, null)),
+        ("format-text", (a, p, _) => a.FormatText(p, 0, 5, new RunPropertiesDelta { Bold = true })),
+    ];
+
+    private static IEnumerable<(string Name, Func<Document> Build)> GridCases()
+    {
+        string cell = "<w:tbl><w:tblPr><w:tblStyle w:val=\"TableGrid\"/><w:tblW w:w=\"0\" w:type=\"auto\"/></w:tblPr><w:tblGrid><w:gridCol w:w=\"4800\"/></w:tblGrid><w:tr><w:tc><w:tcPr><w:tcW w:w=\"4800\" w:type=\"dxa\"/></w:tcPr>" +
+            Para("Hello world", "<w:jc w:val=\"right\"/>") + Para("Other") + "</w:tc></w:tr></w:tbl><w:p/>";
+        (string Place, string Body, Func<Document, IEnumerable<Paragraph>> Paragraphs)[] places =
+        [
+            ("body", Para("Hello world", "<w:jc w:val=\"right\"/>") + Para("Other"), d => d.Body.Paragraphs()),
+            ("cell", cell, d => d.Body.Blocks().OfType<Table>().First().Rows().First().Cells().First().Paragraphs()),
+            ("box-drawing", Program.BoxXml(true), d => d.TextBoxes()[0].Paragraphs()),
+            ("box-vml", Program.BoxXml(false), d => d.TextBoxes()[0].Paragraphs()),
+        ];
+        foreach ((string place, string body, Func<Document, IEnumerable<Paragraph>> paragraphs) in places)
+        {
+            foreach ((string edit, Action<RevisionAuthor, Paragraph, Paragraph> apply) in GridEdits)
+            {
+                foreach (bool propertiesFirst in new[] { true, false })
+                {
+                    yield return ($"grid-{place}-{edit}-{(propertiesFirst ? "props-first" : "props-last")}", () =>
+                    {
+                        Document doc = WithCurrentCompatibilityMode(Base(body));
+                        RevisionAuthor a = doc.Revisions.CreateAuthor("Redliner", s_date, RevisionIds.StartingAt(100));
+                        Paragraph[] ps = [.. paragraphs(doc)];
+                        // The box content starts with "Inside the box"; the grid's offsets work on any text of 11+ characters.
+                        var center = new ParagraphPropertiesDelta { Alignment = ParagraphAlignment.Center };
+                        if (propertiesFirst)
+                        {
+                            a.ChangeParagraphProperties(ps[0], center);
+                        }
+
+                        apply(a, ps[0], ps[1]);
+                        if (!propertiesFirst)
+                        {
+                            a.ChangeParagraphProperties(ps[0], center);
+                        }
+
+                        return doc;
+                    });
+                }
+            }
+        }
     }
 
     private static Document Edit(string body, Action<Document, RevisionAuthor> edit)
@@ -148,6 +243,8 @@ internal static class AuthoringCases
                     }
                 }
 
+                tsv.Append("count\t-\t").Append(doc.Revisions.Revisions.Count).Append('\n');
+                tsv.Append("types\t-\t").Append(string.Join(',', doc.Revisions.Revisions.Select(r => WordType(r.Kind)).Distinct().OrderBy(x => x))).Append('\n');
                 doc.CommitChanges();
                 doc.SaveAs(Path.Combine(dir, name + ".docx"), OfficeFormat.Docx);
                 File.WriteAllText(Path.Combine(dir, name + ".actions.txt"), "accept-all-stories\nreject-all-stories\n");
@@ -215,6 +312,34 @@ internal static class AuthoringCases
             if (outcome != "clean")
             {
                 problems.Add("outcome " + outcome);
+            }
+
+            // The application's own list of the file as authored (every story, text boxes included) against the revisions we list. It
+            // joins neighbouring revisions of one kind (an inserted run and the inserted paragraph mark after it are one revision), so
+            // its count may be lower than ours (and it reports a paragraph property change as part of a neighbouring revision), but never higher.
+            if (expected.TryGetValue(("count", "-"), out string? ours) && entry.TryGetProperty("stories", out JsonElement storyList))
+            {
+                int wordCount = 0;
+                var wordTypes = new SortedSet<int>();
+                foreach (JsonElement story in storyList.EnumerateArray())
+                {
+                    if (story.TryGetProperty("revisions", out JsonElement srevs) && srevs.ValueKind == JsonValueKind.Array)
+                    {
+                        foreach (JsonElement rv in srevs.EnumerateArray())
+                        {
+                            wordCount++;
+                            wordTypes.Add(rv.GetProperty("type").GetInt32());
+                        }
+                    }
+                }
+
+                string oursTypes = expected.GetValueOrDefault(("types", "-")) ?? string.Empty;
+                string theirs = string.Join(',', wordTypes);
+                Console.WriteLine("     " + name + " revisions: word " + wordCount + " (types " + theirs + ") ours " + ours + " (types " + oursTypes + ")");
+                if (wordCount > int.Parse(ours, System.Globalization.CultureInfo.InvariantCulture))
+                {
+                    problems.Add("revision count: word " + wordCount + " ours " + ours);
+                }
             }
 
             if (entry.TryGetProperty("actions", out JsonElement actions))
