@@ -23,6 +23,7 @@ namespace RecursiveAI.OneOffice.Tools.DocxProbe;
 /// <c>DocxProbe census FILE...</c> counts fields, notes and comments.
 /// <c>DocxProbe annotate IN OUT</c> adds a comment with a reply and a footnote and rewrites a field result.
 /// <c>DocxProbe tables FILE...</c> counts tables, merges, sections and header/footer stories; <c>edit-tables IN OUT</c>, <c>generate-sections DIR</c> and <c>expect FILE PAGES</c> support the table and section checks.
+/// <c>DocxProbe lazyopen FILE</c> prints the bytes read from the file by opening it, reading the styles and reading the first paragraph.
 /// <c>DocxProbe generate DIR</c> writes the style and numbering cases as small documents.
 /// </summary>
 internal static partial class Program
@@ -78,6 +79,8 @@ internal static partial class Program
             case "sdt-generate":
                 SdtGenerate(args[1]);
                 return 0;
+            case "lazyopen":
+                return LazyOpen(args[1]);
             case "generate":
                 Cases.Write(args[1]);
                 return 0;

@@ -21,13 +21,21 @@ public sealed partial class Document
     {
         get
         {
-            if (_styles is null)
+            if (Volatile.Read(ref _styles) is { } existing)
             {
-                MarkupDocument? doc = Parts.LoadRelated(MainPartName, "styles", out string? name);
-                _styles = new StyleSheet(this, doc, name);
+                return existing;
             }
 
-            return _styles;
+            lock (Parts.Gate)
+            {
+                if (_styles is null)
+                {
+                    MarkupDocument? doc = Parts.LoadRelated(MainPartName, "styles", out string? name);
+                    _styles = new StyleSheet(this, doc, name);
+                }
+
+                return _styles;
+            }
         }
     }
 
@@ -39,13 +47,21 @@ public sealed partial class Document
     {
         get
         {
-            if (_numbering is null)
+            if (Volatile.Read(ref _numbering) is { } existing)
             {
-                MarkupDocument? doc = Parts.LoadRelated(MainPartName, "numbering", out string? name);
-                _numbering = new NumberingDefinitions(this, doc, name);
+                return existing;
             }
 
-            return _numbering;
+            lock (Parts.Gate)
+            {
+                if (_numbering is null)
+                {
+                    MarkupDocument? doc = Parts.LoadRelated(MainPartName, "numbering", out string? name);
+                    _numbering = new NumberingDefinitions(this, doc, name);
+                }
+
+                return _numbering;
+            }
         }
     }
 
@@ -54,13 +70,21 @@ public sealed partial class Document
     {
         get
         {
-            if (_theme is null)
+            if (Volatile.Read(ref _theme) is { } existing)
             {
-                MarkupDocument? doc = Parts.LoadRelated(MainPartName, "theme", out _);
-                _theme = doc is null ? ThemeData.Empty : ThemeData.Read(new RecursiveAI.OneOffice.Schema.MarkupRef(doc.Root));
+                return existing;
             }
 
-            return _theme;
+            lock (Parts.Gate)
+            {
+                if (_theme is null)
+                {
+                    MarkupDocument? doc = Parts.LoadRelated(MainPartName, "theme", out _);
+                    _theme = doc is null ? ThemeData.Empty : ThemeData.Read(new RecursiveAI.OneOffice.Schema.MarkupRef(doc.Root));
+                }
+
+                return _theme;
+            }
         }
     }
 

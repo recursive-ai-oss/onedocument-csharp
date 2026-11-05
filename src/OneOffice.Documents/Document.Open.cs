@@ -27,7 +27,7 @@ public sealed partial class Document
     /// <param name="path">The file.</param>
     /// <param name="context">Limits, defect sink and password; null for the defaults.</param>
     /// <param name="cancellationToken">Cancels the open.</param>
-    /// <returns>The document, which the caller disposes. Only the package structure and the main part are read; every other part is read when it is first used. Opening changes nothing.</returns>
+    /// <returns>The document, which the caller disposes. Only the package structure is read; the main part and every other part are read when first used, so a damaged main part raises at that first use, not here. Opening changes nothing.</returns>
     /// <exception cref="OfficeFormatException">The content is not a recognised format, or is damaged beyond repair.</exception>
     /// <exception cref="FormatNotAvailableException">The content is another format (a workbook, a legacy binary file…), named in the exception.</exception>
     /// <exception cref="OfficeLimitException">A limit was exceeded.</exception>

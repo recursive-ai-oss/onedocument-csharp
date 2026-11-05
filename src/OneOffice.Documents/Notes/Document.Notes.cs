@@ -11,10 +11,10 @@ public sealed partial class Document
     private NoteCollection? _endnotes;
 
     /// <summary>Gets the footnotes (<c>/word/footnotes.xml</c>); empty when the document has none.</summary>
-    public NoteCollection Footnotes => _footnotes ??= new NoteCollection(this, NoteKind.Footnote);
+    public NoteCollection Footnotes => Init(ref _footnotes, () => new NoteCollection(this, NoteKind.Footnote));
 
     /// <summary>Gets the endnotes (<c>/word/endnotes.xml</c>); empty when the document has none.</summary>
-    public NoteCollection Endnotes => _endnotes ??= new NoteCollection(this, NoteKind.Endnote);
+    public NoteCollection Endnotes => Init(ref _endnotes, () => new NoteCollection(this, NoteKind.Endnote));
 
     /// <summary>
     /// Lists the note references in the body, in document order. A reference whose note does not exist is reported once per
