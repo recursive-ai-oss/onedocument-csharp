@@ -43,6 +43,31 @@ public class FormatSnifferTests
         Assert.Equal(OfficeFormat.Docx, FormatSniffer.Detect(zip));
     }
 
+    [Theory]
+    [InlineData("word/document.xml", "document.main+xml", OfficeFormat.Docx)]
+    [InlineData("xl/workbook.xml", "sheet.main+xml", OfficeFormat.Xlsx)]
+    [InlineData("ppt/presentation.xml", "presentation.main+xml", OfficeFormat.Pptx)]
+    public void Main_part_typed_only_by_a_default_extension_is_named(string part, string suffix, OfficeFormat expected)
+    {
+        // ECMA-376 Part 2 §10.1.2: a part without an Override has the type of its extension's Default.
+        string ns = part.StartsWith("word", StringComparison.Ordinal) ? Wml : part.StartsWith("xl", StringComparison.Ordinal) ? Sml : Pml;
+        byte[] zip = Samples.Zip(
+            ("[Content_Types].xml", "<Types xmlns=\"x\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/>" +
+                "<Default Extension=\"xml\" ContentType=\"" + ns + suffix + "\"/></Types>"),
+            ("_rels/.rels", Samples.RootRels(part)));
+        Assert.Equal(expected, FormatSniffer.Detect(zip));
+    }
+
+    [Fact]
+    public void An_override_for_the_main_part_beats_a_default_listed_first()
+    {
+        byte[] zip = Samples.Zip(
+            ("[Content_Types].xml", "<Types xmlns=\"x\"><Default Extension=\"xml\" ContentType=\"" + Sml + "sheet.main+xml\"/>" +
+                "<Override PartName=\"/word/document.xml\" ContentType=\"" + Wml + "document.main+xml\"/></Types>"),
+            ("_rels/.rels", Samples.RootRels("word/document.xml")));
+        Assert.Equal(OfficeFormat.Docx, FormatSniffer.Detect(zip));
+    }
+
     [Fact]
     public void Strict_relationship_namespace_is_accepted()
     {

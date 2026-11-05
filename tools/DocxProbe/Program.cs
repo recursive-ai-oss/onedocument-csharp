@@ -21,6 +21,7 @@ namespace RecursiveAI.OneOffice.Tools.DocxProbe;
 /// <c>DocxProbe labels FILE</c> prints one line per paragraph of the body: the list label, a tab and the text.
 /// <c>DocxProbe edit IN OUT</c> adds a style and a list to a document and writes the result as a new zip.
 /// <c>DocxProbe census FILE...</c> counts fields, notes and comments.
+/// <c>DocxProbe stories-census FILE...</c> counts text boxes (by kind), their paragraphs and chains, list labels outside the body and the document properties.
 /// <c>DocxProbe annotate IN OUT</c> adds a comment with a reply and a footnote and rewrites a field result.
 /// <c>DocxProbe tables FILE...</c> counts tables, merges, sections and header/footer stories; <c>edit-tables IN OUT</c>, <c>generate-sections DIR</c> and <c>expect FILE PAGES</c> support the table and section checks.
 /// <c>DocxProbe lazyopen FILE</c> prints the bytes read from the file by opening it, reading the styles and reading the first paragraph.
@@ -54,6 +55,8 @@ internal static partial class Program
                 }
             case "census":
                 return Census(args[1..]);
+            case "stories-census":
+                return StoriesCensus(args[1..]);
             case "annotate":
                 try
                 {

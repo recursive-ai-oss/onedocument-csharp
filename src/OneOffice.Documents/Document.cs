@@ -187,10 +187,15 @@ public sealed partial class Document : OfficeFile
     /// Writes every part whose markup was edited back into the package. Parts nobody edited are not touched, so the package
     /// copies them as stored. Saving to a file or stream is the package's (<see cref="IPackage.Save"/>).
     /// </summary>
-    public void CommitChanges() => Parts.Flush();
+    public void CommitChanges()
+    {
+        SyncTextBoxAlternates();
+        Parts.Flush();
+        Volatile.Read(ref _properties)?.Commit();
+    }
 
     /// <summary>Gets a value indicating whether any parsed part has been edited since it was read.</summary>
-    public bool HasUncommittedChanges => Parts.HasEdits;
+    public bool HasUncommittedChanges => Parts.HasEdits || (Volatile.Read(ref _properties)?.HasUncommittedChanges ?? false);
 
     /// <summary>Releases the package when the document owns it.</summary>
     /// <param name="disposing">True when called from <see cref="OfficeFile.Dispose()"/>.</param>

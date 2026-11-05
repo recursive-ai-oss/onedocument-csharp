@@ -327,20 +327,38 @@ public static class FormatSniffer
         return null;
     }
 
-    // The content type of the main part is its Override; when the relationships are missing, the first main-part content type listed wins.
+    // ECMA-376 Part 2 §10.1.2: the content type of a part is its Override, else the Default for its extension (a package may give its
+    // main part no Override at all). When the relationships are missing, the first main-part content type listed wins.
     private static OfficeFormat MainFormat(string typesXml, string? mainPart)
     {
         OfficeFormat firstMain = OfficeFormat.Unknown;
+        OfficeFormat viaDefault = OfficeFormat.Unknown;
+        string mainExtension = mainPart is null ? string.Empty : ContentTypes.ExtensionOf(mainPart);
         foreach (SniffXml.Tag tag in SniffXml.StartTags(typesXml))
         {
-            if (tag.LocalName != "Override" || tag.Get("ContentType") is not { } contentType || !s_mainContentTypes.TryGetValue(contentType, out OfficeFormat format))
+            if (tag.Get("ContentType") is not { } contentType || !s_mainContentTypes.TryGetValue(contentType, out OfficeFormat format))
             {
                 continue;
             }
 
-            if (mainPart is not null && tag.Get("PartName") is { } partName && partName.Equals(mainPart, StringComparison.OrdinalIgnoreCase))
+            if (tag.LocalName == "Override")
             {
-                return format;
+                if (mainPart is not null && tag.Get("PartName") is { } partName && partName.Equals(mainPart, StringComparison.OrdinalIgnoreCase))
+                {
+                    return format;
+                }
+            }
+            else if (tag.LocalName == "Default")
+            {
+                if (mainExtension.Length > 0 && viaDefault == OfficeFormat.Unknown
+                    && tag.Get("Extension") is { } ext && ext.Equals(mainExtension, StringComparison.OrdinalIgnoreCase))
+                {
+                    viaDefault = format;
+                }
+            }
+            else
+            {
+                continue;
             }
 
             if (firstMain == OfficeFormat.Unknown)
@@ -349,7 +367,8 @@ public static class FormatSniffer
             }
         }
 
-        return mainPart is null ? firstMain : OfficeFormat.Unknown;
+        // A later Override for the main part beats a Default listed earlier, so the Default only counts after the whole list was read.
+        return mainPart is null ? firstMain : viaDefault;
     }
 
     private static string? ReadEntryText(ZipReader zip, ZipEntry entry, int maxBytes)
