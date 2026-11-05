@@ -73,6 +73,20 @@ internal static class TextBodyReader
                     case "br":
                         paragraph.Runs.Add(new SlideTextRun("\n", styles.Run(DrawingTheme.Child(child, "rPr"), chain)));
                         break;
+                    case "AlternateContent":
+                        {
+                            // An equation (a14:m / m:oMath inside mc:AlternateContent): its plain text stands in until math layout is hooked in.
+                            string math = MathText(child);
+                            if (math.Length > 0)
+                            {
+                                characters += math.Length;
+                                paragraph.Runs.Add(new SlideTextRun(math, styles.Run(default, chain)));
+                                fields.Note?.Invoke("slide.math-plain-text", "An equation is drawn as its plain text; math layout is not applied to slide text.");
+                            }
+
+                            break;
+                        }
+
                     case "fld":
                         {
                             string text = FieldText(child, fields);
@@ -151,6 +165,44 @@ internal static class TextBodyReader
             paragraph.LabelColor = ps.BulletColor;
             paragraph.LabelSizeFactor = ps.BulletSizePercent ?? 1.0;
             paragraph.LabelSizePoints = ps.BulletSizePoints;
+        }
+    }
+
+    // The text of the first mc:Choice's equation: every m:t under m:oMath, in order.
+    private static string MathText(MarkupNode alternate)
+    {
+        foreach (MarkupNode choice in alternate.ChildElements)
+        {
+            if (choice.LocalNameString == "Choice")
+            {
+                var sb = new System.Text.StringBuilder();
+                CollectMath(choice, sb, false, 0);
+                return sb.ToString();
+            }
+        }
+
+        return string.Empty;
+    }
+
+    private static void CollectMath(MarkupNode n, System.Text.StringBuilder sb, bool inMath, int depth)
+    {
+        if (depth > 40)
+        {
+            return;
+        }
+
+        foreach (MarkupNode c in n.ChildElements)
+        {
+            string name = c.LocalNameString;
+            bool math = inMath || name == "oMath";
+            if (math && name == "t")
+            {
+                sb.Append(c.InnerText);
+            }
+            else
+            {
+                CollectMath(c, sb, math, depth + 1);
+            }
         }
     }
 

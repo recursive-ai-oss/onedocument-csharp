@@ -101,6 +101,16 @@ public sealed class PresentationRenderTests
         }
     }
 
+    [Theory]
+    [MemberData(nameof(CaseNames))]
+    public void EveryCaseMeetsThePdfUaProfile(string name)
+    {
+        // The writer checks the profile's structure rules and refuses output that breaks them (a table without header cells, a figure without text).
+        (PresentationRenderReport report, byte[] pdf) = Pdf(SlideCases.Get(name), o => o.Profile = OneRender.Pdf.PdfProfile.PdfUA1);
+        Assert.NotEmpty(report.Pages);
+        Assert.StartsWith("%PDF-", Encoding.ASCII.GetString(pdf, 0, 8), StringComparison.Ordinal);
+    }
+
     [Fact]
     public void ThePageIsTheSlideSize()
     {
@@ -518,5 +528,17 @@ public sealed class PresentationRenderTests
         var deck = new Deck { Slides = [new SlideSpec { Shapes = Box(2, 10, 10, 300, 300, P(text) + P(text) + P("after")) }] };
         (PresentationRenderReport report, _) = Pdf(TestPptx.Build(deck));
         Assert.Contains(report.Notes, n => n.Code == "slide.text-truncated");
+    }
+
+    [Fact]
+    public void AnEquationInSlideTextIsDrawnAsItsPlainTextWithANote()
+    {
+        string math = "<a:p><a:r><a:rPr lang=\"en-US\"/><a:t>Before </a:t></a:r><mc:AlternateContent xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"><mc:Choice xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\" Requires=\"a14\"><a14:m><m:oMathPara xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><m:oMath><m:r><m:t>x=1</m:t></m:r></m:oMath></m:oMathPara></a14:m></mc:Choice><mc:Fallback><a:r><a:t>fallback</a:t></a:r></mc:Fallback></mc:AlternateContent></a:p>";
+        var deck = new Deck { Slides = [new SlideSpec { Shapes = Box(2, 10, 10, 300, 100, math) }] };
+        (PresentationRenderReport report, byte[] pdf) = Pdf(TestPptx.Build(deck));
+        string all = Squash(Lines(pdf, 0));
+        Assert.Contains("Beforex=1", all, StringComparison.Ordinal);
+        Assert.DoesNotContain("fallback", all, StringComparison.Ordinal);
+        Assert.Contains(report.Notes, n => n.Code == "slide.math-plain-text");
     }
 }

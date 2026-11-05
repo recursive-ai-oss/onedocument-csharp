@@ -182,6 +182,21 @@ internal static class SlideCases
             ],
         });
 
+        // Questions the standard leaves open, one box each, for PowerPoint to answer: space before the first paragraph, percentage and
+        // exact line spacing at one size, a bullet wider than its hanging space, a right-to-left paragraph with margins, a tab stop that
+        // is not left aligned.
+        Add("spacing-checks", new Deck
+        {
+            Slides =
+            [
+                S(Box(2, 20, 20, 160, 130, PP(string.Empty, "<a:spcBef><a:spcPts val=\"2400\"/></a:spcBef>", R("Space before the first paragraph")) + P("Second paragraph"), fill: Solid("F2F2F2")) +
+                  Box(3, 200, 20, 160, 200, PP(string.Empty, "<a:lnSpc><a:spcPct val=\"80000\"/></a:lnSpc>", R("Eighty percent line spacing on two lines")) + PP(string.Empty, "<a:lnSpc><a:spcPct val=\"100000\"/></a:lnSpc>", R("One hundred percent on two lines")) + PP(string.Empty, "<a:lnSpc><a:spcPct val=\"150000\"/></a:lnSpc>", R("One hundred fifty on two lines")) + PP(string.Empty, "<a:lnSpc><a:spcPts val=\"3000\"/></a:lnSpc>", R("Exact thirty points here")), fill: Solid("F2F2F2")) +
+                  Box(4, 380, 20, 160, 130, PP(" marL=\"228600\" indent=\"-228600\"", "<a:buFont typeface=\"+mj-lt\"/><a:buAutoNum type=\"arabicPeriod\" startAt=\"10\"/>", R("Wide number label")) + PP(" marL=\"228600\" indent=\"-228600\"", "<a:buFont typeface=\"+mj-lt\"/><a:buAutoNum type=\"romanUcPeriod\" startAt=\"18\"/>", R("Wider roman label")), fill: Solid("F2F2F2")) +
+                  Box(5, 20, 260, 240, 110, PP(" rtl=\"1\" algn=\"r\" marL=\"457200\" marR=\"91440\"", string.Empty, R("Right to left with margins")) + PP(" algn=\"l\" marL=\"457200\" marR=\"91440\"", string.Empty, R("Left to right with the same margins")), fill: Solid("F2F2F2")) +
+                  Box(6, 280, 260, 260, 110, PP(string.Empty, "<a:tabLst><a:tab pos=\"1270000\" algn=\"r\"/><a:tab pos=\"2540000\" algn=\"ctr\"/></a:tabLst>", R("Right\ttab\tcentre")), fill: Solid("F2F2F2"))),
+            ],
+        });
+
         // A picture, a chart and a SmartArt diagram with its saved drawing, each in its own graphic frame or shape.
         byte[] red = new byte[4 * 4 * 4];
         for (int i = 0; i < red.Length; i += 4)

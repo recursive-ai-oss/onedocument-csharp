@@ -3,9 +3,11 @@ using System.Text;
 using RecursiveAI.OneDocument.Charts;
 using RecursiveAI.OneDocument.Documents;
 using RecursiveAI.OneDocument.Layout;
+using RecursiveAI.OneDocument.Presentations;
 using OneRender.Painting;
 using RecursiveAI.OneDocument.Rendering;
 using RecursiveAI.OneDocument.Rendering.Metafiles;
+using RecursiveAI.OneDocument.Rendering.Presentations;
 
 namespace RecursiveAI.OneDocument.Smoke;
 
@@ -62,7 +64,35 @@ internal static class RenderSmoke
             failures.Add("render columns");
         }
 
+        failures.AddRange(SlideCheck());
         failures.AddRange(ChartCheck());
+        return failures;
+    }
+
+    // A presentation with a title and a bulleted body, rendered as a slide page and as a notes page, under the same constraints.
+    private static List<string> SlideCheck()
+    {
+        var failures = new List<string>();
+        using Presentation deck = Presentation.Create();
+        Slide slide = deck.AddSlide(deck.Masters[0].Layouts[1]);
+        slide.Shapes[0].TextBody!.SetText("Slide rendering smoke");
+        slide.Shapes[1].TextBody!.SetText("one
+two
+three");
+        using var pdf = new MemoryStream();
+        PresentationRenderReport report = PresentationRenderer.WritePdf(deck, pdf, new PresentationRenderOptions { Output = PresentationOutput.Slides | PresentationOutput.NotesPages });
+        byte[] bytes = pdf.ToArray();
+        if (report.SlidePages != 1 || report.NotesPages != 1 || bytes.Length < 500 || Encoding.ASCII.GetString(bytes, 0, 5) != "%PDF-")
+        {
+            failures.Add("slide pdf");
+        }
+
+        byte[] png = PresentationRenderer.RenderPng(deck, 0);
+        if (png.Length < 500 || png[0] != 0x89)
+        {
+            failures.Add("slide png");
+        }
+
         return failures;
     }
 

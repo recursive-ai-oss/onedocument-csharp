@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Layout differential: renders the generated layout cases with OneDocument, asks the Word oracle for its own PDF export of the
-# same files, and compares page counts and per-page text lines.
+# same files, and compares page counts and per-page text lines. Slide decks (slide-*.pptx) go through PowerPoint the same way.
 #
 #   layout-differential.sh [OUTDIR]
 #
@@ -30,11 +30,13 @@ for f in "$out"/oracle/*.word.pdf; do
   cp "$f" "$out/word/$name.pdf"
 done
 
-# Presentations have no renderer of ours yet: PowerPoint's own PDFs are kept in powerpoint/ for the slide stage to compare against.
+# PowerPoint's own PDFs of the generated slide decks (slide-*.pptx) are kept in powerpoint/ next to ours/, and compared the same way:
+# page count (one page per visible slide) and the text lines of each page.
 for f in "$out"/oracle/*.powerpoint.pdf; do
   [ -e "$f" ] || continue
   cp "$f" "$out/powerpoint/$(basename "$f" .powerpoint.pdf).pdf"
 done
+"${probe[@]}" compare "$out/ours" "$out/powerpoint" | tee "$out/summary-powerpoint.jsonl" || true
 
 # Exit status 1 means some page count differs; the summary lines are kept either way.
 status=0

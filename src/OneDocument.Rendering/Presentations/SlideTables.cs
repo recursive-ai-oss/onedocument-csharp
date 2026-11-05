@@ -304,7 +304,8 @@ internal sealed partial class RenderSession
 
                 double cx = ox + colX[cell.Column], cy = oy + rowY[cell.Row];
                 double cw = colX[cell.Column + cell.ColSpan] - colX[cell.Column], ch = rowY[cell.Row + cell.RowSpan] - rowY[cell.Row];
-                bool header = (firstRow && cell.Row == 0) || (firstCol && cell.Column == 0 && false);
+                // PDF/UA needs header cells in every table: the first row is the header row whether or not the table marks it (firstRow only styles it).
+                bool header = cell.Row == 0;
                 if (tagged)
                 {
                     list.BeginTag(NextId(), header ? TagRole.TableHeaderCell : TagRole.TableDataCell, columnSpan: cell.ColSpan, rowSpan: cell.RowSpan);

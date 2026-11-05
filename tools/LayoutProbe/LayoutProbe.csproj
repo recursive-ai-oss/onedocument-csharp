@@ -29,6 +29,9 @@
     <Compile Include="../../tests/OneDocument.Rendering.Tests/DrawingSamples.cs" Link="DrawingSamples.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/PageLayoutCases.cs" Link="PageLayoutCases.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/PageDocs.cs" Link="PageDocs.cs" />
+    <Compile Include="../../tests/OneDocument.Rendering.Tests/TestPptx.cs" Link="TestPptx.cs" />
+    <Compile Include="../../tests/OneDocument.Rendering.Tests/SlideCases.cs" Link="SlideCases.cs" />
+    <Compile Include="../ChartProbe/ChartSamples.cs" Link="ChartSamples.cs" />
   </ItemGroup>
 
 </Project>
