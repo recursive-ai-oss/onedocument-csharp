@@ -18,6 +18,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.` | the word-processing hub | `Structure`, `Reference`, `Value`, `Packaging` |
 | `csv.` | delimited text (CSV, TSV) | `Structure`, `Markup`, `Encoding`, `Value` |
 | `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
+| `calc.` | workbook calculation | `Formula`, `Limit` |
 | `binding.` | reading and writing rows of plain objects (`Spreadsheet.Read<T>`, `Write<T>`) | `Structure`, `Reference`, `Value` |
 
 ## Codes in use
@@ -193,3 +194,13 @@ Locations are the sheet and cell address (for CSV and TSV, the record number and
 | `binding.cell-empty` | fatal (strict types only) | A cell is empty and the member cannot be null. Lenient types leave the default silently. |
 | `binding.sheet-not-found` | fatal | The sheet the type names does not exist, or the workbook has no visible worksheet. |
 | `binding.value-out-of-range` | fatal | Writing: a date lies outside the range of the workbook's date system (`DateTime.MinValue` alone is written as an empty cell). |
+
+### Workbook calculation (`calc.`)
+
+Locations are the sheet and cell address. These are reported to `OpenContext.Defects` by `Workbook.Recalculate`; see `spreadsheets-calc.md`.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `calc.circular-reference` | repaired | A formula is part of a circular reference (or reads itself). Without iterative calculation it reads as 0, and so does every formula on the cycle. |
+| `calc.formula-unparsable` | dropped | A formula's text cannot be read; the cell keeps its stored value and is left out of the dependency graph. |
+| `calc.limit-exceeded` | repaired | Evaluating a formula passed a limit (steps, allocation); the cell shows `#VALUE!`. |
