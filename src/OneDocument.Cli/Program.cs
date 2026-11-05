@@ -17,7 +17,8 @@ internal static class Program
     private const string Usage =
         "usage: onedocument detect <file> [--json]\n" +
         "       onedocument extract <file> [-o <out.txt>] [--json]\n" +
-        "       onedocument recalc <workbook> [-o <out.xlsx>] [--full] [--threads <n>] [--json]\n";
+        "       onedocument recalc <workbook> [-o <out.xlsx>] [--full] [--threads <n>] [--json]\n" +
+        TemplateCommand.Usage;
 
     private static int Main(string[] args)
     {
@@ -34,6 +35,11 @@ internal static class Program
         if (args.Length >= 2 && args[0] == "recalc")
         {
             return Run(args, "recalc", Recalc);
+        }
+
+        if (args.Length >= 2 && args[0] == "template")
+        {
+            return TemplateCommand.Run(args[1..], Console.Error);
         }
 
         Console.Error.Write(Usage);

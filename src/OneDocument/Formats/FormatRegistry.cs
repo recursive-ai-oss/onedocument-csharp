@@ -42,6 +42,7 @@ public sealed class FormatRegistry
     private readonly Dictionary<OfficeFormat, OpenHandler> _readers = [];
     private readonly Dictionary<OfficeFormat, TextExtractionHandler> _extractors = [];
     private readonly Dictionary<OfficeFormat, WriteHandler> _writers = [];
+    private readonly Dictionary<OfficeFormat, Templating.ITemplateBinder> _binders = [];
 
     /// <summary>Gets the registry the <see cref="Office"/> statics and the hub types use.</summary>
     public static FormatRegistry Default { get; } = CreateDefault();
@@ -63,6 +64,47 @@ public sealed class FormatRegistry
     /// <param name="formats">The formats it writes.</param>
     /// <exception cref="ArgumentException">A format is <see cref="OfficeFormat.Unknown"/>.</exception>
     public void RegisterWriter(WriteHandler handler, params OfficeFormat[] formats) => Register(_writers, handler, formats);
+
+    /// <summary>Registers the template binder for formats; <see cref="Template"/> dispatches through it.</summary>
+    /// <param name="binder">The binder.</param>
+    /// <param name="formats">The formats it binds.</param>
+    /// <exception cref="ArgumentException">A format is <see cref="OfficeFormat.Unknown"/>.</exception>
+    public void RegisterTemplateBinder(Templating.ITemplateBinder binder, params OfficeFormat[] formats)
+    {
+        ArgumentNullException.ThrowIfNull(binder);
+        ArgumentNullException.ThrowIfNull(formats);
+        if (Array.IndexOf(formats, OfficeFormat.Unknown) >= 0)
+        {
+            throw new ArgumentException("Unknown is not a format that can be registered.", nameof(formats));
+        }
+
+        lock (_gate)
+        {
+            foreach (OfficeFormat f in formats)
+            {
+                _binders[f] = binder;
+            }
+        }
+    }
+
+    /// <summary>Gets the template binder for a format.</summary>
+    /// <param name="format">The format.</param>
+    /// <param name="binder">The binder.</param>
+    /// <returns>True if registered.</returns>
+    public bool TryGetTemplateBinder(OfficeFormat format, out Templating.ITemplateBinder binder)
+    {
+        lock (_gate)
+        {
+            return _binders.TryGetValue(format, out binder!);
+        }
+    }
+
+    /// <summary>Gets the template binder for a format or raises <see cref="FormatNotAvailableException"/>.</summary>
+    /// <param name="format">The format.</param>
+    /// <returns>The binder.</returns>
+    /// <exception cref="FormatNotAvailableException">No binder is registered.</exception>
+    public Templating.ITemplateBinder GetTemplateBinder(OfficeFormat format) =>
+        TryGetTemplateBinder(format, out Templating.ITemplateBinder? b) ? b : throw new FormatNotAvailableException(format, "render a template from");
 
     /// <summary>Gets the reader for a format.</summary>
     /// <param name="format">The format.</param>

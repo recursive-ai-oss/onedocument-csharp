@@ -1,0 +1,3 @@
+rId1 http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles styles.xml Internal
+rId2 http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink https://example.com External
+rId3 http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering numbering.xml Internal

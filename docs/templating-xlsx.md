@@ -58,3 +58,7 @@ Tags inside formulas, threaded comments (their text lives in the threaded-commen
 ## Checking a template
 
 `XlsxTemplateBinder.Validate(workbook, options)` parses every tag of every sheet (cells, sheet names, comments, headers and footers, text boxes) and returns the errors and warnings with their locations, without binding data and without changing the workbook.
+
+## One call
+
+`Template.Render` and `Template.Validate` dispatch to this binder for every workbook format the package registers (`SpreadsheetFormats.Register`), with the warnings returned as the call's defects.

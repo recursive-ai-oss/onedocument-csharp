@@ -166,6 +166,29 @@ public partial class XlsxTemplateTests
         Assert.Empty(XlsxTemplateBinder.Validate(good));
     }
 
+    [Fact]
+    public void TemplateRenderDispatchesToTheWorkbookBinder()
+    {
+        RecursiveAI.OneDocument.Formats.FormatRegistry registry = RecursiveAI.OneDocument.Formats.FormatRegistry.Default;
+        SpreadsheetFormats.Register(registry);
+        using var template = new MemoryStream();
+        using (Workbook wb = Workbook.Create())
+        {
+            Put(wb.Sheets[0], "A1", "{% for it in items %}{{ it.name }}"); Put(wb.Sheets[0], "B1", "{{ it.qty }}{% endfor %}");
+            wb.SaveAs(template, OfficeFormat.Xlsx);
+        }
+
+        template.Position = 0;
+        using var output = new MemoryStream();
+        var data = new Dictionary<string, object?> { ["items"] = new object[] { new Dictionary<string, object?> { ["name"] = "Bolt", ["qty"] = 3 }, new Dictionary<string, object?> { ["name"] = "Nut", ["qty"] = 10 } } };
+        Template.Render(template, data, output);
+        output.Position = 0;
+        using Workbook result = Workbook.Open(output);
+        Assert.Equal("Bolt", result.Sheets[0]["A1"].Text);
+        Assert.Equal(10, result.Sheets[0]["B2"].Number);
+        Assert.Empty(Template.Validate(result));
+    }
+
     private static IEnumerable<Case> FeatureCases()
     {
         const string items = """{"title":"Autumn","items":[{"name":"Bolt","qty":3,"price":1.5},{"name":"Nut","qty":10,"price":0.25},{"name":"Gear","qty":2,"price":12}]}""";
