@@ -160,7 +160,7 @@ public class EvaluatorTests
         Assert.Equal("7", Show(Eval("LET(f,LAMBDA(a,b,a*b),f(2,3)+1)")));
         Assert.Equal("5", Show(Eval("LET(n,5,LAMBDA(x,x+n)(0))")));
         Assert.Equal(ValueKind.Lambda, Eval("LET(f,LAMBDA(x,x),f)").Kind);
-        Assert.Equal("120", Show(Eval("LET(fact,LAMBDA(self,n,IF(n<=1,1,n*self(self,n-1))),fact(fact,5))")));
+        Assert.Equal("120", Show(Eval("LET(fa,LAMBDA(self,n,IF(n<=1,1,n*self(self,n-1))),fa(fa,5))")));
         Assert.Equal("#VALUE!", Show(Eval("LAMBDA(x,x)(1,2)")));
         Assert.Equal("#NAME?", Show(Eval("LET(x,1,y)")));
         Assert.Equal("6", Show(Eval("LET(r,{1,2,3},SUM(r))")));
