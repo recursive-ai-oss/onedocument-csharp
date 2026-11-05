@@ -1,6 +1,6 @@
-using RecursiveAI.OneOffice.Calc;
+using RecursiveAI.OneDocument.Calc;
 
-namespace RecursiveAI.OneOffice.Smoke;
+namespace RecursiveAI.OneDocument.Smoke;
 
 /// <summary>The formula parser, printer and evaluator under NativeAOT and WASM: no reflection, so the explicit function registry must be enough.</summary>
 internal static class CalcSmoke

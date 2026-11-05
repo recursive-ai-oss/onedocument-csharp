@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace RecursiveAI.OneOffice.Tools.ViewGenerator;
+namespace RecursiveAI.OneDocument.Tools.ViewGenerator;
 
 /// <summary>
 /// Reads the pinned OOXML schemas listed in schemas/views.manifest and writes the typed-view source committed under
-/// src/OneOffice.Schema/Generated. The output is a pure function of the schemas, the two manifests and this program, so
+/// src/OneDocument.Schema/Generated. The output is a pure function of the schemas, the two manifests and this program, so
 /// running it twice changes nothing; --check compares instead of writing.
 /// </summary>
 internal static class Program
@@ -33,7 +33,7 @@ internal static class Program
         schemas = Path.Combine(root, "schemas");
         manifest = Path.Combine(schemas, "views.manifest");
         names = Path.Combine(schemas, "names.manifest");
-        output ??= Path.Combine(root, "src", "OneOffice.Schema");
+        output ??= Path.Combine(root, "src", "OneDocument.Schema");
 
         var lib = new Library();
         lib.Load(schemas, Library.ReadManifest(manifest));

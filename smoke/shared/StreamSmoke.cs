@@ -1,7 +1,7 @@
-using RecursiveAI.OneOffice.Spreadsheets;
-using RecursiveAI.OneOffice.Spreadsheets.Streaming;
+using RecursiveAI.OneDocument.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets.Streaming;
 
-namespace RecursiveAI.OneOffice.Smoke;
+namespace RecursiveAI.OneDocument.Smoke;
 
 /// <summary>Writes a small workbook with the streaming writer and reads it back with the streaming reader, under NativeAOT and WASM.</summary>
 internal static class StreamSmoke

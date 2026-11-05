@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Spreadsheets;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Spreadsheets;
 
-namespace RecursiveAI.OneOffice.Tools.XlsxProbe;
+namespace RecursiveAI.OneDocument.Tools.XlsxProbe;
 
 /// <summary>
 /// <c>XlsxProbe gen OUT</c>: writes small generated workbooks that use every feature the style, table, conditional formatting, validation and name

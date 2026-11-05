@@ -1,6 +1,6 @@
 # Packages: OPC and compound files
 
-How `RecursiveAI.OneOffice.Packaging` reads and writes the containers under every format. Defect codes are in `defects.md`; limits in `contracts.md`.
+How `RecursiveAI.OneDocument.Packaging` reads and writes the containers under every format. Defect codes are in `defects.md`; limits in `contracts.md`.
 
 ## OPC packages (`OpcPackage`)
 

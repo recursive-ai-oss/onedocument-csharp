@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <RootNamespace>RecursiveAI.OneOffice.Tools.CsvProbe</RootNamespace>
+    <RootNamespace>RecursiveAI.OneDocument.Tools.CsvProbe</RootNamespace>
     <AssemblyName>CsvProbe</AssemblyName>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../src/OneOffice.Spreadsheets/OneOffice.Spreadsheets.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Spreadsheets/OneDocument.Spreadsheets.csproj" />
   </ItemGroup>
 
 </Project>

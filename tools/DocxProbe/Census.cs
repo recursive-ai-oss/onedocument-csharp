@@ -4,15 +4,15 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Diagnostics;
-using RecursiveAI.OneOffice.Documents;
-using RecursiveAI.OneOffice.Documents.Comments;
-using RecursiveAI.OneOffice.Documents.Fields;
-using RecursiveAI.OneOffice.Documents.Notes;
-using RecursiveAI.OneOffice.Packaging;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.Documents;
+using RecursiveAI.OneDocument.Documents.Comments;
+using RecursiveAI.OneDocument.Documents.Fields;
+using RecursiveAI.OneDocument.Documents.Notes;
+using RecursiveAI.OneDocument.Packaging;
 
-namespace RecursiveAI.OneOffice.Tools.DocxProbe;
+namespace RecursiveAI.OneDocument.Tools.DocxProbe;
 
 internal static partial class Program
 {

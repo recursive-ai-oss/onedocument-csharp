@@ -1,12 +1,12 @@
 using System.IO.Compression;
 using System.Text;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Diagnostics;
-using RecursiveAI.OneOffice.Formats;
-using RecursiveAI.OneOffice.IO;
-using RecursiveAI.OneOffice.Packaging;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.Formats;
+using RecursiveAI.OneDocument.IO;
+using RecursiveAI.OneDocument.Packaging;
 
-namespace RecursiveAI.OneOffice.Smoke;
+namespace RecursiveAI.OneDocument.Smoke;
 
 /// <summary>
 /// What the NativeAOT and browser-WASM smoke apps run: the shared contracts end to end on tiny generated inputs. Shared as source so
@@ -78,7 +78,7 @@ internal static class SmokeChecks
         using (IByteSource docxSource = ByteSource.FromMemory(docx))
         {
             using var text = new StringWriter(System.Globalization.CultureInfo.InvariantCulture);
-            RecursiveAI.OneOffice.TextExtraction.OoxmlTextExtractor.Extract(docxSource, text);
+            RecursiveAI.OneDocument.TextExtraction.OoxmlTextExtractor.Extract(docxSource, text);
             Check("extract docx text", text.ToString() == "Hello\t&\n");
         }
 

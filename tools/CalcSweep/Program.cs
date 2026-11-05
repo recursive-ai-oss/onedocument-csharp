@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Globalization;
 using System.Text;
-using RecursiveAI.OneOffice.Calc;
-using RecursiveAI.OneOffice.Spreadsheets;
-using RecursiveAI.OneOffice.Spreadsheets.Calc;
+using RecursiveAI.OneDocument.Calc;
+using RecursiveAI.OneDocument.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets.Calc;
 
-namespace RecursiveAI.OneOffice.Tools.CalcSweep;
+namespace RecursiveAI.OneDocument.Tools.CalcSweep;
 
 /// <summary>
 /// The cached-value harness, and with <c>gen</c> / <c>compare</c> the Excel test workbooks. <c>CalcSweep PATH... [--shard I/N] [--max N] [--show N] [--out DIR] [--threads N]</c>: opens each workbook (a

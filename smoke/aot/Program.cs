@@ -1,6 +1,6 @@
 using System;
 
-namespace RecursiveAI.OneOffice.Smoke;
+namespace RecursiveAI.OneDocument.Smoke;
 
 /// <summary>Runs the shared checks under NativeAOT with trimming.</summary>
 internal static class Program

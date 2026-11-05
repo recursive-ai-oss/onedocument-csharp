@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Diagnostics;
 using System.Text.Json;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Diagnostics;
-using RecursiveAI.OneOffice.Spreadsheets;
-using RecursiveAI.OneOffice.Spreadsheets.Streaming;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets.Streaming;
 
-namespace RecursiveAI.OneOffice.Tools.StreamProbe;
+namespace RecursiveAI.OneDocument.Tools.StreamProbe;
 
 /// <summary>
 /// Checks the streaming cursors over real files and prints JSON lines.
@@ -422,7 +422,7 @@ internal static class Program
             sw.Restart();
             long tokens = 0;
             using (Stream s = book.Package.FindPart(part)!.OpenRead())
-            using (var m = new RecursiveAI.OneOffice.Markup.MarkupReader(s))
+            using (var m = new RecursiveAI.OneDocument.Markup.MarkupReader(s))
             {
                 while (m.Read())
                 {

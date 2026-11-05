@@ -1,6 +1,6 @@
 # Spreadsheets: styles, tables, conditional formatting, validation and names
 
-`RecursiveAI.OneOffice.Spreadsheets` models the rest of the workbook around the cells (ECMA-376 Part 1 §18). Every model is a view over the part's markup tree: what the model does not read (extension lists, unknown attributes and elements, attribute order, prefixes) stays where it was when the part is saved, and a part nobody touched is copied as stored. Reading a feature never marks the workbook modified. Defect codes are in `defects.md` (`xlsx.`).
+`RecursiveAI.OneDocument.Spreadsheets` models the rest of the workbook around the cells (ECMA-376 Part 1 §18). Every model is a view over the part's markup tree: what the model does not read (extension lists, unknown attributes and elements, attribute order, prefixes) stays where it was when the part is saved, and a part nobody touched is copied as stored. Reading a feature never marks the workbook modified. Defect codes are in `defects.md` (`xlsx.`).
 
 ## Styles
 
@@ -31,7 +31,7 @@
 
 ### Formatted text and dates
 
-`Cell.FormattedText` formats a numeric cell through its resolved number format with the workbook's date system (`workbookPr/@date1904`, `Workbook.DateSystem`), text through the format's text section, booleans as TRUE/FALSE. General uses the width of a default column (11 characters); `GetFormattedText(width)` takes another. `Cell.TryFormatNumber` writes into a span without allocating. `Cell.IsDate`, `Cell.DateValue` and `Cell.SetDate` use the same rules; `SetDate` gives a cell whose format does not show dates the built-in date format. The format engine is `RecursiveAI.OneOffice.NumberFormats` (see `number-formats.md`).
+`Cell.FormattedText` formats a numeric cell through its resolved number format with the workbook's date system (`workbookPr/@date1904`, `Workbook.DateSystem`), text through the format's text section, booleans as TRUE/FALSE. General uses the width of a default column (11 characters); `GetFormattedText(width)` takes another. `Cell.TryFormatNumber` writes into a span without allocating. `Cell.IsDate`, `Cell.DateValue` and `Cell.SetDate` use the same rules; `SetDate` gives a cell whose format does not show dates the built-in date format. The format engine is `RecursiveAI.OneDocument.NumberFormats` (see `number-formats.md`).
 
 ## Tables
 

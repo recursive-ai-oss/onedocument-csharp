@@ -6,7 +6,7 @@
       parts whose error count rose. Prints one JSON summary; a non-zero "newInvalidParts" is a finding.
   xlsx_edit_checks.py lo SWEEPDIR CORPUSDIR [--sample 200] [--seed 1]
       Converts the original and the rewrite of a deterministic sample to CSV (every sheet) with headless LibreOffice
-      (ONEOFFICE_SOFFICE) and compares the CSV files.
+      (ONEDOCUMENT_SOFFICE) and compares the CSV files.
 """
 import argparse, glob, json, os, random, shutil, subprocess, sys, tempfile, time
 
@@ -25,7 +25,7 @@ def rows(sweep):
 def validate(a):
     sys.path.insert(0, os.path.join(HERE, "..", "validate"))
     import validate_ooxml as v
-    dirs = a.schemas or [d for d in os.environ.get("ONEOFFICE_XSD", "").split(os.pathsep) if d]
+    dirs = a.schemas or [d for d in os.environ.get("ONEDOCUMENT_XSD", "").split(os.pathsep) if d]
     s = v.SchemaSet(dirs)
     understood = s.namespaces
 
@@ -77,7 +77,7 @@ def errors(a):
     """Prints the schema errors of one corpus file and of its rewrite, for the parts that have any."""
     sys.path.insert(0, os.path.join(HERE, "..", "validate"))
     import validate_ooxml as v
-    s = v.SchemaSet([d for d in os.environ.get("ONEOFFICE_XSD", "").split(os.pathsep) if d])
+    s = v.SchemaSet([d for d in os.environ.get("ONEDOCUMENT_XSD", "").split(os.pathsep) if d])
     for r in rows(a.sweep):
         if r["file"] != a.file:
             continue
@@ -92,7 +92,7 @@ def errors(a):
 
 
 def lo_csv(path, work):
-    soffice = os.environ["ONEOFFICE_SOFFICE"]
+    soffice = os.environ["ONEDOCUMENT_SOFFICE"]
     os.makedirs(work, exist_ok=True)
     local = os.path.join(work, "f.xlsx")  # same name for both sides so the CSV names (f-<sheet>.csv) line up
     shutil.copyfile(path, local)

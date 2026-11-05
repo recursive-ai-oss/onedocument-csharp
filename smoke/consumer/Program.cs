@@ -1,8 +1,8 @@
 using System.IO.Compression;
 using System.Text;
-using RecursiveAI.OneOffice.Documents;
+using RecursiveAI.OneDocument.Documents;
 
-namespace RecursiveAI.OneOffice.Consumer;
+namespace RecursiveAI.OneDocument.Consumer;
 
 /// <summary>
 /// An application that uses only the Office statics and never calls a registration method. With the Spreadsheets package referenced
@@ -12,7 +12,7 @@ internal static class Program
 {
     private static int Main()
     {
-        string dir = Path.Combine(Path.GetTempPath(), "oneoffice-consumer-" + Environment.ProcessId);
+        string dir = Path.Combine(Path.GetTempPath(), "onedocument-consumer-" + Environment.ProcessId);
         Directory.CreateDirectory(dir);
         var failures = new List<string>();
         try

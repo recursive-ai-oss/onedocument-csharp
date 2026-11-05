@@ -8,18 +8,18 @@
 #    the edited files are validated against the pinned schemas, and the originals too, so only parts that became invalid count.
 # 3. The first VALIDATE_LIMIT edited files are converted by headless LibreOffice.
 #
-# Environment: ONEOFFICE_HOME (default ~/oneoffice), DOTNET_ROOT/PATH set for .NET 10, ONEOFFICE_PYTHON (python with lxml).
+# Environment: ONEDOCUMENT_HOME (default ~/oneoffice), DOTNET_ROOT/PATH set for .NET 10, ONEDOCUMENT_PYTHON (python with lxml).
 set -u
 out=${1:?output dir}; limit=${2:-80}
-home=${ONEOFFICE_HOME:-$HOME/oneoffice}
+home=${ONEDOCUMENT_HOME:-$HOME/oneoffice}
 here=$(cd "$(dirname "$0")" && pwd); root=$(cd "$here/../.." && pwd)
-py=${ONEOFFICE_PYTHON:-$home/oracles/venv/bin/python}
+py=${ONEDOCUMENT_PYTHON:-$home/oracles/venv/bin/python}
 mkdir -p "$out/edited" "$out/lo" "$out/bin"
 dotnet build -c Release -v quiet -clp:NoSummary -o "$out/bin" "$root/tools/DocxProbe" || exit 2
 probe="dotnet $out/bin/DocxProbe.dll"
 
 list="$out/files.txt"
-{ find "$home/corpus/commoncrawl/docx" "$home/corpus/bugzilla/documentfoundation/docx" "$home/corpus/stress" "${ONEOFFICE_CONVERTED:-$home/converted}" -name '*.docx' 2>/dev/null; } | sort > "$list"
+{ find "$home/corpus/commoncrawl/docx" "$home/corpus/bugzilla/documentfoundation/docx" "$home/corpus/stress" "${ONEDOCUMENT_CONVERTED:-$home/converted}" -name '*.docx' 2>/dev/null; } | sort > "$list"
 echo "files: $(wc -l < "$list")"
 
 rm -rf "$out/t"; mkdir -p "$out/t"

@@ -4,8 +4,8 @@
 #   tools/corpus/features_validate.sh FEATDIR OUTDIR [SAMPLE] [JOBS] [MAX_MINUTES]
 #
 # FEATDIR holds one directory per corpus set (named like the set with / replaced by -), as written by the feature sweep. Needs
-# ONEOFFICE_XSD (as for run_checks.py) and PYTHON (a python with lxml; default python3). Corpus sets are looked up under
-# $ONEOFFICE_HOME/corpus (default ~/oneoffice/corpus).
+# ONEDOCUMENT_XSD (as for run_checks.py) and PYTHON (a python with lxml; default python3). Corpus sets are looked up under
+# $ONEDOCUMENT_HOME/corpus (default ~/oneoffice/corpus).
 set -uo pipefail
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 feat="${1:?usage: features_validate.sh FEATDIR OUTDIR [SAMPLE] [JOBS] [MAX_MINUTES]}"
@@ -13,7 +13,7 @@ out="${2:?}"
 sample="${3:-30}"
 jobs="${4:-8}"
 minutes="${5:-12}"
-home="${ONEOFFICE_HOME:-$HOME/oneoffice}"
+home="${ONEDOCUMENT_HOME:-$HOME/oneoffice}"
 mkdir -p "$out"
 export here feat out sample minutes home
 for c in style table cf dv name; do

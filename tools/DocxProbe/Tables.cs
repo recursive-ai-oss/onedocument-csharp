@@ -5,12 +5,12 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Diagnostics;
-using RecursiveAI.OneOffice.Documents;
-using RecursiveAI.OneOffice.Packaging;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.Documents;
+using RecursiveAI.OneDocument.Packaging;
 
-namespace RecursiveAI.OneOffice.Tools.DocxProbe;
+namespace RecursiveAI.OneDocument.Tools.DocxProbe;
 
 internal static partial class Program
 {
@@ -138,7 +138,7 @@ internal static partial class Program
         LogicalTable before = table.Logical();
         table.InsertRow(1);
         table.InsertColumn(1);
-        table.SetCellText(1, 1, "OneOffice <edit> & test");
+        table.SetCellText(1, 1, "OneDocument <edit> & test");
         table.DeleteColumn(0);
         table.DeleteRow(0);
         LogicalTable after = table.Logical();

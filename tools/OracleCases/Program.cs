@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Documents;
-using RecursiveAI.OneOffice.Documents.Comments;
-using RecursiveAI.OneOffice.Documents.ContentControls;
-using RecursiveAI.OneOffice.Documents.Fields;
-using RecursiveAI.OneOffice.Documents.Notes;
-using RecursiveAI.OneOffice.Documents.Revisions;
-using RecursiveAI.OneOffice.Markup;
-using RecursiveAI.OneOffice.Packaging;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Documents;
+using RecursiveAI.OneDocument.Documents.Comments;
+using RecursiveAI.OneDocument.Documents.ContentControls;
+using RecursiveAI.OneDocument.Documents.Fields;
+using RecursiveAI.OneDocument.Documents.Notes;
+using RecursiveAI.OneDocument.Documents.Revisions;
+using RecursiveAI.OneDocument.Markup;
+using RecursiveAI.OneDocument.Packaging;
 
-namespace RecursiveAI.OneOffice.Tools.OracleCases;
+namespace RecursiveAI.OneDocument.Tools.OracleCases;
 
 /// <summary>
-/// Writes documents that OneOffice itself created and edited, for a desktop application to open and judge ("does it ask to repair
+/// Writes documents that OneDocument itself created and edited, for a desktop application to open and judge ("does it ask to repair
 /// the file?"). <c>OracleCases DIR</c> writes one small file per edit kind into DIR: table edits, sections and headers, comments,
 /// notes, field results, authored and resolved revisions, content-control values and the output formats. Every input is generated
 /// here from nothing; no downloaded file is read.
@@ -105,11 +105,11 @@ internal static class Program
             ("tb-dml-insert", () => Boxed(drawing: true, (a, box) => a.InsertText(box.Paragraphs().First().Markup.Node, 5, " NEW"))),
             ("tb-dml-delete", () => Boxed(drawing: true, (a, box) => a.DeleteText(box.Paragraphs().First().Markup.Node, 0, 5))),
             ("tb-dml-replace-move", () => Boxed(drawing: true, (a, box) => { a.ReplaceText(box.Paragraphs().First().Markup.Node, 0, 5, "ALPHA"); a.InsertParagraph(box.Paragraphs().Last().Markup.Node, "added in box"); })),
-            ("tb-dml-settext", () => Boxed(drawing: true, (_, box) => box.Paragraphs().First().SetText("set by OneOffice"))),
+            ("tb-dml-settext", () => Boxed(drawing: true, (_, box) => box.Paragraphs().First().SetText("set by OneDocument"))),
             ("tb-dml-accept", () => Boxed(drawing: true, (a, box) => a.InsertText(box.Paragraphs().First().Markup.Node, 5, " NEW"), accept: true)),
             ("tb-vml-insert", () => Boxed(drawing: false, (a, box) => a.InsertText(box.Paragraphs().First().Markup.Node, 5, " NEW"))),
             ("tb-vml-delete-paragraph", () => Boxed(drawing: false, (a, box) => a.DeleteParagraph(box.Paragraphs().Last().Markup.Node))),
-            ("tb-vml-settext", () => Boxed(drawing: false, (_, box) => box.Paragraphs().First().SetText("set by OneOffice"))),
+            ("tb-vml-settext", () => Boxed(drawing: false, (_, box) => box.Paragraphs().First().SetText("set by OneDocument"))),
             ("tb-hub-dml", () => Boxed(drawing: true, HubEdits)),
             ("tb-hub-vml", () => Boxed(drawing: false, HubEdits)),
             ("props-core", PropertiesCore),
@@ -417,7 +417,7 @@ internal static class Program
             {
                 case ContentControlType.PlainText:
                 case ContentControlType.RichText:
-                    c.SetText("set by OneOffice");
+                    c.SetText("set by OneDocument");
                     break;
                 case ContentControlType.Checkbox:
                     c.SetChecked(true);
@@ -575,7 +575,7 @@ internal static class Program
 
     private static void Created(OfficeFormat format, string extension)
     {
-        using Document doc = Base("created by OneOffice", "second paragraph");
+        using Document doc = Base("created by OneDocument", "second paragraph");
         Raw(doc, TableXml(merged: false));
         FirstTable(doc).SetCellText(0, 0, "edited");
         Run run = doc.Body.Paragraphs().First().Runs().First();

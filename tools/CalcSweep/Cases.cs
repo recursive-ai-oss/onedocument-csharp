@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using RecursiveAI.OneOffice.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets;
 
-namespace RecursiveAI.OneOffice.Tools.CalcSweep;
+namespace RecursiveAI.OneDocument.Tools.CalcSweep;
 
 /// <summary>
 /// The workbooks that test what the corpus rarely shows: spills and what blocks them, <c>A1#</c>, structured references, names holding
 /// lambdas, 3-D references, circular references, implicit intersection and legacy array formulas. Each case fills the first sheet; the
 /// formulas carry no cached values, so Excel calculates them when it opens the file. <c>CalcSweep gen DIR</c> writes the files,
-/// <c>CalcSweep compare DIR ANSWERS</c> recalculates each with OneOffice and compares the first sheet with the cells Excel reported
+/// <c>CalcSweep compare DIR ANSWERS</c> recalculates each with OneDocument and compares the first sheet with the cells Excel reported
 /// (<c>NAME.cells.tsv</c> from the oracle's cells mode).
 /// </summary>
 internal static class Cases

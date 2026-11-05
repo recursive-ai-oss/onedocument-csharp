@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace RecursiveAI.OneOffice.Tools.ViewGenerator;
+namespace RecursiveAI.OneDocument.Tools.ViewGenerator;
 
 internal enum ValueKind { String, Bool, Int, Double, Enum, NumericUnion }
 

@@ -78,7 +78,7 @@ sdk: 10.0.403
 
 ```text
 runtime	.NET 10.0.14
-OneOffice	0.1.0-preview.1
+OneDocument	0.1.0-preview.1
 DocumentFormat.OpenXml	3.5.1
 NPOI	2.7.6
 ClosedXML	0.105.1
@@ -96,15 +96,15 @@ BenchmarkDotNet	0.15.8
 | medium | RawZip | 17.38 ms | 1.00x | 6.2 MB |
 | medium | OpenXml | 114.50 ms | 6.59x | 13.2 MB |
 | medium | Npoi | 140.00 ms | 8.06x | 32.8 MB |
-| medium | OneOffice | 16.00 ms | 0.92x | 12.0 MB |
+| medium | OneDocument | 16.00 ms | 0.92x | 12.0 MB |
 | pages1000 | RawZip | 100.55 ms | 1.00x | 57.7 MB |
 | pages1000 | OpenXml | 1.02 s | 10.14x | 124.5 MB |
 | pages1000 | Npoi | 1.32 s | 13.14x | 344.5 MB |
-| pages1000 | OneOffice | 341.22 ms | 3.39x | 78.2 MB |
+| pages1000 | OneDocument | 341.22 ms | 3.39x | 78.2 MB |
 | small | RawZip | 171.38 us | 1.00x | 72.3 KB |
 | small | OpenXml | 1.63 ms | 9.50x | 297.1 KB |
 | small | Npoi | 3.23 ms | 18.82x | 1.3 MB |
-| small | OneOffice | 973.47 us | 5.68x | 1.6 MB |
+| small | OneDocument | 973.47 us | 5.68x | 1.6 MB |
 
 ## DocxExtract
 
@@ -113,15 +113,15 @@ BenchmarkDotNet	0.15.8
 | medium | OpenXmlDom | 84.15 ms | 1.00x | 7.0 MB |
 | medium | OpenXmlReader | 50.54 ms | 0.60x | 8.2 MB |
 | medium | Npoi | 80.07 ms | 0.95x | 33.8 MB |
-| medium | OneOffice | 4.32 ms | 0.05x | 1.3 MB |
+| medium | OneDocument | 4.32 ms | 0.05x | 1.3 MB |
 | pages1000 | OpenXmlDom | 740.97 ms | 1.00x | 78.4 MB |
 | pages1000 | OpenXmlReader | 775.41 ms | 1.05x | 93.5 MB |
 | pages1000 | Npoi | 1.04 s | 1.41x | 377.4 MB |
-| pages1000 | OneOffice | 234.56 ms | 0.32x | 420.1 KB |
+| pages1000 | OneDocument | 234.56 ms | 0.32x | 420.1 KB |
 | small | OpenXmlDom | 1.24 ms | 1.00x | 306.2 KB |
 | small | OpenXmlReader | 1.14 ms | 0.92x | 293.5 KB |
 | small | Npoi | 1.55 ms | 1.25x | 792.0 KB |
-| small | OneOffice | 596.64 us | 0.48x | 250.1 KB |
+| small | OneDocument | 596.64 us | 0.48x | 250.1 KB |
 
 ## DocxLazyOpen
 
@@ -130,15 +130,15 @@ BenchmarkDotNet	0.15.8
 | medium | RawZip | 5.24 us | 1.00x | 26.1 KB |
 | medium | OpenXml | 743.47 us | 141.90x | 228.9 KB |
 | medium | Npoi | 80.79 ms | 15419.06x | 26.1 MB |
-| medium | OneOffice | 331.78 us | 63.32x | 343.7 KB |
+| medium | OneDocument | 331.78 us | 63.32x | 343.7 KB |
 | pages1000 | RawZip | 5.89 us | 1.00x | 25.0 KB |
 | pages1000 | OpenXml | 1.00 ms | 169.82x | 212.8 KB |
 | pages1000 | Npoi | 944.06 ms | 160192.54x | 287.7 MB |
-| pages1000 | OneOffice | 313.71 us | 53.23x | 338.2 KB |
+| pages1000 | OneDocument | 313.71 us | 53.23x | 338.2 KB |
 | small | RawZip | 5.90 us | 1.00x | 25.0 KB |
 | small | OpenXml | 470.56 us | 79.74x | 212.8 KB |
 | small | Npoi | 1.46 ms | 247.85x | 684.0 KB |
-| small | OneOffice | 295.23 us | 50.03x | 219.6 KB |
+| small | OneDocument | 295.23 us | 50.03x | 219.6 KB |
 
 ## DocxLoad
 
@@ -147,15 +147,15 @@ BenchmarkDotNet	0.15.8
 | medium | RawZip | 874.66 us | 1.00x | 26.1 KB |
 | medium | OpenXml | 81.54 ms | 93.23x | 7.0 MB |
 | medium | Npoi | 65.93 ms | 75.38x | 26.1 MB |
-| medium | OneOffice | 3.18 ms | 3.64x | 6.3 MB |
+| medium | OneDocument | 3.18 ms | 3.64x | 6.3 MB |
 | pages1000 | RawZip | 10.20 ms | 1.00x | 25.0 KB |
 | pages1000 | OpenXml | 627.28 ms | 61.50x | 78.4 MB |
 | pages1000 | Npoi | 860.14 ms | 84.33x | 287.6 MB |
-| pages1000 | OneOffice | 107.80 ms | 10.57x | 50.8 MB |
+| pages1000 | OneDocument | 107.80 ms | 10.57x | 50.8 MB |
 | small | RawZip | 15.20 us | 1.00x | 25.0 KB |
 | small | OpenXml | 1.15 ms | 75.97x | 306.8 KB |
 | small | Npoi | 1.44 ms | 94.45x | 672.8 KB |
-| small | OneOffice | 411.23 us | 27.05x | 242.4 KB |
+| small | OneDocument | 411.23 us | 27.05x | 242.4 KB |
 
 ## DocxLoadSave
 
@@ -164,21 +164,21 @@ BenchmarkDotNet	0.15.8
 | medium | RawZip | 16.99 ms | 1.00x | 2.5 MB |
 | medium | OpenXml | 18.95 ms | 1.11x | 7.5 MB |
 | medium | Npoi | 139.17 ms | 8.19x | 32.8 MB |
-| medium | OneOffice | 515.56 us | 0.03x | 2.3 MB |
+| medium | OneDocument | 515.56 us | 0.03x | 2.3 MB |
 | pages1000 | RawZip | 96.70 ms | 1.00x | 4.9 MB |
 | pages1000 | OpenXml | 100.80 ms | 1.04x | 30.8 MB |
 | pages1000 | Npoi | 1.42 s | 14.69x | 344.5 MB |
-| pages1000 | OneOffice | 626.29 us | 0.01x | 4.3 MB |
+| pages1000 | OneDocument | 626.29 us | 0.01x | 4.3 MB |
 | small | RawZip | 170.99 us | 1.00x | 33.9 KB |
 | small | OpenXml | 782.67 us | 4.58x | 332.0 KB |
 | small | Npoi | 3.15 ms | 18.42x | 1.3 MB |
-| small | OneOffice | 200.19 us | 1.17x | 181.8 KB |
+| small | OneDocument | 200.19 us | 1.17x | 181.8 KB |
 
-## Bar: OneOffice against the fastest comparator
+## Bar: OneDocument against the fastest comparator
 
-Ratio is OneOffice median / the fastest comparator's median in the same class and input; at or below 1.00 is faster. The raw zip row is a floor and is not a comparator.
+Ratio is OneDocument median / the fastest comparator's median in the same class and input; at or below 1.00 is faster. The raw zip row is a floor and is not a comparator.
 
-| Class | Input | OneOffice | Fastest comparator | Comparator median | Ratio |
+| Class | Input | OneDocument | Fastest comparator | Comparator median | Ratio |
 |---|---|---:|---|---:|---:|
 | DocxEdit | medium | 16.00 ms | OpenXml | 114.50 ms | 0.14x |
 | DocxEdit | pages1000 | 341.22 ms | OpenXml | 1.02 s | 0.33x |
@@ -224,26 +224,26 @@ Baseline is the working set after the input bytes are loaded; peak is the proces
 | npoi.loadsave | medium | 42.4 MB | 0 B | 36.7 MB |
 | npoi.loadsave | pages1000 | 43.1 MB | 0 B | 348.3 MB |
 | npoi.loadsave | small | 41.7 MB | 0 B | 5.1 MB |
-| oneoffice.edit | large | 87.1 MB | 0 B | 302.4 MB |
-| oneoffice.edit | medium | 42.3 MB | 0 B | 12.2 MB |
-| oneoffice.edit | pages1000 | 43.1 MB | 0 B | 78.4 MB |
-| oneoffice.edit | small | 41.6 MB | 0 B | 1.8 MB |
-| oneoffice.extract | large | 87.1 MB | 0 B | 625.5 KB |
-| oneoffice.extract | medium | 42.4 MB | 0 B | 1.5 MB |
-| oneoffice.extract | pages1000 | 43.1 MB | 0 B | 584.6 KB |
-| oneoffice.extract | small | 41.6 MB | 0 B | 398.6 KB |
-| oneoffice.lazyopen | large | 87.0 MB | 0 B | 461.5 KB |
-| oneoffice.lazyopen | medium | 42.4 MB | 0 B | 426.1 KB |
-| oneoffice.lazyopen | pages1000 | 43.1 MB | 0 B | 426.8 KB |
-| oneoffice.lazyopen | small | 41.6 MB | 0 B | 308.2 KB |
-| oneoffice.load | large | 87.1 MB | 0 B | 98.4 MB |
-| oneoffice.load | medium | 42.3 MB | 0 B | 6.4 MB |
-| oneoffice.load | pages1000 | 43.2 MB | 0 B | 50.9 MB |
-| oneoffice.load | small | 41.7 MB | 0 B | 347.4 KB |
-| oneoffice.loadsave | large | 87.0 MB | 0 B | 132.1 MB |
-| oneoffice.loadsave | medium | 42.4 MB | 0 B | 2.4 MB |
-| oneoffice.loadsave | pages1000 | 43.0 MB | 0 B | 4.5 MB |
-| oneoffice.loadsave | small | 41.6 MB | 0 B | 328.8 KB |
+| onedocument.edit | large | 87.1 MB | 0 B | 302.4 MB |
+| onedocument.edit | medium | 42.3 MB | 0 B | 12.2 MB |
+| onedocument.edit | pages1000 | 43.1 MB | 0 B | 78.4 MB |
+| onedocument.edit | small | 41.6 MB | 0 B | 1.8 MB |
+| onedocument.extract | large | 87.1 MB | 0 B | 625.5 KB |
+| onedocument.extract | medium | 42.4 MB | 0 B | 1.5 MB |
+| onedocument.extract | pages1000 | 43.1 MB | 0 B | 584.6 KB |
+| onedocument.extract | small | 41.6 MB | 0 B | 398.6 KB |
+| onedocument.lazyopen | large | 87.0 MB | 0 B | 461.5 KB |
+| onedocument.lazyopen | medium | 42.4 MB | 0 B | 426.1 KB |
+| onedocument.lazyopen | pages1000 | 43.1 MB | 0 B | 426.8 KB |
+| onedocument.lazyopen | small | 41.6 MB | 0 B | 308.2 KB |
+| onedocument.load | large | 87.1 MB | 0 B | 98.4 MB |
+| onedocument.load | medium | 42.3 MB | 0 B | 6.4 MB |
+| onedocument.load | pages1000 | 43.2 MB | 0 B | 50.9 MB |
+| onedocument.load | small | 41.7 MB | 0 B | 347.4 KB |
+| onedocument.loadsave | large | 87.0 MB | 0 B | 132.1 MB |
+| onedocument.loadsave | medium | 42.4 MB | 0 B | 2.4 MB |
+| onedocument.loadsave | pages1000 | 43.0 MB | 0 B | 4.5 MB |
+| onedocument.loadsave | small | 41.6 MB | 0 B | 328.8 KB |
 | openxml.edit | large | 87.1 MB | 0 B | 385.9 MB |
 | openxml.edit | medium | 42.3 MB | 0 B | 14.2 MB |
 | openxml.edit | pages1000 | 43.1 MB | 0 B | 125.5 MB |

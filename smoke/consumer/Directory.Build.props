@@ -1,12 +1,12 @@
 <Project>
-  <!-- Consumer apps reference the OneOffice packages as packages (from a local pack), the way an application does. -->
+  <!-- Consumer apps reference the OneDocument packages as packages (from a local pack), the way an application does. -->
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
   <PropertyGroup>
-    <RestoreAdditionalProjectSources>$(ONEOFFICE_CONSUMER_FEED)</RestoreAdditionalProjectSources>
-    <OneOfficeVersion>$(ONEOFFICE_CONSUMER_VERSION)</OneOfficeVersion>
+    <RestoreAdditionalProjectSources>$(ONEDOCUMENT_CONSUMER_FEED)</RestoreAdditionalProjectSources>
+    <OneDocumentVersion>$(ONEDOCUMENT_CONSUMER_VERSION)</OneDocumentVersion>
     <IsPackable>false</IsPackable>
     <OutputType>Exe</OutputType>
-    <RootNamespace>RecursiveAI.OneOffice.Consumer</RootNamespace>
+    <RootNamespace>RecursiveAI.OneDocument.Consumer</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Using Include="System" />

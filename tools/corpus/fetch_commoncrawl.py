@@ -20,7 +20,7 @@ import argparse, subprocess, gzip, hashlib, io, json, os, sys, time, urllib.requ
 from concurrent.futures import ThreadPoolExecutor
 
 BASE = "https://data.commoncrawl.org/"
-UA = "oneoffice-corpus-fetch/1.0 (test corpus)"
+UA = "onedocument-corpus-fetch/1.0 (test corpus)"
 
 MIMES = {
     "docx": ["application/vnd.openxmlformats-officedocument.wordprocessingml.document",

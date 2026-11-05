@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Writes the CSV files used to compare OneOffice's reading of delimited text with Excel's.
+"""Writes the CSV files used to compare OneDocument's reading of delimited text with Excel's.
 
     make-grid.py OUTDIR
 

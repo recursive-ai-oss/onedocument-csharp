@@ -1,6 +1,6 @@
 # Third-party notices
 
-OneOffice's own code is licensed `MIT OR Apache-2.0`. Material from other projects that ships in a package is listed here, one section per item, with its licence text.
+OneDocument's own code is licensed `MIT OR Apache-2.0`. Material from other projects that ships in a package is listed here, one section per item, with its licence text.
 
 Each entry has this form:
 
@@ -14,11 +14,11 @@ Each entry has this form:
 
 ## Packages
 
-No third-party code ships in the packages. `RecursiveAI.OneOffice` depends on the Recursive AI library `RecursiveAI.OneArchive` (`MIT OR Apache-2.0`), which is not third-party material. Test, fuzz and benchmark projects use other packages (xUnit, BenchmarkDotNet, SharpFuzz); they are not part of any shipped package.
+No third-party code ships in the packages. `RecursiveAI.OneDocument` depends on the Recursive AI library `RecursiveAI.OneArchive` (`MIT OR Apache-2.0`), which is not third-party material. Test, fuzz and benchmark projects use other packages (xUnit, BenchmarkDotNet, SharpFuzz); they are not part of any shipped package.
 
 ## Standards schemas and generated code
 
-The repository carries the XML Schemas of the standards it implements under `schemas/`, unchanged, and the typed views in `src/OneOffice.Schema/Generated` are generated from them. Each generated file names its source schemas in its header.
+The repository carries the XML Schemas of the standards it implements under `schemas/`, unchanged, and the typed views in `src/OneDocument.Schema/Generated` are generated from them. Each generated file names its source schemas in its header.
 
 ### ECMA-376, 5th edition (Ecma International; ISO/IEC 29500)
 
@@ -26,7 +26,7 @@ The XSD files under `schemas/ecma376/` come from Part 1 (Strict), Part 2 (Open P
 
 Source: https://ecma-international.org/publications-and-standards/standards/ecma-376/
 
-The generated typed views in `src/OneOffice.Schema/Generated/` are derived from these schemas as part of an implementation of the specification (item (iv) below). The notice below is Ecma's default copyright notice, quoted verbatim from https://ecma-international.org/policies/by-ipr/ecma-text-copyright-policy/.
+The generated typed views in `src/OneDocument.Schema/Generated/` are derived from these schemas as part of an implementation of the specification (item (iv) below). The notice below is Ecma's default copyright notice, quoted verbatim from https://ecma-international.org/policies/by-ipr/ecma-text-copyright-policy/.
 
     COPYRIGHT NOTICE
 

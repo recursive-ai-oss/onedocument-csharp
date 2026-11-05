@@ -4,10 +4,10 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Markup;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Markup;
 
-namespace RecursiveAI.OneOffice.Tools.MarkupProbe;
+namespace RecursiveAI.OneDocument.Tools.MarkupProbe;
 
 /// <summary>
 /// Reads every XML part of every Office Open XML file under a directory into the markup tree and checks the round-trip contract:
@@ -138,8 +138,8 @@ internal static class Program
             MarkupNode root = d.Root;
             int start = root.SourceStart;
             int end = root.SourceEnd;
-            root.SetAttribute("xmlns:oneoffice-probe", "urn:probe");
-            if (OnlyChangedWithin(data, d.ToArray(), start, end, "xmlns:oneoffice-probe".Length + 9 + 4, out string why))
+            root.SetAttribute("xmlns:onedocument-probe", "urn:probe");
+            if (OnlyChangedWithin(data, d.ToArray(), start, end, "xmlns:onedocument-probe".Length + 9 + 4, out string why))
             {
                 stats.Edit1++;
                 CheckConstructs(text, d, 0, stats, failures, name);
@@ -159,8 +159,8 @@ internal static class Program
                 stats.Edit2Tried++;
                 int start = target.SourceStart;
                 int end = target.SourceEnd;
-                target.SetAttribute("oneoffice-probe", "1");
-                if (OnlyChangedWithin(data, d.ToArray(), start, end, " oneoffice-probe=\"1\"".Length, out string why))
+                target.SetAttribute("onedocument-probe", "1");
+                if (OnlyChangedWithin(data, d.ToArray(), start, end, " onedocument-probe=\"1\"".Length, out string why))
                 {
                     stats.Edit2++;
                     CheckConstructs(text, d, 0, stats, failures, name);
@@ -181,8 +181,8 @@ internal static class Program
                 stats.Edit3Tried++;
                 int start = target.SourceStart;
                 int end = target.SourceEnd;
-                target.PrependXml("<!--oneoffice-probe-->"u8);
-                if (OnlyChangedWithin(data, d.ToArray(), start, end, "<!--oneoffice-probe-->".Length, out string why))
+                target.PrependXml("<!--onedocument-probe-->"u8);
+                if (OnlyChangedWithin(data, d.ToArray(), start, end, "<!--onedocument-probe-->".Length, out string why))
                 {
                     stats.Edit3++;
                     CheckConstructs(text, d, 1, stats, failures, name);
@@ -279,7 +279,7 @@ internal static class Program
             }
         }
 
-        if (extraComments != 0 && Count(text, "<!--oneoffice-probe-->") != extraComments)
+        if (extraComments != 0 && Count(text, "<!--onedocument-probe-->") != extraComments)
         {
             failures.Add($"{name}: probe comment missing");
             return;
