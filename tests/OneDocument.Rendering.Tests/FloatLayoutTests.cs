@@ -1,3 +1,4 @@
+using OneRender.Image;
 using OneRender.Painting;
 using RecursiveAI.OneDocument.Documents;
 using RecursiveAI.OneDocument.Layout;
@@ -16,6 +17,8 @@ public sealed class FloatLayoutTests
 
     private static IEnumerable<(LayoutLine Line, LayoutRun Run)> TextRuns(LayoutPage page) =>
         page.BodyParagraphs.SelectMany(p => p.Lines).SelectMany(l => l.Runs.Where(r => r.RunKind == LayoutRunKind.Text && r.Text.Trim().Length > 0).Select(r => (l, r)));
+
+    private static IEnumerable<LayoutNode> Walk(LayoutNode n) => n.Children.SelectMany(c => Walk(c).Prepend(c));
 
     private static bool Overlaps(LayoutRect a, LayoutRect b) => a.X < b.Right - 0.01 && a.Right > b.X + 0.01 && a.Y < b.Bottom - 0.01 && a.Bottom > b.Y + 0.01;
 
@@ -205,6 +208,80 @@ public sealed class FloatLayoutTests
         LayoutRect col2 = page.Columns[1];
         Assert.Equal(col2.X + 10, f.Bounds.X, 1);
         Assert.All(TextRuns(page).Where(t => t.Run.Bounds.X > col2.X - 1 && t.Line.Baseline - t.Line.Ascent < f.Bounds.Bottom && t.Line.Baseline > f.Bounds.Y), t => Assert.False(Overlaps(t.Run.Bounds with { Y = t.Line.Baseline - t.Line.Ascent, Height = t.Line.Ascent + t.Line.Descent }, f.Bounds)));
+    }
+
+    [Fact]
+    public void Text_runs_round_a_floating_table()
+    {
+        LayoutPage page = Lay("floating-table").Pages[0];
+        LayoutTable t = page.Tables.Single();
+        var beside = TextRuns(page).Where(x => x.Line.Baseline - x.Line.Ascent < t.Bounds.Bottom + 5 && x.Line.Baseline > t.Bounds.Y).ToList();
+        Assert.NotEmpty(beside);
+        foreach ((LayoutLine line, LayoutRun run) in beside)
+        {
+            Assert.False(Overlaps(run.Bounds with { Y = line.Baseline - line.Ascent, Height = line.Ascent + line.Descent }, t.Bounds), "text inside the table's box: " + run.Text);
+        }
+
+        Assert.Contains(beside, x => x.Run.Bounds.Right <= t.Bounds.X);
+    }
+
+    [Fact]
+    public void An_object_in_a_table_cell_is_placed_from_the_cell_unless_layoutInCell_is_off()
+    {
+        LayoutPage page = Lay("float-in-cell").Pages[0];
+        DisplayList list = LayoutPainter.Paint(page, new PaintOptions { Images = new DrawingImages() });
+        RgbaImage img = DisplayListRasterizer.Render(list, 816, 1056, new RasterOptions());
+        // Fill colour of the sample objects is 9DC3E6.
+        (double X0, double Y0, double X1, double Y1)? Find(double xFrom, double xTo)
+        {
+            int minX = int.MaxValue, minY = int.MaxValue, maxX = -1, maxY = -1;
+            for (int y = 0; y < img.Height; y++)
+            {
+                for (int x = (int)xFrom; x < Math.Min(img.Width, (int)xTo); x++)
+                {
+                    int i = ((y * img.Width) + x) * 4;
+                    if (Math.Abs(img.Pixels[i] - 0x9D) < 4 && Math.Abs(img.Pixels[i + 1] - 0xC3) < 4 && Math.Abs(img.Pixels[i + 2] - 0xE6) < 4)
+                    {
+                        minX = Math.Min(minX, x);
+                        maxX = Math.Max(maxX, x);
+                        minY = Math.Min(minY, y);
+                        maxY = Math.Max(maxY, y);
+                    }
+                }
+            }
+
+            return maxX < 0 ? null : (minX * 0.75, minY * 0.75, (maxX + 1) * 0.75, (maxY + 1) * 0.75);
+        }
+
+        LayoutTable table = page.Tables.Single();
+        LayoutTableCell first = Walk(table).OfType<LayoutTableCell>().First();
+        var inCell = Find(0, 816 * 0.5);
+        Assert.NotNull(inCell);
+        // layoutInCell: the margin base is the cell, so the object is 20 pt right of the cell's left edge and 10 pt below its top.
+        Assert.InRange(inCell!.Value.X0, first.Bounds.X + 20, first.Bounds.X + 22);
+        Assert.InRange(inCell.Value.Y0, first.Bounds.Y + 10, first.Bounds.Y + 12);
+        var toPage = Find(816 * 0.5, 816);
+        Assert.NotNull(toPage);
+        Assert.InRange(toPage!.Value.X0, 400, 402);
+        Assert.InRange(toPage.Value.Y0, 300, 302);
+    }
+
+    [Fact]
+    public void A_table_in_a_text_box_is_laid_out_and_painted()
+    {
+        LayoutDocument layout = Lay("textbox-table");
+        var notes = new List<DrawingNote>();
+        DisplayList list = LayoutPainter.Paint(layout.Pages[0], new PaintOptions { Images = new DrawingImages(), DrawingNotes = notes });
+        Assert.DoesNotContain(notes, n => n.Code == "drawing.text-block-skipped");
+        int glyphRuns = 0, tables = 0;
+        for (int i = 0; i < list.Count; i++)
+        {
+            glyphRuns += list[i].Kind == ItemKind.GlyphRun ? 1 : 0;
+            tables += list[i].Kind == ItemKind.BeginTag && list[i].Role == TagRole.Table ? 1 : 0;
+        }
+
+        Assert.True(glyphRuns >= 6, "the title, the paragraph and four cells are text");
+        Assert.Equal(1, tables);
     }
 
     [Fact]

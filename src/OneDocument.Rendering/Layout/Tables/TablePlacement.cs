@@ -418,11 +418,10 @@ public static partial class LayoutEngine
             return (true, done);
         }
 
-        // A floating table is painted at its position and takes no room in the flow; text does not wrap around it. ECMA-376 Part 1
-        // §17.4.57 (tblpPr).
+        // A floating table is painted at its position and takes no room in the flow; the text that follows wraps around it, keeping the
+        // distances tblpPr gives. ECMA-376 Part 1 §17.4.57 (tblpPr).
         private void PlaceFloatingTable(FormattedTable ft)
         {
-            Ctx.NoteOnce("layout.table-floating", "layout.table-floating", "A floating table is painted at its position without text wrapping around it.", ft.Source);
             LayoutPage page = _page!;
             LayoutRect content = page.ContentArea;
             double anchorX = ft.HorizontalAnchor == "page" ? 0 : content.X;
@@ -449,7 +448,20 @@ public static partial class LayoutEngine
                 "top" or "inside" => anchorY,
                 _ => anchorY + ft.FloatY,
             };
-            page.Add(TableEmitter.EmitFull(ft, 0, ft.Rows.Count - 1, x, y));
+            LayoutTable placed = TableEmitter.EmitFull(ft, 0, ft.Rows.Count - 1, x, y);
+            page.Add(placed);
+            if (_story == LayoutStory.Body)
+            {
+                page.FloatBoxes.Add(new FloatBox
+                {
+                    Rect = new LayoutRect(x, y, Math.Max(placed.Bounds.Width, ft.Width), Math.Max(placed.Bounds.Height, total)),
+                    Wrap = RecursiveAI.OneDocument.Rendering.Drawing.DrawingWrap.Square,
+                    DistanceLeft = ft.DistanceLeft,
+                    DistanceRight = ft.DistanceRight,
+                    DistanceTop = ft.DistanceTop,
+                    DistanceBottom = ft.DistanceBottom,
+                });
+            }
         }
     }
 }

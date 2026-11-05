@@ -372,6 +372,10 @@ internal static class TableFormatter
         ft.FloatY = (Xml.Long(Xml.Attr(fp, "tblpY")) ?? 0) / 20.0;
         ft.HorizontalSpec = Xml.Attr(fp, "tblpXSpec");
         ft.VerticalSpec = Xml.Attr(fp, "tblpYSpec");
+        ft.DistanceLeft = (Xml.Long(Xml.Attr(fp, "leftFromText")) ?? 0) / 20.0;
+        ft.DistanceRight = (Xml.Long(Xml.Attr(fp, "rightFromText")) ?? 0) / 20.0;
+        ft.DistanceTop = (Xml.Long(Xml.Attr(fp, "topFromText")) ?? 0) / 20.0;
+        ft.DistanceBottom = (Xml.Long(Xml.Attr(fp, "bottomFromText")) ?? 0) / 20.0;
     }
 
     // ECMA-376 Part 1 §17.3.4 (shd) and §17.18.78 (ST_Shd): clear shows the fill, solid the colour, pctN mixes N percent of the colour

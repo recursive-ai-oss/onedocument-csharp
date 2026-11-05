@@ -107,6 +107,32 @@ internal static class FloatSamples
         list.Add(("anchor-on-next-page", TestDocx.Bytes(Title("Anchor moves with its paragraph") + Filler(40) + Para(Anchor(120, 90, H("margin", 300), V("paragraph", 0), Square()), 120, "<w:keepLines/>"))));
         list.Add(("two-columns", TestDocx.Bytes(Title("Float in the second column") + Para(Anchor(100, 80, H("column", 10), V("paragraph", 0), Square()), 60) +
             "<w:p><w:r><w:br w:type=\"column\"/></w:r></w:p>" + Para(Anchor(100, 80, H("column", 10), V("paragraph", 0), Square(), name: "col2"), 120), sectPr: twoCols)));
+        // A floating table with the text running round it.
+        {
+            string cell(string t) => "<w:tc><w:tcPr><w:tcW w:w=\"1800\" w:type=\"dxa\"/></w:tcPr><w:p><w:r><w:t>" + t + "</w:t></w:r></w:p></w:tc>";
+            string tbl = "<w:tbl><w:tblPr><w:tblpPr w:leftFromText=\"144\" w:rightFromText=\"144\" w:topFromText=\"72\" w:bottomFromText=\"72\" w:vertAnchor=\"text\" w:horzAnchor=\"margin\" w:tblpX=\"4500\" w:tblpY=\"1\"/><w:tblW w:w=\"3600\" w:type=\"dxa\"/><w:tblLayout w:type=\"fixed\"/><w:tblBorders><w:top w:val=\"single\" w:sz=\"4\"/><w:left w:val=\"single\" w:sz=\"4\"/><w:bottom w:val=\"single\" w:sz=\"4\"/><w:right w:val=\"single\" w:sz=\"4\"/><w:insideH w:val=\"single\" w:sz=\"4\"/><w:insideV w:val=\"single\" w:sz=\"4\"/></w:tblBorders></w:tblPr><w:tblGrid><w:gridCol w:w=\"1800\"/><w:gridCol w:w=\"1800\"/></w:tblGrid>" +
+                "<w:tr>" + cell("one") + cell("two") + "</w:tr><w:tr>" + cell("three") + cell("four") + "</w:tr><w:tr>" + cell("five") + cell("six") + "</w:tr></w:tbl>";
+            list.Add(("floating-table", TestDocx.Bytes(Title("A floating table") + tbl + Para(string.Empty, 200))));
+        }
+
+        // An object anchored in a table cell, positioned from the cell (layoutInCell) and, in a second cell, from the page.
+        {
+            string cellOf(string body, int w) => "<w:tc><w:tcPr><w:tcW w:w=\"" + w + "\" w:type=\"dxa\"/></w:tcPr>" + body + "</w:tc>";
+            string tbl = "<w:tbl><w:tblPr><w:tblW w:w=\"7200\" w:type=\"dxa\"/><w:tblLayout w:type=\"fixed\"/><w:tblBorders><w:top w:val=\"single\" w:sz=\"4\"/><w:left w:val=\"single\" w:sz=\"4\"/><w:bottom w:val=\"single\" w:sz=\"4\"/><w:right w:val=\"single\" w:sz=\"4\"/><w:insideV w:val=\"single\" w:sz=\"4\"/></w:tblBorders></w:tblPr><w:tblGrid><w:gridCol w:w=\"3600\"/><w:gridCol w:w=\"3600\"/></w:tblGrid><w:tr>" +
+                cellOf(Para(Anchor(40, 30, H("margin", 20), V("margin", 10), NoWrap, name: "in-cell"), 20), 3600) +
+                cellOf(Para(Anchor(40, 30, H("page", 400), V("page", 300), NoWrap, extra: string.Empty, name: "to-page").Replace("layoutInCell=\"1\"", "layoutInCell=\"0\""), 20), 3600) + "</w:tr></w:tbl>";
+            list.Add(("float-in-cell", TestDocx.Bytes(Title("Objects anchored in table cells") + tbl + TestDocx.P("after"))));
+        }
+
+        // A table inside a text box.
+        {
+            string cell(string t) => "<w:tc><w:tcPr><w:tcW w:w=\"1500\" w:type=\"dxa\"/></w:tcPr><w:p><w:r><w:t>" + t + "</w:t></w:r></w:p></w:tc>";
+            string tbl = "<w:tbl><w:tblPr><w:tblW w:w=\"3000\" w:type=\"dxa\"/><w:tblBorders><w:top w:val=\"single\" w:sz=\"4\"/><w:left w:val=\"single\" w:sz=\"4\"/><w:bottom w:val=\"single\" w:sz=\"4\"/><w:right w:val=\"single\" w:sz=\"4\"/><w:insideH w:val=\"single\" w:sz=\"4\"/><w:insideV w:val=\"single\" w:sz=\"4\"/></w:tblBorders></w:tblPr><w:tblGrid><w:gridCol w:w=\"1500\"/><w:gridCol w:w=\"1500\"/></w:tblGrid>" +
+                "<w:tr>" + cell("alpha") + cell("beta") + "</w:tr><w:tr>" + cell("gamma") + cell("delta") + "</w:tr></w:tbl>";
+            string box = $"<wps:wsp><wps:cNvSpPr txBox=\"1\"/><wps:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"{E(160)}\" cy=\"{E(90)}\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val=\"FFF2CC\"/></a:solidFill></wps:spPr><wps:txbx><w:txbxContent xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:p><w:r><w:t>Above the table</w:t></w:r></w:p>{tbl}</w:txbxContent></wps:txbx><wps:bodyPr/></wps:wsp>";
+            list.Add(("textbox-table", TestDocx.Bytes(Title("A table in a text box") + "<w:p>" + DrawingSamples.Inline(box, 160, 90, "http://schemas.microsoft.com/office/word/2010/wordprocessingShape", "box", "text box with a table") + "</w:p>")));
+        }
+
         return list;
     }
 }
