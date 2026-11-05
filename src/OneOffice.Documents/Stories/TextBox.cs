@@ -223,7 +223,7 @@ internal static class TextBoxScanner
     private static bool IsContent(MarkupNode n) => HubXml.IsWordNamespace(n.NamespaceUri) && n.LocalName.SequenceEqual("txbxContent"u8);
 
     // The namespaces Word 2010 and later read: the standard's, VML and Microsoft's Office extensions. Same rule as text extraction.
-    private static bool IsUnderstood(string uri) =>
+    internal static bool IsUnderstood(string uri) =>
         uri.StartsWith("http://schemas.microsoft.com/office/", StringComparison.Ordinal)
         || uri.StartsWith("http://schemas.openxmlformats.org/", StringComparison.Ordinal)
         || uri.StartsWith("http://purl.oclc.org/ooxml/", StringComparison.Ordinal)
