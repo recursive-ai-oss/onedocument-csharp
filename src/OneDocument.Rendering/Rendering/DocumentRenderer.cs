@@ -6,6 +6,8 @@ using RecursiveAI.OneDocument.Documents;
 using RecursiveAI.OneDocument.Formats;
 using RecursiveAI.OneDocument.Layout;
 using RecursiveAI.OneDocument.Markup;
+using RecursiveAI.OneDocument.Rendering.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets;
 using RecursiveAI.OneDocument.Schema;
 
 namespace RecursiveAI.OneDocument.Rendering;
@@ -155,7 +157,7 @@ public static class DocumentRenderer
     }
 }
 
-/// <summary>Registers PDF and PNG output for word-processing documents with a format registry.</summary>
+/// <summary>Registers PDF and PNG output for word-processing documents and workbooks with a format registry.</summary>
 public static class RenderingFormats
 {
     /// <summary>Gets the output formats this package writes for documents.</summary>
@@ -169,23 +171,39 @@ public static class RenderingFormats
     public static void Register(FormatRegistry registry)
     {
         ArgumentNullException.ThrowIfNull(registry);
+        // One handler per format serves every kind that renders: it dispatches on the file, so registering the spreadsheet path does not
+        // replace the document path (the registry keeps one writer per format).
         registry.RegisterWriter(
             static (file, format, destination, cancellationToken) =>
             {
-                if (file is not Document document)
+                if (file is Document document)
                 {
-                    throw new FormatNotAvailableException(format, "render a " + file.Kind + " as");
-                }
+                    if (format == OfficeFormat.Pdf)
+                    {
+                        DocumentRenderer.WritePdf(document, destination, null, cancellationToken);
+                        return;
+                    }
 
-                if (format == OfficeFormat.Pdf)
-                {
-                    DocumentRenderer.WritePdf(document, destination, null, cancellationToken);
+                    LayoutDocument layout = LayoutEngine.Layout(document, null, cancellationToken);
+                    byte[] png = DocumentRenderer.RenderPng(layout.Pages[0], DocumentRenderer.DefaultLanguage(document));
+                    destination.Write(png);
                     return;
                 }
 
-                LayoutDocument layout = LayoutEngine.Layout(document, null, cancellationToken);
-                byte[] png = DocumentRenderer.RenderPng(layout.Pages[0], DocumentRenderer.DefaultLanguage(document));
-                destination.Write(png);
+                if (file is Workbook workbook)
+                {
+                    if (format == OfficeFormat.Pdf)
+                    {
+                        WorkbookRenderer.WritePdf(workbook, destination, null, null, cancellationToken);
+                        return;
+                    }
+
+                    SheetLayoutDocument sheets = WorkbookRenderer.Layout(workbook, null, cancellationToken);
+                    destination.Write(WorkbookRenderer.RenderPng(sheets, sheets.Pages.Count > 0 ? sheets.Pages[0] : null));
+                    return;
+                }
+
+                throw new FormatNotAvailableException(format, "render a " + file.Kind + " as");
             },
             [.. Formats]);
     }

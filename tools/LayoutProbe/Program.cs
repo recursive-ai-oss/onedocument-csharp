@@ -5,12 +5,14 @@ using OnePdf.Text;
 using RecursiveAI.OneDocument.Documents;
 using RecursiveAI.OneDocument.Layout;
 using RecursiveAI.OneDocument.Rendering;
+using RecursiveAI.OneDocument.Rendering.Spreadsheets;
 using RecursiveAI.OneDocument.Rendering.Tests;
+using RecursiveAI.OneDocument.Spreadsheets;
 
 // LayoutProbe: the generated layout test set and the layout differential.
 //
-//   LayoutProbe gen <dir>                 write the test documents (DOCX) to <dir>
-//   LayoutProbe render <dir> <out> [fonts...]  lay out and render every DOCX in <dir> to <out>/NAME.pdf and NAME.png (page 1),
+//   LayoutProbe gen <dir>                 write the test documents (DOCX) and workbooks (XLSX) to <dir>
+//   LayoutProbe render <dir> <out> [fonts...]  lay out and render every DOCX and XLSX in <dir> to <out>/NAME.pdf and NAME.png (page 1),
 //                                         and write <out>/layout.jsonl; extra arguments are font directories
 //   LayoutProbe lines <pdf>...            print the text lines of each page of PDFs as JSON lines (OnePdf text extraction)
 //   LayoutProbe compare <ours> <other>    compare page counts and per-page text lines of NAME.pdf in two directories
@@ -28,7 +30,12 @@ internal static class Program
                 File.WriteAllBytes(Path.Combine(args[1], name + ".docx"), docx);
             }
 
-            Console.WriteLine($"{LayoutCases.All().Count} documents in {args[1]}");
+            foreach ((string name, byte[] xlsx) in SheetCases.All())
+            {
+                File.WriteAllBytes(Path.Combine(args[1], name + ".xlsx"), xlsx);
+            }
+
+            Console.WriteLine($"{LayoutCases.All().Count} documents and {SheetCases.All().Count} workbooks in {args[1]}");
             return 0;
         }
 
@@ -91,6 +98,41 @@ internal static class Program
                     name,
                     pages = layout.Pages.Count,
                     lines = layout.Pages.Select(p => p.Paragraphs.Sum(x => x.Lines.Count())).ToArray(),
+                    fontNotes = layout.FontNotes.Select(n => n.Message).ToArray(),
+                    notes = layout.Notes.Select(n => n.Code).ToArray(),
+                }));
+            }
+            catch (Exception ex)
+            {
+                failed++;
+                Console.Error.WriteLine($"{name}: {ex.GetType().Name}: {ex.Message}");
+            }
+        }
+
+        foreach (string file in Directory.EnumerateFiles(input, "*.xlsx").Order(StringComparer.Ordinal))
+        {
+            string name = Path.GetFileNameWithoutExtension(file);
+            try
+            {
+                using Workbook wb = Workbook.Open(file);
+                var options = new SheetRenderOptions { Fonts = fonts, Clock = new FixedClock() };
+                SheetLayoutDocument layout = WorkbookRenderer.Layout(wb, options);
+                using (FileStream pdf = File.Create(Path.Combine(output, name + ".pdf")))
+                {
+                    WorkbookRenderer.WritePdf(layout, pdf, new PdfRenderOptions { Profile = ProfileFromEnvironment() });
+                }
+
+                // Every page up to eight as PNGs, so a person can look at them.
+                for (int i = 0; i < Math.Min(layout.Pages.Count, 8); i++)
+                {
+                    File.WriteAllBytes(Path.Combine(output, i == 0 ? name + ".png" : $"{name}-p{i + 1}.png"), WorkbookRenderer.RenderPng(layout, layout.Pages[i]));
+                }
+
+                log.WriteLine(JsonSerializer.Serialize(new
+                {
+                    name,
+                    pages = layout.Pages.Count,
+                    scale = layout.Pages.Select(p => p.Scale).Distinct().ToArray(),
                     fontNotes = layout.FontNotes.Select(n => n.Message).ToArray(),
                     notes = layout.Notes.Select(n => n.Code).ToArray(),
                 }));
@@ -175,4 +217,12 @@ internal static class Program
         Console.WriteLine(JsonSerializer.Serialize(new { summary = true, documents = docs, pageCountDiffers = differentPages, meanLineAgreement = docs == 0 ? 0 : Math.Round(sum / docs, 3) }));
         return differentPages == 0 ? 0 : 1;
     }
+}
+
+// A fixed clock keeps the printed date in headers the same from run to run.
+internal sealed class FixedClock : TimeProvider
+{
+    public override DateTimeOffset GetUtcNow() => new(2026, 3, 9, 14, 5, 0, TimeSpan.Zero);
+
+    public override TimeZoneInfo LocalTimeZone => TimeZoneInfo.Utc;
 }

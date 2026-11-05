@@ -16,6 +16,7 @@
     <ProjectReference Include="../../src/OneDocument.Documents/OneDocument.Documents.csproj" />
     <ProjectReference Include="../../src/OneDocument.Spreadsheets/OneDocument.Spreadsheets.csproj" />
     <ProjectReference Include="../../src/OneDocument.Presentations/OneDocument.Presentations.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Rendering/OneDocument.Rendering.csproj" />
   </ItemGroup>
 
 </Project>
