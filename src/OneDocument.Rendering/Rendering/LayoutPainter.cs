@@ -126,7 +126,25 @@ public static class LayoutPainter
                 }
             }
 
+            // Floating objects: those behind the text first, then the text, then the ones in front, each group in stacking order.
+            // Ties keep the order the objects were anchored in.
+            LayoutFloat[] floats = [.. page.Floats.OrderBy(static f => f.ZOrder).ThenBy(static f => f.Order)];
+            foreach (LayoutFloat f in floats)
+            {
+                if (f.BehindText)
+                {
+                    PaintFloat(f);
+                }
+            }
+
             PaintBlocks(page.Children);
+            foreach (LayoutFloat f in floats)
+            {
+                if (!f.BehindText)
+                {
+                    PaintFloat(f);
+                }
+            }
 
             foreach (LayoutDecoration d in page.Decorations)
             {
@@ -405,7 +423,7 @@ public static class LayoutPainter
             bool tagged = Tagged;
             foreach (InlineDrawing f in p.Floats)
             {
-                if (f.Info.BehindText && !p.ContinuesFromPreviousPage)
+                if (f.Info.BehindText && !p.ContinuesFromPreviousPage && !f.Placed)
                 {
                     PaintAnchored(p, f);
                 }
@@ -482,54 +500,76 @@ public static class LayoutPainter
 
             foreach (InlineDrawing f in p.Floats)
             {
-                if (!f.Info.BehindText && !p.ContinuesFromPreviousPage)
+                if (!f.Info.BehindText && !p.ContinuesFromPreviousPage && !f.Placed)
                 {
                     PaintAnchored(p, f);
                 }
             }
         }
 
-        // An anchored drawing sits at its own position: an offset or an alignment inside the page, the margins or the paragraph.
-        // ECMA-376 Part 1 §20.4.2.10 (positionH) and §20.4.2.11 (positionV). Text does not wrap around it yet.
+        // A floating object the layout placed: drawn at its box. Objects anchored in a header or footer are artifacts like the rest of it.
+        private void PaintFloat(LayoutFloat f)
+        {
+            bool artifact = f.Story != LayoutStory.Body;
+            if (artifact)
+            {
+                _untagged++;
+                if (options.Tagged)
+                {
+                    List.BeginTag(Id(), TagRole.Artifact);
+                }
+            }
+
+            LayoutRect r = f.Bounds;
+            DrawingPainter.Draw(List, () => Id(), f.Drawing.Node, new DrawingBox(r.X, r.Y, r.Width, r.Height), ContextFor(f.Drawing.Sources), f.AltText, f.Drawing.Info.Decorative);
+            if (artifact)
+            {
+                if (options.Tagged)
+                {
+                    List.EndTag();
+                }
+
+                _untagged--;
+            }
+        }
+
+        // An anchored drawing the page layout did not place: one anchored in a table cell, which is positioned from the cell when the
+        // anchor says layoutInCell (the default) and from the page otherwise. Text does not wrap around such an object.
+        // ECMA-376 Part 1 §20.4.2.10 (positionH), §20.4.2.11 (positionV) and §20.4.2.3 (layoutInCell).
         private void PaintAnchored(LayoutParagraph p, InlineDrawing d)
         {
-            LayoutPage? page = p.Parent as LayoutPage;
-            if (page is null)
+            LayoutNode? up = p.Parent;
+            LayoutTableCell? cell = null;
+            while (up is not null and not LayoutPage)
+            {
+                cell ??= up as LayoutTableCell;
+                up = up.Parent;
+            }
+
+            if (up is not LayoutPage page)
             {
                 return;
             }
 
             DrawingInfo i = d.Info;
-            LayoutRect area = page.ContentArea;
-            (double bx, double bw) = i.RelativeFromH switch
-            {
-                "page" => (0.0, page.Width),
-                "character" => (p.Bounds.X, p.Bounds.Width),
-                _ => (area.X, area.Width),
-            };
             double lineTop = p.Lines.FirstOrDefault()?.Bounds.Y ?? p.Bounds.Y;
-            (double by, double bh) = i.RelativeFromV switch
+            double lineHeight = p.Lines.FirstOrDefault()?.Bounds.Height ?? 0;
+            bool odd = (page.PrintedNumber & 1) == 1 || page.PrintedNumber == 0;
+            LayoutRect rect;
+            if (cell is not null && (i.Anchor?.LayoutInCell ?? true))
             {
-                "page" => (0.0, page.Height),
-                "paragraph" => (p.Bounds.Y, p.Bounds.Height),
-                "line" => (lineTop, 0.0),
-                _ => (area.Y, area.Height),
-            };
-            double x = i.AlignH switch
+                LayoutRect c = cell.Bounds;
+                var local = new FloatContext(c.Width, c.Height, new LayoutRect(0, 0, c.Width, c.Height), 0, c.Width, p.Bounds.Y - c.Y, p.Bounds.Height, lineTop - c.Y, lineHeight, p.Bounds.X - c.X, odd);
+                LayoutRect r = FloatPlacement.Place(i, local, clampToPage: false);
+                rect = new LayoutRect(r.X + c.X, r.Y + c.Y, r.Width, r.Height);
+            }
+            else
             {
-                "center" => bx + ((bw - i.Width) / 2),
-                "right" or "outside" => bx + bw - i.Width,
-                "left" or "inside" => bx,
-                _ => bx + (i.OffsetX ?? 0),
-            };
-            double y = i.AlignV switch
-            {
-                "center" => by + ((bh - i.Height) / 2),
-                "bottom" or "outside" => by + bh - i.Height,
-                "top" or "inside" => by,
-                _ => by + (i.OffsetY ?? 0),
-            };
-            DrawingPainter.Draw(List, () => Id(), d.Node, new DrawingBox(x, y, i.Width, i.Height), ContextFor(d.Sources), i.AltText, i.Decorative);
+                var ctx = new FloatContext(page.Width, page.Height, page.ContentArea, page.ContentArea.X, page.ContentArea.Width, p.Bounds.Y, p.Bounds.Height, lineTop, lineHeight, p.Bounds.X, odd);
+                rect = FloatPlacement.Place(i, ctx, clampToPage: false);
+            }
+
+            DrawingPainter.Draw(List, () => Id(), d.Node, new DrawingBox(rect.X, rect.Y, rect.Width, rect.Height), ContextFor(d.Sources), i.AltText, i.Decorative);
         }
 
         private int _textDepth;
@@ -539,7 +579,13 @@ public static class LayoutPainter
         // Text taller than the box is not clipped; Word clips it at the box, which is reported as a note.
         private void PaintShapeText(ShapeTextRequest req, DrawingSources sources, DrawingContext dctx)
         {
-            MarkupNode content = DrawingTheme.Child(DrawingTheme.Child(req.Shape, "txbx"), "txbxContent");
+            MarkupNode box = DrawingTheme.Child(req.Shape, "txbx");
+            if (box.IsNull)
+            {
+                box = DrawingTheme.Child(req.Shape, "textbox");
+            }
+
+            MarkupNode content = DrawingTheme.Child(box, "txbxContent");
             if (content.IsNull)
             {
                 dctx.Note("drawing.text-body-not-painted", "The text body of a presentation or worksheet shape is not painted by the document renderer.");
@@ -572,16 +618,32 @@ public static class LayoutPainter
                 dctx.Note("drawing.text-wrap-none-approximated", "Text in a shape that does not wrap is wrapped at the shape's width.");
             }
 
-            var laid = new List<LayoutParagraph>();
+            var laid = new List<LayoutNode>();
             double y = 0, pendingAfter = 0;
             bool first = true;
             foreach (MarkupNode child in content.ChildElements)
             {
+                if (child.LocalNameString == "tbl")
+                {
+                    // A table in a text box is laid out like one in the body, at the box's width.
+                    FormattedTableBlock block = TableFormatter.FormatBlock(lc.Doc.WrapTable(new MarkupRef(child)), lc, lineWidth);
+                    if (block.Table.Rows.Count > 0)
+                    {
+                        LayoutTable table = TableEmitter.EmitFull(block.Table, 0, block.Table.Rows.Count - 1, 0, y + pendingAfter);
+                        laid.Add(table);
+                        y = table.Bounds.Bottom;
+                        pendingAfter = 0;
+                        first = false;
+                    }
+
+                    continue;
+                }
+
                 if (child.LocalNameString != "p")
                 {
-                    if (child.LocalNameString is "tbl" or "sdt")
+                    if (child.LocalNameString is "sdt")
                     {
-                        dctx.Note("drawing.text-block-skipped", "A table or content control inside a text box is not laid out.");
+                        dctx.Note("drawing.text-block-skipped", "A content control inside a text box is not laid out.");
                     }
 
                     continue;
@@ -621,11 +683,7 @@ public static class LayoutPainter
             Matrix3x2 m = Matrix3x2.CreateScale((float)(1 / K)) * Matrix3x2.CreateTranslation(0, (float)shift) * rot * req.Transform;
             List.PushTransform(Id(), m);
             _textDepth++;
-            foreach (LayoutParagraph lp in laid)
-            {
-                PaintParagraph(lp, false);
-            }
-
+            PaintBlocks(laid);
             _textDepth--;
             List.PopTransform();
         }

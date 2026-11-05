@@ -28,6 +28,7 @@
     <Compile Include="../shared/TemplateSmoke.cs" Link="TemplateSmoke.cs" />
     <Compile Include="../shared/RenderSmoke.cs" Link="RenderSmoke.cs" />
     <Compile Include="../shared/DrawingSmoke.cs" Link="DrawingSmoke.cs" />
+    <Compile Include="../shared/FloatSmoke.cs" Link="FloatSmoke.cs" />
     <Compile Include="../../tests/OneDocument.Schema.Tests/TextTree.cs" Link="TextTree.cs" />
     <ProjectReference Include="../../src/OneDocument/OneDocument.csproj" />
     <ProjectReference Include="../../src/OneDocument.Schema/OneDocument.Schema.csproj" />

@@ -145,13 +145,48 @@ public static partial class LayoutEngine
 
         private void Collect(IEnumerable<BlockElement> elements, List<FormattedParagraph> into, CancellationToken ct)
         {
+            DropCapInfo? pendingCap = null;
+            FormattedFrameBlock? openFrame = null;
             foreach (BlockElement b in elements)
             {
                 ct.ThrowIfCancellationRequested();
+                if (b is not Paragraph)
+                {
+                    openFrame = null;
+                }
+
                 switch (b)
                 {
                     case Paragraph p:
+                        FrameInfo? frame = FrameInfo.Read(p.ResolvedProperties);
+                        if (frame is { DropCap: "drop" or "margin" })
+                        {
+                            // The capital belongs to the paragraph after it; it is set when that paragraph is placed.
+                            FormattedParagraph capFp = ParagraphFormatter.Format(p, ctx, 30000);
+                            pendingCap = new DropCapInfo(capFp, frame);
+                            break;
+                        }
+
+                        if (frame is not null)
+                        {
+                            if (openFrame is not null && openFrame.Frame.Key == frame.Key)
+                            {
+                                openFrame.Paragraphs.Add(p);
+                            }
+                            else
+                            {
+                                openFrame = new FormattedFrameBlock { Source = p, Frame = frame };
+                                openFrame.Paragraphs.Add(p);
+                                into.Add(openFrame);
+                            }
+
+                            break;
+                        }
+
+                        openFrame = null;
                         FormattedParagraph fp = ParagraphFormatter.Format(p, ctx, _textWidth);
+                        fp.DropCap = pendingCap;
+                        pendingCap = null;
                         SnapToGrid(fp);
                         into.Add(fp);
                         break;
@@ -215,6 +250,12 @@ public static partial class LayoutEngine
             if (fp is FormattedTableBlock tableBlock)
             {
                 PlaceTable(tableBlock.Table);
+                return;
+            }
+
+            if (fp is FormattedFrameBlock frameBlock)
+            {
+                PlaceFrame(frameBlock);
                 return;
             }
 
@@ -282,19 +323,19 @@ public static partial class LayoutEngine
             int placed = 0;
             while (placed < fp.Lines.Count && !Stopped)
             {
-                if (Math.Abs(fp.FormattedWidth - _textWidth) > 0.5)
+                bool wantSpace = NeedsFloatSpace(fp);
+                if (Math.Abs(fp.FormattedWidth - _textWidth) > 0.5 || wantSpace || fp.Reflowed)
                 {
-                    // The column the text moved to has another width: cut the lines again and resume where the text had got to.
-                    int consumed = placed < fp.Lines.Count ? fp.Lines[placed].TextStart : fp.Text.Length;
-                    fp = ParagraphFormatter.Format(fp.Source, ctx, _textWidth);
+                    // The column the text moved to has another width, or objects on the page take part of it: cut the lines again, keeping
+                    // the ones already placed, and resume where the text had got to. The lines are cut around what is on the page now.
+                    double gapNow = Gap(fp);
+                    double y0 = _y + (placed == 0 ? gapNow : 0);
+                    ILineSpace? space = wantSpace ? BuildSpace(fp, y0, placed == 0 ? fp.BorderTopHeight : 0, includeOwn: placed == 0) : null;
+                    DropCapInfo? dropCap = fp.DropCap;
+                    fp = ParagraphFormatter.Format(fp.Source, ctx, _textWidth, space, placed > 0 ? fp : null, placed);
+                    fp.DropCap = dropCap;
                     SnapToGrid(fp);
                     blocks[index] = fp;
-                    placed = 0;
-                    while (placed < fp.Lines.Count && fp.Lines[placed].TextStart < consumed)
-                    {
-                        placed++;
-                    }
-
                     if (placed >= fp.Lines.Count)
                     {
                         break;
@@ -387,7 +428,7 @@ public static partial class LayoutEngine
             double h = 0;
             for (int i = from; i < from + count && i < fp.Lines.Count; i++)
             {
-                h += fp.Lines[i].Height;
+                h += fp.Lines[i].Advance;
             }
 
             if (includeTop && from == 0)
@@ -409,7 +450,7 @@ public static partial class LayoutEngine
             int n = 0;
             for (int i = from; i < fp.Lines.Count; i++)
             {
-                h += fp.Lines[i].Height;
+                h += fp.Lines[i].Advance;
                 if (h > avail + 0.01)
                 {
                     break;
@@ -460,7 +501,10 @@ public static partial class LayoutEngine
                 foreach (LayoutLine line in lp.Lines)
                 {
                     FormattedLine fl = fp.Lines[from + n++];
-                    NumberLine(fp, fl, line, line.Baseline - fl.Ascent, _colX);
+                    if (!fl.SameRow)
+                    {
+                        NumberLine(fp, fl, line, line.Baseline - fl.Ascent, _colX);
+                    }
                 }
             }
 
@@ -475,6 +519,25 @@ public static partial class LayoutEngine
                 if (fp.NoteRole == LayoutNoteRole.Separator)
                 {
                     AddEndnoteRule(page, lp);
+                }
+            }
+
+            // After the notes: the footnote area the references reserved is known, and objects keep above it.
+            if (first)
+            {
+                CommitFloats(fp, lp, top);
+                if (fp.DropCap is { } cap)
+                {
+                    FloatBox? capBox = DropCapBox(fp, top, out LayoutRect capRect, out double capTop);
+                    LayoutParagraph capLp = ParagraphEmitter.Build(cap.Paragraph, 0, cap.Paragraph.Lines.Count, capRect.X, capTop, true, true, out _, out _);
+                    capLp.Bounds = capLp.Bounds with { Width = capRect.Width };
+                    capLp.Story = _story;
+                    capLp.Column = _colIndex;
+                    page.Add(capLp);
+                    if (capBox is not null && _story == LayoutStory.Body)
+                    {
+                        page.FloatBoxes.Add(capBox);
+                    }
                 }
             }
 
