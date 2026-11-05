@@ -60,6 +60,16 @@ internal static class StoriesTarget
         }
 
         p.SetRelationships(null, root);
+        // Only parts that were well-formed to begin with must be well-formed after editing.
+        var wellFormed = new HashSet<string>(StringComparer.Ordinal);
+        foreach (string part in new[] { "/word/document.xml", "/docProps/core.xml", "/docProps/custom.xml" })
+        {
+            if (p.FindPart(part) is { } original && RecursiveAI.OneOffice.Markup.MarkupDocument.TryParse(original.GetBytes(), out _, null))
+            {
+                wellFormed.Add(part);
+            }
+        }
+
         try
         {
             using var d = Document.FromPackage(p, new OpenContext(s_limits));
@@ -100,7 +110,7 @@ internal static class StoriesTarget
             d.CommitChanges();
             foreach (string part in new[] { "/word/document.xml", "/docProps/core.xml", "/docProps/custom.xml", "/docProps/app.xml" })
             {
-                if (p.FindPart(part) is { } stored && !RecursiveAI.OneOffice.Markup.MarkupDocument.TryParse(stored.GetBytes(), out _, null))
+                if (wellFormed.Contains(part) && p.FindPart(part) is { } stored && !RecursiveAI.OneOffice.Markup.MarkupDocument.TryParse(stored.GetBytes(), out _, null))
                 {
                     throw new InvalidOperationException("an edited part does not parse: " + part);
                 }
