@@ -1,4 +1,5 @@
 using RecursiveAI.OneDocument.Documents;
+using RecursiveAI.OneDocument.Documents.Notes;
 using RecursiveAI.OneDocument.Documents.Numbering;
 using RecursiveAI.OneDocument.Documents.Styles;
 using RecursiveAI.OneDocument.Markup;
@@ -159,6 +160,9 @@ internal class FormattedParagraph
     public bool Rtl;
     public double BorderTopHeight;
     public double BorderBottomHeight;
+    public bool HasNoteRefs; // the paragraph holds footnote or endnote references
+    public LayoutNoteRole? NoteRole; // set on the paragraphs of an endnote and its separator that flow in the body
+    public long NoteId;
     public double FormattedWidth; // the text width the lines were cut for, so the flow can re-cut them in a column of another width
     public List<FormattedLine> Lines = [];
     public List<InlineDrawing> Floats = [];
@@ -222,7 +226,15 @@ internal static class ParagraphFormatter
             }
 
             int before = text.Length;
+            ctx.PendingNoteLink = null;
             AppendRunText(ctx, run!, text, p, drawings, fp.Floats);
+            if (ctx.PendingNoteLink is { } noteLink)
+            {
+                // A reference mark links to its note and the note's own mark links back (the PDF backend writes the link when the host declares the target).
+                info.Paint.LinkTarget ??= noteLink;
+                fp.HasNoteRefs |= run is not null && ctx.NoteRefs.ContainsKey(run) && ctx.CurrentNote is null;
+            }
+
             if (text.Length > before)
             {
                 infos.Add(info);
@@ -530,6 +542,19 @@ internal static class ParagraphFormatter
             {
                 sb.Append(n.InnerText);
             }
+            else if (Xml.Eq(e.LocalName, "footnoteReference") || Xml.Eq(e.LocalName, "endnoteReference"))
+            {
+                AppendNoteReference(ctx, run, e, Xml.Eq(e.LocalName, "footnoteReference") ? NoteKind.Footnote : NoteKind.Endnote, sb);
+            }
+            else if (Xml.Eq(e.LocalName, "footnoteRef") || Xml.Eq(e.LocalName, "endnoteRef"))
+            {
+                // ECMA-376 Part 1 §17.11 (footnoteRef), §17.11 (endnoteRef): the note's own number mark, the same text as its reference.
+                if (ctx.CurrentNote is { } current && ctx.NotePlan.TryGet(current.Kind, current.Id, out NoteMark own))
+                {
+                    sb.Append(own.Text);
+                    ctx.PendingNoteLink = "#_" + (current.Kind == NoteKind.Footnote ? "ftnref" : "enref") + current.Id.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                }
+            }
             else if (Xml.Eq(e.LocalName, "tab") || Xml.Eq(e.LocalName, "ptab"))
             {
                 sb.Append('\t');
@@ -568,6 +593,21 @@ internal static class ParagraphFormatter
                 ctx.NoteOnce("layout.drawing-skipped", "layout.drawing-skipped", "Legacy pictures and embedded objects in paragraphs are not laid out yet; their space is not reserved.", p);
             }
         }
+    }
+
+    // ECMA-376 Part 1 §17.11 (footnoteReference), §17.11 (endnoteReference): the reference mark shows the note's number in the
+    // note's number format. With customMarkFollows the text that follows in the run is the mark and no number is used. Word allows no
+    // notes in headers, footers or in other notes, so references there show nothing.
+    private static void AppendNoteReference(LayoutContext ctx, Run run, MarkupRef e, NoteKind kind, System.Text.StringBuilder sb)
+    {
+        if (ctx.PageFields is not null || ctx.CurrentNote is not null || Xml.Long(Xml.Attr(e, "id")) is not { } id || !ctx.NotePlan.TryGet(kind, id, out NoteMark mark))
+        {
+            return;
+        }
+
+        ctx.NoteRefs[run] = new NoteKey(kind, id);
+        sb.Append(mark.Text);
+        ctx.PendingNoteLink = "#_" + (kind == NoteKind.Footnote ? "ftn" : "en") + id.ToString(System.Globalization.CultureInfo.InvariantCulture);
     }
 
     private static MarkupNode AlternateDrawing(MarkupNode alternate)

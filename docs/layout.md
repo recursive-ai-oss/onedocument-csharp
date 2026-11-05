@@ -35,8 +35,8 @@ from several threads.
   node classes are open for that through `LayoutNodeKind`. Every node knows its parent and children.
 - `LayoutDocument.FontNotes` has one `FontSubstitutionNote` per replaced family and `Notes` has `layout.*` notes for what was skipped.
   Codes so far: `layout.font-missing`, `layout.drawing-skipped`, `layout.block-skipped`, `layout.blank-page`, `layout.page-limit`,
-  `layout.page-border-art`, `layout.valign-both`, and for tables `layout.table-skipped` (a table in a header or footer),
-  `layout.table-floating`, `layout.table-text-direction`, `layout.table-depth` (see `layout-tables.md`),
+  `layout.page-border-art`, `layout.valign-both`, `layout.note-table-skipped`, `layout.note-numbering-unsettled`, and for tables `layout.table-skipped` (a table in a header or footer),
+  `layout.table-floating`, `layout.table-text-direction`, `layout.table-depth` (see `layout-tables.md`), and
   `layout.anchored-drawing-unwrapped`, and for equations `layout.math.*` (see `math-layout.md`). Drawing notes (`drawing.*`) come from painting and are listed in `drawingml-rendering.md`.
 
 ## Paint contract
@@ -172,8 +172,64 @@ scaled to the shape's width; picture watermarks are not drawn. `vAlign` centre a
 laid out at the top, note `layout.valign-both`). A `docGrid` with a line pitch makes each line a whole number of pitches tall, the
 extra above the text, unless the paragraph turns `snapToGrid` off; the character grid (`charSpace`) is not applied.
 
-**Footnote hook.** `LayoutPage.NotesReservation` is the space the body gives up at its bottom for notes. Layout lowers the body's
-bottom edge by `Flow.ReserveForNotes(page)`, which returns 0 until notes are laid out.
+## Footnotes and endnotes (`Layout/Notes`)
+
+References are references to ECMA-376 Part 1 §17.11 (footnotes and endnotes) and §17.6 (section properties). The rules marked
+**to check** are Word behaviour the specification does not state; they are in the deviations table and go to the layout differential
+(`NoteCases`, cases 110 to 124).
+
+**Numbering.** Before any paragraph is formatted, `NotePlan` walks every section's body in document order and numbers the references:
+footnotes and endnotes separately, in the note's number format (`numFmt`, any format `NumberFormatter` knows, including `chicago`),
+from `numStart`. `numRestart` `eachSect` starts again in each section; `continuous` never does; `eachPage` (footnotes only) starts again
+on each page. Section properties win over the document-wide ones in `settings`; with no `numFmt` anywhere footnotes are `decimal` and
+endnotes `lowerRoman` (the hub's `NoteNumbering.Combine`). A reference with `customMarkFollows` takes no number: the text after it in
+its run is the mark. A reference to a note that does not exist, and references in headers, footers, text boxes and inside other notes,
+are not numbered and show nothing (Word allows none there). The reference mark is a normal run (so its style, normally a
+superscript, applies) whose text is the number; the run is painted as a `Link` to `#_ftn<id>`, and the note's own mark (the
+`footnoteRef` run) links back to `#_ftnref<id>`. The PDF backend writes the link action when the host declares that destination.
+The mark inside the note shows the same number as the reference.
+
+Numbers that restart on each page depend on where the references land, so layout runs again with the page of every reference from the
+previous pass until the pages stop changing (at most four passes in all; the first pass numbers continuously). If they do not settle
+the last pass is kept and `layout.note-numbering-unsettled` is noted. Documents without `eachPage` take one pass.
+
+**Footnote placement.** A footnote reference in a body line (also in a table cell, see below) asks its page for room at the bottom
+of the column holding the reference (page bottom, `pos` `pageBottom`) or directly under the last text of the column (`beneathText`,
+chosen by the reference's section). The note area of a column is the separator, the notes in reference order, and, when its last note
+goes on, the continuation notice; `LayoutPage.NotesReservation` is the height of the tallest column's area and
+`LayoutPage.ContentArea` ends above it. The body flow lowers its limit as references are placed, so notes take space from the body.
+
+- **The reference-line rule** (**to check**). A line holding a reference stays on the page only when the page can also hold the
+  separator and the first line of every note that line refers to. Otherwise the line moves to the next column or page and takes
+  its notes with it (keep-lines, widow and orphan rules then apply to the lines that are left). On an empty page the line is placed
+  anyway and the notes are carried.
+- **Splitting.** A note that does not fit whole is cut between lines: the lines that fit stay (at least the first), the rest is
+  carried to the next column or page, where it opens the note area behind the continuation separator (`w:continuationSeparator`),
+  and the page that holds the start gets the continuation notice at the foot of its note area (`w:continuationNotice`, when it has
+  text). Carried text may take the whole page but 24 points of body; an empty column always takes at least one carried line, so a
+  long note ends. At the end of the document carried notes get pages of their own.
+- **Columns.** In a multi-column section each column has its own note area, as wide as the column (**to check**: Word's
+  `footnotePr/numCol` columns are not read). A continuous section that changes the column count in the middle of a page shares the
+  note areas of column index 0, 1, … with the stretch above it.
+- **Tables.** A table row's references are placed with the row: its notes are reserved with the row that holds the reference, and the
+  row moves to the next page when the page cannot hold its notes. A row that splits across pages keeps all its notes with its first
+  part. Tables inside notes are not laid out (`layout.note-table-skipped`).
+- **Separators.** The separator is the paragraph of the `separator` note; its character draws a rule one third of the column wide,
+  the continuation separator's rule spans the column (**to check**). Both are `LayoutDecoration`s (`NoteSeparator`,
+  `NoteContinuationSeparator`) at the paragraph's baseline minus a third of its ascent (**to check**). A notes part without a
+  separator note gets a rule in a 12 pt line.
+
+**Endnotes.** Laid out in the flow, after the last body text of their section (`pos` `sectEnd`) or of the document (`docEnd`, and any
+position that is only meaningful for footnotes), behind the paragraphs of the `separator` endnote with its rule, through the same
+placement as body paragraphs (so they split across pages like text; the continuation separator is not repeated for endnotes). A section with
+`noEndnote` hands its endnotes on to the next section that prints them. Their paragraphs are body paragraphs with
+`LayoutParagraph.NoteRole` `Endnote` (`Separator` for the separator).
+
+**The tree and paint.** A page's note areas are `LayoutPage.NoteBlocks`: one `LayoutNoteBlock` per column and note (or separator,
+continuation separator, continuation notice) with the note's `LayoutParagraph`s as children (`Story` `Footnote`); a note on two
+pages has a block on each with `ContinuesOnNextPage` and `ContinuesFromPreviousPage`. `FootnoteParagraphs` lists the text. Footnote
+blocks are tagged `Div` (OneRender has no `Note` role yet), separators and the notice are artifacts; endnote paragraphs are ordinary
+tagged paragraphs.
 
 ## Compatibility settings
 
@@ -205,7 +261,14 @@ stages that lay out those features and are added to this table with them.
 | Hyphenation, kashida, the East Asian character grid and `w:eastAsianLayout` | not implemented | later |
 | Equations | laid out as unbreakable inline atoms or display lines; see `math-layout.md` for the list of points to check | needs Word output |
 | Inline pictures and shapes | laid out as objects in the line (see `drawingml-rendering.md`); anchored ones are painted without wrap | wrap is a later stage |
-| Notes, fields other than page numbers | not laid out (reported) | later stages |
+| Fields other than page numbers | not laid out (reported) | later stages |
+| Reference line with a footnote | the line moves on unless the separator and the first line of each of its notes fit | Word's rule with several notes on one line and with widow control inside notes |
+| Footnotes in columns | each column has its own area, column wide | Word's `numCol` footnote columns |
+| Separator rules | one third of the column; continuation separator full width; drawn a third of the ascent above the baseline | needs Word output |
+| Endnote continuation | no continuation separator on later pages | needs Word output |
+| Footnotes in table rows | reserved with the row that holds the reference (all of a split row's notes on its first page) | Word places them with the line |
+| Number restart each page | numbers from the previous pass's pages, up to four passes | Word's own pagination may break ties differently |
+| Notes in headers, footers and text boxes | ignored | as Word |
 | Tables | laid out; see `layout-tables.md`. In columns they keep the width cut for the first column; in headers and footers they are skipped | |
 | Blank page from an odd/even break | has the header and footer of the following section, counted in the numbering | needs Word output |
 | Header and footer vertical placement | header text top at `header`, footer text bottom at page height minus `footer`; the body edge takes the larger of the margin and the story | needs Word output |
