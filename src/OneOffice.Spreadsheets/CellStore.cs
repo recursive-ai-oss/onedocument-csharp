@@ -522,8 +522,53 @@ public sealed class CellStore
         return GetOrAddRow(row);
     }
 
+    /// <summary>Told after a cell's value or formula changes through an edit (column 0 means a whole row); the flag is true when a formula was set, replaced or removed; set by workbook calculation to track edits.</summary>
+    internal Action<int, int, bool>? Changed { get; set; }
+
+    /// <summary>Finds the <c>cm</c> value of an array formula cell, which marks a dynamic array; null when no cell has one.</summary>
+    internal int? FindDynamicArrayMetadataIndex()
+    {
+        foreach (CellExtras e in _extras.Values)
+        {
+            string? a = e.Attributes;
+            int at = a is null ? -1 : a.IndexOf(" cm=\"", StringComparison.Ordinal);
+            if (at >= 0)
+            {
+                int start = at + 5;
+                int end = a!.IndexOf('"', start);
+                if (end > start && int.TryParse(a.AsSpan(start, end - start), System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out int cm))
+                {
+                    return cm;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>Reads a cell and says whether it holds a formula.</summary>
+    internal bool TryGetCellWithFormula(int row, int column, out CellValue value, out bool hasFormula)
+    {
+        RowData? r = FindRow(row);
+        if (r is not null)
+        {
+            int at = r.Find(column - 1);
+            if (at >= 0)
+            {
+                value = RowData.Decode(r.Kinds[at], r.Data[at]);
+                hasFormula = (r.Kinds[at] & RowData.HasFormulaBit) != 0;
+                return true;
+            }
+        }
+
+        value = default;
+        hasFormula = false;
+        return false;
+    }
+
     internal void SetValue(int row, int column, in CellValue value)
     {
+        Changed?.Invoke(row, column, false);
         int at = GetOrAddCell(row, column, out RowData r);
         RowData.Encode(value, out byte kind, out long data);
         r.Kinds[at] = (byte)(kind | (r.Kinds[at] & RowData.HasFormulaBit));
@@ -538,6 +583,7 @@ public sealed class CellStore
 
     internal void SetFormula(int row, int column, CellFormula? formula)
     {
+        Changed?.Invoke(row, column, true);
         int at = GetOrAddCell(row, column, out RowData r);
         bool had = (r.Kinds[at] & RowData.HasFormulaBit) != 0;
         if (had)
@@ -575,6 +621,7 @@ public sealed class CellStore
             return false;
         }
 
+        Changed?.Invoke(row, column, (r.Kinds[at] & RowData.HasFormulaBit) != 0);
         if ((r.Kinds[at] & RowData.HasFormulaBit) != 0)
         {
             FormulaRemoved = true;
@@ -597,6 +644,7 @@ public sealed class CellStore
         }
 
         RowData r = _rows[idx];
+        Changed?.Invoke(row, 0, true);
         for (int i = 0; i < r.Count; i++)
         {
             if ((r.Kinds[i] & RowData.HasFormulaBit) != 0)

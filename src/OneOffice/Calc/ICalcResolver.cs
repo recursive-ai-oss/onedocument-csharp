@@ -47,6 +47,14 @@ public interface ICalcResolver
         return new CalcArray(area.Rows, area.Columns, cells);
     }
 
+    /// <summary>
+    /// Narrows a whole-row or whole-column area to the part that can hold data, so <c>SUM(A:A)</c> does not read a million empty cells. The evaluator
+    /// calls it only for an area that spans a whole sheet axis, and the returned area keeps the original's first row and column.
+    /// </summary>
+    /// <param name="area">The area, with its sheet filled in.</param>
+    /// <returns>The area to read: the same one (the default) or a smaller one with the same top-left corner.</returns>
+    CellArea ClipArea(in CellArea area) => area;
+
     /// <summary>Lists the sheets of a 3-D reference, in workbook order.</summary>
     /// <param name="first">First sheet.</param>
     /// <param name="last">Last sheet.</param>
@@ -97,4 +105,83 @@ public interface ICalcResolver
     /// <param name="segments">The path, root first.</param>
     /// <returns>A scalar, or an array when the path lifts over a collection; <c>#NAME?</c> by default.</returns>
     CalcValue ResolveMember(IReadOnlyList<string> segments) => CalcValue.FromError(CalcError.Name);
+
+    /// <summary>Tells whether a cell holds a formula (<c>ISFORMULA</c>).</summary>
+    /// <param name="sheet">The sheet.</param>
+    /// <param name="row">1-based row.</param>
+    /// <param name="column">1-based column.</param>
+    /// <returns>False by default.</returns>
+    bool IsFormula(string? sheet, int row, int column) => false;
+
+    /// <summary>Gives the formula text of a cell (<c>FORMULATEXT</c>), with the leading <c>=</c>.</summary>
+    /// <param name="sheet">The sheet.</param>
+    /// <param name="row">1-based row.</param>
+    /// <param name="column">1-based column.</param>
+    /// <returns>The text, or null (the default) when the cell holds no formula; the function then yields <c>#N/A</c>.</returns>
+    string? GetFormulaText(string? sheet, int row, int column) => null;
+
+    /// <summary>Tells how a row is hidden, for <c>SUBTOTAL</c> and <c>AGGREGATE</c>.</summary>
+    /// <param name="sheet">The sheet.</param>
+    /// <param name="row">1-based row.</param>
+    /// <returns><see cref="RowVisibility.Visible"/> by default.</returns>
+    RowVisibility GetRowVisibility(string? sheet, int row) => RowVisibility.Visible;
+
+    /// <summary>Tells whether a cell's formula is itself a <c>SUBTOTAL</c> or <c>AGGREGATE</c> call, which both functions skip inside ranges.</summary>
+    /// <param name="sheet">The sheet.</param>
+    /// <param name="row">1-based row.</param>
+    /// <param name="column">1-based column.</param>
+    /// <returns>False by default.</returns>
+    bool IsSubtotalCell(string? sheet, int row, int column) => false;
+
+    /// <summary>Describes a cell for <c>CELL</c>.</summary>
+    /// <param name="sheet">The sheet.</param>
+    /// <param name="row">1-based row.</param>
+    /// <param name="column">1-based column.</param>
+    /// <returns>General format, no prefix, locked, width 8.43 by default.</returns>
+    CalcCellInfo GetCellInfo(string? sheet, int row, int column) => CalcCellInfo.Default;
+
+    /// <summary>Gives the position of a sheet in the workbook (<c>SHEET</c>).</summary>
+    /// <param name="sheet">The sheet name; null for the formula's own sheet.</param>
+    /// <returns>1-based index, or 0 (the default) when unknown; the function then yields <c>#N/A</c>.</returns>
+    int GetSheetIndex(string? sheet) => 0;
+
+    /// <summary>The number of sheets in the workbook (<c>SHEETS</c> with no argument).</summary>
+    /// <returns>1 by default.</returns>
+    int GetSheetCount() => 1;
+
+    /// <summary>Gives the text <c>CELL("filename")</c> returns: <c>directory\[book]sheet</c>.</summary>
+    /// <param name="sheet">The sheet.</param>
+    /// <returns>Empty (the default) for a workbook that has not been saved.</returns>
+    string GetFileName(string? sheet) => string.Empty;
+
+    /// <summary>Gives the text <c>INFO</c> returns for a type such as <c>"osversion"</c>.</summary>
+    /// <param name="type">The lower-case type name.</param>
+    /// <returns>The text or number, or null (the default) for the built-in answer.</returns>
+    CalcValue? GetInfo(string type) => null;
+}
+
+/// <summary>How a row is hidden.</summary>
+public enum RowVisibility : byte
+{
+    /// <summary>Shown.</summary>
+    Visible = 0,
+
+    /// <summary>Hidden by the user (hide row, grouping).</summary>
+    Hidden = 1,
+
+    /// <summary>Hidden by a filter.</summary>
+    Filtered = 2,
+}
+
+/// <summary>Facts about a cell that <c>CELL</c> reports.</summary>
+/// <param name="NumberFormat">The number format code.</param>
+/// <param name="Prefix">The label prefix character: <c>'</c> left, <c>"</c> right, <c>^</c> centre, <c>\</c> fill, or a NUL character for none.</param>
+/// <param name="Locked">True when the cell is locked.</param>
+/// <param name="ColumnWidth">The column width in characters.</param>
+/// <param name="Color">True when the format shows negatives in colour.</param>
+/// <param name="Parentheses">True when the format puts positives or all numbers in parentheses.</param>
+public readonly record struct CalcCellInfo(string NumberFormat, char Prefix, bool Locked, double ColumnWidth, bool Color, bool Parentheses)
+{
+    /// <summary>General format, no prefix, locked, width 8.43.</summary>
+    public static CalcCellInfo Default => new("General", '\0', true, 8.43, false, false);
 }

@@ -34,6 +34,9 @@ public enum FunctionTraits
 
     /// <summary>The function reads the formula's own cell or position (<c>ROW()</c>, <c>COLUMN()</c>).</summary>
     UsesOrigin = 4,
+
+    /// <summary>The function builds a reference from its arguments at run time (<c>INDIRECT</c>, <c>OFFSET</c>), so the cells it reads cannot be found by reading the formula. Workbook calculation evaluates such formulas after the cells they may read.</summary>
+    DynamicReference = 8,
 }
 
 /// <summary>A function that receives evaluated arguments.</summary>
@@ -153,6 +156,9 @@ public sealed class FunctionRegistry
     {
     }
 
+    /// <summary>The names added a second time (the later definition won); a built-in registry must have none.</summary>
+    internal List<string> ReplacedNames { get; } = [];
+
     /// <summary>The functions registered.</summary>
     public int Count => _map.Count;
 
@@ -164,6 +170,14 @@ public sealed class FunctionRegistry
         SeedFunctions.Register(r);
         StatisticalFunctions.Register(r);
         DateTimeFunctions.Register(r);
+        MathFunctions.Register(r);
+        LogicalFunctions.Register(r);
+        InformationFunctions.Register(r);
+        TextFunctions.Register(r);
+        LookupFunctions.Register(r);
+        ArrayFunctions.Register(r);
+        LambdaHelpers.Register(r);
+        GroupFunctions.Register(r);
         return r;
     }
 
@@ -172,6 +186,11 @@ public sealed class FunctionRegistry
     public void Add(FunctionDefinition definition)
     {
         ArgumentNullException.ThrowIfNull(definition);
+        if (_map.ContainsKey(definition.Name))
+        {
+            ReplacedNames.Add(definition.Name);
+        }
+
         _map[definition.Name] = definition;
     }
 
