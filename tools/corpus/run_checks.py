@@ -14,9 +14,9 @@ CHECK:
             library's open/save through its command-line tool or a test host.
 
 Environment:
-  ONEOFFICE_SOFFICE   the headless LibreOffice launcher (a script taking the soffice arguments)
+  ONEDOCUMENT_SOFFICE   the headless LibreOffice launcher (a script taking the soffice arguments)
   LO_PROFILE_ROOT     directory for the per-shard LibreOffice profiles (default: a folder in --out)
-  ONEOFFICE_XSD       schema directories for `validate`, as with validate_ooxml.py
+  ONEDOCUMENT_XSD       schema directories for `validate`, as with validate_ooxml.py
 
 The run is resumable and bounded: files already present in <out>/results-*.jsonl are skipped, and
 shards stop picking up new files after --max-minutes so a job fits a fixed time slot. Re-run the same
@@ -59,9 +59,9 @@ def run_group(cmd, timeout, **kw):
 
 
 def check_lo(path, ctx):
-    soffice = os.environ.get("ONEOFFICE_SOFFICE")
+    soffice = os.environ.get("ONEDOCUMENT_SOFFICE")
     if not soffice:
-        raise SystemExit("set ONEOFFICE_SOFFICE to the headless LibreOffice launcher")
+        raise SystemExit("set ONEDOCUMENT_SOFFICE to the headless LibreOffice launcher")
     work = tempfile.mkdtemp(prefix="lo-", dir=ctx["scratch"])
     try:
         t0 = time.time()
@@ -82,7 +82,7 @@ def check_validate(path, ctx):
     sys.path.insert(0, os.path.join(HERE, "..", "validate"))
     import validate_ooxml as v
     if "schemas" not in ctx["cache"]:
-        dirs = ctx["schemas"] or [d for d in os.environ.get("ONEOFFICE_XSD", "").split(os.pathsep) if d]
+        dirs = ctx["schemas"] or [d for d in os.environ.get("ONEDOCUMENT_XSD", "").split(os.pathsep) if d]
         s = v.SchemaSet(dirs)
         ctx["cache"]["schemas"] = (s, s.namespaces)
     s, understood = ctx["cache"]["schemas"]

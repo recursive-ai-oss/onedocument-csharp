@@ -2,10 +2,10 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using RecursiveAI.OneOffice.Documents;
-using RecursiveAI.OneOffice.IO;
+using RecursiveAI.OneDocument.Documents;
+using RecursiveAI.OneDocument.IO;
 
-namespace RecursiveAI.OneOffice.Tools.DocxProbe;
+namespace RecursiveAI.OneDocument.Tools.DocxProbe;
 
 internal static partial class Program
 {

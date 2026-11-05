@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <RootNamespace>RecursiveAI.OneOffice.Tools.DocxProbe</RootNamespace>
+    <RootNamespace>RecursiveAI.OneDocument.Tools.DocxProbe</RootNamespace>
     <AssemblyName>DocxProbe</AssemblyName>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../src/OneOffice.Documents/OneOffice.Documents.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Documents/OneDocument.Documents.csproj" />
   </ItemGroup>
 
 </Project>

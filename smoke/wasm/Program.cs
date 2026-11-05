@@ -1,6 +1,6 @@
 using System;
 
-namespace RecursiveAI.OneOffice.Smoke;
+namespace RecursiveAI.OneDocument.Smoke;
 
 /// <summary>
 /// Runs the shared checks in a browser WebAssembly host. The page's console shows <c>ok</c> or the names of the failed checks; a

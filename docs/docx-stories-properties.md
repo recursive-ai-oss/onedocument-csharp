@@ -26,7 +26,7 @@ Counters never carry from one flow into another. Text boxes anchored in a header
 
 ## Document properties
 
-`Document.Properties` (core namespace `RecursiveAI.OneOffice.Properties`, usable on any package) reads and writes `docProps/core.xml`, `app.xml` and `custom.xml`. Parts are created with their relationship and content type on the first write and are left byte-identical when not edited. Edits keep other elements in order. The library never reads the clock: dates are written as given, UTC to the second (`xsi:type="dcterms:W3CDTF"` on the dcterms dates), and no date changes by itself.
+`Document.Properties` (core namespace `RecursiveAI.OneDocument.Properties`, usable on any package) reads and writes `docProps/core.xml`, `app.xml` and `custom.xml`. Parts are created with their relationship and content type on the first write and are left byte-identical when not edited. Edits keep other elements in order. The library never reads the clock: dates are written as given, UTC to the second (`xsi:type="dcterms:W3CDTF"` on the dcterms dates), and no date changes by itself.
 
 Custom values: text (`vt:lpwstr`), `vt:i4`, `vt:i8`, `vt:r8`, `vt:bool`, `vt:filetime`. Other types are read as text and kept. Names compare ignoring case. A new property gets the next `pid` after the highest (the format identifier is fixed by [MS-OSHARED]); ids of other properties never change.
 

@@ -4,9 +4,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using RecursiveAI.OneOffice.Calc;
+using RecursiveAI.OneDocument.Calc;
 
-namespace RecursiveAI.OneOffice.Tools.FunctionGrid;
+namespace RecursiveAI.OneDocument.Tools.FunctionGrid;
 
 /// <summary>
 /// Writes the per-function test grids for the math, logical, information and text families, and compares them with Excel's answers.

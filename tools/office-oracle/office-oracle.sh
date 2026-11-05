@@ -9,7 +9,7 @@
 # Environment:
 #   OFFICE_ORACLE_SSH       ssh destination of the Windows machine, e.g. user@host (required)
 #   OFFICE_ORACLE_SSH_KEY   private key file (optional)
-#   ONEOFFICE_HOME          results go to $ONEOFFICE_HOME/results/office/NAME unless --out is given
+#   ONEDOCUMENT_HOME          results go to $ONEDOCUMENT_HOME/results/office/NAME unless --out is given
 #
 # Only files that were generated may be sent: nothing from a downloaded corpus. The machine's Office needs the
 # signed-in user's desktop, so the checks run from a scheduled task (see laptop/Install.ps1); ssh only places
@@ -36,7 +36,7 @@ install)
   remote "powershell -NoProfile -ExecutionPolicy Bypass -File $base_win\\driver\\Install.ps1 -Base $base_win"
   ;;
 run)
-  run=""; instance="${ONEOFFICE_INSTANCE:-oneoffice}"; out=""; mode=open; pdf=false; saveas=false
+  run=""; instance="${ONEDOCUMENT_INSTANCE:-onedocument}"; out=""; mode=open; pdf=false; saveas=false
   lock=""; retry=60; wait_min=20; timeout=1800; keep=false; trace=false; nowatch=false; walerts=-1; pdfvia=export; itemsec=0; inputs=()
   while [ $# -gt 0 ]; do
     case "$1" in
@@ -49,7 +49,7 @@ run)
   done
   [ -n "$run" ] || { echo "--run is required" >&2; exit 2; }
   [ ${#inputs[@]} -gt 0 ] || { echo "no input files" >&2; exit 2; }
-  out=${out:-${ONEOFFICE_HOME:-$HOME/oneoffice}/results/office/$run}
+  out=${out:-${ONEDOCUMENT_HOME:-$HOME/oneoffice}/results/office/$run}
   stage=$(mktemp -d "${TMPDIR:-/var/tmp}/office-oracle.XXXXXX")
   trap 'rm -rf "$stage"' EXIT
   mkdir -p "$stage/in" "$out"

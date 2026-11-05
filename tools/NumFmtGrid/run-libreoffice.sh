@@ -7,7 +7,7 @@ export PATH=~/dotnet10:$PATH DOTNET_ROOT=~/dotnet10 DOTNET_PROCESSOR_COUNT=4 DOT
 out=~/oneoffice/numfmt-grid/grid
 rm -rf "$out"; mkdir -p "$out/lo"
 here=$(pwd)
-ONEOFFICE_ARTIFACTS=~/oneoffice/numfmt-grid/artifacts nice dotnet build tools/NumFmtGrid/NumFmtGrid.csproj -m:4 -v quiet -clp:NoSummary
+ONEDOCUMENT_ARTIFACTS=~/oneoffice/numfmt-grid/artifacts nice dotnet build tools/NumFmtGrid/NumFmtGrid.csproj -m:4 -v quiet -clp:NoSummary
 dotnet ~/oneoffice/numfmt-grid/artifacts/bin/NumFmtGrid/debug/NumFmtGrid.dll write "$out"
 export LO_PROFILE=~/oneoffice/numfmt-grid/lo-profile
 for f in grid-text grid-cells; do

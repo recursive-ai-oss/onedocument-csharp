@@ -1,10 +1,10 @@
 # office-oracle
 
 Drives desktop Word, Excel and PowerPoint on a Windows machine, black-box, and brings the answers back as JSON
-lines. It exists so that OneOffice's output can be checked against what the real applications do with it: does the
+lines. It exists so that OneDocument's output can be checked against what the real applications do with it: does the
 file open clean, does the application offer to repair it, how many pages, what list label does each paragraph get.
 
-Only files that were generated (by `make-cases.py`, by `DocxProbe generate`, by OneOffice itself from generated
+Only files that were generated (by `make-cases.py`, by `DocxProbe generate`, by OneDocument itself from generated
 input) may be sent. Downloaded corpus files never leave the build host.
 
 ## Moving parts
@@ -26,8 +26,8 @@ it is the shared lock `<profile>\oracle.lock`.
 |---|---|
 | `OFFICE_ORACLE_SSH` | `user@host` of the Windows machine (required). |
 | `OFFICE_ORACLE_SSH_KEY` | Private key file (optional). |
-| `ONEOFFICE_HOME` | Results go to `$ONEOFFICE_HOME/results/office/<run>/` unless `--out` is given. |
-| `ONEOFFICE_INSTANCE` | Name written into the lock (default `oneoffice`). |
+| `ONEDOCUMENT_HOME` | Results go to `$ONEDOCUMENT_HOME/results/office/<run>/` unless `--out` is given. |
+| `ONEDOCUMENT_INSTANCE` | Name written into the lock (default `onedocument`). |
 
 ## Use
 
@@ -109,7 +109,7 @@ build. It is used by the number-format grid in `tools/NumFmtGrid`.
 `office-oracle.sh run --cells ...` opens each file (a workbook, or a `.csv` that Excel parses itself), and writes
 `NAME.cells.tsv` beside the results: one line per used cell of the first sheet, `row<TAB>col<TAB>type<TAB>value<TAB>numberFormat<TAB>text`
 (escapes as in grid mode). `type` is `string`, `number` (round-trip text, invariant culture), `boolean`, `error` (Excel's numeric
-code, 2042 for `#N/A`) or `empty`. The CSV tests use it to compare Excel's reading of a text file with OneOffice's.
+code, 2042 for `#N/A`) or `empty`. The CSV tests use it to compare Excel's reading of a text file with OneDocument's.
 
 ## Formulas mode (Excel)
 
@@ -133,9 +133,9 @@ result's `end` line lists the Office processes left, which should be empty unles
 When `officeProcessesLeft` is not empty, look at the process's start time, parent and command line before anyone
 kills it: it may be the owner's own copy, and only a process a run started may be killed.
 
-## Checking OneOffice's own edits
+## Checking OneDocument's own edits
 
-`tools/OracleCases` (`OracleCases DIR`) writes one small file per kind of edit that OneOffice makes (table edits, sections and
+`tools/OracleCases` (`OracleCases DIR`) writes one small file per kind of edit that OneDocument makes (table edits, sections and
 headers, comments, notes, field results, authored and resolved revisions, content-control values, the output formats). Run the
 directory through `office-oracle.sh run` and every file should come back `clean`.
 

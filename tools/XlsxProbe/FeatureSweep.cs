@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Diagnostics;
-using RecursiveAI.OneOffice.Spreadsheets;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.Spreadsheets;
 
-namespace RecursiveAI.OneOffice.Tools.XlsxProbe;
+namespace RecursiveAI.OneDocument.Tools.XlsxProbe;
 
 /// <summary>
 /// <c>XlsxProbe features DIR OUT [--max N] [--shard I/N]</c>: for each workbook, counts what the style, table, conditional formatting,
@@ -257,8 +257,8 @@ internal static class FeatureSweep
                     }
                     else
                     {
-                        string name = "OneOfficeTable";
-                        for (int i = 2; wb.Names.Find(name) is not null || s.Tables[name] is not null; i++) name = "OneOfficeTable" + i;
+                        string name = "OneDocumentTable";
+                        for (int i = 2; wb.Names.Find(name) is not null || s.Tables[name] is not null; i++) name = "OneDocumentTable" + i;
                         s.Tables.Add(name, CellRange.Parse("XFA1:XFC4"));
                         note = "added";
                     }
@@ -273,8 +273,8 @@ internal static class FeatureSweep
                     s.Validations.Add(CellRange.Parse("A1:A5"), DataValidationSpec.List("Yes", "No") with { Error = "Pick Yes or No", ErrorTitle = "Invalid" });
                     break;
                 case "name":
-                    wb.Names.Add("OneOfficeName", "'" + s.Name.Replace("'", "''", StringComparison.Ordinal) + "'!$A$1");
-                    wb.Names.Add("OneOfficeLocal", "'" + s.Name.Replace("'", "''", StringComparison.Ordinal) + "'!$B$2:$C$3", s);
+                    wb.Names.Add("OneDocumentName", "'" + s.Name.Replace("'", "''", StringComparison.Ordinal) + "'!$A$1");
+                    wb.Names.Add("OneDocumentLocal", "'" + s.Name.Replace("'", "''", StringComparison.Ordinal) + "'!$B$2:$C$3", s);
                     break;
             }
 
@@ -295,7 +295,7 @@ internal static class FeatureSweep
                 "table" => bs.Tables.Count > 0,
                 "cf" => bs.ConditionalFormats.Count > 0,
                 "dv" => bs.Validations.Count > 0,
-                _ => back.Names.Find("OneOfficeName") is not null,
+                _ => back.Names.Find("OneDocumentName") is not null,
             };
             if (!seen)
             {

@@ -1,6 +1,6 @@
 # Calc: values, formulas, evaluator and function registry
 
-Namespace `RecursiveAI.OneOffice.Calc` in the core package. This page is the contract the function families, the workbook binding, recalculation and the template engine build on. Excel is the specification for anything the text below does not settle; rules settled by a run against Excel 16.0 (build 20527) say so and cite the committed grid in `testdata/calc/`; a rule marked *(unverified)* is a first reading and is listed at the end.
+Namespace `RecursiveAI.OneDocument.Calc` in the core package. This page is the contract the function families, the workbook binding, recalculation and the template engine build on. Excel is the specification for anything the text below does not settle; rules settled by a run against Excel 16.0 (build 20527) say so and cite the committed grid in `testdata/calc/`; a rule marked *(unverified)* is a first reading and is listed at the end.
 
 ## Values
 

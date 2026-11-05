@@ -40,7 +40,7 @@ sdk: 10.0.403
 
 ```text
 runtime	.NET 10.0.14
-OneOffice	0.1.0-preview.1
+OneDocument	0.1.0-preview.1
 DocumentFormat.OpenXml	3.5.1
 NPOI	2.7.6
 ClosedXML	0.105.1
@@ -57,16 +57,16 @@ Retained is the managed heap still reachable after the file is loaded, every cel
 
 | Input | Cells | Library | Retained bytes/cell | Allocated bytes/cell | Load | Peak working set |
 |---|---:|---|---:|---:|---:|---:|
-| stress-100000.xlsx | 2,000,020 | oneoffice | 83.1 | 51 | 3.83 s | 154 MB |
+| stress-100000.xlsx | 2,000,020 | onedocument | 83.1 | 51 | 3.83 s | 154 MB |
 | stress-100000.xlsx | 2,000,020 | closedxml | 165.0 | 1323 | 12.44 s | 292 MB |
 | stress-100000.xlsx | 2,000,020 | npoi | 361.0 | 1047 | 7.06 s | 1854 MB |
-| values-10000.xlsx | 100,000 | oneoffice | 111.9 | 75 | 221.0 ms | 62 MB |
+| values-10000.xlsx | 100,000 | onedocument | 111.9 | 75 | 221.0 ms | 62 MB |
 | values-10000.xlsx | 100,000 | closedxml | 211.2 | 1645 | 952.0 ms | 106 MB |
 | values-10000.xlsx | 100,000 | npoi | 690.1 | 1035 | 347.0 ms | 157 MB |
-| values-100000.xlsx | 1,000,000 | oneoffice | 72.3 | 38 | 1.67 s | 91 MB |
+| values-100000.xlsx | 1,000,000 | onedocument | 72.3 | 38 | 1.67 s | 91 MB |
 | values-100000.xlsx | 1,000,000 | closedxml | 160.2 | 1604 | 7.54 s | 188 MB |
 | values-100000.xlsx | 1,000,000 | npoi | 365.7 | 1034 | 3.09 s | 895 MB |
-| values-1000000.xlsx | 10,000,000 | oneoffice | 44.6 | 37 | 5.15 s | 413 MB |
+| values-1000000.xlsx | 10,000,000 | onedocument | 44.6 | 37 | 5.15 s | 413 MB |
 | values-1000000.xlsx | 10,000,000 | closedxml | 100.9 | 1572 | 29.30 s | 1160 MB |
 | values-1000000.xlsx | 10,000,000 | npoi | 363.3 | 1036 | 35.56 s | 3201 MB |
 

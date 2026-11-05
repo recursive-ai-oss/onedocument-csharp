@@ -8,13 +8,13 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Diagnostics;
-using RecursiveAI.OneOffice.IO;
-using RecursiveAI.OneOffice.Packaging;
-using RecursiveAI.OneOffice.Spreadsheets;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.IO;
+using RecursiveAI.OneDocument.Packaging;
+using RecursiveAI.OneDocument.Spreadsheets;
 
-namespace RecursiveAI.OneOffice.Tools.XlsxProbe;
+namespace RecursiveAI.OneDocument.Tools.XlsxProbe;
 
 /// <summary>
 /// Checks the workbook layer over real files and prints JSON lines.

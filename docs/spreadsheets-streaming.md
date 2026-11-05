@@ -1,6 +1,6 @@
 # Spreadsheets: streaming cursors
 
-`RecursiveAI.OneOffice.Spreadsheets.Streaming` reads and writes XLSX, XLSM and Flat OPC workbooks as a forward-only stream of rows and cells, beside the workbook hub (`spreadsheets.md`), not through it. Use it when the sheet is larger than you want in memory or when you only need to pass the values through once. Both sides use the hub's `CellValue`, `CellValueKind`, `CellError`, `CellAddress` and `ColumnProperties`, so a value means the same thing in both. Defect codes are in `defects.md` (prefix `xlsx.`).
+`RecursiveAI.OneDocument.Spreadsheets.Streaming` reads and writes XLSX, XLSM and Flat OPC workbooks as a forward-only stream of rows and cells, beside the workbook hub (`spreadsheets.md`), not through it. Use it when the sheet is larger than you want in memory or when you only need to pass the values through once. Both sides use the hub's `CellValue`, `CellValueKind`, `CellError`, `CellAddress` and `ColumnProperties`, so a value means the same thing in both. Defect codes are in `defects.md` (prefix `xlsx.`).
 
 ## Reading
 

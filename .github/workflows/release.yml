@@ -76,7 +76,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Keep build output out of the checkout
-        run: echo "ONEOFFICE_ARTIFACTS=$RUNNER_TEMP/artifacts" >> "$GITHUB_ENV"
+        run: echo "ONEDOCUMENT_ARTIFACTS=$RUNNER_TEMP/artifacts" >> "$GITHUB_ENV"
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
@@ -93,7 +93,7 @@ jobs:
           TAG: ${{ github.ref_name }}
         run: |
           # The version is whatever the project builds; the tag has to say the same.
-          version=$(dotnet msbuild src/OneOffice -getProperty:PackageVersion | tr -d '[:space:]')
+          version=$(dotnet msbuild src/OneDocument -getProperty:PackageVersion | tr -d '[:space:]')
           if [ "v$version" != "$TAG" ]; then
             echo "::error::tag $TAG does not match the package version $version"
             exit 1
@@ -108,7 +108,7 @@ jobs:
       - name: Test
         run: |
           for project in tests/*/*.csproj; do
-            dotnet test --project "$project" -c Release --no-build --results-directory "$ONEOFFICE_ARTIFACTS/TestResults"
+            dotnet test --project "$project" -c Release --no-build --results-directory "$ONEDOCUMENT_ARTIFACTS/TestResults"
           done
 
       - name: Pack

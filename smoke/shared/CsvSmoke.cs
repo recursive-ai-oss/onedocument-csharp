@@ -1,9 +1,9 @@
 using System.Text;
-using RecursiveAI.OneOffice.Diagnostics;
-using RecursiveAI.OneOffice.Spreadsheets;
-using RecursiveAI.OneOffice.Spreadsheets.Csv;
+using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets.Csv;
 
-namespace RecursiveAI.OneOffice.Smoke;
+namespace RecursiveAI.OneDocument.Smoke;
 
 /// <summary>Reads a small CSV into a workbook (found by content), reads fields and values, and writes it back, under NativeAOT and WASM.</summary>
 internal static class CsvSmoke

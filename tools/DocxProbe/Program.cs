@@ -5,15 +5,15 @@ using System.Linq;
 using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Diagnostics;
-using RecursiveAI.OneOffice.Documents;
-using RecursiveAI.OneOffice.Documents.Numbering;
-using RecursiveAI.OneOffice.Documents.Styles;
-using RecursiveAI.OneOffice.Markup;
-using RecursiveAI.OneOffice.Packaging;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.Documents;
+using RecursiveAI.OneDocument.Documents.Numbering;
+using RecursiveAI.OneDocument.Documents.Styles;
+using RecursiveAI.OneDocument.Markup;
+using RecursiveAI.OneDocument.Packaging;
 
-namespace RecursiveAI.OneOffice.Tools.DocxProbe;
+namespace RecursiveAI.OneDocument.Tools.DocxProbe;
 
 /// <summary>
 /// Runs the style and numbering resolution over word-processing files and prints JSON lines.

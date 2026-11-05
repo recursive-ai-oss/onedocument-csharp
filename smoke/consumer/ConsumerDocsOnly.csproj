@@ -7,6 +7,6 @@
     <TrimmerSingleWarn>false</TrimmerSingleWarn>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="RecursiveAI.OneOffice.Documents" Version="$(OneOfficeVersion)" />
+    <PackageReference Include="RecursiveAI.OneDocument.Documents" Version="$(OneDocumentVersion)" />
   </ItemGroup>
 </Project>

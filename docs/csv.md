@@ -1,6 +1,6 @@
 # CSV and TSV
 
-Delimited text is a native layer of `RecursiveAI.OneOffice.Spreadsheets` (namespace `RecursiveAI.OneOffice.Spreadsheets.Csv`): a streaming reader, a value parser, a streaming writer, and a bridge to the workbook model. The rules below are RFC 4180 (§2, definitions of the format) as the baseline, extended the way Excel reads and writes the files. Where Excel's behaviour was not documented it was found by opening generated files in Excel 16.0 (build 20527) and comparing cell by cell; the generator and the comparison are `tools/csv-grid/` and `tools/CsvProbe/`.
+Delimited text is a native layer of `RecursiveAI.OneDocument.Spreadsheets` (namespace `RecursiveAI.OneDocument.Spreadsheets.Csv`): a streaming reader, a value parser, a streaming writer, and a bridge to the workbook model. The rules below are RFC 4180 (§2, definitions of the format) as the baseline, extended the way Excel reads and writes the files. Where Excel's behaviour was not documented it was found by opening generated files in Excel 16.0 (build 20527) and comparing cell by cell; the generator and the comparison are `tools/csv-grid/` and `tools/CsvProbe/`.
 
 ## Reader (`CsvReader`)
 

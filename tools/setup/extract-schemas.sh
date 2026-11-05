@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # Extract the pinned ECMA-376 5th edition schemas into a directory validate_ooxml.py can read.
 #
-#   ONEOFFICE_SCHEMA_ZIPS  directory holding the four ECMA-376 5th edition zips (parts 1, 2, 4 are used)
-#   ONEOFFICE_XSD          output directory (default: $ONEOFFICE_SCHEMA_ZIPS/../xsd)
+#   ONEDOCUMENT_SCHEMA_ZIPS  directory holding the four ECMA-376 5th edition zips (parts 1, 2, 4 are used)
+#   ONEDOCUMENT_XSD          output directory (default: $ONEDOCUMENT_SCHEMA_ZIPS/../xsd)
 #
-# Layout written: $ONEOFFICE_XSD/{transitional,strict,opc}/*.xsd. Idempotent; each zip's sha256 is checked
+# Layout written: $ONEDOCUMENT_XSD/{transitional,strict,opc}/*.xsd. Idempotent; each zip's sha256 is checked
 # against the pins below before use.
 set -euo pipefail
-zips="${ONEOFFICE_SCHEMA_ZIPS:?set ONEOFFICE_SCHEMA_ZIPS}"
-out="${ONEOFFICE_XSD:-$zips/../xsd}"
+zips="${ONEDOCUMENT_SCHEMA_ZIPS:?set ONEDOCUMENT_SCHEMA_ZIPS}"
+out="${ONEDOCUMENT_XSD:-$zips/../xsd}"
 
 declare -A pin=(
   [ECMA-376-1_5th_edition_december_2016.zip]=9d0bcad9cf06054785b03762fcfadbf6bab7e54a5f9d69434e34b7fd464d4129

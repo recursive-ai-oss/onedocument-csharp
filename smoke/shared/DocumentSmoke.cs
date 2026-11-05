@@ -1,7 +1,7 @@
 using System.Linq;
-using RecursiveAI.OneOffice.Documents;
+using RecursiveAI.OneDocument.Documents;
 
-namespace RecursiveAI.OneOffice.Smoke;
+namespace RecursiveAI.OneDocument.Smoke;
 
 /// <summary>Creates a document, saves it to memory, opens it again, edits a paragraph, saves again and reads the text back: under NativeAOT and WASM.</summary>
 internal static class DocumentSmoke

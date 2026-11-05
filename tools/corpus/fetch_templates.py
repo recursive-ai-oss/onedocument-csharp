@@ -16,7 +16,7 @@ check each page's terms before adding it to a list.
 """
 import argparse, hashlib, json, os, re, sys, time, urllib.parse, urllib.request
 
-UA = "oneoffice-corpus-fetch/1.0 (test documents)"
+UA = "onedocument-corpus-fetch/1.0 (test documents)"
 MAGIC = (b"PK", b"\xd0\xcf\x11\xe0")
 
 

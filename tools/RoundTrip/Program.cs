@@ -9,7 +9,7 @@ using System.Text.Json;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace RecursiveAI.OneOffice.Tools.RoundTrip;
+namespace RecursiveAI.OneDocument.Tools.RoundTrip;
 
 /// <summary>
 /// Compares two OPC packages (zip or Flat OPC) part by part and writes one JSON line per finding.

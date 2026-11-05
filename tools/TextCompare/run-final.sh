@@ -5,7 +5,7 @@ set -euo pipefail
 corpus=$1
 work=$2
 dotnet build tools/TextCompare -c Release -v quiet -clp:NoSummary 2>&1 | tail -3
-dll=$(find "${ONEOFFICE_ARTIFACTS:-artifacts}" -path '*bin*' -name TextCompare.dll | head -1)
+dll=$(find "${ONEDOCUMENT_ARTIFACTS:-artifacts}" -path '*bin*' -name TextCompare.dll | head -1)
 echo "dll=$dll"
 for s in cc:commoncrawl/docx bz:bugzilla/documentfoundation/docx; do
   k=${s%%:*}

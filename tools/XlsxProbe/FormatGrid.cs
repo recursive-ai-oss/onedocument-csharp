@@ -4,12 +4,12 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Markup;
-using RecursiveAI.OneOffice.NumberFormats;
-using RecursiveAI.OneOffice.Spreadsheets;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Markup;
+using RecursiveAI.OneDocument.NumberFormats;
+using RecursiveAI.OneDocument.Spreadsheets;
 
-namespace RecursiveAI.OneOffice.Tools.XlsxProbe;
+namespace RecursiveAI.OneDocument.Tools.XlsxProbe;
 
 /// <summary>
 /// <c>XlsxProbe fmtgrid DIR... --out OUT [--files N]</c>: picks workbooks from the corpus directories and writes, for each, a small generated

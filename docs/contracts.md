@@ -1,8 +1,8 @@
 # Shared contracts
 
-The contracts every layer of OneOffice is written against. They live in the core package (`RecursiveAI.OneOffice`). This note states the behaviour; the XML documentation on each type states the details.
+The contracts every layer of OneDocument is written against. They live in the core package (`RecursiveAI.OneDocument`). This note states the behaviour; the XML documentation on each type states the details.
 
-## Sources (`RecursiveAI.OneOffice.IO`)
+## Sources (`RecursiveAI.OneDocument.IO`)
 
 `IByteSource` is input bytes however they are held. Reads are positioned (`Read(offset, buffer)`, `ReadAsync(offset, buffer, token)`), not tied to a cursor, so one source can serve several readers and a reader touches only the bytes it needs. A source never reads past its `Length`; a short read happens only at the end.
 
@@ -38,7 +38,7 @@ One immutable object, passed down through every layer inside `OpenContext`. All 
 
 `OfficeLimits.ToArchiveLimits()` maps total size, part count and expansion ratio onto the zip and compound-file readers; their path-length and depth limits keep the archive library's defaults. Parts of the library that call the archive readers translate its exceptions with the same names (`MaxEntryCount` surfaces as `MaxPartCount`).
 
-## Defects and exceptions (`RecursiveAI.OneOffice.Diagnostics`, `OfficeException`)
+## Defects and exceptions (`RecursiveAI.OneDocument.Diagnostics`, `OfficeException`)
 
 Reading is tolerant, so a repair is not an error, but it is never silent. A `Defect` has a closed `DefectKind` (where in the stack), a stable string `Code` (the precise problem; see `defects.md`), a `DefectSeverity` (`Repaired`, `Dropped`, `Fatal`), an English message for people, and a `DefectLocation`:
 
@@ -53,11 +53,11 @@ Readers write defects to an `IDefectSink` (from any thread). `DefectCollection` 
 
 Code that calls the archive readers wraps every call and translates what it catches with the internal `ArchiveErrors.Translate`.
 
-## Formats, registry and sniffing (`RecursiveAI.OneOffice.Formats`)
+## Formats, registry and sniffing (`RecursiveAI.OneDocument.Formats`)
 
 `OfficeFormat` names every format; `OfficeFormats` gives each a descriptor (kind, media type, extensions, traits) and maps an extension to a format **for naming outputs only**.
 
-`FormatRegistry` is an explicit table of readers, text extractors and writers per format. Each kind's package registers what it implements. No application code is needed: a kind package ships a small C# file (`buildTransitive/`) that MSBuild compiles into the referencing project, where a module initializer calls the package's `Register(FormatRegistry.Default)`. It is plain source, not reflection or assembly scanning, so the trimmer and NativeAOT keep exactly the kinds the application references, and a project that references only core and `.Documents` has no spreadsheet code in its binary. Set `<OneOfficeAutoRegister>false</OneOfficeAutoRegister>` to leave it out (a project that fills a custom `FormatRegistry` itself, or a non-C# project, calls `DocumentFormats.Register` / `SpreadsheetFormats.Register` explicitly). Registering twice is harmless: a later registration replaces the earlier handler. `Office` and the document types use `FormatRegistry.Default`. For a kind whose package is not referenced, the operations raise `FormatNotAvailableException` naming the format.
+`FormatRegistry` is an explicit table of readers, text extractors and writers per format. Each kind's package registers what it implements. No application code is needed: a kind package ships a small C# file (`buildTransitive/`) that MSBuild compiles into the referencing project, where a module initializer calls the package's `Register(FormatRegistry.Default)`. It is plain source, not reflection or assembly scanning, so the trimmer and NativeAOT keep exactly the kinds the application references, and a project that references only core and `.Documents` has no spreadsheet code in its binary. Set `<OneDocumentAutoRegister>false</OneDocumentAutoRegister>` to leave it out (a project that fills a custom `FormatRegistry` itself, or a non-C# project, calls `DocumentFormats.Register` / `SpreadsheetFormats.Register` explicitly). Registering twice is harmless: a later registration replaces the earlier handler. `Office` and the document types use `FormatRegistry.Default`. For a kind whose package is not referenced, the operations raise `FormatNotAvailableException` naming the format.
 
 `FormatSniffer` identifies content, never an extension. It reads a 4,096-byte prefix and, for containers, the least more it needs:
 
@@ -70,11 +70,11 @@ Code that calls the archive readers wraps every call and translates what it catc
 
 A damaged or unreadable container is `Unknown` (opening it reports the damage with its location). A resource limit being hit raises `OfficeLimitException`, so a bomb is not mistaken for junk. Remote sources are decided from the prefix when possible and buffered whole only for containers.
 
-## Loss reports (`RecursiveAI.OneOffice.Diagnostics`)
+## Loss reports (`RecursiveAI.OneDocument.Diagnostics`)
 
 A format that is narrower than the model it is written from, and every conversion, says what it dropped. `ILossSink.Report(code, feature, count, message)` is the one method; `LossReport` is the collector (one `LossItem` per code, counts added, `IsLossless` when empty, `CountOf(code)`). A writer takes an optional `ILossSink`; null means the caller does not care. Codes are `loss.<feature>`, lower case, never reused, and are listed with the format that reports them (CSV: `loss.formulas`, `loss.cell-styles`, `loss.number-formats`, `loss.sheets`, `loss.merged-cells`, `loss.embedded-objects`; see `csv.md`). `feature` is words for people ("formulas"), `count` is the number of cells, sheets or paragraphs affected (at least 1), and `message` says what happened to them. Loss is not a defect: defects describe damage in the input, losses describe what the output cannot hold.
 
-## Packages and parts (`RecursiveAI.OneOffice.Packaging`)
+## Packages and parts (`RecursiveAI.OneDocument.Packaging`)
 
 `IPackage` is a set of named parts over a container; `IOpcPackage` adds relationships; the OPC and compound-file readers implement them. A part's bytes load lazily. **A part is untouched until someone replaces or opens it for writing**; reading never touches it. The writer copies untouched parts raw (a zip entry's compressed bytes), so they come out byte-identical. `PartUri` validates and compares OPC part names (ASCII case-insensitive; spelling kept) and resolves relationship targets.
 

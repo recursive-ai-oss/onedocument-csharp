@@ -4,14 +4,14 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using RecursiveAI.OneOffice.Calc;
+using RecursiveAI.OneDocument.Calc;
 
-namespace RecursiveAI.OneOffice.Tools.FormulaGrid;
+namespace RecursiveAI.OneDocument.Tools.FormulaGrid;
 
 /// <summary>
 /// Checks the formula layer against desktop Excel. <c>FormulaGrid gen DIR</c> writes <c>*.fgrid</c> files (the test formulas, generated from
 /// value lists and syntax lists below); <c>office-oracle.sh run --formulas DIR</c> has Excel enter each one and write <c>*.fgrid.tsv</c>;
-/// <c>FormulaGrid compare DIR [ANSWERS]</c> evaluates and prints the same formulas with OneOffice and lists every disagreement.
+/// <c>FormulaGrid compare DIR [ANSWERS]</c> evaluates and prints the same formulas with OneDocument and lists every disagreement.
 /// Operator grid (operators x value kinds), seed-function edge cases, array and lambda shapes, A1 &lt;-&gt; R1C1 and display text.
 /// </summary>
 internal static class Program

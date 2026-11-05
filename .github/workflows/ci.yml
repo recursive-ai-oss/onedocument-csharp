@@ -31,7 +31,7 @@ jobs:
           persist-credentials: false
       # Build output goes outside the checkout, as it does locally; the runner context is only available inside steps.
       - name: Artifacts directory
-        run: echo "ONEOFFICE_ARTIFACTS=$RUNNER_TEMP/artifacts" >> "$GITHUB_ENV"
+        run: echo "ONEDOCUMENT_ARTIFACTS=$RUNNER_TEMP/artifacts" >> "$GITHUB_ENV"
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
@@ -53,7 +53,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Artifacts directory
-        run: echo "ONEOFFICE_ARTIFACTS=$RUNNER_TEMP/artifacts" >> "$GITHUB_ENV"
+        run: echo "ONEDOCUMENT_ARTIFACTS=$RUNNER_TEMP/artifacts" >> "$GITHUB_ENV"
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
@@ -73,7 +73,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Artifacts directory
-        run: echo "ONEOFFICE_ARTIFACTS=$RUNNER_TEMP/artifacts" >> "$GITHUB_ENV"
+        run: echo "ONEDOCUMENT_ARTIFACTS=$RUNNER_TEMP/artifacts" >> "$GITHUB_ENV"
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json

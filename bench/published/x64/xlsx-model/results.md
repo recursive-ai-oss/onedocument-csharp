@@ -45,7 +45,7 @@ sdk: 10.0.403
 
 ```text
 runtime	.NET 10.0.14
-OneOffice	0.1.0-preview.1
+OneDocument	0.1.0-preview.1
 DocumentFormat.OpenXml	3.5.1
 NPOI	2.7.6
 ClosedXML	0.105.1
@@ -58,37 +58,37 @@ BenchmarkDotNet	0.15.8
 
 ## Full model: open and visit every cell
 
-| Input | Row | Reps | Median | Min | Ratio to OneOffice | Allocated per cell | Peak working set | Checksum |
+| Input | Row | Reps | Median | Min | Ratio to OneDocument | Allocated per cell | Peak working set | Checksum |
 |---|---|---:|---:|---:|---:|---:|---:|---|
-| values-10000 | oneoffice.model.load | 5 | 152.4 ms | 152.0 ms | 1.00x | 92.30 B | 62 MB | 537015189 |
+| values-10000 | onedocument.model.load | 5 | 152.4 ms | 152.0 ms | 1.00x | 92.30 B | 62 MB | 537015189 |
 | values-10000 | closedxml.model.load | 5 | 598.5 ms | 584.6 ms | 3.93x | 1611.62 B | 137 MB | 537015189 |
 | values-10000 | epplus.model.load | 5 | 184.0 ms | 183.1 ms | 1.21x | 897.06 B | 117 MB | 537015189 |
 | values-10000 | npoi.model.load | 5 | 390.9 ms | 373.7 ms | 2.56x | 1227.53 B | 173 MB | 537015189 |
-| values-100000 | oneoffice.model.load | 3 | 289.4 ms | 282.7 ms | 1.00x | 54.37 B | 106 MB | 12130167350 |
+| values-100000 | onedocument.model.load | 3 | 289.4 ms | 282.7 ms | 1.00x | 54.37 B | 106 MB | 12130167350 |
 | values-100000 | closedxml.model.load | 3 | 1.73 s | 1.73 s | 5.99x | 1567.49 B | 223 MB | 12130167350 |
 | values-100000 | epplus.model.load | 3 | 2.47 s | 975.4 ms | 8.52x | 741.20 B | 246 MB | 12130167350 |
 | values-100000 | npoi.model.load | 3 | 2.14 s | 2.13 s | 7.39x | 1213.99 B | 926 MB | 12130167350 |
 
 ## Full model: open, change one cell, save
 
-| Input | Row | Reps | Median | Min | Ratio to OneOffice | Allocated per cell | Peak working set | Checksum |
+| Input | Row | Reps | Median | Min | Ratio to OneDocument | Allocated per cell | Peak working set | Checksum |
 |---|---|---:|---:|---:|---:|---:|---:|---|
-| values-10000 | oneoffice.model.editsave | 5 | 260.7 ms | 260.3 ms | 1.00x | 172.11 B | 69 MB | 0 |
-| values-10000 | oneoffice.model.loadsave-untouched | 5 | 10.1 ms | 10.0 ms | 0.04x | 2.06 B | 46 MB | 0 |
+| values-10000 | onedocument.model.editsave | 5 | 260.7 ms | 260.3 ms | 1.00x | 172.11 B | 69 MB | 0 |
+| values-10000 | onedocument.model.loadsave-untouched | 5 | 10.1 ms | 10.0 ms | 0.04x | 2.06 B | 46 MB | 0 |
 | values-10000 | closedxml.model.editsave | 5 | 1.03 s | 989.8 ms | 3.94x | 1782.68 B | 173 MB | 0 |
 | values-10000 | epplus.model.editsave | 5 | 346.3 ms | 345.0 ms | 1.33x | 897.09 B | 132 MB | 0 |
 | values-10000 | npoi.model.editsave | 5 | 668.5 ms | 631.9 ms | 2.56x | 1296.35 B | 176 MB | 0 |
-| values-100000 | oneoffice.model.editsave | 3 | 574.4 ms | 564.0 ms | 1.00x | 173.21 B | 219 MB | 0 |
-| values-100000 | oneoffice.model.loadsave-untouched | 3 | 16.5 ms | 16.3 ms | 0.03x | 0.21 B | 46 MB | 0 |
+| values-100000 | onedocument.model.editsave | 3 | 574.4 ms | 564.0 ms | 1.00x | 173.21 B | 219 MB | 0 |
+| values-100000 | onedocument.model.loadsave-untouched | 3 | 16.5 ms | 16.3 ms | 0.03x | 0.21 B | 46 MB | 0 |
 | values-100000 | closedxml.model.editsave | 3 | 3.82 s | 3.81 s | 6.65x | 1722.54 B | 844 MB | 0 |
 | values-100000 | epplus.model.editsave | 3 | 2.04 s | 1.87 s | 3.55x | 743.20 B | 343 MB | 0 |
 | values-100000 | npoi.model.editsave | 3 | 2.83 s | 2.83 s | 4.93x | 1333.63 B | 1060 MB | 0 |
 
-## Bar: OneOffice against the fastest managed comparator
+## Bar: OneDocument against the fastest managed comparator
 
-Ratio is OneOffice median / the fastest comparator's median for the same operation and input; at or below 1.00 is faster. Gate rows only (the informational rows above are not in it).
+Ratio is OneDocument median / the fastest comparator's median for the same operation and input; at or below 1.00 is faster. Gate rows only (the informational rows above are not in it).
 
-| Operation | Input | OneOffice | Fastest comparator | Comparator median | Ratio |
+| Operation | Input | OneDocument | Fastest comparator | Comparator median | Ratio |
 |---|---|---:|---|---:|---:|
 | Full model: open and visit every cell | values-10000 | 152.4 ms | epplus.model.load | 184.0 ms | 0.83x |
 | Full model: open and visit every cell | values-100000 | 289.4 ms | closedxml.model.load | 1.73 s | 0.17x |

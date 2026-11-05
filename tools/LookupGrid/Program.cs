@@ -4,15 +4,15 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using RecursiveAI.OneOffice.Calc;
+using RecursiveAI.OneDocument.Calc;
 
-namespace RecursiveAI.OneOffice.Tools.LookupGrid;
+namespace RecursiveAI.OneDocument.Tools.LookupGrid;
 
 /// <summary>
 /// Formula grid for the lookup, reference, dynamic-array and LAMBDA-helper functions, in the format of <c>office-oracle.sh run --formulas</c>.
 /// <c>LookupGrid gen DIR</c> writes <c>look*.fgrid</c> (inputs) and an empty <c>look*.fgrid.tsv</c> beside each (the slot for Excel's answers).
-/// <c>LookupGrid compare DIR</c> evaluates every test with OneOffice and compares with the answers that are filled in (empty slots are skipped).
-/// <c>LookupGrid selfcheck DIR</c> writes OneOffice's own answers into a temporary copy and compares them, to prove the file format round-trips.
+/// <c>LookupGrid compare DIR</c> evaluates every test with OneDocument and compares with the answers that are filled in (empty slots are skipped).
+/// <c>LookupGrid selfcheck DIR</c> writes OneDocument's own answers into a temporary copy and compares them, to prove the file format round-trips.
 /// Each file begins with three data tests; later tests refer to the cells those spill into (B1:D3, B61:E64, B121:B123).
 /// </summary>
 internal static class Program

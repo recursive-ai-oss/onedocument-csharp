@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RecursiveAI.OneDocument.Bench</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <!-- Comparator libraries are referenced here, and only in tests, tools and bench projects. -->
+    <!-- The pinned comparators bring transitive packages with published advisories (an image library, drawing and XML-crypto
+         packages). This project is never shipped and only reads documents it generates itself, so the advisories stay visible as
+         warnings here instead of failing the restore; every shipped project keeps them as errors. -->
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1901;NU1902;NU1903;NU1904</WarningsNotAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.IO" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.Linq" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" />
+    <!-- Comparators: black-box, public APIs only. EPPlus 4.5.3.3 is LGPL and lives in this project alone. -->
+    <PackageReference Include="DocumentFormat.OpenXml" />
+    <PackageReference Include="NPOI" />
+    <PackageReference Include="ClosedXML" />
+    <PackageReference Include="MiniExcel" />
+    <PackageReference Include="Sylvan.Data.Excel" />
+    <PackageReference Include="ExcelDataReader" />
+    <PackageReference Include="EPPlus" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/OneDocument/OneDocument.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Documents/OneDocument.Documents.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Spreadsheets/OneDocument.Spreadsheets.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Generators/OneDocument.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+</Project>

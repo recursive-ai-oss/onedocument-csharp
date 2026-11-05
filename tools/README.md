@@ -5,8 +5,8 @@ nothing here is tied to a machine. Oracles (LibreOffice, Jing, python-docx and f
 
 | Tool | What it does |
 |---|---|
-| `setup/install-oracles.sh` | Installs the pinned oracles under `$ONEOFFICE_HOME/oracles` (sha256-checked, idempotent). |
-| `setup/extract-schemas.sh` | Extracts the pinned ECMA-376 5th edition XSDs to `$ONEOFFICE_XSD/{transitional,strict,opc}`. |
+| `setup/install-oracles.sh` | Installs the pinned oracles under `$ONEDOCUMENT_HOME/oracles` (sha256-checked, idempotent). |
+| `setup/extract-schemas.sh` | Extracts the pinned ECMA-376 5th edition XSDs to `$ONEDOCUMENT_XSD/{transitional,strict,opc}`. |
 | `setup/fetch-govdocs1.sh` | Fetches govdocs1 thread zips and extracts the Office files. |
 | `corpus/fetch_commoncrawl.py` | Office files from a Common Crawl crawl: columnar index, ranged WARC reads, per-domain cap. |
 | `corpus/fetch_bugzilla.py` | Attachments (files only) from public Bugzilla trackers. |
@@ -27,11 +27,11 @@ terms.
 
 | Variable | Meaning |
 |---|---|
-| `ONEOFFICE_HOME` | Root for oracles, corpora, results (default `~/oneoffice`). |
-| `ONEOFFICE_CORPUS` | Corpus root (default `$ONEOFFICE_HOME/corpus`). |
-| `ONEOFFICE_XSD` | Path-separated schema directories for the validator. |
-| `ONEOFFICE_SOFFICE` | Headless LibreOffice launcher; `LO_PROFILE` selects its profile directory. |
-| `ONEOFFICE_FUZZ_WORK`, `LIBFUZZER_DOTNET`, `SHARPFUZZ` | See `fuzz-run.sh` and `fuzz/README.md`. |
+| `ONEDOCUMENT_HOME` | Root for oracles, corpora, results (default `~/oneoffice`). |
+| `ONEDOCUMENT_CORPUS` | Corpus root (default `$ONEDOCUMENT_HOME/corpus`). |
+| `ONEDOCUMENT_XSD` | Path-separated schema directories for the validator. |
+| `ONEDOCUMENT_SOFFICE` | Headless LibreOffice launcher; `LO_PROFILE` selects its profile directory. |
+| `ONEDOCUMENT_FUZZ_WORK`, `LIBFUZZER_DOTNET`, `SHARPFUZZ` | See `fuzz-run.sh` and `fuzz/README.md`. |
 
 ## Contracts
 

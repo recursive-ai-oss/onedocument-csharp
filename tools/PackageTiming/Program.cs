@@ -1,10 +1,10 @@
 using System.Diagnostics;
 using DocumentFormat.OpenXml.Packaging;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Packaging;
-using IPackagePart = RecursiveAI.OneOffice.Packaging.IPackagePart;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Packaging;
+using IPackagePart = RecursiveAI.OneDocument.Packaging.IPackagePart;
 
-namespace RecursiveAI.OneOffice.Tools.PackageTiming;
+namespace RecursiveAI.OneDocument.Tools.PackageTiming;
 
 /// <summary>
 /// Indicative timing of the package layer against the Open XML SDK on one file: open and enumerate, and open, touch the main

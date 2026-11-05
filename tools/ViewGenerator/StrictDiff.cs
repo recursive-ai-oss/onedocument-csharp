@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace RecursiveAI.OneOffice.Tools.ViewGenerator;
+namespace RecursiveAI.OneDocument.Tools.ViewGenerator;
 
 /// <summary>Compares the names a Strict complex type declares with the Transitional one, for the generation notes.</summary>
 internal static class StrictDiff

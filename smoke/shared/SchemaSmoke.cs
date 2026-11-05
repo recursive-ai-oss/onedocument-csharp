@@ -1,8 +1,8 @@
-using RecursiveAI.OneOffice.Schema;
-using RecursiveAI.OneOffice.Schema.Tests;
-using RecursiveAI.OneOffice.Schema.Wordprocessing;
+using RecursiveAI.OneDocument.Schema;
+using RecursiveAI.OneDocument.Schema.Tests;
+using RecursiveAI.OneDocument.Schema.Wordprocessing;
 
-namespace RecursiveAI.OneOffice.Smoke;
+namespace RecursiveAI.OneDocument.Smoke;
 
 /// <summary>Touches a few generated typed views under NativeAOT and WASM: reading, editing through a view, the factory and the visitor.</summary>
 internal static class SchemaSmoke

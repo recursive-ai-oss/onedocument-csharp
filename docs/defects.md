@@ -30,7 +30,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `encryption.password-incorrect` | fatal | The password does not open the input. |
 | `unsupported.feature` | fatal | The input uses something this library does not handle; `OfficeUnsupportedException.Feature` names it. |
 | `unsupported.format-not-available` | fatal | No reader or writer is registered for the format (its package is not referenced or does not implement it). |
-| `format.unrecognised` | fatal | The content is not a format OneOffice knows. |
+| `format.unrecognised` | fatal | The content is not a format OneDocument knows. |
 | `packaging.damaged` | fatal | The container is damaged (zip or compound-file structure) beyond what recovery repairs, or a stream cannot be read; the location holds the part or stream and the offset when known. |
 | `packaging.refused` | fatal | The container reader refused the input for safety (unsafe path, overlapping entries). |
 | `packaging.not-a-package` | fatal | The input is neither a zip nor a Flat OPC document. |
