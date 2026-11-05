@@ -92,7 +92,7 @@ pressed. A dialog that cannot be answered within 60 s gets the application kille
 * Probe mode (`--probe`, Word) returns, per paragraph, the list label, style and font/paragraph values and page number;
   per section the header/footer texts and links; per table cell the row, column, bold/italic; the revision list; footnote
   and endnote number styles; and comments with their reply links. `NAME.actions.txt` beside a document lists revision
-  actions (`accept-all`, `reject-all`, `accept:N`, `reject:N`, `accept-para:N`, `reject-para:N`) whose results are saved
+  actions (`accept-all`, `reject-all`, `accept:N`, `reject:N`, `accept-para:N`, `reject-para:N`, and `accept-all-stories` / `reject-all-stories`, which act on every story: headers, footers, notes, comments) whose results are saved
   next to the results file.
 
 ## Grid mode (Excel)
@@ -102,6 +102,13 @@ beside the results (`id<TAB>text` per row, with tabs, newlines and backslashes e
 from column D (the result of a formula), any other sheet from column B (the displayed text of the cell), keyed by the
 id in column A. The `grid` field of the result line records Excel's decimal and thousands separators, country code and
 build. It is used by the number-format grid in `tools/NumFmtGrid`.
+
+## Cells mode (Excel)
+
+`office-oracle.sh run --cells ...` opens each file (a workbook, or a `.csv` that Excel parses itself), and writes
+`NAME.cells.tsv` beside the results: one line per used cell of the first sheet, `row<TAB>col<TAB>type<TAB>value<TAB>numberFormat<TAB>text`
+(escapes as in grid mode). `type` is `string`, `number` (round-trip text, invariant culture), `boolean`, `error` (Excel's numeric
+code, 2042 for `#N/A`) or `empty`. The CSV tests use it to compare Excel's reading of a text file with OneOffice's.
 
 ## Runs are self-contained
 

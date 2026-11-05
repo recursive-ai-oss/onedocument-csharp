@@ -241,12 +241,15 @@ function Invoke-Word($app, $item, $path, $outDir, $res) {
                         'reject-all' { $d2.Revisions.RejectAll() }
                         'accept' { $d2.Revisions.Item([int]$arg).Accept() }
                         'reject' { $d2.Revisions.Item([int]$arg).Reject() }
+                        'accept-all-stories' { Invoke-AllStories $d2 $true }
+                        'reject-all-stories' { Invoke-AllStories $d2 $false }
                         'accept-para' { $d2.Paragraphs.Item([int]$arg).Range.Revisions.AcceptAll() }
                         'reject-para' { $d2.Paragraphs.Item([int]$arg).Range.Revisions.RejectAll() }
                         default { throw "unknown action $act" }
                     }
                     $entry.text = ($d2.Content.Text -replace '\r', '\u00b6' -replace '[\n\a]', '')
                     $entry.revisionsLeft = $d2.Revisions.Count
+                    $entry.storyRevisionsLeft = Get-StoryRevisionCount $d2
                     $dst2 = Join-Path $outDir ($base + '.' + ($act -replace '[^a-z0-9]+', '-') + '.docx')
                     $d2.SaveAs2([string]$dst2, [int]16)
                     $entry.saved = [IO.Path]::GetFileName($dst2)
@@ -261,6 +264,29 @@ function Invoke-Word($app, $item, $path, $outDir, $res) {
     } finally {
         if ($doc) { try { $doc.Close(0) } catch { } }
     }
+}
+
+# Accept or reject every revision in every story (main text, headers, footers, footnotes, endnotes, comments, text boxes).
+function Invoke-AllStories($doc, $accept) {
+    foreach ($sr in $doc.StoryRanges) {
+        $r = $sr
+        while ($null -ne $r) {
+            if ($accept) { $r.Revisions.AcceptAll() } else { $r.Revisions.RejectAll() }
+            $r = $r.NextStoryRange
+        }
+    }
+}
+
+function Get-StoryRevisionCount($doc) {
+    $n = 0
+    foreach ($sr in $doc.StoryRanges) {
+        $r = $sr
+        while ($null -ne $r) {
+            $n += $r.Revisions.Count
+            $r = $r.NextStoryRange
+        }
+    }
+    return $n
 }
 
 function Invoke-Excel($app, $item, $path, $outDir, $res) {
@@ -285,6 +311,28 @@ function Invoke-Excel($app, $item, $path, $outDir, $res) {
                 }
             }
             $res.cells = $cells
+        }
+        if ($item.mode -eq 'cells') {
+            # Cells mode: every used cell of the first sheet as row<TAB>col<TAB>type<TAB>value<TAB>numberFormat<TAB>text, to
+            # <workbook>.cells.tsv beside the results. type is string, number, boolean, error or empty; numbers are round-trip
+            # text in the invariant culture; errors are the numeric code Excel reports (2007 is #DIV/0!, 2042 is #N/A).
+            $ws = $wb.Worksheets.Item(1)
+            $ur = $ws.UsedRange
+            $r0 = [int]$ur.Row; $c0 = [int]$ur.Column
+            $lines = New-Object System.Collections.Generic.List[string]
+            $inv = [Globalization.CultureInfo]::InvariantCulture
+            foreach ($c in $ur.Cells) {
+                $v = $c.Value2
+                if ($v -eq $null) { $type = 'empty'; $vt = '' }
+                elseif ($v -is [string]) { $type = 'string'; $vt = $v }
+                elseif ($v -is [bool]) { $type = 'boolean'; $vt = [string]$v }
+                elseif ($v -is [double]) { $type = 'number'; $vt = $v.ToString('R', $inv) }
+                else { $type = 'error'; $vt = [string][int]$v }
+                $esc = { param($x) ([string]$x).Replace('\', '\\').Replace("`t", '\t').Replace("`n", '\n').Replace("`r", '\r') }
+                $lines.Add(([string]$c.Row) + "`t" + ([string]$c.Column) + "`t" + $type + "`t" + (& $esc $vt) + "`t" + (& $esc $c.NumberFormat) + "`t" + (& $esc $c.Text))
+            }
+            [IO.File]::WriteAllLines((Join-Path $outDir ([IO.Path]::GetFileNameWithoutExtension($path) + '.cells.tsv')), $lines, $utf8)
+            $res.cells = @{ rows = $lines.Count; usedRow = $r0; usedColumn = $c0; excelVersion = [string]$app.Version; build = [string]$app.Build }
         }
         if ($item.mode -eq 'grid') {
             # Grid mode: column A holds an id; the answer is column D (sheet "text", the TEXT() result) or column B
@@ -508,7 +556,7 @@ public class DialogWatcher
         }
         $path = Join-Path $jobRoot $item.file
         $ext = [IO.Path]::GetExtension($path).ToLowerInvariant()
-        $kind = switch -regex ($ext) { '^\.(docx|docm|dotx|dotm|doc|rtf|xml)$' { 'word' } '^\.(xlsx|xlsm|xltx|xltm|xlsb|xls)$' { 'excel' } '^\.(pptx|pptm|potx|ppsx|ppt)$' { 'powerpoint' } default { $null } }
+        $kind = switch -regex ($ext) { '^\.(docx|docm|dotx|dotm|doc|rtf|xml)$' { 'word' } '^\.(xlsx|xlsm|xltx|xltm|xlsb|xls|csv)$' { 'excel' } '^\.(pptx|pptm|potx|ppsx|ppt)$' { 'powerpoint' } default { $null } }
         $res = @{ kind = 'file'; file = $item.file; app = $kind; mode = $item.mode }
         if (-not $kind) { $res.outcome = 'error'; $res.error = 'unknown extension'; Write-Line $res; continue }
         $watch = [Diagnostics.Stopwatch]::StartNew()

@@ -16,6 +16,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `numfmt.` | number-format codes | `Value` |
 | `text.` | text extraction | `Structure`, `Reference`, `Markup`, `Packaging` |
 | `docx.` | the word-processing hub | `Structure`, `Reference`, `Value`, `Packaging` |
+| `csv.` | delimited text (CSV, TSV) | `Structure`, `Markup`, `Encoding`, `Value` |
 | `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
 
 ## Codes in use
@@ -97,6 +98,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.revision-author-missing` | repaired | A tracked change has no `w:author`. It is listed with an empty author. |
 | `docx.revision-date-invalid` | repaired | A tracked change has a `w:date` that is not a date. It is listed without a date. |
 | `docx.revision-unresolvable` | dropped | A tracked change could not be accepted or rejected because the markup around it is not what the schema allows (a row marker outside a row, content that cannot be moved without an unbound prefix). The change is left in place; the location is the change element. |
+| `docx.revision-id-conflict` | fatal | Raised as `RevisionIdConflictException` (not reported while reading): an id the caller gave to a `RevisionAuthor` is negative or already used by a revision, bookmark, comment range or move range in the document. No location. |
 | `docx.no-main-part` | fatal | No `officeDocument` relationship of the package points at a part that exists. |
 | `docx.wrong-root` | fatal | The main document part does not start with `w:document`. |
 | `docx.part-missing` | fatal | A part the reader must have is not in the package. |
@@ -144,6 +146,17 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `xlsx.column-range-invalid` | dropped | A `col` has no valid `min`/`max`; it is dropped. |
 | `xlsx.merge-range-invalid` | dropped | A `mergeCell` has a `ref` that is not a range of the sheet; it is dropped. |
 | `xlsx.shared-string-missing` | repaired | A cell refers to a shared string index the table does not have; its text reads as empty. |
+| `csv.ragged-record` | repaired | A delimited-text record has a different number of fields from the first; it is returned as it is. Located by character offset. |
+| `csv.stray-quote` | repaired | Text follows the closing quote of a quoted field; it is kept after the quoted text. |
+| `csv.quote-unterminated` | repaired | A quoted field is still open at the end of the input; it ends there. |
+| `csv.encoding-assumed` | repaired | No byte-order mark and not valid UTF-8; read as Windows-1252. |
+| `csv.encoding-invalid` | repaired | A byte sequence is not valid in the encoding in use (UTF-8 past the first block of a forward-only stream, or half a UTF-16 unit at the end); it reads as U+FFFD or is dropped. Once per reader. |
+| `csv.grid-exceeded` | dropped | Importing delimited text: more than 1,048,576 records, or 16,384 fields in a record; the rest are dropped. |
+| `xlsx.styles-wrong-root` | fatal | The styles part does not start with a `styleSheet` element. Raised when the style sheet is first used, not on open. |
+| `xlsx.numfmt-invalid` | dropped | A `numFmt` has no numeric id or no format code; it is ignored. |
+| `xlsx.theme-unreadable` | repaired | The theme part is not well-formed XML; theme colours use the default Office scheme. |
+| `xlsx.table-part-missing` | dropped | A `tablePart` does not lead to a table part that exists; the table is ignored (the element stays in the sheet). |
+| `xlsx.table-unreadable` | dropped | A table part is not well-formed or does not start with `table`; the table is ignored and the part is kept as stored. |
 
 The XML layer repairs nothing: Office refuses an ill-formed part, and so does this layer. The limits it enforces (`MaxXmlDepth`, `MaxXmlAttributeCount`, `MaxXmlNameLength`, and `MaxPartSize` for a part held whole) raise `limit.*` as above.
 

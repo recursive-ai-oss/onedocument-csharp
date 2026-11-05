@@ -21,7 +21,7 @@ public sealed record RevisionCensus(
 
 /// <summary>
 /// The tracked changes (ECMA-376 Part 1 §17.13.5) of a set of parts: list them, accept or reject them, read the text as if all
-/// were accepted or rejected, and author new ones with <see cref="CreateAuthor"/>.
+/// were accepted or rejected, and author new ones with <see cref="CreateAuthor(string, DateTimeOffset?)"/>.
 /// </summary>
 /// <remarks>
 /// <para>Edits go into the parts' markup trees and leave everything else in them untouched, in order, with its prefixes. A part
@@ -35,6 +35,7 @@ public sealed class RevisionSet
     private readonly IDefectSink? _defects;
     private readonly List<Revision> _revisions = [];
     private int _maxId;
+    private HashSet<int>? _used;
     private bool _stale;
 
     private RevisionSet(List<IRevisionPart> parts, IDefectSink? defects)
@@ -233,16 +234,107 @@ public sealed class RevisionSet
     /// <param name="author">The author name written on every change.</param>
     /// <param name="date">The date written on every change, or null to leave the date out. The library never reads the clock, so the caller chooses it.</param>
     /// <returns>An author whose edits are visible in <see cref="Revisions"/> after <see cref="Refresh"/>.</returns>
-    public RevisionAuthor CreateAuthor(string author, DateTimeOffset? date) => new(this, author, date);
+    public RevisionAuthor CreateAuthor(string author, DateTimeOffset? date) => new(this, author, date, RevisionIds.ContinueAfterMax);
+
+    /// <summary>Starts authoring tracked changes whose ids come from a source the caller chose.</summary>
+    /// <param name="author">The author name written on every change.</param>
+    /// <param name="date">The date written on every change, or null to leave the date out.</param>
+    /// <param name="ids">Where ids come from; see <see cref="RevisionIds"/>. The ids already in use are read from the parts when the first id is needed.</param>
+    /// <returns>The author.</returns>
+    public RevisionAuthor CreateAuthor(string author, DateTimeOffset? date, RevisionIds ids)
+    {
+        ArgumentNullException.ThrowIfNull(ids);
+        return new RevisionAuthor(this, author, date, ids);
+    }
 
     /// <summary>Rescans the parts. Call it after editing a part directly or through a <see cref="RevisionAuthor"/>.</summary>
-    public void Refresh() => Rebuild(report: false);
+    public void Refresh()
+    {
+        _used = null;
+        Rebuild(report: false);
+    }
 
     internal void Invalidate() => _stale = true;
 
     internal int NextFreeId()
     {
-        return checked(++_maxId);
+        int id = checked(++_maxId);
+        _used?.Add(id);
+        return id;
+    }
+
+    /// <summary>Takes the next id from a source, refusing negative ones and any already in use.</summary>
+    internal int Allocate(RevisionIds ids)
+    {
+        int proposed = ids.Propose();
+        if (proposed < 0 && ReferenceEquals(ids, RevisionIds.ContinueAfterMax))
+        {
+            return NextFreeId();
+        }
+
+        if (proposed < 0)
+        {
+            throw new RevisionIdConflictException(proposed, negative: true);
+        }
+
+        _used ??= CollectUsedIds();
+        if (!_used.Add(proposed))
+        {
+            throw new RevisionIdConflictException(proposed, negative: false);
+        }
+
+        _maxId = Math.Max(_maxId, proposed);
+        return proposed;
+    }
+
+    /// <summary>Whether a move name is already used by a move range in the parts.</summary>
+    internal bool MoveNameInUse(string name)
+    {
+        foreach (IRevisionPart p in _parts)
+        {
+            MarkupNode root = p.Markup.Root;
+            for (MarkupNode n = root; !n.IsNull; n = WordXml.Next(n, root, true))
+            {
+                if (WordXml.IsAny(n, "moveFromRangeStart", "moveToRangeStart") && string.Equals(WordXml.Attr(n, "name"), name, StringComparison.Ordinal))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private HashSet<int> CollectUsedIds()
+    {
+        var used = new HashSet<int>();
+        foreach (IRevisionPart p in _parts)
+        {
+            MarkupNode root = p.Markup.Root;
+            if (root.IsNull)
+            {
+                continue;
+            }
+
+            for (MarkupNode n = root; !n.IsNull; n = WordXml.Next(n, root, true))
+            {
+                if (n.Kind != MarkupNodeKind.Element || !WordXml.InMain(n))
+                {
+                    continue;
+                }
+
+                string local = n.LocalNameString;
+                bool counts = local is "bookmarkStart" or "commentRangeStart" or "moveFromRangeStart" or "moveToRangeStart" or "permStart"
+                    || RevisionScanner.Classify(local, n, out _, out _);
+                if (counts && WordXml.Attr(n, "id") is { } t
+                    && int.TryParse(t, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out int v))
+                {
+                    used.Add(v);
+                }
+            }
+        }
+
+        return used;
     }
 
     private void Rebuild(bool report)

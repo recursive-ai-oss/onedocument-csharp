@@ -40,6 +40,10 @@ internal static class Program
         ["sheet"] = SheetTarget.RunSheet,
         ["sst"] = SheetTarget.RunSst,
         ["wbpart"] = SheetTarget.RunWorkbookPart,
+        ["csv"] = CsvTarget.Run,
+        ["styles"] = StyleTarget.RunStyles,
+        ["sheetfeat"] = StyleTarget.RunSheetFeatures,
+        ["table"] = StyleTarget.RunTable,
     };
 
     private static int Main(string[] args)
@@ -64,6 +68,8 @@ internal static class Program
                 "sdt" or "sdtpath" => SdtTarget.WriteSeeds(args[2]),
                 "numfmt" or "numfmtfmt" => NumFmtTarget.WriteSeeds(args[2]),
                 "sheet" or "sst" or "wbpart" => SheetTarget.WriteSeeds(args[2]),
+                "csv" => CsvTarget.WriteSeeds(args[2]),
+                "styles" or "sheetfeat" or "table" => StyleTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }

@@ -42,6 +42,11 @@ internal static class Program
                 "lazy" => Lazy(args[1]),
                 "load" => Load(args[1]),
                 "model" => Model(args[1]),
+                "features" => FeatureSweep.Run(args[1..]),
+                "fmtgrid" => FormatGrid.Run(args[1..]),
+                "localegrid" => FormatGrid.Locales(args[1], args[2..]),
+                "gen" => GenerateFeatures.Run(args[1]),
+                "fmtgrid-compare" => FormatGrid.Compare(args[1]),
                 _ => 2,
             };
         }
@@ -356,7 +361,7 @@ internal static class Program
         return r;
     }
 
-    private static (int Same, int Diff, string? First) ComparePackages(string a, string b)
+    internal static (int Same, int Diff, string? First) ComparePackages(string a, string b)
     {
         using OpcPackage pa = OpcPackage.Open(a);
         using OpcPackage pb = OpcPackage.Open(b);
@@ -385,7 +390,7 @@ internal static class Program
         return (same, diff, first);
     }
 
-    private static string[] ChangedParts(string a, string b)
+    internal static string[] ChangedParts(string a, string b)
     {
         using OpcPackage pa = OpcPackage.Open(a);
         using OpcPackage pb = OpcPackage.Open(b);
