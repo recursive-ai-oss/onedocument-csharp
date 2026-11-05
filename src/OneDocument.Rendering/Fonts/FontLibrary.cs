@@ -310,7 +310,7 @@ public sealed class FontLibrary : IFontProvider
                 return "Liberation Mono";
             }
 
-            int serifStyle = Convert.ToInt32(p.Substring(4, 2), 16);
+            int serifStyle = Convert.ToInt32(p.Substring(2, 2), 16);
             return serifStyle is >= 2 and <= 10 ? "Liberation Serif" : "Liberation Sans";
         }
 

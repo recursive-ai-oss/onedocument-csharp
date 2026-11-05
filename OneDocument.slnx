@@ -24,6 +24,7 @@
   <Folder Name="/tools/">
     <Project Path="tools/ViewGenerator/ViewGenerator.csproj" />
     <Project Path="tools/RoundTrip/RoundTrip.csproj" />
+    <Project Path="tools/LayoutProbe/LayoutProbe.csproj" />
     <Project Path="tools/PackageSweep/PackageSweep.csproj" />
     <Project Path="tools/PackageTiming/PackageTiming.csproj" />
     <Project Path="tools/MarkupProbe/MarkupProbe.csproj" />

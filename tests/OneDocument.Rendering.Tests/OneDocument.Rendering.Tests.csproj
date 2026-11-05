@@ -23,6 +23,7 @@
     <PackageReference Include="xunit.v3" />
     <PackageReference Include="RecursiveAI.OneRender.Fonts.Noto.Arabic" />
     <PackageReference Include="RecursiveAI.OneRender.Fonts.Noto.Hebrew" />
+    <PackageReference Include="RecursiveAI.OneRender.Fonts.Noto.Thai" />
     <PackageReference Include="RecursiveAI.OneRender.Fonts.Cjk" />
   </ItemGroup>
 

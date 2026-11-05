@@ -16,6 +16,9 @@ public sealed class PdfRenderOptions
     /// <summary>Gets or sets whether the PDF is tagged (a structure tree with headings, lists, links). Default true.</summary>
     public bool Tagged { get; set; } = true;
 
+    /// <summary>Gets or sets whether page content is compressed. Default true; turn it off to read the PDF as text.</summary>
+    public bool Compress { get; set; } = true;
+
     /// <summary>Gets or sets the PDF profile: none, PDF/UA-1, PDF/A-2a, or both. Default none. A profile needs <see cref="Tagged"/>.</summary>
     public PdfProfile Profile { get; set; }
 
@@ -69,6 +72,7 @@ public static class DocumentRenderer
             Title = opt.Title ?? document.Properties.Core.Title ?? FirstHeading(layout) ?? "Document",
             Language = language,
             Tagged = opt.Tagged,
+            Compress = opt.Compress,
             Profile = opt.Profile,
             Creator = "OneDocument",
             LeaveOpen = true,

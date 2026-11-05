@@ -24,9 +24,18 @@
     <ProjectReference Include="../OneDocument.All/OneDocument.All.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- The script fonts the renderer falls back to for Arabic, Hebrew, Thai and East Asian text. -->
+    <PackageReference Include="RecursiveAI.OneRender.Fonts.Noto.Arabic" />
+    <PackageReference Include="RecursiveAI.OneRender.Fonts.Noto.Hebrew" />
+    <PackageReference Include="RecursiveAI.OneRender.Fonts.Noto.Thai" />
+    <PackageReference Include="RecursiveAI.OneRender.Fonts.Cjk" />
+  </ItemGroup>
+
   <!-- The tool references the kind projects directly, so it takes their registration files the way a package reference would. -->
   <Import Project="../OneDocument.Documents/build/RecursiveAI.OneDocument.Documents.targets" />
   <Import Project="../OneDocument.Spreadsheets/build/RecursiveAI.OneDocument.Spreadsheets.targets" />
   <Import Project="../OneDocument.Presentations/build/RecursiveAI.OneDocument.Presentations.targets" />
+  <Import Project="../OneDocument.Rendering/build/RecursiveAI.OneDocument.Rendering.targets" />
 
 </Project>
