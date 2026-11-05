@@ -127,6 +127,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.section-columns-mismatch` | repaired | `w:cols` names a count that differs from the number of `w:col` entries of an unequal layout; the entries win. |
 | `docx.header-missing` | repaired | A header or footer reference names a relationship that does not lead to a readable part; the reference is ignored. |
 | `docx.header-reference-duplicate` | repaired | A section has two header (or footer) references of one type; the first is used. |
+| `props.part-unreadable` | dropped | A properties part (`docProps/core.xml`, `app.xml` or `custom.xml`) is not well-formed XML; it reads as empty. Writing a property into it raises this code instead of overwriting the part. |
 | `xlsx.no-main-part` | fatal | No `officeDocument` relationship points at a part that exists. |
 | `xlsx.wrong-root` | fatal | The workbook part does not start with a `workbook` element, or a worksheet part with a `worksheet` element. The location holds the part and offset. |
 | `xlsx.no-sheets` | repaired | The workbook part has no `sheets` element; the workbook reads as having no sheets. |

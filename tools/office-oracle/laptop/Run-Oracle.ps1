@@ -188,6 +188,28 @@ function Invoke-Word($app, $item, $path, $outDir, $res) {
                 $cms += @{ index = $ci; author = $cm.Author; text = ($cm.Range.Text -replace '[\r\n\a]', ''); scope = ($cm.Scope.Text); isReply = ($null -ne $anc); replies = $cm.Replies.Count; done = $cm.Done }
             }
             $res.comments = $cms
+            # Every story of the document (main text, headers, footers, notes, comments, text boxes) with the list label Word gives each paragraph.
+            $stories = @()
+            foreach ($sr in $doc.StoryRanges) {
+                $r = $sr
+                $k = 0
+                while ($null -ne $r) {
+                    $rows = @()
+                    foreach ($pp in $r.Paragraphs) {
+                        $lf = $pp.Range.ListFormat
+                        $rows += @{ text = ($pp.Range.Text -replace '[\r\n\a]', ''); listString = $lf.ListString; listType = $lf.ListType; listLevel = $lf.ListLevelNumber; listValue = $lf.ListValue }
+                    }
+                    $srevs = @()
+                    try { foreach ($rv in $r.Revisions) { $srevs += @{ type = $rv.Type; author = $rv.Author; text = ($rv.Range.Text -replace '[\r\n\a]', '\u00b6') } } } catch { }
+                    $stories += @{ storyType = $r.StoryType; chainIndex = $k; paragraphs = $rows; revisions = $srevs }
+                    $k++
+                    $nx = $null
+                    try { $nx = $r.NextStoryRange } catch { }
+                    $r = $nx
+                }
+            }
+            $res.stories = $stories
+            if ($job.trace) { Write-Line @{ kind = 'trace'; step = 'stories-done' } }
         }
         $base = [IO.Path]::GetFileNameWithoutExtension($path)
         if ($item.exportPdf) {
