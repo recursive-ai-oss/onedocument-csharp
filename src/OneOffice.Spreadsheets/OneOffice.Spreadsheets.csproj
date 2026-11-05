@@ -25,9 +25,11 @@
     <ProjectReference Include="../OneOffice.Generators/OneOffice.Generators.csproj" ReferenceOutputAssembly="false" OutputItemType="GeneratorOutput" />
   </ItemGroup>
 
-  <Target Name="IncludeGeneratorInPackage" BeforeTargets="_GetPackageFiles" DependsOnTargets="ResolveProjectReferences">
+  <!-- The generator is built by the ProjectReference above (ordering only). Its output is named by path rather than taken from the reference's
+       output items, because resolving those items starts a build of the referenced projects, which `dotnet pack --no-build` forbids. -->
+  <Target Name="IncludeGeneratorInPackage" BeforeTargets="_GetPackageFiles">
     <ItemGroup>
-      <None Include="@(GeneratorOutput)" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+      <None Include="$(ArtifactsPath)/bin/OneOffice.Generators/$(Configuration.ToLowerInvariant())/RecursiveAI.OneOffice.Generators.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
   </Target>
 
