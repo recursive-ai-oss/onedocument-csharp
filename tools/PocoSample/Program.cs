@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using RecursiveAI.OneOffice.Diagnostics;
 using RecursiveAI.OneOffice.Spreadsheets;
 using RecursiveAI.OneOffice.Spreadsheets.Binding;
 
@@ -46,9 +47,14 @@ internal static class Program
 {
     private static int Main(string[] args)
     {
+        if (args.Length >= 2 && args[0] == "sweep")
+        {
+            return Sweep(args.Skip(1));
+        }
+
         if (args.Length != 1)
         {
-            Console.Error.WriteLine("usage: PocoSample DIR");
+            Console.Error.WriteLine("usage: PocoSample DIR | sweep DIR...");
             return 2;
         }
 
@@ -82,4 +88,89 @@ internal static class Program
         Console.WriteLine(same ? "typed.xlsx reads back equal" : "typed.xlsx DIFFERS");
         return same ? 0 : 1;
     }
+
+    /// <summary>
+    /// Reads the first sheet of every workbook under the given directories into a row type that does not fit them (columns by position,
+    /// mixed types, everything lenient). Only typed errors and defects are acceptable outcomes.
+    /// </summary>
+    private static int Sweep(IEnumerable<string> dirs)
+    {
+        int files = 0;
+        int ok = 0;
+        long rows = 0;
+        var typed = new SortedDictionary<string, int>(StringComparer.Ordinal);
+        var defects = new SortedDictionary<string, int>(StringComparer.Ordinal);
+        var other = new List<string>();
+        foreach (string file in dirs.SelectMany(d => Directory.EnumerateFiles(d, "*.xlsx", SearchOption.AllDirectories)).Order(StringComparer.Ordinal))
+        {
+            files++;
+            var sink = new DefectCollection(1000);
+            try
+            {
+                foreach (Loose _ in Spreadsheet.Read<Loose>(file, new OpenContext(defects: sink)))
+                {
+                    rows++;
+                }
+
+                ok++;
+            }
+            catch (OfficeException ex)
+            {
+                typed[ex.Defect.Code] = typed.GetValueOrDefault(ex.Defect.Code) + 1;
+            }
+            catch (Exception ex)
+            {
+                other.Add(Path.GetFileName(file) + ": " + ex.GetType().Name + ": " + ex.Message);
+            }
+
+            foreach (Defect d in sink)
+            {
+                defects[d.Code] = defects.GetValueOrDefault(d.Code) + 1;
+            }
+        }
+
+        Console.WriteLine($"files {files}, read to the end {ok}, rows {rows}");
+        foreach (KeyValuePair<string, int> kv in typed)
+        {
+            Console.WriteLine($"typed error {kv.Key}: {kv.Value}");
+        }
+
+        foreach (KeyValuePair<string, int> kv in defects)
+        {
+            Console.WriteLine($"defect {kv.Key}: {kv.Value}");
+        }
+
+        foreach (string o in other.Take(20))
+        {
+            Console.WriteLine("UNTYPED " + o);
+        }
+
+        Console.WriteLine($"untyped exceptions: {other.Count}");
+        return other.Count == 0 ? 0 : 1;
+    }
+}
+
+/// <summary>Columns by position with mixed types; most workbooks will not fit it.</summary>
+[SpreadsheetRow(HasHeader = false)]
+public sealed partial class Loose
+{
+    public string? A { get; set; }
+
+    public double? B { get; set; }
+
+    public int? C { get; set; }
+
+    public DateTime? D { get; set; }
+
+    public bool? E { get; set; }
+
+    public string F { get; set; } = string.Empty;
+
+    public decimal? G { get; set; }
+
+    public Tier? H { get; set; }
+
+    public TimeOnly? I { get; set; }
+
+    public long? J { get; set; }
 }
