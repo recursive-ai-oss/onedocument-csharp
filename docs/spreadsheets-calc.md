@@ -19,7 +19,7 @@ One node per formula cell (shared formulas are translated from their anchor; dat
 - table references become areas at build time; `[#This Row]` is the cell on the formula's own row.
 - 3-D references depend on the cell on every sheet between the two (workbook order, either way round).
 - whole-row and whole-column references are blocks; when read they are clipped to the sheet's used extent (`ICalcResolver.ClipArea`), so `SUM(A:A)` reads the used rows only. `ROWS(A:A)` still answers 1,048,576 because it asks the reference, not the values; a function that inspects the *shape of the array* made from a whole column sees the used extent.
-- external references are `#REF!` (default-deny) and add no edges.
+- references to other workbooks add no edges: they are answered from the file's cache or a resolver (see "Other workbooks"). A formula that reads one is marked, so it is calculated again whenever a resolver is supplied.
 
 A formula edit, a sheet/name/table change or a different function registry rebuilds the graph on the next call (a pass over the formulas, no evaluation); a value edit costs only its dependents. After a rebuild only the edited cells' dependents are recalculated, unless a sheet, name or table changed, which recalculates everything.
 
@@ -31,7 +31,33 @@ A formula that builds references at run time (a function marked `FunctionTraits.
 
 ## Circular references
 
-When no formula is ready but some are waiting, what is left is cycles and the formulas below them. The formulas on a cycle (strongly connected sets, and a formula that reads itself) get the value 0 and a `calc.circular-reference` defect; the formulas below them then calculate from those zeros. Iterative calculation is not implemented. *(pending the Excel check: that Excel shows 0 for every cell on the cycle and calculates the others from it; workbook `circular`)*
+When no formula is ready but some are waiting, what is left is cycles and the formulas below them. The formulas on a cycle (strongly connected sets, and a formula that reads itself) get the value 0 and a `calc.circular-reference` defect; the formulas below them then calculate from those zeros. With iterative calculation on (below) the cycle is iterated instead. *(pending the Excel check: that Excel shows 0 for every cell on the cycle and calculates the others from it; workbook `circular`)*
+
+## Iterative calculation
+
+`calcPr iterate` turns it on, `iterateCount` (default 100, at most 32767) and `iterateDelta` (default 0.001) bound it (ECMA-376 Part 1 §18.2.2). `Workbook.IsIterativeCalculation`, `IterationCount` and `IterationDelta` read them and `SetIterativeCalculation` writes them. Off, a cycle is cut to 0 as above.
+
+When nothing is ready but cycles remain, each cycle (a strongly connected set, or a formula reading itself) whose inputs from outside itself are finished is iterated, so a cycle that feeds another is settled first. A round calculates the cycle's formulas once each, in cell order (sheet, row, column), and each formula sees what the earlier ones of the same round wrote. The first round starts from the values the cells hold (the cached values; empty counts as 0). Iteration stops after a round in which no number moved by `iterateDelta` or more (Microsoft: values "change by less than" the maximum change; with a maximum change of 0 only a round with no change at all stops it), or after `iterateCount` rounds. A cell that changes between kinds (number to text, error to number) always counts as moved. A cycle that is still moving after the last round keeps its last values and reports `calc.iteration-limit`. `RecalcResult` counts `IterationRounds`, `IteratedCells` and `UnsettledCycles`. The formulas below a cycle are calculated after it settles. *(pending the Excel check: the round count and stopping rule, the order inside a round, and the values after a cut-off round; workbooks `iterate-self`, `iterate-count`, `iterate-pair-order`)*
+
+## Data tables
+
+A `t="dataTable"` formula on the first cell of a block is a what-if table (ECMA-376 Part 1 §18.3.1.40): `ref` is the block of results, `dt2D` marks a two-variable table, `dtr` says a one-variable table has its input values in a row (else in a column), `r1` is the first input cell and `r2` the second of a two-variable table, `del1`/`del2` mean an input cell was deleted. The formulas sit outside the block: the row above it for a column-oriented table, the column to its left for a row-oriented one, the corner cell above-left for a two-variable table. A table with no room for them (block on row 1 or column A), or whose `ref` does not parse, is left alone.
+
+Each result cell is computed by giving the input cell the value from the table's edge and calculating the formulas that depend on the input, in dependency order, in an overlay the resolver consults first: the grid is never written with the substituted values, so nothing leaks into other formulas, and the table's own cells are the only cells written. In a two-variable table `r1` takes the values of the top row and `r2` those of the left column. A deleted input gives `#REF!` in every cell. Tables are calculated after the formulas, and formulas that read table cells follow in a further pass. A recalculation runs them when something was calculated or edited. Formulas that build references at run time (`INDIRECT`, `OFFSET`) are not followed from the input cell. *(pending the Excel check: which of `r1`/`r2` takes the top row, the corner position, one-variable tables with several formulas; workbooks `datatable-column`, `datatable-row`, `datatable-2d`)*
+
+## Goal Seek
+
+`Workbook.GoalSeek(setCell, toValue, changingCell, options)` returns a `GoalSeekResult` (status `Found`, `NotFound`, `SetCellNotFormula`, `ChangingCellIsFormula` or `SetCellNotNumeric`; iterations; the value tried last or best). It calculates the workbook first, then searches in the same overlay as data tables, so the grid is untouched until the end. The search is a secant iteration from the changing cell's value; it stops when the formula cell is within the maximum change of the target (`iterateDelta`, default 0.001) or after `iterateCount` evaluations (default 100): Microsoft documents Goal Seek as using those two options. A found value is written to the changing cell and the workbook recalculated unless `Apply` is false; a failed search changes nothing. Excel does not document its search method, so the iteration count for a given problem is ours. Formulas reached through `INDIRECT` or `OFFSET` are not followed.
+
+## Other workbooks
+
+`externalLink` parts are read into `Workbook.ExternalLinks` (index, target as recorded, sheet names, cached cells from `sheetDataSet`); `[1]Sheet1!A1` in a formula is link 1 (ECMA-376 Part 1 §18.14). A part that is missing or malformed is the defect `xlsx.external-link-unreadable`, and the link keeps its number with no cache.
+
+Default-deny: with no resolver nothing outside the file is opened, and a reference reads the cache. A single cell must be in the cache to answer; a block answers with the cached cells it has and blank for the rest, unless it has none, which is `#REF!`. A link or sheet the file does not list, a 3-D external reference and an external defined name are `#REF!`. Whole-column and whole-row blocks are cut to the cached extent. `RecalcOptions.ExternalWorkbooks` supplies an `IExternalWorkbookResolver`: it is asked once per link per calculation for a `Workbook`, and the values read are that workbook's stored values (it is not recalculated). A resolver that returns null, or throws `OfficeException` or `IOException` (reported as `calc.external-resolve-failed`), leaves the cache in charge. Values read live replace the link's cache, and the part's `sheetDataSet` is rewritten at the end of the calculation (the rest of the part is untouched); without a resolver the part is never rewritten. The resolver owns the workbooks it returns. `RecalcResult.ExternalResolved` and `ExternalMissing` count the reads. *(pending the Excel check: blank cells in cached blocks, what Excel writes for blank cached cells, `#REF!` for a cell its cache lacks; workbook `external-cached`)*
+
+## Web functions
+
+`WEBSERVICE` and `FILTERXML` are registered and answer only through `RecalcOptions.WebServices` (`IWebServiceResolver`). `WEBSERVICE` gives `#VALUE!` for an address that is empty, over 2048 characters or not http/https, and for a response over 32767 characters (Microsoft's `WEBSERVICE` page). Without a resolver both give Excel's offline result `#VALUE!`, and a cell whose formula called one keeps its cached value when it has one (nothing is overwritten with `#VALUE!`). With a resolver that returns null the function gives `#VALUE!` as usual. *(pending the Excel check: that Excel keeps cached values for offline calls rather than showing `#VALUE!`; workbook `web-offline`)*
 
 ## Dynamic arrays and spills
 
@@ -51,7 +77,7 @@ If a call is cancelled, some cells hold new values and some old ones; call again
 
 ## Not here yet
 
-Iterative calculation, data tables, Goal Seek, external-link resolution, pivot refresh, `NOW`/`TODAY` clocks, and the function families beyond the evaluator's seed set (a formula calling a missing function evaluates to `#NAME?`).
+Pivot refresh, `NOW`/`TODAY` clocks, and the function families beyond the evaluator's seed set (a formula calling a missing function evaluates to `#NAME?`).
 
 ## Deviations
 

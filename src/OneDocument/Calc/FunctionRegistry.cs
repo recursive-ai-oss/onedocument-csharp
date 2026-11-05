@@ -176,6 +176,7 @@ public sealed class FunctionRegistry
         ArrayFunctions.Register(r);
         LambdaHelpers.Register(r);
         GroupFunctions.Register(r);
+        WebFunctions.Register(r);
         return r;
     }
 

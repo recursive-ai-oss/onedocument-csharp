@@ -16,6 +16,12 @@ public sealed class RecalcOptions
 
     /// <summary>Gets the smallest number of ready formulas worth handing to several threads at once. Below it a level is calculated on the calling thread. Default 256.</summary>
     public int ParallelThreshold { get; init; } = 256;
+
+    /// <summary>Gets the supplier of live workbooks for references to other workbooks. Null (the default) denies all access: such references read the values cached in the file, and <c>#REF!</c> where the cache has none.</summary>
+    public IExternalWorkbookResolver? ExternalWorkbooks { get; init; }
+
+    /// <summary>Gets the supplier of <c>WEBSERVICE</c> and <c>FILTERXML</c> answers. Null (the default) denies the call: the function gives Excel's offline result <c>#VALUE!</c>, and a cell that has a cached value keeps it.</summary>
+    public IWebServiceResolver? WebServices { get; init; }
 }
 
 /// <summary>What one recalculation did.</summary>
@@ -42,6 +48,24 @@ public sealed class RecalcResult
 
     /// <summary>Gets the number of dynamic-array formulas that ended in <c>#SPILL!</c>.</summary>
     public int SpillErrors { get; internal set; }
+
+    /// <summary>Gets the number of rounds iterative calculation made, summed over the cycles (0 when iteration is off or nothing was circular).</summary>
+    public int IterationRounds { get; internal set; }
+
+    /// <summary>Gets the number of formula cells that were calculated iteratively.</summary>
+    public int IteratedCells { get; internal set; }
+
+    /// <summary>Gets the number of cycles that were still changing by more than the maximum change when the maximum number of iterations ran out. They keep their last values.</summary>
+    public int UnsettledCycles { get; internal set; }
+
+    /// <summary>Gets the number of data-table cells that were calculated.</summary>
+    public int DataTableCells { get; internal set; }
+
+    /// <summary>Gets the number of references to other workbooks that were read from a live workbook the resolver supplied.</summary>
+    public int ExternalResolved { get; internal set; }
+
+    /// <summary>Gets the number of references to other workbooks that had to be answered with <c>#REF!</c> because neither the cached values nor the resolver had the cell.</summary>
+    public int ExternalMissing { get; internal set; }
 
     /// <summary>Gets a value indicating whether the dependency graph was (re)built by this call.</summary>
     public bool GraphBuilt { get; internal set; }
