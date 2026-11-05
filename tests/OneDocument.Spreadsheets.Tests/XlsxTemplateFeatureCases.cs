@@ -75,7 +75,7 @@ public partial class XlsxTemplateTests
         int id = 1025;
         foreach ((string r, int row, int col, string text) in comments)
         {
-            list.Append("<comment ref=\"").Append(r).Append("\" authorId=\"0\"><text><r><rPr><b/><sz val=\"9\"/></rPr><t xml:space=\"preserve\">").Append(text).Append("</t></r></text></comment>");
+            list.Append("<comment ref=\"").Append(r).Append("\" authorId=\"0\"><text><r><rPr><b/><sz val=\"9\"/></rPr><t>").Append(text).Append("</t></r></text></comment>");
             shapes.Append("<v:shape id=\"_x0000_s").Append(id++).Append("\" type=\"#_x0000_t202\" style=\"position:absolute;margin-left:80pt;margin-top:5pt;width:100pt;height:50pt;z-index:1;visibility:hidden\" fillcolor=\"#ffffe1\" o:insetmode=\"auto\">")
                 .Append("<v:fill color2=\"#ffffe1\"/><v:shadow on=\"t\" color=\"black\" obscured=\"t\"/><v:path o:connecttype=\"none\"/><v:textbox style=\"mso-direction-alt:auto\"><div style=\"text-align:left\"></div></v:textbox>")
                 .Append("<x:ClientData ObjectType=\"Note\"><x:MoveWithCells/><x:SizeWithCells/><x:Anchor>").Append(col + 1).Append(", 15, ").Append(row).Append(", 2, ").Append(col + 3).Append(", 15, ").Append(row + 3).Append(", 16</x:Anchor><x:AutoFill>False</x:AutoFill><x:Row>")

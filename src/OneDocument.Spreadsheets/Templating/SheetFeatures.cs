@@ -385,7 +385,11 @@ internal static class SheetFeatures
             if (!t.IsNull)
             {
                 t.SetText(text);
-                t.SetAttribute("xml:space", "preserve");
+                if (text.Length > 0 && (char.IsWhiteSpace(text[0]) || char.IsWhiteSpace(text[^1])) && t.GetAttribute("space") is null)
+                {
+                    // ECMA-376 Part 1 §18.4.12: leading and trailing spaces are kept only when the text says so.
+                    t.SetAttribute("xml:space", "preserve");
+                }
             }
         }
     }
