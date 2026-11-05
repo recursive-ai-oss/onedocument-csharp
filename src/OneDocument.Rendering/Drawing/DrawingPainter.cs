@@ -69,8 +69,9 @@ public static partial class DrawingPainter
     /// <param name="originX">Where the tree's origin falls on the page, in points.</param>
     /// <param name="originY">As <paramref name="originX"/>, vertically.</param>
     /// <param name="context">Colours, pictures and notes.</param>
+    /// <param name="include">Decides per top-level shape whether it is painted; null paints every shape.</param>
     /// <returns>The number of shapes and groups painted at the top level.</returns>
-    public static int DrawShapes(DisplayList list, Func<ItemId> nextId, MarkupNode tree, double originX, double originY, DrawingContext context)
+    public static int DrawShapes(DisplayList list, Func<ItemId> nextId, MarkupNode tree, double originX, double originY, DrawingContext context, Func<MarkupNode, bool>? include = null)
     {
         ArgumentNullException.ThrowIfNull(list);
         ArgumentNullException.ThrowIfNull(nextId);
@@ -80,7 +81,7 @@ public static partial class DrawingPainter
         int count = 0;
         foreach (MarkupNode child in tree.ChildElements)
         {
-            if (child.LocalNameString is "sp" or "pic" or "cxnSp" or "grpSp" or "graphicFrame" or "AlternateContent" or "wsp" or "wgp")
+            if (child.LocalNameString is "sp" or "pic" or "cxnSp" or "grpSp" or "graphicFrame" or "AlternateContent" or "wsp" or "wgp" && (include is null || include(child)))
             {
                 scene.PaintNode(child, root, null, 0);
                 count++;
@@ -88,6 +89,27 @@ public static partial class DrawingPainter
         }
 
         return count;
+    }
+
+    /// <summary>Paints a slide or page background (<c>p:bg</c>) over a rectangle.</summary>
+    /// <param name="list">The display list; coordinates are CSS pixels.</param>
+    /// <param name="nextId">Allocates item ids.</param>
+    /// <param name="background">The <c>p:bg</c> element: a <c>bgPr</c> with a fill, or a <c>bgRef</c> into the theme's background fills.</param>
+    /// <param name="box">The rectangle in points.</param>
+    /// <param name="context">Colours, pictures and notes.</param>
+    /// <returns>True when something was painted.</returns>
+    public static bool DrawBackground(DisplayList list, Func<ItemId> nextId, MarkupNode background, DrawingBox box, DrawingContext context)
+    {
+        ArgumentNullException.ThrowIfNull(list);
+        ArgumentNullException.ThrowIfNull(nextId);
+        ArgumentNullException.ThrowIfNull(context);
+        if (background.IsNull || box.Width <= 0 || box.Height <= 0)
+        {
+            return false;
+        }
+
+        var scene = new Scene(list, nextId, context);
+        return scene.PaintBackground(background, box);
     }
 
     internal static MarkupNode FindShape(MarkupNode n)
@@ -175,6 +197,21 @@ public static partial class DrawingPainter
                 return;
             }
 
+            DrawingTag? tag = ctx.Tagged && node.LocalNameString is "sp" or "cxnSp" or "pic" or "graphicFrame" ? ctx.ShapeTagger?.Invoke(node) : null;
+            if (tag is not null)
+            {
+                list.BeginTag(nextId(), tag.Role, tag.AltText);
+            }
+
+            PaintNodeCore(node, parent, top, depth);
+            if (tag is not null)
+            {
+                list.EndTag();
+            }
+        }
+
+        private void PaintNodeCore(MarkupNode node, Matrix3x2 parent, DrawingBox? top, int depth)
+        {
             switch (node.LocalNameString)
             {
                 case "sp" or "wsp" or "cxnSp" or "pic":
@@ -217,6 +254,17 @@ public static partial class DrawingPainter
         // painter the host installed. Anything else in a frame (tables, diagrams, OLE) is not painted here.
         private void PaintChartFrame(MarkupNode node, Matrix3x2 parent, DrawingBox? top)
         {
+            if (node.LocalNameString == "graphicFrame" && ctx.FramePainter is { } framePainter)
+            {
+                Xfrm tf = ReadXfrm(FrameTransform(node), top);
+                Vector2 ta = Vector2.Transform(new Vector2((float)tf.X, (float)tf.Y), parent);
+                Vector2 tb = Vector2.Transform(new Vector2((float)(tf.X + tf.W), (float)(tf.Y + tf.H)), parent);
+                if (framePainter(node, list, Math.Min(ta.X, tb.X), Math.Min(ta.Y, tb.Y), Math.Abs(tb.X - ta.X), Math.Abs(tb.Y - ta.Y)))
+                {
+                    return;
+                }
+            }
+
             string? rel = node.LocalNameString == "chart" ? RelationshipId(node) : ChartReference(node, 0);
             if (rel is null || ctx.ChartPainter is not { } painter)
             {
@@ -244,6 +292,19 @@ public static partial class DrawingPainter
             {
                 ctx.Note("drawing.chart-not-painted", "A chart could not be read or painted; nothing is drawn for it.");
             }
+        }
+
+        private static MarkupNode FrameTransform(MarkupNode node)
+        {
+            foreach (MarkupNode c in node.ChildElements)
+            {
+                if (c.LocalNameString == "xfrm")
+                {
+                    return c;
+                }
+            }
+
+            return default;
         }
 
         private static string? RelationshipId(MarkupNode e)
@@ -393,13 +454,43 @@ public static partial class DrawingPainter
             string kind = shape.LocalNameString;
             MarkupNode spPr = DrawingTheme.Child(shape, "spPr");
             MarkupNode style = DrawingTheme.Child(shape, "style");
-            Xfrm f = ReadXfrm(DrawingTheme.Child(spPr, "xfrm"), top);
+            // A placeholder writes only what it changes; position, geometry, fill and line come from the shapes it inherits from.
+            ShapeInheritance? inherited = ctx.ShapeResolver?.Invoke(shape);
+            var sources = new List<MarkupNode>(1 + (inherited?.Parents.Count ?? 0)) { spPr };
+            if (inherited is not null)
+            {
+                foreach (MarkupNode parentShape in inherited.Parents)
+                {
+                    sources.Add(DrawingTheme.Child(parentShape, "spPr"));
+                    if (style.IsNull)
+                    {
+                        style = DrawingTheme.Child(parentShape, "style");
+                    }
+                }
+            }
+
+            Xfrm f = ReadXfrm(FirstChild(sources, "xfrm"), top);
+            if (inherited?.HeightEmu is { } newHeight)
+            {
+                f = f with { H = newHeight, Y = inherited.TopEmu ?? f.Y };
+            }
+
             double wPt = f.W / EmuPerPoint, hPt = f.H / EmuPerPoint;
             Matrix3x2 m = Placement(f, EmuPerPoint) * parent;
 
             GeometryDefinition? geometry = null;
             var adjust = new Dictionary<string, double>(StringComparer.Ordinal);
-            foreach (MarkupNode g in spPr.ChildElements)
+            MarkupNode geometrySource = spPr;
+            foreach (MarkupNode candidate in sources)
+            {
+                if (!DrawingTheme.Child(candidate, "prstGeom").IsNull || !DrawingTheme.Child(candidate, "custGeom").IsNull)
+                {
+                    geometrySource = candidate;
+                    break;
+                }
+            }
+
+            foreach (MarkupNode g in geometrySource.ChildElements)
             {
                 if (g.LocalNameString == "prstGeom")
                 {
@@ -425,14 +516,24 @@ public static partial class DrawingPainter
                 }
             }
 
-            if (geometry is null && kind == "pic")
+            // A shape with a text body and no geometry anywhere in its chain draws no outline of its own; its text still fills its box.
+            bool textOnly = false;
+            if (geometry is null && (kind == "pic" || (inherited is not null && kind == "sp")))
             {
+                textOnly = kind != "pic";
                 geometry = GeometryDefinition.Preset("rect");
             }
 
             EvaluatedGeometry? eg = geometry?.Evaluate(wPt, hPt, adjust);
-            FillSpec? fill = kind == "pic" ? PictureFill(shape, spPr) : ResolveFill(spPr, style);
-            LineSpec line = ResolveLine(spPr, style);
+            MarkupNode fillSource = FirstWith(sources, "noFill", "solidFill", "gradFill", "blipFill", "pattFill", "grpFill");
+            MarkupNode lineSource = FirstWith(sources, "ln");
+            FillSpec? fill = kind == "pic" ? PictureFill(shape, spPr) : ResolveFill(fillSource, style);
+            LineSpec line = ResolveLine(lineSource, style);
+            if (textOnly)
+            {
+                fill = null;
+                line.Visible = false;
+            }
             // Office keeps a line's width when a group is stretched, so the stretch the group put into this shape's matrix is divided out.
             double det = Math.Abs((double)m.M11 * m.M22 - ((double)m.M12 * m.M21));
             double widthFix = det > 1e-18 ? PointsToPixels / Math.Sqrt(det) : 1;
@@ -443,7 +544,7 @@ public static partial class DrawingPainter
 
             line.Width *= widthFix;
             line.ArrowMin = 1.5 * widthFix;
-            var effects = ResolveEffects(spPr, style);
+            var effects = ResolveEffects(FirstWith(sources, "effectLst", "effectDag"), style);
 
             bool filter = effects.Shadow is not null || effects.Glow is not null;
             if (filter)
@@ -502,10 +603,87 @@ public static partial class DrawingPainter
                 ctx.Note("drawing.3d-flattened", "3-D formatting is drawn as its flat two-dimensional shape.");
             }
 
-            PaintShapeText(shape, eg, m);
+            PaintShapeText(shape, eg, m, sources);
         }
 
-        private void PaintShapeText(MarkupNode shape, EvaluatedGeometry? eg, Matrix3x2 m)
+        // ECMA-376 Part 1 §19.3.1.1 (bg): bgPr holds a fill; bgRef points into the theme's background fill styles (idx 1001 and up) with the colour that stands for phClr.
+        public bool PaintBackground(MarkupNode background, DrawingBox box)
+        {
+            FillSpec? fill = null;
+            MarkupNode bgPr = DrawingTheme.Child(background, "bgPr");
+            MarkupNode bgRef = DrawingTheme.Child(background, "bgRef");
+            if (!bgPr.IsNull)
+            {
+                fill = ResolveFill(bgPr, default);
+            }
+            else if (!bgRef.IsNull)
+            {
+                int idx = (int)DrawingInfo.Emu(bgRef.GetAttribute("idx"));
+                DrawingColor? ph = ctx.Colors.ResolveChild(bgRef);
+                IReadOnlyList<MarkupNode> styles = idx >= 1001 ? ctx.Colors.Theme.BackgroundFillStyles : ctx.Colors.Theme.FillStyles;
+                int pos = idx >= 1001 ? idx - 1001 : idx - 1;
+                if (pos >= 0 && pos < styles.Count)
+                {
+                    fill = new FillSpec(styles[pos], ph);
+                }
+                else if (ph is not null)
+                {
+                    fill = new FillSpec(default, ph);
+                }
+            }
+
+            if (fill is null)
+            {
+                return false;
+            }
+
+            var path = new PathBuffer();
+            path.MoveTo(0, 0);
+            path.LineTo((float)box.Width, 0);
+            path.LineTo((float)box.Width, (float)box.Height);
+            path.LineTo(0, (float)box.Height);
+            path.Close();
+            list.PushTransform(nextId(), Matrix3x2.CreateScale((float)PointsToPixels) * Matrix3x2.CreateTranslation((float)(box.X * PointsToPixels), (float)(box.Y * PointsToPixels)));
+            PaintFill(path, fill, PathFillMode.Norm, box.Width, box.Height);
+            list.PopTransform();
+            return true;
+        }
+
+        private static MarkupNode FirstChild(List<MarkupNode> sources, string name)
+        {
+            foreach (MarkupNode source in sources)
+            {
+                MarkupNode c = DrawingTheme.Child(source, name);
+                if (!c.IsNull)
+                {
+                    return c;
+                }
+            }
+
+            return default;
+        }
+
+        // The first of the shape's property blocks that holds any of the named elements; the shape's own block when none does.
+        private static MarkupNode FirstWith(List<MarkupNode> sources, params string[] names)
+        {
+            foreach (MarkupNode source in sources)
+            {
+                foreach (string name in names)
+                {
+                    if (!DrawingTheme.Child(source, name).IsNull)
+                    {
+                        return source;
+                    }
+                }
+            }
+
+            return sources[0];
+        }
+
+        // A shape that stands on its own (a VML text box) has no inherited property blocks.
+        private void PaintShapeText(MarkupNode shape, EvaluatedGeometry? eg, Matrix3x2 m) => PaintShapeText(shape, eg, m, []);
+
+        private void PaintShapeText(MarkupNode shape, EvaluatedGeometry? eg, Matrix3x2 m, List<MarkupNode> sources)
         {
             MarkupNode body = DrawingTheme.Child(shape, "bodyPr");
             MarkupNode txBody = DrawingTheme.Child(shape, "txBody");
@@ -545,7 +723,14 @@ public static partial class DrawingPainter
                 return;
             }
 
-            painter(new ShapeTextRequest(list, shape, Matrix3x2.CreateTranslation((float)x0, (float)y0) * m, w, h, nextId, body));
+            painter(new ShapeTextRequest(list, shape, Matrix3x2.CreateTranslation((float)x0, (float)y0) * m, w, h, nextId, body)
+            {
+                RectX = eg.TextLeft,
+                RectY = eg.TextTop,
+                RectWidth = eg.TextRight - eg.TextLeft,
+                RectHeight = eg.TextBottom - eg.TextTop,
+                ShapeMatrix = m,
+            });
         }
 
         private static double Inset(MarkupNode body, string name, double fallback) =>

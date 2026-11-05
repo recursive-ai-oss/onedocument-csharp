@@ -13,7 +13,7 @@ listed in the deviations table at the end.
 `LayoutEngine.Layout(Document, LayoutOptions?)` → `LayoutDocument` (pages, font notes, notes, field passes) →
 `LayoutPainter.Paint(LayoutPage)` → OneRender `DisplayList` → `DocumentRenderer.WritePdf` / `RenderPng`, or any OneRender backend.
 OneDocument does its own text layout; OneRender's CSS engine is never involved. Layout reads the document and never changes it.
-`Office.Convert("in.docx", "out.pdf")` and `document.SaveAs("out.pdf")` go through the same path once
+Presentations render through `PresentationRenderer` (`presentation-rendering.md`) into the same display list. `Office.Convert("in.docx", "out.pdf")` and `document.SaveAs("out.pdf")` go through the same path once
 `RenderingFormats.Register` has run (referencing the package does it by itself, as for the other kinds). A PNG written through
 `SaveAs` is page 1; `DocumentRenderer.RenderPng(page)` renders any page at 144 dpi.
 

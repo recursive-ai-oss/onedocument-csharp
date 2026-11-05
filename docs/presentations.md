@@ -50,3 +50,7 @@ Slide ids come from the existing maximum plus one; names and relationship ids ar
 ## Defects
 
 Codes `pptx.*` in `defects.md`. A missing or wrong-root slide, layout or master reads as empty or as inheriting nothing and is reported once per part; a missing main part is fatal.
+
+## Rendering
+
+Slides, notes pages and handouts render to PDF and PNG through `PresentationRenderer` in the rendering package; the rules are in `presentation-rendering.md`.

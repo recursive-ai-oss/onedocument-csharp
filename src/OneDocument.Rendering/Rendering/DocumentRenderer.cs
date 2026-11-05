@@ -191,14 +191,15 @@ public static class RenderingFormats
     [
         DocumentRenderer.TryWrite,
         WorkbookRenderer.TryWrite,
+        Presentations.PresentationRenderer.TryWrite,
     ];
 
     /// <summary>Gets the output formats this package writes.</summary>
     public static IReadOnlyList<OfficeFormat> Formats { get; } = [OfficeFormat.Pdf, OfficeFormat.Png];
 
     /// <summary>
-    /// Registers PDF and PNG writers, so <c>Office.Convert("in.docx", "out.pdf")</c> and <c>document.SaveAs("out.pdf")</c> work, for documents and
-    /// workbooks. A PNG holds the first page. Calling it again is harmless.
+    /// Registers PDF and PNG writers, so <c>Office.Convert("in.docx", "out.pdf")</c> and <c>document.SaveAs("out.pdf")</c> work, for documents,
+    /// workbooks and presentations. A PNG holds the first page. Calling it again is harmless.
     /// </summary>
     /// <param name="registry">The registry to fill.</param>
     public static void Register(FormatRegistry registry)
