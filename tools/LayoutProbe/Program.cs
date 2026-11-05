@@ -28,7 +28,17 @@ internal static class Program
                 File.WriteAllBytes(Path.Combine(args[1], name + ".docx"), docx);
             }
 
-            Console.WriteLine($"{LayoutCases.All().Count} documents in {args[1]}");
+            foreach ((string name, byte[] docx) in DrawingSamples.All())
+            {
+                File.WriteAllBytes(Path.Combine(args[1], "drawing-" + name + ".docx"), docx);
+            }
+
+            foreach ((string name, byte[] pptx) in DrawingSamples.Presentations())
+            {
+                File.WriteAllBytes(Path.Combine(args[1], "drawing-" + name + ".pptx"), pptx);
+            }
+
+            Console.WriteLine($"{LayoutCases.All().Count + DrawingSamples.All().Count} documents and {DrawingSamples.Presentations().Count} presentations in {args[1]}");
             return 0;
         }
 
