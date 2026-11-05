@@ -34,6 +34,8 @@ internal static class Program
         ["revisions"] = RevisionTarget.Run,
         ["sdt"] = SdtTarget.RunDocument,
         ["sdtpath"] = SdtTarget.RunPath,
+        ["numfmt"] = NumFmtTarget.RunParse,
+        ["numfmtfmt"] = NumFmtTarget.RunFormat,
         ["sheet"] = SheetTarget.RunSheet,
         ["sst"] = SheetTarget.RunSst,
         ["wbpart"] = SheetTarget.RunWorkbookPart,
@@ -58,6 +60,7 @@ internal static class Program
                 "text" => TextTarget.WriteSeeds(args[2]),
                 "revisions" => RevisionTarget.WriteSeeds(args[2]),
                 "sdt" or "sdtpath" => SdtTarget.WriteSeeds(args[2]),
+                "numfmt" or "numfmtfmt" => NumFmtTarget.WriteSeeds(args[2]),
                 "sheet" or "sst" or "wbpart" => SheetTarget.WriteSeeds(args[2]),
                 _ => 2,
             };

@@ -13,6 +13,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `biff.`, `doc.`, `ppt.`, `xlsb.` | binary record layers | `Record` |
 | `sheet.` | the workbook model | `Reference`, `Value` |
 | `formula.` | formula text and tokens | `Formula` |
+| `numfmt.` | number-format codes | `Value` |
 | `text.` | text extraction | `Structure`, `Reference`, `Markup`, `Packaging` |
 | `docx.` | the word-processing hub | `Structure`, `Reference`, `Value`, `Packaging` |
 | `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
@@ -74,6 +75,20 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `xml.misplaced-content` | fatal | Text or a CDATA section outside the root element, or a second root element. |
 | `xml.no-root` | fatal | The part has no root element. |
 | `xml.invalid-declaration` | fatal | The XML declaration is malformed (version, encoding, standalone) or is not the first thing in the part. |
+| `numfmt.too-many-sections` | fatal | A number-format code has more than four sections. The position is the start of the fifth. |
+| `numfmt.unterminated-string` | fatal | A `"` is never closed. |
+| `numfmt.unterminated-bracket` | fatal | A `[` is never closed. |
+| `numfmt.unknown-bracket` | fatal | A bracketed item is not a colour, condition, locale tag, elapsed-time code or `DBNum`. |
+| `numfmt.invalid-condition` | fatal | A `[...]` condition has an unknown operator or no number. |
+| `numfmt.condition-on-text-section` | fatal | The fourth (text) section has a condition. |
+| `numfmt.dangling-escape` | fatal | `\`, `_` or `*` ends the section with nothing to apply to. |
+| `numfmt.unexpected-character` | fatal | An unquoted ASCII letter that is not a format code. |
+| `numfmt.multiple-decimal-points` | fatal | A section has two decimal points. |
+| `numfmt.multiple-exponents` | fatal | A section has two `E+`/`E-` codes. |
+| `numfmt.exponent-without-digits` | fatal | `E+` or `E-` is not followed by `0` or `#`. |
+| `numfmt.mixed-codes` | fatal | Date or time codes together with digit placeholders, an exponent or `General`; or a fraction with a decimal point; or `General` with digit placeholders. |
+| `numfmt.invalid-date-code` | fatal | More `m`, `d`, `h` or `s` in a row than the code allows. |
+| `numfmt.fraction-denominator` | fatal | A fixed denominator above 99999, or more than five denominator placeholders. |
 | `text.no-main-part` | fatal | The package names no main document part, or the part it names is not in the package. |
 | `text.part-missing` | dropped | A relationship of the main part (a header, footer, notes, comments, sheet or slide) names a part the package does not have; its text is left out. |
 | `text.part-unreadable` | dropped | A part other than the main one is damaged (malformed XML or a damaged archive entry); the text before the damage was kept and the rest of that part is left out. The location is the part and offset. |

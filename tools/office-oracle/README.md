@@ -95,8 +95,30 @@ pressed. A dialog that cannot be answered within 60 s gets the application kille
   actions (`accept-all`, `reject-all`, `accept:N`, `reject:N`, `accept-para:N`, `reject-para:N`) whose results are saved
   next to the results file.
 
+## Grid mode (Excel)
+
+`office-oracle.sh run --grid ...` opens each workbook in Excel, recalculates fully, and writes `NAME.answers.tsv`
+beside the results (`id<TAB>text` per row, with tabs, newlines and backslashes escaped). A sheet named `text` is read
+from column D (the result of a formula), any other sheet from column B (the displayed text of the cell), keyed by the
+id in column A. The `grid` field of the result line records Excel's decimal and thousands separators, country code and
+build. It is used by the number-format grid in `tools/NumFmtGrid`.
+
+## Runs are self-contained
+
+Each `run` registers its own one-off task, `OneOfficeOracle-<run>` (`laptop/Start-Run.ps1`), whose command line carries the
+run's job directory (`Run-Oracle.ps1 -JobDir`), and deletes it when the results are back. There is no shared pointer file any
+more, so two runs started at the same time cannot overwrite each other; they queue on the shared lock inside the script
+(the one that gets the lock goes first, the other waits up to `--lock-wait`). Run names may contain only letters, digits,
+`.`, `_` and `-`. `jobs\current.txt` is still honoured when the script is started by hand without `-JobDir`.
+
+Every run ends by quitting the applications it started and killing, by process id, any it started that did not exit; the
+result's `end` line lists the Office processes left, which should be empty unless the owner has the application open.
+When `officeProcessesLeft` is not empty, look at the process's start time, parent and command line before anyone
+kills it: it may be the owner's own copy, and only a process a run started may be killed.
+
 ## Checking OneOffice's own edits
 
 `tools/OracleCases` (`OracleCases DIR`) writes one small file per kind of edit that OneOffice makes (table edits, sections and
 headers, comments, notes, field results, authored and resolved revisions, content-control values, the output formats). Run the
 directory through `office-oracle.sh run` and every file should come back `clean`.
+
