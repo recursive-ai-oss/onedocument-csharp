@@ -191,10 +191,11 @@ public sealed partial class Document : OfficeFile
     {
         SyncTextBoxAlternates();
         Parts.Flush();
+        Volatile.Read(ref _properties)?.Commit();
     }
 
     /// <summary>Gets a value indicating whether any parsed part has been edited since it was read.</summary>
-    public bool HasUncommittedChanges => Parts.HasEdits;
+    public bool HasUncommittedChanges => Parts.HasEdits || (Volatile.Read(ref _properties)?.HasUncommittedChanges ?? false);
 
     /// <summary>Releases the package when the document owns it.</summary>
     /// <param name="disposing">True when called from <see cref="OfficeFile.Dispose()"/>.</param>
