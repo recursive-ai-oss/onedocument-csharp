@@ -82,10 +82,25 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
     /// </summary>
     internal static bool NeedsRaster(MetafileDocument doc, out string reason)
     {
+        bool drawn = false;
         foreach (DrawingCommand c in doc.Commands)
         {
+            if (c is FillPathCommand or StrokePathCommand or BlitCommand or DrawTextCommand or DrawStringCommand or DrawGlyphsCommand or DrawImageCommand)
+            {
+                drawn = true;
+            }
+
             switch (c)
             {
+                case FillPathCommand fb when BrushNeedsRaster(fb.Brush, out reason):
+                    return true;
+                case ClearCommand { Color.A: not 255 } when drawn || false:
+                    reason = "a translucent clear after drawing";
+                    return true;
+                case DrawStringCommand { Format.Vertical: true }:
+                case DrawGlyphsCommand { Vertical: true }:
+                    reason = "vertical text";
+                    return true;
                 case FillPathCommand f when !MixOk(f.Mix):
                     reason = "the raster operation " + f.Mix;
                     return true;
@@ -109,6 +124,22 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
 
         reason = string.Empty;
         return false;
+    }
+
+    private static bool BrushNeedsRaster(BrushSpec b, out string reason)
+    {
+        switch (b)
+        {
+            case StyleHatchBrushSpec { Style: > 5 }:
+                reason = "GDI+ hatch styles beyond the first six";
+                return true;
+            case PathGradientBrushSpec pg when pg.BoundaryColors.Distinct().Count() > 1:
+                reason = "path gradients with several boundary colours";
+                return true;
+            default:
+                reason = string.Empty;
+                return false;
+        }
     }
 
     private static bool MixOk(MixMode m) => m is MixMode.CopyPen or MixMode.Nop or MixMode.Black or MixMode.White;
@@ -137,7 +168,7 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
             // Twice the final size keeps edges clean when the page is rasterised at 144 dpi; capped by the context.
             int w = (int)Math.Clamp(Math.Ceiling(pr.Width * sx * 2), 16, _ctx.MaxRasterSide);
             int h = (int)Math.Clamp(Math.Ceiling(pr.Height * sy * 2), 16, _ctx.MaxRasterSide);
-            var config = new OneImage.ImageConfiguration().Add(new MetafileFormat(_ctx.Limits));
+            var config = new OneImage.ImageConfiguration().Add(new MetafileFormat(_ctx.Limits)).Add(new WmfFormat(_ctx.Limits));
             ImageLoader img = ImageLoader.Load(data, new OneImage.LoadOptions { Configuration = config })
                 .Resize(width: w, height: h, fit: OneImage.Fit.Stretch);
             Rgba32[] px = img.ToArray<Rgba32>();
@@ -323,7 +354,116 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
             case PatternBrushSpec p:
                 FillPattern(pb, rule, p);
                 break;
+            case LinearGradientBrushSpec g:
+                FillLinear(pb, rule, g);
+                break;
+            case PathGradientBrushSpec pg:
+                FillPathGradient(pb, rule, pg);
+                break;
+            case TextureBrushSpec t:
+                FillTexture(pb, rule, t);
+                break;
+            case StyleHatchBrushSpec sh:
+                FillStyleHatch(pb, rule, sh);
+                break;
         }
+    }
+
+    // [MS-EMFPLUS] §2.2.2.24 EmfPlusLinearGradientBrushData: the gradient runs from Start to End in the brush's own space.
+    private void FillLinear(PathBuffer pb, FillRule rule, LinearGradientBrushSpec g)
+    {
+        Matrix3x2 m = g.Transform * Final;
+        Vector2 p0 = Vector2.Transform(g.Start, m), p1 = Vector2.Transform(g.End, m);
+        if (g.Stops.Count == 0)
+        {
+            return;
+        }
+
+        if (g.Stops.Count == 1 || Vector2.DistanceSquared(p0, p1) < 1e-6f)
+        {
+            L.FillPath(Id(), pb, Color(g.Stops[0].Color), rule);
+            return;
+        }
+
+        var stops = new GradientStop[g.Stops.Count];
+        for (int i = 0; i < stops.Length; i++)
+        {
+            stops[i] = new GradientStop(g.Stops[i].Position, Color(g.Stops[i].Color));
+        }
+
+        // Mirrored tiling has no display-list form; it repeats without the mirror.
+        L.FillPath(Id(), pb, L.LinearGradient(p0.X, p0.Y, p1.X, p1.Y, stops, g.Wrap != EdgeWrap.Clamp), rule);
+    }
+
+    // [MS-EMFPLUS] §2.2.2.28 EmfPlusPathGradientBrushData: centre colour to boundary colours; the display list has a radial gradient, which
+    // matches when the boundary is one colour (several colours are drawn as a bitmap).
+    private void FillPathGradient(PathBuffer pb, FillRule rule, PathGradientBrushSpec g)
+    {
+        Matrix3x2 m = g.Transform * Final;
+        Vector2 c = Vector2.Transform(g.Center, m);
+        float radius = 0;
+        foreach (Vector2 b in g.Boundary)
+        {
+            radius = MathF.Max(radius, Vector2.Distance(c, Vector2.Transform(b, m)));
+        }
+
+        Rgba32 edge = g.BoundaryColors.Count > 0 ? g.BoundaryColors[0] : g.CenterColor;
+        if (g.BoundaryColors.Distinct().Count() > 1)
+        {
+            Note("render.metafile-approximated", "pathgradient", "A path gradient with several boundary colours was drawn with the first one.", DefectSeverity.Repaired);
+        }
+
+        if (!(radius > 0))
+        {
+            L.FillPath(Id(), pb, Color(g.CenterColor), rule);
+            return;
+        }
+
+        GradientStop[] stops = [new(0, Color(g.CenterColor)), new(1, Color(edge))];
+        L.FillPath(Id(), pb, L.RadialGradient(c.X, c.Y, radius, radius, stops), rule);
+    }
+
+    private void FillTexture(PathBuffer pb, FillRule rule, TextureBrushSpec t)
+    {
+        RasterImage img = t.Image;
+        if (img.Width <= 0 || img.Height <= 0)
+        {
+            return;
+        }
+
+        Matrix3x2 m = t.Transform * Final;
+        if (!Matrix3x2.Invert(m, out Matrix3x2 inv))
+        {
+            return;
+        }
+
+        Bounds(pb, out float x0, out float y0, out float x1, out float y1);
+        Vector2[] corners = [Vector2.Transform(new Vector2(x0, y0), inv), Vector2.Transform(new Vector2(x1, y0), inv), Vector2.Transform(new Vector2(x1, y1), inv), Vector2.Transform(new Vector2(x0, y1), inv)];
+        float bx0 = corners.Min(p => p.X), by0 = corners.Min(p => p.Y), bx1 = corners.Max(p => p.X), by1 = corners.Max(p => p.Y);
+        ImageHandle handle = _ctx.Images.Add(new RgbaImage(img.Width, img.Height, img.Pixels.ToArray()));
+        var tile = new RectF(0, 0, img.Width, img.Height);
+        L.PushClipPath(Id(), Clone(pb), rule);
+        L.PushTransform(Id(), m);
+        if (t.Wrap == EdgeWrap.Clamp)
+        {
+            L.DrawImage(Id(), handle, tile, tile, ImageSampling.Smooth);
+        }
+        else
+        {
+            L.DrawImageTiled(Id(), handle, tile, tile, new RectF(bx0, by0, bx1 - bx0, by1 - by0), 0, 0, ImageSampling.Smooth);
+        }
+
+        L.PopTransform();
+        L.PopClip();
+    }
+
+    // GDI+ hatch styles 0 to 5 are the six GDI patterns; they are anchored at the corner of the output.
+    private void FillStyleHatch(PathBuffer pb, FillRule rule, StyleHatchBrushSpec h)
+    {
+        HatchKind kind = h.Style switch { 0 => HatchKind.Horizontal, 1 => HatchKind.Vertical, 2 => HatchKind.ForwardDiagonal, 3 => HatchKind.BackwardDiagonal, 4 => HatchKind.Cross, _ => HatchKind.DiagonalCross };
+        Matrix3x2.Invert(_toPage, out Matrix3x2 back);
+        Vector2 origin = Vector2.Transform(new Vector2(_dest.X, _dest.Y), back);
+        FillHatch(pb, rule, new HatchBrushSpec(kind, h.Foreground, h.Background.A == 0 ? null : h.Background, origin));
     }
 
     private static PaintColor Color(Rgba32 c) => PaintColor.FromBytes(c.R, c.G, c.B, c.A);
@@ -485,7 +625,10 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
                 EmitOutline(path.GenerateOutline(width, Join(pen.Join), Cap(pen.Cap), (float)Math.Max(pen.MiterLimit, 1)), Color(gap));
             }
 
-            Path outline = path.GenerateOutline(width, Join(pen.Join), Cap(pen.Cap), (float)Math.Max(pen.MiterLimit, 1), dash);
+            // GDI+ pens carry a dash cap (the shape of each dash end) and an offset into the pattern, counted in pen widths.
+            StrokeCap cap = dash.Length > 0 && pen.Plus is { } plus ? Cap(plus.DashCap) : Cap(pen.Cap);
+            float offset = dash.Length > 0 && pen.Plus is { } po ? (float)(po.DashOffset * width) : 0f;
+            Path outline = path.GenerateOutline(width, Join(pen.Join), cap, (float)Math.Max(pen.MiterLimit, 1), dash, offset);
             EmitOutline(outline, Color(color));
         }
         catch (Exception ex) when (ex is ArgumentException or OneImage.ImageException or InvalidOperationException)
@@ -942,20 +1085,11 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
             L.FillPath(Id(), _pb, Color(command.OpaqueColor), FillRule.NonZero);
         }
 
-        _fonts ??= _ctx.Fonts ?? _ctx.ResolvedFonts ?? (_ctx.ResolvedFonts = FontLibrary.CreateDefault());
         FontSpec font = command.Font;
-        string family = font.FaceName.Length == 0 ? "Arial" : font.FaceName;
-        string? familyClass = ((font.PitchAndFamily >> 4) & 0xF) switch { 1 => "roman", 2 => "swiss", 3 => "modern", 4 => "script", 5 => "decorative", _ => null };
-        FontMatch? match = _fonts.Resolve(new FontRequest(family, font.Weight >= 600, font.Italic, familyClass));
+        FontMatch? match = ResolveFont(font);
         if (match is null)
         {
-            Note("render.metafile-diagnostic", "font:" + family, $"No font is available for \"{family}\"; its text in the picture is not drawn.", DefectSeverity.Dropped);
             return;
-        }
-
-        if (!match.IsExact)
-        {
-            Note("render.metafile-font", "font:" + family, $"Font \"{family}\" in the picture is not available; \"{match.ActualFamily}\" was used.", DefectSeverity.Repaired);
         }
 
         OneFont.FontFace face = match.Face;
@@ -990,7 +1124,7 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
 
             OneFont.FontFace use = face;
             int gid = command.IsGlyphIndices ? cp : face.GetGlyphIndex(cp);
-            if (gid == 0 && cp > 32 && !command.IsGlyphIndices && _fonts.FindFallback(cp, font.Weight >= 600, font.Italic) is { } fb && fb.HasGlyph(cp))
+            if (gid == 0 && cp > 32 && !command.IsGlyphIndices && _fonts?.FindFallback(cp, font.Weight >= 600, font.Italic) is { } fb && fb.HasGlyph(cp))
             {
                 use = fb;
                 gid = fb.GetGlyphIndex(cp);
@@ -1086,6 +1220,26 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
         }
     }
 
+    private FontMatch? ResolveFont(FontSpec font)
+    {
+        _fonts ??= _ctx.Fonts ?? _ctx.ResolvedFonts ?? (_ctx.ResolvedFonts = FontLibrary.CreateDefault());
+        string family = font.FaceName.Length == 0 ? "Arial" : font.FaceName;
+        string? familyClass = ((font.PitchAndFamily >> 4) & 0xF) switch { 1 => "roman", 2 => "swiss", 3 => "modern", 4 => "script", 5 => "decorative", _ => null };
+        FontMatch? match = _fonts.Resolve(new FontRequest(family, font.Weight >= 600, font.Italic, familyClass));
+        if (match is null)
+        {
+            Note("render.metafile-diagnostic", "font:" + family, $"No font is available for \"{family}\"; its text in the picture is not drawn.", DefectSeverity.Dropped);
+            return null;
+        }
+
+        if (!match.IsExact)
+        {
+            Note("render.metafile-font", "font:" + family, $"Font \"{family}\" in the picture is not available; \"{match.ActualFamily}\" was used.", DefectSeverity.Repaired);
+        }
+
+        return match;
+    }
+
     private static void AddRect(PathBuffer pb, RectD r, in Matrix3x2 m)
     {
         Vector2[] pts = [new((float)r.Left, (float)r.Top), new((float)r.Right, (float)r.Top), new((float)r.Right, (float)r.Bottom), new((float)r.Left, (float)r.Bottom)];
@@ -1103,6 +1257,206 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
         }
 
         pb.Close();
+    }
+
+    // ---- EMF+ commands -----------------------------------------------------------------------------------------------------
+
+    public override void VisitClear(ClearCommand command)
+    {
+        _record = command.RecordIndex;
+        if (command.Color.A == 0)
+        {
+            return;
+        }
+
+        Sync();
+        _pb.Clear();
+        AddRect(_pb, _info.PictureRectangle, _toPage);
+        L.FillPath(Id(), _pb, Color(command.Color), FillRule.NonZero);
+    }
+
+    public override void VisitDrawImage(DrawImageCommand command)
+    {
+        _record = command.RecordIndex;
+        RasterImage img = command.Image;
+        if (img.Width <= 0 || img.Height <= 0)
+        {
+            return;
+        }
+
+        Sync();
+        RectD s = command.Source.Normalized;
+        double sl = Math.Clamp(s.Left, 0, img.Width), st = Math.Clamp(s.Top, 0, img.Height), sr = Math.Clamp(s.Right, 0, img.Width), sb = Math.Clamp(s.Bottom, 0, img.Height);
+        if (sr - sl <= 0 || sb - st <= 0 || s.Width <= 0 || s.Height <= 0)
+        {
+            return;
+        }
+
+        Vector2 tl = command.DestTopLeft, tr = command.DestTopRight, bl = command.DestBottomLeft;
+        Vector2 vx = (tr - tl) / (float)s.Width, vy = (bl - tl) / (float)s.Height;
+        var a = new Matrix3x2(vx.X, vx.Y, vy.X, vy.Y, tl.X - (float)(s.Left * vx.X) - (float)(s.Top * vy.X), tl.Y - (float)(s.Left * vx.Y) - (float)(s.Top * vy.Y));
+        ImageHandle handle = _ctx.Images.Add(new RgbaImage(img.Width, img.Height, img.Pixels.ToArray()));
+        var src = new RectF((float)sl, (float)st, (float)(sr - sl), (float)(sb - st));
+        bool group = command.Opacity < 1;
+        if (group)
+        {
+            L.PushGroup(Id(), (float)Math.Clamp(command.Opacity, 0, 1));
+        }
+
+        L.PushTransform(Id(), a * Final);
+        L.DrawImage(Id(), handle, src, src, command.Interpolation == ImageInterpolation.Nearest ? ImageSampling.Pixelated : ImageSampling.Smooth);
+        L.PopTransform();
+        if (group)
+        {
+            L.PopGroup();
+        }
+    }
+
+    private static Rgba32 BrushColor(BrushSpec b) => b switch
+    {
+        SolidBrushSpec s => s.Color,
+        LinearGradientBrushSpec { Stops.Count: > 0 } g => g.Stops[0].Color,
+        PathGradientBrushSpec p => p.CenterColor,
+        StyleHatchBrushSpec h => h.Foreground,
+        HatchBrushSpec h => h.Foreground,
+        PatternBrushSpec p => p.Foreground,
+        _ => new Rgba32(0, 0, 0, 255),
+    };
+
+    // [MS-EMFPLUS] §2.3.4.17 DrawDriverString: glyphs at their own positions, or following one another from the origin.
+    public override void VisitDrawGlyphs(DrawGlyphsCommand command)
+    {
+        _record = command.RecordIndex;
+        if (command.Text.Length == 0)
+        {
+            return;
+        }
+
+        Matrix3x2 saved = _m;
+        if (command.Transform is { } t)
+        {
+            _m = t * _m;
+        }
+
+        Rgba32 color = BrushColor(command.Brush);
+        if (command.Brush is not SolidBrushSpec)
+        {
+            Note("render.metafile-approximated", "textbrush", "Text drawn with a gradient or pattern brush takes the brush's first colour.", DefectSeverity.Repaired);
+        }
+
+        if (command.Positions is null)
+        {
+            VisitDrawText(new DrawTextCommand(command.Text, command.IsGlyphIndices, command.Origin, TextHorizontalAlignment.Left, TextVerticalAlignment.Baseline, command.Font, color, null, null, null, default, null) { RecordIndex = command.RecordIndex });
+        }
+        else
+        {
+            for (int i = 0; i < command.Text.Length && i < command.Positions.Count; i++)
+            {
+                VisitDrawText(new DrawTextCommand(command.Text[i].ToString(), command.IsGlyphIndices, command.Positions[i], TextHorizontalAlignment.Left, TextVerticalAlignment.Baseline, command.Font, color, null, null, null, default, null) { RecordIndex = command.RecordIndex });
+            }
+        }
+
+        _m = saved;
+    }
+
+    // [MS-EMFPLUS] §2.3.4.16 DrawString: the renderer breaks lines in the layout rectangle. Lines wrap at spaces, are aligned as the string
+    // format says, and sit at the font's line height; text is not clipped to the rectangle.
+    public override void VisitDrawString(DrawStringCommand command)
+    {
+        _record = command.RecordIndex;
+        if (command.Text.Length == 0)
+        {
+            return;
+        }
+
+        FontMatch? match = ResolveFont(command.Font);
+        if (match is null)
+        {
+            return;
+        }
+
+        OneFont.FontMetrics fm = match.Face.Metrics;
+        double upem = fm.UnitsPerEm;
+        double em = command.Font.Height == 0 ? 12 : Math.Abs(command.Font.Height);
+        double lineHeight = (fm.Ascender - fm.Descender + fm.LineGap) * em / upem;
+        double lead = command.Format.LeadingMargin * em, trail = command.Format.TrailingMargin * em;
+        RectD box = command.Layout;
+        double usable = box.Width - lead - trail;
+
+        double Width(string text)
+        {
+            double w = 0;
+            foreach (char ch in text)
+            {
+                w += match.Face.GetAdvance(match.Face.GetGlyphIndex(ch)) * em / upem;
+            }
+
+            return w;
+        }
+
+        var lines = new List<string>();
+        foreach (string para in command.Text.Replace("\r\n", "\n", StringComparison.Ordinal).Split('\n'))
+        {
+            if (command.Format.NoWrap || !(usable > 0))
+            {
+                lines.Add(para);
+                continue;
+            }
+
+            var current = new System.Text.StringBuilder();
+            foreach (string word in SplitWords(para))
+            {
+                if (current.Length > 0 && Width(current.ToString() + word.TrimEnd()) > usable)
+                {
+                    lines.Add(current.ToString().TrimEnd());
+                    current.Clear();
+                }
+
+                current.Append(word);
+            }
+
+            lines.Add(current.ToString().TrimEnd());
+        }
+
+        double block = lines.Count * lineHeight;
+        double top = command.Format.LineAlignment switch { 1 => box.Top + ((box.Height - block) / 2), 2 => box.Bottom - block, _ => box.Top };
+        Rgba32 color = BrushColor(command.Brush);
+        if (command.Brush is not SolidBrushSpec)
+        {
+            Note("render.metafile-approximated", "textbrush", "Text drawn with a gradient or pattern brush takes the brush's first colour.", DefectSeverity.Repaired);
+        }
+
+        for (int i = 0; i < lines.Count; i++)
+        {
+            string line = lines[i];
+            if (line.Length == 0)
+            {
+                continue;
+            }
+
+            double w = Width(line);
+            double x = command.Format.Alignment switch { 1 => box.Left + ((box.Width - w) / 2), 2 => box.Right - trail - w, _ => box.Left + lead };
+            VisitDrawText(new DrawTextCommand(line, false, new Vector2((float)x, (float)(top + (i * lineHeight))), TextHorizontalAlignment.Left, TextVerticalAlignment.Top, command.Font, color, null, null, null, default, null) { RecordIndex = command.RecordIndex });
+        }
+    }
+
+    // Words keep the space that follows them, so a line break leaves the space on the line it ends.
+    private static IEnumerable<string> SplitWords(string text)
+    {
+        int start = 0;
+        for (int i = 0; i < text.Length; i++)
+        {
+            if (text[i] == ' ' && (i + 1 == text.Length || text[i + 1] != ' '))
+            {
+                yield return text[start..(i + 1)];
+                start = i + 1;
+            }
+        }
+
+        if (start < text.Length)
+        {
+            yield return text[start..];
+        }
     }
 
     // ---- reporting ---------------------------------------------------------------------------------------------------------

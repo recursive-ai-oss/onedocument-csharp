@@ -35,8 +35,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `unsupported.format-not-available` | fatal | No reader or writer is registered for the format (its package is not referenced or does not implement it). |
 | `format.unrecognised` | fatal | The content is not a format OneDocument knows. |
 | `render.failed` | fatal | The renderer could not write a document as PDF, or draw a page as an image (a writer error, or a page size past `DocumentRenderer.MaxPngPixels`); the inner exception has the cause. Layout problems are not defects: they are `LayoutNote`s with `layout.` codes (see `layout.md`). |
-| `render.metafile-damaged` | dropped | A picture that should be a metafile is not an enhanced metafile (no EMF header), or its header or a limit stopped interpretation; the picture is not drawn as vector content. |
-| `render.metafile-unsupported` | dropped | The picture is a Windows metafile (WMF) or holds only EMF+ records, which are not drawn yet; the caller falls back to the cached bitmap. |
+| `render.metafile-damaged` | dropped | A picture that should be a metafile is neither an EMF nor a WMF (no EMF signature or WMF header), or its header or a limit stopped interpretation; the picture is not drawn as vector content. |
 | `render.metafile-diagnostic` | dropped | The metafile interpreter skipped or could not honour a record (the message names its index), or a font was unavailable, or a stroke or the fallback bitmap failed. |
 | `render.metafile-rasterised` | repaired | The picture uses something the display list cannot express (XOR and other raster operations, triangle gradients, hatch or pattern pens, union or exclusive-or clips) and is drawn as a bitmap. |
 | `render.metafile-approximated` | repaired | A union or exclusive-or clip was drawn as a replacement (only with the raster fallback turned off). |

@@ -84,7 +84,7 @@ public readonly record struct PictureCrop(double Left, double Top, double Right,
 /// provider. Strokes are expanded to outlines because the display list has no stroke item.
 /// </para>
 /// <para>
-/// Only enhanced metafiles are read. WMF and EMF+-only files are reported (<c>render.metafile-unsupported</c>) and not drawn.
+/// EMF (including EMF+, dual and plus-only) and WMF (placeable or not) are read; bytes that are neither are reported (<c>render.metafile-damaged</c>) and not drawn.
 /// </para>
 /// </remarks>
 public static class MetafilePainter
@@ -130,7 +130,7 @@ public static class MetafilePainter
         widthPoints = heightPoints = 0;
         try
         {
-            if (!MetafileDocument.IsEmf(data.Span))
+            if (!IsMetafile(data.Span))
             {
                 return false;
             }
@@ -163,15 +163,9 @@ public static class MetafilePainter
     public static bool TryPaint(ReadOnlyMemory<byte> data, MetafilePaintContext context, in RectF destination, PictureCrop crop = default, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(context);
-        if (IsWmf(data.Span))
+        if (!IsMetafile(data.Span))
         {
-            Say(context, "render.metafile-unsupported", DefectKind.Unsupported, DefectSeverity.Dropped, "The picture is a Windows metafile (WMF), which is not drawn yet; its cached bitmap is used when there is one.");
-            return false;
-        }
-
-        if (!MetafileDocument.IsEmf(data.Span))
-        {
-            Say(context, "render.metafile-damaged", DefectKind.Record, DefectSeverity.Dropped, "The picture is not an enhanced metafile (no header record with the EMF signature).");
+            Say(context, "render.metafile-damaged", DefectKind.Record, DefectSeverity.Dropped, "The picture is not a metafile (no EMF header signature, no WMF header).");
             return false;
         }
 
@@ -183,12 +177,6 @@ public static class MetafilePainter
         catch (Exception ex) when (ex is OneImage.ImageException)
         {
             Say(context, "render.metafile-damaged", DefectKind.Record, DefectSeverity.Dropped, "The metafile could not be read: " + ex.Message);
-            return false;
-        }
-
-        if (doc.Info.IsEmfPlusOnly)
-        {
-            Say(context, "render.metafile-unsupported", DefectKind.Unsupported, DefectSeverity.Dropped, "The picture holds only EMF+ records, which are not drawn yet; its cached bitmap is used when there is one.");
             return false;
         }
 
