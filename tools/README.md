@@ -27,7 +27,7 @@ terms.
 
 | Variable | Meaning |
 |---|---|
-| `ONEDOCUMENT_HOME` | Root for oracles, corpora, results (default `~/oneoffice`). |
+| `ONEDOCUMENT_HOME` | Root for oracles, corpora, results (required by the scripts that use it). |
 | `ONEDOCUMENT_CORPUS` | Corpus root (default `$ONEDOCUMENT_HOME/corpus`). |
 | `ONEDOCUMENT_XSD` | Path-separated schema directories for the validator. |
 | `ONEDOCUMENT_SOFFICE` | Headless LibreOffice launcher; `LO_PROFILE` selects its profile directory. |

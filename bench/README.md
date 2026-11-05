@@ -59,7 +59,7 @@ Every ~40th paragraph is a heading, every ~25th a 3×3 table, and body paragraph
 bench/run.sh --run my-run --filter '*Bench.DocxLoadSave*' --threads 1
 ```
 
-`run.sh` refuses to start when the 1-minute load average is above `ONEDOCUMENT_BENCH_MAXLOAD` (default 2.0; `--force` overrides and records that). It writes `$ONEDOCUMENT_RESULTS/<run>/` (default `~/oneoffice/results/bench/<run>/`):
+`run.sh` refuses to start when the 1-minute load average is above `ONEDOCUMENT_BENCH_MAXLOAD` (default 2.0; `--force` overrides and records that). It writes `$ONEDOCUMENT_RESULTS/<run>/` :
 
 | File | Contents |
 |---|---|

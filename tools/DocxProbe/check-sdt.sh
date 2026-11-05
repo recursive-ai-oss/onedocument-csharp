@@ -5,8 +5,9 @@ set -u
 export PATH=~/dotnet10:$PATH DOTNET_ROOT=~/dotnet10 DOTNET_CLI_TELEMETRY_OPTOUT=1 DOTNET_PROCESSOR_COUNT=4
 cd "$(dirname "$0")/../.."
 root=$(pwd)
-W=~/oneoffice/sdt-check; mkdir -p $W/gen $W/lo
-O=~/oneoffice/oracles
+: "${ONEDOCUMENT_HOME:?set ONEDOCUMENT_HOME}"
+W=$ONEDOCUMENT_HOME/sdt-check; mkdir -p $W/gen $W/lo
+O=$ONEDOCUMENT_HOME/oracles
 dotnet build -m:4 tools/DocxProbe -c Release -o $W/probe -v quiet -clp:NoSummary 2>&1 | grep -E 'error|Warn|Elapsed' | head
 P="dotnet $W/probe/DocxProbe.dll"
 $P sdt-generate $W/gen
