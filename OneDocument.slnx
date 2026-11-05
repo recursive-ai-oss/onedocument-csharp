@@ -15,6 +15,7 @@
     <Project Path="tests/OneDocument.Tests/OneDocument.Tests.csproj" />
     <Project Path="tests/OneDocument.Documents.Tests/OneDocument.Documents.Tests.csproj" />
     <Project Path="tests/OneDocument.Presentations.Tests/OneDocument.Presentations.Tests.csproj" />
+    <Project Path="tests/OneDocument.Rendering.Tests/OneDocument.Rendering.Tests.csproj" />
     <Project Path="tests/OneDocument.Cli.Tests/OneDocument.Cli.Tests.csproj" />
     <Project Path="tests/OneDocument.Spreadsheets.Tests/OneDocument.Spreadsheets.Tests.csproj" />
     <Project Path="tests/OneDocument.Schema.Tests/OneDocument.Schema.Tests.csproj" />
