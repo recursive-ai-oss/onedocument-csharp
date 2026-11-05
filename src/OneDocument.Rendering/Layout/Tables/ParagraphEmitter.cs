@@ -60,6 +60,7 @@ internal static class ParagraphEmitter
                     ClusterX = [.. item.ClusterX.Select(v => v + left)],
                     Paint = item.Paint,
                     Glyphs = item.Glyphs,
+                    Math = item.Math,
                     Drawing = item.Drawing,
                 };
                 line.Add(run);

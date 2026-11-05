@@ -158,12 +158,24 @@ public static class LayoutPainter
                     continue;
                 }
 
+                if (node is LayoutNoteBlock noteBlock)
+                {
+                    if (listOpen)
+                    {
+                        List.EndTag();
+                        listOpen = false;
+                    }
+
+                    PaintNoteBlock(noteBlock);
+                    continue;
+                }
+
                 if (node is not LayoutParagraph p)
                 {
                     continue;
                 }
 
-                if (p.Story != LayoutStory.Body)
+                if (p.Story is LayoutStory.Header or LayoutStory.Footer)
                 {
                     // Headers and footers are pagination artifacts (OneRender has no finer role for them yet).
                     if (listOpen)
@@ -207,6 +219,32 @@ public static class LayoutPainter
             if (listOpen)
             {
                 List.EndTag();
+            }
+        }
+
+        // A footnote is a Div (OneRender has no Note role yet); separators and the continuation notice are page furniture, so artifacts.
+        private void PaintNoteBlock(LayoutNoteBlock block)
+        {
+            bool furniture = block.Role is LayoutNoteRole.Separator or LayoutNoteRole.ContinuationSeparator or LayoutNoteRole.ContinuationNotice;
+            if (furniture)
+            {
+                _untagged++;
+            }
+
+            if (options.Tagged)
+            {
+                List.BeginTag(Id(), furniture ? TagRole.Artifact : TagRole.Div);
+            }
+
+            PaintBlocks(block.Children);
+            if (options.Tagged)
+            {
+                List.EndTag();
+            }
+
+            if (furniture)
+            {
+                _untagged--;
             }
         }
 
@@ -611,7 +649,7 @@ public static class LayoutPainter
                 case LayoutDecorationKind.PageBorder:
                     PaintBorder(d);
                     break;
-                case LayoutDecorationKind.ColumnSeparator:
+                case LayoutDecorationKind.ColumnSeparator or LayoutDecorationKind.NoteSeparator or LayoutDecorationKind.NoteContinuationSeparator:
                     List.FillRect(Id(40), Rect(d.Bounds.X, d.Bounds.Y, d.Bounds.Width, d.Bounds.Height), Rgb(d.Color));
                     break;
                 case LayoutDecorationKind.LineNumber or LayoutDecorationKind.Watermark when d.Glyphs is { } g && d.Face is { } face:
@@ -791,6 +829,12 @@ public static class LayoutPainter
                 return;
             }
 
+            if (run.RunKind == LayoutRunKind.Math)
+            {
+                PaintMath(run, line);
+                return;
+            }
+
             if (run.RunKind == LayoutRunKind.Drawing)
             {
                 PaintInlineObject(run, line);
@@ -848,6 +892,69 @@ public static class LayoutPainter
             {
                 List.EndTag();
             }
+        }
+
+        // An equation: glyphs and rules in the box's own coordinates (first baseline, y down), tagged as one figure whose alternative
+        // text is the equation's linear form (OneRender has no formula role).
+        private void PaintMath(LayoutRun run, LayoutLine line)
+        {
+            if (run.Math is not { } box)
+            {
+                return;
+            }
+
+            bool tagged = Tagged;
+            if (tagged)
+            {
+                List.BeginTag(Id(), TagRole.Figure, altText: box.LinearText);
+            }
+
+            double ox = run.Bounds.X;
+            double oy = line.Baseline;
+            ushort index = 0;
+            foreach (global::RecursiveAI.OneDocument.Rendering.Equations.MathItem item in box.Items)
+            {
+                ushort sub = index++;
+                switch (item)
+                {
+                    case global::RecursiveAI.OneDocument.Rendering.Equations.MathGlyph g:
+                        List.DrawGlyphRun(Id(12, sub), g.Face, (float)(g.Size * K), (float)((ox + g.X) * K), (float)((oy + g.Y) * K), Rgb(g.Color), [g.GlyphId], [0f], [0f], [0], g.Text, false);
+                        break;
+                    case global::RecursiveAI.OneDocument.Rendering.Equations.MathRule r:
+                        List.FillRect(Id(13, sub), Rect(ox + r.X, oy + r.Y, r.Width, r.Height), Rgb(r.Color));
+                        break;
+                    case global::RecursiveAI.OneDocument.Rendering.Equations.MathStroke st:
+                        PaintStroke(Id(14, sub), ox, oy, st);
+                        break;
+                }
+            }
+
+            if (tagged)
+            {
+                List.EndTag();
+            }
+        }
+
+        // A straight line of some thickness as a filled quadrilateral.
+        private void PaintStroke(ItemId id, double ox, double oy, global::RecursiveAI.OneDocument.Rendering.Equations.MathStroke st)
+        {
+            double dx = st.X2 - st.X1;
+            double dy = st.Y2 - st.Y1;
+            double len = Math.Sqrt((dx * dx) + (dy * dy));
+            if (len < 1e-9)
+            {
+                return;
+            }
+
+            double nx = -dy / len * st.Thickness / 2;
+            double ny = dx / len * st.Thickness / 2;
+            var path = new PathBuffer();
+            path.MoveTo((float)((ox + st.X1 + nx) * K), (float)((oy + st.Y1 + ny) * K));
+            path.LineTo((float)((ox + st.X2 + nx) * K), (float)((oy + st.Y2 + ny) * K));
+            path.LineTo((float)((ox + st.X2 - nx) * K), (float)((oy + st.Y2 - ny) * K));
+            path.LineTo((float)((ox + st.X1 - nx) * K), (float)((oy + st.Y1 - ny) * K));
+            path.Close();
+            List.FillPath(id, path, Rgb(st.Color));
         }
 
         // Underline, strike-through. ECMA-376 Part 1 §17.3.2.40 (u) and §17.3.2.37 (strike): thin rules at the font's own positions.

@@ -602,6 +602,18 @@ internal static class TableFormatter
             return;
         }
 
+        if (item.Kind == LayoutRunKind.Math)
+        {
+            // An equation is one unit; its width is spread over the characters of its linear text.
+            int n = Math.Min(item.Text.Length, cw.Length - item.TextStart);
+            for (int c = 0; c < n; c++)
+            {
+                cw[item.TextStart + c] = item.Width / n;
+            }
+
+            return;
+        }
+
         int len = Math.Min(item.Text.Length, cw.Length - item.TextStart);
         if (len <= 0)
         {

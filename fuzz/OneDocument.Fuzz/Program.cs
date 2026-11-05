@@ -57,6 +57,7 @@ internal static class Program
         ["template"] = TemplateTarget.Run,
         ["mailmerge"] = MailMergeTarget.Run,
         ["richtext"] = RichTextTarget.Run,
+        ["math"] = MathTarget.Run,
         ["sheetrender"] = SheetRenderTarget.Run,
     };
 
@@ -95,6 +96,7 @@ internal static class Program
                 "template" => TemplateTarget.WriteSeeds(args[2]),
                 "mailmerge" => MailMergeTarget.WriteSeeds(args[2]),
                 "richtext" => RichTextTarget.WriteSeeds(args[2]),
+                "math" => MathTarget.WriteSeeds(args[2]),
                 "sheetrender" => SheetRenderTarget.WriteSeeds(args[2]),
                 _ => 2,
             };

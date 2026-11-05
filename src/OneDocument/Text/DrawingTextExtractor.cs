@@ -71,7 +71,13 @@ internal sealed class DrawingTextExtractor
                 _alternate.OnStart(r, name);
                 break;
             case NsKind.Math:
-                if (start && name.SequenceEqual("t"u8))
+                if (start && (name.SequenceEqual("oMath"u8) || name.SequenceEqual("oMathPara"u8)))
+                {
+                    // An equation is written as its linear text (UnicodeMath style), as in Word documents.
+                    string linear = Equations.MathLinearizer.Linearize(Equations.OmmlReader.ReadStream(r));
+                    _text.Append(linear.AsSpan());
+                }
+                else if (start && name.SequenceEqual("t"u8))
                 {
                     _collect = true;
                 }

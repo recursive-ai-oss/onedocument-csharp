@@ -16,6 +16,12 @@ public enum LayoutDecorationKind
 
     /// <summary>Watermark text from a header (a WordArt shape with a text path).</summary>
     Watermark = 3,
+
+    /// <summary>The rule above the notes of a page (<c>w:separator</c>), a short line.</summary>
+    NoteSeparator = 4,
+
+    /// <summary>The rule above notes that continue from the previous page (<c>w:continuationSeparator</c>), a line across the column.</summary>
+    NoteContinuationSeparator = 5,
 }
 
 /// <summary>
