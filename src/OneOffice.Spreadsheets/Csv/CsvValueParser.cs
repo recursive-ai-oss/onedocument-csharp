@@ -282,9 +282,9 @@ public sealed class CsvValueParser
             currency = true;
             (whole, fraction) = euro ? (_euroWhole, _euroDecimals) : (whole, fraction);
             s = s[symbol..];
-            bool signBefore = skipped > 0 && s.Length >= 0 && flips || (skipped > 0);
+            bool charsBefore = skipped > 0; // signs or spaces ahead of the symbol
             skipped = SkipSigns(s, out flips);
-            if (skipped > 0 && signBefore && s[..skipped].IndexOfAny('+', '-') >= 0)
+            if (skipped > 0 && charsBefore && s[..skipped].IndexOfAny('+', '-') >= 0)
             {
                 return false; // -$-5 and $--5 are text; $-5 and -$5 are numbers
             }

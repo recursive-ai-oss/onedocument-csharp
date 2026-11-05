@@ -56,7 +56,7 @@ Text that Excel also keeps as text: `1/1/1899` and earlier (years before 1900), 
 - **Leading zeros and long numbers.** Excel turns `007` into 7 and keeps 15 significant digits of `12345678901234567890`. By default a whole number written with a leading zero, or with more than 15 digits, stays text (`PreserveLeadingZeros`, `PreserveLongNumbers`); set them false to match Excel, which then keeps 15 significant digits (later integer digits become zeros, later fraction digits are dropped).
 - **Formulas.** Excel evaluates a field such as `=1+1` (and `-Infinity`, as `=-Infinity`) when it opens the file. The reader keeps them as text: a CSV is data, and running it is the injection the writer defends against.
 - **Encoding** as above.
-- **Two-digit years** use Excel's pivot (00–29 are 2000–2029, 30–99 are 1930–1999).
+- **Two-digit years** use the pivot Excel 16.0.20527 showed on its default settings (`TwoDigitYearPivot` = 50: 00–49 are 2000–2049, 50–99 are 1950–1999; checked with 1/2/29, 30, 31, 49, 50, 51, 99, 00, 1).
 
 ## Writer (`CsvWriter`, `CsvDocument.Write`)
 
@@ -78,4 +78,4 @@ Writing a sheet reports into an `ILossSink` (a `LossReport`): `loss.formulas` (c
 
 ## What was checked
 
-Reading against Excel 16.0.20527: 455 generated value cases and 14 shape files opened in Excel and read cell by cell; the numbers are in the unit's report. Fuzzing: `fuzz/run.sh csv`. Corpus: 89 CSV files read with typed defects only, field-equal after a rewrite.
+Reading against Excel 16.0.20527: two value grids (262 and 193 cells) and 14 shape files opened in Excel and read cell by cell: 259/262 and 193/193 agree (the three differences are deliberate: Excel evaluates `=1+1` and reads `-Infinity` as a formula name; we keep text unless formulas are asked for). Files written by the writer, read back by Excel: 162/162 raw and 162/162 formatted cells equal, number formats included. Fuzzing: `fuzz/run.sh csv`. Corpus: 89 CSV files read with typed defects only, field-equal after a rewrite.
