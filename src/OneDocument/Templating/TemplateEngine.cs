@@ -478,9 +478,9 @@ internal sealed class Renderer
         }
 
         List<TemplatePiece> pieces = _cur!.Pieces;
-        if (piece.Kind == TemplatePieceKind.Text && pieces.Count > 0 && pieces[^1].Kind == TemplatePieceKind.Text && pieces[^1].Segment == piece.Segment && pieces[^1].Typed is null && piece.Typed is null)
+        if (piece.Kind == TemplatePieceKind.Text && pieces.Count > 0 && pieces[^1].Kind == TemplatePieceKind.Text && pieces[^1].Segment == piece.Segment)
         {
-            pieces[^1] = pieces[^1] with { Text = pieces[^1].Text + piece.Text };
+            pieces[^1] = pieces[^1] with { Text = pieces[^1].Text + piece.Text, Typed = null };
         }
         else
         {
