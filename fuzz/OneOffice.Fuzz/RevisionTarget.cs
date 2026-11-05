@@ -61,7 +61,7 @@ internal static class RevisionTarget
             return;
         }
 
-        RevisionAuthor au = edit.CreateAuthor("fuzz", null);
+        RevisionAuthor au = (a & 1) == 0 ? edit.CreateAuthor("fuzz", null) : edit.CreateAuthor("fuzz", null, RevisionIds.StartingAt(a % 64));
         try
         {
             int len = RevisionSet.GetParagraphText(p0, RevisionView.Accepted).Length;
@@ -75,10 +75,10 @@ internal static class RevisionTarget
                 case 3: au.FormatText(p0, off, n, "<w:b/>"); break;
                 case 4: au.InsertParagraph(p0, "p"); break;
                 case 5: au.DeleteParagraph(p0); break;
-                default: au.MoveText(p0, off, Math.Max(1, n), p0, 0); break;
+                default: au.MoveText(p0, off, Math.Max(1, n), p0, 0, (b & 1) == 0 ? null : "fuzz-move"); break;
             }
         }
-        catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
+        catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or OfficeException)
         {
             // A refused edit is the documented outcome for markup the edit cannot work with.
         }

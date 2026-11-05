@@ -98,6 +98,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.revision-author-missing` | repaired | A tracked change has no `w:author`. It is listed with an empty author. |
 | `docx.revision-date-invalid` | repaired | A tracked change has a `w:date` that is not a date. It is listed without a date. |
 | `docx.revision-unresolvable` | dropped | A tracked change could not be accepted or rejected because the markup around it is not what the schema allows (a row marker outside a row, content that cannot be moved without an unbound prefix). The change is left in place; the location is the change element. |
+| `docx.revision-id-conflict` | fatal | Raised as `RevisionIdConflictException` (not reported while reading): an id the caller gave to a `RevisionAuthor` is negative or already used by a revision, bookmark, comment range or move range in the document. No location. |
 | `docx.no-main-part` | fatal | No `officeDocument` relationship of the package points at a part that exists. |
 | `docx.wrong-root` | fatal | The main document part does not start with `w:document`. |
 | `docx.part-missing` | fatal | A part the reader must have is not in the package. |

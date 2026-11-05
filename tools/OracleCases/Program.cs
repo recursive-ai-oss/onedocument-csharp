@@ -30,9 +30,34 @@ internal static class Program
 
     private static int Main(string[] args)
     {
+        if (args.Length == 2 && args[0] == "--authoring")
+        {
+            return AuthoringCases.Write(args[1]);
+        }
+
+        if (args.Length == 3 && args[0] == "--resolved")
+        {
+            return AuthoringCases.WriteResolved(args[1], args[2]);
+        }
+
+        if (args.Length == 3 && args[0] == "--check-tables")
+        {
+            return AuthoringCases.CheckTableProperties(args[1], args[2]);
+        }
+
+        if (args.Length == 2 && args[0] == "--check-probe")
+        {
+            return AuthoringCases.CheckProbe(args[1]);
+        }
+
+        if (args.Length == 3 && args[0] == "--check")
+        {
+            return AuthoringCases.Check(args[1], args[2]);
+        }
+
         if (args.Length != 1)
         {
-            Console.Error.WriteLine("usage: OracleCases DIR");
+            Console.Error.WriteLine("usage: OracleCases DIR | --authoring DIR | --check DIR RESULTS");
             return 2;
         }
 
