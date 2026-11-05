@@ -63,6 +63,7 @@ internal enum AtomKind
     LineBreak,
     PageBreak,
     Soft,
+    Math,
     Object,
 }
 
@@ -76,6 +77,7 @@ internal struct Atom
     public double Width;
     public byte Level;
     public bool BreakBefore;
+    public bool Display; // an equation set on its own line
     public AtomKind Kind;
 }
 
@@ -92,6 +94,9 @@ internal sealed class Piece
     public string Text = string.Empty;
     public string? Shown; // what was shaped when the run is drawn in capitals, otherwise null
     public bool IsLabel;
+    public global::RecursiveAI.OneDocument.Rendering.Equations.MathBox? Box; // the laid-out equation of a Math piece
+    public AlignMode MathAlign;
+    public bool Display;
     public InlineDrawing? Drawing;
     public int ClusterCount;
     public int[] CStart = [];
@@ -122,7 +127,8 @@ internal sealed class LineItem
     public int[] ClusterStarts = [];
     public double[] ClusterX = [];
     public InlineDrawing? Drawing;
-    }
+    public global::RecursiveAI.OneDocument.Rendering.Equations.MathBox? Math;
+}
 
 internal sealed class FormattedLine
 {
@@ -196,14 +202,23 @@ internal static class ParagraphFormatter
         double firstStart = hanging > 0 ? leftInd - hanging : leftInd + firstLine;
 
         PageFieldScanner.Prepare(ctx, p);
-        List<(Run Run, string? Link)> runs = CollectRuns(ctx, p);
+        List<(Run? Run, string? Link, OtherInline? Math)> runs = CollectRuns(ctx, p);
         var infos = new List<RunInfo>(runs.Count);
         var text = new System.Text.StringBuilder();
         var charRun = new List<int>();
+        Dictionary<int, MathSpan>? maths = null;
         var drawings = new Dictionary<int, InlineDrawing>();
-        foreach ((Run run, string? link) in runs)
+        foreach ((Run? run, string? link, OtherInline? mathElement) in runs)
         {
-            RunInfo info = ReadRun(ctx, run, link);
+            if (mathElement is not null)
+            {
+                // Equations take the paragraph's own character formatting; the math runs inside carry their own overrides.
+                maths ??= [];
+                ParagraphMath.Add(ctx, p, mathElement, LabelFormat(ctx, pp, null), width - leftInd - rightInd, text, infos, charRun, maths);
+                continue;
+            }
+
+            RunInfo info = ReadRun(ctx, run!, link);
             if (info.Hidden)
             {
                 // Hidden text takes no space (ECMA-376 Part 1 §17.3.2.41, vanish).
@@ -212,12 +227,12 @@ internal static class ParagraphFormatter
 
             int before = text.Length;
             ctx.PendingNoteLink = null;
-            AppendRunText(ctx, run, text, p, drawings, fp.Floats);
+            AppendRunText(ctx, run!, text, p, drawings, fp.Floats);
             if (ctx.PendingNoteLink is { } noteLink)
             {
                 // A reference mark links to its note and the note's own mark links back (the PDF backend writes the link when the host declares the target).
                 info.Paint.LinkTarget ??= noteLink;
-                fp.HasNoteRefs |= ctx.NoteRefs.ContainsKey(run) && ctx.CurrentNote is null;
+                fp.HasNoteRefs |= run is not null && ctx.NoteRefs.ContainsKey(run) && ctx.CurrentNote is null;
             }
 
             if (text.Length > before)
@@ -264,7 +279,7 @@ internal static class ParagraphFormatter
         }
 
         int labelAtoms = atoms.Count;
-        BuildPieces(ctx, paragraphText, charRun, infos, rtl, pieces, atoms, p, drawings);
+        BuildPieces(ctx, paragraphText, charRun, infos, rtl, pieces, atoms, p, drawings, maths);
 
         TabStop[] stops = ReadTabs(pp, rtl);
         (double asc, double desc) mark = MarkMetrics(ctx, p, pp);
@@ -443,14 +458,14 @@ internal static class ParagraphFormatter
         return ((m.Ascender + m.LineGap) * s, Math.Abs(m.Descender) * s);
     }
 
-    private static List<(Run, string?)> CollectRuns(LayoutContext ctx, Paragraph p)
+    private static List<(Run? Run, string? Link, OtherInline? Math)> CollectRuns(LayoutContext ctx, Paragraph p)
     {
-        var list = new List<(Run, string?)>();
+        var list = new List<(Run?, string?, OtherInline?)>();
         Walk(ctx, p.Inlines(), null, list, 0);
         return list;
     }
 
-    private static void Walk(LayoutContext ctx, IEnumerable<InlineElement> inlines, string? link, List<(Run, string?)> acc, int depth)
+    private static void Walk(LayoutContext ctx, IEnumerable<InlineElement> inlines, string? link, List<(Run?, string?, OtherInline?)> acc, int depth)
     {
         if (depth > 32)
         {
@@ -462,7 +477,10 @@ internal static class ParagraphFormatter
             switch (e)
             {
                 case Run r:
-                    acc.Add((r, link));
+                    acc.Add((r, link, null));
+                    break;
+                case OtherInline o when ParagraphMath.IsMath(o):
+                    acc.Add((null, link, o));
                     break;
                 case Hyperlink h:
                     string? target = link;
@@ -779,7 +797,7 @@ internal static class ParagraphFormatter
         return piece;
     }
 
-    private static (string Family, double Size, bool Bold, bool Italic, uint Color) LabelFormat(LayoutContext ctx, ResolvedParagraphProperties pp, ListLabel label)
+    internal static (string Family, double Size, bool Bold, bool Italic, uint Color) LabelFormat(LayoutContext ctx, ResolvedParagraphProperties pp, ListLabel? label)
     {
         double size = 10;
         string family = "Times New Roman";
@@ -793,7 +811,7 @@ internal static class ParagraphFormatter
             ApplyLabelProps(ctx, rp.Get, ref size, ref family, ref bold, ref italic, ref color);
         }
 
-        if (label.Definition.RunProperties is { } lvlRpr)
+        if (label?.Definition.RunProperties is { } lvlRpr)
         {
             foreach (MarkupRef e in Xml.Elements(lvlRpr))
             {
@@ -890,7 +908,7 @@ internal static class ParagraphFormatter
         return Category.HighAnsi;
     }
 
-    private static void BuildPieces(LayoutContext ctx, string text, List<int> charRun, List<RunInfo> infos, bool rtl, List<Piece> pieces, List<Atom> atoms, Paragraph p, Dictionary<int, InlineDrawing> drawings)
+    private static void BuildPieces(LayoutContext ctx, string text, List<int> charRun, List<RunInfo> infos, bool rtl, List<Piece> pieces, List<Atom> atoms, Paragraph p, Dictionary<int, InlineDrawing> drawings, Dictionary<int, MathSpan>? maths)
     {
         if (text.Length == 0)
         {
@@ -907,6 +925,14 @@ internal static class ParagraphFormatter
             char ch = text[i];
             int runIndex = charRun[i];
             RunInfo info = infos[runIndex];
+            if (maths is not null && maths.TryGetValue(i, out MathSpan? span))
+            {
+                pieces.Add(ParagraphMath.MakePiece(span, info, i, paragraphLevel));
+                atoms.Add(ParagraphMath.MakeAtom(span, pieces.Count - 1, i, paragraphLevel, opps[i] != global::OneFont.LineBreakOpportunity.None));
+                i += span.Length;
+                continue;
+            }
+
             if (ch == '\uFFFC' && drawings.TryGetValue(i, out InlineDrawing? drawing))
             {
                 // An inline drawing is one unbreakable box that sits on the baseline. ECMA-376 Part 1 §20.4.2.8 (inline).
@@ -1180,6 +1206,12 @@ internal static class ParagraphFormatter
                 lastOpp = i;
             }
 
+            if (a.Kind == AtomKind.Math && a.Display)
+            {
+                // A display equation has its own line: whatever precedes it ends the line before it, and it ends its own.
+                return i > start ? i : i + 1;
+            }
+
             if (a.Kind == AtomKind.LineBreak)
             {
                 hardBreak = true;
@@ -1314,6 +1346,12 @@ internal static class ParagraphFormatter
         (double Ascent, double Descent) mark, string paragraphText)
     {
         int count = end - start;
+        if (count == 1 && atoms[start].Kind == AtomKind.Math && atoms[start].Display)
+        {
+            // ECMA-376 Part 1 §22.1.2.57 (jc): a display equation is placed by its own justification, not the paragraph's.
+            align = pieces[atoms[start].Piece].MathAlign;
+        }
+
         // Positions along the flow for each atom, in logical order, and the width the line's content takes.
         var widths = new double[count];
         var leaders = new string[count];
@@ -1327,7 +1365,7 @@ internal static class ParagraphFormatter
             widths[k] = w;
             leaders[k] = leader;
             x += w;
-            if (a.Kind is AtomKind.Glyphs or AtomKind.Tab or AtomKind.Object)
+            if (a.Kind is AtomKind.Glyphs or AtomKind.Tab or AtomKind.Math or AtomKind.Object)
             {
                 lastVisible = k;
             }
@@ -1420,6 +1458,13 @@ internal static class ParagraphFormatter
         {
             Atom a = atoms[start + k];
             Piece pc = pieces[a.Piece];
+            if (pc.Kind == AtomKind.Math && pc.Box is { } mathBox)
+            {
+                asc = Math.Max(asc, mathBox.Ascent);
+                desc = Math.Max(desc, mathBox.Descent);
+                continue;
+            }
+
             if (a.Kind == AtomKind.Object)
             {
                 // The box rests on the baseline, so it only adds to the height above it.
@@ -1507,6 +1552,14 @@ internal static class ParagraphFormatter
             Piece pc = pieces[first.Piece];
             if (first.Kind is AtomKind.LineBreak or AtomKind.PageBreak or AtomKind.Soft)
             {
+                cx += visualWidth[v0];
+                v0++;
+                continue;
+            }
+
+            if (first.Kind == AtomKind.Math)
+            {
+                line.Items.Add(new LineItem { Kind = LayoutRunKind.Math, X = cx, Width = visualWidth[v0], Text = pc.Text, TextStart = first.TextStart, Size = pc.Size, Level = first.Level, Paint = pc.Run!.Paint, Math = pc.Box });
                 cx += visualWidth[v0];
                 v0++;
                 continue;

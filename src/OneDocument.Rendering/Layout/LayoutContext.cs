@@ -19,6 +19,9 @@ internal sealed class CompatSettings
     public bool GutterAtTop; // §17.15.1.46
     public bool DoNotUseHtmlParagraphAutoSpacing;
 
+    /// <summary>The document's equation settings (<c>m:mathPr</c> in the settings part).</summary>
+    public RecursiveAI.OneDocument.Equations.MathSettings EquationSettings = RecursiveAI.OneDocument.Equations.MathSettings.Default;
+
     public static CompatSettings Read(Document doc)
     {
         var c = new CompatSettings();
@@ -32,6 +35,11 @@ internal sealed class CompatSettings
         if (Xml.Child(root, "defaultTabStop") is { } dts && Xml.Long(Xml.Attr(dts, "val")) is { } v && v > 0)
         {
             c.DefaultTabStop = v / 20.0;
+        }
+
+        if (Xml.Child(root, "mathPr") is { } mathPr)
+        {
+            c.EquationSettings = RecursiveAI.OneDocument.Equations.OmmlReader.ReadSettings(mathPr.Node);
         }
 
         c.EvenAndOddHeaders = Xml.Child(root, "evenAndOddHeaders") is { } eo && Xml.OnOff(eo);

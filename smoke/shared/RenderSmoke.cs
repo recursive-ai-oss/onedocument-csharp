@@ -63,6 +63,28 @@ internal static class RenderSmoke
         }
 
         failures.AddRange(ChartCheck());
+        failures.AddRange(MathCheck());
+        return failures;
+    }
+
+    // Reads an equation (a fraction under a square root) and lays it out with the packaged math font, under the same constraints.
+    private static List<string> MathCheck()
+    {
+        var failures = new List<string>();
+        const string Xml = "<m:oMath xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><m:rad><m:radPr><m:degHide m:val=\"1\"/></m:radPr><m:deg/><m:e><m:f><m:num><m:r><m:t>a+b</m:t></m:r></m:num><m:den><m:r><m:t>c</m:t></m:r></m:den></m:f></m:e></m:rad></m:oMath>";
+        if (!RecursiveAI.OneDocument.Markup.MarkupDocument.TryParse(Encoding.UTF8.GetBytes(Xml), out RecursiveAI.OneDocument.Markup.MarkupDocument? doc) || doc is null)
+        {
+            failures.Add("math parse");
+            return failures;
+        }
+
+        RecursiveAI.OneDocument.Equations.MathNode? node = RecursiveAI.OneDocument.Equations.OmmlReader.Read(doc.Root, out _);
+        RecursiveAI.OneDocument.Rendering.Equations.MathBox box = RecursiveAI.OneDocument.Rendering.Equations.MathLayouter.Layout(node!, new RecursiveAI.OneDocument.Rendering.Equations.MathLayoutOptions { Fonts = FontLibrary.CreateDefault(), FontSize = 12, Display = true });
+        if (box.LinearText != "\u221A((a+b)/c)" || box.Items.Count < 6 || box.Notes.Count != 0 || !(box.Width > 0 && box.Ascent > 0))
+        {
+            failures.Add("math layout " + box.LinearText);
+        }
+
         return failures;
     }
 

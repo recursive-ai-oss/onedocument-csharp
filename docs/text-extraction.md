@@ -19,7 +19,7 @@ One output for every way the producer split its runs. Plain text and `Normalized
 | table | a row on one line, cells separated by a tab; inside a cell, paragraphs and line breaks become single spaces; a table inside a cell flattens into that cell |
 | text box (`w:txbxContent`) | its paragraphs, after the paragraph that holds the box (nested boxes after their host, in order) |
 | `mc:AlternateContent` | the first `mc:Choice` whose required namespaces are all understood, else `mc:Fallback`; the other branches are skipped |
-| equation text (`m:t`) | the text, concatenated |
+| equations (`m:oMath`, `m:oMathPara`, also `a14:m` in PowerPoint text) | the equation in linear (UnicodeMath-style) form, e.g. `(a+b)/c`, `x^2`, `∑_(i=1)^n▒i`; see `math-layout.md` |
 | content controls (`w:sdt`) | the content; `w:sdtPr` is skipped |
 | tracked changes | inserted and moved-to text is text; deleted and moved-from text (`w:del`, `w:moveFrom`) is left out unless `IncludeDeletedText`; a paragraph whose mark was deleted joins the next paragraph (§17.13.5) |
 | diagram (SmartArt) text | the text of the diagram data part, after the story (not where the diagram is anchored) |

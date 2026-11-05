@@ -38,7 +38,7 @@ public sealed class FontSubstitutionTable
             t.Add(f, "Carlito", A);
         }
 
-        foreach (string f in new[] { "Aptos Serif", "Constantia", "Georgia", "Palatino Linotype", "Book Antiqua", "Garamond", "Century Schoolbook", "Cambria Math", "Sitka Text", "Sitka Heading" })
+        foreach (string f in new[] { "Aptos Serif", "Constantia", "Georgia", "Palatino Linotype", "Book Antiqua", "Garamond", "Century Schoolbook", "Sitka Text", "Sitka Heading" })
         {
             t.Add(f, "Liberation Serif", A);
         }
@@ -52,6 +52,11 @@ public sealed class FontSubstitutionTable
         {
             t.Add(f, "Liberation Mono", A);
         }
+
+        // The math font: Noto Sans Math has the OpenType MATH table equation layout needs (the original has no open twin).
+        t.Add("Cambria Math", "Noto Sans Math", A);
+        t.Add("STIX Two Math", "Noto Sans Math", A);
+        t.Add("Latin Modern Math", "Noto Sans Math", A);
 
         // Symbol fonts keep their code points in the private-use area, which the open face does not carry: glyphs may be missing.
         t.Add("Symbol", "Noto Sans Symbols 2", A);
