@@ -95,7 +95,7 @@ sizes, the pattern bitmaps, the lighten/darken amounts.
 `a:blip/@r:embed` is looked up through the owning part's relationships; the bytes go through OneImage's decoder via
 `DrawingImages` (one cache for every page and backend, keyed by scope and relationship id). Linked pictures (`r:link`) are never
 fetched: a placeholder is drawn with `drawing.picture-linked`. A missing part draws the placeholder with `drawing.picture-missing`; a
-picture that cannot be decoded (an EMF or WMF, until the metafile interpreter is hooked in) with `drawing.picture-undecodable`. The
+picture that cannot be decoded (and is not a metafile it can draw) with `drawing.picture-undecodable`. The
 placeholder is a grey box with a cross.
 
 Blip effects handled on the bitmap: `grayscl`, `biLevel`, `duotone`, `lum` (brightness and contrast), `alphaModFix`, `clrChange`.
