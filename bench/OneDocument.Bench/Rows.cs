@@ -3,7 +3,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using NPOI.XWPF.Extractor;
 using NPOI.XWPF.UserModel;
-using OneDocument = RecursiveAI.OneDocument.Documents.Document;
+using HubDocument = RecursiveAI.OneDocument.Documents.Document;
 using RecursiveAI.OneDocument.IO;
 using RecursiveAI.OneDocument.TextExtraction;
 using OpenXmlReader = DocumentFormat.OpenXml.OpenXmlReader;
@@ -81,7 +81,7 @@ public static class Rows
     public static long OneDocumentLoad(byte[] src)
     {
         using var input = new MemoryStream(src, writable: false);
-        using var doc = OneDocument.Open(input);
+        using var doc = HubDocument.Open(input);
         return doc.Paragraphs.First().Text.Length;
     }
 
@@ -89,7 +89,7 @@ public static class Rows
     public static long OneDocumentLoadSave(byte[] src)
     {
         using var input = new MemoryStream(src, writable: false);
-        using var doc = OneDocument.Open(input);
+        using var doc = HubDocument.Open(input);
         using var output = new MemoryStream();
         doc.SaveAs(output, OfficeFormat.Docx);
         return output.Length;
@@ -99,7 +99,7 @@ public static class Rows
     public static long OneDocumentEdit(byte[] src)
     {
         using var input = new MemoryStream(src, writable: false);
-        using var doc = OneDocument.Open(input);
+        using var doc = HubDocument.Open(input);
         doc.Paragraphs.First().SetText(EditedText);
         using var output = new MemoryStream();
         doc.SaveAs(output, OfficeFormat.Docx);
@@ -110,7 +110,7 @@ public static class Rows
     public static long OneDocumentLazyOpen(byte[] src)
     {
         using var input = new MemoryStream(src, writable: false);
-        using var doc = OneDocument.Open(input);
+        using var doc = HubDocument.Open(input);
         return doc.Styles.Styles.Count;
     }
 
