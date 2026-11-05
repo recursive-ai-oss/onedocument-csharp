@@ -126,7 +126,25 @@ public static class LayoutPainter
                 }
             }
 
+            // Floating objects: those behind the text first, then the text, then the ones in front, each group in stacking order.
+            // Ties keep the order the objects were anchored in.
+            LayoutFloat[] floats = [.. page.Floats.OrderBy(static f => f.ZOrder).ThenBy(static f => f.Order)];
+            foreach (LayoutFloat f in floats)
+            {
+                if (f.BehindText)
+                {
+                    PaintFloat(f);
+                }
+            }
+
             PaintBlocks(page.Children);
+            foreach (LayoutFloat f in floats)
+            {
+                if (!f.BehindText)
+                {
+                    PaintFloat(f);
+                }
+            }
 
             foreach (LayoutDecoration d in page.Decorations)
             {
@@ -367,7 +385,7 @@ public static class LayoutPainter
             bool tagged = Tagged;
             foreach (InlineDrawing f in p.Floats)
             {
-                if (f.Info.BehindText && !p.ContinuesFromPreviousPage)
+                if (f.Info.BehindText && !p.ContinuesFromPreviousPage && !f.Placed)
                 {
                     PaintAnchored(p, f);
                 }
@@ -444,10 +462,36 @@ public static class LayoutPainter
 
             foreach (InlineDrawing f in p.Floats)
             {
-                if (!f.Info.BehindText && !p.ContinuesFromPreviousPage)
+                if (!f.Info.BehindText && !p.ContinuesFromPreviousPage && !f.Placed)
                 {
                     PaintAnchored(p, f);
                 }
+            }
+        }
+
+        // A floating object the layout placed: drawn at its box. Objects anchored in a header or footer are artifacts like the rest of it.
+        private void PaintFloat(LayoutFloat f)
+        {
+            bool artifact = f.Story != LayoutStory.Body;
+            if (artifact)
+            {
+                _untagged++;
+                if (options.Tagged)
+                {
+                    List.BeginTag(Id(), TagRole.Artifact);
+                }
+            }
+
+            LayoutRect r = f.Bounds;
+            DrawingPainter.Draw(List, () => Id(), f.Drawing.Node, new DrawingBox(r.X, r.Y, r.Width, r.Height), ContextFor(f.Drawing.Sources), f.AltText, f.Drawing.Info.Decorative);
+            if (artifact)
+            {
+                if (options.Tagged)
+                {
+                    List.EndTag();
+                }
+
+                _untagged--;
             }
         }
 

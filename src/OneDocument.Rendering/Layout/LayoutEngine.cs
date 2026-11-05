@@ -240,19 +240,17 @@ public static partial class LayoutEngine
             int placed = 0;
             while (placed < fp.Lines.Count && !Stopped)
             {
-                if (Math.Abs(fp.FormattedWidth - _textWidth) > 0.5)
+                bool wantSpace = NeedsFloatSpace(fp);
+                if (Math.Abs(fp.FormattedWidth - _textWidth) > 0.5 || wantSpace || fp.Reflowed)
                 {
-                    // The column the text moved to has another width: cut the lines again and resume where the text had got to.
-                    int consumed = placed < fp.Lines.Count ? fp.Lines[placed].TextStart : fp.Text.Length;
-                    fp = ParagraphFormatter.Format(fp.Source, ctx, _textWidth);
+                    // The column the text moved to has another width, or objects on the page take part of it: cut the lines again, keeping
+                    // the ones already placed, and resume where the text had got to. The lines are cut around what is on the page now.
+                    double gapNow = Gap(fp);
+                    double y0 = _y + (placed == 0 ? gapNow : 0);
+                    ILineSpace? space = wantSpace ? BuildSpace(fp, y0, placed == 0 ? fp.BorderTopHeight : 0, includeOwn: placed == 0) : null;
+                    fp = ParagraphFormatter.Format(fp.Source, ctx, _textWidth, space, placed > 0 ? fp : null, placed);
                     SnapToGrid(fp);
                     blocks[index] = fp;
-                    placed = 0;
-                    while (placed < fp.Lines.Count && fp.Lines[placed].TextStart < consumed)
-                    {
-                        placed++;
-                    }
-
                     if (placed >= fp.Lines.Count)
                     {
                         break;
@@ -344,7 +342,7 @@ public static partial class LayoutEngine
             double h = 0;
             for (int i = from; i < from + count && i < fp.Lines.Count; i++)
             {
-                h += fp.Lines[i].Height;
+                h += fp.Lines[i].Advance;
             }
 
             if (includeTop && from == 0)
@@ -366,7 +364,7 @@ public static partial class LayoutEngine
             int n = 0;
             for (int i = from; i < fp.Lines.Count; i++)
             {
-                h += fp.Lines[i].Height;
+                h += fp.Lines[i].Advance;
                 if (h > avail + 0.01)
                 {
                     break;
@@ -411,11 +409,19 @@ public static partial class LayoutEngine
                 foreach (LayoutLine line in lp.Lines)
                 {
                     FormattedLine fl = fp.Lines[from + n++];
-                    NumberLine(fp, fl, line, line.Baseline - fl.Ascent, _colX);
+                    if (!fl.SameRow)
+                    {
+                        NumberLine(fp, fl, line, line.Baseline - fl.Ascent, _colX);
+                    }
                 }
             }
 
             page.Add(lp);
+            if (first)
+            {
+                CommitFloats(fp, lp, top);
+            }
+
             _y = y;
             _pageHasContent = true;
             _honourSpaceBefore = true;

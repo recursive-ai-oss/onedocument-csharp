@@ -132,8 +132,11 @@ internal sealed class FormattedLine
     public double Descent;
     public bool IsLast;
     public bool EndsWithPageBreak;
+    public bool SameRow; // another segment of the row the previous line is on: text on the far side of a floating object
     public List<LineItem> Items = [];
     public double Height => Ascent + Descent;
+    public double GapBefore; // empty space above the line: the rows above it were skipped because a floating object takes the full width
+    public double Advance => GapBefore + (SameRow ? 0 : Height);
 }
 
 internal class FormattedParagraph
@@ -156,17 +159,22 @@ internal class FormattedParagraph
     public double FormattedWidth; // the text width the lines were cut for, so the flow can re-cut them in a column of another width
     public List<FormattedLine> Lines = [];
     public List<InlineDrawing> Floats = [];
+    public bool Reflowed; // lines were cut around floating objects at a particular place
     public ParagraphPaintInfo Paint = new();
 }
 
 // Lays out the lines of one paragraph for a given text width. Rules are cited where they come from; the choices the specification
 // leaves open (and that need Word's own output to settle) are listed in docs/layout.md.
-internal static class ParagraphFormatter
+internal static partial class ParagraphFormatter
 {
     private const double SmallCapsScale = 0.8;
     private const double ScriptScale = 0.65;
 
-    public static FormattedParagraph Format(Paragraph p, LayoutContext ctx, double width)
+    public static FormattedParagraph Format(Paragraph p, LayoutContext ctx, double width) => Format(p, ctx, width, null, null, 0);
+
+    // Lays the paragraph out with text flowing around floating objects: `space` says, for a band of the page, where text may go. When
+    // `continuation` is given its first `keepLines` lines (already on earlier pages) are kept and only the rest is cut again.
+    public static FormattedParagraph Format(Paragraph p, LayoutContext ctx, double width, ILineSpace? space, FormattedParagraph? continuation, int keepLines)
     {
         ResolvedParagraphProperties pp = p.ResolvedProperties;
         var fp = new FormattedParagraph { Source = p, StyleId = pp.StyleId, FormattedWidth = width };
@@ -266,7 +274,16 @@ internal static class ParagraphFormatter
         ReadBorders(ctx, pp, fp, leftInd, rightInd, width, rtl);
         _ = labelAtoms;
 
-        BreakLines(ctx, fp, pieces, atoms, stops, firstStart, leftInd, limit, width, rtl, align, lineRule, lineValue, mark, wordWrap, paragraphText);
+        if (space is null && continuation is null)
+        {
+            BreakLines(ctx, fp, pieces, atoms, stops, firstStart, leftInd, limit, width, rtl, align, lineRule, lineValue, mark, wordWrap, paragraphText);
+        }
+        else
+        {
+            BreakLinesAround(ctx, fp, pieces, atoms, stops, firstStart, leftInd, limit, width, rtl, align, lineRule, lineValue, mark, wordWrap, paragraphText, space, continuation, keepLines);
+            fp.Reflowed = space is not null;
+        }
+
         if (fp.Lines.Count > 0)
         {
             fp.Lines[^1].IsLast = true;
@@ -597,8 +614,8 @@ internal static class ParagraphFormatter
             return;
         }
 
+        item.TextOffset = sb.Length;
         floats.Add(item);
-        ctx.NoteOnce("layout.anchored-drawing-unwrapped", "layout.anchored-drawing-unwrapped", "Anchored drawings are painted at their position; text does not wrap around them yet.", p);
     }
 
     private static RunInfo ReadRun(LayoutContext ctx, Run run, string? link)

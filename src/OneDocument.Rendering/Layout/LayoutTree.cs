@@ -43,6 +43,9 @@ public enum LayoutNodeKind
 
     /// <summary>A cell of a table row.</summary>
     TableCell = 6,
+
+    /// <summary>A floating (anchored) object: a picture, shape, text box or chart placed on the page (<see cref="LayoutFloat"/>).</summary>
+    FloatingObject = 20,
 }
 
 /// <summary>
@@ -174,6 +177,12 @@ public sealed class LayoutPage : LayoutNode
     /// much; it is 0 until notes are laid out.
     /// </summary>
     public double NotesReservation { get; internal set; }
+
+    /// <summary>Gets the floating objects on the page in the order they were anchored.</summary>
+    public IEnumerable<LayoutFloat> Floats => Children.OfType<LayoutFloat>();
+
+    // What text on this page has to go around, for the objects placed so far (drawings, floating tables, frames).
+    internal List<FloatBox> FloatBoxes { get; } = [];
 
     /// <summary>Gets the tables on the page in order (the part of each that sits on this page). Paragraphs inside cells are under their cells, not here.</summary>
     public IEnumerable<LayoutTable> Tables => Children.OfType<LayoutTable>();
@@ -364,4 +373,45 @@ public sealed class LayoutOptions
 
     /// <summary>Gets or sets the most pages to lay out; layout stops there and adds a note. Default 100,000.</summary>
     public int MaxPages { get; set; } = 100_000;
+}
+
+/// <summary>
+/// A floating object placed on a page: where an anchored picture, shape, text box or chart ended up, how text goes around it and how it
+/// stacks. <see cref="LayoutNode.Bounds"/> is the object's own box in points on the page, without the wrap distances.
+/// </summary>
+public sealed class LayoutFloat : LayoutNode
+{
+    internal LayoutFloat(InlineDrawing drawing, LayoutRect bounds, LayoutStory story)
+        : base(LayoutNodeKind.FloatingObject)
+    {
+        Drawing = drawing;
+        Bounds = bounds;
+        Story = story;
+        Info = drawing.Info;
+    }
+
+    internal InlineDrawing Drawing { get; }
+
+    internal Rendering.Drawing.DrawingInfo Info { get; }
+
+    /// <summary>Gets the story the anchor paragraph belongs to.</summary>
+    public LayoutStory Story { get; }
+
+    /// <summary>Gets how text wraps around the object.</summary>
+    public Rendering.Drawing.DrawingWrap Wrap => Info.Anchor?.Wrap ?? Rendering.Drawing.DrawingWrap.None;
+
+    /// <summary>Gets whether the object is drawn behind the text (<c>behindDoc</c>).</summary>
+    public bool BehindText => Info.BehindText;
+
+    /// <summary>Gets the stacking order; larger is in front. Equal values keep anchor order.</summary>
+    public long ZOrder => Info.Anchor?.RelativeHeight ?? 0;
+
+    /// <summary>Gets the object's alternative text, or null.</summary>
+    public string? AltText => Info.AltText;
+
+    /// <summary>Gets the paragraph the object is anchored in.</summary>
+    public LayoutParagraph? AnchorParagraph { get; internal set; }
+
+    /// <summary>Gets the order the object was anchored in on its page.</summary>
+    public int Order { get; internal set; }
 }

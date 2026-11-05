@@ -90,7 +90,7 @@ public static class DrawingPainter
         return count;
     }
 
-    private static MarkupNode FindShape(MarkupNode n)
+    internal static MarkupNode FindShape(MarkupNode n)
     {
         for (int depth = 0; depth < 8 && !n.IsNull; depth++)
         {
