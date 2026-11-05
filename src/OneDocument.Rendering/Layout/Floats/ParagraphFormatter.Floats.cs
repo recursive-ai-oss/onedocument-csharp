@@ -74,12 +74,33 @@ internal static partial class ParagraphFormatter
                 row = [];
                 int s = start;
                 bool first = firstLine;
-                for (int k = 0; k < segments.Count && (s < n || (n == 0 && k == 0)); k++)
+                // A display equation has a row to itself and takes the widest free stretch of it.
+                List<(double Start, double End)> usable = segments;
+                if (start < n && atoms[start].Kind == AtomKind.Math && atoms[start].Display && segments.Count > 1)
                 {
+                    (double Start, double End) widest = segments[0];
+                    foreach ((double Start, double End) g in segments)
+                    {
+                        if (g.End - g.Start > widest.End - widest.Start)
+                        {
+                            widest = g;
+                        }
+                    }
+
+                    usable = [widest];
+                }
+
+                for (int k = 0; k < usable.Count && (s < n || (n == 0 && k == 0)); k++)
+                {
+                    if (k > 0 && atoms[s].Kind == AtomKind.Math && atoms[s].Display)
+                    {
+                        break;
+                    }
+
                     double lineStart = k == 0 ? (first ? firstStart : leftInd) : 0;
-                    double segStart = Math.Max(lineStart, segments[k].Start);
-                    double segLimit = Math.Min(limit, segments[k].End);
-                    if (segLimit - segStart < FloatSpace.MinimumSegment && !(segments.Count == 1 && k == 0))
+                    double segStart = Math.Max(lineStart, usable[k].Start);
+                    double segLimit = Math.Min(limit, usable[k].End);
+                    if (segLimit - segStart < FloatSpace.MinimumSegment && !(usable.Count == 1 && k == 0))
                     {
                         continue;
                     }
@@ -93,9 +114,10 @@ internal static partial class ParagraphFormatter
                     var line = new FormattedLine { EndsWithPageBreak = pageBreak, SameRow = row.Count > 0 };
                     BuildLine(ctx, fp, line, pieces, atoms, s, end, segStart, segLimit, stops, leftInd, defaultTab, rtl, align, hardBreak, end >= n, width, first, lineRule, lineValue, mark, paragraphText);
                     row.Add(line);
+                    bool displayLine = end - s == 1 && atoms[s].Kind == AtomKind.Math && atoms[s].Display;
                     s = end;
                     first = false;
-                    if (hardBreak)
+                    if (hardBreak || displayLine)
                     {
                         break;
                     }

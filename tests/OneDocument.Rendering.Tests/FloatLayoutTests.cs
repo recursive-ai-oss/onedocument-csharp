@@ -335,6 +335,22 @@ public sealed class FloatLayoutTests
     }
 
     [Fact]
+    public void A_display_equation_beside_an_object_takes_a_row_of_its_own_in_the_widest_stretch()
+    {
+        string math = "<m:oMathPara xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><m:oMath><m:r><m:t>x=1</m:t></m:r></m:oMath></m:oMathPara>";
+        string body = "<w:p>" + FloatSamples.Anchor(150, 100, FloatSamples.H("margin", 140), FloatSamples.V("paragraph", 0), FloatSamples.Square()) +
+            "<w:r><w:t xml:space=\"preserve\">" + FloatSamples.Words(20) + "</w:t></w:r>" + math + "<w:r><w:t xml:space=\"preserve\">" + FloatSamples.Words(60) + "</w:t></w:r></w:p>";
+        using Document doc = Document.Open(new MemoryStream(TestDocx.Bytes(body)), leaveOpen: false);
+        LayoutPage page = LayoutEngine.Layout(doc, new LayoutOptions { Fonts = TestFonts.Library }).Pages[0];
+        LayoutFloat f = page.Floats.Single();
+        LayoutLine eq = page.BodyParagraphs.SelectMany(p => p.Lines).Single(l => l.Runs.Any(r => r.RunKind == LayoutRunKind.Math));
+        Assert.Single(eq.Runs);
+        Assert.DoesNotContain(page.BodyParagraphs.SelectMany(p => p.Lines), l => !ReferenceEquals(l, eq) && Math.Abs(l.Baseline - eq.Baseline) < 0.01);
+        LayoutRun m = eq.Runs.First();
+        Assert.False(Overlaps(m.Bounds with { Y = eq.Baseline - eq.Ascent, Height = eq.Ascent + eq.Descent }, f.Bounds) && eq.Baseline > f.Bounds.Y);
+    }
+
+    [Fact]
     public void A_table_in_a_text_box_is_laid_out_and_painted()
     {
         LayoutDocument layout = Lay("textbox-table");

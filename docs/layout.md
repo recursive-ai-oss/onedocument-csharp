@@ -25,7 +25,7 @@ from several threads.
 | `LayoutPage` | number (1-based), size, `ContentArea`, `SectionIndex`, its blocks |
 | `LayoutParagraph` | the hub `Paragraph`, `Text` (the visible text as laid out), `Label`, `HeadingLevel`, `IsRightToLeft`, `ContinuesFromPreviousPage` / `ContinuesOnNextPage` |
 | `LayoutLine` | `Baseline`, `Ascent`, `Descent`, `TextStart`/`TextLength` into `LayoutParagraph.Text`, `Text`, `IsLastLine` |
-| `LayoutRun` | `RunKind` (Text, Tab, Label), `Text`, `TextStart`, the hub `Run`, the chosen `FontMatch`, `FontSize`, `BidiLevel`, cluster offsets and x positions |
+| `LayoutRun` | `RunKind` (Text, Tab, Label, Math), `Math` (the laid-out equation of a Math run), `Text`, `TextStart`, the hub `Run`, the chosen `FontMatch`, `FontSize`, `BidiLevel`, cluster offsets and x positions |
 
 - A paragraph that crosses a page or column has one `LayoutParagraph` per page or column; each has the full `Text` and its lines carry offsets into it.
 - `Text` has hidden text removed, `\t` for a tab, `\n` for a line break and `\f` for a page break and U+000E for a column break. Offsets are UTF-16 units.
@@ -36,7 +36,8 @@ from several threads.
 - `LayoutDocument.FontNotes` has one `FontSubstitutionNote` per replaced family and `Notes` has `layout.*` notes for what was skipped.
   Codes so far: `layout.font-missing`, `layout.drawing-skipped`, `layout.block-skipped`, `layout.blank-page`, `layout.page-limit`,
   `layout.page-border-art`, `layout.valign-both`, and for tables `layout.table-skipped` (a table in a header or footer),
-  `layout.table-text-direction`, `layout.table-depth` (see `layout-tables.md`). Floating objects are in `layout-floats.md`. Drawing notes (`drawing.*`) come from painting and are listed in `drawingml-rendering.md`.
+  `layout.table-text-direction`, `layout.table-depth` (see `layout-tables.md`), and for equations `layout.math.*` (see `math-layout.md`).
+  Floating objects are in `layout-floats.md`. Drawing notes (`drawing.*`) come from painting and are listed in `drawingml-rendering.md`.
 
 ## Paint contract
 
@@ -50,6 +51,7 @@ from several threads.
 | run whose language differs from the document's | `Span` with the language |
 | shading, borders, highlight, underline, strike, tab leaders | plain fills, which the PDF backend writes as artifacts |
 | text | one `DrawGlyphRun` per same-font stretch: real glyph ids, per-glyph x, cluster indexes and the run text (for text extraction) |
+| equation | one `Figure` whose alternative text is the equation's linear form; a `DrawGlyphRun` per math glyph, `FillRect` for rules, filled quadrilaterals for strokes (`math-layout.md`) |
 
 A run with character scale other than 100 % is drawn under a horizontal-scale transform. The document root tag is the backend's.
 Notes, references, TOC and header/footer artifacts use `Div`/`Span`/`Link`/`Artifact` until OneRender has the roles.
@@ -201,6 +203,7 @@ stages that lay out those features and are added to this table with them.
 | Justification in lines with tabs or bidi | spreads over spaces only | |
 | Bidi mirrored punctuation, trailing spaces in right-to-left lines | not handled specially | |
 | Hyphenation, kashida, the East Asian character grid and `w:eastAsianLayout` | not implemented | later |
+| Equations | laid out as unbreakable inline atoms or display lines; see `math-layout.md` for the list of points to check | needs Word output |
 | Inline pictures and shapes | laid out as objects in the line (see `drawingml-rendering.md`) | |
 | Anchored objects, floating tables, frames, drop caps | positioned and wrapped, see `layout-floats.md` | the figures listed there need Word's own output |
 | Notes, fields other than page numbers | not laid out (reported) | later stages |

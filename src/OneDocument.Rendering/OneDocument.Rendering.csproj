@@ -16,6 +16,7 @@
     <PackageReference Include="RecursiveAI.OneRender.Pdf" />
     <PackageReference Include="RecursiveAI.OneRender.Image" />
     <PackageReference Include="RecursiveAI.OneRender.Fonts" />
+    <PackageReference Include="RecursiveAI.OneRender.Fonts.Noto.Math" />
     <PackageReference Include="RecursiveAI.OneFont" />
     <PackageReference Include="RecursiveAI.OneImage" />
     <PackageReference Include="RecursiveAI.OneImage.Text" />

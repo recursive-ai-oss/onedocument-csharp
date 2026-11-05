@@ -4,7 +4,7 @@
 #   fuzz/run.sh <target> <seconds> [corpus dir] [extra libFuzzer flags...]
 #   fuzz/run.sh replay <target> <file>...      # run saved inputs once, without libFuzzer (reproduce a finding)
 #
-# Targets: formula, formulaeval, finfuncs, statfuncs, funcs, lookups, sniff, xml, markup, opc, cfb, sdt, sdtpath, text, revisions, stories, pptx, fieldinstr, fields, numfmt, numfmtfmt, sheet, sst, wbpart, styles, sheetfeat, table, pivot, csv, stream, streamwrite, template, richtext, mailmerge   (see fuzz/README.md)
+# Targets: formula, formulaeval, finfuncs, statfuncs, funcs, lookups, sniff, xml, markup, opc, cfb, sdt, sdtpath, text, revisions, stories, pptx, fieldinstr, fields, numfmt, numfmtfmt, sheet, sst, wbpart, styles, sheetfeat, table, pivot, csv, stream, streamwrite, template, richtext, mailmerge, math   (see fuzz/README.md)
 #
 # Environment (nothing is baked into the script):
 #   ONEDOCUMENT_FUZZ_WORK    required: where builds, corpora and findings go. Keep it outside the checkout.
@@ -57,6 +57,7 @@ case "$target" in
   template) maxlen=2048 ;;
   mailmerge) maxlen=1024 ;;
   richtext) maxlen=4096 ;;
+  math) maxlen=16384 ;;
   *) echo "unknown target '$target'" >&2; exit 2 ;;
 esac
 
@@ -94,6 +95,7 @@ mkdir -p "$corpus" "$findings"
 "$instrument" "$bin/RecursiveAI.OneDocument.dll" >/dev/null
 [[ ! -f "$bin/RecursiveAI.OneDocument.Documents.dll" ]] || "$instrument" "$bin/RecursiveAI.OneDocument.Documents.dll" >/dev/null
 [[ ! -f "$bin/RecursiveAI.OneDocument.Spreadsheets.dll" ]] || "$instrument" "$bin/RecursiveAI.OneDocument.Spreadsheets.dll" >/dev/null
+[[ ! -f "$bin/RecursiveAI.OneDocument.Rendering.dll" ]] || "$instrument" "$bin/RecursiveAI.OneDocument.Rendering.dll" >/dev/null
 "$instrument" "$bin/RecursiveAI.OneArchive.dll" >/dev/null
 
 # An extra seed directory is read-only for libFuzzer: new finds go to $corpus.

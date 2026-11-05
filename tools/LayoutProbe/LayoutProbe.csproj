@@ -25,6 +25,7 @@
     <!-- The generated test set is shared with the test project. -->
     <Compile Include="../../tests/OneDocument.Rendering.Tests/LayoutCases.cs" Link="LayoutCases.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/TableCases.cs" Link="TableCases.cs" />
+    <Compile Include="../../tests/OneDocument.Rendering.Tests/MathCases.cs" Link="MathCases.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/TestDocx.cs" Link="TestDocx.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/DrawingSamples.cs" Link="DrawingSamples.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/FloatSamples.cs" Link="FloatSamples.cs" />

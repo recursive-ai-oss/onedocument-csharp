@@ -47,6 +47,9 @@ Inline drawings are not floats: they take a character's place in the line (`draw
   widest segment of the row.
 - A segment narrower than 12 pt is left empty (`FloatSpace.MinimumSegment`). If no segment is wide enough the rows move down to the
   nearest object edge.
+- A display equation has a row to itself. Where an object splits the row, it takes the widest free stretch and nothing else shares
+  its baseline; an inline equation is an unbreakable atom and goes into whichever stretch has room for it. Which of these Word does
+  is listed with the points to check below.
 - Space skipped above a row (under a top-and-bottom object, or beside one too wide for text) is `GapBefore` on the row's first line, so
   the page flow and the tree see lines at their real positions.
 - Paragraphs are cut around the objects already on the page and the ones the paragraph itself anchors. A paragraph that is cut again
@@ -71,7 +74,7 @@ in front. Objects of a header or footer are artifacts.
 
 `layout.anchored-drawing-unwrapped` and `layout.table-floating` are gone. VML groups, `v:group` and `w:object` stay unlaid (`layout.drawing-skipped`).
 
-Points that need Word's own output at the 1.0 gate: the minimum segment width, the `paragraph` and `line` bases (space before and the
+Points that need Word's own output at the 1.0 gate: where a display equation goes beside an object, the minimum segment width, the `paragraph` and `line` bases (space before and the
 line top), where a drop cap's box ends, the frame width when none is given, and how Word treats tight wrapping without a polygon.
 
 Known gaps: paragraphs already placed on a page do not move when a later anchor positions an object over them; rotated objects wrap

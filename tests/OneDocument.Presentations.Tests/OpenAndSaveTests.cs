@@ -168,6 +168,49 @@ public class OpenAndSaveTests
     }
 
     [Fact]
+    public void EquationsInTextBodiesExtractAsLinearText()
+    {
+        PresentationFormats.Register(FormatRegistry.Default);
+        string dir = Path.Combine(Path.GetTempPath(), "pptx-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(dir);
+        try
+        {
+            string path = Path.Combine(dir, "deck.pptx");
+            using (Presentation deck = Presentation.Create())
+            {
+                deck.AddSlide(Decks.Layout(deck, "Title Slide")).Shapes[0].TextBody!.SetText("Result");
+                deck.SaveAs(path);
+            }
+
+            using (var zip = System.IO.Compression.ZipFile.Open(path, System.IO.Compression.ZipArchiveMode.Update))
+            {
+                System.IO.Compression.ZipArchiveEntry entry = zip.GetEntry("ppt/slides/slide1.xml")!;
+                string xml;
+                using (var reader = new StreamReader(entry.Open()))
+                {
+                    xml = reader.ReadToEnd();
+                }
+
+                const string math = "<a14:m xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\"><m:oMathPara xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><m:oMath><m:sSup><m:e><m:r><m:t>x</m:t></m:r></m:e><m:sup><m:r><m:t>2</m:t></m:r></m:sup></m:sSup></m:oMath></m:oMathPara></a14:m>";
+                int at = xml.IndexOf("</a:p>", StringComparison.Ordinal);
+                Assert.True(at > 0);
+                entry.Delete();
+                entry = zip.CreateEntry("ppt/slides/slide1.xml");
+                using var writer = new StreamWriter(entry.Open(), new System.Text.UTF8Encoding(false));
+                writer.Write(xml.Insert(at, math));
+            }
+
+            string text = Office.ExtractText(path);
+            Assert.Contains("x^2", text, StringComparison.Ordinal);
+            Assert.DoesNotContain("x2", text, StringComparison.Ordinal);
+        }
+        finally
+        {
+            Directory.Delete(dir, recursive: true);
+        }
+    }
+
+    [Fact]
     public void WordDocumentsAreNotPresentations()
     {
         // A package whose main part is a word-processing document is another kind.
