@@ -837,7 +837,8 @@ internal sealed class FormulaReader
 
         string raw = _s.Substring(start, p - start);
         string invariant = _loc.DecimalSeparator == '.' ? raw : raw.Replace(_loc.DecimalSeparator, '.');
-        if (!double.TryParse(invariant, NumberStyles.Float, CultureInfo.InvariantCulture, out double v) || double.IsInfinity(v))
+        // Excel keeps 15 significant digits of a number typed into a formula and drops the rest (123456789.123456789 is 123456789.123456).
+        if (!double.TryParse(TruncateTo15Digits(invariant), NumberStyles.Float, CultureInfo.InvariantCulture, out double v) || double.IsInfinity(v))
         {
             throw Error("formula.bad-number", "The number is too large.", start, p - start);
         }
@@ -846,6 +847,38 @@ internal sealed class FormulaReader
         var n = new NumberNode(v, invariant);
         Span(n, start, p);
         return n;
+    }
+
+    private static string TruncateTo15Digits(string number)
+    {
+        int e = number.IndexOfAny(['E', 'e']);
+        string mantissa = e < 0 ? number : number[..e];
+        string exponent = e < 0 ? string.Empty : number[e..];
+        int significant = 0;
+        bool started = false;
+        var sb = new System.Text.StringBuilder(mantissa.Length);
+        foreach (char c in mantissa)
+        {
+            if (c == '.')
+            {
+                sb.Append(c);
+                continue;
+            }
+
+            if (c != '0')
+            {
+                started = true;
+            }
+
+            if (started)
+            {
+                significant++;
+            }
+
+            sb.Append(significant > 15 ? '0' : c);
+        }
+
+        return sb.Append(exponent).ToString();
     }
 
     private ArrayConstantNode ParseArrayConstant()

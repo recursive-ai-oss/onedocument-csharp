@@ -180,7 +180,8 @@ public static class FormulaPrinter
 
         private string Number(NumberNode x)
         {
-            string t = x.Raw ?? x.Value.ToString("R", CultureInfo.InvariantCulture);
+            // File form keeps the spelling read; display form shows what Excel shows (1E+10 is 10000000000).
+            string t = (File ? x.Raw : null) ?? (File ? x.Value.ToString("R", CultureInfo.InvariantCulture) : CalcConvert.NumberToText(x.Value));
             return Loc.DecimalSeparator == '.' ? t : t.Replace('.', Loc.DecimalSeparator);
         }
 
@@ -249,6 +250,12 @@ public static class FormulaPrinter
                     Cell(x.Row2, x.Column2);
                     break;
                 case AreaKind.Rows:
+                    if (o.Syntax == FormulaSyntax.R1C1 && x.Row1 == x.Row2)
+                    {
+                        Rc('R', x.Row1, o.OriginRow);
+                        break;
+                    }
+
                     if (o.Syntax == FormulaSyntax.A1)
                     {
                         sb.Append(x.Row1.Absolute ? "$" : string.Empty).Append(x.Row1.Index.ToString(CultureInfo.InvariantCulture)).Append(':');
@@ -263,6 +270,12 @@ public static class FormulaPrinter
 
                     break;
                 default:
+                    if (o.Syntax == FormulaSyntax.R1C1 && x.Column1 == x.Column2)
+                    {
+                        Rc('C', x.Column1, o.OriginColumn);
+                        break;
+                    }
+
                     if (o.Syntax == FormulaSyntax.A1)
                     {
                         sb.Append(x.Column1.Absolute ? "$" : string.Empty).Append(RefSyntax.ColumnName(x.Column1.Index)).Append(':');

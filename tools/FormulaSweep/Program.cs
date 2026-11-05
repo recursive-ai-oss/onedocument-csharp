@@ -22,6 +22,7 @@ internal static class Program
         int shards = 1;
         int max = int.MaxValue;
         int show = 20;
+        bool time = false;
         for (int i = 0; i < args.Length; i++)
         {
             switch (args[i])
@@ -33,6 +34,9 @@ internal static class Program
                     break;
                 case "--max":
                     max = int.Parse(args[++i]);
+                    break;
+                case "--time":
+                    time = true;
                     break;
                 case "--show":
                     show = int.Parse(args[++i]);
@@ -52,6 +56,7 @@ internal static class Program
         var mismatchSamples = new List<string>();
         var seen = new HashSet<string>(StringComparer.Ordinal);
         var options = new FormulaParserOptions();
+        var timing = new List<string>();
         foreach (string f in files)
         {
             long before = formulas;
@@ -82,6 +87,11 @@ internal static class Program
                             }
 
                             string text = cf.Text;
+                            if (time && timing.Count < 300_000)
+                            {
+                                timing.Add(text);
+                            }
+
                             if (!FormulaParser.TryParse(text, out FormulaNode? node, out FormulaSyntaxError err, options) || node is null)
                             {
                                 failures[err.Code] = failures.GetValueOrDefault(err.Code) + 1;
@@ -150,6 +160,57 @@ internal static class Program
         foreach (string s in mismatchSamples)
         {
             Console.WriteLine("mismatch " + s);
+        }
+
+        if (time && timing.Count > 0)
+        {
+            // Indicative only: parse, then print, the collected formulas several times on one thread.
+            foreach (string t in timing)
+            {
+                _ = FormulaParser.TryParse(t, out _, out _);
+            }
+
+            const int rounds = 5;
+            long chars = 0;
+            foreach (string t in timing)
+            {
+                chars += t.Length;
+            }
+
+            long a0 = GC.GetAllocatedBytesForCurrentThread();
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            for (int r = 0; r < rounds; r++)
+            {
+                foreach (string t in timing)
+                {
+                    _ = FormulaParser.TryParse(t, out _, out _);
+                }
+            }
+
+            double parseNs = sw.Elapsed.TotalMilliseconds * 1e6 / (rounds * timing.Count);
+            long parseBytes = (GC.GetAllocatedBytesForCurrentThread() - a0) / (rounds * timing.Count);
+            var nodes = new List<FormulaNode>(timing.Count);
+            foreach (string t in timing)
+            {
+                if (FormulaParser.TryParse(t, out FormulaNode? n, out _) && n is not null)
+                {
+                    nodes.Add(n);
+                }
+            }
+
+            a0 = GC.GetAllocatedBytesForCurrentThread();
+            sw.Restart();
+            for (int r = 0; r < rounds; r++)
+            {
+                foreach (FormulaNode n in nodes)
+                {
+                    _ = FormulaPrinter.Print(n);
+                }
+            }
+
+            double printNs = sw.Elapsed.TotalMilliseconds * 1e6 / (rounds * nodes.Count);
+            long printBytes = (GC.GetAllocatedBytesForCurrentThread() - a0) / (rounds * nodes.Count);
+            Console.WriteLine($"timing formulas={timing.Count} meanChars={chars / timing.Count} parse={parseNs:F0} ns {parseBytes} B/formula  print={printNs:F0} ns {printBytes} B/formula");
         }
 
         return 0;

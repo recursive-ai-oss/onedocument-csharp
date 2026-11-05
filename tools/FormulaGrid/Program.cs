@@ -63,6 +63,47 @@ internal static class Program
         "@A1:A3", "@{1,2,3}", "@5", "@SEQUENCE(3)", "@A1",
     ];
 
+    // Column B holds the test formulas themselves, so ranges that would cover it move to X:Z.
+    private static string OffColumnB(string f) => f.Replace("A1:C3", "X1:Z3", StringComparison.Ordinal).Replace("A1:C2", "X1:Z2", StringComparison.Ordinal)
+        .Replace("A1:B2", "X1:Y2", StringComparison.Ordinal).Replace("A1:A3", "X1:X3", StringComparison.Ordinal).Replace("A1:A5", "X1:X5", StringComparison.Ordinal)
+        .Replace("A1:A2", "X1:X2", StringComparison.Ordinal).Replace("A:C", "X:Z", StringComparison.Ordinal);
+
+    // Boundaries Excel decides: when a number becomes scientific text, how near zero a sum snaps to zero, which negative powers are real.
+    private static readonly string[] Probes = BuildProbes();
+
+    private static string[] BuildProbes()
+    {
+        var l = new List<string>();
+        foreach (string n in new[] { "1E+15", "1E+16", "1E+17", "1E+18", "1E+19", "9.99999999999999E+19", "1.5E+20", "1E+20", "1E+21", "1E+22", "1.5E+25", "1E+100", "1E-4", "1E-5", "1E-6", "1E-9", "1E-10", "1E-11", "1E-12", "1E-15", "1E-20", "1.5E-11", "0.00001234", "1.234E-9", "1.234E-10", "1.234E-11", "1.234E-20", "1E-300", "-1E-11", "123456.789E-15" })
+        {
+            l.Add(n + "&\"\"");
+        }
+
+        for (int k = 1; k <= 12; k++)
+        {
+            l.Add($"1+{k}E-15-1");
+            l.Add($"(1+{k}E-15)-1");
+            l.Add($"1-(1-{k}E-15)");
+        }
+
+        foreach (string x in new[] { "100+1E-13-100", "100+2E-13-100", "100+5E-13-100", "1000+1E-12-1000", "1000+4E-12-1000", "1E6+1E-9-1E6", "1E6+5E-9-1E6", "1E15+1-1E15", "0.1+0.2-0.3", "0.3-0.2-0.1", "1.1-1-0.1", "1.1-1", "-(1.1-1-0.1)", "(1.1-1-0.1)", "(1.1-1-0.1)+0", "0+(1.1-1-0.1)", "2*(1.1-1-0.1)", "SUM(0.1,0.2,-0.3)", "SUM(1.1,-1,-0.1)", "SUM(0.1,0.2)-0.3", "(SUM(1.1,-1,-0.1))", "SUM(1.1,-1)-0.1", "SUM({0.1,0.2,-0.3})", "SUM(1E-15,1,-1)", "SUM(1,1E-15,-1)", "SUM(1,2E-15,-1)", "SUM(1,1E-14,-1)", "SUM(1E-15)", "SUM(0.5,0.25,-0.75)", "1E-20+1E-20-2E-20", "IF(TRUE,1.1-1-0.1)", "IFERROR(1.1-1-0.1,0)", "ABS(1.1-1-0.1)" })
+        {
+            l.Add(x);
+        }
+
+        foreach (string x in new[] { "(-8)^(1/3)", "(-27)^(1/3)", "(-8)^(2/3)", "(-8)^0.2", "(-32)^(1/5)", "(-32)^0.2", "(-8)^(-1/3)", "(-1)^1E15", "(-1)^1E16", "(-1)^3E14", "(-1)^9007199254740991", "(-2)^1E15", "(-2)^1E3", "(-2)^101", "(-1)^0.5", "(-1)^(1/3)", "(-16)^(1/4)", "(-1)^(2/3)", "(-8)^0.333333333", "(-8)^0.3333333333333333", "(-1)^-3", "(-2)^-2" })
+        {
+            l.Add(x);
+        }
+
+        foreach (string x in new[] { "@{1,2,3}", "@{1,2;3,4}", "@SEQUENCE(3)", "@X1:X3", "@IF(TRUE,{5,6})" })
+        {
+            l.Add(x);
+        }
+
+        return [.. l];
+    }
+
     private static readonly string[] SyntaxA1 =
     [
         "A1", "$A$1", "A$1", "$A1", "B2+C3", "SUM(A1:B2)", "SUM($A$1:B$2)", "Sheet2!A1", "'My Sheet'!B2:C3", "Sheet2!A:A", "Sheet2!1:1", "A:A", "$A:$C", "1:3", "$1:$3", "A:C", "XFD1048576", "XFD:XFD", "1048576:1048576",
@@ -110,7 +151,13 @@ internal static class Program
         i = 0;
         foreach (string f in Functions)
         {
-            yield return new Test($"fn{i++}", "a1", f.StartsWith('=') ? f : "=" + f);
+            yield return new Test($"fn{i++}", "a1", "=" + OffColumnB(f));
+        }
+
+        i = 0;
+        foreach (string f in Probes)
+        {
+            yield return new Test($"pr{i++}", "a1", "=" + f);
         }
 
         i = 0;
@@ -209,7 +256,7 @@ internal static class Program
         }
 
         // Excel's numeric codes for the error literals, learned from the answers to the literals themselves.
-        var errCode = new Dictionary<int, CalcError>();
+        var errCode = new Dictionary<int, CalcError> { [-2146826238] = CalcError.Calc };
         var answers = new Dictionary<string, string[]>();
         foreach (string f in Directory.EnumerateFiles(answerDir, "*.fgrid.tsv"))
         {
@@ -309,7 +356,23 @@ internal static class Program
         bool parsed = FormulaParser.TryParse(text, out FormulaNode? node, out FormulaSyntaxError err, new FormulaParserOptions { FileForm = false });
         if (ans.Length < 8 || ans[1] != "ok")
         {
-            return parsed ? "excel rejects (" + (ans.Length > 1 ? ans[1] : "?") + ") but ours parses" : null;
+            if (!parsed || node is null)
+            {
+                return null;
+            }
+
+            // Excel refuses some formulas at entry that parse fine (wrong argument count, constants that overflow); ours must then evaluate to an error.
+            CalcValue rv;
+            try
+            {
+                rv = ev.Evaluate(node, new CalcCell("Sheet1", RowOf(t, index), 2));
+            }
+            catch (OfficeException)
+            {
+                return null;
+            }
+
+            return rv.IsError || (rv.Kind == ValueKind.Array && rv.Array![0, 0].IsError) ? null : "excel rejects at entry (" + ans[1] + ") but ours evaluates to " + Show(rv);
         }
 
         if (!parsed || node is null)

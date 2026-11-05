@@ -12,7 +12,7 @@ internal static class SeedFunctions
 
     public static void Register(FunctionRegistry r)
     {
-        r.Add(FunctionDefinition.Create("SUM", 0, int.MaxValue, Any, Sum, repeatLast: true));
+        r.Add(FunctionDefinition.Create("SUM", 1, int.MaxValue, Any, Sum, repeatLast: true));
         r.Add(FunctionDefinition.Create("AND", 1, int.MaxValue, Any, (c, a) => Logical(c, a, true), repeatLast: true));
         r.Add(FunctionDefinition.Create("OR", 1, int.MaxValue, Any, (c, a) => Logical(c, a, false), repeatLast: true));
         r.Add(FunctionDefinition.Create("NOT", 1, 1, V, Not));
@@ -151,7 +151,13 @@ internal static class SeedFunctions
                     continue;
                 }
 
+                // Text other than "TRUE" and "FALSE" is skipped, as it is inside references: OR("x",TRUE) is TRUE.
                 CalcError ce = CalcConvert.ToBoolean(v, out bool b);
+                if (ce == CalcError.Value && v.Kind == ValueKind.Text)
+                {
+                    continue;
+                }
+
                 if (ce != CalcError.None)
                 {
                     return Err(ce);
@@ -331,7 +337,12 @@ internal static class SeedFunctions
             }
         }
 
-        if (row < 0 || col < 0 || row > rows || col > cols)
+        if (row < 0 || col < 0)
+        {
+            return Err(CalcError.Value);
+        }
+
+        if (row > rows || col > cols)
         {
             return Err(CalcError.Ref);
         }
@@ -382,6 +393,11 @@ internal static class SeedFunctions
 
         double rowsD = Math.Truncate(p[0]);
         double colsD = Math.Truncate(p[1]);
+        if (rowsD < 0 || colsD < 0)
+        {
+            return Err(CalcError.Value);
+        }
+
         if (rowsD < 1 || colsD < 1)
         {
             return Err(CalcError.Calc);
@@ -425,9 +441,9 @@ internal static class SeedFunctions
 
         rowsD = Math.Truncate(rowsD);
         colsD = Math.Truncate(colsD);
-        if (rowsD < 1 || colsD < 1)
+        if (rowsD < 1 || colsD < 1 || fn.Lambda!.Parameters.Length != 2)
         {
-            return Err(CalcError.Calc);
+            return Err(CalcError.Value);
         }
 
         int rows = (int)Math.Min(rowsD, int.MaxValue);
@@ -443,10 +459,20 @@ internal static class SeedFunctions
                 CalcValue res = ev.Dereference(ev.Invoke(fn, pair));
                 if (res.Kind == ValueKind.Array)
                 {
-                    res = res.Array!.Count == 1 ? res.Array[0, 0] : Err(CalcError.Calc);
+                    if (res.Array!.Count != 1)
+                    {
+                        return Err(CalcError.Calc); // A lambda that returns an array makes the whole result #CALC!.
+                    }
+
+                    res = res.Array[0, 0];
                 }
 
-                cells[(r * cols) + c] = res.Kind == ValueKind.Lambda ? Err(CalcError.Calc) : res;
+                if (res.Kind == ValueKind.Lambda)
+                {
+                    return Err(CalcError.Calc);
+                }
+
+                cells[(r * cols) + c] = res;
             }
         }
 
@@ -462,6 +488,11 @@ internal static class SeedFunctions
         }
 
         int n = args.Length - 1;
+        if (fn.Lambda!.Parameters.Length != n)
+        {
+            return Err(CalcError.Value);
+        }
+
         var arrays = new CalcArray[n];
         int rows = 1;
         int cols = 1;
@@ -491,16 +522,27 @@ internal static class SeedFunctions
             {
                 for (int i = 0; i < n; i++)
                 {
-                    call[i] = arrays[i].Broadcasting(r, c);
+                    // MAP does not stretch a one-row or one-column array: a cell outside a smaller array is #N/A.
+                    call[i] = r < arrays[i].Rows && c < arrays[i].Columns ? arrays[i][r, c] : Err(CalcError.NA);
                 }
 
                 CalcValue res = ev.Dereference(ev.Invoke(fn, call));
                 if (res.Kind == ValueKind.Array)
                 {
-                    res = res.Array!.Count == 1 ? res.Array[0, 0] : Err(CalcError.Calc);
+                    if (res.Array!.Count != 1)
+                    {
+                        return Err(CalcError.Calc);
+                    }
+
+                    res = res.Array[0, 0];
                 }
 
-                cells[(r * cols) + c] = res.Kind == ValueKind.Lambda ? Err(CalcError.Calc) : res;
+                if (res.Kind == ValueKind.Lambda)
+                {
+                    return Err(CalcError.Calc);
+                }
+
+                cells[(r * cols) + c] = res;
             }
         }
 
@@ -511,6 +553,11 @@ internal static class SeedFunctions
     {
         CalcValue v = args[0];
         string code = CalcConvert.ToText(args[1]);
+        if (code.Length == 0)
+        {
+            return CalcValue.EmptyText;
+        }
+
         NumberFormats.NumberFormat? f = ev.GetFormat(code);
         if (f is null)
         {
@@ -625,8 +672,12 @@ internal static class SeedFunctions
                 return c;
             }
 
-            CalcValue s = c.Kind == ValueKind.Array ? c.Array![0, 0] : c;
-            CalcError e = CalcConvert.ToBoolean(s, out bool b);
+            if (c.Kind == ValueKind.Array)
+            {
+                return IfsArray(ev, args, i, c.Array!);
+            }
+
+            CalcError e = CalcConvert.ToBoolean(c, out bool b);
             if (e != CalcError.None)
             {
                 return Err(e);
@@ -641,12 +692,95 @@ internal static class SeedFunctions
         return Err(CalcError.NA);
     }
 
+    // An array condition makes IFS work element by element over the remaining pairs.
+    private static CalcValue IfsArray(Evaluator ev, ReadOnlySpan<FormulaNode> args, int first, CalcArray firstCond)
+    {
+        int pairs = (args.Length - first) / 2;
+        var conds = new CalcArray[pairs];
+        var vals = new CalcArray[pairs];
+        int rows = 1;
+        int cols = 1;
+        for (int k = 0; k < pairs; k++)
+        {
+            CalcValue c = k == 0 ? CalcValue.FromArray(firstCond) : Cond(ev, args[first + (2 * k)]);
+            CalcValue v = ev.Dereference(ev.Evaluate(args[first + (2 * k) + 1]));
+            conds[k] = c.Array ?? CalcArray.OfValue(c);
+            vals[k] = v.Array ?? CalcArray.OfValue(v);
+            rows = Math.Max(rows, Math.Max(conds[k].Rows, vals[k].Rows));
+            cols = Math.Max(cols, Math.Max(conds[k].Columns, vals[k].Columns));
+        }
+
+        CalcValue[] cells = ev.NewCells(rows, cols);
+        for (int r = 0; r < rows; r++)
+        {
+            for (int c = 0; c < cols; c++)
+            {
+                CalcValue pick = Err(CalcError.NA);
+                for (int k = 0; k < pairs; k++)
+                {
+                    CalcValue cv = conds[k].Broadcasting(r, c);
+                    if (cv.IsError)
+                    {
+                        pick = cv;
+                        break;
+                    }
+
+                    CalcError e = CalcConvert.ToBoolean(cv, out bool b);
+                    if (e != CalcError.None)
+                    {
+                        pick = Err(e);
+                        break;
+                    }
+
+                    if (b)
+                    {
+                        pick = vals[k].Broadcasting(r, c);
+                        break;
+                    }
+                }
+
+                cells[(r * cols) + c] = pick;
+            }
+        }
+
+        return CalcValue.FromArray(new CalcArray(rows, cols, cells));
+    }
+
     private static CalcValue Choose(Evaluator ev, ReadOnlySpan<FormulaNode> args)
     {
         CalcValue idx = Cond(ev, args[0]);
+        if (idx.IsError)
+        {
+            return idx;
+        }
+
         if (idx.Kind == ValueKind.Array)
         {
-            idx = idx.Array![0, 0];
+            CalcArray ia = idx.Array!;
+            var choices = new CalcArray[args.Length - 1];
+            int rows = ia.Rows;
+            int cols = ia.Columns;
+            for (int k = 1; k < args.Length; k++)
+            {
+                CalcValue v = ev.Dereference(ev.Evaluate(args[k]));
+                choices[k - 1] = v.Array ?? CalcArray.OfValue(v);
+                rows = Math.Max(rows, choices[k - 1].Rows);
+                cols = Math.Max(cols, choices[k - 1].Columns);
+            }
+
+            CalcValue[] cells = ev.NewCells(rows, cols);
+            for (int r = 0; r < rows; r++)
+            {
+                for (int c = 0; c < cols; c++)
+                {
+                    CalcValue iv = ia.Broadcasting(r, c);
+                    CalcError ie = iv.IsError ? iv.Error : CalcConvert.ToNumber(iv, out double dd);
+                    int n = ie == CalcError.None ? (int)Math.Floor(CalcConvert.ToNumber(iv, out double d2) == CalcError.None ? d2 : 0) : 0;
+                    cells[(r * cols) + c] = ie != CalcError.None ? Err(ie) : n < 1 || n > choices.Length ? Err(CalcError.Value) : choices[n - 1].Broadcasting(r, c);
+                }
+            }
+
+            return CalcValue.FromArray(new CalcArray(rows, cols, cells));
         }
 
         CalcError e = CalcConvert.ToNumber(idx, out double d);

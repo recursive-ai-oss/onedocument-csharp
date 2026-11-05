@@ -13,11 +13,12 @@ public class EvaluatorTests
     [InlineData("\"\"+1", "#VALUE!")]
     [InlineData("1/0", "#DIV/0!")]
     [InlineData("0^0", "#NUM!")]
-    [InlineData("(-8)^(1/3)", "#NUM!")]
+    [InlineData("(-8)^(1/3)", "-2")]
+    [InlineData("(-8)^0.5", "#NUM!")]
     [InlineData("0^-1", "#DIV/0!")]
     [InlineData("1E308*10", "#NUM!")]
     [InlineData("#N/A+\"a\"", "#N/A")]
-    [InlineData("\"a\"+#N/A", "#N/A")]
+    [InlineData("\"a\"+#N/A", "#VALUE!")]
     [InlineData("#REF!+#N/A", "#REF!")]
     [InlineData("1&2", "\"12\"")]
     [InlineData("TRUE&\"x\"", "\"TRUEx\"")]
@@ -114,7 +115,7 @@ public class EvaluatorTests
         Assert.Equal("{2,4,6}", Show(Eval("MAP({1,2,3},LAMBDA(x,x*2))")));
         Assert.Equal("{11,22}", Show(Eval("MAP({1,2},{10,20},LAMBDA(a,b,a+b))")));
         Assert.Equal("{1;4;9}", Show(Eval("MAP(SEQUENCE(3),LAMBDA(x,x^2))")));
-        Assert.Equal("{#CALC!}", Show(Eval("MAKEARRAY(1,1,LAMBDA(r,c,{1,2}))")));
+        Assert.Equal("#CALC!", Show(Eval("MAKEARRAY(1,1,LAMBDA(r,c,{1,2}))")));
     }
 
     [Fact]
@@ -145,7 +146,7 @@ public class EvaluatorTests
     public void HugeArraysAreRefusedTyped()
     {
         Assert.Throws<OfficeLimitException>(() => Eval("SEQUENCE(100000,100000)"));
-        Assert.Equal("#CALC!", Show(Eval("SEQUENCE(-1)")));
+        Assert.Equal("#VALUE!", Show(Eval("SEQUENCE(-1)")));
     }
 
     [Fact]

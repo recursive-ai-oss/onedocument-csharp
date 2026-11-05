@@ -621,7 +621,7 @@ public sealed class Evaluator
         }
 
         v = Dereference(v);
-        return v.Kind == ValueKind.Array ? ImplicitIntersection(v.Array!, null) : v;
+        return v.Kind == ValueKind.Array ? v.Array![0, 0] : v; // An array has no position on the grid: @ takes its first element.
     }
 
     private CalcValue ImplicitIntersection(CalcArray a, CellArea? area)
@@ -912,7 +912,7 @@ public sealed class Evaluator
             return a;
         }
 
-        if (b.IsError)
+        if (op is BinaryOperator.Concat or BinaryOperator.Equal or BinaryOperator.NotEqual or BinaryOperator.Less or BinaryOperator.LessOrEqual or BinaryOperator.Greater or BinaryOperator.GreaterOrEqual && b.IsError)
         {
             return b;
         }
@@ -937,10 +937,16 @@ public sealed class Evaluator
                 break;
         }
 
+        // Excel reads the left operand first: text that is not a number is #VALUE! even when the right operand is an error.
         CalcError e = CalcConvert.ToNumber(a, out double x);
         if (e != CalcError.None)
         {
             return CalcValue.FromError(e);
+        }
+
+        if (b.IsError)
+        {
+            return b;
         }
 
         e = CalcConvert.ToNumber(b, out double y);
@@ -982,7 +988,21 @@ public sealed class Evaluator
 
                 if (x < 0 && y != Math.Floor(y))
                 {
+                    // Excel returns the real root when the exponent is 1/odd (-8^(1/3) is -2), and #NUM! for other fractions.
+                    double inv = 1 / y;
+                    double odd = Math.Round(inv);
+                    if (Math.Abs(inv - odd) < 1e-9 && Math.Abs(odd % 2) == 1)
+                    {
+                        r = -Math.Pow(-x, y);
+                        break;
+                    }
+
                     return CalcValue.FromError(CalcError.Num);
+                }
+
+                if (x < 0 && Math.Abs(y) >= 9007199254740992.0)
+                {
+                    return CalcValue.FromError(CalcError.Num); // The parity of such an exponent is unknown.
                 }
 
                 r = Math.Pow(x, y);
@@ -1022,7 +1042,7 @@ public sealed class Evaluator
         switch (ka)
         {
             case ValueKind.Text:
-                return string.Compare(a.Kind == ValueKind.Blank ? string.Empty : a.Text, b.Kind == ValueKind.Blank ? string.Empty : b.Text, StringComparison.OrdinalIgnoreCase);
+                return TextCollation.Compare(a.Kind == ValueKind.Blank ? string.Empty : a.Text, b.Kind == ValueKind.Blank ? string.Empty : b.Text);
             case ValueKind.Boolean:
                 return (a.Kind == ValueKind.Blank ? 0 : a.Number).CompareTo(b.Kind == ValueKind.Blank ? 0 : b.Number);
             default:

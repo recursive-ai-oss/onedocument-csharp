@@ -302,6 +302,12 @@ function Invoke-ExcelFormulas($app, $item, $path, $outDir, $res) {
     $wb = $app.Workbooks.Add()
     try {
         $ws = $wb.Worksheets.Item(1)
+        # Sheets the tests refer to; a reference to a missing sheet would make Excel ask for a file.
+        foreach ($sn in @('Sheet2', 'Sheet3', 'My Sheet')) {
+            $ns = $wb.Worksheets.Add($missing, $wb.Worksheets.Item($wb.Worksheets.Count))
+            $ns.Name = [string]$sn
+        }
+        $ws.Activate()
         $tests = New-Object System.Collections.Generic.List[object]
         foreach ($line in [IO.File]::ReadAllLines($path, $utf8)) {
             if ($line.Length -eq 0) { continue }
