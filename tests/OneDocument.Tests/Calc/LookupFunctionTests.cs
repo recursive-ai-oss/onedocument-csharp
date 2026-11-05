@@ -283,8 +283,13 @@ public class LookupFunctionTests
         res.Names["big"] = CalcValue.FromArray(arr);
         // Binary search touches ~20 cells: well under a kilobyte per call once warmed up.
         Assert.Equal("500001", CalcTestHelper.Show(CalcTestHelper.Eval("MATCH(500000,big,1)", res)));
+        // Building the default registry allocates per function, so it stays outside the measured call.
+        var registry = FunctionRegistry.CreateDefault();
+        FormulaNode tree = FormulaParser.Parse("MATCH(500000,big,1)", new FormulaParserOptions { FileForm = false });
+        var ev = new Evaluator(res, registry);
+        _ = ev.Evaluate(tree, new CalcCell("Sheet1", 1, 1));
         long before = GC.GetAllocatedBytesForCurrentThread();
-        _ = CalcTestHelper.Eval("MATCH(500000,big,1)", res);
+        _ = ev.Evaluate(tree, new CalcCell("Sheet1", 1, 1));
         long used = GC.GetAllocatedBytesForCurrentThread() - before;
         Assert.True(used < 64 * 1024, $"allocated {used} bytes");
     }

@@ -49,6 +49,7 @@ internal static class Program
         ["formula"] = FormulaTarget.RunParse,
         ["formulaeval"] = FormulaTarget.RunEval,
         ["finfuncs"] = FinFuncsTarget.Run,
+        ["statfuncs"] = StatFuncsTarget.Run,
         ["funcs"] = FuncsTarget.Run,
         ["lookups"] = LookupTarget.Run,
     };
@@ -80,6 +81,7 @@ internal static class Program
                 "styles" or "sheetfeat" or "table" => StyleTarget.WriteSeeds(args[2]),
                 "formula" or "formulaeval" => FormulaTarget.WriteSeeds(args[2]),
                 "finfuncs" => FinFuncsTarget.WriteSeeds(args[2]),
+                "statfuncs" => StatFuncsTarget.WriteSeeds(args[2]),
                 "funcs" => FuncsTarget.WriteSeeds(args[2]),
                 "lookups" => LookupTarget.WriteSeeds(args[2]),
                 _ => 2,

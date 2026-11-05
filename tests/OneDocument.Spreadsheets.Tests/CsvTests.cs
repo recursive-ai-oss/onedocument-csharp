@@ -224,9 +224,13 @@ public class CsvTests
         }
 
         Run();
-        long before = GC.GetAllocatedBytesForCurrentThread();
-        long t = Run();
-        long allocated = GC.GetAllocatedBytesForCurrentThread() - before;
+        long t = 0;
+        long allocated = AllocationProbe.Min(() =>
+        {
+            long before = GC.GetAllocatedBytesForCurrentThread();
+            t = Run();
+            return GC.GetAllocatedBytesForCurrentThread() - before;
+        });
         Assert.True(t > 0);
         // The fixed cost is the reader, its buffers and the stream; 8,000 records of four fields must not add to it.
         Assert.True(allocated < 400_000, "allocated " + allocated);

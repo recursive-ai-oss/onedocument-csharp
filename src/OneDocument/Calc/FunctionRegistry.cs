@@ -171,6 +171,8 @@ public sealed class FunctionRegistry
         FinancialFunctions.Register(r);
         EngineeringFunctions.Register(r);
         DatabaseFunctions.Register(r);
+        StatisticalFunctions.Register(r);
+        DateTimeFunctions.Register(r);
         MathFunctions.Register(r);
         LogicalFunctions.Register(r);
         InformationFunctions.Register(r);
