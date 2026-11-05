@@ -27,6 +27,22 @@ internal static class AllocationProbe
         return Run(body);
     }
 
+    /// <summary>
+    /// Returns the smallest of up to <paramref name="attempts"/> measurements. For bodies that rent from shared pools: a collection
+    /// triggered by a parallel test can trim a pool between the warm-up and the measurement and charge the refill to this body,
+    /// while an allocation that really happens per item shows in every attempt.
+    /// </summary>
+    public static long Min(Func<long> measure, int attempts = 5)
+    {
+        long best = long.MaxValue;
+        for (int i = 0; i < attempts; i++)
+        {
+            best = Math.Min(best, measure());
+        }
+
+        return best;
+    }
+
     private static long Run(Action body)
     {
         long before = GC.GetAllocatedBytesForCurrentThread();
