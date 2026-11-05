@@ -35,6 +35,22 @@ internal static class RenderSmoke
             failures.Add("render png");
         }
 
+        // Two columns with a rule, a footer and a PAGE field's page: the page model under the same constraints.
+        using Document columns = Document.Create();
+        columns.Sections[0].SetEqualColumns(2, 720, true);
+        columns.Sections[0].AddOwn(HeaderFooterKind.Footer, HeaderFooterType.Default).Paragraphs().First().SetText("Footer");
+        for (int i = 0; i < 80; i++)
+        {
+            columns.Body.AddParagraph("Column text " + i);
+        }
+
+        LayoutDocument two = LayoutEngine.Layout(columns);
+        LayoutPage first = two.Pages[0];
+        if (first.Columns.Count != 2 || !first.FooterParagraphs.Any() || !first.Decorations.Any(d => d.DecorationKind == LayoutDecorationKind.ColumnSeparator) || !first.Paragraphs.Any(p => p.Column == 1))
+        {
+            failures.Add("render columns");
+        }
+
         failures.AddRange(ChartCheck());
         return failures;
     }
