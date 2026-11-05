@@ -18,6 +18,21 @@ public class StreamingWriteTests
     }
 
     [Fact]
+    public void Zip64LocalHeadersKeepZeroSizes()
+    {
+        byte[] file = Write(w => w.AddSheet("S").WriteNumber(1), new XlsxWriteOptions { Zip64 = true });
+        // Local header: signature, version 45, flags, method, time, date, crc, compressed size, size (offsets 18 and 22).
+        Assert.Equal(45, BitConverter.ToUInt16(file, 4));
+        Assert.Equal(0u, BitConverter.ToUInt32(file, 18));
+        Assert.Equal(0u, BitConverter.ToUInt32(file, 22));
+        using var r = XlsxStreamReader.Open(new MemoryStream(file));
+        using SheetCursor c = r.OpenSheet(0);
+        Assert.True(c.ReadRow());
+        Assert.True(c.ReadCell());
+        Assert.Equal(1, c.Number);
+    }
+
+    [Fact]
     public void ColumnSkippedBeforeTheFirstCellOfASheetIsKept()
     {
         byte[] file = Write(w =>

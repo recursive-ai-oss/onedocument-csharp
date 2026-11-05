@@ -58,9 +58,11 @@ internal sealed class StreamZipWriter : IDisposable
         BinaryPrimitives.WriteUInt16LittleEndian(h[8..], deflate ? (ushort)8 : (ushort)0);
         BinaryPrimitives.WriteUInt16LittleEndian(h[10..], DosTime);
         BinaryPrimitives.WriteUInt16LittleEndian(h[12..], DosDate);
-        BinaryPrimitives.WriteUInt32LittleEndian(h[14..], 0); // crc and sizes follow in the descriptor
-        BinaryPrimitives.WriteUInt32LittleEndian(h[18..], _zip64 ? 0xFFFFFFFF : 0);
-        BinaryPrimitives.WriteUInt32LittleEndian(h[22..], _zip64 ? 0xFFFFFFFF : 0);
+        // The crc and sizes follow in the descriptor. They stay zero in zip64 mode too: the zip64 extra field says the descriptor
+        // holds 8-byte sizes, and Excel refuses a local header that also marks the 4-byte sizes as 0xFFFFFFFF (checked by opening both).
+        BinaryPrimitives.WriteUInt32LittleEndian(h[14..], 0);
+        BinaryPrimitives.WriteUInt32LittleEndian(h[18..], 0);
+        BinaryPrimitives.WriteUInt32LittleEndian(h[22..], 0);
         BinaryPrimitives.WriteUInt16LittleEndian(h[26..], (ushort)nameBytes.Length);
         BinaryPrimitives.WriteUInt16LittleEndian(h[28..], (ushort)(_zip64 ? 20 : 0));
         _out.Write(h);
