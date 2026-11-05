@@ -142,7 +142,8 @@ public sealed record TemplateInsertion(ITemplateData Value, IReadOnlyDictionary<
 /// <param name="Segment">The index, in the source unit, of the segment whose formatting the piece takes: the segment the text came from, or where the tag began.</param>
 /// <param name="Text">The text; empty for a tag that printed nothing and for non-text pieces.</param>
 /// <param name="Insertion">The arguments of an image, HTML or markdown tag; null for text.</param>
-public sealed record TemplatePiece(TemplatePieceKind Kind, int Segment, string Text, TemplateInsertion? Insertion = null);
+/// <param name="Typed">For the printed value of a <c>{{ }}</c> tag: the value as a number, boolean, error or text rather than its printed form, so a binder whose unit is a single tag (a spreadsheet cell) can keep the type. Null for kept template text, other tags, and values that are collections or records.</param>
+public sealed record TemplatePiece(TemplatePieceKind Kind, int Segment, string Text, TemplateInsertion? Insertion = null, CalcValue? Typed = null);
 
 /// <summary>One running loop, as recorded on a rendered unit.</summary>
 /// <param name="Block">The index of the loop in <see cref="ParsedTemplate.Blocks"/>.</param>

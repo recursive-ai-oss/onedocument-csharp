@@ -484,7 +484,7 @@ internal sealed class Renderer
         List<TemplatePiece> pieces = _cur!.Pieces;
         if (piece.Kind == TemplatePieceKind.Text && pieces.Count > 0 && pieces[^1].Kind == TemplatePieceKind.Text && pieces[^1].Segment == piece.Segment)
         {
-            pieces[^1] = pieces[^1] with { Text = pieces[^1].Text + piece.Text };
+            pieces[^1] = pieces[^1] with { Text = pieces[^1].Text + piece.Text, Typed = null };
         }
         else
         {
@@ -669,7 +669,20 @@ internal sealed class Renderer
     {
         (ITemplateData? node, CalcValue v, bool isMissing) = Evaluate(o.Expr);
         string text = isMissing ? string.Empty : Print(node, v);
-        EmitTag(o.Token, new TemplatePiece(TemplatePieceKind.Text, SegmentAt(o.Token.Unit, o.Token.Start), text));
+        CalcValue? typed = null;
+        if (!isMissing)
+        {
+            if (node is { Kind: TemplateDataKind.Scalar })
+            {
+                typed = node.Value;
+            }
+            else if (node is null && v.Kind != ValueKind.Array && v.Kind != ValueKind.Lambda)
+            {
+                typed = v;
+            }
+        }
+
+        EmitTag(o.Token, new TemplatePiece(TemplatePieceKind.Text, SegmentAt(o.Token.Unit, o.Token.Start), text, null, typed));
     }
 
     private bool Truthy(Expr e)

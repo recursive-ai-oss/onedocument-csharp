@@ -1,0 +1,4 @@
+[Sheet1] merges=
+A1 s=0 t top
+A2 s=0 t bottom
+B2 s=0 - f=A1&A2

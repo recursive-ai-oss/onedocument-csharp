@@ -1,6 +1,8 @@
 using System.Data;
 using System.Text;
 using System.Text.Json;
+using RecursiveAI.OneDocument.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets.Templating;
 using RecursiveAI.OneDocument.Templating;
 
 namespace RecursiveAI.OneDocument.Smoke;
@@ -57,6 +59,15 @@ internal static class TemplateSmoke
         {
             failures.Add("template unclosed block was accepted");
         }
+
+        using Workbook wb = Workbook.Create();
+        Worksheet sheet = wb.Sheets[0];
+        sheet["A1"].SetString("{% for l in lines %}{{ l.description }}");
+        sheet["B1"].SetString("{{ l.qty }}{% endfor %}");
+        sheet["B2"].Formula = "SUM(B1:B1)";
+        XlsxTemplateBinder.Render(wb, invoice);
+        string rendered = sheet["A1"].Text + "|" + sheet["A2"].Text + "|" + sheet["B2"].Number + "|" + sheet["B3"].Formula;
+        Check("xlsx", rendered, "Pen|Ink|1|SUM(B1:B2)");
 
         return failures;
     }

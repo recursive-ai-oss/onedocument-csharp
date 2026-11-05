@@ -1,0 +1,10 @@
+[Sheet1] merges=
+A1 s=0 t x
+B1 s=0 n 3
+A2 s=0 t x
+B2 s=0 n 10
+A3 s=0 t x
+B3 s=0 n 2
+A4 s=0 t t
+B4 s=0 - f=SUM(Qty)
+extra: Qty=Sheet1!$B$1:$B$3;Top=Sheet1!$A$4

@@ -1,0 +1,8 @@
+[Sheet1] merges=A1:B1,A2:B2,A3:B3,A4:C4
+A1 s=0 t Bolt
+C1 s=0 -
+A2 s=0 t Nut
+C2 s=0 -
+A3 s=0 t Gear
+C3 s=0 -
+A4 s=0 t footer
