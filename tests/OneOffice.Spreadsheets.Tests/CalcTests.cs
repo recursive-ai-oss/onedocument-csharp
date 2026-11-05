@@ -582,4 +582,17 @@ public class CalcTests
             Assert.Contains("calc.formula-unparsable", TestBook.Defects(wb.OpenContext).Select(d => d.Code));
         }
     }
+
+    [Fact]
+    public void AFormulaThatPassesALimitShowsValueErrorAndIsReported()
+    {
+        using Workbook wb = Workbook.Create(new OfficeLimits { MaxAllocationBytes = 1000 });
+        Worksheet s = wb.Sheets[0];
+        s["A1"].Formula = "SUM(SEQUENCE(1000))";
+        s["A2"].Formula = "1+1";
+        wb.Recalculate();
+        Assert.Equal(CellError.Value, s["A1"].Value.Error);
+        Assert.Equal(2, s["A2"].Number);
+        Assert.Contains("calc.limit-exceeded", TestBook.Defects(wb.OpenContext).Select(d => d.Code));
+    }
 }
