@@ -487,7 +487,7 @@ public class CsvTests
     [Fact]
     public void WorkbookOpenSniffsCsvAndTypesTheCells()
     {
-        string path = Path.Combine(Path.GetTempPath(), "u22-" + Guid.NewGuid().ToString("N") + ".csv");
+        string path = Path.Combine(Path.GetTempPath(), "csv-workbook-" + Guid.NewGuid().ToString("N") + ".csv");
         try
         {
             File.WriteAllText(path, "name,qty,price,when,pct,zip\nbolt,10,\"1,234.50\",2020-01-15,12.5%,00501\nnut,,TRUE,#N/A,x,\n", new UTF8Encoding(true));

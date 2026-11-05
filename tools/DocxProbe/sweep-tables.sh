@@ -19,7 +19,7 @@ dotnet build -c Release -v quiet -clp:NoSummary -o "$out/bin" "$root/tools/DocxP
 probe="dotnet $out/bin/DocxProbe.dll"
 
 list="$out/files.txt"
-{ find "$home/corpus/commoncrawl/docx" "$home/corpus/bugzilla/documentfoundation/docx" "$home/corpus/stress" "$home/u2" -name '*.docx' 2>/dev/null; } | sort > "$list"
+{ find "$home/corpus/commoncrawl/docx" "$home/corpus/bugzilla/documentfoundation/docx" "$home/corpus/stress" "${ONEOFFICE_CONVERTED:-$home/converted}" -name '*.docx' 2>/dev/null; } | sort > "$list"
 echo "files: $(wc -l < "$list")"
 
 rm -rf "$out/t"; mkdir -p "$out/t"
