@@ -24,8 +24,14 @@ internal sealed class PropertyPart
     private bool _loaded;
     private bool _unreadable;
 
-    public PropertyPart(IOpcPackage package, OpenContext context, string relationshipSuffix, string relationshipType, string defaultName, string contentType, string template)
+    private readonly string _rootNamespace;
+    private readonly string _rootLocalName;
+
+    public PropertyPart(IOpcPackage package, OpenContext context, string relationshipSuffix, string relationshipType, string defaultName, string contentType, string template,
+        string rootNamespace, string rootLocalName)
     {
+        _rootNamespace = rootNamespace;
+        _rootLocalName = rootLocalName;
         _package = package;
         _context = context;
         _relationshipSuffix = relationshipSuffix;
@@ -67,6 +73,12 @@ internal sealed class PropertyPart
             try
             {
                 _document = MarkupDocument.Parse(part.GetBytes(), _context, part.Name);
+                // A part without its root element holds no properties; writing into it would make a document that means nothing.
+                if (_document.Root.IsNull || !_document.Root.IsElement(_rootNamespace, _rootLocalName))
+                {
+                    _document = null;
+                    throw new OfficeFormatException(DefectKind.Structure, "props.part-unreadable", "the root element is not " + _rootLocalName, DefectLocation.InPart(part.Name));
+                }
             }
             catch (OfficeException ex) when (ex is not OfficeLimitException)
             {

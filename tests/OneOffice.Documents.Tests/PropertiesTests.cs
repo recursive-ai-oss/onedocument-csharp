@@ -220,6 +220,23 @@ public class PropertiesTests
     }
 
     [Fact]
+    public void PartWithTheWrongRootIsUnreadableAndMinimizedFuzzFindStaysFixed()
+    {
+        // Found by fuzzing: a custom-properties part that is text without a root element used to be written into.
+        InMemoryPackage p = Package(core: true, coreXml: "<w:numbering xmlns:w=\"urn:x\"/>");
+        var defects = new DefectCollection();
+        using Document d = Document.FromPackage(p, new OpenContext(defects: defects));
+        Assert.Null(d.Properties.Core.Title);
+        Assert.Contains(defects, x => x.Code == "props.part-unreadable");
+        Assert.Throws<OfficeFormatException>(() => d.Properties.Core.Creator = "x");
+        InMemoryPackage q = Package(custom: true);
+        q.FindPart("/docProps/custom.xml")!.SetBytes(Encoding.UTF8.GetBytes("\0\0t:i4></property>"));
+        using Document e = Document.FromPackage(q);
+        Assert.Empty(e.Properties.Custom.List());
+        Assert.Throws<OfficeFormatException>(() => e.Properties.Custom.SetString("k", "v"));
+    }
+
+    [Fact]
     public void BadDatesReadAsNull()
     {
         using Document d = Document.FromPackage(Package(core: true, coreXml: CoreXml.Replace("2020-01-02T03:04:05Z", "last tuesday", StringComparison.Ordinal)));

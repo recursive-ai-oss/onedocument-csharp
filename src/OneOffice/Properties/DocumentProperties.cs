@@ -39,13 +39,16 @@ public sealed class DocumentProperties
         _coreStore = new PropertyPart(package, context, "/metadata/core-properties", PackageRelationships + "metadata/core-properties",
             "/docProps/core.xml", "application/vnd.openxmlformats-package.core-properties+xml",
             "<cp:coreProperties xmlns:cp=\"" + CoreProperties.CpNs + "\" xmlns:dc=\"" + CoreProperties.DcNs + "\" xmlns:dcterms=\"" + CoreProperties.DctermsNs
-            + "\" xmlns:dcmitype=\"http://purl.org/dc/dcmitype/\" xmlns:xsi=\"" + CoreProperties.XsiNs + "\"/>");
+            + "\" xmlns:dcmitype=\"http://purl.org/dc/dcmitype/\" xmlns:xsi=\"" + CoreProperties.XsiNs + "\"/>",
+            CoreProperties.CpNs, "coreProperties");
         _extendedStore = new PropertyPart(package, context, "/extended-properties", DocumentRelationships + "extended-properties",
             "/docProps/app.xml", "application/vnd.openxmlformats-officedocument.extended-properties+xml",
-            "<Properties xmlns=\"" + ExtendedProperties.Ns + "\" xmlns:vt=\"" + CustomProperties.VtNs + "\"/>");
+            "<Properties xmlns=\"" + ExtendedProperties.Ns + "\" xmlns:vt=\"" + CustomProperties.VtNs + "\"/>",
+            ExtendedProperties.Ns, "Properties");
         _customStore = new PropertyPart(package, context, "/custom-properties", DocumentRelationships + "custom-properties",
             "/docProps/custom.xml", "application/vnd.openxmlformats-officedocument.custom-properties+xml",
-            "<Properties xmlns=\"" + CustomProperties.Ns + "\" xmlns:vt=\"" + CustomProperties.VtNs + "\"/>");
+            "<Properties xmlns=\"" + CustomProperties.Ns + "\" xmlns:vt=\"" + CustomProperties.VtNs + "\"/>",
+            CustomProperties.Ns, "Properties");
         Core = new CoreProperties(_coreStore);
         Extended = new ExtendedProperties(_extendedStore);
         Custom = new CustomProperties(_customStore);
