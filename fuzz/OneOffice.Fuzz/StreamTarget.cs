@@ -62,12 +62,41 @@ internal static class StreamTarget
         int mode = data.Length > 0 ? data[0] % 3 : 0;
         byte[] body = data.Length > 0 ? data[1..].ToArray() : [];
         byte[] file = Workbook(mode == 0 ? body : null, mode == 1 ? body : null, mode == 2 ? body : null);
+        // The sheet scanner is more tolerant than the full tokenizer, but wherever the full tokenizer accepts a sheet both must read the same cells.
+        long? reference = null;
+        if (mode == 0)
+        {
+            try
+            {
+                using var full = XlsxStreamReader.Open(new MemoryStream(file), new OpenContext(Limits));
+                full.ForceFullTokenizer = true;
+                reference = Walk(full);
+            }
+            catch (OfficeException)
+            {
+            }
+        }
+
         using var r = XlsxStreamReader.Open(new MemoryStream(file), new OpenContext(Limits));
-        long first = Walk(r);
+        long first;
+        try
+        {
+            first = Walk(r);
+        }
+        catch (OfficeException) when (reference is not null)
+        {
+            throw new InvalidOperationException("the sheet scanner rejected a sheet the full tokenizer reads");
+        }
+
         long second = Walk(r);
         if (first != second)
         {
             throw new InvalidOperationException("two walks of the same sheet differ");
+        }
+
+        if (reference is long expected && expected != first)
+        {
+            throw new InvalidOperationException("the sheet scanner and the full tokenizer read different cells");
         }
     }
 

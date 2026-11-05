@@ -39,7 +39,7 @@ public sealed class SheetCursor : IDisposable
     }
 
     private readonly XlsxStreamReader _owner;
-    private readonly MarkupReader _reader;
+    private readonly SheetXml _reader;
     private readonly OpenContext _context;
     private readonly string _partName;
     private readonly byte[] _rootPrefix;
@@ -95,7 +95,7 @@ public sealed class SheetCursor : IDisposable
         _partName = partName;
         _cancellation = cancellation;
         SheetName = sheetName;
-        _reader = new MarkupReader(part, context, partName, leaveOpen: false);
+        _reader = new SheetXml(part, context, partName, owner.ForceFullTokenizer);
         _rootPrefix = [];
         _rootPrefix = ReadPrologue();
     }
@@ -159,7 +159,7 @@ public sealed class SheetCursor : IDisposable
 
             if (n.SequenceEqual("dimension"u8))
             {
-                foreach (XmlAttributeToken a in _reader.Attributes)
+                foreach (SheetAttribute a in _reader.Attributes)
                 {
                     if (a.Prefix.Length == 0 && a.LocalName.SequenceEqual("ref"u8))
                     {
@@ -205,7 +205,7 @@ public sealed class SheetCursor : IDisposable
             int min = 0, max = 0, style = 0, outline = 0;
             double width = -1;
             var flags = ColumnOptions.None;
-            foreach (XmlAttributeToken a in _reader.Attributes)
+            foreach (SheetAttribute a in _reader.Attributes)
             {
                 if (a.Prefix.Length != 0)
                 {
@@ -353,7 +353,7 @@ public sealed class SheetCursor : IDisposable
         _rowStyle = 0;
         _rowOutline = 0;
         _rowBits = RowBits.None;
-        foreach (XmlAttributeToken a in _reader.Attributes)
+        foreach (SheetAttribute a in _reader.Attributes)
         {
             if (a.Prefix.Length != 0)
             {
@@ -502,9 +502,9 @@ public sealed class SheetCursor : IDisposable
         return true;
     }
 
-    /// <summary>Gets the text of a text or error cell as a string (allocates).</summary>
+    /// <summary>Gets the text of a text or error cell as a string. A shared string is built once and reused (within a memory budget); other text allocates.</summary>
     /// <returns>The text with escapes resolved; empty for other kinds. For an error cell, the error as written.</returns>
-    public string GetText() => StreamXml.ToString(TextUtf8);
+    public string GetText() => _kind == CellValueKind.Text && _sharedIndex >= 0 ? _owner.GetSharedString(_sharedIndex) : StreamXml.ToString(TextUtf8);
 
     /// <summary>Gets a value indicating whether the cell has a formula.</summary>
     public bool HasFormula => _hasFormula;
@@ -616,7 +616,7 @@ public sealed class SheetCursor : IDisposable
         int col = 0;
         _typeCode = 0;
         bool badAddress = false;
-        foreach (XmlAttributeToken a in _reader.Attributes)
+        foreach (SheetAttribute a in _reader.Attributes)
         {
             if (a.Prefix.Length != 0 || a.LocalName.Length != 1)
             {
@@ -701,7 +701,20 @@ public sealed class SheetCursor : IDisposable
                     if (_reader.Kind == XmlTokenKind.StartElement)
                     {
                         _valueLength = 0;
-                        StreamXml.AppendText(_reader, ref _value, ref _valueLength);
+                        if (_reader.TryReadPlainText(out ReadOnlySpan<byte> plain))
+                        {
+                            if (plain.Length > _value.Length)
+                            {
+                                _value = new byte[plain.Length * 2];
+                            }
+
+                            plain.CopyTo(_value);
+                            _valueLength = plain.Length;
+                        }
+                        else
+                        {
+                            StreamXml.AppendText(_reader, ref _value, ref _valueLength);
+                        }
                     }
 
                     continue;
@@ -770,7 +783,7 @@ public sealed class SheetCursor : IDisposable
         _formulaRefLength = 0;
         _sharedFormulaIndex = -1;
         _formulaLength = 0;
-        foreach (XmlAttributeToken a in _reader.Attributes)
+        foreach (SheetAttribute a in _reader.Attributes)
         {
             if (a.Prefix.Length != 0)
             {
@@ -846,7 +859,7 @@ public sealed class SheetCursor : IDisposable
             case 0:
                 if (_haveV && !v.IsEmpty)
                 {
-                    if (double.TryParse(v, NumberStyles.Float, CultureInfo.InvariantCulture, out double d))
+                    if (StreamXml.TryParseDouble(v, out double d))
                     {
                         _kind = CellValueKind.Number;
                         _number = d;
@@ -932,7 +945,7 @@ public sealed class SheetCursor : IDisposable
             default:
                 _context.Defects.Report(new Defect(DefectKind.Value, "xlsx.cell-type-unknown", DefectSeverity.Repaired,
                     "A cell has an unknown t attribute; its value is read as a number if it parses, otherwise text.", DefectLocation.InCell(SheetName, new CellAddress(RowNumber, _col).ToString())));
-                if (_haveV && double.TryParse(v, NumberStyles.Float, CultureInfo.InvariantCulture, out double n2))
+                if (_haveV && StreamXml.TryParseDouble(v, out double n2))
                 {
                     _kind = CellValueKind.Number;
                     _number = n2;

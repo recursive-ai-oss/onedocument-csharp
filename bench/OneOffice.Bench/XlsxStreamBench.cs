@@ -40,6 +40,8 @@ public static class XlsxStreamBench
     /// <summary>Entry point of the <c>xlsxstream</c> command.</summary>
     public static int Run(string[] args)
     {
+        // ExcelDataReader reads legacy code pages through this provider.
+        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         switch (args.FirstOrDefault())
         {
             case "gen" when args.Length == 2:
@@ -47,11 +49,25 @@ public static class XlsxStreamBench
                 return 0;
             case "run" when args.Length is 3 or 4:
                 return RunOne(args[1], args[2], args.Length == 4 ? int.Parse(args[3], CultureInfo.InvariantCulture) : 3);
+            case "peek" when args.Length == 2:
+                Peek(args[1]);
+                return 0;
             case "all" when args.Length == 3:
                 return RunAll(args[1], args[2]);
             default:
                 Console.Error.WriteLine("usage: xlsxstream gen DIR | run ROW FILE|ROWS [reps] | all DIR OUT.tsv");
                 return 2;
+        }
+    }
+
+    // Prints the first rows as Sylvan returns them, to see what its values are before comparing checksums.
+    private static void Peek(string path)
+    {
+        using var r = SylvanReader.Create(path);
+        Console.WriteLine("fields " + r.FieldCount + " header " + r.GetName(0));
+        for (int row = 0; row < 3 && r.Read(); row++)
+        {
+            Console.WriteLine(string.Join(" | ", Enumerable.Range(0, r.FieldCount).Select(i => (r.GetValue(i)?.GetType().Name ?? "null") + ":" + r.GetValue(i))));
         }
     }
 
@@ -242,13 +258,29 @@ public static class XlsxStreamBench
 
             case "sylvan.read":
             {
-                using var r = SylvanReader.Create(path);
+                // The documented typed path: ask the native cell type, then use the matching accessor. (GetValue under the default
+                // schema returns every cell as a string, which would be a different job.)
+                using var r = SylvanReader.Create(path, new Sylvan.Data.Excel.ExcelDataReaderOptions { Schema = Sylvan.Data.Excel.ExcelSchema.NoHeaders });
                 int n = r.FieldCount;
                 while (r.Read())
                 {
                     for (int i = 0; i < n; i++)
                     {
-                        sum += Tally(r.GetValue(i));
+                        switch (r.GetExcelDataType(i))
+                        {
+                            case Sylvan.Data.Excel.ExcelDataType.Numeric:
+                                sum += (long)r.GetDouble(i);
+                                break;
+                            case Sylvan.Data.Excel.ExcelDataType.DateTime:
+                                sum += (long)r.GetDateTime(i).ToOADate();
+                                break;
+                            case Sylvan.Data.Excel.ExcelDataType.String:
+                                sum += r.GetString(i).Length;
+                                break;
+                            case Sylvan.Data.Excel.ExcelDataType.Boolean:
+                                sum += r.GetBoolean(i) ? 1 : 0;
+                                break;
+                        }
                     }
                 }
 
@@ -293,7 +325,8 @@ public static class XlsxStreamBench
         switch (c.Kind)
         {
             case RecursiveAI.OneOffice.Spreadsheets.CellValueKind.Number:
-                return (long)c.Number;
+                // The comparators return a DateTime for a date-formatted number, so this row decodes it too.
+                return c.IsDate && c.TryGetDateTime(out DateTime when) ? (long)when.ToOADate() : (long)c.Number;
             case RecursiveAI.OneOffice.Spreadsheets.CellValueKind.Boolean:
                 return c.Boolean ? 1 : 0;
             case RecursiveAI.OneOffice.Spreadsheets.CellValueKind.Text:
@@ -305,11 +338,14 @@ public static class XlsxStreamBench
 
     private static long Tally(object? v) => v switch
     {
-        double d => (long)d,
+        double n => (long)n,
         string s => s.Length,
         bool b => b ? 1 : 0,
-        DateTime => 1,
+        DateTime d => (long)d.ToOADate(),
         int i => i,
+        long l => l,
+        decimal m => (long)m,
+        float f => (long)f,
         _ => 0,
     };
 

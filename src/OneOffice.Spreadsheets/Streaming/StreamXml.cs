@@ -43,6 +43,100 @@ internal static class StreamXml
         }
     }
 
+    /// <summary>As above, over the sheet reader.</summary>
+    public static void AppendText(SheetXml reader, ref byte[] buffer, ref int length)
+    {
+        int depth = reader.Depth;
+        while (reader.Read())
+        {
+            if (reader.Kind == XmlTokenKind.EndElement && reader.Depth == depth)
+            {
+                return;
+            }
+
+            if (reader.Kind is XmlTokenKind.Text or XmlTokenKind.Whitespace or XmlTokenKind.CData)
+            {
+                ReadOnlySpan<byte> piece = reader.Content;
+                if (length + piece.Length > buffer.Length)
+                {
+                    Array.Resize(ref buffer, Math.Max(buffer.Length * 2, length + piece.Length));
+                }
+
+                if (reader.Kind == XmlTokenKind.CData || !XmlText.NeedsDecoding(piece))
+                {
+                    piece.CopyTo(buffer.AsSpan(length));
+                    length += piece.Length;
+                }
+                else
+                {
+                    length += XmlText.Decode(piece, buffer.AsSpan(length));
+                }
+            }
+        }
+    }
+
+    private static readonly double[] PowersOfTen = [1e0, 1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10, 1e11, 1e12, 1e13, 1e14, 1e15];
+
+    /// <summary>
+    /// Parses a number the way <see cref="double.TryParse(ReadOnlySpan{byte}, NumberStyles, IFormatProvider, out double)"/> does with the invariant
+    /// culture. Plain decimals of up to 15 digits take a shortcut that is exact: a whole number below 2^53 divided by a power of ten up to
+    /// 10^15 is one correctly rounded division, so it equals the full parser's result. Everything else goes to the full parser.
+    /// </summary>
+    public static bool TryParseDouble(ReadOnlySpan<byte> v, out double value)
+    {
+        int i = 0;
+        bool negative = false;
+        if (i < v.Length && v[i] == (byte)'-')
+        {
+            negative = true;
+            i++;
+        }
+
+        long mantissa = 0;
+        int digits = 0;
+        int scale = -1;
+        for (; i < v.Length; i++)
+        {
+            uint d = (uint)(v[i] - '0');
+            if (d <= 9)
+            {
+                mantissa = (mantissa * 10) + d;
+                digits++;
+                if (scale >= 0)
+                {
+                    scale++;
+                }
+            }
+            else if (v[i] == (byte)'.' && scale < 0)
+            {
+                scale = 0;
+            }
+            else
+            {
+                break;
+            }
+
+            if (digits > 15)
+            {
+                break;
+            }
+        }
+
+        if (i == v.Length && digits is >= 1 and <= 15 && scale != 0)
+        {
+            double m = mantissa;
+            value = scale > 0 ? m / PowersOfTen[scale] : m;
+            if (negative)
+            {
+                value = -value;
+            }
+
+            return true;
+        }
+
+        return double.TryParse(v, NumberStyles.Float, CultureInfo.InvariantCulture, out value);
+    }
+
     public static bool TryInt(ReadOnlySpan<byte> v, out int value) =>
         int.TryParse(v, NumberStyles.AllowLeadingSign | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite, CultureInfo.InvariantCulture, out value);
 

@@ -92,7 +92,36 @@ internal sealed class StreamStrings
         }
     }
 
-    public string GetString(int index) => StreamXml.ToString(GetUtf8(index));
+    // Asking for the same entry again and again (a column of repeated names) would build the same string every time, so the strings
+    // already built are kept, up to a budget; past it, strings are built per call as before. The budget bounds the extra memory.
+    private const int MaxCachedEntries = 4_000_000;
+    private const long CacheCharBudget = 8_000_000;
+    private string?[]? _cache;
+    private long _cachedChars;
+
+    public string GetString(int index)
+    {
+        if ((uint)index >= (uint)Count || Count > MaxCachedEntries)
+        {
+            return StreamXml.ToString(GetUtf8(index));
+        }
+
+        string?[] cache = _cache ??= new string?[Count];
+        string? s = cache[index];
+        if (s is not null)
+        {
+            return s;
+        }
+
+        s = StreamXml.ToString(GetUtf8(index));
+        if (_cachedChars + s.Length <= CacheCharBudget)
+        {
+            cache[index] = s;
+            _cachedChars += s.Length;
+        }
+
+        return s;
+    }
 
     public static int Utf16Length(ReadOnlySpan<byte> utf8) => Encoding.UTF8.GetCharCount(utf8);
 }

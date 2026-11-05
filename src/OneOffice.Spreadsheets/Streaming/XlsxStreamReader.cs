@@ -52,6 +52,9 @@ public sealed class XlsxStreamReader : IDisposable
 
     internal OpenContext Context { get; }
 
+    // Tests and the fuzz target set this to compare the sheet scanner with the full tokenizer.
+    internal bool ForceFullTokenizer { get; set; }
+
     /// <summary>Gets the sheets in workbook order.</summary>
     public IReadOnlyList<StreamSheetInfo> Sheets => _sheets;
 
@@ -141,7 +144,7 @@ public sealed class XlsxStreamReader : IDisposable
     /// <exception cref="OfficeFormatException">The table part is not well-formed XML.</exception>
     public int SharedStringCount => GetSharedStrings().Count;
 
-    /// <summary>Gets one shared string as text (reads the table on first use; allocates the string).</summary>
+    /// <summary>Gets one shared string as text (reads the table on first use; each string is built once and kept, within a budget of about 8 million characters, then built per call).</summary>
     /// <param name="index">The 0-based index.</param>
     /// <returns>The text, empty for an index outside the table.</returns>
     public string GetSharedString(int index) => GetSharedStrings().GetString(index);

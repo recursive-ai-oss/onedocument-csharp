@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="RecursiveAI.OneOffice.Spreadsheets.Tests" />
+    <InternalsVisibleTo Include="RecursiveAI.OneOffice.Fuzz" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="../OneOffice/OneOffice.csproj" />
   </ItemGroup>
 
