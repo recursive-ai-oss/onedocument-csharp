@@ -25,6 +25,7 @@ internal static class Program
         string? input = null;
         string? output = null;
         bool edit = false;
+        bool editStories = false;
         string? textDir = null;
         int shard = 0;
         int shards = 1;
@@ -32,6 +33,7 @@ internal static class Program
         for (int i = 0; i < args.Length; i++)
         {
             if (args[i] == "--edit") { edit = true; }
+            else if (args[i] == "--edit-stories") { editStories = true; }
             else if (args[i] == "--text" && i + 1 < args.Length) { textDir = args[++i]; }
             else if (args[i] == "--shard" && i + 1 < args.Length)
             {
@@ -79,6 +81,21 @@ internal static class Program
                         p.SetText(p.Text + " (edited)");
                         line["edited"] = true;
                     }
+                }
+
+                if (editStories)
+                {
+                    // A tracked insertion in the first text box (when there is one) and a title and a custom property.
+                    IReadOnlyList<TextBox> boxes = doc.TextBoxes();
+                    if (boxes.Count > 0 && boxes[0].Paragraphs().FirstOrDefault() is { } boxParagraph)
+                    {
+                        doc.Revisions.CreateAuthor("Sweep", new DateTimeOffset(2024, 3, 1, 10, 0, 0, TimeSpan.Zero)).InsertText(boxParagraph.Markup.Node, 0, "X");
+                        line["boxEdited"] = true;
+                    }
+
+                    doc.Properties.Core.Title = "Edited title";
+                    doc.Properties.Custom.SetString("SweepKey", "SweepValue");
+                    line["edited"] = true;
                 }
 
                 if (textDir is not null)
