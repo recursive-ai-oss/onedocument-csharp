@@ -88,6 +88,25 @@ public static class PresentationRenderer
         return new PresentationRenderReport(pages, hidden, session.FontNotes, session.Notes);
     }
 
+    internal static bool TryWrite(OfficeFile file, OfficeFormat format, Stream destination, CancellationToken cancellationToken)
+    {
+        if (file is not Presentation presentation)
+        {
+            return false;
+        }
+
+        if (format == OfficeFormat.Pdf)
+        {
+            WritePdf(presentation, destination, null, cancellationToken);
+        }
+        else
+        {
+            destination.Write(RenderPng(presentation));
+        }
+
+        return true;
+    }
+
     private const double RenderSessionScale = 96.0 / 72.0;
 
     /// <summary>Renders one page of a presentation as a PNG at <see cref="PngDpi"/>.</summary>

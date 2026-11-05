@@ -1,8 +1,10 @@
 using System.Globalization;
 using System.Numerics;
 using OneRender.Painting;
+using RecursiveAI.OneDocument.Equations;
 using RecursiveAI.OneDocument.Markup;
 using RecursiveAI.OneDocument.Rendering.Drawing;
+using RecursiveAI.OneDocument.Rendering.Equations;
 
 namespace RecursiveAI.OneDocument.Rendering.Presentations;
 
@@ -75,13 +77,16 @@ internal static class TextBodyReader
                         break;
                     case "AlternateContent":
                         {
-                            // An equation (a14:m / m:oMath inside mc:AlternateContent): its plain text stands in until math layout is hooked in.
-                            string math = MathText(child);
-                            if (math.Length > 0)
+                            // An equation (a14:m holding m:oMath inside mc:AlternateContent): laid out as an inline box by the equation layout.
+                            MarkupNode om = FindMath(child, 0);
+                            if (!om.IsNull && OmmlReader.Read(om, out _) is { } tree)
                             {
-                                characters += math.Length;
-                                paragraph.Runs.Add(new SlideTextRun(math, styles.Run(default, chain)));
-                                fields.Note?.Invoke("slide.math-plain-text", "An equation is drawn as its plain text; math layout is not applied to slide text.");
+                                characters++;
+                                paragraph.Runs.Add(new SlideTextRun("\uFFFC", styles.Run(default, chain)) { Math = tree });
+                                if (tree.Kind == MathKind.OMathPara)
+                                {
+                                    fields.Note?.Invoke("slide.math-display-inline", "A display equation in slide text is laid out inline, at the size of the text around it.");
+                                }
                             }
 
                             break;
@@ -168,42 +173,35 @@ internal static class TextBodyReader
         }
     }
 
-    // The text of the first mc:Choice's equation: every m:t under m:oMath, in order.
-    private static string MathText(MarkupNode alternate)
+    // The first m:oMathPara or m:oMath under the first mc:Choice (or a bare math element).
+    private static MarkupNode FindMath(MarkupNode n, int depth)
     {
-        foreach (MarkupNode choice in alternate.ChildElements)
+        if (depth > 8)
         {
-            if (choice.LocalNameString == "Choice")
-            {
-                var sb = new System.Text.StringBuilder();
-                CollectMath(choice, sb, false, 0);
-                return sb.ToString();
-            }
-        }
-
-        return string.Empty;
-    }
-
-    private static void CollectMath(MarkupNode n, System.Text.StringBuilder sb, bool inMath, int depth)
-    {
-        if (depth > 40)
-        {
-            return;
+            return default;
         }
 
         foreach (MarkupNode c in n.ChildElements)
         {
             string name = c.LocalNameString;
-            bool math = inMath || name == "oMath";
-            if (math && name == "t")
+            if (name is "oMathPara" or "oMath")
             {
-                sb.Append(c.InnerText);
+                return c;
             }
-            else
+
+            if (name == "Fallback")
             {
-                CollectMath(c, sb, math, depth + 1);
+                continue;
+            }
+
+            MarkupNode found = FindMath(c, depth + 1);
+            if (!found.IsNull)
+            {
+                return found;
             }
         }
+
+        return default;
     }
 
     private static double? Number(string? s) =>
@@ -353,6 +351,55 @@ internal static class TextEmitter
         list.PopTransform();
     }
 
+    // An equation: glyphs, rules and strokes in the box's own coordinates (first baseline, y down), one figure whose alternative text is the
+    // equation's linear form.
+    private static void PaintMath(DisplayList list, MathBox box, PlacedRun run, double baseline, Options o)
+    {
+        if (o.Tagged)
+        {
+            list.BeginTag(o.NextId(), TagRole.Figure, box.LinearText);
+        }
+
+        double ox = run.Left, oy = baseline;
+        foreach (MathItem item in box.Items)
+        {
+            PaintColor color = PaintColor.FromBytes((byte)(item.Color >> 16), (byte)(item.Color >> 8), (byte)item.Color);
+            switch (item)
+            {
+                case MathGlyph g:
+                    list.DrawGlyphRun(o.NextId(), g.Face, (float)(g.Size * K), (float)((ox + g.X) * K), (float)((oy + g.Y) * K), color, [g.GlyphId], [0f], [0f], [0], g.Text, false);
+                    break;
+                case MathRule r:
+                    list.FillRect(o.NextId(), new RectF((float)((ox + r.X) * K), (float)((oy + r.Y) * K), (float)(r.Width * K), (float)(r.Height * K)), Paint.FromColor(color));
+                    break;
+                case MathStroke st:
+                    {
+                        double dx = st.X2 - st.X1, dy = st.Y2 - st.Y1;
+                        double len = Math.Sqrt((dx * dx) + (dy * dy));
+                        if (len < 1e-9)
+                        {
+                            break;
+                        }
+
+                        double nx = -dy / len * st.Thickness / 2, ny = dx / len * st.Thickness / 2;
+                        var path = new PathBuffer();
+                        path.MoveTo((float)((ox + st.X1 + nx) * K), (float)((oy + st.Y1 + ny) * K));
+                        path.LineTo((float)((ox + st.X2 + nx) * K), (float)((oy + st.Y2 + ny) * K));
+                        path.LineTo((float)((ox + st.X2 - nx) * K), (float)((oy + st.Y2 - ny) * K));
+                        path.LineTo((float)((ox + st.X1 - nx) * K), (float)((oy + st.Y1 - ny) * K));
+                        path.Close();
+                        list.FillPath(o.NextId(), path, Paint.FromColor(color));
+                        break;
+                    }
+            }
+        }
+
+        if (o.Tagged)
+        {
+            list.EndTag();
+        }
+    }
+
     private static PaintColor Color(DrawingColor c) => new((float)c.R, (float)c.G, (float)c.B, (float)c.A);
 
     // mode 0 draws every run, 1 only the bullet, 2 everything but the bullet.
@@ -375,6 +422,16 @@ internal static class TextEmitter
 
         foreach (PlacedRun r in line.Runs)
         {
+            if (r.Math is { } math)
+            {
+                if (mode != 1)
+                {
+                    PaintMath(list, math, r, baseline, o);
+                }
+
+                continue;
+            }
+
             if (r.Glyphs.Length == 0 || (mode == 1 && !r.IsLabel) || (mode == 2 && r.IsLabel))
             {
                 continue;

@@ -235,7 +235,8 @@ internal sealed class StyleReader(IReadOnlyList<MarkupNode> containers, ColorRes
         MarkupNode buFont = FirstChild(chain, "buFont");
         if (!buFont.IsNull && buFont.GetAttribute("typeface") is { Length: > 0 } bf)
         {
-            s.BulletFont = bf;
+            // A theme reference (+mj-lt) names the theme font; East Asian and complex-script references name none here.
+            s.BulletFont = bf is "+mj-ea" or "+mn-ea" or "+mj-cs" or "+mn-cs" ? null : Theme.ResolveFont(bf);
         }
 
         MarkupNode buSzPct = FirstChild(chain, "buSzPct");

@@ -7,12 +7,14 @@ using RecursiveAI.OneDocument.Layout;
 using RecursiveAI.OneDocument.Presentations;
 using RecursiveAI.OneDocument.Rendering;
 using RecursiveAI.OneDocument.Rendering.Presentations;
+using RecursiveAI.OneDocument.Rendering.Spreadsheets;
 using RecursiveAI.OneDocument.Rendering.Tests;
+using RecursiveAI.OneDocument.Spreadsheets;
 
 // LayoutProbe: the generated layout test set and the layout differential.
 //
-//   LayoutProbe gen <dir>                 write the test documents (DOCX) and slide decks (PPTX, named slide-*.pptx) to <dir>
-//   LayoutProbe render <dir> <out> [fonts...]  lay out and render every DOCX and PPTX in <dir> to <out>/NAME.pdf and NAME.png (page 1),
+//   LayoutProbe gen <dir>                 write the test documents (DOCX), workbooks (XLSX) and slide decks (PPTX, slide-*.pptx) to <dir>
+//   LayoutProbe render <dir> <out> [fonts...]  lay out and render every DOCX, XLSX and PPTX in <dir> to <out>/NAME.pdf and NAME.png (page 1),
 //                                         and write <out>/layout.jsonl; extra arguments are font directories
 //   LayoutProbe sweep-pptx <dir> <out.jsonl> [keepDir]  render every PPTX under <dir> (recursively), one JSON line each with its page
 //                                         counts and notes, and a summary line; PDFs of the first LAYOUTPROBE_KEEP files go to keepDir.
@@ -33,6 +35,11 @@ internal static class Program
                 File.WriteAllBytes(Path.Combine(args[1], name + ".docx"), docx);
             }
 
+            foreach ((string name, byte[] xlsx) in SheetCases.All())
+            {
+                File.WriteAllBytes(Path.Combine(args[1], name + ".xlsx"), xlsx);
+            }
+
             foreach ((string name, byte[] docx) in DrawingSamples.All())
             {
                 File.WriteAllBytes(Path.Combine(args[1], "drawing-" + name + ".docx"), docx);
@@ -48,7 +55,7 @@ internal static class Program
                 File.WriteAllBytes(Path.Combine(args[1], "slide-" + name + ".pptx"), pptx);
             }
 
-            Console.WriteLine($"{LayoutCases.All().Count + DrawingSamples.All().Count} documents and {DrawingSamples.Presentations().Count + SlideCases.All().Count} presentations in {args[1]}");
+            Console.WriteLine($"{LayoutCases.All().Count + DrawingSamples.All().Count} documents, {SheetCases.All().Count} workbooks and {DrawingSamples.Presentations().Count + SlideCases.All().Count} presentations in {args[1]}");
             return 0;
         }
 
@@ -111,11 +118,51 @@ internal static class Program
                 }
 
                 File.WriteAllBytes(Path.Combine(output, name + ".png"), DocumentRenderer.RenderPng(layout.Pages[0]));
+                for (int pg = 1; pg < Math.Min(layout.Pages.Count, 6); pg++)
+                {
+                    File.WriteAllBytes(Path.Combine(output, name + "-p" + (pg + 1) + ".png"), DocumentRenderer.RenderPng(layout.Pages[pg]));
+                }
+
                 log.WriteLine(JsonSerializer.Serialize(new
                 {
                     name,
                     pages = layout.Pages.Count,
-                    lines = layout.Pages.Select(p => p.Paragraphs.Sum(x => x.Lines.Count())).ToArray(),
+                    lines = layout.Pages.Select(p => p.Paragraphs.Concat(p.FootnoteParagraphs).Sum(x => x.Lines.Count())).ToArray(),
+                    fontNotes = layout.FontNotes.Select(n => n.Message).ToArray(),
+                    notes = layout.Notes.Select(n => n.Code).ToArray(),
+                }));
+            }
+            catch (Exception ex)
+            {
+                failed++;
+                Console.Error.WriteLine($"{name}: {ex.GetType().Name}: {ex.Message}");
+            }
+        }
+
+        foreach (string file in Directory.EnumerateFiles(input, "*.xlsx").Order(StringComparer.Ordinal))
+        {
+            string name = Path.GetFileNameWithoutExtension(file);
+            try
+            {
+                using Workbook wb = Workbook.Open(file);
+                var options = new SheetRenderOptions { Fonts = fonts, Clock = new FixedClock() };
+                SheetLayoutDocument layout = WorkbookRenderer.Layout(wb, options);
+                using (FileStream pdf = File.Create(Path.Combine(output, name + ".pdf")))
+                {
+                    WorkbookRenderer.WritePdf(layout, pdf, new PdfRenderOptions { Profile = ProfileFromEnvironment() });
+                }
+
+                // Every page up to eight as PNGs, so a person can look at them.
+                for (int i = 0; i < Math.Min(layout.Pages.Count, 8); i++)
+                {
+                    File.WriteAllBytes(Path.Combine(output, i == 0 ? name + ".png" : $"{name}-p{i + 1}.png"), WorkbookRenderer.RenderPng(layout, layout.Pages[i]));
+                }
+
+                log.WriteLine(JsonSerializer.Serialize(new
+                {
+                    name,
+                    pages = layout.Pages.Count,
+                    scale = layout.Pages.Select(p => p.Scale).Distinct().ToArray(),
                     fontNotes = layout.FontNotes.Select(n => n.Message).ToArray(),
                     notes = layout.Notes.Select(n => n.Code).ToArray(),
                 }));
@@ -298,4 +345,12 @@ internal static class Program
         Console.WriteLine(JsonSerializer.Serialize(new { summary = true, documents = docs, pageCountDiffers = differentPages, meanLineAgreement = docs == 0 ? 0 : Math.Round(sum / docs, 3) }));
         return differentPages == 0 ? 0 : 1;
     }
+}
+
+// A fixed clock keeps the printed date in headers the same from run to run.
+internal sealed class FixedClock : TimeProvider
+{
+    public override DateTimeOffset GetUtcNow() => new(2026, 3, 9, 14, 5, 0, TimeSpan.Zero);
+
+    public override TimeZoneInfo LocalTimeZone => TimeZoneInfo.Utc;
 }

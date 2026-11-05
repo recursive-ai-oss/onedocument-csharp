@@ -532,14 +532,18 @@ public sealed class PresentationRenderTests
     }
 
     [Fact]
-    public void AnEquationInSlideTextIsDrawnAsItsPlainTextWithANote()
+    public void AnEquationInSlideTextIsLaidOutInline()
     {
-        string math = "<a:p><a:r><a:rPr lang=\"en-US\"/><a:t>Before </a:t></a:r><mc:AlternateContent xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"><mc:Choice xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\" Requires=\"a14\"><a14:m><m:oMathPara xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><m:oMath><m:r><m:t>x=1</m:t></m:r></m:oMath></m:oMathPara></a14:m></mc:Choice><mc:Fallback><a:r><a:t>fallback</a:t></a:r></mc:Fallback></mc:AlternateContent></a:p>";
+        string math = "<a:p><a:r><a:rPr lang=\"en-US\"/><a:t>Before </a:t></a:r><mc:AlternateContent xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"><mc:Choice xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\" Requires=\"a14\"><a14:m><m:oMath xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><m:f><m:num><m:r><m:t>a</m:t></m:r></m:num><m:den><m:r><m:t>b</m:t></m:r></m:den></m:f></m:oMath></a14:m></mc:Choice><mc:Fallback><a:r><a:t>fallback</a:t></a:r></mc:Fallback></mc:AlternateContent><a:r><a:rPr lang=\"en-US\"/><a:t> after</a:t></a:r></a:p>";
         var deck = new Deck { Slides = [new SlideSpec { Shapes = Box(2, 10, 10, 300, 100, math) }] };
         (PresentationRenderReport report, byte[] pdf) = Pdf(TestPptx.Build(deck));
-        string all = Squash(Lines(pdf, 0));
-        Assert.Contains("Beforex=1", all, StringComparison.Ordinal);
+        List<Line> lines = Lines(pdf, 0);
+        string all = Squash(lines);
+        Assert.Contains("Before", all, StringComparison.Ordinal);
+        Assert.Contains("after", all, StringComparison.Ordinal);
         Assert.DoesNotContain("fallback", all, StringComparison.Ordinal);
-        Assert.Contains(report.Notes, n => n.Code == "slide.math-plain-text");
+        using var doc = PdfDocument.Open(pdf);
+        Assert.Contains(doc.StructureTree!.Elements(), e => e.Type == "Figure");
+        Assert.DoesNotContain(report.Notes, n => n.Code == "slide.math-plain-text");
     }
 }

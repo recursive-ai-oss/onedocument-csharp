@@ -25,13 +25,18 @@
     <!-- The generated test set is shared with the test project. -->
     <Compile Include="../../tests/OneDocument.Rendering.Tests/LayoutCases.cs" Link="LayoutCases.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/TableCases.cs" Link="TableCases.cs" />
+    <Compile Include="../../tests/OneDocument.Rendering.Tests/MathCases.cs" Link="MathCases.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/TestDocx.cs" Link="TestDocx.cs" />
+    <Compile Include="../../tests/OneDocument.Rendering.Tests/SheetCases.cs" Link="SheetCases.cs" />
+    <Compile Include="../../tests/OneDocument.Rendering.Tests/TestXlsx.cs" Link="TestXlsx.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/DrawingSamples.cs" Link="DrawingSamples.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/PageLayoutCases.cs" Link="PageLayoutCases.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/PageDocs.cs" Link="PageDocs.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/TestPptx.cs" Link="TestPptx.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/SlideCases.cs" Link="SlideCases.cs" />
     <Compile Include="../ChartProbe/ChartSamples.cs" Link="ChartSamples.cs" />
+    <Compile Include="../../tests/OneDocument.Rendering.Tests/NoteCases.cs" Link="NoteCases.cs" />
+    <Compile Include="../../tests/OneDocument.Rendering.Tests/NoteDocs.cs" Link="NoteDocs.cs" />
   </ItemGroup>
 
 </Project>

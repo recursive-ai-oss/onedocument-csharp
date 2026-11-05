@@ -114,6 +114,10 @@ without that numbering, or a different scheme ends the run. Deeper levels in bet
 no text shows no bullet and takes no number. Schemes: arabic, alpha (a, b … z, aa, bb …), roman, each lower or upper with `Period`,
 `ParenR`, `ParenBoth` or `Plain`; other schemes are numbered as arabic with a period.
 
+**Equations** (`a14:m` holding `m:oMath` or `m:oMathPara` in an `mc:Choice`) are laid out by the equation layout (`equations` in `layout.md`) as one
+unbreakable inline box on the baseline at the run's size and colour, tagged as a `Figure` whose alternative text is the equation's linear
+form; the `Fallback` is not drawn.
+
 ## Autofit
 
 - `a:noAutofit` (or none anywhere in the chain): text is laid out as it is and may overflow.
@@ -188,7 +192,7 @@ reported as notes on the report, once per code:
 | `slide.smartart-cached`, `slide.smartart-not-painted`, `slide.object-not-painted` | diagrams and objects |
 | `slide.table-gradient-approximated`, `slide.table-fill-approximated` | table fills |
 | `slide.handout-master-ignored` | handouts |
-| `slide.math-plain-text` | an equation in slide text is drawn as its plain text (math layout is a separate unit and plugs in here) |
+| `slide.math-display-inline` | a display equation in slide text is laid out inline at the surrounding text size |
 | `drawing.*` | from the shape painter (`drawingml-rendering.md`) |
 
 ## Fonts

@@ -1,11 +1,17 @@
 using OneFont;
+using RecursiveAI.OneDocument.Equations;
 using RecursiveAI.OneDocument.Layout;
+using RecursiveAI.OneDocument.Rendering.Equations;
 using RecursiveAI.OneDocument.Rendering.Drawing;
 
 namespace RecursiveAI.OneDocument.Rendering.Presentations;
 
 /// <summary>A stretch of text with one set of character properties.</summary>
-internal sealed record SlideTextRun(string Text, SlideRunStyle Style);
+internal sealed record SlideTextRun(string Text, SlideRunStyle Style)
+{
+    /// <summary>An equation: the run's text is one object-replacement character and the equation takes its place.</summary>
+    public MathNode? Math { get; init; }
+}
 
 /// <summary>A paragraph ready for layout: its properties, runs and the bullet text already worked out.</summary>
 internal sealed class SlideTextParagraph
@@ -43,6 +49,9 @@ internal sealed class PlacedRun
     public string? LinkRelationship;
     public string? Language;
     public bool IsLabel;
+
+    /// <summary>An equation drawn in place of glyphs; <see cref="Left"/> and <see cref="Width"/> place it.</summary>
+    public MathBox? Math;
 }
 
 internal sealed class PlacedLine
@@ -108,6 +117,7 @@ internal sealed class SlideTextLayout(IFontProvider fonts, List<FontSubstitution
         Space,
         Tab,
         LineBreak,
+        Math,
     }
 
     private sealed class Piece
@@ -134,6 +144,7 @@ internal sealed class SlideTextLayout(IFontProvider fonts, List<FontSubstitution
         public double Descent;
         public bool IsLabel;
         public double Raise;
+        public MathBox? Box;
     }
 
     private struct Atom
@@ -461,6 +472,18 @@ internal sealed class SlideTextLayout(IFontProvider fonts, List<FontSubstitution
                     continue;
                 }
 
+                if (ch == '\uFFFC' && p.Runs[runIndex].Math is { } equation)
+                {
+                    // An equation is one unbreakable box on the baseline; its text in the paragraph is the object-replacement character.
+                    var options = new MathLayoutOptions { Fonts = fonts, FontSize = rs.Size * scale, Color = rs.Color.Rgb, TextFamily = rs.Latin, Display = false };
+                    MathBox box = MathLayouter.Layout(equation, options);
+                    var mathPiece = new Piece { Start = i, Text = "\uFFFC", Style = rs, Size = rs.Size * scale, Level = levels[i], Box = box, Ascent = box.Ascent, Descent = box.Descent };
+                    pieces.Add(mathPiece);
+                    atoms.Add(new Atom { Piece = pieces.Count - 1, TextStart = i, Kind = AtomKind.Math, Level = levels[i], Width = box.Width, BreakBefore = opps[i] != LineBreakOpportunity.None });
+                    i++;
+                    continue;
+                }
+
                 int cp = char.ConvertToUtf32(paragraph, i);
                 int cat = Category(cp);
                 byte level = levels[i];
@@ -764,12 +787,22 @@ internal sealed class SlideTextLayout(IFontProvider fonts, List<FontSubstitution
                 continue;
             }
 
+            if (first.Kind == AtomKind.Math && pc.Box is { } mathBox)
+            {
+                line.Runs.Add(new PlacedRun { Face = null!, Size = pc.Size, Left = pen, Width = mathBox.Width, Math = mathBox, Color = pc.Style.Color });
+                ascent = Math.Max(ascent, mathBox.Ascent);
+                descent = Math.Max(descent, mathBox.Descent);
+                pen += widths[order[v]];
+                v++;
+                continue;
+            }
+
             int faceIndex = pc.CFace.Length > first.Cluster ? pc.CFace[first.Cluster] : 0;
             int v1 = v + 1;
             while (v1 < count)
             {
                 Atom b = atoms[start + order[v1]];
-                if (b.Piece != first.Piece || b.Kind is AtomKind.Tab or AtomKind.LineBreak || (pc.CFace.Length > b.Cluster ? pc.CFace[b.Cluster] : 0) != faceIndex)
+                if (b.Piece != first.Piece || b.Kind is AtomKind.Tab or AtomKind.LineBreak or AtomKind.Math || (pc.CFace.Length > b.Cluster ? pc.CFace[b.Cluster] : 0) != faceIndex)
                 {
                     break;
                 }

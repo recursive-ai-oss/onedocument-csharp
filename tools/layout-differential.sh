@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Layout differential: renders the generated layout cases with OneDocument, asks the Word oracle for its own PDF export of the
-# same files, and compares page counts and per-page text lines. Slide decks (slide-*.pptx) go through PowerPoint the same way.
+# Layout differential: renders the generated layout cases (documents and workbooks) with OneDocument, asks the Word and Excel oracle for
+# their own PDF export of the same files, and compares page counts and per-page text lines. Slide decks (slide-*.pptx) go through PowerPoint the same way.
 #
 #   layout-differential.sh [OUTDIR]
 #
@@ -24,9 +24,11 @@ IFS=: read -r -a fonts <<< "${ONEDOCUMENT_FONTS:-}"
 "${probe[@]}" render "$out/cases" "$out/ours" "${fonts[@]}"
 
 "$here/office-oracle/office-oracle.sh" run --run layout --instance "${ONEDOCUMENT_INSTANCE:-onedocument}" --pdf --out "$out/oracle" "$out/cases"
-for f in "$out"/oracle/*.word.pdf; do
+for f in "$out"/oracle/*.word.pdf "$out"/oracle/*.excel.pdf; do
   [ -e "$f" ] || continue
-  name=$(basename "$f" .word.pdf)
+  name=$(basename "$f")
+  name=${name%.word.pdf}
+  name=${name%.excel.pdf}
   cp "$f" "$out/word/$name.pdf"
 done
 
