@@ -1,6 +1,7 @@
 using System.Numerics;
 using OneRender.Painting;
 using RecursiveAI.OneDocument.Layout;
+using RecursiveAI.OneDocument.Rendering.Drawing;
 
 namespace RecursiveAI.OneDocument.Rendering;
 
@@ -15,6 +16,15 @@ public sealed class PaintOptions
     /// Default <c>en-US</c>.
     /// </summary>
     public string Language { get; set; } = "en-US";
+
+    /// <summary>
+    /// Gets or sets the pictures of the rendering. Pass the same object to every page and to the PDF or image backend as its image resolver
+    /// (<see cref="DrawingImages"/> is one); with null, pictures are decoded per page and a backend cannot draw them. Default null.
+    /// </summary>
+    public DrawingImages? Images { get; set; }
+
+    /// <summary>Gets or sets a list that receives notes about drawing features that were approximated or left out (each code once per page). Default null.</summary>
+    public IList<DrawingNote>? DrawingNotes { get; set; }
 }
 
 /// <summary>
@@ -51,7 +61,39 @@ public static class LayoutPainter
         private const double K = PixelsPerPoint;
         private uint _owner;
 
+        private readonly Dictionary<DrawingSources, DrawingContext> _drawingContexts = [];
+
         public DisplayList List { get; } = new();
+
+        private DrawingContext ContextFor(DrawingSources sources)
+        {
+            if (!_drawingContexts.TryGetValue(sources, out DrawingContext? c))
+            {
+                c = new DrawingContext(new ColorResolver(sources.Theme, sources.Map), options.Images, sources.ImageBytes, sources.Scope) { Tagged = options.Tagged };
+                _drawingContexts[sources] = c;
+            }
+
+            return c;
+        }
+
+        private void FlushDrawingNotes()
+        {
+            if (options.DrawingNotes is null)
+            {
+                return;
+            }
+
+            foreach (DrawingContext c in _drawingContexts.Values)
+            {
+                foreach (DrawingNote n in c.Notes)
+                {
+                    if (!options.DrawingNotes.Any(x => x.Code == n.Code))
+                    {
+                        options.DrawingNotes.Add(n);
+                    }
+                }
+            }
+        }
 
         private ItemId Id(ushort part = 0, ushort sub = 0) => ItemId.Of(++_owner, part, sub);
 
@@ -81,6 +123,7 @@ public static class LayoutPainter
                 List.EndTag();
             }
 
+            FlushDrawingNotes();
             List.Validate();
         }
 
@@ -88,6 +131,14 @@ public static class LayoutPainter
         {
             PaintDecoration(p);
             bool tagged = options.Tagged;
+            foreach (InlineDrawing f in p.Floats)
+            {
+                if (f.Info.BehindText && !p.ContinuesFromPreviousPage)
+                {
+                    PaintAnchored(p, f);
+                }
+            }
+
             if (tagged && inList && !p.ContinuesFromPreviousPage)
             {
                 List.BeginTag(Id(), TagRole.ListItem);
@@ -156,6 +207,68 @@ public static class LayoutPainter
             {
                 List.EndTag();
             }
+
+            foreach (InlineDrawing f in p.Floats)
+            {
+                if (!f.Info.BehindText && !p.ContinuesFromPreviousPage)
+                {
+                    PaintAnchored(p, f);
+                }
+            }
+        }
+
+        // An anchored drawing sits at its own position: an offset or an alignment inside the page, the margins or the paragraph.
+        // ECMA-376 Part 1 §20.4.2.10 (positionH) and §20.4.2.11 (positionV). Text does not wrap around it yet.
+        private void PaintAnchored(LayoutParagraph p, InlineDrawing d)
+        {
+            LayoutPage? page = p.Parent as LayoutPage;
+            if (page is null)
+            {
+                return;
+            }
+
+            DrawingInfo i = d.Info;
+            LayoutRect area = page.ContentArea;
+            (double bx, double bw) = i.RelativeFromH switch
+            {
+                "page" => (0.0, page.Width),
+                "character" => (p.Bounds.X, p.Bounds.Width),
+                _ => (area.X, area.Width),
+            };
+            double lineTop = p.Lines.FirstOrDefault()?.Bounds.Y ?? p.Bounds.Y;
+            (double by, double bh) = i.RelativeFromV switch
+            {
+                "page" => (0.0, page.Height),
+                "paragraph" => (p.Bounds.Y, p.Bounds.Height),
+                "line" => (lineTop, 0.0),
+                _ => (area.Y, area.Height),
+            };
+            double x = i.AlignH switch
+            {
+                "center" => bx + ((bw - i.Width) / 2),
+                "right" or "outside" => bx + bw - i.Width,
+                "left" or "inside" => bx,
+                _ => bx + (i.OffsetX ?? 0),
+            };
+            double y = i.AlignV switch
+            {
+                "center" => by + ((bh - i.Height) / 2),
+                "bottom" or "outside" => by + bh - i.Height,
+                "top" or "inside" => by,
+                _ => by + (i.OffsetY ?? 0),
+            };
+            DrawingPainter.Draw(List, () => Id(), d.Node, new DrawingBox(x, y, i.Width, i.Height), ContextFor(d.Sources), i.AltText, i.Decorative);
+        }
+
+        private void PaintInlineObject(LayoutRun run, LayoutLine line)
+        {
+            if (run.Drawing is not { } d)
+            {
+                return;
+            }
+
+            var box = new DrawingBox(run.Bounds.X, line.Baseline - d.Info.Height - run.Paint.BaselineShift, d.Info.Width, d.Info.Height);
+            DrawingPainter.Draw(List, () => Id(), d.Node, box, ContextFor(d.Sources), d.Info.AltText, d.Info.Decorative);
         }
 
         private static TagRole RoleOf(LayoutParagraph p) => p.HeadingLevel switch
@@ -223,6 +336,12 @@ public static class LayoutPainter
             if (run.RunKind == LayoutRunKind.Tab)
             {
                 PaintLeader(run, line);
+                return;
+            }
+
+            if (run.RunKind == LayoutRunKind.Drawing)
+            {
+                PaintInlineObject(run, line);
                 return;
             }
 

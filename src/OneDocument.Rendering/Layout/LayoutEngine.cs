@@ -410,6 +410,7 @@ public static class LayoutEngine
                         ClusterX = [.. item.ClusterX.Select(v => v + left)],
                         Paint = item.Paint,
                         Glyphs = item.Glyphs,
+                        Drawing = item.Drawing,
                     };
                     line.Add(run);
                     minX = Math.Min(minX, left + item.X);
@@ -434,6 +435,11 @@ public static class LayoutEngine
             if (last)
             {
                 y += fp.BorderBottomHeight;
+            }
+
+            if (first)
+            {
+                lp.Floats.AddRange(fp.Floats);
             }
 
             lp.Bounds = new LayoutRect(left + fp.Paint.LeftEdge, top, Math.Max(0, fp.Paint.RightEdge - fp.Paint.LeftEdge), y - top);

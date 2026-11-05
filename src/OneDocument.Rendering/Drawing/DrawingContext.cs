@@ -164,6 +164,15 @@ public sealed class DrawingInfo
     /// <summary>Gets the <c>relativeFrom</c> of the vertical position (<c>page</c>, <c>margin</c>, <c>paragraph</c>, <c>line</c>…), or null.</summary>
     public string? RelativeFromV { get; init; }
 
+    /// <summary>Gets the horizontal alignment (<c>left</c>, <c>center</c>, <c>right</c>, <c>inside</c>, <c>outside</c>) used instead of an offset, or null.</summary>
+    public string? AlignH { get; init; }
+
+    /// <summary>Gets the vertical alignment (<c>top</c>, <c>center</c>, <c>bottom</c>, <c>inside</c>, <c>outside</c>) used instead of an offset, or null.</summary>
+    public string? AlignV { get; init; }
+
+    /// <summary>Gets whether an anchored drawing sits behind the text (<c>behindDoc</c>).</summary>
+    public bool BehindText { get; init; }
+
     /// <summary>Reads a <c>w:drawing</c> element.</summary>
     /// <param name="drawing">The <c>w:drawing</c> element.</param>
     /// <returns>The information, or null when the drawing holds neither <c>wp:inline</c> nor <c>wp:anchor</c> with an extent.</returns>
@@ -205,7 +214,7 @@ public sealed class DrawingInfo
         }
 
         double? ox = null, oy = null;
-        string? rh = null, rv = null;
+        string? rh = null, rv = null, ah = null, av = null;
         if (!inline)
         {
             MarkupNode ph = DrawingTheme.Child(holder, "positionH"), pv = DrawingTheme.Child(holder, "positionV");
@@ -213,6 +222,9 @@ public sealed class DrawingInfo
             rv = pv.GetAttribute("relativeFrom");
             ox = Emu(DrawingTheme.Child(ph, "posOffset").InnerText) / 12700.0;
             oy = Emu(DrawingTheme.Child(pv, "posOffset").InnerText) / 12700.0;
+            MarkupNode alignH = DrawingTheme.Child(ph, "align"), alignV = DrawingTheme.Child(pv, "align");
+            ah = alignH.IsNull ? null : alignH.InnerText.Trim();
+            av = alignV.IsNull ? null : alignV.InnerText.Trim();
         }
 
         return new DrawingInfo
@@ -227,6 +239,9 @@ public sealed class DrawingInfo
             OffsetY = oy,
             RelativeFromH = rh,
             RelativeFromV = rv,
+            AlignH = ah,
+            AlignV = av,
+            BehindText = holder.GetAttribute("behindDoc") is "1" or "true",
         };
     }
 

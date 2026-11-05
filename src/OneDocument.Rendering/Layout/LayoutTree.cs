@@ -134,6 +134,9 @@ public sealed class LayoutParagraph : LayoutNode
     public IEnumerable<LayoutLine> Lines => Children.OfType<LayoutLine>();
 
     internal ParagraphPaintInfo Paint { get; set; } = new();
+
+    // Anchored drawings of the paragraph, painted at their own position on the page the paragraph starts on.
+    internal List<InlineDrawing> Floats { get; } = [];
 }
 
 /// <summary>One line of a paragraph.</summary>
@@ -180,6 +183,9 @@ public enum LayoutRunKind
 
     /// <summary>The list label text of a numbered paragraph.</summary>
     Label = 2,
+
+    /// <summary>An inline drawing or picture: one box on the baseline whose width is the run's width. Its text is the object replacement character U+FFFC.</summary>
+    Drawing = 3,
 }
 
 /// <summary>A stretch of text with one font, size and direction on a line, or a tab or list label.</summary>
@@ -224,6 +230,8 @@ public sealed class LayoutRun : LayoutNode
     internal RunPaintInfo Paint { get; set; } = new();
 
     internal GlyphData? Glyphs { get; set; }
+
+    internal InlineDrawing? Drawing { get; set; }
 }
 
 /// <summary>The result of laying out a document.</summary>

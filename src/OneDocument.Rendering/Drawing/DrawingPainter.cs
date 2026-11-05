@@ -59,6 +59,37 @@ public static class DrawingPainter
         return true;
     }
 
+    /// <summary>
+    /// Paints the shapes of a shape tree (<c>p:spTree</c>, a group, or any element whose children are shapes) each at the position its own
+    /// transform gives, as a slide or a worksheet drawing layer places them.
+    /// </summary>
+    /// <param name="list">The display list; coordinates are CSS pixels.</param>
+    /// <param name="nextId">Allocates item ids.</param>
+    /// <param name="tree">The element holding the shapes.</param>
+    /// <param name="originX">Where the tree's origin falls on the page, in points.</param>
+    /// <param name="originY">As <paramref name="originX"/>, vertically.</param>
+    /// <param name="context">Colours, pictures and notes.</param>
+    /// <returns>The number of shapes and groups painted at the top level.</returns>
+    public static int DrawShapes(DisplayList list, Func<ItemId> nextId, MarkupNode tree, double originX, double originY, DrawingContext context)
+    {
+        ArgumentNullException.ThrowIfNull(list);
+        ArgumentNullException.ThrowIfNull(nextId);
+        ArgumentNullException.ThrowIfNull(context);
+        var scene = new Scene(list, nextId, context);
+        Matrix3x2 root = Matrix3x2.CreateScale((float)(PointsToPixels / EmuPerPoint)) * Matrix3x2.CreateTranslation((float)(originX * PointsToPixels), (float)(originY * PointsToPixels));
+        int count = 0;
+        foreach (MarkupNode child in tree.ChildElements)
+        {
+            if (child.LocalNameString is "sp" or "pic" or "cxnSp" or "grpSp" or "graphicFrame" or "AlternateContent" or "wsp" or "wgp")
+            {
+                scene.PaintNode(child, root, null, 0);
+                count++;
+            }
+        }
+
+        return count;
+    }
+
     private static MarkupNode FindShape(MarkupNode n)
     {
         for (int depth = 0; depth < 8 && !n.IsNull; depth++)
