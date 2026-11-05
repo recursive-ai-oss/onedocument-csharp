@@ -422,10 +422,32 @@ internal sealed class XlsxRowSink : RowSink
     {
         _book = book;
         HeaderStyle = schema.HasHeader ? book.AddFormat(new StreamCellFormat { Bold = true }) : 0;
-        Sheet = book.AddSheet(schema.Sheet ?? "Sheet1", new SheetWriteOptions { FreezeRows = schema.HasHeader ? 1 : 0 });
+        Sheet = book.AddSheet(schema.Sheet ?? "Sheet1", new SheetWriteOptions { FreezeRows = schema.HasHeader ? 1 : 0, Columns = Widths(schema) });
     }
 
     public SheetStreamWriter Sheet { get; }
+
+    // Wide enough for the header and for what the column holds, so dates do not show as ####.
+    private static List<ColumnProperties> Widths(RowSchema schema)
+    {
+        int[] targets = RowWriter.Targets(schema);
+        var widths = new List<ColumnProperties>(schema.Count);
+        for (int i = 0; i < schema.Count; i++)
+        {
+            ColumnSpec c = schema.Columns[i];
+            double width = c.Type switch
+            {
+                ColumnType.Date => 12,
+                ColumnType.DateTime => 20,
+                ColumnType.Time => 10,
+                ColumnType.Identifier => 38,
+                _ => 10,
+            };
+            widths.Add(new ColumnProperties(targets[i], targets[i], Math.Max(width, c.Name.Length + 3), 0, ColumnOptions.CustomWidth));
+        }
+
+        return widths;
+    }
 
     public override DateSystem DateSystem => DateSystem.Date1900;
 

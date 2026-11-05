@@ -244,6 +244,18 @@ public class BindingTests
     }
 
     [Fact]
+    public void ARepeatedHeaderUsesTheFirstColumnAndSaysSo()
+    {
+        using var ms = new MemoryStream("Sku,Qty,sku\nA,1,Z\n"u8.ToArray());
+        var defects = new DefectCollection(20);
+        Item row = Assert.Single(Spreadsheet.Read<Item>(ms, new OpenContext(defects: defects)));
+        Assert.Equal("A", row.Sku);
+        Defect d = Assert.Single(defects);
+        Assert.Equal("binding.header-duplicate", d.Code);
+        Assert.Equal("C1", d.Location.Address);
+    }
+
+    [Fact]
     public void StrictThrowsAtTheFirstBadCell()
     {
         using var ms = new MemoryStream("Sku,Qty,Price\nA,1,2\nB,two,3\n"u8.ToArray());

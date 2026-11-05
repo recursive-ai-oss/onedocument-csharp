@@ -62,20 +62,27 @@ public sealed class RowWriter
         _sink = sink;
         _sheetName = sheetName;
         _styles = new int[schema.Count];
-        _targets = new int[schema.Count];
+        _targets = Targets(schema);
+        for (int i = 0; i < schema.Count; i++)
+        {
+            _styles[i] = sink.StyleFor(schema.Columns[i]);
+        }
+
+        Width = schema.Count == 0 ? 0 : _targets[^1];
+    }
+
+    /// <summary>The sheet column of each schema column: its fixed index, or the one after the previous column; columns never overlap.</summary>
+    internal static int[] Targets(RowSchema schema)
+    {
+        int[] targets = new int[schema.Count];
         int previous = 0;
         for (int i = 0; i < schema.Count; i++)
         {
-            ColumnSpec c = schema.Columns[i];
-            _styles[i] = sink.StyleFor(c);
-
-            // Columns never overlap: a fixed index at or before the previous column is placed after it.
-            int target = Math.Max(previous + 1, c.Index);
-            _targets[i] = target;
-            previous = target;
+            previous = Math.Max(previous + 1, schema.Columns[i].Index);
+            targets[i] = previous;
         }
 
-        Width = previous;
+        return targets;
     }
 
     /// <summary>Gets the 1-based number of the row being written.</summary>
