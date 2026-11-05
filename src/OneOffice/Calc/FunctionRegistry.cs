@@ -162,6 +162,9 @@ public sealed class FunctionRegistry
     {
         var r = new FunctionRegistry();
         SeedFunctions.Register(r);
+        FinancialFunctions.Register(r);
+        EngineeringFunctions.Register(r);
+        DatabaseFunctions.Register(r);
         return r;
     }
 
