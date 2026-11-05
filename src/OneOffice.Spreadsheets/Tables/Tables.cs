@@ -223,6 +223,12 @@ public sealed class Table
 
         string pc = Xl.Prefix(Root);
         MarkupNode cols = Xl.Child(Root, "tableColumns");
+        if (cols.IsNull)
+        {
+            // A damaged table can lack its column list; make one so the resize has somewhere to put the columns.
+            cols = Xl.InsertInOrder(Root, TableOrder, "tableColumns", "<" + pc + "tableColumns count=\"0\"/>");
+        }
+
         var existing = new List<MarkupNode>();
         foreach (MarkupNode c in cols.ChildElements)
         {

@@ -198,6 +198,43 @@ public sealed class SheetFeatureTests
     // ---- tables --------------------------------------------------------------------------------------------------------------------
 
     [Fact]
+    public void ResizeMakesTheColumnListOfADamagedTable()
+    {
+        using Workbook wb = TestBook.Open();
+        Worksheet s = wb.Sheets[1];
+        s["A1"].SetString("Name");
+        s.Tables.Add("People", CellRange.Parse("A1:B3"));
+        byte[] saved = TestBook.Save(wb);
+
+        var damaged = new MemoryStream();
+        using (var zin = new System.IO.Compression.ZipArchive(new MemoryStream(saved)))
+        using (var zout = new System.IO.Compression.ZipArchive(damaged, System.IO.Compression.ZipArchiveMode.Create, leaveOpen: true))
+        {
+            foreach (var e in zin.Entries)
+            {
+                using Stream src = e.Open();
+                using Stream dst = zout.CreateEntry(e.FullName).Open();
+                if (e.FullName == "xl/tables/table1.xml")
+                {
+                    string xml = new StreamReader(src).ReadToEnd();
+                    int a = xml.IndexOf("<tableColumns", StringComparison.Ordinal);
+                    int b = xml.IndexOf("</tableColumns>", StringComparison.Ordinal) + "</tableColumns>".Length;
+                    dst.Write(Encoding.UTF8.GetBytes(xml.Remove(a, b - a)));
+                }
+                else
+                {
+                    src.CopyTo(dst);
+                }
+            }
+        }
+
+        using Workbook back = TestBook.Open(damaged.ToArray());
+        Table t = Assert.Single(back.Sheets[1].Tables);
+        t.Resize(CellRange.Parse("A1:C4"));
+        Assert.Equal(3, t.Columns.Count);
+    }
+
+    [Fact]
     public void TableIsAddedResizedReadBackAndRemoved()
     {
         using Workbook wb = TestBook.Open();

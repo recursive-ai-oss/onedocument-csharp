@@ -142,8 +142,8 @@ internal static class FormatGrid
             Cell c = s[r, 2];
             c.SetNumber(value);
             c.SetStyle(new CellStyleSpec { NumberFormatCode = code });
-            // The oracle reads the text in a column 100 characters wide, so General has room for all 15 digits.
-            string text = c.GetFormattedText(99);
+            // Excel's General stays 11 characters wide whatever the column width, so the plain property is the match.
+            string text = c.FormattedText;
             ours.Append(id).Append('\t').Append(Escape(text)).Append('\t').Append(Escape(code)).Append('\t').Append(value.ToString("R", CultureInfo.InvariantCulture)).Append('\n');
             r++;
         }
@@ -155,9 +155,45 @@ internal static class FormatGrid
 
     private static string Escape(string s) => s.Replace("\\", "\\\\", StringComparison.Ordinal).Replace("\t", "\\t", StringComparison.Ordinal).Replace("\n", "\\n", StringComparison.Ordinal).Replace("\r", "\\r", StringComparison.Ordinal);
 
+    /// <summary>
+    /// <c>XlsxProbe localegrid OUT</c>: one generated workbook asking for month names, weekday names, AM/PM and a day-with-month date
+    /// under each locale tag in the list, to read back what Excel shows.
+    /// </summary>
+    public static int Locales(string outDir, string[] tags)
+    {
+        Directory.CreateDirectory(outDir);
+        var pairs = new List<(string, double)>();
+        foreach (string tag in tags)
+        {
+            for (int m = 1; m <= 12; m++)
+            {
+                double serial = new DateTime(2023, m, 15).ToOADate();
+                pairs.Add(($"[$-{tag}]mmmm", serial));
+                pairs.Add(($"[$-{tag}]mmm", serial));
+                pairs.Add(($"[$-{tag}]d mmmm yyyy", serial));
+            }
+
+            for (int d = 0; d < 7; d++)
+            {
+                double serial = new DateTime(2023, 1, 1).AddDays(d).ToOADate();
+                pairs.Add(($"[$-{tag}]dddd", serial));
+                pairs.Add(($"[$-{tag}]ddd", serial));
+            }
+
+            pairs.Add(($"[$-{tag}]h AM/PM", 0.25));
+            pairs.Add(($"[$-{tag}]h AM/PM", 0.75));
+            pairs.Add(($"[$-{tag}]h A/P", 0.75));
+            pairs.Add(($"[$-{tag}]h a/p", 0.25));
+        }
+
+        WriteGrid(pairs, DateSystem.Date1900, Path.Combine(outDir, "loc-00"), 0);
+        Console.WriteLine($"{{\"kind\":\"localegrid\",\"cells\":{pairs.Count}}}");
+        return 0;
+    }
+
     public static int Compare(string dir)
     {
-        int total = 0, same = 0, missing = 0;
+        int total = 0, same = 0, missing = 0, excluded = 0;
         var diffs = new List<string>();
         foreach (string ours in Directory.EnumerateFiles(dir, "*.ours.tsv").Order(StringComparer.Ordinal))
         {
@@ -175,11 +211,34 @@ internal static class FormatGrid
                 if (t > 0) excel[line[..t]] = line[(t + 1)..];
             }
 
+            // Ours is recomputed from the generated workbook, so the comparison follows the code as it is now.
+            var current = new Dictionary<string, string>(StringComparer.Ordinal);
+            string book = ours[..^".ours.tsv".Length] + ".xlsx";
+            if (File.Exists(book))
+            {
+                using Workbook wb = Workbook.Open(book, new OpenContext());
+                Worksheet ws = wb.Sheets[0];
+                for (int row = 2; ; row++)
+                {
+                    Cell idCell = ws[row, 1];
+                    if (idCell.Value.Kind != CellValueKind.Text) break;
+                    current[idCell.Text] = ws[row, 2].FormattedText;
+                }
+            }
+
             foreach (string line in File.ReadAllLines(ours, Encoding.UTF8))
             {
                 string[] f = line.Split('\t');
                 if (f.Length < 4) continue;
+                if (f[2].Contains('*', StringComparison.Ordinal))
+                {
+                    // A `*` fill pads to the column width, which is the caller's (the oracle's column is 100 wide).
+                    excluded++;
+                    continue;
+                }
+
                 total++;
+                if (current.TryGetValue(f[0], out string? now)) f[1] = Escape(now);
                 if (excel.TryGetValue(f[0], out string? e) && e == f[1])
                 {
                     same++;
@@ -192,7 +251,7 @@ internal static class FormatGrid
         }
 
         File.WriteAllLines(Path.Combine(dir, "fmtgrid-diffs.tsv"), diffs, new UTF8Encoding(false));
-        Console.WriteLine($"{{\"kind\":\"fmtgrid\",\"cells\":{total},\"same\":{same},\"different\":{diffs.Count},\"filesWithoutAnswers\":{missing}}}");
+        Console.WriteLine($"{{\"kind\":\"fmtgrid\",\"cells\":{total},\"same\":{same},\"different\":{diffs.Count},\"fillExcluded\":{excluded},\"filesWithoutAnswers\":{missing}}}");
         foreach (string d in diffs.Take(15)) Console.WriteLine(d);
         return diffs.Count == 0 ? 0 : 1;
     }
