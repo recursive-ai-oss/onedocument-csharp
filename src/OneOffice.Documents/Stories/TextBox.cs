@@ -154,7 +154,7 @@ public sealed class TextBox : BlockContainer
             return false;
         }
 
-        alternate.Node.ReplaceWithXml(HubXml.Bytes(now));
+        alternate.Node.ReplaceWithXml(HubXml.Bytes(Revisions.WordXml.Portable(Container.Node)));
         _snapshot = now;
         return true;
     }

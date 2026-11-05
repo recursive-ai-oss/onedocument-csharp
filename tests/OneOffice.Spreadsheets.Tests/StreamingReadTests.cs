@@ -232,8 +232,20 @@ public class StreamingReadTests
         _ = r.SharedStringCount; // load the table before measuring
         _ = r.IsDateStyle(0);
         long a = Walk(r, 4000);
-        _ = Walk(r, 4000); // let the JIT tier up first: re-compilation allocates too
-        _ = Walk(r, 4000);
+        // Let the JIT finish tiering first: re-compilation allocates, and when it happens depends on the machine (on arm64 it can land in the
+        // third walk). Walk until three walks in a row allocate the same amount, up to a cap; the per-cell bound below is unchanged.
+        long last = -1;
+        int steady = 0;
+        for (int k = 0; k < 30 && steady < 3; k++)
+        {
+            long t0 = GC.GetAllocatedBytesForCurrentThread();
+            _ = Walk(r, 4000);
+            long used = GC.GetAllocatedBytesForCurrentThread() - t0;
+            steady = used == last ? steady + 1 : 0;
+            last = used;
+            Thread.Sleep(20);
+        }
+
         long before = GC.GetAllocatedBytesForCurrentThread();
         long b = Walk(r, 4000);
         long small = GC.GetAllocatedBytesForCurrentThread() - before;

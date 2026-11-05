@@ -18,4 +18,10 @@
     <ProjectReference Include="../OneOffice.Schema/OneOffice.Schema.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- The build assets travel in the package and are compiled into the application that references it, not into this library. -->
+    <Compile Remove="build/**" />
+    <None Include="build/RecursiveAI.OneOffice.Documents.targets;build/RecursiveAI.OneOffice.Documents.cs" Pack="true" PackagePath="buildTransitive/" />
+  </ItemGroup>
+
 </Project>
