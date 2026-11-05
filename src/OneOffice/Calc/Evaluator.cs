@@ -26,7 +26,7 @@ public sealed class EvaluatorOptions
     /// <summary>The date system for date text and date functions. Default 1900.</summary>
     public DateSystem DateSystem { get; init; } = DateSystem.Date1900;
 
-    /// <summary>The most nodes one <see cref="Evaluator.Evaluate(FormulaNode, CellAddress)"/> call may visit before <see cref="OfficeLimitException"/> (limit name <c>MaxEvaluationSteps</c>). Default 50,000,000.</summary>
+    /// <summary>The most nodes one <see cref="Evaluator.Evaluate(FormulaNode, CalcCell)"/> call may visit before <see cref="OfficeLimitException"/> (limit name <c>MaxEvaluationSteps</c>). Default 50,000,000.</summary>
     public long MaxSteps { get; init; } = 50_000_000;
 
     /// <summary>The culture for <c>TEXT</c> and number-to-text conversion in functions that format. Default US English.</summary>
@@ -47,7 +47,7 @@ public sealed class Evaluator
     private readonly Dictionary<string, NumberFormat?> _formats = new(StringComparer.Ordinal);
     private CalcValue[] _stack = new CalcValue[64];
     private int _sp;
-    private CellAddress _origin;
+    private CalcCell _origin;
     private Scope? _scope;
     private int _lambdaDepth;
     private long _steps;
@@ -80,9 +80,9 @@ public sealed class Evaluator
     public EvaluatorOptions Options => _options;
 
     /// <summary>The cell being evaluated (valid inside a function call).</summary>
-    public CellAddress Origin => _origin;
+    public CalcCell Origin => _origin;
 
-    /// <summary>True when the last <see cref="Evaluate(FormulaNode, CellAddress)"/> called a function flagged <see cref="FunctionTraits.Volatile"/>.</summary>
+    /// <summary>True when the last <see cref="Evaluate(FormulaNode, CalcCell)"/> called a function flagged <see cref="FunctionTraits.Volatile"/>.</summary>
     public bool UsedVolatile { get; private set; }
 
     /// <summary>True when the last evaluation stopped a <c>LAMBDA</c> recursion at <see cref="OfficeLimits.MaxRecursionDepth"/> (the value there is <c>#NUM!</c>, as in Excel).</summary>
@@ -93,7 +93,7 @@ public sealed class Evaluator
     /// <param name="origin">The cell that holds the formula; positions <c>ROW()</c>, implicit intersection and <c>#This Row</c>, and names the sheet of unqualified references.</param>
     /// <returns>A scalar, an array, or a lambda. References are read: a formula that is just <c>A1</c> gives that cell's value.</returns>
     /// <exception cref="OfficeLimitException">The evaluation visited more than <see cref="EvaluatorOptions.MaxSteps"/> nodes or asked for an array larger than <see cref="OfficeLimits.MaxAllocationBytes"/>.</exception>
-    public CalcValue Evaluate(FormulaNode formula, CellAddress origin)
+    public CalcValue Evaluate(FormulaNode formula, CalcCell origin)
     {
         ArgumentNullException.ThrowIfNull(formula);
         _origin = origin;

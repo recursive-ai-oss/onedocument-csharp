@@ -23,7 +23,7 @@ internal sealed class FakeResolver : ICalcResolver
     public CalcValue GetCell(string? sheet, int row, int column) =>
         _cells.TryGetValue((sheet ?? "Sheet1", row, column), out CalcValue v) ? v : CalcValue.Blank;
 
-    public CalcValue ResolveName(string? scopeSheet, string name, in CellAddress origin) =>
+    public CalcValue ResolveName(string? scopeSheet, string name, in CalcCell origin) =>
         Names.TryGetValue(name, out CalcValue v) ? v : CalcValue.FromError(CalcError.Name);
 
     public CalcValue ResolveMember(IReadOnlyList<string> segments) =>
@@ -36,7 +36,7 @@ internal static class CalcTestHelper
     {
         var ev = new Evaluator(res ?? new FakeResolver(), options: options);
         FormulaNode n = FormulaParser.Parse(formula, new FormulaParserOptions { FileForm = false });
-        return ev.Evaluate(n, new CellAddress("Sheet1", row, col));
+        return ev.Evaluate(n, new CalcCell("Sheet1", row, col));
     }
 
     public static string Show(CalcValue v)

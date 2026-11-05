@@ -7,7 +7,7 @@ namespace RecursiveAI.OneOffice.Calc;
 /// <param name="Sheet">The sheet name, or null.</param>
 /// <param name="Row">1-based row.</param>
 /// <param name="Column">1-based column.</param>
-public readonly record struct CellAddress(string? Sheet, int Row, int Column);
+public readonly record struct CalcCell(string? Sheet, int Row, int Column);
 
 /// <summary>
 /// What the evaluator needs from the world around a formula: cell values, names, tables, external workbooks, spilled ranges and members of
@@ -17,7 +17,7 @@ public readonly record struct CellAddress(string? Sheet, int Row, int Column);
 public interface ICalcResolver
 {
     /// <summary>Reads one cell.</summary>
-    /// <param name="sheet">The sheet name (never null when the formula's <see cref="CellAddress.Sheet"/> is set; may be null without a workbook).</param>
+    /// <param name="sheet">The sheet name (never null when the formula's <see cref="CalcCell.Sheet"/> is set; may be null without a workbook).</param>
     /// <param name="row">1-based row.</param>
     /// <param name="column">1-based column.</param>
     /// <returns>The cell's value: a number, text, boolean, error or <see cref="CalcValue.Blank"/>. Never an array or reference.</returns>
@@ -63,13 +63,13 @@ public interface ICalcResolver
     /// <param name="name">The name as written (without the <c>_xlpm.</c> prefix).</param>
     /// <param name="origin">The cell being evaluated.</param>
     /// <returns>A value, a reference, a lambda, or <c>#NAME?</c> (the default).</returns>
-    CalcValue ResolveName(string? scopeSheet, string name, in CellAddress origin) => CalcValue.FromError(CalcError.Name);
+    CalcValue ResolveName(string? scopeSheet, string name, in CalcCell origin) => CalcValue.FromError(CalcError.Name);
 
     /// <summary>Resolves a table reference such as <c>Table1[[#This Row],[Col]]</c>.</summary>
     /// <param name="node">The parsed reference.</param>
     /// <param name="origin">The cell being evaluated (for <c>#This Row</c>).</param>
     /// <returns>Usually a <see cref="CalcReference"/>; <c>#REF!</c> by default.</returns>
-    CalcValue ResolveStructured(StructuredReferenceNode node, in CellAddress origin) => CalcValue.FromError(CalcError.Ref);
+    CalcValue ResolveStructured(StructuredReferenceNode node, in CalcCell origin) => CalcValue.FromError(CalcError.Ref);
 
     /// <summary>Reads a reference into another workbook (<c>[1]Sheet1!A1</c>). Resolution is opt-in: the default denies it.</summary>
     /// <param name="prefix">The workbook and sheet part.</param>

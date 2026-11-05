@@ -46,6 +46,8 @@ internal static class Program
         ["styles"] = StyleTarget.RunStyles,
         ["sheetfeat"] = StyleTarget.RunSheetFeatures,
         ["table"] = StyleTarget.RunTable,
+        ["formula"] = FormulaTarget.RunParse,
+        ["formulaeval"] = FormulaTarget.RunEval,
     };
 
     private static int Main(string[] args)
@@ -73,6 +75,7 @@ internal static class Program
                 "stream" or "streamwrite" => StreamTarget.WriteSeeds(args[2]),
                 "csv" => CsvTarget.WriteSeeds(args[2]),
                 "styles" or "sheetfeat" or "table" => StyleTarget.WriteSeeds(args[2]),
+                "formula" or "formulaeval" => FormulaTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }

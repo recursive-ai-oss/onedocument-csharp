@@ -139,6 +139,12 @@ public class FormulaParserTests
     [InlineData("#BOGUS", "formula.bad-error-literal")]
     [InlineData("1 2", "formula.unexpected-character")]
     [InlineData("A1 @", "formula.unexpected-character")]
+    [InlineData("1A", "formula.bad-number")]
+    [InlineData("1E999", "formula.bad-number")]
+    [InlineData("Sheet1!", "formula.bad-reference")]
+    [InlineData("{{1}}", "formula.nested-array")]
+    [InlineData("{1,2", "formula.unbalanced-brace")]
+    [InlineData("Table1[Col", "formula.unbalanced-bracket")]
     public void BadTextIsLocated(string formula, string code)
     {
         Assert.False(FormulaParser.TryParse(formula, out FormulaNode? n, out FormulaSyntaxError err));

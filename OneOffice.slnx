@@ -30,6 +30,7 @@
     <Project Path="tools/DocxProbe/DocxProbe.csproj" />
     <Project Path="tools/NumFmtGrid/NumFmtGrid.csproj" />
     <Project Path="tools/StreamProbe/StreamProbe.csproj" />
+    <Project Path="tools/FormulaSweep/FormulaSweep.csproj" />
     <Project Path="tools/XlsxProbe/XlsxProbe.csproj" />
     <Project Path="tools/OracleCases/OracleCases.csproj" />
     <Project Path="tools/CsvProbe/CsvProbe.csproj" />

@@ -69,6 +69,7 @@ internal static class SmokeChecks
         failures.AddRange(PocoSmoke.Run());
         failures.AddRange(DocumentSmoke.Run());
         failures.AddRange(NumFmtSmoke.Run());
+        failures.AddRange(CalcSmoke.Run());
         // Text extraction streams the main part through the package layer and the XML reader, and is registered statically.
         byte[] docx = Zip(
             ("[Content_Types].xml", "<Types xmlns=\"x\"><Override PartName=\"/word/document.xml\" ContentType=\"" + Wml + "\"/></Types>"),

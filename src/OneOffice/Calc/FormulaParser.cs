@@ -913,6 +913,11 @@ internal sealed class FormulaReader
     private CalcValue ParseArrayElement()
     {
         char c = Cur;
+        if (c == '{')
+        {
+            throw Error("formula.nested-array", "An array constant cannot hold another.", _p);
+        }
+
         if (c == '"')
         {
             return CalcValue.FromText(ParseString().Value);

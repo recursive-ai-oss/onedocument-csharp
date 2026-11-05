@@ -136,7 +136,7 @@ public class EvaluatorTests
     {
         var ev = new Evaluator(new FakeResolver(), limits: new OfficeLimits { MaxRecursionDepth = 50 });
         FormulaNode n = FormulaParser.Parse("LET(f,LAMBDA(self,n,self(self,n+1)),f(f,1))", new FormulaParserOptions { FileForm = false });
-        CalcValue v = ev.Evaluate(n, new CellAddress("Sheet1", 1, 1));
+        CalcValue v = ev.Evaluate(n, new CalcCell("Sheet1", 1, 1));
         Assert.Equal("#NUM!", Show(v));
         Assert.True(ev.RecursionLimitHit);
     }
@@ -224,7 +224,7 @@ public class EvaluatorTests
         reg.AddCustom("WHEN", 0, 0, _ => CalcValue.FromNumber(7), isVolatile: true);
         var ev = new Evaluator(new FakeResolver(), reg);
         FormulaNode n = FormulaParser.Parse("DOUBLEIT(4)+WHEN()+SUM(DOUBLEIT({1,2}))");
-        Assert.Equal("21", Show(ev.Evaluate(n, new CellAddress("Sheet1", 1, 1))));
+        Assert.Equal("21", Show(ev.Evaluate(n, new CalcCell("Sheet1", 1, 1))));
         Assert.True(ev.UsedVolatile);
         Assert.Equal("#N/A", Show(ev.Evaluate(FormulaParser.Parse("DOUBLEIT(#N/A)"), default)));
     }
@@ -249,7 +249,7 @@ public class EvaluatorTests
         r.Members["items.qty"] = CalcValue.FromArray(new CalcArray(3, 1, [10, 20, 30]));
         var ev = new Evaluator(r);
         FormulaNode n = FormulaParser.Parse("SUM(items.price*items.qty)", new FormulaParserOptions { TemplateExtensions = true });
-        Assert.Equal("140", Show(ev.Evaluate(n, new CellAddress(null, 1, 1))));
+        Assert.Equal("140", Show(ev.Evaluate(n, new CalcCell(null, 1, 1))));
     }
 
     [Fact]
@@ -257,9 +257,9 @@ public class EvaluatorTests
     {
         var r = new SpillResolver();
         var ev = new Evaluator(r);
-        Assert.Equal("{5;6}", Show(ev.Evaluate(FormulaParser.Parse("A1#", new FormulaParserOptions { FileForm = false }), new CellAddress("Sheet1", 9, 9))));
-        Assert.Equal("11", Show(ev.Evaluate(FormulaParser.Parse("SUM(_xlfn.ANCHORARRAY(A1))"), new CellAddress("Sheet1", 9, 9))));
-        Assert.Equal("#REF!", Show(ev.Evaluate(FormulaParser.Parse("B1#", new FormulaParserOptions { FileForm = false }), new CellAddress("Sheet1", 9, 9))));
+        Assert.Equal("{5;6}", Show(ev.Evaluate(FormulaParser.Parse("A1#", new FormulaParserOptions { FileForm = false }), new CalcCell("Sheet1", 9, 9))));
+        Assert.Equal("11", Show(ev.Evaluate(FormulaParser.Parse("SUM(_xlfn.ANCHORARRAY(A1))"), new CalcCell("Sheet1", 9, 9))));
+        Assert.Equal("#REF!", Show(ev.Evaluate(FormulaParser.Parse("B1#", new FormulaParserOptions { FileForm = false }), new CalcCell("Sheet1", 9, 9))));
     }
 
     private sealed class SpillResolver : ICalcResolver
@@ -278,7 +278,7 @@ public class EvaluatorTests
     {
         var ev = new Evaluator(new FakeResolver());
         FormulaNode n = FormulaParser.Parse("(1+2)*3-4/2+7^2>5");
-        var origin = new CellAddress("Sheet1", 1, 1);
+        var origin = new CalcCell("Sheet1", 1, 1);
         for (int i = 0; i < 1000; i++)
         {
             _ = ev.Evaluate(n, origin);
