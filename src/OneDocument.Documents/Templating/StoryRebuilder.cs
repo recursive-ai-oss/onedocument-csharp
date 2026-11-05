@@ -128,16 +128,27 @@ internal sealed class StoryRebuilder
         return (1, 0);
     }
 
+    // A repeated final section needs a section break between its copies: the last paragraph of every copy but the last gets the body's section
+    // properties (ECMA-376 Part 1 §17.6.17: a section break is the w:sectPr in the properties of the section's last paragraph).
     private bool NeedsSectionBreak(StoryNode leaf, TemplateRenderedUnit ru, TemplateRenderedUnit? next)
     {
-        if (_sectionBlocks.Count == 0 || next is null || leaf.EndsSection || _story.FinalSectionProperties.Length == 0)
+        if (_sectionBlocks.Count == 0 || next is null || leaf.EndsSection || _story.FinalSectionProperties.Length == 0 || !ReferenceEquals(leaf.Parent, _story.Tree))
         {
             return false;
         }
 
+        int finalStart = 0;
+        for (int u = 0; u < _story.Units.Count; u++)
+        {
+            if (_story.Units[u].EndsSection)
+            {
+                finalStart = u + 1;
+            }
+        }
+
         foreach (TemplateLoopFrame f in ru.Loops)
         {
-            if (!_sectionBlocks.Contains(f.Block) || RangeOf(f.Block).Last != leaf.Unit)
+            if (!_sectionBlocks.Contains(f.Block) || RangeOf(f.Block).Last < finalStart)
             {
                 continue;
             }
