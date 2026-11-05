@@ -9,7 +9,12 @@ internal static class RevisionScanner
     /// <summary>Maximum local-name length that can name a revision element.</summary>
     private const int MaxName = 24;
 
-    internal static void Scan(IRevisionPart part, List<Revision> into, ref int maxId, IDefectSink? defects)
+    /// <summary>
+    /// Finds the revisions of a part. Revisions inside a branch of <c>mc:AlternateContent</c> that a reader does not take
+    /// (ECMA-376 Part 3 §9.3: the first understood <c>mc:Choice</c>, else <c>mc:Fallback</c>) repeat the exposed branch, so they go to
+    /// <paramref name="copies"/> and are attached to the revision they copy.
+    /// </summary>
+    internal static void Scan(IRevisionPart part, List<Revision> into, List<Revision> copies, ref int maxId, IDefectSink? defects)
     {
         MarkupNode root = part.Markup.Root;
         if (root.IsNull)
@@ -17,10 +22,31 @@ internal static class RevisionScanner
             return;
         }
 
+        int ordinal = into.Count + copies.Count;
+        int firstCopy = copies.Count;
+        int firstInto = into.Count;
         var chars = new char[MaxName];
+        var skipped = new HashSet<MarkupNode>();
         for (MarkupNode n = root; !n.IsNull; n = WordXml.Next(n, root, true))
         {
-            if (n.Kind != MarkupNodeKind.Element || !WordXml.InMain(n))
+            if (n.Kind != MarkupNodeKind.Element)
+            {
+                continue;
+            }
+
+            bool inCopy = false;
+            for (MarkupNode a = n; !a.IsNull && !inCopy; a = a.Parent)
+            {
+                inCopy = skipped.Contains(a);
+            }
+
+            if (!inCopy && IsUnexposedBranch(n))
+            {
+                skipped.Add(n);
+                inCopy = true;
+            }
+
+            if (!WordXml.InMain(n))
             {
                 continue;
             }
@@ -37,6 +63,32 @@ internal static class RevisionScanner
             }
 
             ReadOnlySpan<char> local = chars.AsSpan(0, name.Length);
+            if (inCopy)
+            {
+                if (Classify(local, n, out RevisionKind ck, out RevisionScope cs))
+                {
+                    int cid = int.TryParse(WordXml.Attr(n, "id"), System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out int parsed) ? parsed : -1;
+                    var c = new Revision(part, n, ck, cs, cid, WordXml.Attr(n, "author") ?? string.Empty, Revision.ParseDate(WordXml.Attr(n, "date"))) { IsCopy = true, Ordinal = ordinal++ };
+                    if (cid > maxId)
+                    {
+                        maxId = cid;
+                    }
+
+                    if (ck is RevisionKind.MoveFrom or RevisionKind.MoveTo)
+                    {
+                        c.MoveName = MoveNameOf(n, ck == RevisionKind.MoveFrom ? "moveFromRangeStart" : "moveToRangeStart");
+                    }
+
+                    copies.Add(c);
+                }
+                else if (local is "bookmarkStart" or "commentRangeStart" or "moveFromRangeStart" or "moveToRangeStart" or "permStart")
+                {
+                    NoteId(n, ref maxId);
+                }
+
+                continue;
+            }
+
             if (local is "bookmarkStart" or "commentRangeStart" or "moveFromRangeStart" or "moveToRangeStart" or "permStart")
             {
                 NoteId(n, ref maxId);
@@ -80,8 +132,107 @@ internal static class RevisionScanner
                 r.MoveName = MoveNameOf(n, kind == RevisionKind.MoveFrom ? "moveFromRangeStart" : "moveToRangeStart");
             }
 
+            r.Ordinal = ordinal++;
             into.Add(r);
         }
+
+        Pair(into, firstInto, copies, firstCopy);
+    }
+
+    /// <summary>True for an <c>mc:Choice</c> or <c>mc:Fallback</c> that is not the branch a reader takes.</summary>
+    private static bool IsUnexposedBranch(MarkupNode n)
+    {
+        if (!MarkupCompatibility.IsChoice(n) && !MarkupCompatibility.IsFallback(n))
+        {
+            return false;
+        }
+
+        MarkupNode ac = n.Parent;
+        return !ac.IsNull && MarkupCompatibility.IsAlternateContent(ac) && MarkupCompatibility.SelectAlternateContent(ac, TextBoxScanner.IsUnderstood) != n;
+    }
+
+    /// <summary>
+    /// Links each copy to the revision it repeats: inside the same <c>mc:AlternateContent</c>, the n-th revision of a kind in the
+    /// exposed branch is the one the n-th of that kind in the other branch repeats (the same pairing text boxes use).
+    /// </summary>
+    private static void Pair(List<Revision> into, int firstInto, List<Revision> copies, int firstCopy)
+    {
+        if (copies.Count == firstCopy)
+        {
+            return;
+        }
+
+        // Per alternate-content block, the exposed revisions in document order.
+        var exposed = new Dictionary<MarkupNode, List<Revision>>();
+        for (int i = firstCopy; i < copies.Count; i++)
+        {
+            Revision c = copies[i];
+            MarkupNode branch = default;
+            for (MarkupNode a = c.Element; !a.IsNull; a = a.Parent)
+            {
+                if (IsUnexposedBranch(a))
+                {
+                    branch = a; // keep climbing: the outermost unexposed branch pairs with the exposed content around it
+                }
+            }
+
+            if (branch.IsNull)
+            {
+                continue;
+            }
+
+            MarkupNode ac = branch.Parent;
+            if (!exposed.TryGetValue(ac, out List<Revision>? list))
+            {
+                MarkupNode primary = MarkupCompatibility.SelectAlternateContent(ac, TextBoxScanner.IsUnderstood);
+                list = [];
+                for (int k = firstInto; k < into.Count; k++)
+                {
+                    for (MarkupNode a = into[k].Element.Parent; !a.IsNull; a = a.Parent)
+                    {
+                        if (a == primary)
+                        {
+                            list.Add(into[k]);
+                            break;
+                        }
+                    }
+                }
+
+                exposed[ac] = list;
+            }
+
+            int index = 0;
+            for (int k = firstCopy; k < i; k++)
+            {
+                if (copies[k].Kind == c.Kind && Under(copies[k].Element, branch))
+                {
+                    index++;
+                }
+            }
+
+            int seen = 0;
+            foreach (Revision r in list)
+            {
+                if (r.Kind == c.Kind && seen++ == index)
+                {
+                    (r.Copies ??= []).Add(c);
+                    break;
+                }
+            }
+        }
+    }
+
+    private static bool Under(MarkupNode n, MarkupNode ancestor)
+    {
+        for (MarkupNode a = n; !a.IsNull; a = a.Parent)
+        {
+            if (a == ancestor)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static void NoteId(MarkupNode n, ref int maxId)

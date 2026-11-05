@@ -405,27 +405,53 @@ internal sealed class RevisionResolver
             _ => [],
         };
 
-        var head = new StringBuilder();
-        var tail = new StringBuilder();
-        foreach (MarkupNode c in container.ChildElements)
+        // The marks that stay (a paragraph mark's w:ins/w:del, a row's w:ins/w:del, ...) are other revisions that may still be waiting
+        // to be resolved, so their nodes are kept as they are rather than copied: only the rest of the container is replaced.
+        var head = new List<MarkupNode>();
+        var tail = new List<MarkupNode>();
+        var drop = new List<MarkupNode>();
+        for (MarkupNode c = container.FirstChild; !c.IsNull; c = c.NextSibling)
         {
-            if (c == change)
+            if (c == change || c.Kind != MarkupNodeKind.Element)
             {
-                continue;
+                drop.Add(c);
             }
-
-            if (WordXml.IsAny(c, leading))
+            else if (WordXml.IsAny(c, leading))
             {
-                head.Append(c.OuterXml);
+                head.Add(c);
             }
             else if (WordXml.IsAny(c, trailing))
             {
-                tail.Append(c.OuterXml);
+                tail.Add(c);
+            }
+            else
+            {
+                drop.Add(c);
             }
         }
 
         string oldXml = old.IsNull ? string.Empty : WordXml.ElementsXml(old);
-        WordXml.SetContent(container, head.ToString() + oldXml + tail);
+        foreach (MarkupNode c in drop)
+        {
+            c.Remove();
+        }
+
+        if (oldXml.Length > 0)
+        {
+            if (tail.Count > 0)
+            {
+                tail[0].InsertXmlBefore(WordXml.Bytes(oldXml));
+            }
+            else if (head.Count > 0)
+            {
+                head[^1].InsertXmlAfter(WordXml.Bytes(oldXml));
+            }
+            else
+            {
+                container.AppendXml(WordXml.Bytes(oldXml));
+            }
+        }
+
         CleanupEmpty(container);
     }
 

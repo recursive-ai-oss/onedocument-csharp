@@ -134,6 +134,9 @@ internal static class RevisionTarget
             "<w:p><w:pPr><w:jc w:val=\"center\"/><w:pPrChange w:id=\"4\" w:author=\"B\"><w:pPr><w:jc w:val=\"left\"/></w:pPr></w:pPrChange></w:pPr><w:r><w:rPr><w:b/><w:rPrChange w:id=\"5\" w:author=\"B\"><w:rPr/></w:rPrChange></w:rPr><w:t>b</w:t></w:r></w:p>",
             "<w:p><w:moveFromRangeStart w:id=\"6\" w:name=\"m\"/><w:moveFrom w:id=\"7\" w:author=\"A\"><w:r><w:delText>m</w:delText></w:r></w:moveFrom><w:moveFromRangeEnd w:id=\"6\"/></w:p>",
             "<w:tbl><w:tblPr/><w:tblGrid><w:gridCol w:w=\"1\"/><w:tblGridChange w:id=\"1\" w:author=\"A\"><w:tblGrid/></w:tblGridChange></w:tblGrid><w:tr><w:trPr><w:ins w:id=\"8\" w:author=\"A\"/></w:trPr><w:tc><w:tcPr><w:cellMerge w:id=\"9\" w:author=\"A\" w:vMerge=\"cont\"/></w:tcPr><w:p/></w:tc></w:tr></w:tbl>",
+            // A text box written twice (mc:Choice and mc:Fallback), each copy with the same tracked changes.
+            "<w:p xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"><w:r><mc:AlternateContent><mc:Choice Requires=\"w\"><w:txbxContent><w:p><w:pPr><w:rPr><w:ins w:id=\"3\" w:author=\"A\"/></w:rPr><w:jc w:val=\"center\"/><w:pPrChange w:id=\"4\" w:author=\"A\"><w:pPr><w:jc w:val=\"right\"/></w:pPr></w:pPrChange></w:pPr><w:ins w:id=\"5\" w:author=\"A\"><w:r><w:t>x</w:t></w:r></w:ins></w:p></w:txbxContent></mc:Choice>" +
+            "<mc:Fallback><w:txbxContent><w:p><w:pPr><w:rPr><w:ins w:id=\"3\" w:author=\"A\"/></w:rPr><w:jc w:val=\"center\"/><w:pPrChange w:id=\"4\" w:author=\"A\"><w:pPr><w:jc w:val=\"right\"/></w:pPr></w:pPrChange></w:pPr><w:ins w:id=\"5\" w:author=\"A\"><w:r><w:t>x</w:t></w:r></w:ins></w:p></w:txbxContent></mc:Fallback></mc:AlternateContent></w:r></w:p>",
         ];
         for (int i = 0; i < bodies.Length; i++)
         {

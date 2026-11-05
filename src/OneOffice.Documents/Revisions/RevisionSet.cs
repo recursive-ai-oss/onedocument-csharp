@@ -34,6 +34,7 @@ public sealed class RevisionSet
     private readonly List<IRevisionPart> _parts;
     private readonly IDefectSink? _defects;
     private readonly List<Revision> _revisions = [];
+    private readonly List<Revision> _copies = [];
     private int _maxId;
     private HashSet<int>? _used;
     private bool _stale;
@@ -341,10 +342,11 @@ public sealed class RevisionSet
     {
         _stale = false;
         _revisions.Clear();
+        _copies.Clear();
         int max = 0;
         foreach (IRevisionPart p in _parts)
         {
-            RevisionScanner.Scan(p, _revisions, ref max, report ? _defects : null);
+            RevisionScanner.Scan(p, _revisions, _copies, ref max, report ? _defects : null);
         }
 
         _maxId = Math.Max(_maxId, max);
@@ -352,7 +354,7 @@ public sealed class RevisionSet
 
     private int ResolveAll(bool accept)
     {
-        int n = Resolve(Items.ToArray(), accept);
+        int n = Resolve(Items.ToArray(), accept, everyCopy: true);
         foreach (IRevisionPart p in _parts)
         {
             MarkupNode root = p.Markup.Root;
@@ -366,7 +368,7 @@ public sealed class RevisionSet
         return n;
     }
 
-    private int Resolve(IEnumerable<Revision> selection, bool accept)
+    private int Resolve(IEnumerable<Revision> selection, bool accept, bool everyCopy = false)
     {
         ArgumentNullException.ThrowIfNull(selection);
         var chosen = new HashSet<Revision>(selection);
@@ -397,14 +399,30 @@ public sealed class RevisionSet
             }
         }
 
+        // A copy in an unexposed mc:AlternateContent branch is resolved with the revision it repeats, so both branches stay equal.
+        // Rejecting or accepting everything also takes copies that could not be paired with an exposed revision.
+        var withCopies = new HashSet<Revision>(chosen);
+        foreach (Revision r in chosen)
+        {
+            if (r.Copies is { } cs)
+            {
+                withCopies.UnionWith(cs);
+            }
+        }
+
+        if (everyCopy)
+        {
+            withCopies.UnionWith(_copies);
+        }
+
         var resolver = new RevisionResolver(_defects);
         int done = 0;
         foreach (IRevisionPart p in _parts)
         {
-            List<Revision> mine = [.. Items.Where(r => ReferenceEquals(r.Part, p) && chosen.Contains(r))];
+            List<Revision> mine = [.. Items.Concat(_copies).Where(r => ReferenceEquals(r.Part, p) && withCopies.Contains(r)).OrderBy(r => r.Ordinal)];
             if (mine.Count > 0)
             {
-                done += resolver.ResolveBackwards(p, mine, accept);
+                done += resolver.ResolveBackwards(p, mine, accept) - mine.Count(r => r.IsCopy);
             }
         }
 

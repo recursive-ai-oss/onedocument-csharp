@@ -234,7 +234,11 @@ function Invoke-Word($app, $item, $path, $outDir, $res) {
                 try {
                     $d2 = $app.Documents.Open($path, $false, $true, $false, $missing, $missing, $missing, $missing, $missing, $missing, $missing, $false, [bool]$res.needsRepair)
                     $d2.Activate()
+                    if ($job.trace) { Write-Line @{ kind = 'trace'; step = 'action-open'; action = $act } }
                     $d2.TrackRevisions = $false
+                    # A generated file without a compatibility mode opens in the oldest mode, and saving it with a DrawingML text box
+                    # would stop on the Compatibility Checker dialog.
+                    try { $d2.CheckCompatibility = $false } catch { }
                     $kind, $arg = $act -split ':', 2
                     switch ($kind) {
                         'accept-all' { $d2.Revisions.AcceptAll() }
@@ -247,10 +251,12 @@ function Invoke-Word($app, $item, $path, $outDir, $res) {
                         'reject-para' { $d2.Paragraphs.Item([int]$arg).Range.Revisions.RejectAll() }
                         default { throw "unknown action $act" }
                     }
+                    if ($job.trace) { Write-Line @{ kind = 'trace'; step = 'action-done'; action = $act } }
                     $entry.text = ($d2.Content.Text -replace '\r', '\u00b6' -replace '[\n\a]', '')
                     $entry.revisionsLeft = $d2.Revisions.Count
                     $entry.storyRevisionsLeft = Get-StoryRevisionCount $d2
                     $dst2 = Join-Path $outDir ($base + '.' + ($act -replace '[^a-z0-9]+', '-') + '.docx')
+                    if ($job.trace) { Write-Line @{ kind = 'trace'; step = 'action-saving'; file = $dst2 } }
                     $d2.SaveAs2([string]$dst2, [int]16)
                     $entry.saved = [IO.Path]::GetFileName($dst2)
                 } catch {

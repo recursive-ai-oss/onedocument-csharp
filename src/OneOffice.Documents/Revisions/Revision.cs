@@ -21,6 +21,15 @@ public sealed class Revision
         Date = date;
     }
 
+    /// <summary>True for a revision found in the branch of an <c>mc:AlternateContent</c> that is not exposed. It is not listed; it is resolved together with the revision it copies.</summary>
+    internal bool IsCopy { get; set; }
+
+    /// <summary>The copies of this revision in the other branches of its <c>mc:AlternateContent</c>.</summary>
+    internal List<Revision>? Copies { get; set; }
+
+    /// <summary>Position in document order among all revisions of the scan, copies included.</summary>
+    internal int Ordinal { get; set; }
+
     /// <summary>Gets the part the revision is in.</summary>
     public IRevisionPart Part { get; }
 
