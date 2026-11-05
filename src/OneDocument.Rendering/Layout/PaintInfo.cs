@@ -29,6 +29,7 @@ internal sealed class GlyphData
     public required float[] Y; // offsets from the baseline in points, positive down; may be empty
     public required int[] Clusters; // UTF-16 index into the run text of each glyph's cluster start
     public bool RightToLeft;
+    public string? ShownText; // the characters the glyphs show when they differ from the run text (capitals), same length
 }
 
 internal readonly record struct BorderInfo(double Width, double Space, uint Color, string Style);

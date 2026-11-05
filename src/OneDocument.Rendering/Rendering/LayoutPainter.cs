@@ -266,7 +266,7 @@ public static class LayoutPainter
             }
 
             // RTL runs keep the glyph order visual; the clusters decrease along the glyphs.
-            List.DrawGlyphRun(Id(8), g.Face, (float)(run.FontSize * K), originX, originY, Rgb(paint.Color), g.GlyphIds, x, y, g.Clusters, run.Text, g.RightToLeft);
+            List.DrawGlyphRun(Id(8), g.Face, (float)(run.FontSize * K), originX, originY, Rgb(paint.Color), g.GlyphIds, x, y, g.Clusters, g.ShownText ?? run.Text, g.RightToLeft);
             if (scaled)
             {
                 List.PopTransform();

@@ -88,6 +88,7 @@ internal sealed class Piece
     public int Start; // text offset, -1 for the label
     public int Length;
     public string Text = string.Empty;
+    public string? Shown; // what was shaped when the run is drawn in capitals, otherwise null
     public bool IsLabel;
     public int ClusterCount;
     public int[] CStart = [];
@@ -853,6 +854,7 @@ internal static class ParagraphFormatter
             string shown = info.Caps || lowered ? ToUpperKeepLength(segment) : segment;
             Piece piece = ShapeText(ctx, shown, info, family, size, level, i, null, false);
             piece.Text = segment;
+            piece.Shown = ReferenceEquals(shown, segment) ? null : shown;
             piece.Length = segment.Length;
             pieces.Add(piece);
             AddPieceAtoms(pieces, pieces.Count - 1, atoms, true, opps);
@@ -1458,9 +1460,12 @@ internal static class ParagraphFormatter
             clusterStarts.Add(Math.Max(0, clusterStartInText));
             clusterX.Add(x + (pen * scale));
             double clusterPen = pen;
+            // OneFont lists a cluster's glyphs in logical order; in a right-to-left run they draw in the opposite order, and a mark's
+            // offset is relative to the pen after the glyphs drawn before it, so the glyphs must be walked in drawing order.
+            bool runRtl = (pc.Level & 1) == 1;
             for (int g = 0; g < pc.CGlyphCount[c]; g++)
             {
-                int gi = pc.CGlyphStart[c] + g;
+                int gi = pc.CGlyphStart[c] + (runRtl ? pc.CGlyphCount[c] - 1 - g : g);
                 glyphIds.Add(pc.GlyphId[gi]);
                 gx.Add((float)(clusterPen + (pc.GXOff[gi] * unit)));
                 gy.Add((float)(-pc.GYOff[gi] * unit));
@@ -1490,7 +1495,7 @@ internal static class ParagraphFormatter
             Paint = info.Paint,
             ClusterStarts = [.. clusterStarts],
             ClusterX = [.. clusterX],
-            Glyphs = new GlyphData { Face = face, GlyphIds = [.. glyphIds], X = [.. gx], Y = [.. gy], Clusters = [.. gcl], RightToLeft = rtl },
+            Glyphs = new GlyphData { Face = face, GlyphIds = [.. glyphIds], X = [.. gx], Y = [.. gy], Clusters = [.. gcl], RightToLeft = rtl, ShownText = pc.Shown?.Substring(localMin, localMax - localMin) },
         };
         if (shiftY != 0)
         {

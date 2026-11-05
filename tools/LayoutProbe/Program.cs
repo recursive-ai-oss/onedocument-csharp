@@ -82,7 +82,7 @@ internal static class Program
                 LayoutDocument layout = LayoutEngine.Layout(doc, options);
                 using (FileStream pdf = File.Create(Path.Combine(output, name + ".pdf")))
                 {
-                    DocumentRenderer.WritePdf(layout, doc, pdf, new PdfRenderOptions { Layout = options });
+                    DocumentRenderer.WritePdf(layout, doc, pdf, new PdfRenderOptions { Layout = options, Profile = ProfileFromEnvironment() });
                 }
 
                 File.WriteAllBytes(Path.Combine(output, name + ".png"), DocumentRenderer.RenderPng(layout.Pages[0]));
@@ -105,6 +105,15 @@ internal static class Program
         Console.WriteLine($"rendered to {output}; {failed} failed");
         return failed == 0 ? 0 : 1;
     }
+
+    // LAYOUTPROBE_PROFILE=ua1 | a2a | ua1a2a writes PDF/UA-1 and/or PDF/A-2a files so a validator can be run over them.
+    private static OneRender.Pdf.PdfProfile ProfileFromEnvironment() => Environment.GetEnvironmentVariable("LAYOUTPROBE_PROFILE") switch
+    {
+        "ua1" => OneRender.Pdf.PdfProfile.PdfUA1,
+        "a2a" => OneRender.Pdf.PdfProfile.PdfA2a,
+        "ua1a2a" => OneRender.Pdf.PdfProfile.PdfA2aAndUA1,
+        _ => OneRender.Pdf.PdfProfile.None,
+    };
 
     private static List<List<string>> Lines(string pdfPath)
     {

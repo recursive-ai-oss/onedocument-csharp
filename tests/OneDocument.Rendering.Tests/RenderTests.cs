@@ -1,6 +1,7 @@
 using System.Text;
 using RecursiveAI.OneDocument.Documents;
 using RecursiveAI.OneDocument.Layout;
+using OnePdf.Text;
 
 namespace RecursiveAI.OneDocument.Rendering.Tests;
 
@@ -110,6 +111,19 @@ public sealed class RenderTests
         using var pdf = OnePdf.PdfDocument.Open(ms.ToArray());
         OnePdf.PdfStructureTree tree = pdf.StructureTree ?? throw new InvalidOperationException("no structure tree");
         return [.. tree.Elements().Select(e => e.Type)];
+    }
+
+    [Fact]
+    public void CapitalisedRunsExtractAsTheCapitalsTheyShow()
+    {
+        using Document d = Document.Open(new MemoryStream(Docx("12-caps-smallcaps")), leaveOpen: false);
+        using var ms = new MemoryStream();
+        DocumentRenderer.WritePdf(d, ms, new PdfRenderOptions { Layout = new LayoutOptions { Fonts = TestFonts.Library } });
+        using var pdf = OnePdf.PdfDocument.Open(ms.ToArray());
+        string text = string.Join(" ", pdf.ExtractText().SelectMany(p => p.Blocks).SelectMany(b => b.Lines).Select(l => l.Text));
+        Assert.Contains("ALL CAPS TEXT", text, StringComparison.Ordinal);
+        Assert.Contains("SMALL CAPS TEXT", text, StringComparison.Ordinal);
+        Assert.Contains("normal", text, StringComparison.Ordinal);
     }
 
     [Fact]
