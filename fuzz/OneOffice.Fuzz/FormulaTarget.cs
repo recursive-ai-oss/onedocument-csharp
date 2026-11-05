@@ -71,6 +71,11 @@ internal static class FormulaTarget
             throw new InvalidOperationException("file form does not round-trip: " + file);
         }
 
+        if (HasNameRange(n))
+        {
+            return; // A one-letter name beside a colon (a name in R1C1 text) reads as a column range in A1 text, in Excel too.
+        }
+
         // The printed forms must be formulas again, and printing them must be stable.
         var plainOptions = new FormulaParserOptions { TemplateExtensions = o.TemplateExtensions };
         if (!FormulaParser.TryParse(file, out FormulaNode? again, out FormulaSyntaxError e2, plainOptions) || again is null)
@@ -101,6 +106,24 @@ internal static class FormulaTarget
             throw new InvalidOperationException("R1C1 does not print back to the same text: " + r1);
         }
 
+    }
+
+    private static bool HasNameRange(FormulaNode n)
+    {
+        if (n is BinaryNode { Operator: BinaryOperator.Range } b && (b.Left is NameNode || b.Right is NameNode))
+        {
+            return true;
+        }
+
+        foreach (FormulaNode c in n.Children)
+        {
+            if (HasNameRange(c))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static bool HasR1C1Name(FormulaNode n)
