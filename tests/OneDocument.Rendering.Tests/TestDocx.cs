@@ -21,7 +21,7 @@ internal static class TestDocx
 
     internal const string LetterSection = "<w:sectPr><w:pgSz w:w=\"12240\" w:h=\"15840\"/><w:pgMar w:top=\"1440\" w:right=\"1440\" w:bottom=\"1440\" w:left=\"1440\" w:header=\"720\" w:footer=\"720\" w:gutter=\"0\"/></w:sectPr>";
 
-    internal static byte[] Bytes(string body, string? styles = null, string? numbering = null, string? settings = null, string? sectPr = null, string? extraRels = null, IEnumerable<(string Name, byte[] Data)>? extraParts = null, string? fontTable = null)
+    internal static byte[] Bytes(string body, string? styles = null, string? numbering = null, string? settings = null, string? sectPr = null, string? extraRels = null, IEnumerable<(string Name, byte[] Data)>? extraParts = null, string? fontTable = null, string? extraTypes = null)
     {
         using var ms = new MemoryStream();
         using (var zip = new ZipArchive(ms, ZipArchiveMode.Create, leaveOpen: true))
@@ -33,7 +33,7 @@ internal static class TestDocx
                 (numbering is null ? string.Empty : "<Override PartName=\"/word/numbering.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml\"/>") +
                 (settings is null ? string.Empty : "<Override PartName=\"/word/settings.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml\"/>") +
                 (fontTable is null ? string.Empty : "<Override PartName=\"/word/fontTable.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml\"/>") +
-                "</Types>");
+                extraTypes + "</Types>");
             Add(zip, "_rels/.rels", "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships>");
             Add(zip, "word/_rels/document.xml.rels",
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">" +
