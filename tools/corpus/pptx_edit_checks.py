@@ -35,14 +35,18 @@ def validate(a):
     s = v.SchemaSet(dirs)
     understood = s.namespaces
 
+    msgs = {}
+
     def errs(path):
         out = {}
+        msgs.clear()
         for name, data in v.package_parts(path):
             r = v.validate_part(name, data, s, understood)
             out[name] = len(r["errors"]) if r["status"] == "invalid" else 0
+            msgs[name] = sorted(e["message"] for e in r["errors"]) if r["status"] == "invalid" else []
         return out
 
-    files = outputs = new = newParts = origInvalid = editedInvalid = skipped = 0
+    inherited = files = outputs = new = newParts = origInvalid = editedInvalid = skipped = 0
     detail = []
     t0 = time.time()
     for r in rows(a.sweep):
@@ -55,6 +59,7 @@ def validate(a):
             continue
         try:
             eo = errs(orig)
+            origMsgs = {tuple(m) for m in msgs.values() if m}
         except Exception as e:
             detail.append({"file": r["file"], "error": str(e)[:200]})
             continue
@@ -64,19 +69,22 @@ def validate(a):
             outputs += 1
             try:
                 ee = errs(path)
+                editedMsgs = dict(msgs)
             except Exception as e:
                 detail.append({"file": r["file"], "op": op, "error": str(e)[:200]})
                 continue
             editedInvalid += sum(1 for n in ee.values() if n)
             for name, n in ee.items():
-                if name not in eo and n:
+                if name not in eo and n and tuple(editedMsgs[name]) in origMsgs:
+                    inherited += 1  # a copy of a source part that already had exactly these errors
+                elif name not in eo and n:
                     newParts += 1
                     detail.append({"file": r["file"], "op": op, "addedPart": name, "errors": n})
                 elif name in eo and n > eo[name]:
                     new += 1
                     detail.append({"file": r["file"], "op": op, "part": name, "orig": eo[name], "edited": n})
     print(json.dumps({"files": files, "outputs": outputs, "skippedLarge": skipped, "originalInvalidParts": origInvalid, "editedInvalidParts": editedInvalid,
-                      "newInvalidParts": new, "addedPartsInvalid": newParts, "detail": detail[:30]}))
+                      "newInvalidParts": new, "addedPartsInvalid": newParts, "addedPartsInheritedErrors": inherited, "detail": detail[:30]}))
     return 0
 
 
