@@ -44,7 +44,16 @@ internal static class SdtTarget
 
         using (doc)
         {
-            ContentControl[] all = doc.ContentControls().ToArray();
+            ContentControl[] all;
+            try
+            {
+                all = doc.ContentControls().ToArray();
+            }
+            catch (OfficeException)
+            {
+                // The main part is parsed on first use, so a malformed one is reported here, typed and located.
+                return;
+            }
             foreach (ContentControl c in all)
             {
                 _ = (c.Type, c.Level, c.Tag, c.Alias, c.Id, c.Lock, c.IsTemporary, c.IsShowingPlaceholder, c.PlaceholderDocPart, c.BuildingBlockGallery,

@@ -16,6 +16,11 @@ internal static class Versions
         sb.Append("OneOffice\t").Append(Of(typeof(Office))).Append('\n');
         sb.Append("DocumentFormat.OpenXml\t").Append(Of(typeof(WordprocessingDocument))).Append('\n');
         sb.Append("NPOI\t").Append(Of(typeof(XWPFDocument))).Append('\n');
+        sb.Append("ClosedXML\t").Append(Of(typeof(ClosedXML.Excel.XLWorkbook))).Append('\n');
+        sb.Append("MiniExcel\t").Append(Of(typeof(MiniExcelLibs.MiniExcel))).Append('\n');
+        sb.Append("Sylvan.Data.Excel\t").Append(Of(typeof(Sylvan.Data.Excel.ExcelDataReader))).Append('\n');
+        sb.Append("ExcelDataReader\t").Append(Of(typeof(ExcelDataReader.ExcelReaderFactory))).Append('\n');
+        sb.Append("EPPlus\t").Append(Of(typeof(OfficeOpenXml.ExcelPackage))).Append('\n');
         sb.Append("BenchmarkDotNet\t").Append(Of(typeof(BenchmarkDotNet.Attributes.BenchmarkAttribute))).Append('\n');
         return sb.ToString();
     }

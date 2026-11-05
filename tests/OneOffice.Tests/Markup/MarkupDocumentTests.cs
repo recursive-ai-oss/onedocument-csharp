@@ -43,6 +43,20 @@ public class MarkupDocumentTests
     }
 
     [Fact]
+    public void TryResolvePrefix_finds_the_binding_in_scope()
+    {
+        MarkupDocument d = MarkupDocument.Parse(U8("<a xmlns:p=\"urn:outer\" xmlns=\"urn:def\"><b xmlns:p=\"urn:inner\"><c/></b><d/></a>"));
+        MarkupNode c = d.Root.FirstChild.FirstChild;
+        Assert.True(c.TryResolvePrefix("p", out string uri));
+        Assert.Equal("urn:inner", uri);
+        Assert.True(d.Root.FirstChild.NextSibling.TryResolvePrefix("p", out uri));
+        Assert.Equal("urn:outer", uri);
+        Assert.True(c.TryResolvePrefix("", out uri));
+        Assert.Equal("urn:def", uri);
+        Assert.False(c.TryResolvePrefix("q", out _));
+    }
+
+    [Fact]
     public void Tree_navigation_reads_names_namespaces_attributes_and_text()
     {
         MarkupDocument d = MarkupDocument.Parse(U8(Sample));
