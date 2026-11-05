@@ -5,11 +5,13 @@ using RecursiveAI.OneDocument.Documents;
 using RecursiveAI.OneDocument.Layout;
 using OneRender.Painting;
 using RecursiveAI.OneDocument.Rendering;
+using RecursiveAI.OneDocument.Rendering.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets;
 using RecursiveAI.OneDocument.Rendering.Metafiles;
 
 namespace RecursiveAI.OneDocument.Smoke;
 
-/// <summary>Lays out a small document with the packaged fonts and writes it as PDF and PNG: under NativeAOT and WASM.</summary>
+/// <summary>Lays out a small document and a small workbook with the packaged fonts and writes them as PDF and PNG: under NativeAOT and WASM.</summary>
 internal static class RenderSmoke
 {
     public static List<string> Run()
@@ -35,6 +37,30 @@ internal static class RenderSmoke
         if (png.Length < 500 || png[0] != 0x89)
         {
             failures.Add("render png");
+        }
+
+        using Workbook workbook = Workbook.Create();
+        Worksheet sheet = workbook.Sheets[0];
+        sheet["A1"].SetString("Item");
+        sheet["B1"].SetString("Amount");
+        sheet["A2"].SetString("Widgets");
+        sheet["B2"].SetNumber(1234.5);
+        using var sheetPdf = new MemoryStream();
+        SheetLayoutDocument sheets = WorkbookRenderer.WritePdf(workbook, sheetPdf);
+        if (sheets.Pages.Count != 1 || sheets.Pages[0].Body.ToString() != "A1:B2")
+        {
+            failures.Add("render sheet layout");
+        }
+
+        byte[] sheetBytes = sheetPdf.ToArray();
+        if (sheetBytes.Length < 500 || Encoding.ASCII.GetString(sheetBytes, 0, 5) != "%PDF-")
+        {
+            failures.Add("render sheet pdf");
+        }
+
+        if (WorkbookRenderer.RenderPng(sheets, sheets.Pages[0]) is not { Length: > 500 } sheetPng || sheetPng[0] != 0x89)
+        {
+            failures.Add("render sheet png");
         }
 
         // A tiny enhanced metafile (header, one rectangle, end) drawn as vector content: the interpreter, stroker and display list under AOT.

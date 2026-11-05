@@ -59,6 +59,34 @@ internal sealed partial class CalcEngine
 
     public CalcWorker TemporaryWorker() => new(this);
 
+    private CalcWorker? _adHoc;
+
+    // Evaluates one formula on the cells as they are, without a graph: the resolver reads stored values, and a formula cell that is not
+    // being calculated is never calculated here (InlineAllowed stays false on the worker).
+    public CalcValue EvaluateAdHoc(string formula, string sheetName, int row, int column, int originRow, int originColumn)
+    {
+        if (_resolver is null)
+        {
+            Book = new CalcBook(_wb);
+            _resolver = new WorkbookResolver(this);
+            _books ??= new ExternalBooks(_wb, _externalResolver);
+            _adHoc = null;
+        }
+
+        _adHoc ??= TemporaryWorker();
+        if (!FormulaParser.TryParse(formula, out FormulaNode? tree, out _, new FormulaParserOptions { Limits = _wb.Limits }) || tree is null)
+        {
+            return CalcValue.FromError(CalcError.Name);
+        }
+
+        if (row != originRow || column != originColumn)
+        {
+            tree = FormulaTranslator.Translate(tree, row - originRow, column - originColumn);
+        }
+
+        return _adHoc.Dynamic.Evaluate(tree, new CalcCell(sheetName, row, column));
+    }
+
     // ---- value conversion ---------------------------------------------------------------------------------------------------
 
     public static CalcValue ToCalc(Worksheet ws, in CellValue v) => v.Kind switch
