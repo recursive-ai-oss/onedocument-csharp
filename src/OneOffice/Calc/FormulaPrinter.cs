@@ -126,7 +126,7 @@ public static class FormulaPrinter
                     sb.Append(')');
                     break;
                 case UnaryNode x:
-                    if (x.Operator == '@' && File)
+                    if (x.Operator == '@' && File && !x.IsFileForm)
                     {
                         sb.Append("_xlfn.SINGLE(");
                         Write(x.Operand);
@@ -144,7 +144,7 @@ public static class FormulaPrinter
                     sb.Append('%');
                     break;
                 case SpillNode x:
-                    if (File)
+                    if (File && !x.IsFileForm)
                     {
                         sb.Append("_xlfn.ANCHORARRAY(");
                         Write(x.Operand);
@@ -470,11 +470,11 @@ public static class FormulaTranslator
             case InvokeNode x:
                 return Trivia(new InvokeNode(Shift(x.Callee, dr, dc), MapAll(x.Arguments, dr, dc)) { InnerSpace = x.InnerSpace }, x);
             case UnaryNode x:
-                return Trivia(new UnaryNode(x.Operator, Shift(x.Operand, dr, dc)), x);
+                return Trivia(new UnaryNode(x.Operator, Shift(x.Operand, dr, dc)) { IsFileForm = x.IsFileForm }, x);
             case PercentNode x:
                 return Trivia(new PercentNode(Shift(x.Operand, dr, dc)), x);
             case SpillNode x:
-                return Trivia(new SpillNode(Shift(x.Operand, dr, dc)), x);
+                return Trivia(new SpillNode(Shift(x.Operand, dr, dc)) { IsFileForm = x.IsFileForm }, x);
             case BinaryNode x:
                 return Trivia(new BinaryNode(x.Operator, Shift(x.Left, dr, dc), Shift(x.Right, dr, dc), x.OperatorText), x);
             case ParenNode x:

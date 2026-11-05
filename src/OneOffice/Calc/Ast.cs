@@ -532,6 +532,9 @@ public sealed class UnaryNode : FormulaNode
     /// <summary>The operand.</summary>
     public FormulaNode Operand { get; }
 
+    /// <summary>True when the <c>@</c> was read from file text as written, so file form prints it back as <c>@</c> instead of <c>_xlfn.SINGLE(...)</c>.</summary>
+    public bool IsFileForm { get; init; }
+
     /// <summary>Spaces between the operator and the operand are the operand's <see cref="FormulaNode.LeadingSpace"/>.</summary>
     public override IReadOnlyList<FormulaNode> Children => [Operand];
 }
@@ -567,6 +570,9 @@ public sealed class SpillNode : FormulaNode
 
     /// <summary>The anchor.</summary>
     public FormulaNode Operand { get; }
+
+    /// <summary>True when the <c>#</c> was read from file text as written, so file form prints it back as <c>#</c> instead of <c>_xlfn.ANCHORARRAY(...)</c>.</summary>
+    public bool IsFileForm { get; init; }
 
     /// <inheritdoc/>
     public override IReadOnlyList<FormulaNode> Children => [Operand];

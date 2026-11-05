@@ -422,7 +422,7 @@ internal sealed class FormulaReader
                 char op = Cur;
                 _p++;
                 FormulaNode operand = ParseUnary();
-                var u = new UnaryNode(op, operand);
+                var u = new UnaryNode(op, operand) { IsFileForm = _o.FileForm };
                 Span(u, start, operand.Offset + operand.Length);
                 u.LeadingSpace = lead;
                 return u;
@@ -551,7 +551,7 @@ internal sealed class FormulaReader
                 string? lead = n.LeadingSpace;
                 n.LeadingSpace = null;
                 _p++;
-                var sp = new SpillNode(n);
+                var sp = new SpillNode(n) { IsFileForm = _o.FileForm };
                 Span(sp, start, _p);
                 sp.LeadingSpace = lead;
                 n = sp;
