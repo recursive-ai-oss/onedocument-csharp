@@ -31,6 +31,7 @@
     <Project Path="tools/StreamProbe/StreamProbe.csproj" />
     <Project Path="tools/XlsxProbe/XlsxProbe.csproj" />
     <Project Path="tools/OracleCases/OracleCases.csproj" />
+    <Project Path="tools/CsvProbe/CsvProbe.csproj" />
   </Folder>
   <Folder Name="/fuzz/">
     <Project Path="fuzz/OneOffice.Fuzz/OneOffice.Fuzz.csproj" />

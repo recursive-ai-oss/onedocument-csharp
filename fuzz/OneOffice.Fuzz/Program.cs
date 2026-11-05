@@ -41,6 +41,10 @@ internal static class Program
         ["wbpart"] = SheetTarget.RunWorkbookPart,
         ["stream"] = StreamTarget.RunRead,
         ["streamwrite"] = StreamTarget.RunWrite,
+        ["csv"] = CsvTarget.Run,
+        ["styles"] = StyleTarget.RunStyles,
+        ["sheetfeat"] = StyleTarget.RunSheetFeatures,
+        ["table"] = StyleTarget.RunTable,
     };
 
     private static int Main(string[] args)
@@ -65,6 +69,8 @@ internal static class Program
                 "numfmt" or "numfmtfmt" => NumFmtTarget.WriteSeeds(args[2]),
                 "sheet" or "sst" or "wbpart" => SheetTarget.WriteSeeds(args[2]),
                 "stream" or "streamwrite" => StreamTarget.WriteSeeds(args[2]),
+                "csv" => CsvTarget.WriteSeeds(args[2]),
+                "styles" or "sheetfeat" or "table" => StyleTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }

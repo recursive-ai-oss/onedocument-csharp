@@ -70,6 +70,10 @@ Code that calls the archive readers wraps every call and translates what it catc
 
 A damaged or unreadable container is `Unknown` (opening it reports the damage with its location). A resource limit being hit raises `OfficeLimitException`, so a bomb is not mistaken for junk. Remote sources are decided from the prefix when possible and buffered whole only for containers.
 
+## Loss reports (`RecursiveAI.OneOffice.Diagnostics`)
+
+A format that is narrower than the model it is written from, and every conversion, says what it dropped. `ILossSink.Report(code, feature, count, message)` is the one method; `LossReport` is the collector (one `LossItem` per code, counts added, `IsLossless` when empty, `CountOf(code)`). A writer takes an optional `ILossSink`; null means the caller does not care. Codes are `loss.<feature>`, lower case, never reused, and are listed with the format that reports them (CSV: `loss.formulas`, `loss.cell-styles`, `loss.number-formats`, `loss.sheets`, `loss.merged-cells`, `loss.embedded-objects`; see `csv.md`). `feature` is words for people ("formulas"), `count` is the number of cells, sheets or paragraphs affected (at least 1), and `message` says what happened to them. Loss is not a defect: defects describe damage in the input, losses describe what the output cannot hold.
+
 ## Packages and parts (`RecursiveAI.OneOffice.Packaging`)
 
 `IPackage` is a set of named parts over a container; `IOpcPackage` adds relationships; the OPC and compound-file readers implement them. A part's bytes load lazily. **A part is untouched until someone replaces or opens it for writing**; reading never touches it. The writer copies untouched parts raw (a zip entry's compressed bytes), so they come out byte-identical. `PartUri` validates and compares OPC part names (ASCII case-insensitive; spelling kept) and resolves relationship targets.
@@ -79,5 +83,7 @@ A damaged or unreadable container is `Unknown` (opening it reports the damage wi
 ## Document base and the statics
 
 `OfficeFile` is the base of `Document`, `Workbook` and `Presentation`: `Format`, `Kind`, `Limits`, `FilePath`, `Defects`, `Save()`, `SaveAs(path)` (format chosen by extension), `SaveAs(path, format)`, `SaveAs(stream, format)`, `ExtractText`, `Dispose`. `SaveAs` writes a copy and never changes the object's own `Format` or `FilePath`. Documents are not safe for concurrent mutation; read-only use from many threads is safe after load.
+
+**Lazy parts in `Document`.** `Document.Open` and `FromPackage` read the package structure (content types, relationships) and nothing else. The main part is parsed the first time something needs it (`Body`, `Paragraphs`, `Markup`, `Revisions`, `IsStrict`, …), and styles, numbering, theme, notes and comments likewise. A main part that is not well-formed XML, or does not start with `w:document` (`docx.wrong-root`), therefore raises its `OfficeFormatException` at that first access, with the part name and offset, not at open; it raises again at every later access. `Save`, `SaveAs` and `ExtractText` on a document nobody has edited never parse the main part: it is copied as stored, so even a damaged main part survives a save unchanged. First-use initialisation is guarded, so concurrent readers share one tree and one hub object per part.
 
 `Office` holds the one-liners (`Detect`, `Open`, `ExtractText`, `Convert`). They take the same `OpenContext` (limits, defect sink, password) the layers below take, and add no options of their own.

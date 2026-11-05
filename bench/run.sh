@@ -45,9 +45,13 @@ maxload="${ONEOFFICE_BENCH_MAXLOAD:-2.0}"
 mkdir -p "$out" "$inputs"
 export ONEOFFICE_BENCH_INPUTS="$inputs"
 
-load1() { cut -d' ' -f1 /proc/loadavg; }
+# Load average: /proc on Linux, sysctl on macOS.
+loadavg3() {
+  if [[ -r /proc/loadavg ]]; then cut -d' ' -f1-3 /proc/loadavg; else sysctl -n vm.loadavg | tr -d '{}' | awk '{print $1, $2, $3}'; fi
+}
+load1() { loadavg3 | cut -d' ' -f1; }
 snapshot() {
-  echo "[$1] $(date -u +%FT%TZ) load1/5/15: $(cut -d' ' -f1-3 /proc/loadavg), running/total: $(cut -d' ' -f4 /proc/loadavg)"
+  echo "[$1] $(date -u +%FT%TZ) load1/5/15: $(loadavg3)"
 }
 
 # Refuse to time on a busy machine.
@@ -67,10 +71,17 @@ fi
   echo "filter: $filter"
   echo "threads: $threads"
   echo "load override: $forced"
-  echo "cpu: $(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2- | sed 's/^ //')"
-  echo "cores: $(nproc --all) (visible to this run: $(nproc))"
-  echo "isa: $(grep -m1 '^flags' /proc/cpuinfo | tr ' ' '\n' | grep -E '^(avx2|avx512f|bmi2|sse4_2|pclmulqdq|aes|sha_ni)$' | tr '\n' ' ')"
-  echo "memory: $(awk '/MemTotal/ {printf "%.0f GB", $2/1048576}' /proc/meminfo)"
+  if [[ -r /proc/cpuinfo ]]; then
+    echo "cpu: $(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2- | sed 's/^ //')"
+    echo "cores: $(nproc --all) (visible to this run: $(nproc))"
+    echo "isa: $(grep -m1 '^flags' /proc/cpuinfo | tr ' ' '\n' | grep -E '^(avx2|avx512f|bmi2|sse4_2|pclmulqdq|aes|sha_ni)$' | tr '\n' ' ')"
+    echo "memory: $(awk '/MemTotal/ {printf "%.0f GB", $2/1048576}' /proc/meminfo)"
+  else
+    echo "cpu: $(sysctl -n machdep.cpu.brand_string)"
+    echo "cores: $(sysctl -n hw.ncpu) (performance $(sysctl -n hw.perflevel0.physicalcpu 2>/dev/null || echo ?), efficiency $(sysctl -n hw.perflevel1.physicalcpu 2>/dev/null || echo ?))"
+    echo "isa: $(uname -m) (NEON)"
+    echo "memory: $(( $(sysctl -n hw.memsize) / 1073741824 )) GB"
+  fi
   echo "storage (inputs): $(df -hP "$inputs" | awk 'NR==2 {print $1, $2}')"
   echo "os: $(uname -srm)"
   echo "sdk: $("$dotnet_bin" --version)"
@@ -84,13 +95,12 @@ if [[ -z "$dll" ]]; then
   dll="$(find "${ONEOFFICE_ARTIFACTS:-$root/artifacts}/bin/OneOffice.Bench/release" -name 'OneOffice.Bench.dll' | head -1)"
 fi
 
-prefix=()
 if [[ "$threads" == 1 ]]; then
   export DOTNET_PROCESSOR_COUNT=1
 fi
 
-"${prefix[@]}" "$dotnet_bin" "$dll" versions > "$out/versions.txt"
-"${prefix[@]}" "$dotnet_bin" "$dll" gen "$inputs" > "$out/inputs.txt"
+"$dotnet_bin" "$dll" versions > "$out/versions.txt"
+"$dotnet_bin" "$dll" gen "$inputs" > "$out/inputs.txt"
 
 # Sample the load every 10 s while the benchmarks run; stopped when this script exits.
 ( while true; do snapshot during >> "$out/load.log"; sleep 10; done ) &
@@ -98,10 +108,10 @@ sampler=$!
 trap 'kill "$sampler" 2>/dev/null || true' EXIT
 
 if [[ $timing -eq 1 ]]; then
-  "${prefix[@]}" "$dotnet_bin" "$dll" --filter "$filter" --artifacts "$out/bdn" > "$out/bdn.log" 2>&1
+  "$dotnet_bin" "$dll" --filter "$filter" --artifacts "$out/bdn" > "$out/bdn.log" 2>&1
 fi
 if [[ $peak -eq 1 ]]; then
-  "${prefix[@]}" "$dotnet_bin" "$dll" peakall "$inputs" "$out/peak.tsv" > "$out/peak.log" 2>&1
+  "$dotnet_bin" "$dll" peakall "$inputs" "$out/peak.tsv" > "$out/peak.log" 2>&1
 fi
 
 kill "$sampler" 2>/dev/null || true

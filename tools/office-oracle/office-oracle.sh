@@ -2,7 +2,7 @@
 # Drives desktop Office on a Windows machine and brings the answers back.
 #
 #   office-oracle.sh install
-#   office-oracle.sh run --run NAME [--instance ID] [--out DIR] [--probe|--grid] [--pdf] [--saveas]
+#   office-oracle.sh run --run NAME [--instance ID] [--out DIR] [--probe|--grid|--cells] [--pdf] [--saveas]
 #                        [--lock-path WINPATH] [--lock-retry SECONDS] [--lock-wait MINUTES] [--timeout SECONDS]
 #                        [--trace] [--no-watcher] [--keep] FILE|DIR...
 #
@@ -41,7 +41,7 @@ run)
   while [ $# -gt 0 ]; do
     case "$1" in
       --run) run=$2; shift 2;; --instance) instance=$2; shift 2;; --out) out=$2; shift 2;;
-      --probe) mode=probe; shift;; --grid) mode=grid; shift;; --pdf) pdf=true; shift;; --saveas) saveas=true; shift;;
+      --probe) mode=probe; shift;; --grid) mode=grid; shift;; --cells) mode=cells; shift;; --pdf) pdf=true; shift;; --saveas) saveas=true; shift;;
       --lock-path) lock=$2; shift 2;; --lock-retry) retry=$2; shift 2;; --lock-wait) wait_min=$2; shift 2;;
       --timeout) timeout=$2; shift 2;; --keep) keep=true; shift;; --trace) trace=true; shift;; --pdf-via) pdfvia=$2; shift 2;; --word-alerts) walerts=$2; shift 2;; --no-watcher) nowatch=true; shift;;
       *) inputs+=("$1"); shift;;

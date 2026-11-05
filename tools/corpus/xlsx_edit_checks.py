@@ -41,11 +41,16 @@ def validate(a):
     files = new = origInvalid = editedInvalid = skipped = 0
     detail = []
     t0 = time.time()
-    for r in rows(a.sweep):
+    cands = list(rows(a.sweep))
+    if a.sample_validate:
+        random.Random(a.seed).shuffle(cands)
+    for r in cands:
+        if a.sample_validate and files >= a.sample_validate:
+            break
         if time.time() - t0 > a.max_minutes * 60:
             detail.append({"note": "time budget reached"})
             break
-        edited = os.path.join(a.sweep, "edited", r["id"] + ".xlsx")
+        edited = os.path.join(a.sweep, getattr(a, "edited", "edited"), r["id"] + ".xlsx")
         orig = os.path.join(a.corpus, r["file"])
         if not os.path.exists(edited) or not os.path.exists(orig):
             continue
@@ -76,7 +81,7 @@ def errors(a):
     for r in rows(a.sweep):
         if r["file"] != a.file:
             continue
-        for label, path in (("original", os.path.join(a.corpus, r["file"])), ("rewrite", os.path.join(a.sweep, "edited", r["id"] + ".xlsx"))):
+        for label, path in (("original", os.path.join(a.corpus, r["file"])), ("rewrite", os.path.join(a.sweep, getattr(a, "edited", "edited"), r["id"] + ".xlsx"))):
             for name, data in v.package_parts(path):
                 res = v.validate_part(name, data, s, s.namespaces)
                 if res["status"] == "invalid":
@@ -112,7 +117,7 @@ def lo(a):
     for r in cands:
         if ok + diff + fail >= a.sample or time.time() - t0 > a.max_minutes * 60:
             break
-        edited = os.path.join(a.sweep, "edited", r["id"] + ".xlsx")
+        edited = os.path.join(a.sweep, getattr(a, "edited", "edited"), r["id"] + ".xlsx")
         orig = os.path.join(a.corpus, r["file"])
         if not (os.path.exists(edited) and os.path.exists(orig)) or os.path.getsize(orig) > min(a.max_bytes, 2 << 20):
             continue
@@ -129,6 +134,8 @@ def lo(a):
         if not co:
             fail += 1  # the original itself did not convert: no comparison possible
             detail.append({"file": r["file"], "error": "original did not convert"})
+        elif getattr(a, "open_only", False) and ce:
+            ok += 1  # the edit adds cells, so only "the edited file opens and converts" is checked
         elif co == ce:
             ok += 1
         else:
@@ -145,8 +152,11 @@ def main():
     ap.add_argument("corpus")
     ap.add_argument("--schemas", action="append")
     ap.add_argument("--file", help="errors: the file name as listed in the sweep")
+    ap.add_argument("--edited", default="edited", help="the sweep sub-directory that holds the edited files (the feature sweep writes ed-style, ed-cf, ...)")
     ap.add_argument("--sample", type=int, default=200)
     ap.add_argument("--seed", type=int, default=1)
+    ap.add_argument("--open-only", action="store_true", help="lo: count a file as fine when the edited file converts, without comparing values")
+    ap.add_argument("--sample-validate", type=int, default=0, help="validate: check a deterministic sample of this many files instead of all")
     ap.add_argument("--max-minutes", type=float, default=20, help="stop starting new files after this long and report what was checked")
     ap.add_argument("--max-bytes", type=int, default=6 << 20, help="skip files whose original is larger (schema validation and LibreOffice are slow on big sheets)")
     a = ap.parse_args()

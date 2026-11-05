@@ -16,19 +16,25 @@ namespace RecursiveAI.OneOffice.Documents.Revisions;
 /// <para><b>Editing runs.</b> Runs are split at the edit position, keeping their properties; a run is never split inside
 /// something that is not text. Only the paragraphs and elements an edit touches are changed; the rest of the part is
 /// untouched byte for byte.</para>
-/// <para><b>Ids and dates.</b> Ids continue after the largest id in the set's parts, one per call to the next, so the same
-/// edits on the same document write the same bytes. The date is the one given when the author was created (omitted when null).
-/// The library never reads the clock.</para>
+/// <para><b>Ids and dates.</b> By default ids continue after the largest id in the set's parts; <see cref="RevisionIds"/> lets the
+/// caller choose them instead (a start value or a callback), and an id already in use throws <see cref="RevisionIdConflictException"/>.
+/// Either way the same edits on the same document write the same bytes. The date is the one given when the author was created
+/// (omitted when null). The library never reads the clock.</para>
+/// <para><b>Two levels.</b> The methods taking <see cref="MarkupNode"/> are the low-level path (property changes as XML fragments);
+/// the overloads taking the document model's <c>Paragraph</c>, <c>Run</c>, <c>Table</c>, <c>TableRow</c> and <c>TableCell</c> take typed
+/// property changes (<see cref="RunPropertiesDelta"/>, <see cref="ParagraphPropertiesDelta"/> and the table ones).</para>
 /// <para><b>Exceptions.</b> A node that is not the expected element, a position out of range or a property fragment that is not
 /// well-formed throws <see cref="ArgumentException"/> (or <see cref="ArgumentOutOfRangeException"/>) before the document is
 /// changed. Not safe for concurrent use.</para>
 /// </remarks>
-public sealed class RevisionAuthor
+public sealed partial class RevisionAuthor
 {
     private readonly RevisionSet _set;
+    private readonly RevisionIds _ids;
 
-    internal RevisionAuthor(RevisionSet set, string name, DateTimeOffset? date)
+    internal RevisionAuthor(RevisionSet set, string name, DateTimeOffset? date, RevisionIds ids)
     {
+        _ids = ids;
         ArgumentNullException.ThrowIfNull(name);
         WordXml.RequireXmlText(name, nameof(name));
         _set = set;
@@ -134,9 +140,11 @@ public sealed class RevisionAuthor
     /// <param name="length">How many characters (at least one).</param>
     /// <param name="destinationParagraph">The paragraph it goes into (may be the same one).</param>
     /// <param name="destinationOffset">The position in the destination paragraph's current text, measured before the move. Not inside the moved text.</param>
-    /// <exception cref="ArgumentException">The destination is inside the moved text, or the text spans elements that cannot be wrapped together.</exception>
-    public void MoveText(MarkupNode paragraph, int offset, int length, MarkupNode destinationParagraph, int destinationOffset)
+    /// <param name="moveName">The name that pairs the two ends (<c>w:name</c> on the range markers); null makes one from the id (<c>move7</c>). A name another move in the parts already uses is refused.</param>
+    /// <exception cref="ArgumentException">The destination is inside the moved text, the name is in use, or the text spans elements that cannot be wrapped together.</exception>
+    public void MoveText(MarkupNode paragraph, int offset, int length, MarkupNode destinationParagraph, int destinationOffset, string? moveName = null)
     {
+        CheckMoveName(moveName);
         RequireParagraph(paragraph);
         RequireParagraph(destinationParagraph);
         CheckRange(paragraph, offset, length);
@@ -164,7 +172,7 @@ public sealed class RevisionAuthor
 
         WmlWriter w = WmlWriter.For(paragraph);
         int fromId = NextId();
-        string name = "move" + fromId.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        string name = moveName ?? "move" + fromId.ToString(System.Globalization.CultureInfo.InvariantCulture);
         bool destinationFirst = same ? destinationOffset > offset : IsAfter(destinationParagraph, paragraph);
         if (destinationFirst)
         {
@@ -228,8 +236,10 @@ public sealed class RevisionAuthor
     /// <summary>Moves a whole paragraph to after another one: the paragraph becomes a <c>w:moveFrom</c> and a copy a <c>w:moveTo</c>.</summary>
     /// <param name="paragraph">The paragraph to move.</param>
     /// <param name="after">The paragraph it goes after; not the same paragraph.</param>
-    public void MoveParagraph(MarkupNode paragraph, MarkupNode after)
+    /// <param name="moveName">The name that pairs the two ends; null makes one from the id. A name another move in the parts already uses is refused.</param>
+    public void MoveParagraph(MarkupNode paragraph, MarkupNode after, string? moveName = null)
     {
+        CheckMoveName(moveName);
         RequireParagraph(paragraph);
         RequireParagraph(after);
         if (paragraph == after)
@@ -250,7 +260,7 @@ public sealed class RevisionAuthor
         MarkupNode pPr = WordXml.Child(paragraph, "pPr");
         string props = pPr.IsNull ? string.Empty : CopyParagraphProperties(pPr, w, withoutSection: true);
         int toId = NextId();
-        string name = "move" + toId.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        string name = moveName ?? "move" + toId.ToString(System.Globalization.CultureInfo.InvariantCulture);
         int endId = NextId();
         string moved = Range(w, "moveTo", toId, name, copy.ToString(), endId);
         var newParagraph = new StringBuilder();
@@ -288,9 +298,7 @@ public sealed class RevisionAuthor
 
         WmlWriter w = WmlWriter.For(paragraph);
         HashSet<string> names = ElementNames(runPropertiesXml, w);
-        IsolateBoundary(paragraph, offset + length);
-        IsolateBoundary(paragraph, offset);
-        foreach (MarkupNode run in RunsInRange(paragraph, offset, offset + length))
+        FormatCore(paragraph, offset, length, run =>
         {
             MarkupNode rPr = WordXml.Child(run, "rPr");
             var keep = new StringBuilder();
@@ -305,7 +313,18 @@ public sealed class RevisionAuthor
                 }
             }
 
-            ChangeRunProperties(run, keep + runPropertiesXml);
+            return keep + runPropertiesXml;
+        });
+    }
+
+    /// <summary>Splits the runs at the edges of the range and records a formatting change on each run in it, with the new properties computed per run.</summary>
+    private void FormatCore(MarkupNode paragraph, int offset, int length, Func<MarkupNode, string> newProperties)
+    {
+        IsolateBoundary(paragraph, offset + length);
+        IsolateBoundary(paragraph, offset);
+        foreach (MarkupNode run in RunsInRange(paragraph, offset, offset + length))
+        {
+            ChangeRunProperties(run, newProperties(run));
         }
 
         _set.Invalidate();
@@ -531,7 +550,21 @@ public sealed class RevisionAuthor
 
     // ------------------------------------------------------------ internals
 
-    private int NextId() => _set.NextFreeId();
+    private void CheckMoveName(string? name)
+    {
+        if (name is null)
+        {
+            return;
+        }
+
+        WordXml.RequireXmlText(name, nameof(name));
+        if (name.Length == 0 || _set.MoveNameInUse(name))
+        {
+            throw new ArgumentException("The move name is empty or already used by another move.", nameof(name));
+        }
+    }
+
+    private int NextId() => _set.Allocate(_ids);
 
     private string Attributes(WmlWriter w)
     {

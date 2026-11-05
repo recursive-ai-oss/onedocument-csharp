@@ -562,6 +562,9 @@ public ref struct XmlTokenizer
         int tagEnd;
         bool empty;
         int maxAttributes = _state.Limits.MaxAttributeCount;
+        bool declaresNamespaces = false;
+        int firstAttributePrefix = -1;
+        int firstAttributePrefixLength = 0;
         while (true)
         {
             int before = q;
@@ -615,7 +618,18 @@ public ref struct XmlTokenizer
             }
 
             CheckNameLength(an - q, q);
-            XmlScan.ValidateQualifiedName(d[q..an], _blockBase + q, allowColon: true);
+            int attributeColon = XmlScan.ValidateQualifiedName(d[q..an], _blockBase + q, allowColon: true);
+            if (attributeColon >= 0 ? (attributeColon == 5 && d[q..an].StartsWith("xmlns:"u8)) : (an - q == 5 && d[q..an].SequenceEqual("xmlns"u8)))
+            {
+                declaresNamespaces = true;
+            }
+
+            if (attributes == 0)
+            {
+                firstAttributePrefix = attributeColon >= 0 ? q : -1;
+                firstAttributePrefixLength = attributeColon;
+            }
+
             int r = XmlScan.SkipSpace(d, an);
             if (r >= d.Length)
             {
@@ -676,9 +690,15 @@ public ref struct XmlTokenizer
         int depth = _state.Depth;
         _state.Push(d[ns..ne]);
         _state.RootSeen = true;
-        if (attributes > 0)
+        if (declaresNamespaces || attributes > 1)
         {
-            BindNamespaces(d, ne, tagEnd);
+            BindNamespaces(d, ne, tagEnd, declaresNamespaces);
+        }
+        else if (attributes == 1 && firstAttributePrefix >= 0 && !_state.IsFragment
+            && !_state.TryResolve(d.Slice(firstAttributePrefix, firstAttributePrefixLength), out _))
+        {
+            // One attribute and no declaration in this tag: only its prefix needs to resolve, and no pair can repeat.
+            throw new XmlSyntaxException(XmlErrorCode.UnboundPrefix, _blockBase + firstAttributePrefix, "The attribute's prefix is not bound to a namespace.");
         }
 
         if (colon >= 0 && !_state.IsFragment)
@@ -699,10 +719,10 @@ public ref struct XmlTokenizer
     }
 
     // Namespaces in XML 1.0 §3, §6: declarations bind prefixes for the element and its content; the prefixes xml and xmlns are reserved.
-    private readonly void BindNamespaces(ReadOnlySpan<byte> d, int from, int to)
+    private readonly void BindNamespaces(ReadOnlySpan<byte> d, int from, int to, bool declaresNamespaces)
     {
         var declarations = new XmlAttributeEnumerator(d, from, to, null);
-        while (declarations.MoveNext())
+        while (declaresNamespaces && declarations.MoveNext())
         {
             XmlAttributeToken a = declarations.Current;
             if (!a.IsNamespaceDeclaration)
