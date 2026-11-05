@@ -8,10 +8,10 @@
 #    the edited files are validated against the pinned schemas, and the originals too, so only parts that became invalid count.
 # 3. The first VALIDATE_LIMIT edited files are converted by headless LibreOffice.
 #
-# Environment: ONEDOCUMENT_HOME (default ~/oneoffice), DOTNET_ROOT/PATH set for .NET 10, ONEDOCUMENT_PYTHON (python with lxml).
+# Environment: ONEDOCUMENT_HOME, DOTNET_ROOT/PATH set for .NET 10, ONEDOCUMENT_PYTHON (python with lxml).
 set -u
 out=${1:?output dir}; limit=${2:-80}
-home=${ONEDOCUMENT_HOME:-$HOME/oneoffice}
+home=${ONEDOCUMENT_HOME:?set ONEDOCUMENT_HOME}
 here=$(cd "$(dirname "$0")" && pwd); root=$(cd "$here/../.." && pwd)
 py=${ONEDOCUMENT_PYTHON:-$home/oracles/venv/bin/python}
 mkdir -p "$out/edited" "$out/lo" "$out/bin"

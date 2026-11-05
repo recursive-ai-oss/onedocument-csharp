@@ -49,7 +49,7 @@ run)
   done
   [ -n "$run" ] || { echo "--run is required" >&2; exit 2; }
   [ ${#inputs[@]} -gt 0 ] || { echo "no input files" >&2; exit 2; }
-  out=${out:-${ONEDOCUMENT_HOME:-$HOME/oneoffice}/results/office/$run}
+  out=${out:-${ONEDOCUMENT_HOME:?set ONEDOCUMENT_HOME}/results/office/$run}
   stage=$(mktemp -d "${TMPDIR:-/var/tmp}/office-oracle.XXXXXX")
   trap 'rm -rf "$stage"' EXIT
   mkdir -p "$stage/in" "$out"

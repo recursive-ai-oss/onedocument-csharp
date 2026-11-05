@@ -314,23 +314,13 @@ public class EvaluatorTests
         var ev = new Evaluator(new FakeResolver());
         FormulaNode n = FormulaParser.Parse("(1+2)*3-4/2+7^2>5");
         var origin = new CalcCell("Sheet1", 1, 1);
-        for (int round = 0; round < 3; round++)
+        long allocated = AllocationProbe.Measure(() =>
         {
-            for (int i = 0; i < 2000; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 _ = ev.Evaluate(n, origin);
             }
-
-            Thread.Sleep(120); // let the runtime reach its final tier before counting
-        }
-
-        long before = GC.GetAllocatedBytesForCurrentThread();
-        for (int i = 0; i < 10000; i++)
-        {
-            _ = ev.Evaluate(n, origin);
-        }
-
-        long after = GC.GetAllocatedBytesForCurrentThread();
-        Assert.Equal(0, after - before);
+        });
+        Assert.Equal(0, allocated);
     }
 }
