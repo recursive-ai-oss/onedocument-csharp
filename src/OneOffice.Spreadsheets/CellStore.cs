@@ -11,7 +11,7 @@ public enum CellFormulaKind : byte
     /// <summary>A shared formula (CT_CellFormula): the anchor holds the text and the range, the others only the shared index.</summary>
     Shared = 1,
 
-    /// <summary>An array formula over a range (a legacy CSE array or a dynamic-array anchor).</summary>
+    /// <summary>An array formula over a range (a legacy CSE array or a spilling-array anchor).</summary>
     Array = 2,
 
     /// <summary>A data table (what-if) formula.</summary>
