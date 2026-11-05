@@ -70,8 +70,8 @@ Deviations and gaps: band regions of table styles in rows with merged cells are 
 | Streaming reader against the workbook model | equal on 103.5 million corpus cells; the 1M-row by 20-column output validates against the ECMA-376 schemas |
 | Fuzzing | every parser 600 s with no findings |
 | Loss reports | CSV and the spreadsheet conversions report every dropped feature with a `loss.` code |
-| Memory | 37 retained bytes per cell on a 20M-cell styled workbook (ClosedXML 79, NPOI 360); peak working set 908 MB (ClosedXML 1.7 GB, NPOI 15.5 GB); 0.08 allocated bytes per cell on the streaming read; constant working set from 10k to 1M rows (47 MB and 48 MB peak) |
-| Speed against the fastest of Sylvan.Data.Excel 0.5.8, MiniExcel 1.46.0, ExcelDataReader 3.9.0, ClosedXML 0.105.1, NPOI 2.7.6 and EPPlus 4.5.3.3 | geomean 0.51x (x64) and 0.59x (arm64) over streaming read, streaming write, model load and model edit-and-save; worst row 1.07x (streaming read of 10k rows, level with Sylvan within noise). Method and tables: `bench/README.md` |
+| Memory | 37 retained bytes per cell on a 20M-cell styled workbook (ClosedXML 79, NPOI 360); peak working set 908 MB (ClosedXML 1.7 GB, NPOI 15.5 GB); 0.08 allocated bytes per cell on the streaming read; constant working set from 10k to 1M rows (47 MB and 49 MB peak) |
+| Speed against the fastest of Sylvan.Data.Excel 0.5.8, MiniExcel 1.46.0, ExcelDataReader 3.9.0, ClosedXML 0.105.1, NPOI 2.7.6 and EPPlus 4.5.3.3 | geomean 0.53x (x64) and 0.59x (arm64) over streaming read, streaming write, model load and model edit-and-save; worst row 1.05x (streaming read of 100k rows on arm64; 1.01x on x64, both level with Sylvan within noise). Method and tables: `bench/README.md` |
 
 Deviations and gaps: no calculation engine; XLSB, XLS and ODS are not read yet; an Arabic-digit text format is not rendered; saving a sheet larger than 2 GB waits for the streaming writer; `xml:space` on shared-string text is not schema-checked.
 

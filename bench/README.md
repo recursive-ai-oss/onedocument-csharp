@@ -97,7 +97,7 @@ Each machine ran one timing group and one peak-memory group under the machine's 
 | Machine | AMD Ryzen 9 7950X3D, 16 cores / 32 threads, AVX2/AVX-512, 125 GB, NVMe, Linux 7.0 | Apple M2 (Mac mini), 4 performance + 4 efficiency cores, 8 GB, NEON, macOS |
 | Load average (1 min) before / after (samples every 10 s in `load.log`) | 1.33 / 1.04 | 2.39 / 2.04 |
 
-The document groups on both machines started under the load limit. The x64 spreadsheet streaming groups were started with `--force` at load 3.7 (the machine was idle of other bench work; the queue had settled), the x64 model groups at 1.7 and 2.3; each `env.txt` records the override. Other light work kept the load average above idle during the runs, so treat ratios within a few percent of 1.00 as ties.
+The document groups on both machines started under the load limit. The x64 streaming-write group was started with `--force` at load 3.7 and the x64 model groups at 1.7 and 2.3 (the queue had settled; other projects' light jobs kept the load above idle). The x64 streaming-read group was re-run alone under the bench class (wq 004127, job princessDonut.tskv6m0p) with no override, starting at load 1.81, and replaces the first run; each `env.txt` records the override. Other light work kept the load average above idle during the runs, so treat ratios within a few percent of 1.00 as ties.
 
 ### Ratios against the fastest comparator (OneOffice median / comparator median)
 
@@ -155,9 +155,9 @@ Like-for-like modes:
 
 | Operation | Input | x64 | arm64 |
 |---|---|---:|---:|
-| Streaming read | 10k rows | **1.07** | 1.01 |
-| Streaming read | 100k rows | 0.97 | **1.05** |
-| Streaming read | 1M rows | 0.58 | 0.94 |
+| Streaming read | 10k rows | 1.01 | 1.01 |
+| Streaming read | 100k rows | 0.98 | **1.05** |
+| Streaming read | 1M rows | 0.80 | 0.94 |
 | Streaming write | 10k rows | 0.32 | 0.34 |
 | Streaming write | 100k rows | 0.30 | 0.33 |
 | Streaming write | 1M rows | 0.72 | 0.80 |
@@ -165,10 +165,10 @@ Like-for-like modes:
 | Model load | 100k rows | 0.17 | 0.31 |
 | Model edit + save | 10k rows | 0.75 | 0.70 |
 | Model edit + save | 100k rows | 0.28 | 0.31 |
-| **Geometric mean, 10 rows** | | **0.51** | **0.59** |
-| **Worst row** | | 1.07 | 1.05 |
+| **Geometric mean, 10 rows** | | **0.53** | **0.59** |
+| **Worst row** | | 1.01 | 1.05 |
 
-The streaming read comparator is Sylvan.Data.Excel on every size; write is MiniExcel; the model comparators are EPPlus 4.5.3.3 or ClosedXML. Every row is at the bar (geomean at most 1.00, none above 1.25). Streaming read at 10k and 100k rows is level with Sylvan (within 7%, the noise of a 70 ms to 700 ms single-process run); ExcelDataReader is 1.5x to 2.8x and MiniExcel 2.6x to 5.4x slower than OneOffice. The whole-model 100k rows were re-run with three warm-ups (job IDs in the report) after a first group with one warm-up, whose 100k-row medians for OneOffice were 2x to 6x slower because the runtime had not yet optimised the load path.
+The streaming read comparator is Sylvan.Data.Excel on every size; write is MiniExcel; the model comparators are EPPlus 4.5.3.3 or ClosedXML. Every row is at the bar (geomean at most 1.00, none above 1.25). Streaming read at 10k and 100k rows is level with Sylvan (within 5%, the noise of a 70 ms to 700 ms single-process run); ExcelDataReader is 1.5x to 2.8x and MiniExcel 2.6x to 5.4x slower than OneOffice. The whole-model 100k rows were re-run with three warm-ups (job IDs in the report) after a first group with one warm-up, whose 100k-row medians for OneOffice were 2x to 6x slower because the runtime had not yet optimised the load path.
 
 ### Memory
 
@@ -180,7 +180,7 @@ The streaming read comparator is Sylvan.Data.Excel on every size; write is MiniE
 
 The small workbooks carry fixed type-loading costs (71 bytes per cell at 100k cells). The arm64 page reports higher retained figures for all three libraries (OneOffice 44.6 bytes per cell at 10M cells, 83.1 at 2M) because the macOS collector leaves more of the heap uncompacted when the figure is read; the ordering and the ratios are the same, and the published budget is the x64 figure.
 
-Streaming read and write hold a constant working set: reading the 10k-row and the 1M-row workbook peaks at 47 MB and 48 MB (x64), 61 MB and 62 MB (arm64); writing 10k and 1M rows peaks at 49 MB and 49 MB (x64). Allocation per cell on the streaming read: 0.08 bytes at 1M rows (the fixed cost of opening, spread over 10M cells; Sylvan 0.19, ExcelDataReader 217, MiniExcel 2,021); the loop itself allocates nothing.
+Streaming read and write hold a constant working set: reading the 10k-row and the 1M-row workbook peaks at 47 MB and 49 MB (x64), 61 MB and 62 MB (arm64); writing 10k and 1M rows peaks at 49 MB and 49 MB (x64). Allocation per cell on the streaming read: 0.08 bytes at 1M rows (the fixed cost of opening, spread over 10M cells; Sylvan 0.19, ExcelDataReader 217, MiniExcel 2,021); the loop itself allocates nothing.
 
 ### Setting up another machine
 

@@ -1,5 +1,6 @@
-b3822a0add393d80b0f780a78f29926bfa0679d7d8075f8ab8796b77da1ab30b  stress-1000000.xlsx
-1f42483a6aa8c4d5836bd8acd0959a38cb14c24256f118fc6ebe99db48e4e17f  stress-100000.xlsx
-9f6f1a6e5eee751bd5dde6e391fdb19fde56d188623ca363ffea881c85df8ca0  values-1000000.xlsx
-09a978529875c8ae6ae7430ac14754b50362cdff4b29ed7799152f40a404e503  values-100000.xlsx
-a6ad933df926f45bdab4a9a8db814cf1bbd04540f266519fc6d6010a01ca1158  values-10000.xlsx
+/home/kurtis/oneoffice/verify/bench/inputs/xlsx/values-10000.xlsx 974845 bytes
+/home/kurtis/oneoffice/verify/bench/inputs/xlsx/values-100000.xlsx 9718742 bytes
+/home/kurtis/oneoffice/verify/bench/inputs/xlsx/values-1000000.xlsx 97401437 bytes
+0bd5400fd02e4b00dcacabc2b49f7ea9a320e58a361069afb12a71b078462b04  values-1000000.xlsx
+a971f3e412ea2f2328b44a3e11d1661feccd92ea6955188228d1e256a1f29f07  values-100000.xlsx
+1e3135fa923f81481097f0b17bd51ea197ceae34014ca9ebbeec9736c2733f64  values-10000.xlsx
