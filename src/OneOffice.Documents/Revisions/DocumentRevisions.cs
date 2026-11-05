@@ -15,7 +15,7 @@ public sealed partial class Document
     /// (<see cref="CommitChanges"/> writes them back; parts without revisions are left alone). After editing a paragraph by other
     /// means call <see cref="Rev.RevisionSet.Refresh"/>.
     /// </summary>
-    public Rev.RevisionSet Revisions => _revisions ??= Rev.RevisionSet.Scan(RevisionParts(), Context);
+    public Rev.RevisionSet Revisions => Init(ref _revisions, () => Rev.RevisionSet.Scan(RevisionParts(), Context));
 
     private List<Rev.IRevisionPart> RevisionParts()
     {

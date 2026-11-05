@@ -350,6 +350,28 @@ public class RevisionAuthoringHubTests
     }
 
     [Fact]
+    public void AuthoringOnAFreshlyOpenedDocumentReachesEveryPart()
+    {
+        var stream = new MemoryStream();
+        using (Document source = Document.Create())
+        {
+            source.Body.Paragraphs().First().SetText("Body");
+            source.Footnotes.Add("Some note").AppendReference(source.Body.Paragraphs().First());
+            source.SaveAs(stream, OfficeFormat.Docx);
+        }
+
+        stream.Position = 0;
+        using Document d = Document.Open(stream);
+        RevisionAuthor au = d.Revisions.CreateAuthor("Redliner", When, RevisionIds.StartingAt(10));
+        au.InsertText(Paras(d)[0], 0, "x");
+        au.ReplaceText(d.Footnotes.Normal()[0].Paragraphs().First(), 1, 4, "New");
+        Assert.Equal(3, d.Revisions.Revisions.Count);
+        d.CommitChanges();
+        Assert.Equal("xBody", Paras(d)[0].GetText(RevisionView.Accepted));
+        Assert.Equal(" New note", d.Footnotes.Normal()[0].Paragraphs().First().GetText(RevisionView.Accepted));
+    }
+
+    [Fact]
     public void ANodeFromAnotherDocumentIsRefused()
     {
         (_, RevisionAuthor au) = Open();

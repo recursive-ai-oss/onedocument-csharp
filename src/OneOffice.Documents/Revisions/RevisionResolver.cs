@@ -260,14 +260,12 @@ internal sealed class RevisionResolver
         string newRaw = prefix + newLocal;
         string xml = t.OuterXml;
         xml = "<" + newRaw + xml[(1 + oldRaw.Length)..];
-        if (!t.IsSelfClosing)
+
+        // XML 1.0 §3.1: an end tag may have white space between its name and ">", so find the tag by its name and not by its exact text.
+        int end = xml.LastIndexOf("</", StringComparison.Ordinal);
+        if (end >= 0 && string.CompareOrdinal(xml, end + 2, oldRaw, 0, oldRaw.Length) == 0)
         {
-            // XML allows white space before the > of an end tag (</w:delText >), so rename in place rather than match the whole tag.
-            int end = xml.LastIndexOf("</", StringComparison.Ordinal);
-            if (end >= 0 && string.CompareOrdinal(xml, end + 2, oldRaw, 0, oldRaw.Length) == 0)
-            {
-                xml = xml[..(end + 2)] + newRaw + xml[(end + 2 + oldRaw.Length)..];
-            }
+            xml = xml[..(end + 2)] + newRaw + xml[(end + 2 + oldRaw.Length)..];
         }
 
         t.ReplaceWithXml(WordXml.Bytes(xml));

@@ -26,6 +26,12 @@ internal sealed class PartStore
     private readonly OpenContext _context;
     private readonly Dictionary<string, MarkupDocument?> _documents = new(StringComparer.OrdinalIgnoreCase);
 
+    /// <summary>
+    /// Guards first-use initialisation of everything the document reads lazily, so concurrent readers share one tree and one hub
+    /// object per part. It is re-entrant: a lazy object may load parts while it is being built.
+    /// </summary>
+    public object Gate { get; } = new();
+
     public PartStore(IOpcPackage package, OpenContext context)
     {
         _package = package;
@@ -36,21 +42,25 @@ internal sealed class PartStore
     {
         get
         {
-            foreach (MarkupDocument? d in _documents.Values)
+            lock (Gate)
             {
-                if (d is { IsModified: true })
+                foreach (MarkupDocument? d in _documents.Values)
                 {
-                    return true;
+                    if (d is { IsModified: true })
+                    {
+                        return true;
+                    }
                 }
-            }
 
-            return false;
+                return false;
+            }
         }
     }
 
     /// <summary>The part name a parsed tree was read from, or null for a tree this store does not hold.</summary>
     public string? NameOf(MarkupDocument document)
     {
+        lock (Gate)
         foreach (KeyValuePair<string, MarkupDocument?> kv in _documents)
         {
             if (ReferenceEquals(kv.Value, document))
@@ -81,6 +91,14 @@ internal sealed class PartStore
 
     /// <summary>Parses a part once. An unreadable optional part is reported as a defect and reads as absent.</summary>
     public MarkupDocument? Load(string partName, bool required)
+    {
+        lock (Gate)
+        {
+            return LoadLocked(partName, required);
+        }
+    }
+
+    private MarkupDocument? LoadLocked(string partName, bool required)
     {
         if (_documents.TryGetValue(partName, out MarkupDocument? cached))
         {
@@ -117,6 +135,7 @@ internal sealed class PartStore
     /// <summary>Finds the part a node was parsed from; null for a node of a tree this store did not load.</summary>
     public string? PartNameOf(MarkupNode node)
     {
+        lock (Gate)
         foreach (KeyValuePair<string, MarkupDocument?> kv in _documents)
         {
             if (kv.Value is not null && ReferenceEquals(kv.Value, node.Document))
@@ -130,6 +149,7 @@ internal sealed class PartStore
 
     public void Flush()
     {
+        lock (Gate)
         foreach (KeyValuePair<string, MarkupDocument?> kv in _documents)
         {
             if (kv.Value is { IsModified: true } doc && _package.FindPart(kv.Key) is { } part)

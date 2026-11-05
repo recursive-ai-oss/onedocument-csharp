@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using NPOI.XWPF.Extractor;
 using NPOI.XWPF.UserModel;
+using OneDocument = RecursiveAI.OneOffice.Documents.Document;
 using RecursiveAI.OneOffice.IO;
 using RecursiveAI.OneOffice.TextExtraction;
 using OpenXmlReader = DocumentFormat.OpenXml.OpenXmlReader;
@@ -39,15 +40,79 @@ public static class Rows
         ["openxml.extract.reader"] = OpenXmlExtractReader,
         ["npoi.extract"] = NpoiExtract,
         ["oneoffice.extract"] = OneOfficeExtract,
+        ["rawzip.load"] = RawZipLoad,
+        ["openxml.load"] = OpenXmlLoad,
+        ["npoi.load"] = NpoiLoad,
+        ["oneoffice.load"] = OneOfficeLoad,
+        ["oneoffice.loadsave"] = OneOfficeLoadSave,
+        ["oneoffice.edit"] = OneOfficeEdit,
+        ["oneoffice.lazyopen"] = OneOfficeLazyOpen,
     };
 
     /// <summary>Rows waiting for the layer they measure. Listed so the gap is visible, not forgotten.</summary>
-    public static IReadOnlyList<string> Pending { get; } =
-    [
-        "oneoffice.loadsave (package open + save)",
-        "oneoffice.edit (change one paragraph, save)",
-        "oneoffice.lazyopen (open, read one part)",
-    ];
+    public static IReadOnlyList<string> Pending { get; } = [];
+
+    /// <summary>Reads the whole main part through the BCL zip classes: the floor for opening and touching the body.</summary>
+    public static long RawZipLoad(byte[] src)
+    {
+        using var input = new MemoryStream(src, writable: false);
+        using var zip = new ZipArchive(input, ZipArchiveMode.Read);
+        using Stream s = zip.GetEntry("word/document.xml")!.Open();
+        return Drain(s);
+    }
+
+    /// <summary>Opens read-only and loads the main part's DOM down to the first paragraph's text.</summary>
+    public static long OpenXmlLoad(byte[] src)
+    {
+        using var input = new MemoryStream(src, writable: false);
+        using WordprocessingDocument doc = WordprocessingDocument.Open(input, false);
+        return doc.MainDocumentPart!.Document!.Body!.Descendants<Paragraph>().First().InnerText.Length;
+    }
+
+    /// <summary>Loads the document model and reads the first paragraph's text.</summary>
+    public static long NpoiLoad(byte[] src)
+    {
+        using var input = new MemoryStream(src, writable: false);
+        using var doc = new XWPFDocument(input);
+        return doc.Paragraphs[0].Text.Length;
+    }
+
+    /// <summary>Opens the document through the hub and reads the first paragraph's text.</summary>
+    public static long OneOfficeLoad(byte[] src)
+    {
+        using var input = new MemoryStream(src, writable: false);
+        using var doc = OneDocument.Open(input);
+        return doc.Paragraphs.First().Text.Length;
+    }
+
+    /// <summary>Opens and writes a copy untouched: parts not edited are copied as stored.</summary>
+    public static long OneOfficeLoadSave(byte[] src)
+    {
+        using var input = new MemoryStream(src, writable: false);
+        using var doc = OneDocument.Open(input);
+        using var output = new MemoryStream();
+        doc.SaveAs(output, OfficeFormat.Docx);
+        return output.Length;
+    }
+
+    /// <summary>Opens, replaces the first paragraph's text and writes a copy.</summary>
+    public static long OneOfficeEdit(byte[] src)
+    {
+        using var input = new MemoryStream(src, writable: false);
+        using var doc = OneDocument.Open(input);
+        doc.Paragraphs.First().SetText(EditedText);
+        using var output = new MemoryStream();
+        doc.SaveAs(output, OfficeFormat.Docx);
+        return output.Length;
+    }
+
+    /// <summary>Opens the document and reads the style definitions part's size.</summary>
+    public static long OneOfficeLazyOpen(byte[] src)
+    {
+        using var input = new MemoryStream(src, writable: false);
+        using var doc = OneDocument.Open(input);
+        return doc.Styles.Styles.Count;
+    }
 
     // Baseline: what any zip-level tool must pay. Entries are read and written back whole through the BCL zip classes.
     /// <summary>Reads every entry and writes it into a new package: the floor for a tool that recompresses.</summary>

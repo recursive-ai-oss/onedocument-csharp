@@ -26,6 +26,7 @@ internal static class Report
         AppendFile(md, "Load while running (sampled)", Path.Combine(dir, "load.log"));
         AppendFile(md, "Versions", Path.Combine(dir, "versions.txt"));
 
+        var bar = new List<(string Class, string Input, double Ours, string Fastest, double FastestMedian)>();
         foreach (string file in Directory.EnumerateFiles(dir, "*-report-full.json", SearchOption.AllDirectories).Order(StringComparer.Ordinal))
         {
             using JsonDocument doc = JsonDocument.Parse(File.ReadAllText(file));
@@ -58,6 +59,34 @@ internal static class Report
             }
 
             md.Append('\n');
+
+            // The bar compares OneOffice with the fastest comparator of the class (the raw zip row is a floor, not a comparator).
+            string className = title.Split('-')[0].Split('.').Last();
+            foreach (IGrouping<string, (string Input, string Method, double Median, double Alloc)> g in rows.GroupBy(r => r.Input))
+            {
+                var ours = g.Where(r => r.Method == "OneOffice").ToList();
+                var others = g.Where(r => r.Method is not ("OneOffice" or "RawZip")).ToList();
+                if (ours.Count == 1 && others.Count > 0)
+                {
+                    var best = others.MinBy(r => r.Median);
+                    bar.Add((className, g.Key, ours[0].Median, best.Method, best.Median));
+                }
+            }
+        }
+
+        if (bar.Count > 0)
+        {
+            md.Append("## Bar: OneOffice against the fastest comparator\n\n");
+            md.Append("Ratio is OneOffice median / the fastest comparator's median in the same class and input; at or below 1.00 is faster. The raw zip row is a floor and is not a comparator.\n\n");
+            md.Append("| Class | Input | OneOffice | Fastest comparator | Comparator median | Ratio |\n|---|---|---:|---|---:|---:|\n");
+            foreach ((string c, string input, double o, string f, double fm) in bar)
+            {
+                md.Append(CultureInfo.InvariantCulture, $"| {c} | {input} | {Time(o)} | {f} | {Time(fm)} | {o / fm:F2}x |\n");
+            }
+
+            double geomean = Math.Exp(bar.Average(r => Math.Log(r.Ours / r.FastestMedian)));
+            var worst = bar.MaxBy(r => r.Ours / r.FastestMedian);
+            md.Append(CultureInfo.InvariantCulture, $"\nGeometric mean of the ratios: {geomean:F3}x over {bar.Count} rows. Worst row: {worst.Class} {worst.Input} at {worst.Ours / worst.FastestMedian:F2}x.\n\n");
         }
 
         string peak = Path.Combine(dir, "peak.tsv");

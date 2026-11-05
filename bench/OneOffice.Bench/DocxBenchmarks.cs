@@ -11,8 +11,8 @@ namespace RecursiveAI.OneOffice.Bench;
 [SimpleJob(RunStrategy.Throughput, launchCount: 1, warmupCount: 1, iterationCount: 5)]
 public abstract class DocxBenchmarkBase
 {
-    /// <summary>Which generated input to run on (small, medium, large, pages1000).</summary>
-    [Params("small", "medium", "large", "pages1000")]
+    /// <summary>Which generated input to run on (small, medium, pages1000).</summary>
+    [Params("small", "medium", "pages1000")]
     public string Input { get; set; } = "small";
 
     /// <summary>The input's bytes.</summary>
@@ -42,6 +42,10 @@ public class DocxLoadSave : DocxBenchmarkBase
     /// <summary>The XWPF model: load and write.</summary>
     [Benchmark]
     public long Npoi() => Rows.NpoiLoadSave(Bytes);
+
+    /// <summary>OneOffice: open and save untouched.</summary>
+    [Benchmark]
+    public long OneOffice() => Rows.OneOfficeLoadSave(Bytes);
 }
 
 /// <summary>Change one paragraph's text and save.</summary>
@@ -58,6 +62,30 @@ public class DocxEdit : DocxBenchmarkBase
     /// <summary>The XWPF model.</summary>
     [Benchmark]
     public long Npoi() => Rows.NpoiEdit(Bytes);
+
+    /// <summary>OneOffice: open, change the paragraph, save.</summary>
+    [Benchmark]
+    public long OneOffice() => Rows.OneOfficeEdit(Bytes);
+}
+
+/// <summary>Open a document and touch the body (read the first paragraph's text).</summary>
+public class DocxLoad : DocxBenchmarkBase
+{
+    /// <summary>The floor: open the zip, read the main part.</summary>
+    [Benchmark(Baseline = true)]
+    public long RawZip() => Rows.RawZipLoad(Bytes);
+
+    /// <summary>The SDK: open read-only, load the main part's DOM.</summary>
+    [Benchmark]
+    public long OpenXml() => Rows.OpenXmlLoad(Bytes);
+
+    /// <summary>The XWPF model.</summary>
+    [Benchmark]
+    public long Npoi() => Rows.NpoiLoad(Bytes);
+
+    /// <summary>OneOffice: open the hub, read the first paragraph.</summary>
+    [Benchmark]
+    public long OneOffice() => Rows.OneOfficeLoad(Bytes);
 }
 
 /// <summary>Open a document and read one small part.</summary>
@@ -74,6 +102,10 @@ public class DocxLazyOpen : DocxBenchmarkBase
     /// <summary>The XWPF model, which loads everything.</summary>
     [Benchmark]
     public long Npoi() => Rows.NpoiLazyOpen(Bytes);
+
+    /// <summary>OneOffice.</summary>
+    [Benchmark]
+    public long OneOffice() => Rows.OneOfficeLazyOpen(Bytes);
 }
 
 /// <summary>Pull the text out of the body.</summary>
