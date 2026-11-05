@@ -657,9 +657,15 @@ public class FunctionFamilyTests
         var cell = new CalcCell("Sheet1", 1, 1);
         foreach (FormulaNode n in nodes)
         {
-            for (int i = 0; i < 200; i++)
+            // Let the runtime promote the hot code to its final tier before counting.
+            for (int round = 0; round < 3; round++)
             {
-                ev.Evaluate(n, cell);
+                for (int i = 0; i < 2000; i++)
+                {
+                    ev.Evaluate(n, cell);
+                }
+
+                Thread.Sleep(120);
             }
 
             long before = GC.GetAllocatedBytesForCurrentThread();
