@@ -452,6 +452,20 @@ public sealed class SharedStringTable
         return XString.Decode(XString.ExtractText(_bytes.Span[_starts[index].._ends[index]]));
     }
 
+    /// <summary>Gets the stored <c>si</c> element of an entry, as it is in the part, so a reader can get at the rich-text runs.</summary>
+    /// <param name="index">The 0-based index.</param>
+    /// <returns>The element's UTF-8 bytes, or an empty span for an entry added in this session (which is plain text).</returns>
+    /// <exception cref="ArgumentOutOfRangeException">The index is outside the table.</exception>
+    public ReadOnlyMemory<byte> GetItemXml(int index)
+    {
+        if ((uint)index >= (uint)Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index));
+        }
+
+        return index >= _starts.Length ? default : _bytes[_starts[index].._ends[index]];
+    }
+
     /// <summary>Tells whether an entry is more than one plain text element (rich-text runs or phonetic runs).</summary>
     /// <param name="index">The 0-based index.</param>
     /// <returns>True when the entry has runs or phonetic data.</returns>

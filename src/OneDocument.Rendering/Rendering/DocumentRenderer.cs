@@ -6,6 +6,8 @@ using RecursiveAI.OneDocument.Documents;
 using RecursiveAI.OneDocument.Formats;
 using RecursiveAI.OneDocument.Layout;
 using RecursiveAI.OneDocument.Markup;
+using RecursiveAI.OneDocument.Rendering.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets;
 using RecursiveAI.OneDocument.Schema;
 
 namespace RecursiveAI.OneDocument.Rendering;
@@ -130,6 +132,24 @@ public static class DocumentRenderer
         }
     }
 
+    internal static bool TryWrite(OfficeFile file, OfficeFormat format, Stream destination, CancellationToken cancellationToken)
+    {
+        if (file is not Document document)
+        {
+            return false;
+        }
+
+        if (format == OfficeFormat.Pdf)
+        {
+            WritePdf(document, destination, null, cancellationToken);
+            return true;
+        }
+
+        LayoutDocument layout = LayoutEngine.Layout(document, null, cancellationToken);
+        destination.Write(RenderPng(layout.Pages[0], DefaultLanguage(document)));
+        return true;
+    }
+
     internal static string DefaultLanguage(Document document)
     {
         if (document.Styles.DefaultRunProperties is { } rpr && Xml.Child(rpr, "lang") is { } lang && Xml.Attr(lang, "val") is { Length: > 0 } v)
@@ -157,15 +177,28 @@ public static class DocumentRenderer
     }
 }
 
-/// <summary>Registers PDF and PNG output for word-processing documents with a format registry.</summary>
+/// <summary>Registers PDF and PNG output for word-processing documents and workbooks with a format registry.</summary>
 public static class RenderingFormats
 {
-    /// <summary>Gets the output formats this package writes for documents.</summary>
+    /// <summary>
+    /// What one kind of file does to write itself as PDF or PNG. Returns false, writing nothing, when the file is not of its kind.
+    /// </summary>
+    internal delegate bool KindWriter(OfficeFile file, OfficeFormat format, Stream destination, CancellationToken cancellationToken);
+
+    // The kinds that render, tried in order. A new kind adds its own `TryWrite` here and nothing else: the registry keeps one writer per
+    // format, so every kind goes through the single handler below.
+    private static readonly KindWriter[] Kinds =
+    [
+        DocumentRenderer.TryWrite,
+        WorkbookRenderer.TryWrite,
+    ];
+
+    /// <summary>Gets the output formats this package writes.</summary>
     public static IReadOnlyList<OfficeFormat> Formats { get; } = [OfficeFormat.Pdf, OfficeFormat.Png];
 
     /// <summary>
-    /// Registers PDF and PNG writers, so <c>Office.Convert("in.docx", "out.pdf")</c> and <c>document.SaveAs("out.pdf")</c> work. A PNG
-    /// holds the first page; use <see cref="DocumentRenderer.RenderPng"/> for the others. Calling it again is harmless.
+    /// Registers PDF and PNG writers, so <c>Office.Convert("in.docx", "out.pdf")</c> and <c>document.SaveAs("out.pdf")</c> work, for documents and
+    /// workbooks. A PNG holds the first page. Calling it again is harmless.
     /// </summary>
     /// <param name="registry">The registry to fill.</param>
     public static void Register(FormatRegistry registry)
@@ -174,20 +207,15 @@ public static class RenderingFormats
         registry.RegisterWriter(
             static (file, format, destination, cancellationToken) =>
             {
-                if (file is not Document document)
+                foreach (KindWriter kind in Kinds)
                 {
-                    throw new FormatNotAvailableException(format, "render a " + file.Kind + " as");
+                    if (kind(file, format, destination, cancellationToken))
+                    {
+                        return;
+                    }
                 }
 
-                if (format == OfficeFormat.Pdf)
-                {
-                    DocumentRenderer.WritePdf(document, destination, null, cancellationToken);
-                    return;
-                }
-
-                LayoutDocument layout = LayoutEngine.Layout(document, null, cancellationToken);
-                byte[] png = DocumentRenderer.RenderPng(layout.Pages[0], DocumentRenderer.DefaultLanguage(document));
-                destination.Write(png);
+                throw new FormatNotAvailableException(format, "render a " + file.Kind + " as");
             },
             [.. Formats]);
     }

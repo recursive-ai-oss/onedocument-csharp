@@ -1,5 +1,7 @@
 # Layout and rendering
 
+Workbooks print through their own pagination and cell layout: see `spreadsheet-rendering.md`. They share the paint contract, fonts and PDF/PNG output below; `RenderingFormats.Register` installs one handler per format that dispatches on the kind of file.
+
 How OneDocument turns a word-processing document into pages, and the contracts later layout stages build on. Package
 `RecursiveAI.OneDocument.Rendering`, namespaces `RecursiveAI.OneDocument.Layout` (tree, engine, fonts) and
 `RecursiveAI.OneDocument.Rendering` (paint, PDF and PNG output). References are to ECMA-376 Part 1 unless noted. Items marked
