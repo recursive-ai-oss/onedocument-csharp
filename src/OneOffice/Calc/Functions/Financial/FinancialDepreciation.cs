@@ -70,26 +70,21 @@ internal static partial class FinancialFunctions
         }
 
         double rate = Math.Round(1 - Math.Pow(salvage / cost, 1 / life), 3);
-        double total = 0, dep = 0;
-        for (double p = 1; p <= period; p++)
+        double first = cost * rate * month / 12;
+        if (period == 1)
         {
-            if (p == 1)
-            {
-                dep = cost * rate * month / 12;
-            }
-            else if (p == Math.Truncate(life) + 1)
-            {
-                dep = (cost - total) * rate * (12 - month) / 12;
-            }
-            else
-            {
-                dep = (cost - total) * rate;
-            }
-
-            total += dep;
+            return Num(first);
         }
 
-        return Num(dep);
+        // After the first period the book value shrinks by (1 - rate) each full period, so no loop over the periods is needed.
+        double book = cost - first;
+        double whole = Math.Truncate(life);
+        if (period <= whole)
+        {
+            return Num(book * Math.Pow(1 - rate, period - 2) * rate);
+        }
+
+        return Num(book * Math.Pow(1 - rate, whole - 1) * rate * (12 - month) / 12);
     }
 
     // Total depreciation after k whole periods of declining balance at factor/life, never taking the book value below salvage.

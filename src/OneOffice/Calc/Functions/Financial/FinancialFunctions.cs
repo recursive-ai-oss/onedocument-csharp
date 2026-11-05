@@ -225,15 +225,26 @@ internal static partial class FinancialFunctions
             return NumError;
         }
 
-        double sum = 0;
         double pmt = Pmt(r, n, pv, 0, type);
-        for (double p = start; p <= end; p++)
+        if (end - start < 100_000)
         {
-            double ip = Ipmt(r, p, n, pv, 0, type);
-            sum += interest ? ip : pmt - ip;
+            double sum = 0;
+            for (double p = start; p <= end; p++)
+            {
+                double ip = Ipmt(r, p, n, pv, 0, type);
+                sum += interest ? ip : pmt - ip;
+            }
+
+            return Num(sum);
         }
 
-        return Num(sum);
+        // A very long span is summed in closed form: the interest of periods a..b paid at the end is the payments less the balance reduction.
+        double pmt0 = Pmt(r, n, pv, 0, 0);
+        double CumulativeInterest0(double a, double b) => (pmt0 * (b - a + 1)) - (Fv(r, a - 1, pmt0, pv, 0) - Fv(r, b, pmt0, pv, 0));
+        double total = type == 0
+            ? CumulativeInterest0(start, end)
+            : end == 1 ? 0 : CumulativeInterest0(Math.Max(start - 1, 1), end - 1) / (1 + r);
+        return Num(interest ? total : (pmt * (end - start + 1)) - total);
     }
 
     private static CalcValue EffectFunction(Evaluator ev, ReadOnlySpan<CalcValue> a)

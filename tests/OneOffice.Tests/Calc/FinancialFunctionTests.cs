@@ -84,6 +84,19 @@ public class FinancialFunctionTests
     }
 
     [Fact]
+    public void LongSpansUseClosedFormsAndAgreeWithTheSum()
+    {
+        // Spans of 100,000 periods or more are not summed period by period.
+        double viaSum = N("CUMIPMT(0.000001,300000,1000000,1,100000,0)") + N("IPMT(0.000001,100001,300000,1000000)");
+        Near(viaSum, "CUMIPMT(0.000001,300000,1000000,1,100001,0)", 1e-9);
+        double principal = N("CUMPRINC(0.000001,300000,1000000,1,100000,0)") + N("PPMT(0.000001,100001,300000,1000000)");
+        Near(principal, "CUMPRINC(0.000001,300000,1000000,1,100001,0)", 1e-9);
+        Near(N("CUMIPMT(0.000001,300000,1000000,1,300000,1)") + N("CUMPRINC(0.000001,300000,1000000,1,300000,1)"), "PMT(0.000001,300000,1000000,0,1)*300000", 1e-9);
+        Assert.True(double.IsFinite(N("DB(1000,100,7777777777,7777777777)")));
+        Near(N("DB(1000000,100000,6,3,7)"), "DB(1000000,100000,6,3,7)", 1e-12);
+    }
+
+    [Fact]
     public void NetPresentValueAndReturns()
     {
         Near(1188.4434123352, "NPV(0.1,-10000,3000,4200,6800)", 1e-8);
