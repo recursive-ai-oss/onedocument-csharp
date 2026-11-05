@@ -20,4 +20,8 @@
     <ProjectReference Include="../OneOffice.All/OneOffice.All.csproj" />
   </ItemGroup>
 
+  <!-- The tool references the kind projects directly, so it takes their registration files the way a package reference would. -->
+  <Import Project="../OneOffice.Documents/build/RecursiveAI.OneOffice.Documents.targets" />
+  <Import Project="../OneOffice.Spreadsheets/build/RecursiveAI.OneOffice.Spreadsheets.targets" />
+
 </Project>

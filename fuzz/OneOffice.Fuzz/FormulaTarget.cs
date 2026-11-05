@@ -110,7 +110,7 @@ internal static class FormulaTarget
 
     private static bool HasNameRange(FormulaNode n)
     {
-        if (n is BinaryNode { Operator: BinaryOperator.Range } b && (b.Left is NameNode || b.Right is NameNode))
+        if (n is BinaryNode { Operator: BinaryOperator.Range } b && (b.Left is NameNode or NumberNode || b.Right is NameNode or NumberNode))
         {
             return true;
         }
@@ -128,6 +128,13 @@ internal static class FormulaTarget
 
     private static bool HasR1C1Name(FormulaNode n)
     {
+        // Two whole-row or whole-column operands of a range operator print as one reference in R1C1 text ("R[-6]:R[-6]" is both): the same
+        // cells, a different tree.
+        if (n is BinaryNode { Operator: BinaryOperator.Range } w && (w.Left is AreaReferenceNode { AreaKind: not AreaKind.Cells } || w.Right is AreaReferenceNode { AreaKind: not AreaKind.Cells }))
+        {
+            return true;
+        }
+
         if (n is NameNode nn && (RefSyntax.LooksLikeR1C1(nn.Name) || (nn.Name.Length <= 2 && nn.Name.Length > 0 && char.ToUpperInvariant(nn.Name[0]) is 'R' or 'C')))
         {
             return true;

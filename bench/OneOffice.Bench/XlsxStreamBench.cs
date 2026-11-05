@@ -5,7 +5,17 @@ using System.Text;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using ClosedXML.Excel;
 using MiniExcelLibs;
+using NPOI.XSSF.UserModel;
+using OfficeOpenXml;
+using CompressionLevel = System.IO.Compression.CompressionLevel;
+using OoCellValue = RecursiveAI.OneOffice.Spreadsheets.CellValue;
+using OoWorkbook = RecursiveAI.OneOffice.Spreadsheets.Workbook;
+using OoCellRowView = RecursiveAI.OneOffice.Spreadsheets.CellRowView;
+using OoSheetKind = RecursiveAI.OneOffice.Spreadsheets.SheetKind;
+using OoValueKind = RecursiveAI.OneOffice.Spreadsheets.CellValueKind;
+using OoWorksheet = RecursiveAI.OneOffice.Spreadsheets.Worksheet;
 using RecursiveAI.OneOffice.Spreadsheets.Streaming;
 using EdrReaderFactory = ExcelDataReader.ExcelReaderFactory;
 using SylvanReader = Sylvan.Data.Excel.ExcelDataReader;
@@ -29,10 +39,21 @@ public static class XlsxStreamBench
 
     private static readonly int[] Sizes = [10_000, 100_000, 1_000_000];
 
+    // Whole-model rows hold every cell of every library's model at once; 1M rows would need 10-15 GB for NPOI, so the timing rows stop at 100k (bytes per cell covers 1M).
+    private static readonly int[] ModelSizes = [10_000, 100_000];
+
     private static string[] BuildWords(string prefix, int n) => [.. Enumerable.Range(0, n).Select(i => prefix + i.ToString(CultureInfo.InvariantCulture))];
 
     /// <summary>The read rows, by name.</summary>
     public static readonly string[] ReadRows = ["oneoffice.read.span", "oneoffice.read.string", "sylvan.read", "exceldatareader.read", "miniexcel.read"];
+
+    /// <summary>The whole-model rows, by name: <c>load</c> opens and visits every cell; <c>editsave</c> opens, changes one cell and saves (a model that rewrites its parts pays for all of them).</summary>
+    public static readonly string[] ModelRows =
+    [
+        "oneoffice.model.load", "closedxml.model.load", "npoi.model.load", "epplus.model.load",
+        "oneoffice.model.editsave", "closedxml.model.editsave", "npoi.model.editsave", "epplus.model.editsave",
+        "oneoffice.model.loadsave-untouched",
+    ];
 
     /// <summary>The write rows, by name.</summary>
     public static readonly string[] WriteRows = ["oneoffice.write.shared", "oneoffice.write.inline", "miniexcel.write", "openxml.write"];
@@ -79,10 +100,11 @@ public static class XlsxStreamBench
     private static void Generate(string dir)
     {
         Directory.CreateDirectory(dir);
+        string? only = Environment.GetEnvironmentVariable("XLSXBENCH_SIZES");
         foreach (int rows in Sizes)
         {
             string path = Path.Combine(dir, InputName(rows));
-            if (File.Exists(path))
+            if (File.Exists(path) || (only is not null && !only.Split(',').Contains(rows.ToString(CultureInfo.InvariantCulture))))
             {
                 continue;
             }
@@ -170,7 +192,8 @@ public static class XlsxStreamBench
 
     private static int RunOne(string row, string target, int reps)
     {
-        bool read = ReadRows.Contains(row);
+        bool model = ModelRows.Contains(row);
+        bool read = model || ReadRows.Contains(row);
         if (!read && !WriteRows.Contains(row))
         {
             Console.Error.WriteLine("unknown row " + row);
@@ -183,13 +206,24 @@ public static class XlsxStreamBench
         long alloc = 0;
         long checksum = 0;
         long fileBytes = 0;
-        for (int i = 0; i <= reps; i++)
+        // Whole-model rows run big loops that the runtime only promotes to optimised code after a couple of runs, so they warm up three times;
+        // the streaming rows reach steady state after one.
+        int warmups = model ? 3 : 1;
+        for (int i = 0; i < warmups + reps; i++)
         {
-            // Repetition 0 is a warm-up: the JIT and the first read of the file are not what is measured.
+            // The first repetitions are warm-ups: the JIT and the first read of the file are not what is measured.
             GC.Collect();
             long a0 = GC.GetTotalAllocatedBytes(true);
             var sw = Stopwatch.StartNew();
-            if (read)
+            if (model)
+            {
+                checksum = ModelRow(row, target, tmp);
+                if (File.Exists(tmp))
+                {
+                    fileBytes = new FileInfo(tmp).Length;
+                }
+            }
+            else if (read)
             {
                 checksum = ReadRow(row, target);
             }
@@ -201,13 +235,18 @@ public static class XlsxStreamBench
 
             double ms = sw.Elapsed.TotalMilliseconds;
             long a1 = GC.GetTotalAllocatedBytes(true);
-            if (i > 0)
+            if (Environment.GetEnvironmentVariable("XLSXBENCH_VERBOSE") is not null)
+            {
+                Console.Error.WriteLine(string.Create(CultureInfo.InvariantCulture, $"{row} rep {i}: {ms:F1} ms, gen0/1/2 collections {GC.CollectionCount(0)}/{GC.CollectionCount(1)}/{GC.CollectionCount(2)}"));
+            }
+
+            if (i >= warmups)
             {
                 times.Add(ms);
                 alloc = a1 - a0;
             }
 
-            if (!read && File.Exists(tmp))
+            if ((!read || model) && File.Exists(tmp))
             {
                 File.Delete(tmp);
             }
@@ -314,6 +353,157 @@ public static class XlsxStreamBench
                 }
 
                 break;
+            }
+        }
+
+        return sum;
+    }
+
+    // Whole-model rows. Each library is used through its documented object model: open, visit every cell's value, or open, set one
+    // cell and save. The edit is a real change so a library that tracks dirtiness has to rewrite the sheet.
+    private static long ModelRow(string row, string path, string tmp)
+    {
+        long sum = 0;
+        switch (row)
+        {
+            case "oneoffice.model.load":
+            case "oneoffice.model.editsave":
+            case "oneoffice.model.loadsave-untouched":
+            {
+                OoWorkbook wb = OoWorkbook.Open(path);
+                if (row.EndsWith("load", StringComparison.Ordinal))
+                {
+                    foreach (OoWorksheet s in wb.Sheets)
+                    {
+                        sum += VisitSheet(s);
+                    }
+                }
+                else if (row.EndsWith("untouched", StringComparison.Ordinal))
+                {
+                    wb.SaveAs(tmp);
+                }
+                else
+                {
+                    wb.Sheets[0][1, 1].SetNumber(42);
+                    wb.SaveAs(tmp);
+                }
+
+                break;
+            }
+
+            case "closedxml.model.load":
+            case "closedxml.model.editsave":
+            {
+                using var wb = new XLWorkbook(path);
+                if (row.EndsWith("load", StringComparison.Ordinal))
+                {
+                    foreach (IXLWorksheet ws in wb.Worksheets)
+                    {
+                        foreach (IXLRow r in ws.RowsUsed())
+                        {
+                            foreach (IXLCell c in r.CellsUsed())
+                            {
+                                XLCellValue v = c.Value;
+                                sum += v.IsNumber ? (long)v.GetNumber() : v.IsText ? v.GetText().Length : v.IsBoolean ? (v.GetBoolean() ? 1 : 0) : v.IsDateTime ? (long)v.GetDateTime().ToOADate() : 0;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    wb.Worksheet(1).Cell(1, 1).Value = 42;
+                    wb.SaveAs(tmp);
+                }
+
+                break;
+            }
+
+            case "npoi.model.load":
+            case "npoi.model.editsave":
+            {
+                using FileStream fs = File.OpenRead(path);
+                var wb = new XSSFWorkbook(fs);
+                if (row.EndsWith("load", StringComparison.Ordinal))
+                {
+                    for (int i = 0; i < wb.NumberOfSheets; i++)
+                    {
+                        foreach (NPOI.SS.UserModel.IRow r in wb.GetSheetAt(i))
+                        {
+                            foreach (NPOI.SS.UserModel.ICell c in r)
+                            {
+                                switch (c.CellType)
+                                {
+                                    case NPOI.SS.UserModel.CellType.Numeric:
+                                        sum += NPOI.SS.UserModel.DateUtil.IsCellDateFormatted(c) ? (long)c.DateCellValue!.Value.ToOADate() : (long)c.NumericCellValue;
+                                        break;
+                                    case NPOI.SS.UserModel.CellType.String:
+                                        sum += c.StringCellValue.Length;
+                                        break;
+                                    case NPOI.SS.UserModel.CellType.Boolean:
+                                        sum += c.BooleanCellValue ? 1 : 0;
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    wb.GetSheetAt(0).GetRow(0).GetCell(0).SetCellValue(42);
+                    using FileStream o = File.Create(tmp);
+                    wb.Write(o, false);
+                }
+
+                break;
+            }
+
+            case "epplus.model.load":
+            case "epplus.model.editsave":
+            {
+                using var pkg = new ExcelPackage(new FileInfo(path));
+                if (row.EndsWith("load", StringComparison.Ordinal))
+                {
+                    foreach (ExcelWorksheet ws in pkg.Workbook.Worksheets)
+                    {
+                        foreach (ExcelRangeBase c in ws.Cells)
+                        {
+                            sum += Tally(c.Value);
+                        }
+                    }
+                }
+                else
+                {
+                    _ = pkg.Workbook.Worksheets.First().Cells[1, 1].Value = 42;
+                    pkg.SaveAs(new FileInfo(tmp));
+                }
+
+                break;
+            }
+        }
+
+        return sum;
+    }
+
+    private static long VisitSheet(OoWorksheet s)
+    {
+        long sum = 0;
+        if (s.Kind != OoSheetKind.Worksheet)
+        {
+            return 0;
+        }
+
+        foreach (OoCellRowView r in s.Store.EnumerateRows())
+        {
+            for (int i = 0; i < r.Count; i++)
+            {
+                OoCellValue v = r.ValueAt(i);
+                sum += v.Kind switch
+                {
+                    OoValueKind.Number => (long)v.Number,
+                    OoValueKind.Boolean => v.Boolean ? 1 : 0,
+                    OoValueKind.Text => s.GetText(v).Length,
+                    _ => 0,
+                };
             }
         }
 
@@ -476,7 +666,6 @@ public static class XlsxStreamBench
     private static int RunAll(string dir, string outPath)
     {
         Generate(dir);
-        string dll = typeof(XlsxStreamBench).Assembly.Location;
         using var output = new StreamWriter(outPath);
         output.WriteLine("row\tsize\treps\tmin_ms\tmedian_ms\talloc_bytes_per_rep\tpeak_ws_mb\tchecksum\tfile_bytes");
         var jobs = new List<(string Row, string Target, int Reps)>();
@@ -491,7 +680,15 @@ public static class XlsxStreamBench
             }
 
             int reps = rows >= 1_000_000 ? 2 : rows >= 100_000 ? 3 : 5;
-            if (kind != "write")
+            if (kind is null or "model" && ModelSizes.Contains(rows))
+            {
+                foreach (string row in ModelRows)
+                {
+                    jobs.Add((row, Path.Combine(dir, InputName(rows)), rows >= 100_000 ? 3 : 5));
+                }
+            }
+
+            if (kind is null or "read")
             {
                 foreach (string row in ReadRows)
                 {
@@ -499,7 +696,7 @@ public static class XlsxStreamBench
                 }
             }
 
-            if (kind != "read")
+            if (kind is null or "write")
             {
                 foreach (string row in WriteRows)
                 {
@@ -510,17 +707,8 @@ public static class XlsxStreamBench
 
         foreach ((string row, string target, int reps) in jobs)
         {
-            var psi = new ProcessStartInfo("dotnet") { RedirectStandardOutput = true, UseShellExecute = false };
-            psi.ArgumentList.Add(dll);
-            psi.ArgumentList.Add("xlsxstream");
-            psi.ArgumentList.Add("run");
-            psi.ArgumentList.Add(row);
-            psi.ArgumentList.Add(target);
-            psi.ArgumentList.Add(reps.ToString(CultureInfo.InvariantCulture));
-            using Process p = Process.Start(psi)!;
-            string line = p.StandardOutput.ReadToEnd().Trim();
-            p.WaitForExit();
-            string result = p.ExitCode == 0 ? line : row + "\t" + Path.GetFileName(target) + "\tFAILED exit " + p.ExitCode;
+            int exit = ChildProcess.Run(["xlsxstream", "run", row, target, reps.ToString(CultureInfo.InvariantCulture)], out string line, out long peakMb);
+            string result = exit == 0 ? ChildProcess.WithPeak(line, 6, peakMb) : row + "\t" + Path.GetFileName(target) + "\tFAILED exit " + exit;
             output.WriteLine(result);
             output.Flush();
             Console.WriteLine(result);

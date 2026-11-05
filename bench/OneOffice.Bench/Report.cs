@@ -89,6 +89,9 @@ internal static class Report
             md.Append(CultureInfo.InvariantCulture, $"\nGeometric mean of the ratios: {geomean:F3}x over {bar.Count} rows. Worst row: {worst.Class} {worst.Input} at {worst.Ours / worst.FastestMedian:F2}x.\n\n");
         }
 
+        XlsxReport.Append(md, dir);
+        XlsxReport.AppendFootprint(md, dir);
+
         string peak = Path.Combine(dir, "peak.tsv");
         if (File.Exists(peak))
         {
