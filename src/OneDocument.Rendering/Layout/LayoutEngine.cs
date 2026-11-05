@@ -367,82 +367,7 @@ public static class LayoutEngine
                 top = _y;
             }
 
-            double y = top + (first ? fp.BorderTopHeight : 0);
-            var lp = new LayoutParagraph(fp.Source, fp.Text)
-            {
-                Label = first ? fp.Label : null,
-                HeadingLevel = fp.Heading,
-                IsRightToLeft = fp.Rtl,
-                ContinuesFromPreviousPage = !first,
-                ContinuesOnNextPage = !last,
-                Paint = fp.Paint,
-            };
-
-            double left = page.ContentArea.X;
-            bool breakAfter = false;
-            for (int i = from; i < from + count; i++)
-            {
-                FormattedLine fl = fp.Lines[i];
-                var line = new LayoutLine
-                {
-                    Ascent = fl.Ascent,
-                    Descent = fl.Descent,
-                    Baseline = y + fl.Ascent,
-                    TextStart = fl.TextStart,
-                    TextLength = fl.TextLength,
-                    Text = fl.Text,
-                    IsLastLine = fl.IsLast,
-                };
-                double minX = double.MaxValue;
-                double maxX = double.MinValue;
-                foreach (LineItem item in fl.Items)
-                {
-                    var run = new LayoutRun(item.Kind)
-                    {
-                        Text = item.Text,
-                        TextStart = item.TextStart,
-                        Source = item.Source,
-                        Font = item.Font,
-                        FontSize = item.Size,
-                        BidiLevel = item.Level,
-                        Bounds = new LayoutRect(left + item.X, y, item.Width, fl.Height),
-                        ClusterStarts = item.ClusterStarts,
-                        ClusterX = [.. item.ClusterX.Select(v => v + left)],
-                        Paint = item.Paint,
-                        Glyphs = item.Glyphs,
-                        Drawing = item.Drawing,
-                    };
-                    line.Add(run);
-                    minX = Math.Min(minX, left + item.X);
-                    maxX = Math.Max(maxX, left + item.X + item.Width);
-                }
-
-                if (minX > maxX)
-                {
-                    minX = left + fp.Paint.LeftEdge;
-                    maxX = minX;
-                }
-
-                line.Bounds = new LayoutRect(minX, y, maxX - minX, fl.Height);
-                lp.Add(line);
-                y += fl.Height;
-                if (fl.EndsWithPageBreak)
-                {
-                    breakAfter = true;
-                }
-            }
-
-            if (last)
-            {
-                y += fp.BorderBottomHeight;
-            }
-
-            if (first)
-            {
-                lp.Floats.AddRange(fp.Floats);
-            }
-
-            lp.Bounds = new LayoutRect(left + fp.Paint.LeftEdge, top, Math.Max(0, fp.Paint.RightEdge - fp.Paint.LeftEdge), y - top);
+            LayoutParagraph lp = ParagraphBuilder.Build(fp, from, count, page.ContentArea.X, top, first, last, out double y, out bool breakAfter);
             page.Add(lp);
             _y = y;
             _pageHasContent = true;
@@ -452,5 +377,91 @@ public static class LayoutEngine
                 _forceBreakBeforeNext = true;
             }
         }
+    }
+}
+
+// Turns formatted lines into layout nodes at a given origin: the page flow and shape text both build their paragraphs here.
+internal static class ParagraphBuilder
+{
+    public static LayoutParagraph Build(FormattedParagraph fp, int from, int count, double left, double top, bool first, bool last, out double endY, out bool breakAfter)
+    {
+        double y = top + (first ? fp.BorderTopHeight : 0);
+        var lp = new LayoutParagraph(fp.Source, fp.Text)
+        {
+            Label = first ? fp.Label : null,
+            HeadingLevel = fp.Heading,
+            IsRightToLeft = fp.Rtl,
+            ContinuesFromPreviousPage = !first,
+            ContinuesOnNextPage = !last,
+            Paint = fp.Paint,
+        };
+
+        breakAfter = false;
+        for (int i = from; i < from + count; i++)
+        {
+            FormattedLine fl = fp.Lines[i];
+            var line = new LayoutLine
+            {
+                Ascent = fl.Ascent,
+                Descent = fl.Descent,
+                Baseline = y + fl.Ascent,
+                TextStart = fl.TextStart,
+                TextLength = fl.TextLength,
+                Text = fl.Text,
+                IsLastLine = fl.IsLast,
+            };
+            double minX = double.MaxValue;
+            double maxX = double.MinValue;
+            foreach (LineItem item in fl.Items)
+            {
+                var run = new LayoutRun(item.Kind)
+                {
+                    Text = item.Text,
+                    TextStart = item.TextStart,
+                    Source = item.Source,
+                    Font = item.Font,
+                    FontSize = item.Size,
+                    BidiLevel = item.Level,
+                    Bounds = new LayoutRect(left + item.X, y, item.Width, fl.Height),
+                    ClusterStarts = item.ClusterStarts,
+                    ClusterX = [.. item.ClusterX.Select(v => v + left)],
+                    Paint = item.Paint,
+                    Glyphs = item.Glyphs,
+                    Drawing = item.Drawing,
+                };
+                line.Add(run);
+                minX = Math.Min(minX, left + item.X);
+                maxX = Math.Max(maxX, left + item.X + item.Width);
+            }
+
+            if (minX > maxX)
+            {
+                minX = left + fp.Paint.LeftEdge;
+                maxX = minX;
+            }
+
+            line.Bounds = new LayoutRect(minX, y, maxX - minX, fl.Height);
+            lp.Add(line);
+            y += fl.Height;
+            if (fl.EndsWithPageBreak)
+            {
+                breakAfter = true;
+            }
+        }
+
+        if (last)
+        {
+            y += fp.BorderBottomHeight;
+        }
+
+        if (first)
+        {
+            lp.Floats.AddRange(fp.Floats);
+        }
+
+        lp.Bounds = new LayoutRect(left + fp.Paint.LeftEdge, top, Math.Max(0, fp.Paint.RightEdge - fp.Paint.LeftEdge), y - top);
+
+        endY = y;
+        return lp;
     }
 }

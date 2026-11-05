@@ -50,6 +50,12 @@ internal static class DrawingSamples
     private static string ShapeRun(string geometry, double w, double h, string paint, string name, string? descr = null, string xfrmAttrs = "") =>
         Inline(Wsp(geometry, w, h, paint, xfrmAttrs), w, h, WpsUri, name, descr);
 
+    // A shape with a text box inside; the text is one or two paragraphs.
+    internal static string TextRun(string prst, double w, double h, string anchor, string bodyAttrs, string text, string fill, string? second = null) =>
+        Inline($"<wps:wsp><wps:cNvSpPr txBox=\"1\"/><wps:spPr>{Xfrm(w, h)}{Prst(prst)}{Solid(fill)}{Ln(1)}</wps:spPr><wps:txbx><w:txbxContent xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:p><w:r><w:t>{text}</w:t></w:r></w:p>" +
+            (second is null ? string.Empty : $"<w:p><w:pPr><w:spacing w:before=\"120\"/></w:pPr><w:r><w:t>{second}</w:t></w:r></w:p>") +
+            $"</w:txbxContent></wps:txbx><wps:bodyPr{bodyAttrs} anchor=\"{anchor}\"/></wps:wsp>", w, h, WpsUri, "text " + prst, text);
+
     private static string Row(params string[] runs) => "<w:p><w:pPr><w:spacing w:after=\"120\"/></w:pPr>" + string.Join("<w:r><w:t xml:space=\"preserve\">   </w:t></w:r>", runs) + "</w:p>";
 
     private static string Title(string text) => TestDocx.P(text, "<w:keepNext/><w:spacing w:before=\"120\" w:after=\"60\"/>", "<w:b/>");
@@ -231,6 +237,22 @@ internal static class DrawingSamples
                 $"<wpg:grpSp><wpg:grpSpPr><a:xfrm rot=\"1200000\"><a:off x=\"600\" y=\"400\"/><a:ext cx=\"500\" cy=\"300\"/><a:chOff x=\"0\" y=\"0\"/><a:chExt cx=\"100\" cy=\"100\"/></a:xfrm></wpg:grpSpPr>{Child(0, 0, 100, 100, "star5", "FFD966")}{Child(20, 20, 60, 60, "ellipse", "C00000")}</wpg:grpSp></wpg:wgp>";
             sb.Append(Row(Inline(group, 120, 80, GrpUri, "group", "nested group")));
             list.Add(("effects-groups", Build(sb.ToString())));
+        }
+
+        // Text in shapes.
+        {
+            var sb = new StringBuilder(Title("Text in shapes: anchoring, insets, vertical text, other geometries"));
+            sb.Append(Row(
+                TextRun("rect", 110, 70, "t", string.Empty, "Top anchored text that wraps over a few lines inside the box", "FFF2CC"),
+                TextRun("rect", 110, 70, "ctr", string.Empty, "Centred vertically", "E2F0D9"),
+                TextRun("rect", 110, 70, "b", string.Empty, "Bottom anchored", "DEEBF7"),
+                TextRun("rect", 110, 70, "t", " lIns=\"360000\" tIns=\"180000\" rIns=\"360000\" bIns=\"180000\"", "Wide insets squeeze the text", "FCE4D6")));
+            sb.Append(Row(
+                TextRun("rect", 60, 110, "t", " vert=\"vert\"", "Vertical text", "FFF2CC"),
+                TextRun("rect", 60, 110, "t", " vert=\"vert270\"", "Vertical 270", "E2F0D9"),
+                TextRun("ellipse", 120, 70, "ctr", string.Empty, "Ellipse text rectangle", "DEEBF7"),
+                TextRun("roundRect", 120, 70, "ctr", string.Empty, "Two paragraphs", "EDEDED", second: "Second paragraph")));
+            list.Add(("shape-text", Build(sb.ToString())));
         }
 
         // Pictures.
@@ -422,5 +444,73 @@ public sealed class DrawingDocumentTests
             File.WriteAllBytes(Path.Combine(dir, "slide-shapes.pdf"), pdf.ToArray());
             File.WriteAllBytes(Path.Combine(dir, "slide-shapes.png"), img.ToPng());
         }
+    }
+
+    // The dark pixels of a rendered page inside a rectangle given in points: (minX, minY, maxX, maxY), or null when there are none.
+    private static (double, double, double, double)? Ink(RgbaImage img, double x, double y, double w, double h)
+    {
+        double k = 96.0 / 72.0;
+        int x0 = (int)(x * k) + 2, y0 = (int)(y * k) + 2, x1 = (int)((x + w) * k) - 2, y1 = (int)((y + h) * k) - 2;
+        int minX = int.MaxValue, minY = int.MaxValue, maxX = -1, maxY = -1;
+        for (int py = y0; py < y1; py++)
+        {
+            for (int px = x0; px < x1; px++)
+            {
+                int i = ((py * img.Width) + px) * 4;
+                if (img.Pixels[i] < 90 && img.Pixels[i + 1] < 90 && img.Pixels[i + 2] < 90)
+                {
+                    minX = Math.Min(minX, px);
+                    maxX = Math.Max(maxX, px);
+                    minY = Math.Min(minY, py);
+                    maxY = Math.Max(maxY, py);
+                }
+            }
+        }
+
+        return maxX < 0 ? null : (minX / k, minY / k, maxX / k, maxY / k);
+    }
+
+    [Fact]
+    public void Text_in_a_shape_is_anchored_inset_and_rotated_by_its_body_properties()
+    {
+        byte[] docx = DrawingSamples.All().First(s => s.Name == "shape-text").Docx;
+        using Document doc = Document.Open(new MemoryStream(docx), leaveOpen: false);
+        LayoutDocument layout = LayoutEngine.Layout(doc, new LayoutOptions { Fonts = TestFonts.Library });
+        LayoutPage page = layout.Pages[0];
+        DisplayList list = LayoutPainter.Paint(page, new PaintOptions { Images = new DrawingImages() });
+        RgbaImage img = DisplayListRasterizer.Render(list, (int)Math.Ceiling(page.Width * 96 / 72), (int)Math.Ceiling(page.Height * 96 / 72), new RasterOptions());
+        var boxes = page.Paragraphs.SelectMany(p => p.Lines).SelectMany(l => l.Runs.Where(r => r.RunKind == LayoutRunKind.Drawing).Select(r => (r, l))).ToList();
+        (double X, double Y, double W, double H) Box(int i) => (boxes[i].r.Bounds.X, boxes[i].l.Baseline - boxes[i].r.Bounds.Height, boxes[i].r.Bounds.Width, boxes[i].r.Bounds.Height);
+
+        // Top, centre, bottom: the ink sits at the top (below the 3.6 pt inset), in the middle, and at the bottom of the same-sized boxes.
+        (double X, double Y, double W, double H) top = Box(0), mid = Box(1), bot = Box(2);
+        var inkTop = Ink(img, top.X, top.Y, top.W, top.H);
+        var inkMid = Ink(img, mid.X, mid.Y, mid.W, mid.H);
+        var inkBot = Ink(img, bot.X, bot.Y, bot.W, bot.H);
+        Assert.NotNull(inkTop);
+        Assert.NotNull(inkMid);
+        Assert.NotNull(inkBot);
+        Assert.InRange(inkTop!.Value.Item2 - top.Y, 3.5, 10);
+        Assert.InRange(((inkMid!.Value.Item2 + inkMid.Value.Item4) / 2) - (mid.Y + (mid.H / 2)), -6, 6);
+        Assert.InRange((bot.Y + bot.H) - inkBot!.Value.Item4, 1.5, 9);
+
+        // Wide insets (28.35 pt left and right) keep the ink off the sides.
+        (double X, double Y, double W, double H) wide = Box(3);
+        var inkWide = Ink(img, wide.X, wide.Y, wide.W, wide.H);
+        Assert.NotNull(inkWide);
+        Assert.True(inkWide!.Value.Item1 - wide.X >= 28, "left inset honoured");
+        Assert.True((wide.X + wide.W) - inkWide.Value.Item3 >= 27, "right inset honoured");
+        Assert.True(inkWide.Value.Item2 - wide.Y >= 14, "top inset honoured");
+
+        // Vertical text: a narrow tall box holds a single column of rotated text, so the ink is taller than it is wide and sits at
+        // the right (vert) or the left (vert270) side.
+        (double X, double Y, double W, double H) v90 = Box(4), v270 = Box(5);
+        var inkV90 = Ink(img, v90.X, v90.Y, v90.W, v90.H);
+        var inkV270 = Ink(img, v270.X, v270.Y, v270.W, v270.H);
+        Assert.NotNull(inkV90);
+        Assert.NotNull(inkV270);
+        Assert.True(inkV90!.Value.Item4 - inkV90.Value.Item2 > 2 * (inkV90.Value.Item3 - inkV90.Value.Item1), "vertical text runs down the box");
+        Assert.True(inkV90.Value.Item3 > v90.X + (v90.W / 2), "vert text starts at the right");
+        Assert.True(inkV270!.Value.Item1 < v270.X + (v270.W / 2), "vert270 text starts at the left");
     }
 }

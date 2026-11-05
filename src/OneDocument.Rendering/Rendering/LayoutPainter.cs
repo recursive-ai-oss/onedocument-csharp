@@ -1,6 +1,8 @@
 using System.Numerics;
 using OneRender.Painting;
 using RecursiveAI.OneDocument.Layout;
+using RecursiveAI.OneDocument.Markup;
+using RecursiveAI.OneDocument.Schema;
 using RecursiveAI.OneDocument.Rendering.Drawing;
 
 namespace RecursiveAI.OneDocument.Rendering;
@@ -70,6 +72,8 @@ public static class LayoutPainter
             if (!_drawingContexts.TryGetValue(sources, out DrawingContext? c))
             {
                 c = new DrawingContext(new ColorResolver(sources.Theme, sources.Map), options.Images, sources.ImageBytes, sources.Scope) { Tagged = options.Tagged };
+                DrawingContext captured = c;
+                c.TextPainter = request => PaintShapeText(request, sources, captured);
                 _drawingContexts[sources] = c;
             }
 
@@ -258,6 +262,104 @@ public static class LayoutPainter
                 _ => by + (i.OffsetY ?? 0),
             };
             DrawingPainter.Draw(List, () => Id(), d.Node, new DrawingBox(x, y, i.Width, i.Height), ContextFor(d.Sources), i.AltText, i.Decorative);
+        }
+
+        private int _textDepth;
+
+        // Text inside a Word shape (wps:txbx). ECMA-376 Part 1 §20.1.2.1.1 (bodyPr): the lines are laid out at the text rectangle's width
+        // (its height for vertical text), stacked from the top, the middle or the bottom (anchor), and drawn through the shape's transform.
+        // Text taller than the box is not clipped; Word clips it at the box, which is reported as a note.
+        private void PaintShapeText(ShapeTextRequest req, DrawingSources sources, DrawingContext dctx)
+        {
+            MarkupNode content = DrawingTheme.Child(DrawingTheme.Child(req.Shape, "txbx"), "txbxContent");
+            if (content.IsNull)
+            {
+                dctx.Note("drawing.text-body-not-painted", "The text body of a presentation or worksheet shape is not painted by the document renderer.");
+                return;
+            }
+
+            if (sources.Layout is not { } lc || _textDepth > 4)
+            {
+                return;
+            }
+
+            string vert = req.BodyProperties.IsNull ? "horz" : req.BodyProperties.GetAttribute("vert") ?? "horz";
+            bool v90 = vert is "vert" or "eaVert" or "mongolianVert" or "wordArtVert";
+            bool v270 = vert is "vert270" or "wordArtVertRtl";
+            if (vert is "mongolianVert" or "wordArtVert" or "wordArtVertRtl")
+            {
+                dctx.Note("drawing.text-vertical-approximated", "Word-art and Mongolian vertical text is drawn as ordinary rotated text.");
+            }
+
+            bool rotated = v90 || v270;
+            double lineWidth = rotated ? req.Height : req.Width;
+            double avail = rotated ? req.Width : req.Height;
+            if (lineWidth < 1)
+            {
+                return;
+            }
+
+            if (!req.BodyProperties.IsNull && req.BodyProperties.GetAttribute("wrap") == "none")
+            {
+                dctx.Note("drawing.text-wrap-none-approximated", "Text in a shape that does not wrap is wrapped at the shape's width.");
+            }
+
+            var laid = new List<LayoutParagraph>();
+            double y = 0, pendingAfter = 0;
+            bool first = true;
+            foreach (MarkupNode child in content.ChildElements)
+            {
+                if (child.LocalNameString != "p")
+                {
+                    if (child.LocalNameString is "tbl" or "sdt")
+                    {
+                        dctx.Note("drawing.text-block-skipped", "A table or content control inside a text box is not laid out.");
+                    }
+
+                    continue;
+                }
+
+                FormattedParagraph fp = ParagraphFormatter.Format(lc.Doc.WrapParagraph(new MarkupRef(child)), lc, lineWidth);
+                double gap = first ? fp.SpaceBefore : pendingAfter + fp.SpaceBefore;
+                laid.Add(ParagraphBuilder.Build(fp, 0, fp.Lines.Count, 0, y + gap, true, true, out double end, out _));
+                y = end;
+                pendingAfter = fp.SpaceAfter;
+                first = false;
+            }
+
+            if (laid.Count == 0)
+            {
+                return;
+            }
+
+            if (y > avail + 0.5)
+            {
+                dctx.Note("drawing.text-overflow", "Text taller than its shape is drawn past the shape's edge; Word clips it.");
+            }
+
+            string anchor = req.BodyProperties.IsNull ? "t" : req.BodyProperties.GetAttribute("anchor") ?? "t";
+            double shift = anchor switch { "ctr" => Math.Max(0, (avail - y) / 2), "b" => Math.Max(0, avail - y), _ => 0 };
+            Matrix3x2 rot = Matrix3x2.Identity;
+            if (v90)
+            {
+                // Lines run top to bottom and stack right to left: (x, y) in the line frame lands at (width - y, x).
+                rot = new Matrix3x2(0, 1, -1, 0, (float)req.Width, 0);
+            }
+            else if (v270)
+            {
+                rot = new Matrix3x2(0, -1, 1, 0, 0, (float)req.Height);
+            }
+
+            Matrix3x2 m = Matrix3x2.CreateScale((float)(1 / K)) * Matrix3x2.CreateTranslation(0, (float)shift) * rot * req.Transform;
+            List.PushTransform(Id(), m);
+            _textDepth++;
+            foreach (LayoutParagraph lp in laid)
+            {
+                PaintParagraph(lp, false);
+            }
+
+            _textDepth--;
+            List.PopTransform();
         }
 
         private void PaintInlineObject(LayoutRun run, LayoutLine line)

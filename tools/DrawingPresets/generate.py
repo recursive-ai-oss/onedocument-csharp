@@ -40,7 +40,7 @@ def main() -> None:
         for gd in shape.findall(f"{A}avLst/{A}gd"):
             lines.append(f"A {gd.get('name')} {gd.get('fmla').split()[1]}")
         for gd in shape.findall(f"{A}gdLst/{A}gd"):
-            lines.append(f"G {gd.get('name')} {gd.get('fmla')}")
+            lines.append(f"G {gd.get('name')} {' '.join(gd.get('fmla').split())}")
         rect = shape.find(f"{A}rect")
         if rect is not None:
             lines.append(f"R {rect.get('l')} {rect.get('t')} {rect.get('r')} {rect.get('b')}")

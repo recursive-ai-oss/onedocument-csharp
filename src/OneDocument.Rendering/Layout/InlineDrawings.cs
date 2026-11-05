@@ -27,6 +27,9 @@ internal sealed class DrawingSources
 
     public string Scope { get; }
 
+    // The layout the drawings belong to; shape text is laid out with it.
+    public LayoutContext? Layout { get; set; }
+
     public static DrawingSources Create(Document doc, IReadOnlyDictionary<string, Relationship> relationships)
     {
         DrawingTheme theme = DrawingTheme.Default;

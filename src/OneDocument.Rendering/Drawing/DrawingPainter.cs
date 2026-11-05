@@ -356,6 +356,16 @@ public static class DrawingPainter
             EvaluatedGeometry? eg = geometry?.Evaluate(wPt, hPt, adjust);
             FillSpec? fill = kind == "pic" ? PictureFill(shape, spPr) : ResolveFill(spPr, style);
             LineSpec line = ResolveLine(spPr, style);
+            // Office keeps a line's width when a group is stretched, so the stretch the group put into this shape's matrix is divided out.
+            double det = Math.Abs((double)m.M11 * m.M22 - ((double)m.M12 * m.M21));
+            double widthFix = det > 1e-18 ? PointsToPixels / Math.Sqrt(det) : 1;
+            if (!double.IsFinite(widthFix) || widthFix <= 0)
+            {
+                widthFix = 1;
+            }
+
+            line.Width *= widthFix;
+            line.ArrowMin = 1.5 * widthFix;
             var effects = ResolveEffects(spPr, style);
 
             bool filter = effects.Shadow is not null || effects.Glow is not null;
@@ -780,6 +790,7 @@ public static class DrawingPainter
         {
             public bool Visible;
             public double Width = 0.75;
+            public double ArrowMin = 1.5;
             public string Cap = "flat";
             public string Compound = "sng";
             public string Join = "round";
@@ -918,7 +929,7 @@ public static class DrawingPainter
 
         private void PaintLine(PathBuffer path, LineSpec line)
         {
-            double width = Math.Max(line.Width, 0.25);
+            double width = Math.Max(line.Width, 0.25 * line.ArrowMin / 1.5);
             List<Polyline> lines = PathGeometry.Flatten(path, Matrix3x2.Identity);
             if (lines.Count == 0)
             {
@@ -962,18 +973,18 @@ public static class DrawingPainter
             Polyline first = lines[0], last = lines[^1];
             if (line.Head is { } head && !first.Closed && first.Points.Count >= 2)
             {
-                Arrow(first.Points[0], first.Points[1], head, width, color);
+                Arrow(first.Points[0], first.Points[1], head, width, color, line.ArrowMin);
             }
 
             if (line.Tail is { } tail && !last.Closed && last.Points.Count >= 2)
             {
-                Arrow(last.Points[^1], last.Points[^2], tail, width, color);
+                Arrow(last.Points[^1], last.Points[^2], tail, width, color, line.ArrowMin);
             }
         }
 
         // ECMA-376 Part 1 §20.1.8.38 (tailEnd): the head is drawn at the end of the line, pointing away from it; sm, med and lg are 2, 3 and
         // 5 times the line width (never less than about two pixels' worth, so thin lines still get a visible head).
-        private void Arrow(Vector2 tip, Vector2 from, (string Type, string W, string Len) end, double width, PaintColor color)
+        private void Arrow(Vector2 tip, Vector2 from, (string Type, string W, string Len) end, double width, PaintColor color, double minUnit)
         {
             Vector2 dir = tip - from;
             if (dir.LengthSquared() < 1e-12f)
@@ -983,7 +994,7 @@ public static class DrawingPainter
 
             dir = Vector2.Normalize(dir);
             Vector2 nrm = new(-dir.Y, dir.X);
-            double unit = Math.Max(width, 1.5);
+            double unit = Math.Max(width, minUnit);
             float aw = (float)(unit * Size(end.W)), al = (float)(unit * Size(end.Len));
             var pb = new PathBuffer();
             switch (end.Type)

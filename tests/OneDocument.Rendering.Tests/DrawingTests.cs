@@ -53,6 +53,27 @@ public sealed class GeometryTests
     }
 
     [Fact]
+    public void Star5_fills_its_box_with_a_point_at_the_top_centre()
+    {
+        EvaluatedGeometry g = GeometryDefinition.Preset("star5")!.Evaluate(100, 100);
+        float[] c = g.Paths[0].Path.Coords.ToArray();
+        float minX = float.MaxValue, maxX = float.MinValue, minY = float.MaxValue, maxY = float.MinValue;
+        for (int i = 0; i < c.Length; i += 2)
+        {
+            minX = Math.Min(minX, c[i]);
+            maxX = Math.Max(maxX, c[i]);
+            minY = Math.Min(minY, c[i + 1]);
+            maxY = Math.Max(maxY, c[i + 1]);
+        }
+
+        Assert.Equal(0, minX, 1);
+        Assert.Equal(100, maxX, 1);
+        Assert.Equal(0, minY, 1);
+        Assert.InRange(maxY, 90, 100.1);
+        Assert.Contains(Enumerable.Range(0, c.Length / 2), i => Math.Abs(c[2 * i] - 50) < 0.1 && Math.Abs(c[(2 * i) + 1]) < 0.1);
+    }
+
+    [Fact]
     public void Rect_is_the_box_and_its_text_rectangle_is_the_box()
     {
         EvaluatedGeometry g = GeometryDefinition.Preset("rect")!.Evaluate(200, 100);
