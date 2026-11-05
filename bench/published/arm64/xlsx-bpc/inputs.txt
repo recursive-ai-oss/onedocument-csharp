@@ -1,4 +1,4 @@
-/Users/kurtis/oneoffice/u25/inputs-bpc/xlsx/values-1000000.xlsx 97401437 bytes
+values-1000000.xlsx 97401437 bytes
 1f42483a6aa8c4d5836bd8acd0959a38cb14c24256f118fc6ebe99db48e4e17f  stress-100000.xlsx
 697fdbfbf00b42b84e94ec7f8eafb9a71eb97ac7422976e3cff68d8985e27ae0  values-10000.xlsx
 a10e5f6a86ea49c5f032ceb878eed4399c62c9d3cfdfa1aa674e52a7c5be8a90  values-100000.xlsx

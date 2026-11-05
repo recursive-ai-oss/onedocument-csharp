@@ -106,9 +106,9 @@ fi
 
 "$dotnet_bin" "$dll" versions > "$out/versions.txt"
 if [[ -z "$xlsx" ]]; then
-  "$dotnet_bin" "$dll" gen "$inputs" > "$out/inputs.txt"
+  "$dotnet_bin" "$dll" gen "$inputs" | sed "s|$inputs/||" > "$out/inputs.txt"
 else
-  "$dotnet_bin" "$dll" xlsxstream gen "$inputs/xlsx" > "$out/inputs.txt"
+  "$dotnet_bin" "$dll" xlsxstream gen "$inputs/xlsx" | sed "s|$inputs/xlsx/||" > "$out/inputs.txt"
   ( cd "$inputs/xlsx" && sha256sum *.xlsx 2>/dev/null || shasum -a 256 *.xlsx ) >> "$out/inputs.txt"
 fi
 

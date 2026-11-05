@@ -97,7 +97,7 @@ Each machine ran one timing group and one peak-memory group under the machine's 
 | Machine | AMD Ryzen 9 7950X3D, 16 cores / 32 threads, AVX2/AVX-512, 125 GB, NVMe, Linux 7.0 | Apple M2 (Mac mini), 4 performance + 4 efficiency cores, 8 GB, NEON, macOS |
 | Load average (1 min) before / after (samples every 10 s in `load.log`) | 1.33 / 1.04 | 2.39 / 2.04 |
 
-The document groups on both machines started under the load limit. The x64 streaming-write group was started with `--force` at load 3.7 and the x64 model groups at 1.7 and 2.3 (the queue had settled; other projects' light jobs kept the load above idle). The x64 streaming-read group was re-run alone under the bench class (wq 004127, job princessDonut.tskv6m0p) with no override, starting at load 1.81, and replaces the first run; each `env.txt` records the override. Other light work kept the load average above idle during the runs, so treat ratios within a few percent of 1.00 as ties.
+The document groups on both machines started under the load limit. The x64 streaming-write group was started with `--force` at load 3.7 and the x64 model groups at 1.7 and 2.3 (the queue had settled; other projects' light jobs kept the load above idle). The x64 streaming-read group was re-run alone under the exclusive benchmark queue class with no override, starting at load 1.81, and replaces the first run; each `env.txt` records the override. Other light work kept the load average above idle during the runs, so treat ratios within a few percent of 1.00 as ties.
 
 ### Ratios against the fastest comparator (OneOffice median / comparator median)
 
