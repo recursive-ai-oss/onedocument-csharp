@@ -6,7 +6,7 @@ using RecursiveAI.OneDocument.Spreadsheets;
 namespace RecursiveAI.OneDocument.Rendering.Spreadsheets;
 
 /// <summary>A drawing anchor read from the sheet's drawing part, in cell coordinates.</summary>
-internal sealed record Anchor(SheetObjectKind Kind, string Name, MarkupNode Node, int FromCol, double FromColOff, int FromRow, double FromRowOff, int ToCol, double ToColOff, int ToRow, double ToRowOff, double ExtX, double ExtY, bool Absolute);
+internal sealed record Anchor(SheetObjectKind Kind, string Name, MarkupNode Node, int FromCol, double FromColOff, int FromRow, double FromRowOff, int ToCol, double ToColOff, int ToRow, double ToRowOff, double ExtX, double ExtY, bool Absolute, string DrawingPart);
 
 /// <summary>A sheet that is going to be printed: its settings, print areas, sizes, merges, drawing anchors and conditional-format results.</summary>
 internal sealed class SheetPlan
@@ -330,7 +330,7 @@ internal sealed class SheetPlan
 
             foreach (MarkupNode anchor in doc.Root.ChildElements)
             {
-                if (ReadAnchor(anchor) is { } a)
+                if (ReadAnchor(anchor, target.Value) is { } a)
                 {
                     Anchors.Add(a);
                 }
@@ -338,7 +338,7 @@ internal sealed class SheetPlan
         }
     }
 
-    private static Anchor? ReadAnchor(MarkupNode node)
+    private static Anchor? ReadAnchor(MarkupNode node, string drawingPart)
     {
         string kind = node.LocalNameString;
         if (kind is not ("twoCellAnchor" or "oneCellAnchor" or "absoluteAnchor"))
@@ -378,15 +378,15 @@ internal sealed class SheetPlan
 
         if (kind == "oneCellAnchor")
         {
-            return new Anchor(objectKind, name, node, fc, fco, fr, fro, fc, fco, fr, fro, ex, ey, false);
+            return new Anchor(objectKind, name, node, fc, fco, fr, fro, fc, fco, fr, fro, ex, ey, false, drawingPart);
         }
 
         if (kind == "absoluteAnchor")
         {
-            return new Anchor(objectKind, name, node, 0, fco, 0, fro, 0, fco, 0, fro, ex, ey, true);
+            return new Anchor(objectKind, name, node, 0, fco, 0, fro, 0, fco, 0, fro, ex, ey, true, drawingPart);
         }
 
-        return new Anchor(objectKind, name, node, fc, fco, fr, fro, tc, tco, tr, tro, 0, 0, false);
+        return new Anchor(objectKind, name, node, fc, fco, fr, fro, tc, tco, tr, tro, 0, 0, false, drawingPart);
     }
 
     private static void ReadMarker(MarkupNode m, out int col, out double colOff, out int row, out double rowOff)

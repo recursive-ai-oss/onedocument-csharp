@@ -458,7 +458,7 @@ public sealed class SheetRenderTests
     {
         SheetLayoutDocument l = Layout("x26-drawing-anchors");
         SheetPage p = l.Pages[0];
-        Assert.Equal(2, p.Objects.Count);
+        Assert.Equal(3, p.Objects.Count);
         SheetObject chart = p.Objects.Single(o => o.Kind == SheetObjectKind.Chart);
         Assert.Equal("Chart 1", chart.Name);
         Assert.Equal(p.ContentX + 48, chart.X, 0.01);
@@ -471,6 +471,37 @@ public sealed class SheetRenderTests
     }
 
     [Fact]
+    public void PicturesShapesAndChartsOnASheetArePainted()
+    {
+        SheetLayoutDocument l = Layout("x26-drawing-anchors");
+        DisplayList list = WorkbookRenderer.Paint(l, l.Pages[0]);
+        int paths = 0;
+        int images = 0;
+        int glyphs = 0;
+        for (int i = 0; i < list.Count; i++)
+        {
+            paths += list[i].Kind == ItemKind.FillPath ? 1 : 0;
+            images += list[i].Kind == ItemKind.Image ? 1 : 0;
+            glyphs += list[i].Kind == ItemKind.GlyphRun ? 1 : 0;
+        }
+
+        Assert.Equal(1, images);                 // the picture
+        Assert.True(paths >= 4, paths.ToString()); // the rectangle and the chart's bars
+        Assert.DoesNotContain(l.Notes, n => n.Code == "sheet-layout.object-not-painted");
+        Assert.Contains("North", PdfText("x26-drawing-anchors"), StringComparison.Ordinal); // the chart's category labels
+        Assert.True(glyphs > 20);
+
+        SheetRenderOptions off = Options();
+        off.PaintDrawings = false;
+        SheetLayoutDocument none = Layout("x26-drawing-anchors", off);
+        DisplayList bare = WorkbookRenderer.Paint(none, none.Pages[0]);
+        for (int i = 0; i < bare.Count; i++)
+        {
+            Assert.NotEqual(ItemKind.Image, bare[i].Kind);
+        }
+    }
+
+    [Fact]
     public void ObjectPainterIsCalledForEveryObjectAndPlaceholdersAreOptional()
     {
         var seen = new List<string>();
@@ -479,7 +510,7 @@ public sealed class SheetRenderTests
         o.ObjectPlaceholders = true;
         SheetLayoutDocument l = Layout("x26-drawing-anchors", o);
         _ = WorkbookRenderer.Paint(l, l.Pages[0]);
-        Assert.Equal(new List<string> { "Chart 1", "Rectangle 2" }, seen);
+        Assert.Equal(new List<string> { "Chart 1", "Rectangle 2", "Picture 3" }, seen);
     }
 
     [Fact]

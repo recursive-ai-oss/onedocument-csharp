@@ -38,7 +38,8 @@ public enum SheetObjectKind
 /// <param name="Width">Width in points, after the page scale.</param>
 /// <param name="Height">Height in points, after the page scale.</param>
 /// <param name="Source">The anchor element in the drawing part (<c>xdr:twoCellAnchor</c> and the like).</param>
-public sealed record SheetObject(SheetObjectKind Kind, string Name, double X, double Y, double Width, double Height, MarkupNode Source);
+/// <param name="DrawingPart">The name of the drawing part the anchor is in; its relationships name the object's pictures and charts.</param>
+public sealed record SheetObject(SheetObjectKind Kind, string Name, double X, double Y, double Width, double Height, MarkupNode Source, string DrawingPart);
 
 /// <summary>What <see cref="SheetRenderOptions.ObjectPainter"/> receives for each object on a page.</summary>
 /// <param name="Page">The page being painted.</param>
@@ -58,6 +59,12 @@ public sealed class SheetRenderOptions
 
     /// <summary>Gets or sets whether a plain box is drawn where a picture, chart or shape sits, for painters that have not been plugged in. Default false.</summary>
     public bool ObjectPlaceholders { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether pictures, shapes and charts on the sheet are painted (through the shared DrawingML painter and the chart renderer) at their
+    /// anchor boxes. Default true. Text inside shapes is not painted yet.
+    /// </summary>
+    public bool PaintDrawings { get; set; } = true;
 
     /// <summary>Gets or sets a painter called for every drawing object after the cells of its page are painted; null for none.</summary>
     public Action<SheetObjectPaintContext>? ObjectPainter { get; set; }

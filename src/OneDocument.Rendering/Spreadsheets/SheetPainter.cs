@@ -3,6 +3,9 @@ using System.Globalization;
 using System.Numerics;
 using OneFont;
 using OneRender.Painting;
+using RecursiveAI.OneDocument.Markup;
+using RecursiveAI.OneDocument.Packaging;
+using RecursiveAI.OneDocument.Rendering.Drawing;
 using RecursiveAI.OneDocument.NumberFormats;
 using RecursiveAI.OneDocument.Spreadsheets;
 
@@ -132,7 +135,10 @@ internal sealed class SheetPainter
         Texts();
         _list.PopTransform();
         _list.PopClip();
+        // Drawing painters work in pixels, so the points-to-pixels transform is off while they run.
+        _list.PopTransform();
         PaintObjects();
+        _list.PushTransform(Id(), Matrix3x2.CreateScale((float)K));
         HeaderAndFooter();
         _list.PopTransform();
         _list.Validate();
@@ -1092,10 +1098,86 @@ internal sealed class SheetPainter
 
     // ---- drawing objects ------------------------------------------------------------------------------------------------------
 
+    private readonly Dictionary<string, DrawingContext> _drawingContexts = [];
+
+    private DrawingContext ContextFor(string drawingPart)
+    {
+        if (!_drawingContexts.TryGetValue(drawingPart, out DrawingContext? c))
+        {
+            IOpcPackage package = _ctx.Workbook.Package;
+            var bytes = new Dictionary<string, byte[]?>(StringComparer.Ordinal);
+            byte[]? ImageBytes(string rid)
+            {
+                if (bytes.TryGetValue(rid, out byte[]? cached))
+                {
+                    return cached;
+                }
+
+                byte[]? found = null;
+                foreach (Relationship r in package.GetRelationships(drawingPart))
+                {
+                    // Linked (external) pictures are never opened.
+                    if (r.Id == rid && OpcPackage.TryResolveTarget(drawingPart, r, out PartUri uri) && package.FindPart(uri.Value) is { } part)
+                    {
+                        found = part.GetBytes().ToArray();
+                    }
+                }
+
+                return bytes[rid] = found;
+            }
+
+            c = new DrawingContext(new ColorResolver(_ctx.DrawingTheme), _ctx.Images, ImageBytes, drawingPart) { Tagged = Tagged, Fonts = _ctx.Fonts };
+            c.ChartPainter = (rel, list, x, y, w, h) =>
+            {
+                if (RecursiveAI.OneDocument.Charts.ChartHost.Load(package, drawingPart, rel) is not { } chart)
+                {
+                    return false;
+                }
+
+                RecursiveAI.OneDocument.Charts.ChartHost.Paint(list, chart.Chart, x, y, w, h, chart.Theme, _ctx.Fonts);
+                return true;
+            };
+            _drawingContexts[drawingPart] = c;
+        }
+
+        return c;
+    }
+
+    // The shape inside an anchor: the drawing painter takes the shape element itself.
+    private static MarkupNode ShapeOf(MarkupNode anchor)
+    {
+        foreach (MarkupNode c in anchor.ChildElements)
+        {
+            if (c.LocalNameString is "sp" or "pic" or "graphicFrame" or "grpSp" or "cxnSp" or "AlternateContent")
+            {
+                return c;
+            }
+        }
+
+        return default;
+    }
+
     private void PaintObjects()
     {
+        if (_page.Objects.Count == 0)
+        {
+            return;
+        }
+
+        // Objects that spill past the printed cells are cut at the edge of the page's content.
+        _list.PushClipRect(Id(51), new RectF((float)(_page.ContentX * K), (float)(_page.ContentY * K), (float)(_page.ContentWidth * K), (float)(_page.ContentHeight * K)));
         foreach (SheetObject o in _page.Objects)
         {
+            var bounds = new RectF((float)(o.X * K), (float)(o.Y * K), (float)(o.Width * K), (float)(o.Height * K));
+            if (_ctx.Options.PaintDrawings && o.Width > 0 && o.Height > 0)
+            {
+                DrawingContext dc = ContextFor(o.DrawingPart);
+                if (!DrawingPainter.Draw(_list, () => Id(52), ShapeOf(o.Source), new DrawingBox(o.X, o.Y, o.Width, o.Height), dc, o.Name.Length > 0 ? o.Name : null))
+                {
+                    _ctx.Note("sheet-layout.object-not-painted", "The drawing object \"" + o.Name + "\" holds nothing the drawing painter can draw.", _plan.Sheet.Name);
+                }
+            }
+
             if (_ctx.Options.ObjectPlaceholders)
             {
                 if (Tagged)
@@ -1104,24 +1186,21 @@ internal sealed class SheetPainter
                 }
 
                 PaintColor edge = C(0x808080);
-                _list.FillRect(Id(50), R(o.X, o.Y, o.Width, 0.75), edge);
-                _list.FillRect(Id(50, 1), R(o.X, o.Y + o.Height - 0.75, o.Width, 0.75), edge);
-                _list.FillRect(Id(50, 2), R(o.X, o.Y, 0.75, o.Height), edge);
-                _list.FillRect(Id(50, 3), R(o.X + o.Width - 0.75, o.Y, 0.75, o.Height), edge);
+                const float t = 1f;
+                _list.FillRect(Id(50), new RectF(bounds.X, bounds.Y, bounds.Width, t), edge);
+                _list.FillRect(Id(50, 1), new RectF(bounds.X, bounds.Y + bounds.Height - t, bounds.Width, t), edge);
+                _list.FillRect(Id(50, 2), new RectF(bounds.X, bounds.Y, t, bounds.Height), edge);
+                _list.FillRect(Id(50, 3), new RectF(bounds.X + bounds.Width - t, bounds.Y, t, bounds.Height), edge);
                 if (Tagged)
                 {
                     _list.EndTag();
                 }
             }
 
-            if (_ctx.Options.ObjectPainter is { } painter)
-            {
-                // Painters work in the list's own pixels with the point-to-pixel transform popped, so they see page space as the list reports it.
-                _list.PushClipRect(Id(51), R(_page.ContentX, _page.ContentY, _page.ContentWidth, _page.ContentHeight));
-                painter(new SheetObjectPaintContext(_page, o, _list, new RectF((float)(o.X * K), (float)(o.Y * K), (float)(o.Width * K), (float)(o.Height * K))));
-                _list.PopClip();
-            }
+            _ctx.Options.ObjectPainter?.Invoke(new SheetObjectPaintContext(_page, o, _list, bounds));
         }
+
+        _list.PopClip();
     }
 
     // ---- headers and footers --------------------------------------------------------------------------------------------------

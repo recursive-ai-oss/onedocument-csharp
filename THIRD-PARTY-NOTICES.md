@@ -30,7 +30,7 @@ The XSD files under `schemas/ecma376/` come from Part 1 (Strict), Part 2 (Open P
 
 Source: https://ecma-international.org/publications-and-standards/standards/ecma-376/
 
-The generated typed views in `src/OneDocument.Schema/Generated/` are derived from these schemas as part of an implementation of the specification (item (iv) below). The notice below is Ecma's default copyright notice, quoted verbatim from https://ecma-international.org/policies/by-ipr/ecma-text-copyright-policy/.
+The generated typed views in `src/OneDocument.Schema/Generated/` are derived from these schemas as part of an implementation of the specification (item (iv) below). The preset shape data in `src/OneDocument.Rendering/Drawing/Generated/` is generated from the standard's `presetShapeDefinitions.xml` (Part 1, `OfficeOpenXML-DrawingMLGeometries.zip`) on the same terms. The notice below is Ecma's default copyright notice, quoted verbatim from https://ecma-international.org/policies/by-ipr/ecma-text-copyright-policy/.
 
     COPYRIGHT NOTICE
 

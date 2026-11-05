@@ -98,6 +98,8 @@ internal static class TestXlsx
         public string? ColBreaks { get; set; }
         public string? Drawing { get; set; }
         public string? DrawingXml { get; set; }
+        public string? DrawingRels { get; set; }
+        public List<(string Name, string ContentType, byte[] Data)> Parts { get; } = [];
 
         public Sheet Set(string address, object? value, int style = 0)
         {
@@ -164,7 +166,7 @@ internal static class TestXlsx
         using var ms = new MemoryStream();
         using (var zip = new ZipArchive(ms, ZipArchiveMode.Create, leaveOpen: true))
         {
-            var types = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/>" +
+            var types = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Default Extension=\"png\" ContentType=\"image/png\"/>" +
                 "<Override PartName=\"/xl/workbook.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml\"/>" +
                 "<Override PartName=\"/xl/styles.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml\"/>" +
                 "<Override PartName=\"/xl/sharedStrings.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml\"/>");
@@ -182,6 +184,23 @@ internal static class TestXlsx
                 {
                     types.Append("<Override PartName=\"/xl/drawings/drawing" + n + ".xml\" ContentType=\"application/vnd.openxmlformats-officedocument.drawing+xml\"/>");
                     Add(zip, "xl/drawings/drawing" + n + ".xml", sh.DrawingXml);
+                    if (sh.DrawingRels is not null)
+                    {
+                        Add(zip, "xl/drawings/_rels/drawing" + n + ".xml.rels", "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">" + sh.DrawingRels + "</Relationships>");
+                    }
+
+                    foreach ((string name, string contentType, byte[] data) in sh.Parts)
+                    {
+                        if (!contentType.StartsWith("image/", StringComparison.Ordinal))
+                        {
+                            types.Append("<Override PartName=\"/" + name + "\" ContentType=\"" + contentType + "\"/>");
+                        }
+
+                        ZipArchiveEntry e = zip.CreateEntry(name);
+                        using Stream es = e.Open();
+                        es.Write(data);
+                    }
+
                     Add(zip, "xl/worksheets/_rels/sheet" + n + ".xml.rels", "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"rIdD\" Type=\"" + R + "/drawing\" Target=\"../drawings/drawing" + n + ".xml\"/></Relationships>");
                 }
             }

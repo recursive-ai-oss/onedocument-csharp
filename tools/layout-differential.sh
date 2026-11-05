@@ -16,7 +16,7 @@ set -euo pipefail
 
 here=$(cd "$(dirname "$0")" && pwd)
 out=${1:-${ONEDOCUMENT_HOME:?set ONEDOCUMENT_HOME or pass OUTDIR}/results/layout}
-mkdir -p "$out/cases" "$out/ours" "$out/word"
+mkdir -p "$out/cases" "$out/ours" "$out/word" "$out/powerpoint"
 probe=(dotnet run --project "$here/LayoutProbe" -c Release --)
 
 "${probe[@]}" gen "$out/cases"
@@ -30,6 +30,12 @@ for f in "$out"/oracle/*.word.pdf "$out"/oracle/*.excel.pdf; do
   name=${name%.word.pdf}
   name=${name%.excel.pdf}
   cp "$f" "$out/word/$name.pdf"
+done
+
+# Presentations have no renderer of ours yet: PowerPoint's own PDFs are kept in powerpoint/ for the slide stage to compare against.
+for f in "$out"/oracle/*.powerpoint.pdf; do
+  [ -e "$f" ] || continue
+  cp "$f" "$out/powerpoint/$(basename "$f" .powerpoint.pdf).pdf"
 done
 
 # Exit status 1 means some page count differs; the summary lines are kept either way.

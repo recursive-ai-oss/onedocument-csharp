@@ -122,18 +122,28 @@ Each page's text is one `Table`; a row is a `TableRow`, a cell a `TableDataCell`
 header rows of `tableParts` tables), with column and row spans for merges. Rows and columns repeated from an earlier page, headings,
 headers and footers, fills, borders, gridlines, data bars and icons are artifacts. Only cells that print text are tagged.
 
-## Drawing objects (hook for the drawing and chart painters)
+## Drawing objects
 
-Anchors in the sheet's drawing part (`twoCellAnchor`, `oneCellAnchor`) are resolved to boxes in page points (`SheetPage.Objects`:
-kind picture, chart, shape, group, connector; name; `X`, `Y`, `Width`, `Height` after scaling). `SheetRenderOptions.ObjectPainter` is called
-for each object on the page after the cells, with the page's display list (no transform active, pixels = points · 4/3) and the box in pixels.
-`ObjectPlaceholders` draws a thin outline where an object sits. Absolute anchors are not placed yet.
+Anchors in the sheet's drawing part (`twoCellAnchor`, `oneCellAnchor`) are resolved to boxes in page points (`SheetPage.Objects`: kind picture,
+chart, shape, group, connector; name; `X`, `Y`, `Width`, `Height` after scaling; the anchor element and its drawing part). With
+`SheetRenderOptions.PaintDrawings` (the default) each object is painted after the cells through the shared DrawingML painter
+(`drawingml-rendering.md`): pictures (bitmaps and metafiles) from the drawing part's relationships, preset and custom shapes, groups, and charts
+through `ChartHost` (`charts.md`) from their cached values. Objects are cut at the edge of the page's printed cells, so one that spans a page
+break shows on both pages. Text inside shapes is not painted yet; absolute anchors are not placed. `SheetRenderOptions.ObjectPainter` is called for
+each object after that with the page's display list (pixels, 1 pt = 4/3 px, no transform active) and the box in pixels, and `ObjectPlaceholders`
+draws a thin outline where an object sits. An object the painter cannot draw is noted (`sheet-layout.object-not-painted`).
+
+## Registering a kind for PDF and PNG output
+
+`RenderingFormats.Register` installs one writer per format that tries each kind's `TryWrite(file, format, destination, cancellationToken)` in turn
+(`DocumentRenderer.TryWrite`, `WorkbookRenderer.TryWrite`); a `TryWrite` returns false, writing nothing, when the file is not of its kind. A new kind
+writes its own `TryWrite` and adds it to the `Kinds` array in `RenderingFormats`: one line.
 
 ## Notes
 
 `SheetLayoutDocument.Notes` (`SheetRenderNote`): `sheet-layout.sheet-kind-skipped`, `sheet-layout.empty`, `sheet-layout.page-limit`,
 `sheet-layout.font-missing`, `sheet-layout.header-picture`, `sheet-layout.drawing-unreadable`, `sheet-layout.conditional-limit`
-(past 3 million cells evaluated). `FontNotes` lists every replaced family as for documents.
+(past 3 million cells evaluated), `sheet-layout.object-not-painted`. `FontNotes` lists every replaced family as for documents.
 
 ## Points to settle against Excel
 
@@ -153,4 +163,4 @@ own PDF decides.
 | Pattern fills | average colour |
 | Icon colours and shapes | as above |
 | Data bar negative axis position and length rule | zero's position between min and max; max length applies to the longer side |
-| Chart sheets, absolute anchors | not printed / not placed |
+| Chart sheets, absolute anchors, text in shapes | not printed / not placed / not painted |

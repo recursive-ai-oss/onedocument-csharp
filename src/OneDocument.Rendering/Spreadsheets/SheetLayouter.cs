@@ -254,7 +254,7 @@ internal static class SheetLayouter
 
             double x = page.ContentX + ((titleW + box.X - left) * page.Scale);
             double y = page.ContentY + ((titleH + box.Y - top) * page.Scale);
-            list.Add(new SheetObject(a.Kind, a.Name, x, y, box.W * page.Scale, box.H * page.Scale, a.Node));
+            list.Add(new SheetObject(a.Kind, a.Name, x, y, box.W * page.Scale, box.H * page.Scale, a.Node, a.DrawingPart));
         }
 
         return list;

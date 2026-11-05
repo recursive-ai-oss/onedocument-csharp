@@ -17,6 +17,7 @@ internal sealed class RenderContext
     {
         Workbook = workbook;
         Options = options;
+        Fonts = fonts;
         Styles = new StyleCache(workbook);
         Text = new TextEngine(fonts);
         TextStyle normal = Styles.Get(0).Text;
@@ -37,6 +38,36 @@ internal sealed class RenderContext
     }
 
     public Workbook Workbook { get; }
+
+    public IFontProvider Fonts { get; }
+
+    // The pictures of every page of one rendering; the PDF and image backends resolve their handles through it.
+    public RecursiveAI.OneDocument.Rendering.Drawing.DrawingImages Images { get; } = new();
+
+    private RecursiveAI.OneDocument.Rendering.Drawing.DrawingTheme? _theme;
+
+    // The workbook theme as DrawingML sees it (scheme colours and format scheme), for shapes and charts on sheets.
+    public RecursiveAI.OneDocument.Rendering.Drawing.DrawingTheme DrawingTheme
+    {
+        get
+        {
+            if (_theme is not null)
+            {
+                return _theme;
+            }
+
+            foreach (RecursiveAI.OneDocument.Packaging.Relationship r in Workbook.Package.GetRelationships(Workbook.MainPartName))
+            {
+                if (r.Type.EndsWith("/theme", StringComparison.Ordinal) && RecursiveAI.OneDocument.Packaging.OpcPackage.TryResolveTarget(Workbook.MainPartName, r, out RecursiveAI.OneDocument.Packaging.PartUri uri)
+                    && Workbook.Package.FindPart(uri.Value) is { } part && RecursiveAI.OneDocument.Markup.MarkupDocument.TryParse(part.GetBytes(), out RecursiveAI.OneDocument.Markup.MarkupDocument? doc, null, uri.Value) && doc is not null)
+                {
+                    return _theme = RecursiveAI.OneDocument.Rendering.Drawing.DrawingTheme.Read(doc.Root);
+                }
+            }
+
+            return _theme = RecursiveAI.OneDocument.Rendering.Drawing.DrawingTheme.Default;
+        }
+    }
 
     public SheetRenderOptions Options { get; }
 

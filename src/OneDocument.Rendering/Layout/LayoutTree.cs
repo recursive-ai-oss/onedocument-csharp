@@ -32,6 +32,9 @@ public enum LayoutNodeKind
     /// <summary>A stretch of text in one font on a line, a tab, or a list label.</summary>
     Run = 3,
 
+    /// <summary>Page decoration that is not text flow: a page border side, a column separator, a line number or a watermark (<see cref="LayoutDecoration"/>).</summary>
+    Decoration = 7,
+
     /// <summary>A table, or the part of one that sits on this page (or in this cell, for a nested table).</summary>
     Table = 4,
 
@@ -74,6 +77,26 @@ public abstract class LayoutNode
     }
 }
 
+/// <summary>The part of a page a block belongs to.</summary>
+public enum LayoutStory
+{
+    /// <summary>The body text.</summary>
+    Body = 0,
+
+    /// <summary>The page header; painted as an artifact.</summary>
+    Header = 1,
+
+    /// <summary>The page footer; painted as an artifact.</summary>
+    Footer = 2,
+}
+
+/// <summary>The columns of one stretch of a page, between two continuous section breaks (or the whole body).</summary>
+/// <param name="Top">Top of the stretch in points.</param>
+/// <param name="Bottom">Bottom of the stretch in points: where the columns end (balanced columns) or the body's bottom edge.</param>
+/// <param name="Columns">The column rectangles in flow order (right to left in a right-to-left section).</param>
+/// <param name="SectionIndex">The section these columns belong to.</param>
+public sealed record LayoutColumnRegion(double Top, double Bottom, IReadOnlyList<LayoutRect> Columns, int SectionIndex);
+
 /// <summary>One page of the laid-out document.</summary>
 public sealed class LayoutPage : LayoutNode
 {
@@ -92,8 +115,11 @@ public sealed class LayoutPage : LayoutNode
     /// <summary>Gets the index of the section whose page size and margins this page uses.</summary>
     public int SectionIndex { get; }
 
-    /// <summary>Gets the text area inside the margins, in points.</summary>
-    public LayoutRect ContentArea { get; }
+    /// <summary>
+    /// Gets the text area in points: inside the margins, and pushed in by a header or footer that is taller than its margin allows.
+    /// A continuous section that changes the columns mid-page does not change it.
+    /// </summary>
+    public LayoutRect ContentArea { get; internal set; }
 
     /// <summary>Gets the page width in points.</summary>
     public double Width => Bounds.Width;
@@ -101,8 +127,53 @@ public sealed class LayoutPage : LayoutNode
     /// <summary>Gets the page height in points.</summary>
     public double Height => Bounds.Height;
 
-    /// <summary>Gets the paragraphs on the page in order.</summary>
+    /// <summary>Gets all paragraphs on the page in order: header, body, then footer.</summary>
     public IEnumerable<LayoutParagraph> Paragraphs => Children.OfType<LayoutParagraph>();
+
+    /// <summary>Gets the body paragraphs (not those of the header or footer) in order.</summary>
+    public IEnumerable<LayoutParagraph> BodyParagraphs => Paragraphs.Where(static p => p.Story == LayoutStory.Body);
+
+    /// <summary>Gets the paragraphs of the page header in order.</summary>
+    public IEnumerable<LayoutParagraph> HeaderParagraphs => Paragraphs.Where(static p => p.Story == LayoutStory.Header);
+
+    /// <summary>Gets the paragraphs of the page footer in order.</summary>
+    public IEnumerable<LayoutParagraph> FooterParagraphs => Paragraphs.Where(static p => p.Story == LayoutStory.Footer);
+
+    /// <summary>Gets the decorations on the page: borders, column separators, line numbers and watermarks.</summary>
+    public IEnumerable<LayoutDecoration> Decorations => Children.OfType<LayoutDecoration>();
+
+    /// <summary>Gets the page number as it prints, after restarts (<c>w:pgNumType</c>); 0 until layout sets it.</summary>
+    public long PrintedNumber { get; internal set; }
+
+    /// <summary>Gets the printed number in the section's number format (<c>decimal</c>, <c>upperRoman</c>, …).</summary>
+    public string PrintedNumberText { get; internal set; } = string.Empty;
+
+    /// <summary>Gets whether the page was inserted to start a section on an odd or even page; it holds no body text.</summary>
+    public bool IsBlank { get; internal set; }
+
+    /// <summary>Gets whether this is the first page of its section.</summary>
+    public bool IsFirstPageOfSection { get; internal set; }
+
+    /// <summary>Gets the area the header text occupies, or null when the page has no header content.</summary>
+    public LayoutRect? HeaderArea { get; internal set; }
+
+    /// <summary>Gets the area the footer text occupies, or null when the page has no footer content.</summary>
+    public LayoutRect? FooterArea { get; internal set; }
+
+    /// <summary>
+    /// Gets the text columns of the section the page started in, as rectangles that span the body area. A continuous section that
+    /// changes the columns lower on the page adds its columns to <see cref="ColumnRegions"/>.
+    /// </summary>
+    public IReadOnlyList<LayoutRect> Columns => ColumnRegions.Count == 0 ? [ContentArea] : ColumnRegions[0].Columns;
+
+    /// <summary>Gets the column layout of each stretch of the page, top to bottom (one per section on the page).</summary>
+    public IReadOnlyList<LayoutColumnRegion> ColumnRegions { get; internal set; } = [];
+
+    /// <summary>
+    /// Gets the space at the bottom of the body that a later stage keeps for footnotes. Layout lowers the body's bottom edge by this
+    /// much; it is 0 until notes are laid out.
+    /// </summary>
+    public double NotesReservation { get; internal set; }
 
     /// <summary>Gets the tables on the page in order (the part of each that sits on this page). Paragraphs inside cells are under their cells, not here.</summary>
     public IEnumerable<LayoutTable> Tables => Children.OfType<LayoutTable>();
@@ -142,10 +213,19 @@ public sealed class LayoutParagraph : LayoutNode
     /// <summary>Gets whether this block continues on the next page.</summary>
     public bool ContinuesOnNextPage { get; internal set; }
 
+    /// <summary>Gets which story of the page the paragraph belongs to.</summary>
+    public LayoutStory Story { get; internal set; }
+
+    /// <summary>Gets the 0-based column of the page's column region the paragraph sits in (0 for a single column).</summary>
+    public int Column { get; internal set; }
+
     /// <summary>Gets the lines of this block in order.</summary>
     public IEnumerable<LayoutLine> Lines => Children.OfType<LayoutLine>();
 
     internal ParagraphPaintInfo Paint { get; set; } = new();
+
+    // Anchored drawings of the paragraph, painted at their own position on the page the paragraph starts on.
+    internal List<InlineDrawing> Floats { get; } = [];
 }
 
 /// <summary>One line of a paragraph.</summary>
@@ -192,6 +272,9 @@ public enum LayoutRunKind
 
     /// <summary>The list label text of a numbered paragraph.</summary>
     Label = 2,
+
+    /// <summary>An inline drawing or picture: one box on the baseline whose width is the run's width. Its text is the object replacement character U+FFFC.</summary>
+    Drawing = 3,
 }
 
 /// <summary>A stretch of text with one font, size and direction on a line, or a tab or list label.</summary>
@@ -236,6 +319,8 @@ public sealed class LayoutRun : LayoutNode
     internal RunPaintInfo Paint { get; set; } = new();
 
     internal GlyphData? Glyphs { get; set; }
+
+    internal InlineDrawing? Drawing { get; set; }
 }
 
 /// <summary>The result of laying out a document.</summary>

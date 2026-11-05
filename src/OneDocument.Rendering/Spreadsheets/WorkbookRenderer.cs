@@ -79,7 +79,7 @@ public static class WorkbookRenderer
         };
         try
         {
-            using var writer = new DisplayListPdfWriter(destination, pdfOptions);
+            using var writer = new DisplayListPdfWriter(destination, pdfOptions, layout.Context.Images);
             if (layout.Pages.Count == 0)
             {
                 // Nothing to print: the PDF still needs a page.
@@ -103,6 +103,24 @@ public static class WorkbookRenderer
         {
             throw new OfficeFormatException(DefectKind.Structure, "render.failed", "The workbook could not be written as PDF: " + ex.Message, default, ex);
         }
+    }
+
+    internal static bool TryWrite(OfficeFile file, OfficeFormat format, Stream destination, CancellationToken cancellationToken)
+    {
+        if (file is not Workbook workbook)
+        {
+            return false;
+        }
+
+        if (format == OfficeFormat.Pdf)
+        {
+            WritePdf(workbook, destination, null, null, cancellationToken);
+            return true;
+        }
+
+        SheetLayoutDocument sheets = Layout(workbook, null, cancellationToken);
+        destination.Write(RenderPng(sheets, sheets.Pages.Count > 0 ? sheets.Pages[0] : null));
+        return true;
     }
 
     /// <summary>Renders one page as a PNG at <see cref="DocumentRenderer.PngDpi"/>.</summary>
@@ -137,7 +155,7 @@ public static class WorkbookRenderer
 
         try
         {
-            RgbaImage image = DisplayListRasterizer.Render(list, w, h, new RasterOptions { DevicePixelRatio = (float)ratio });
+            RgbaImage image = DisplayListRasterizer.Render(list, w, h, new RasterOptions { DevicePixelRatio = (float)ratio, Images = layout.Context.Images });
             return image.ToPng();
         }
         catch (Exception ex) when (ex is RasterizationException or DisplayListException or ArgumentException)
