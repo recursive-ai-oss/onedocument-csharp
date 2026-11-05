@@ -13,6 +13,7 @@ nothing here is tied to a machine. Oracles (LibreOffice, Jing, python-docx and f
 | `corpus/fetch_templates.py` | Template files from caller-supplied pages or URL lists. |
 | `corpus/make_stress_docx.py` | Deterministic ~1000-page DOCX (headings, lists, tables, sections, footnotes, comments, revisions). |
 | `corpus/run_checks.py` | Parallel, resumable, time-boxed checks over a directory: `lo`, `validate`, `cmd`. |
+| `StreamProbe/` | Streaming workbook cursors: `compare` (cursor against the workbook model over a directory), `read` and `write` (throughput, allocation and working-set checkpoints), `layers` (where read time goes), `sample` (small generated workbooks for opening in an application), `xcompare` (values of two workbooks). |
 | `RoundTrip/` | Per-part comparison of two packages (zip or Flat OPC). |
 | `validate/validate_ooxml.py` | Schema validation of every XML part, with markup-compatibility preprocessing. |
 | `fuzz-run.sh` | Builds and runs one fuzz target for N seconds and prints executions, features and findings. |

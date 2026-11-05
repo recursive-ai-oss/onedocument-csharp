@@ -138,6 +138,8 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `xlsx.cell-address-invalid` | dropped | A `c` has an `r` outside the sheet or not in A1 form; the cell is dropped. The location is the part and offset. |
 | `xlsx.cell-row-mismatch` | repaired | A cell's `r` names another row than its `row` element; the cell stays in the element's row. |
 | `xlsx.cell-out-of-order` | repaired | The cells of a row are not in ascending column order; they were sorted. |
+| `xlsx.stream-row-order` | repaired | The streaming reader met a row whose number is not above the previous row's. It cannot sort or merge, so it delivers rows as stored. |
+| `xlsx.stream-cell-order` | repaired | The streaming reader met a cell whose column is not above the previous cell's in its row (reported once per row). It delivers cells as stored. |
 | `xlsx.cell-duplicate` | dropped | Two cells have the same address; the later one is kept. |
 | `xlsx.cell-type-unknown` | repaired | A cell's `t` is not one of the cell types; the value reads as a number if it parses, otherwise as text. |
 | `xlsx.cell-value-invalid` | repaired | A cell's value does not parse for its type (a number or a shared string index); the cell reads as empty. |
