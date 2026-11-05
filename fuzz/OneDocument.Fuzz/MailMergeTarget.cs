@@ -49,7 +49,7 @@ internal static class MailMergeTarget
         var sb = new StringBuilder(text.Length);
         foreach (char c in text)
         {
-            sb.Append(c < ' ' && c is not ('\t' or '\n' or '\r') ? ' ' : c);
+            sb.Append((c < ' ' && c is not ('\t' or '\n' or '\r')) || c is '\uFFFE' or '\uFFFF' ? ' ' : c);
         }
 
         return sb.ToString();
