@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace RecursiveAI.OneOffice.Tools.ViewGenerator;
+namespace RecursiveAI.OneDocument.Tools.ViewGenerator;
 
 /// <summary>Spellings of names in generated code.</summary>
 internal static class Naming
@@ -41,7 +41,7 @@ internal static class Naming
 /// <summary>Writes the C# for the resolved schema model. Everything is sorted, so the output is a function of the schemas alone.</summary>
 internal sealed class Emitter
 {
-    private const string Root = "global::RecursiveAI.OneOffice.Schema";
+    private const string Root = "global::RecursiveAI.OneDocument.Schema";
     private readonly Library _lib;
     private readonly Semantics _sem;
     private readonly Dictionary<string, string> _typeNames = new(); // "ns|CT" -> view name (override table)
@@ -158,7 +158,7 @@ internal sealed class Emitter
     {
         var sb = new StringBuilder();
         Header(sb, null);
-        sb.Append("namespace RecursiveAI.OneOffice.Schema;\n\n");
+        sb.Append("namespace RecursiveAI.OneDocument.Schema;\n\n");
         sb.Append("/// <summary>The XML namespaces the generated views know. Transitional and Strict spellings of one vocabulary share a member.</summary>\n");
         sb.Append("public enum SchemaNamespace\n{\n");
         sb.Append("    /// <summary>No namespace.</summary>\n    None = 0,\n");
@@ -475,7 +475,7 @@ internal sealed class Emitter
     {
         var sb = new StringBuilder();
         Header(sb, null);
-        sb.Append("namespace RecursiveAI.OneOffice.Schema;\n\n");
+        sb.Append("namespace RecursiveAI.OneDocument.Schema;\n\n");
         var types = _sem.TypeList.OrderBy(t => t.KindId).ToList();
         sb.Append("/// <summary>Identifies a generated view type.</summary>\npublic enum ViewKind\n{\n");
         sb.Append("    /// <summary>No view: the element is not declared in this position.</summary>\n    None = 0,\n");

@@ -4,15 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using RecursiveAI.OneOffice.Documents;
-using RecursiveAI.OneOffice.Documents.Revisions;
+using RecursiveAI.OneDocument.Documents;
+using RecursiveAI.OneDocument.Documents.Revisions;
 
-namespace RecursiveAI.OneOffice.Tools.OracleCases;
+namespace RecursiveAI.OneDocument.Tools.OracleCases;
 
 /// <summary>
 /// Redline authoring checked against the desktop application. <c>OracleCases --authoring DIR</c> writes one generated document per
 /// authoring operation (each beside its <c>.actions.txt</c> asking for accept-all and reject-all, and an <c>.expected.tsv</c> with what
-/// OneOffice's own accepted and rejected views say). <c>OracleCases --check DIR RESULTS</c> compares what the application's accept-all and
+/// OneDocument's own accepted and rejected views say). <c>OracleCases --check DIR RESULTS</c> compares what the application's accept-all and
 /// reject-all produced, in the result lines and in the documents it saved, with those views.
 /// </summary>
 internal static class AuthoringCases
@@ -59,7 +59,7 @@ internal static class AuthoringCases
             doc.Package.AddPart("/word/settings.xml", "application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml",
                 Encoding.UTF8.GetBytes("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<w:settings xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\">" +
                     "<w:compat><w:compatSetting w:name=\"compatibilityMode\" w:uri=\"http://schemas.microsoft.com/office/word\" w:val=\"15\"/></w:compat></w:settings>"));
-            var rels = new List<RecursiveAI.OneOffice.Packaging.Relationship>(doc.Package.GetRelationships("/word/document.xml"))
+            var rels = new List<RecursiveAI.OneDocument.Packaging.Relationship>(doc.Package.GetRelationships("/word/document.xml"))
             {
                 new("rIdCompat", Settings, "settings.xml"),
             };
@@ -476,7 +476,7 @@ internal static class AuthoringCases
         return fails == 0 ? 0 : 1;
     }
 
-    /// <summary>Writes OneOffice's own accepted and rejected documents beside the authored ones, for the application to read the same way it reads its own results.</summary>
+    /// <summary>Writes OneDocument's own accepted and rejected documents beside the authored ones, for the application to read the same way it reads its own results.</summary>
     internal static int WriteResolved(string dir, string outDir)
     {
         Directory.CreateDirectory(outDir);

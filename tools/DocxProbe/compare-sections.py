@@ -3,7 +3,7 @@
 
     compare-sections.py CASE_DIR OUT_DIR
 
-Environment: DOCXPROBE (command that runs the built probe, e.g. "dotnet /path/DocxProbe.dll"), ONEOFFICE_SOFFICE and LO_PROFILE
+Environment: DOCXPROBE (command that runs the built probe, e.g. "dotnet /path/DocxProbe.dll"), ONEDOCUMENT_SOFFICE and LO_PROFILE
 (see tools/README.md). Needs pdftotext and pdfinfo (poppler). The result is information: LibreOffice is not the reference for page
 structure. A line starts with "ok" or "diff" per page.
 """
@@ -11,7 +11,7 @@ import json, os, re, subprocess, sys
 
 case_dir, out_dir = sys.argv[1], sys.argv[2]
 probe = os.environ["DOCXPROBE"].split()
-soffice = os.environ.get("ONEOFFICE_SOFFICE", "soffice")
+soffice = os.environ.get("ONEDOCUMENT_SOFFICE", "soffice")
 profile = os.environ.get("LO_PROFILE", os.path.join(out_dir, "lo-profile"))
 os.makedirs(out_dir, exist_ok=True)
 

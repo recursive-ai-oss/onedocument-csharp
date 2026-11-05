@@ -5,12 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using DocumentFormat.OpenXml.Packaging;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Formats;
-using RecursiveAI.OneOffice.IO;
-using RecursiveAI.OneOffice.TextExtraction;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Formats;
+using RecursiveAI.OneDocument.IO;
+using RecursiveAI.OneDocument.TextExtraction;
 
-namespace RecursiveAI.OneOffice.Tools.TextCompare;
+namespace RecursiveAI.OneDocument.Tools.TextCompare;
 
 /// <summary>
 /// Produces the text files the similarity comparison reads, and measures peak memory.

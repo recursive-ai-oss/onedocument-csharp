@@ -1,6 +1,6 @@
-# OneOffice benchmarks
+# OneDocument benchmarks
 
-BenchmarkDotNet rows that compare OneOffice with the managed libraries people use today, plus the scripts that run them the same way every time and turn the output into a Markdown page. Comparators are restored as pinned NuGet packages **in this project only** and run through their public APIs; nothing here (or anywhere else in the repository) reads their source.
+BenchmarkDotNet rows that compare OneDocument with the managed libraries people use today, plus the scripts that run them the same way every time and turn the output into a Markdown page. Comparators are restored as pinned NuGet packages **in this project only** and run through their public APIs; nothing here (or anywhere else in the repository) reads their source.
 
 ## Comparators and versions
 
@@ -16,7 +16,7 @@ BenchmarkDotNet rows that compare OneOffice with the managed libraries people us
 
 The numbers in a result page come from the assemblies that actually ran (`versions.txt` in the results directory), not from this table.
 
-The pinned comparators bring in transitive packages with published advisories (an image library, drawing and XML-crypto packages). This project is never shipped and reads only the documents it generates itself, so `OneOffice.Bench.csproj` keeps those advisories as visible warnings instead of build errors. Every shipped project keeps them as errors.
+The pinned comparators bring in transitive packages with published advisories (an image library, drawing and XML-crypto packages). This project is never shipped and reads only the documents it generates itself, so `OneDocument.Bench.csproj` keeps those advisories as visible warnings instead of build errors. Every shipped project keeps them as errors.
 
 ## What the rows measure
 
@@ -24,11 +24,11 @@ Each row is one operation on one generated input, with the same work for every l
 
 | Class | Operation | Rows |
 |---|---|---|
-| `DocxLoad` | open and read the first paragraph's text | raw zip baseline (read the main part), Open XML SDK (open read-only, load the main part's DOM), NPOI (load the model), OneOffice (`Document.Open`, first paragraph) |
-| `DocxLoadSave` | open a package and save it, untouched | raw zip baseline, Open XML SDK (open + clone), NPOI (load + write), OneOffice (`Document.Open`, `SaveAs`) |
-| `DocxEdit` | change one paragraph's text, save | raw zip baseline (rewrite one part), Open XML SDK, NPOI, OneOffice |
-| `DocxLazyOpen` | open and read one small part | raw zip baseline, Open XML SDK (styles part), NPOI (loads everything), OneOffice (open, styles) |
-| `DocxExtract` | read all body text | Open XML SDK DOM, Open XML SDK forward reader, NPOI extractor, OneOffice streaming extractor |
+| `DocxLoad` | open and read the first paragraph's text | raw zip baseline (read the main part), Open XML SDK (open read-only, load the main part's DOM), NPOI (load the model), OneDocument (`Document.Open`, first paragraph) |
+| `DocxLoadSave` | open a package and save it, untouched | raw zip baseline, Open XML SDK (open + clone), NPOI (load + write), OneDocument (`Document.Open`, `SaveAs`) |
+| `DocxEdit` | change one paragraph's text, save | raw zip baseline (rewrite one part), Open XML SDK, NPOI, OneDocument |
+| `DocxLazyOpen` | open and read one small part | raw zip baseline, Open XML SDK (styles part), NPOI (loads everything), OneDocument (open, styles) |
+| `DocxExtract` | read all body text | Open XML SDK DOM, Open XML SDK forward reader, NPOI extractor, OneDocument streaming extractor |
 
 The raw zip baseline is the BCL zip classes reading and writing every entry: the floor any tool that recompresses has to pay. It is the baseline row of its class, and ratios in the tables are relative to the first row of each class.
 
@@ -59,7 +59,7 @@ Every ~40th paragraph is a heading, every ~25th a 3×3 table, and body paragraph
 bench/run.sh --run my-run --filter '*Bench.DocxLoadSave*' --threads 1
 ```
 
-`run.sh` refuses to start when the 1-minute load average is above `ONEOFFICE_BENCH_MAXLOAD` (default 2.0; `--force` overrides and records that). It writes `$ONEOFFICE_RESULTS/<run>/` (default `~/oneoffice/results/bench/<run>/`):
+`run.sh` refuses to start when the 1-minute load average is above `ONEDOCUMENT_BENCH_MAXLOAD` (default 2.0; `--force` overrides and records that). It writes `$ONEDOCUMENT_RESULTS/<run>/` (default `~/oneoffice/results/bench/<run>/`):
 
 | File | Contents |
 |---|---|
@@ -80,7 +80,7 @@ Each class runs one launch with one warm-up and five measured iterations. A filt
 Timing runs that are not the final published numbers go through the heavy class, limited to four cores:
 
 ```sh
-wq run --class heavy --cores 4 --max 20m --label "oneoffice bench indicative" -- \
+wq run --class heavy --cores 4 --max 20m --label "onedocument bench indicative" -- \
   bench/run.sh --run indicative --filter '*Bench.DocxLoadSave*' --threads 1 --force
 ```
 
@@ -99,7 +99,7 @@ Each machine ran one timing group and one peak-memory group under the machine's 
 
 The document groups on both machines started under the load limit. The x64 streaming-write group was started with `--force` at load 3.7 and the x64 model groups at 1.7 and 2.3 (the queue had settled; other projects' light jobs kept the load above idle). The x64 streaming-read group was re-run alone under the exclusive benchmark queue class with no override, starting at load 1.81, and replaces the first run; each `env.txt` records the override. Other light work kept the load average above idle during the runs, so treat ratios within a few percent of 1.00 as ties.
 
-### Ratios against the fastest comparator (OneOffice median / comparator median)
+### Ratios against the fastest comparator (OneDocument median / comparator median)
 
 | Class | Input | x64 | arm64 |
 |---|---|---:|---:|
@@ -129,7 +129,7 @@ Opening a document and reading only a small part is now at the bar: the main par
 
 Baseline is about 31 MB on both sides (runtime and loaded input). Peak is the process high-water mark; allocated is managed bytes allocated by the row. Values from `published/x64/docx/results.md`.
 
-| Row | OneOffice peak / allocated | Open XML SDK peak / allocated | NPOI peak / allocated |
+| Row | OneDocument peak / allocated | Open XML SDK peak / allocated | NPOI peak / allocated |
 |---|---|---|---|
 | load | 87 MB / 51 MB | 126 MB / 79 MB | 292 MB / 288 MB |
 | load + save untouched | 44 MB / 4.5 MB | 74 MB / 31 MB | 329 MB / 348 MB |
@@ -142,16 +142,16 @@ Lazy open, bytes read from the source: `Document.Open` on the 1,000-page documen
 
 ## Published rows: workbooks, second preview
 
-Commands: `bench/run.sh --run NAME --xlsx read|write|model|bpc --threads 1`; results and machine records in [`published/x64/`](published/x64) and [`published/arm64/`](published/arm64) (one directory per group: `results.md`, `env.txt` with CPU, cores and load before/after, `load.log` sampled every 10 s, `versions.txt`, `inputs.txt` with hashes, the raw `.tsv`). Every group ran under the exclusive benchmark queue class. Each row is one fresh process: one warm-up (three for the whole-model rows, which the runtime only optimises after a few runs), then 5 / 3 / 2 measured repetitions at 10k / 100k / 1M rows; the table gives the median. Peak working set is the process high-water mark (on macOS, `/usr/bin/time -l`). Machines: x64 AMD Ryzen 9 7950X3D, 32 threads, Linux; arm64 Apple M2 Mac mini, 8 cores, macOS. .NET 10.0.14, OneOffice 0.1.0-preview.1, comparators as in `versions.txt`. Single thread is the like-for-like mode: no comparator reads or writes one workbook with more than one core.
+Commands: `bench/run.sh --run NAME --xlsx read|write|model|bpc --threads 1`; results and machine records in [`published/x64/`](published/x64) and [`published/arm64/`](published/arm64) (one directory per group: `results.md`, `env.txt` with CPU, cores and load before/after, `load.log` sampled every 10 s, `versions.txt`, `inputs.txt` with hashes, the raw `.tsv`). Every group ran under the exclusive benchmark queue class. Each row is one fresh process: one warm-up (three for the whole-model rows, which the runtime only optimises after a few runs), then 5 / 3 / 2 measured repetitions at 10k / 100k / 1M rows; the table gives the median. Peak working set is the process high-water mark (on macOS, `/usr/bin/time -l`). Machines: x64 AMD Ryzen 9 7950X3D, 32 threads, Linux; arm64 Apple M2 Mac mini, 8 cores, macOS. .NET 10.0.14, OneDocument 0.1.0-preview.1, comparators as in `versions.txt`. Single thread is the like-for-like mode: no comparator reads or writes one workbook with more than one core.
 
 Inputs (`xlsxstream gen`, deterministic, built with the BCL zip classes): `values-N`, N rows by 10 columns of numbers, shared strings, booleans and date-styled numbers; and `tools/corpus/make_stress_xlsx.py` workbooks (20 columns with styles and 4M formulas at 1M rows) for bytes per cell.
 
 Like-for-like modes:
-- **Streaming read:** every cell's value is read in its typed form. OneOffice: the cursor, text as a string. Sylvan.Data.Excel: `GetExcelDataType` then the typed accessor (its documented typed path; `GetValue` under its default schema returns text, a different job). ExcelDataReader: `GetValue`. MiniExcel: `Query`, rows as dictionaries. The `read.span` row (text left as UTF-8) is informational.
+- **Streaming read:** every cell's value is read in its typed form. OneDocument: the cursor, text as a string. Sylvan.Data.Excel: `GetExcelDataType` then the typed accessor (its documented typed path; `GetValue` under its default schema returns text, a different job). ExcelDataReader: `GetValue`. MiniExcel: `Query`, rows as dictionaries. The `read.span` row (text left as UTF-8) is informational.
 - **Streaming write:** the same 10 cells per row, shared strings where the writer has them. The Open XML SDK row uses `OpenXmlWriter` with inline strings. MiniExcel: `SaveAs` over a lazy enumerable.
 - **Full model:** `load` opens and visits every cell value through the library's object model; `editsave` opens, sets one cell and saves to a file. NPOI: `XSSFWorkbook`; ClosedXML: `XLWorkbook`; EPPlus 4.5.3.3: `ExcelPackage`. Timings stop at 100k rows (1M rows takes NPOI about 15 GB); bytes per cell covers 1M.
 
-### Ratios against the fastest managed comparator (OneOffice median / comparator median)
+### Ratios against the fastest managed comparator (OneDocument median / comparator median)
 
 | Operation | Input | x64 | arm64 |
 |---|---|---:|---:|
@@ -168,17 +168,17 @@ Like-for-like modes:
 | **Geometric mean, 10 rows** | | **0.53** | **0.59** |
 | **Worst row** | | 1.01 | 1.05 |
 
-The streaming read comparator is Sylvan.Data.Excel on every size; write is MiniExcel; the model comparators are EPPlus 4.5.3.3 or ClosedXML. Every row is at the bar (geomean at most 1.00, none above 1.25). Streaming read at 10k and 100k rows is level with Sylvan (within 5%, the noise of a 70 ms to 700 ms single-process run); ExcelDataReader is 1.5x to 2.8x and MiniExcel 2.6x to 5.4x slower than OneOffice. The whole-model 100k rows were re-run with three warm-ups (job IDs in the report) after a first group with one warm-up, whose 100k-row medians for OneOffice were 2x to 6x slower because the runtime had not yet optimised the load path.
+The streaming read comparator is Sylvan.Data.Excel on every size; write is MiniExcel; the model comparators are EPPlus 4.5.3.3 or ClosedXML. Every row is at the bar (geomean at most 1.00, none above 1.25). Streaming read at 10k and 100k rows is level with Sylvan (within 5%, the noise of a 70 ms to 700 ms single-process run); ExcelDataReader is 1.5x to 2.8x and MiniExcel 2.6x to 5.4x slower than OneDocument. The whole-model 100k rows were re-run with three warm-ups (job IDs in the report) after a first group with one warm-up, whose 100k-row medians for OneDocument were 2x to 6x slower because the runtime had not yet optimised the load path.
 
 ### Memory
 
-| | OneOffice | ClosedXML | NPOI |
+| | OneDocument | ClosedXML | NPOI |
 |---|---:|---:|---:|
 | Retained bytes per cell, 20M-cell stress workbook (x64) | 37.2 | 78.8 | 360.4 |
 | Retained bytes per cell, 10M-cell values workbook (x64) | 36.1 | 79.7 | 363.2 |
 | Peak working set, 20M cells (x64) | 908 MB | 1,736 MB | 15,549 MB |
 
-The small workbooks carry fixed type-loading costs (71 bytes per cell at 100k cells). The arm64 page reports higher retained figures for all three libraries (OneOffice 44.6 bytes per cell at 10M cells, 83.1 at 2M) because the macOS collector leaves more of the heap uncompacted when the figure is read; the ordering and the ratios are the same, and the published budget is the x64 figure.
+The small workbooks carry fixed type-loading costs (71 bytes per cell at 100k cells). The arm64 page reports higher retained figures for all three libraries (OneDocument 44.6 bytes per cell at 10M cells, 83.1 at 2M) because the macOS collector leaves more of the heap uncompacted when the figure is read; the ordering and the ratios are the same, and the published budget is the x64 figure.
 
 Streaming read and write hold a constant working set: reading the 10k-row and the 1M-row workbook peaks at 47 MB and 49 MB (x64), 61 MB and 62 MB (arm64); writing 10k and 1M rows peaks at 49 MB and 49 MB (x64). Allocation per cell on the streaming read: 0.08 bytes at 1M rows (the fixed cost of opening, spread over 10M cells; Sylvan 0.19, ExcelDataReader 217, MiniExcel 2,021); the loop itself allocates nothing.
 
@@ -188,7 +188,7 @@ The arm64 numbers come from an Apple M2 Mac mini with a user-local SDK (`dotnet-
 
 ## Adding a row
 
-1. Add a method to `Rows.cs` that takes the input's `byte[]` and returns a number derived from the result. Register it in `Rows.All` as `library.operation` (OneOffice's rows use the prefix `oneoffice.`) and remove its line from `Rows.Pending`.
+1. Add a method to `Rows.cs` that takes the input's `byte[]` and returns a number derived from the result. Register it in `Rows.All` as `library.operation` (OneDocument's rows use the prefix `onedocument.`) and remove its line from `Rows.Pending`.
 2. Add a `[Benchmark]` in the matching class of `DocxBenchmarks.cs` (or a new class deriving from `DocxBenchmarkBase`) that calls it. Keep the baseline attribute on the class's first row.
 3. Nothing else: the peak pass and the report pick the row up by name.
 
@@ -196,20 +196,20 @@ Use only the public API of the library under test, and do the same work as the o
 
 ## Memory per unit: bytes per cell
 
-`bpc` (`OneOffice.Bench bpc <oneoffice|closedxml|npoi> <file.xlsx>`) loads a workbook in a fresh process with one library, touches every cell through the library's public API, collects twice and reports what stays reachable divided by the cell count; `bpcall <dir> <out.tsv>` runs every library over every `.xlsx` in a directory. The inputs are generated by `tools/corpus/make_stress_xlsx.py OUT --rows N` (20 columns: integers, doubles, shared strings, booleans, dates, formatted numbers, ordinary and shared formulas with cached values). Timings in the same row are one run on a loaded host: indicative only.
+`bpc` (`OneDocument.Bench bpc <onedocument|closedxml|npoi> <file.xlsx>`) loads a workbook in a fresh process with one library, touches every cell through the library's public API, collects twice and reports what stays reachable divided by the cell count; `bpcall <dir> <out.tsv>` runs every library over every `.xlsx` in a directory. The inputs are generated by `tools/corpus/make_stress_xlsx.py OUT --rows N` (20 columns: integers, doubles, shared strings, booleans, dates, formatted numbers, ordinary and shared formulas with cached values). Timings in the same row are one run on a loaded host: indicative only.
 
-Indicative run, 2026-11-04, a shared build host (AMD Ryzen 9 7950X3D, x64, 32 logical cores, 124 GB, NVMe, shared with other jobs, load 10-12 during the run), .NET 10.0.14, OneOffice 0.1.0-preview.1, ClosedXML 0.105.1, NPOI 2.7.6 (one process per cell, `wq --class heavy`, not a bench slot):
+Indicative run, 2026-11-04, a shared build host (AMD Ryzen 9 7950X3D, x64, 32 logical cores, 124 GB, NVMe, shared with other jobs, load 10-12 during the run), .NET 10.0.14, OneDocument 0.1.0-preview.1, ClosedXML 0.105.1, NPOI 2.7.6 (one process per cell, `wq --class heavy`, not a bench slot):
 
 | Cells | Library | Retained bytes/cell | Allocated bytes/cell | Load ms | Peak working set MB |
 |---|---|---|---|---|---|
-| 200,020 (10k rows) | OneOffice | 75.2 | 91 | 618 | 68 |
+| 200,020 (10k rows) | OneDocument | 75.2 | 91 | 618 | 68 |
 | | ClosedXML | 105.4 | 1,365 | 2,107 | 155 |
 | | NPOI | 361.3 | 1,053 | 1,277 | 263 |
-| 2,000,020 (100k rows) | OneOffice | 37.7 | 51 | 1,477 | 142 |
+| 2,000,020 (100k rows) | OneDocument | 37.7 | 51 | 1,477 | 142 |
 | | ClosedXML | 81.2 | 1,292 | 5,077 | 304 |
 | | NPOI | 359.1 | 1,047 | 6,158 | 1,631 |
-| 20,000,020 (1M rows) | OneOffice | 37.2 | 50 | 8,857 | 920 |
+| 20,000,020 (1M rows) | OneDocument | 37.2 | 50 | 8,857 | 920 |
 | | ClosedXML | 78.8 | 1,284 | 45,345 | 1,729 |
 | | NPOI | 360.4 | 1,049 | 47,589 | 15,491 |
 
-The small file's higher per-cell figure is fixed cost (type loading and caches, about 7 MB) spread over few cells. OneOffice's store is 15 bytes per cell (19 with a formula) in five parallel arrays; the rest is the interned formula records and the row headers. The shared string table and the other parts are not read unless a string or the part is touched. These are not final rows: they are not a bench-class run and carry no bar.
+The small file's higher per-cell figure is fixed cost (type loading and caches, about 7 MB) spread over few cells. OneDocument's store is 15 bytes per cell (19 with a formula) in five parallel arrays; the rest is the interned formula records and the row headers. The shared string table and the other parts are not read unless a string or the part is touched. These are not final rows: they are not a bench-class run and carry no bar.

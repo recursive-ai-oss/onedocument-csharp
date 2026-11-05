@@ -1,6 +1,6 @@
 # Number formats and date serials
 
-Normative notes for `RecursiveAI.OneOffice.NumberFormats`: Excel's number-format code language as one shared service, and the date-serial rules it and the workbook need. The calc engine's `TEXT` and `VALUE`, cell rendering, text export and templates all call it, so a value reads the same everywhere.
+Normative notes for `RecursiveAI.OneDocument.NumberFormats`: Excel's number-format code language as one shared service, and the date-serial rules it and the workbook need. The calc engine's `TEXT` and `VALUE`, cell rendering, text export and templates all call it, so a value reads the same everywhere.
 
 Sources: ECMA-376 Part 1 §18.8.30 (`numFmt`, the built-in IDs and the General rules), §18.8.31 (`numFmts`), §18.2.28 (`date1904`); Microsoft's "Number format codes" and "Review guidelines for customizing a number format" articles; the `CELL` function reference. Excel is the specification for everything these pages leave open. Rules marked *observed in Excel* were read back from desktop Excel (365, build 16.0.20527, US English settings) over a grid of 7,602 code and value pairs (see "Verification"); the answers are committed in `testdata/numfmt/excel-grid.tsv` and checked by a test, so the formatter agrees with Excel on every case of the grid. The few things the grid did not reach are listed under "Not verified".
 

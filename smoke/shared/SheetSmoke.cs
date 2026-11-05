@@ -1,7 +1,7 @@
-using RecursiveAI.OneOffice.Spreadsheets;
-using RecursiveAI.OneOffice.Spreadsheets.Calc;
+using RecursiveAI.OneDocument.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets.Calc;
 
-namespace RecursiveAI.OneOffice.Smoke;
+namespace RecursiveAI.OneDocument.Smoke;
 
 /// <summary>Creates a workbook, writes it to memory, reopens it, edits a cell, saves again and reads the result back, under NativeAOT and WASM.</summary>
 internal static class SheetSmoke

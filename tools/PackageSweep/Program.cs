@@ -2,13 +2,13 @@ using System.Diagnostics;
 using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Cfb;
-using RecursiveAI.OneOffice.Diagnostics;
-using RecursiveAI.OneOffice.IO;
-using RecursiveAI.OneOffice.Packaging;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Cfb;
+using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.IO;
+using RecursiveAI.OneDocument.Packaging;
 
-namespace RecursiveAI.OneOffice.Tools.PackageSweep;
+namespace RecursiveAI.OneDocument.Tools.PackageSweep;
 
 /// <summary>
 /// Sweeps files through the package layer and reports what held.

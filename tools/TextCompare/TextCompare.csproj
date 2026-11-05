@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <RootNamespace>RecursiveAI.OneOffice.Tools.TextCompare</RootNamespace>
+    <RootNamespace>RecursiveAI.OneDocument.Tools.TextCompare</RootNamespace>
     <AssemblyName>TextCompare</AssemblyName>
     <IsPackable>false</IsPackable>
     <!-- A tool that reads documents we generate or fetched ourselves; the comparator's advisories stay visible as warnings here. -->
@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../src/OneOffice/OneOffice.csproj" />
+    <ProjectReference Include="../../src/OneDocument/OneDocument.csproj" />
   </ItemGroup>
 
 </Project>

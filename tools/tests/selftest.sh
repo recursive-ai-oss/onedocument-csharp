@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # Self-test for the round-trip tool and the validator, on small generated packages.
 #
-#   ONEOFFICE_PY      python with lxml and python-docx (the oracle venv)
-#   ONEOFFICE_XSD     schema directories (see setup/extract-schemas.sh), path-separated
+#   ONEDOCUMENT_PY      python with lxml and python-docx (the oracle venv)
+#   ONEDOCUMENT_XSD     schema directories (see setup/extract-schemas.sh), path-separated
 #   ROUNDTRIP_DLL     built RoundTrip.dll
 #   DOTNET            dotnet executable (default: dotnet)
 set -euo pipefail
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-py="${ONEOFFICE_PY:?}"; dll="${ROUNDTRIP_DLL:?}"; dn="${DOTNET:-dotnet}"
+py="${ONEDOCUMENT_PY:?}"; dll="${ROUNDTRIP_DLL:?}"; dn="${DOTNET:-dotnet}"
 work="$(mktemp -d "${TMPDIR:-.}/selftest.XXXXXX")"; trap 'rm -rf "$work"' EXIT
 fail=0
 check() { if [[ "$2" == "$3" ]]; then echo "ok   $1"; else echo "FAIL $1: expected '$3' got '$2'"; fail=1; fi; }

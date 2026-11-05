@@ -5,12 +5,12 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using RecursiveAI.OneOffice.Documents;
-using RecursiveAI.OneOffice.Documents.Numbering;
-using RecursiveAI.OneOffice.Documents.Styles;
-using RecursiveAI.OneOffice.Packaging;
+using RecursiveAI.OneDocument.Documents;
+using RecursiveAI.OneDocument.Documents.Numbering;
+using RecursiveAI.OneDocument.Documents.Styles;
+using RecursiveAI.OneDocument.Packaging;
 
-namespace RecursiveAI.OneOffice.Tools.DocxProbe;
+namespace RecursiveAI.OneDocument.Tools.DocxProbe;
 
 internal static partial class Program
 {
@@ -98,13 +98,13 @@ internal static partial class Program
     {
         Paragraph[] paragraphs = doc.Body.Paragraphs().Take(4).ToArray();
         string? baseId = doc.Styles.Default(StyleType.Paragraph)?.Id;
-        string id = "OneOfficeCallout";
+        string id = "OneDocumentCallout";
         for (int i = 2; doc.Styles.Find(id) is not null; i++)
         {
-            id = "OneOfficeCallout" + i;
+            id = "OneDocumentCallout" + i;
         }
 
-        StyleDefinition style = doc.Styles.AddStyle(id, "OneOffice Callout", StyleType.Paragraph, baseId);
+        StyleDefinition style = doc.Styles.AddStyle(id, "OneDocument Callout", StyleType.Paragraph, baseId);
         style.Markup.Node.AppendXml(Encoding.UTF8.GetBytes("<w:pPr xmlns:w=\"" + style.Markup.NamespaceUriText + "\"><w:spacing w:before=\"120\"/></w:pPr>"));
         long abs = doc.Numbering.AddAbstractNumbering([new NumberingDefinitions.LevelSpec("decimal", "%1."), new NumberingDefinitions.LevelSpec("lowerLetter", "%2)", LeftIndent: 1440)]);
         long num = doc.Numbering.AddInstance(abs);

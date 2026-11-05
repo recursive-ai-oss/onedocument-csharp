@@ -3,7 +3,7 @@
 #
 #   tools/corpus/features_lo.sh FEATDIR OUTDIR [SAMPLE_PER_SET] [JOBS] [MAX_MINUTES]
 #
-# Needs ONEOFFICE_SOFFICE (a launcher that honours LO_PROFILE) and PYTHON. The table class adds cells, so it is only checked for "opens and converts".
+# Needs ONEDOCUMENT_SOFFICE (a launcher that honours LO_PROFILE) and PYTHON. The table class adds cells, so it is only checked for "opens and converts".
 set -uo pipefail
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 feat="${1:?usage: features_lo.sh FEATDIR OUTDIR [SAMPLE_PER_SET] [JOBS] [MAX_MINUTES]}"
@@ -11,7 +11,7 @@ out="${2:?}"
 sample="${3:-34}"
 jobs="${4:-8}"
 minutes="${5:-12}"
-home="${ONEOFFICE_HOME:-$HOME/oneoffice}"
+home="${ONEDOCUMENT_HOME:-$HOME/oneoffice}"
 mkdir -p "$out"
 export here feat out sample minutes home
 for c in style cf dv name table; do

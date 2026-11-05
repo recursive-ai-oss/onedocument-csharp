@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <RootNamespace>RecursiveAI.OneOffice.Tools.RoundTrip</RootNamespace>
+    <RootNamespace>RecursiveAI.OneDocument.Tools.RoundTrip</RootNamespace>
     <AssemblyName>RoundTrip</AssemblyName>
     <IsPackable>false</IsPackable>
   </PropertyGroup>

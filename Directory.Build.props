@@ -2,16 +2,16 @@
 
   <PropertyGroup Label="Name">
     <!-- The one place the project name lives. Assembly and namespace names stay RecursiveAI.$(LibName). -->
-    <LibName>OneOffice</LibName>
+    <LibName>OneDocument</LibName>
     <!-- NuGet package IDs carry the publisher prefix; this is the only place it is written. -->
     <PackagePrefix>RecursiveAI.</PackagePrefix>
   </PropertyGroup>
 
   <PropertyGroup Label="Output">
-    <!-- Build output stays out of the source folders. Set ONEOFFICE_ARTIFACTS to choose where; the default is artifacts/ at the
+    <!-- Build output stays out of the source folders. Set ONEDOCUMENT_ARTIFACTS to choose where; the default is artifacts/ at the
          repository root, which .gitignore covers. -->
-    <ArtifactsPath Condition="'$(ONEOFFICE_ARTIFACTS)' != ''">$(ONEOFFICE_ARTIFACTS)</ArtifactsPath>
-    <ArtifactsPath Condition="'$(ONEOFFICE_ARTIFACTS)' == ''">$(MSBuildThisFileDirectory)artifacts</ArtifactsPath>
+    <ArtifactsPath Condition="'$(ONEDOCUMENT_ARTIFACTS)' != ''">$(ONEDOCUMENT_ARTIFACTS)</ArtifactsPath>
+    <ArtifactsPath Condition="'$(ONEDOCUMENT_ARTIFACTS)' == ''">$(MSBuildThisFileDirectory)artifacts</ArtifactsPath>
   </PropertyGroup>
 
   <PropertyGroup Label="Language and analysis">
@@ -47,8 +47,8 @@
     <!-- The one place the package version lives; every package and the tool share it. -->
     <Version>0.1.0-preview.1</Version>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/recursive-ai-oss/oneoffice-csharp</RepositoryUrl>
-    <PackageProjectUrl>https://recursiveai.org/oneoffice/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/recursive-ai-oss/onedocument-csharp</RepositoryUrl>
+    <PackageProjectUrl>https://recursiveai.org/onedocument/</PackageProjectUrl>
   </PropertyGroup>
 
 </Project>

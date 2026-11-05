@@ -1,6 +1,6 @@
 # Revisions: tracked changes in WordprocessingML
 
-This note states what the revision model (`RecursiveAI.OneOffice.Documents.Revisions`) does. The XML documentation on each type states the details. Section numbers are ECMA-376 Part 1 (5th edition) unless noted.
+This note states what the revision model (`RecursiveAI.OneDocument.Documents.Revisions`) does. The XML documentation on each type states the details. Section numbers are ECMA-376 Part 1 (5th edition) unless noted.
 
 ## What is modelled
 
@@ -90,6 +90,6 @@ Checked with Word 365 (16.0.20527) accepting and rejecting every revision of gen
 - **Wrappers emptied by resolving.** Observed in Word 365 (16.0.20527) by rejecting the only insertion in, or accepting the only deletion in, a wrapper:
   - `w:smartTag` and `w:customXml` (with their `w:smartTagPr`/`w:customXmlPr`) are removed, and so are such wrappers that emptying them leaves empty in turn. `w:bdo` and `w:dir` follow the same rule here (not probed).
   - `w:hyperlink` stays as an empty element.
-  - `w:sdt` (inline or block) stays. Word also marks it `w:showingPlcHdr` and fills `w:sdtContent` with a placeholder run of spaces; OneOffice leaves the content empty and does not invent a placeholder, so the text of that content control differs from Word's by those spaces.
-  - `w:fldSimple`: Word rewrites it as a complex field and recalculates its result. OneOffice keeps the `w:fldSimple` with no result run; cached results stay authoritative and nothing recalculates on open.
-  - A block-level content control whose only paragraph had an inserted mark: Word joins the remaining content into the paragraph after the control; OneOffice leaves an empty paragraph in the control.
+  - `w:sdt` (inline or block) stays. Word also marks it `w:showingPlcHdr` and fills `w:sdtContent` with a placeholder run of spaces; OneDocument leaves the content empty and does not invent a placeholder, so the text of that content control differs from Word's by those spaces.
+  - `w:fldSimple`: Word rewrites it as a complex field and recalculates its result. OneDocument keeps the `w:fldSimple` with no result run; cached results stay authoritative and nothing recalculates on open.
+  - A block-level content control whose only paragraph had an inserted mark: Word joins the remaining content into the paragraph after the control; OneDocument leaves an empty paragraph in the control.

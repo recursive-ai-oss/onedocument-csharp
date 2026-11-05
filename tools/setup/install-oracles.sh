@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Installs the black-box oracles user-locally under $ONEOFFICE_HOME/oracles (default ~/oneoffice). Idempotent;
+# Installs the black-box oracles user-locally under $ONEDOCUMENT_HOME/oracles (default ~/oneoffice). Idempotent;
 # every download is checked against a pinned sha256. Oracles are only ever executed; their installed files are
 # never read. No sudo and nothing system-wide.
 #
-#   ONEOFFICE_HOME   root for oracles, corpora and results (default ~/oneoffice)
+#   ONEDOCUMENT_HOME   root for oracles, corpora and results (default ~/oneoffice)
 #   UV               path of the uv binary (default: uv on PATH)
 set -euo pipefail
-O="${ONEOFFICE_HOME:-$HOME/oneoffice}/oracles"
+O="${ONEDOCUMENT_HOME:-$HOME/oneoffice}/oracles"
 UV="${UV:-uv}"
 mkdir -p "$O"/dl
 cd "$O"

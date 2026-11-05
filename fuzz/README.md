@@ -1,6 +1,6 @@
 # Fuzzing
 
-`fuzz/OneOffice.Fuzz` holds the fuzz targets; SharpFuzz instruments `RecursiveAI.OneOffice.dll` and `RecursiveAI.OneArchive.dll` and libFuzzer drives them. Every parser gets a target here as it is written.
+`fuzz/OneDocument.Fuzz` holds the fuzz targets; SharpFuzz instruments `RecursiveAI.OneDocument.dll` and `RecursiveAI.OneArchive.dll` and libFuzzer drives them. Every parser gets a target here as it is written.
 
 | Target | Input | Surface |
 |---|---|---|
@@ -31,12 +31,12 @@ Only `OfficeException` may come out of a library call: it is the typed rejection
 
 ## Running
 
-    export ONEOFFICE_FUZZ_TOOLS=/path/to/tools     # holds fuzz/libfuzzer-dotnet and sharpfuzz/sharpfuzz
-    export ONEOFFICE_FUZZ_WORK=/path/to/workdir    # builds, corpora, findings; must be outside the checkout
+    export ONEDOCUMENT_FUZZ_TOOLS=/path/to/tools     # holds fuzz/libfuzzer-dotnet and sharpfuzz/sharpfuzz
+    export ONEDOCUMENT_FUZZ_WORK=/path/to/workdir    # builds, corpora, findings; must be outside the checkout
     fuzz/run.sh sniff 600                          # fuzz for 10 minutes
     fuzz/run.sh replay sniff some-input...         # run saved inputs once, without libFuzzer
 
-`run.sh` builds the harness in release mode into `$ONEOFFICE_FUZZ_WORK/bin`, writes seeds into `$ONEOFFICE_FUZZ_WORK/corpus/<target>/`, instruments the library assemblies, and runs libFuzzer. Findings land in `$ONEOFFICE_FUZZ_WORK/findings/<target>/`. `replay` runs on the uninstrumented build.
+`run.sh` builds the harness in release mode into `$ONEDOCUMENT_FUZZ_WORK/bin`, writes seeds into `$ONEDOCUMENT_FUZZ_WORK/corpus/<target>/`, instruments the library assemblies, and runs libFuzzer. Findings land in `$ONEDOCUMENT_FUZZ_WORK/findings/<target>/`. `replay` runs on the uninstrumented build.
 
 The tools:
 

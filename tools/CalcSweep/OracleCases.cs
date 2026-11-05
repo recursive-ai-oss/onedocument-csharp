@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Globalization;
-using RecursiveAI.OneOffice.Spreadsheets;
-using RecursiveAI.OneOffice.Spreadsheets.Calc;
+using RecursiveAI.OneDocument.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets.Calc;
 
-namespace RecursiveAI.OneOffice.Tools.CalcSweep;
+namespace RecursiveAI.OneDocument.Tools.CalcSweep;
 
-/// <summary>Writes the Excel test workbooks and compares OneOffice's results with the cells Excel reported for them.</summary>
+/// <summary>Writes the Excel test workbooks and compares OneDocument's results with the cells Excel reported for them.</summary>
 internal static class OracleCases
 {
     public static int Gen(string dir)

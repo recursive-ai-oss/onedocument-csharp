@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <RootNamespace>RecursiveAI.OneOffice.Tools.PackageSweep</RootNamespace>
+    <RootNamespace>RecursiveAI.OneDocument.Tools.PackageSweep</RootNamespace>
     <AssemblyName>PackageSweep</AssemblyName>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../src/OneOffice/OneOffice.csproj" />
+    <ProjectReference Include="../../src/OneDocument/OneDocument.csproj" />
   </ItemGroup>
 
 </Project>

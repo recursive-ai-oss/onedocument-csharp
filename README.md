@@ -1,23 +1,23 @@
-# OneOffice
+# OneDocument
 
 **Read, write, calculate, template and render Word, Excel and PowerPoint documents (OOXML, legacy binary, RTF, ODF) in pure .NET. Not affiliated with Microsoft.**
 
-OneOffice is a clean-room document processor for `net10.0` that depends only on the .NET base class library and other Recursive AI libraries. It is NativeAOT-, trim- and browser-WebAssembly-friendly: no reflection, no native code, no `System.Xml` in the document path.
+OneDocument is a clean-room document processor for `net10.0` that depends only on the .NET base class library and other Recursive AI libraries. It is NativeAOT-, trim- and browser-WebAssembly-friendly: no reflection, no native code, no `System.Xml` in the document path.
 
 ## Status: early preview
 
 What works today is **word-processing documents in the DOCX family**, **workbooks (XLSX family, CSV and TSV)**, and text extraction from OOXML files:
 
-- **`Document`** (`RecursiveAI.OneOffice.Documents`): `Document.Open` (path, stream or byte source; the format comes from the content, never the extension), `Document.Create`, `Save()` (atomic replace), `SaveAs(path)` (format by extension; `.xml` is Flat OPC) and `SaveAs(path|stream, format)`. It opens DOCX, DOCM, DOTX, DOTM and Flat OPC; any other format raises `FormatNotAvailableException` naming it. Untouched parts are written back byte-identical and unedited zip entries are copied as stored; edits keep unknown markup, prefixes, `mc:AlternateContent` and `extLst` in order. The model covers paragraphs and runs, tables, sections, headers and footers, styles with inheritance, numbering, fields, footnotes and endnotes, comments, revisions and content controls, with generated typed views (`RecursiveAI.OneOffice.Schema`) over the same markup.
-- **Text extraction** from OOXML documents, workbooks and presentations: `Office.ExtractText(path)` and `oneoffice extract <file> [-o out.txt] [--json]`; `Document.ExtractText()` for an open document, edits included.
+- **`Document`** (`RecursiveAI.OneDocument.Documents`): `Document.Open` (path, stream or byte source; the format comes from the content, never the extension), `Document.Create`, `Save()` (atomic replace), `SaveAs(path)` (format by extension; `.xml` is Flat OPC) and `SaveAs(path|stream, format)`. It opens DOCX, DOCM, DOTX, DOTM and Flat OPC; any other format raises `FormatNotAvailableException` naming it. Untouched parts are written back byte-identical and unedited zip entries are copied as stored; edits keep unknown markup, prefixes, `mc:AlternateContent` and `extLst` in order. The model covers paragraphs and runs, tables, sections, headers and footers, styles with inheritance, numbering, fields, footnotes and endnotes, comments, revisions and content controls, with generated typed views (`RecursiveAI.OneDocument.Schema`) over the same markup.
+- **Text extraction** from OOXML documents, workbooks and presentations: `Office.ExtractText(path)` and `onedocument extract <file> [-o out.txt] [--json]`; `Document.ExtractText()` for an open document, edits included.
 - **The foundation:** byte sources, one limits object, typed defects and exceptions with locations, content-based format identification, the format registry and the part/package model (OPC on zip and Flat OPC; compound files).
 
-- **`Workbook`** (`RecursiveAI.OneOffice.Spreadsheets`): open, edit and save XLSX, XLSM, XLTX and Flat OPC workbooks in a compact columnar cell store with styles, number formats, tables, conditional formatting, data validation, defined names and the 1900/1904 date systems. Cached values are what you read; there is no calculation yet and opening never recalculates. **Streaming** cursors read and write at constant memory with no allocation per cell, and `Spreadsheet.Read<T>` / `Spreadsheet.Write` bind plain classes and records to XLSX, CSV and TSV through a source generator (no reflection). CSV and TSV have their own reader and writer.
+- **`Workbook`** (`RecursiveAI.OneDocument.Spreadsheets`): open, edit and save XLSX, XLSM, XLTX and Flat OPC workbooks in a compact columnar cell store with styles, number formats, tables, conditional formatting, data validation, defined names and the 1900/1904 date systems. Cached values are what you read; there is no calculation yet and opening never recalculates. **Streaming** cursors read and write at constant memory with no allocation per cell, and `Spreadsheet.Read<T>` / `Spreadsheet.Write` bind plain classes and records to XLSX, CSV and TSV through a source generator (no reflection). CSV and TSV have their own reader and writer.
 
 Not done yet: calculation, templating, rendering, sanitising and redaction. Every other format below is planned.
 
 ```csharp
-using RecursiveAI.OneOffice.Documents;
+using RecursiveAI.OneDocument.Documents;
 
 using var doc = Document.Open("contract.docx");
 doc.Paragraphs.First().SetText("Master services agreement");
@@ -79,25 +79,25 @@ Deviations and gaps: no calculation engine; XLSB, XLS and ODS are not read yet; 
 
 | Package | Contents |
 |---|---|
-| `RecursiveAI.OneOffice` | The core: contracts, containers, markup, format registry, OOXML text extraction |
-| `RecursiveAI.OneOffice.Documents` | Word-processing documents (DOCX family) |
-| `RecursiveAI.OneOffice.Spreadsheets` | Workbooks (XLSX family), streaming, CSV/TSV, typed row binding; calculation not yet |
-| `RecursiveAI.OneOffice.Presentations` | Presentations (not yet) |
-| `RecursiveAI.OneOffice.Schema` | Generated typed views of the WordprocessingML elements, over the markup tree |
-| `RecursiveAI.OneOffice.Rendering` | Layout and PDF/image output (not yet) |
-| `RecursiveAI.OneOffice.Cryptography` | Signatures and encryption on write (not yet) |
-| `RecursiveAI.OneOffice.All` | Metapackage |
-| `oneoffice` | Command-line tool: `oneoffice detect <file>`, `oneoffice extract <file> [-o out.txt] [--json]` |
+| `RecursiveAI.OneDocument` | The core: contracts, containers, markup, format registry, OOXML text extraction |
+| `RecursiveAI.OneDocument.Documents` | Word-processing documents (DOCX family) |
+| `RecursiveAI.OneDocument.Spreadsheets` | Workbooks (XLSX family), streaming, CSV/TSV, typed row binding; calculation not yet |
+| `RecursiveAI.OneDocument.Presentations` | Presentations (not yet) |
+| `RecursiveAI.OneDocument.Schema` | Generated typed views of the WordprocessingML elements, over the markup tree |
+| `RecursiveAI.OneDocument.Rendering` | Layout and PDF/image output (not yet) |
+| `RecursiveAI.OneDocument.Cryptography` | Signatures and encryption on write (not yet) |
+| `RecursiveAI.OneDocument.All` | Metapackage |
+| `onedocument` | Command-line tool: `onedocument detect <file>`, `onedocument extract <file> [-o out.txt] [--json]` |
 
 ## Building
 
 ```
-dotnet build OneOffice.slnx
-dotnet test --solution OneOffice.slnx
+dotnet build OneDocument.slnx
+dotnet test --solution OneDocument.slnx
 build/ci.sh            # restore, build, test, NativeAOT smoke, WebAssembly smoke, pack
 ```
 
-The .NET SDK version is pinned in `global.json`. Build output goes to `artifacts/` (ignored by git); set `ONEOFFICE_ARTIFACTS` to put it elsewhere.
+The .NET SDK version is pinned in `global.json`. Build output goes to `artifacts/` (ignored by git); set `ONEDOCUMENT_ARTIFACTS` to put it elsewhere.
 
 ## Layout
 
@@ -107,4 +107,4 @@ The .NET SDK version is pinned in `global.json`. Build output goes to `artifacts
 
 `MIT OR Apache-2.0`, © Recursive AI, LLC. See `LICENSE-MIT`, `LICENSE-APACHE` and `THIRD-PARTY-NOTICES.md`.
 
-OneOffice is not affiliated with Microsoft or with any other product or company named OneOffice. Word, Excel and PowerPoint are Microsoft product names used here only to describe the formats.
+OneDocument is not affiliated with Microsoft or with any other product or company named OneDocument. Word, Excel and PowerPoint are Microsoft product names used here only to describe the formats.

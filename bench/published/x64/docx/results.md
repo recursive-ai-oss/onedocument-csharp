@@ -80,7 +80,7 @@ sdk: 10.0.403
 
 ```text
 runtime	.NET 10.0.14
-OneOffice	0.1.0-preview.1
+OneDocument	0.1.0-preview.1
 DocumentFormat.OpenXml	3.5.1
 NPOI	2.7.6
 ClosedXML	0.105.1
@@ -98,15 +98,15 @@ BenchmarkDotNet	0.15.8
 | medium | RawZip | 17.92 ms | 1.00x | 6.2 MB |
 | medium | OpenXml | 99.87 ms | 5.57x | 13.2 MB |
 | medium | Npoi | 113.73 ms | 6.35x | 32.8 MB |
-| medium | OneOffice | 19.79 ms | 1.10x | 12.0 MB |
+| medium | OneDocument | 19.79 ms | 1.10x | 12.0 MB |
 | pages1000 | RawZip | 121.01 ms | 1.00x | 57.7 MB |
 | pages1000 | OpenXml | 792.04 ms | 6.55x | 124.5 MB |
 | pages1000 | Npoi | 1.45 s | 12.01x | 344.5 MB |
-| pages1000 | OneOffice | 364.00 ms | 3.01x | 78.2 MB |
+| pages1000 | OneDocument | 364.00 ms | 3.01x | 78.2 MB |
 | small | RawZip | 120.54 us | 1.00x | 72.3 KB |
 | small | OpenXml | 1.13 ms | 9.37x | 297.0 KB |
 | small | Npoi | 2.79 ms | 23.13x | 1.3 MB |
-| small | OneOffice | 729.06 us | 6.05x | 1.6 MB |
+| small | OneDocument | 729.06 us | 6.05x | 1.6 MB |
 
 ## DocxExtract
 
@@ -115,15 +115,15 @@ BenchmarkDotNet	0.15.8
 | medium | OpenXmlDom | 75.56 ms | 1.00x | 7.0 MB |
 | medium | OpenXmlReader | 59.40 ms | 0.79x | 8.2 MB |
 | medium | Npoi | 76.37 ms | 1.01x | 33.8 MB |
-| medium | OneOffice | 9.09 ms | 0.12x | 1.3 MB |
+| medium | OneDocument | 9.09 ms | 0.12x | 1.3 MB |
 | pages1000 | OpenXmlDom | 663.62 ms | 1.00x | 78.4 MB |
 | pages1000 | OpenXmlReader | 434.43 ms | 0.65x | 93.5 MB |
 | pages1000 | Npoi | 1.16 s | 1.75x | 375.3 MB |
-| pages1000 | OneOffice | 209.81 ms | 0.32x | 420.1 KB |
+| pages1000 | OneDocument | 209.81 ms | 0.32x | 420.1 KB |
 | small | OpenXmlDom | 1.02 ms | 1.00x | 306.1 KB |
 | small | OpenXmlReader | 1.50 ms | 1.47x | 293.4 KB |
 | small | Npoi | 1.53 ms | 1.51x | 791.8 KB |
-| small | OneOffice | 565.99 us | 0.56x | 250.1 KB |
+| small | OneDocument | 565.99 us | 0.56x | 250.1 KB |
 
 ## DocxLazyOpen
 
@@ -132,15 +132,15 @@ BenchmarkDotNet	0.15.8
 | medium | RawZip | 7.05 us | 1.00x | 26.1 KB |
 | medium | OpenXml | 772.57 us | 109.59x | 228.8 KB |
 | medium | Npoi | 51.92 ms | 7365.82x | 26.1 MB |
-| medium | OneOffice | 285.30 us | 40.47x | 343.6 KB |
+| medium | OneDocument | 285.30 us | 40.47x | 343.6 KB |
 | pages1000 | RawZip | 6.72 us | 1.00x | 25.0 KB |
 | pages1000 | OpenXml | 1.02 ms | 151.54x | 212.7 KB |
 | pages1000 | Npoi | 1.09 s | 162211.86x | 287.6 MB |
-| pages1000 | OneOffice | 261.57 us | 38.93x | 338.2 KB |
+| pages1000 | OneDocument | 261.57 us | 38.93x | 338.2 KB |
 | small | RawZip | 7.18 us | 1.00x | 25.0 KB |
 | small | OpenXml | 467.20 us | 65.05x | 212.7 KB |
 | small | Npoi | 1.23 ms | 171.22x | 683.8 KB |
-| small | OneOffice | 255.50 us | 35.58x | 219.6 KB |
+| small | OneDocument | 255.50 us | 35.58x | 219.6 KB |
 
 ## DocxLoad
 
@@ -149,15 +149,15 @@ BenchmarkDotNet	0.15.8
 | medium | RawZip | 518.37 us | 1.00x | 26.1 KB |
 | medium | OpenXml | 67.89 ms | 130.96x | 7.0 MB |
 | medium | Npoi | 66.54 ms | 128.36x | 26.1 MB |
-| medium | OneOffice | 9.34 ms | 18.02x | 6.3 MB |
+| medium | OneDocument | 9.34 ms | 18.02x | 6.3 MB |
 | pages1000 | RawZip | 6.12 ms | 1.00x | 25.0 KB |
 | pages1000 | OpenXml | 650.02 ms | 106.23x | 78.4 MB |
 | pages1000 | Npoi | 1.12 s | 182.93x | 287.6 MB |
-| pages1000 | OneOffice | 107.02 ms | 17.49x | 50.8 MB |
+| pages1000 | OneDocument | 107.02 ms | 17.49x | 50.8 MB |
 | small | RawZip | 11.18 us | 1.00x | 25.0 KB |
 | small | OpenXml | 1.55 ms | 138.42x | 306.7 KB |
 | small | Npoi | 1.18 ms | 105.63x | 672.6 KB |
-| small | OneOffice | 389.05 us | 34.80x | 242.3 KB |
+| small | OneDocument | 389.05 us | 34.80x | 242.3 KB |
 
 ## DocxLoadSave
 
@@ -166,21 +166,21 @@ BenchmarkDotNet	0.15.8
 | medium | RawZip | 16.54 ms | 1.00x | 2.5 MB |
 | medium | OpenXml | 18.26 ms | 1.10x | 7.5 MB |
 | medium | Npoi | 106.63 ms | 6.45x | 32.8 MB |
-| medium | OneOffice | 436.65 us | 0.03x | 2.3 MB |
+| medium | OneDocument | 436.65 us | 0.03x | 2.3 MB |
 | pages1000 | RawZip | 109.67 ms | 1.00x | 4.9 MB |
 | pages1000 | OpenXml | 124.81 ms | 1.14x | 30.8 MB |
 | pages1000 | Npoi | 1.47 s | 13.39x | 344.5 MB |
-| pages1000 | OneOffice | 540.73 us | 0.00x | 4.3 MB |
+| pages1000 | OneDocument | 540.73 us | 0.00x | 4.3 MB |
 | small | RawZip | 118.43 us | 1.00x | 33.9 KB |
 | small | OpenXml | 817.15 us | 6.90x | 331.9 KB |
 | small | Npoi | 2.87 ms | 24.22x | 1.3 MB |
-| small | OneOffice | 170.43 us | 1.44x | 181.8 KB |
+| small | OneDocument | 170.43 us | 1.44x | 181.8 KB |
 
-## Bar: OneOffice against the fastest comparator
+## Bar: OneDocument against the fastest comparator
 
-Ratio is OneOffice median / the fastest comparator's median in the same class and input; at or below 1.00 is faster. The raw zip row is a floor and is not a comparator.
+Ratio is OneDocument median / the fastest comparator's median in the same class and input; at or below 1.00 is faster. The raw zip row is a floor and is not a comparator.
 
-| Class | Input | OneOffice | Fastest comparator | Comparator median | Ratio |
+| Class | Input | OneDocument | Fastest comparator | Comparator median | Ratio |
 |---|---|---:|---|---:|---:|
 | DocxEdit | medium | 19.79 ms | OpenXml | 99.87 ms | 0.20x |
 | DocxEdit | pages1000 | 364.00 ms | OpenXml | 792.04 ms | 0.46x |
@@ -226,26 +226,26 @@ Baseline is the working set after the input bytes are loaded; peak is the proces
 | npoi.loadsave | medium | 29.9 MB | 96.8 MB | 36.6 MB |
 | npoi.loadsave | pages1000 | 30.6 MB | 329.0 MB | 348.2 MB |
 | npoi.loadsave | small | 29.2 MB | 62.9 MB | 5.0 MB |
-| oneoffice.edit | large | 74.5 MB | 288.2 MB | 302.4 MB |
-| oneoffice.edit | medium | 29.8 MB | 51.3 MB | 12.2 MB |
-| oneoffice.edit | pages1000 | 30.6 MB | 97.5 MB | 78.4 MB |
-| oneoffice.edit | small | 29.2 MB | 41.5 MB | 1.8 MB |
-| oneoffice.extract | large | 74.6 MB | 85.8 MB | 622.3 KB |
-| oneoffice.extract | medium | 29.9 MB | 41.9 MB | 1.5 MB |
-| oneoffice.extract | pages1000 | 30.7 MB | 41.7 MB | 575.4 KB |
-| oneoffice.extract | small | 29.3 MB | 39.6 MB | 395.4 KB |
-| oneoffice.lazyopen | large | 74.6 MB | 85.6 MB | 464.4 KB |
-| oneoffice.lazyopen | medium | 29.9 MB | 40.8 MB | 423.0 KB |
-| oneoffice.lazyopen | pages1000 | 30.6 MB | 41.6 MB | 423.6 KB |
-| oneoffice.lazyopen | small | 29.2 MB | 40.0 MB | 305.0 KB |
-| oneoffice.load | large | 74.6 MB | 169.1 MB | 98.4 MB |
-| oneoffice.load | medium | 29.9 MB | 46.2 MB | 6.4 MB |
-| oneoffice.load | pages1000 | 30.7 MB | 87.4 MB | 50.9 MB |
-| oneoffice.load | small | 29.1 MB | 39.9 MB | 344.2 KB |
-| oneoffice.loadsave | large | 74.6 MB | 195.3 MB | 132.1 MB |
-| oneoffice.loadsave | medium | 29.8 MB | 41.3 MB | 2.4 MB |
-| oneoffice.loadsave | pages1000 | 30.5 MB | 43.6 MB | 4.5 MB |
-| oneoffice.loadsave | small | 29.0 MB | 38.5 MB | 331.7 KB |
+| onedocument.edit | large | 74.5 MB | 288.2 MB | 302.4 MB |
+| onedocument.edit | medium | 29.8 MB | 51.3 MB | 12.2 MB |
+| onedocument.edit | pages1000 | 30.6 MB | 97.5 MB | 78.4 MB |
+| onedocument.edit | small | 29.2 MB | 41.5 MB | 1.8 MB |
+| onedocument.extract | large | 74.6 MB | 85.8 MB | 622.3 KB |
+| onedocument.extract | medium | 29.9 MB | 41.9 MB | 1.5 MB |
+| onedocument.extract | pages1000 | 30.7 MB | 41.7 MB | 575.4 KB |
+| onedocument.extract | small | 29.3 MB | 39.6 MB | 395.4 KB |
+| onedocument.lazyopen | large | 74.6 MB | 85.6 MB | 464.4 KB |
+| onedocument.lazyopen | medium | 29.9 MB | 40.8 MB | 423.0 KB |
+| onedocument.lazyopen | pages1000 | 30.6 MB | 41.6 MB | 423.6 KB |
+| onedocument.lazyopen | small | 29.2 MB | 40.0 MB | 305.0 KB |
+| onedocument.load | large | 74.6 MB | 169.1 MB | 98.4 MB |
+| onedocument.load | medium | 29.9 MB | 46.2 MB | 6.4 MB |
+| onedocument.load | pages1000 | 30.7 MB | 87.4 MB | 50.9 MB |
+| onedocument.load | small | 29.1 MB | 39.9 MB | 344.2 KB |
+| onedocument.loadsave | large | 74.6 MB | 195.3 MB | 132.1 MB |
+| onedocument.loadsave | medium | 29.8 MB | 41.3 MB | 2.4 MB |
+| onedocument.loadsave | pages1000 | 30.5 MB | 43.6 MB | 4.5 MB |
+| onedocument.loadsave | small | 29.0 MB | 38.5 MB | 331.7 KB |
 | openxml.edit | large | 74.5 MB | 412.8 MB | 385.8 MB |
 | openxml.edit | medium | 29.9 MB | 66.9 MB | 14.1 MB |
 | openxml.edit | pages1000 | 30.7 MB | 161.8 MB | 125.4 MB |

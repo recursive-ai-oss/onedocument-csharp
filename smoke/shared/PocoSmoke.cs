@@ -1,9 +1,9 @@
 using System.Text;
-using RecursiveAI.OneOffice.Formats;
-using RecursiveAI.OneOffice.Spreadsheets;
-using RecursiveAI.OneOffice.Spreadsheets.Binding;
+using RecursiveAI.OneDocument.Formats;
+using RecursiveAI.OneDocument.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets.Binding;
 
-namespace RecursiveAI.OneOffice.Smoke;
+namespace RecursiveAI.OneDocument.Smoke;
 
 internal enum SmokeKind
 {

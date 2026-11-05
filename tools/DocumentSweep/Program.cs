@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using RecursiveAI.OneOffice.Documents;
+using RecursiveAI.OneDocument.Documents;
 
-namespace RecursiveAI.OneOffice.Tools.DocumentSweep;
+namespace RecursiveAI.OneDocument.Tools.DocumentSweep;
 
 /// <summary>
 /// Opens every word-processing file under a directory with <c>Document.Open</c> and saves it to a new file, untouched or after a
@@ -54,7 +54,7 @@ internal static class Program
         }
 
         Directory.CreateDirectory(output);
-        RecursiveAI.OneOffice.Formats.FormatRegistry registry = RecursiveAI.OneOffice.Formats.FormatRegistry.Default;
+        RecursiveAI.OneDocument.Formats.FormatRegistry registry = RecursiveAI.OneDocument.Formats.FormatRegistry.Default;
         DocumentFormats.Register(registry);
         if (textDir is not null)
         {
