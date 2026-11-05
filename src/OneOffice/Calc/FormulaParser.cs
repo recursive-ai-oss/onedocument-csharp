@@ -843,7 +843,7 @@ internal sealed class FormulaReader
             }
         }
 
-        if (p < _s.Length && (RefSyntax.IsIdentStart(_s[p])))
+        if (p < _s.Length && _s[p] != _loc.ArrayColumnSeparator && RefSyntax.IsIdentStart(_s[p]))
         {
             throw Error("formula.bad-number", "A number is followed by letters.", start, p - start + 1);
         }

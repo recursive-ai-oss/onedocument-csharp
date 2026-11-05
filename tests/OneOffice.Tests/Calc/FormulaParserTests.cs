@@ -217,6 +217,16 @@ public class FormulaParserTests
     }
 
     [Fact]
+    public void BackslashColumnSeparatorAsExcelWritesItWithOverriddenSeparators()
+    {
+        // Measured with Excel 16 set to a comma decimal: arguments and rows use ';', array columns use a backslash.
+        var loc = FormulaLocale.ForDecimalSeparator(",", '\\');
+        FormulaNode n = FormulaParser.Parse("{1,5\\2,5;3\\4}", new FormulaParserOptions { Locale = loc });
+        Assert.Equal("{1.5,2.5;3,4}", FormulaPrinter.Print(n));
+        Assert.Equal("{1,5\\2,5;3\\4}", FormulaPrinter.Print(n, new FormulaPrintOptions { Form = FormulaForm.Display, Locale = loc }));
+    }
+
+    [Fact]
     public void SharedFormulaTranslationMovesRelativeParts()
     {
         FormulaNode n = FormulaParser.Parse("A1+$B$2+C$3+$D4+SUM(E5:F6)");
