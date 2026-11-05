@@ -10,6 +10,7 @@
 """
 import argparse, glob, json, os, random, shutil, subprocess, sys, tempfile, time
 
+XML_SPACE = "{http://www.w3.org/XML/1998/namespace}space': The attribute"
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -32,7 +33,9 @@ def validate(a):
         out = {}
         for name, data in v.package_parts(path):
             r = v.validate_part(name, data, s, understood)
-            out[name] = len(r["errors"]) if r["status"] == "invalid" else 0
+            # Office writes xml:space="preserve" on the text elements of strings, though the schema's ST_Xstring element declares no
+            # such attribute; the library does the same for text with edge spaces, so those errors are not counted (here or in originals).
+            out[name] = sum(1 for e in r["errors"] if XML_SPACE not in str(e)) if r["status"] == "invalid" else 0
         return out
 
     files = new = origInvalid = editedInvalid = skipped = 0
