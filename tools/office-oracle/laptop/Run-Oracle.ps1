@@ -333,8 +333,8 @@ function Invoke-ExcelFormulas($app, $item, $path, $outDir, $res) {
     $sep = [string][char]31
     # A file named *.comma.fgrid is entered with a comma decimal separator (Excel's own setting, restored afterwards), to see how
     # Formula2Local writes separators for such a locale. Function names stay English: the language is the installed one.
-    $comma = $path -like '*.comma.fgrid'
-    if ($comma) { $app.UseSystemSeparators = $false; $app.DecimalSeparator = ','; $app.ThousandsSeparator = '.' }
+    $comma = $path -like '*.comma*.fgrid'
+    if ($comma) { $app.UseSystemSeparators = $false; $app.DecimalSeparator = ','; $app.ThousandsSeparator = $(if ($path -like '*.commasp.fgrid') { ' ' } else { '.' }) }
     $wb = $app.Workbooks.Add()
     try {
         # Manual calculation keeps closing the workbook quick; a slow shutdown makes Windows relaunch Excel with /restore.

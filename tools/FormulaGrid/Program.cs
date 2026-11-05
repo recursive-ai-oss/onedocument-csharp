@@ -248,24 +248,27 @@ internal static class Program
     // file form as the English spelling, and Formula2Local must print what our display form prints for that locale.
     private static readonly string[] LocalFormulas =
     [
-        "=SUM(1,5;2)", "=1,5+2", "={1.2;3.4}", "={1,5.2,5;3.4}", "=SUM(A1:B2;C3)", "=SUM((A1:B2;C3:D4))", "=TEXT(1,5;\"0,00\")", "=IF(TRUE;\"a\";\"b\")", "=1,5E+3",
-        "=1,5E-3", "=\"a;b\"", "=SUM(1;2;3)", "=IF(A1>1,5;1;2)", "=SUM({1.2;3.4})", "=0,5%", "=-1,25", "=2^0,5", "=SUM(1;;2)", "=IF(A1;;1,5)", "=SEQUENCE(2;2;1,5;0,5)",
-        "=LET(x;1,5;x*2)", "=LAMBDA(x;x+1,5)(2)", "=AND(1;0,5)", "=CONCAT(\"a\";1,5)", "={\"a\".\"b\";1,5.2}", "=ROWS(A1:B3;)",
+        "=SUM(1,5;2)", "=1,5+2", "={1\\2;3\\4}", "={1,5\\2,5;3\\4}", "=SUM(A1:B2;C3)", "=SUM((A1:B2;C3:D4))", "=TEXT(1,5;\"0,00\")", "=IF(TRUE;\"a\";\"b\")", "=1,5E+3",
+        "=1,5E-3", "=\"a;b\"", "=SUM(1;2;3)", "=IF(A1>1,5;1;2)", "=SUM({1\\2;3\\4})", "=0,5%", "=-1,25", "=2^0,5", "=SUM(1;;2)", "=IF(A1;;1,5)", "=SEQUENCE(2;2;1,5;0,5)",
+        "=LET(x;1,5;x*2)", "=LAMBDA(x;x+1,5)(2)", "=AND(1;0,5)", "=CONCAT(\"a\";1,5)", "={\"a\"\\\"b\";1,5\\2}", "=ROWS(A1:B3)",
     ];
 
     private static int LocalGenerate(string dir)
     {
         Directory.CreateDirectory(dir);
         File.WriteAllLines(Path.Combine(dir, "loc.comma.fgrid"), LocalFormulas.Select((f, i) => $"lc{i}\tlocal\t{Esc(f)}"), new UTF8Encoding(false));
+        File.WriteAllLines(Path.Combine(dir, "locsp.commasp.fgrid"), LocalFormulas.Select((f, i) => $"ls{i}\tlocal\t{Esc(f)}"), new UTF8Encoding(false));
         return 0;
     }
 
     private static int LocalCompare(string testDir, string answerDir)
     {
-        var comma = FormulaLocale.ForDecimalSeparator(",");
         int bad = 0;
         int n = 0;
-        string[] lines = File.ReadAllLines(Path.Combine(answerDir, "loc.comma.fgrid.tsv"));
+        foreach ((string file, string thousands) in new[] { ("loc.comma.fgrid.tsv", "."), ("locsp.commasp.fgrid.tsv", " ") })
+        {
+        var comma = FormulaLocale.ForDecimalSeparator(",", '\\');
+        string[] lines = File.ReadAllLines(Path.Combine(answerDir, file));
         for (int i = 0; i < LocalFormulas.Length; i++)
         {
             string[] p = lines[i].Split('\t');
@@ -300,6 +303,7 @@ internal static class Program
                 bad++;
                 Console.WriteLine($"lc{i} {text} :: {err}");
             }
+        }
         }
 
         Console.WriteLine($"local (comma decimal): compared={n} disagree={bad}");

@@ -58,13 +58,14 @@ public sealed class FormulaLocale
     /// <summary>The separator between array-constant rows.</summary>
     public char ArrayRowSeparator { get; }
 
-    /// <summary>A locale with the separators the number-format service knows for a culture: a comma decimal separator brings <c>;</c> arguments and <c>.</c> array columns, as in Excel.</summary>
-    /// <param name="decimalSeparator">The culture's decimal separator.</param>
+    /// <summary>A locale for a culture that writes a comma as the decimal separator: <c>;</c> between arguments and rows, and <c>.</c> between array columns (the form the localized function documentation and regional Excel versions show).</summary>
+    /// <param name="decimalSeparator">The culture's decimal separator; any other value than a comma gives <see cref="Invariant"/>.</param>
+    /// <param name="arrayColumnSeparator">The column separator when it is not <c>.</c>. Excel 16 with its separators overridden to a comma decimal (on an en-US system) wrote and accepted <c>\</c>; whether a regional install differs is not measured.</param>
     /// <returns>The locale (no function names).</returns>
-    public static FormulaLocale ForDecimalSeparator(string decimalSeparator)
+    public static FormulaLocale ForDecimalSeparator(string decimalSeparator, char arrayColumnSeparator = '.')
     {
         ArgumentNullException.ThrowIfNull(decimalSeparator);
-        return decimalSeparator == "," ? new FormulaLocale(',', ';', '.', ';') : Invariant;
+        return decimalSeparator == "," ? new FormulaLocale(',', ';', arrayColumnSeparator, ';') : Invariant;
     }
 
     internal string ToInvariantName(string local) => _toInvariant.TryGetValue(local, out string? n) ? n : local;
