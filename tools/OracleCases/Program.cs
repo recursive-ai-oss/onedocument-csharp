@@ -110,6 +110,8 @@ internal static class Program
             ("u23-tb-vml-insert", () => Boxed(drawing: false, (a, box) => a.InsertText(box.Paragraphs().First().Markup.Node, 5, " NEW"))),
             ("u23-tb-vml-delete-paragraph", () => Boxed(drawing: false, (a, box) => a.DeleteParagraph(box.Paragraphs().Last().Markup.Node))),
             ("u23-tb-vml-settext", () => Boxed(drawing: false, (_, box) => box.Paragraphs().First().SetText("set by OneOffice"))),
+            ("u23-tb-hub-dml", () => Boxed(drawing: true, HubEdits)),
+            ("u23-tb-hub-vml", () => Boxed(drawing: false, HubEdits)),
             ("u23-props-core", PropertiesCore),
             ("u23-props-custom", PropertiesCustom),
             ("u23-props-created-all", PropertiesCreatedFromNothing),
@@ -464,6 +466,16 @@ internal static class Program
         }
 
         Save(doc, Current());
+    }
+
+    // The hub-level authoring calls on the paragraphs of a text box.
+    private static void HubEdits(RevisionAuthor a, TextBox box)
+    {
+        Paragraph first = box.Paragraphs().First();
+        a.ReplaceText(first, 0, 6, "Within");
+        a.FormatText(first, 7, 3, new RunPropertiesDelta { Bold = true, Color = "FF0000" });
+        a.ChangeParagraphProperties(box.Paragraphs().Last(), new ParagraphPropertiesDelta { Alignment = ParagraphAlignment.Center });
+        a.InsertParagraph(first, "inserted through the hub");
     }
 
     private static void PropertiesCore()

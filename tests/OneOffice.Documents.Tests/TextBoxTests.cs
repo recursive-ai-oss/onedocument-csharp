@@ -1,4 +1,5 @@
 using System.Text;
+using System.Linq;
 using RecursiveAI.OneOffice.Documents.Revisions;
 using RecursiveAI.OneOffice.Packaging;
 
@@ -155,6 +156,47 @@ public class TextBoxTests
         Assert.Throws<ArgumentException>(() => d.WrapParagraph(box.Container));
         using Document other = Open("<w:p/>");
         Assert.Throws<ArgumentException>(() => other.WrapParagraph(new Schema.MarkupRef(d.Body.Paragraphs().First().Markup.Node)));
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void HubRevisionOverloadsWorkOnBoxParagraphs(bool drawing)
+    {
+        string table = "<w:tbl><w:tblPr/><w:tblGrid><w:gridCol w:w=\"2000\"/><w:gridCol w:w=\"2000\"/></w:tblGrid><w:tr><w:tc><w:p><w:r><w:t>c1</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:t>c2</w:t></w:r></w:p></w:tc></w:tr></w:tbl><w:p/>";
+        string content = $"<w:txbxContent><w:p><w:r><w:t>Hello world</w:t></w:r></w:p>{table}</w:txbxContent>";
+        string box = drawing
+            ? $"<w:r><mc:AlternateContent><mc:Choice Requires=\"wps\"><w:drawing><wps:wsp><wps:txbx>{content}</wps:txbx></wps:wsp></w:drawing></mc:Choice><mc:Fallback><w:pict><v:shape id=\"s1\"><v:textbox>{content}</v:textbox></v:shape></w:pict></mc:Fallback></mc:AlternateContent></w:r>"
+            : $"<w:r><w:pict><v:shape id=\"s1\"><v:textbox>{content}</v:textbox></v:shape></w:pict></w:r>";
+        using Document d = Open($"<w:p>{box}</w:p>");
+        TextBox tb = d.TextBoxes()[0];
+        RevisionAuthor author = d.Revisions.CreateAuthor("Ann", new DateTimeOffset(2025, 3, 4, 5, 6, 7, TimeSpan.Zero), RevisionIds.StartingAt(100));
+        Paragraph first = tb.Paragraphs().First();
+        author.ReplaceText(first, 0, 5, "HELLO");
+        author.FormatText(first, 6, 5, new RunPropertiesDelta { Bold = true });
+        author.ChangeParagraphProperties(tb.Paragraphs().Last(), new ParagraphPropertiesDelta { Alignment = ParagraphAlignment.Center });
+        Paragraph added = author.InsertParagraph(first, "added");
+        Assert.Equal("added", added.Text);
+        Assert.Same(d, added.Owner);
+        Table t = tb.Blocks().OfType<Table>().Single();
+        TableRow row = author.InsertRow(t, 1, ["n1", "n2"]);
+        author.MarkRowDeleted(t.Rows().First());
+        Assert.Equal("n1", row.Cells().First().Paragraphs().First().Text);
+        d.CommitChanges();
+        d.Revisions.Refresh();
+        Assert.Contains(d.Revisions.Revisions, r => r.Kind == RevisionKind.Insertion && r.Id >= 100);
+        Assert.Contains(d.Revisions.Revisions, r => r.Kind == RevisionKind.TableRowDeleted || r.Kind == RevisionKind.Deletion);
+
+        // Rejecting everything restores the text; the copy in the other branch stays equal to the exposed one.
+        d.Revisions.RejectAll();
+        d.CommitChanges();
+        Assert.Empty(d.Revisions.Revisions);
+        TextBox again = d.TextBoxes()[0];
+        Assert.Equal("Hello world", again.Paragraphs().First().Text);
+        if (drawing)
+        {
+            Assert.Equal(again.Container.Node.OuterXml, again.Alternate.Node.OuterXml);
+        }
     }
 
     private static int CountOf(string text, string needle)
