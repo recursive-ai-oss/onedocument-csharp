@@ -85,16 +85,17 @@ public sealed class StyleTests
     }
 
     [Fact]
-    public void ExplicitlyUnappliedPropertiesComeFromTheNamedStyle()
+    public void ApplyFlagsDoNotChangeWhichIdsAreUsed()
     {
         using Workbook wb = TestBook.Open(Book());
         ResolvedCellStyle r = wb.Styles.Resolve(2);
         Assert.Equal("Percent Fancy", r.StyleName);
-        Assert.Equal("0%", r.NumberFormatCode);
-        Assert.True(r.Font.Bold);
-        Assert.Equal(FillPattern.Solid, r.Fill.Pattern);
+        // The cell format states applyX=0 but its own ids win, as in Excel.
+        Assert.Equal("General", r.NumberFormatCode);
+        Assert.False(r.Font.Bold);
+        Assert.Equal(FillPattern.None, r.Fill.Pattern);
+        // The alignment child comes from the named style when the cell format has none.
         Assert.Equal(CellHorizontalAlignment.Center, r.Alignment.Horizontal);
-        // Format 3 does not state applyFont, so its own font is used even though the style differs.
         Assert.Equal("Calibri", wb.Styles.Resolve(3).Font.Name);
         Assert.Equal("yyyy\\-mm\\-dd", wb.Styles.Resolve(3).NumberFormatCode);
     }

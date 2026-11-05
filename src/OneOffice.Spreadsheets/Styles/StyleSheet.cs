@@ -27,8 +27,7 @@ public sealed record TableStyleDefinition(string Name, bool AppliesToPivots, boo
 /// (<see cref="Cell.StyleIndex"/>); <see cref="Resolve"/> turns it into the effective font, fill, border, alignment and number format.
 /// </summary>
 /// <remarks>
-/// <para>Resolution: a cell format's own ids are used, except where its <c>applyX</c> flag is explicitly false and its named cell style
-/// exists, in which case the cell style's value is used (ECMA-376 §18.8.45).</para>
+/// <para>Resolution: a cell format's own ids are used whatever its <c>applyX</c> flags say (observed in Excel 16.0.20527); an alignment or protection child the cell format lacks comes from its named cell style.</para>
 /// <para>Not safe for concurrent mutation; reading is safe from several threads once nothing is being added.</para>
 /// </remarks>
 public sealed class StyleSheet
@@ -317,15 +316,15 @@ public sealed class StyleSheet
         MarkupNode x = _xfs[formatIndex];
         int xfId = Xl.Int(x.GetAttribute("xfId"));
         MarkupNode s = xfId >= 0 && xfId < _styleXfs.Count ? _styleXfs[xfId] : default;
-        int Pick(string id, string apply) => !s.IsNull && Xl.OptFlag(x, apply) == false ? Xl.Int(s.GetAttribute(id)) : Xl.Int(x.GetAttribute(id));
-        int nf = Pick("numFmtId", "applyNumberFormat");
-        int fontId = Pick("fontId", "applyFont");
-        int fillId = Pick("fillId", "applyFill");
-        int borderId = Pick("borderId", "applyBorder");
+        int Pick(string id) => Xl.Int(x.GetAttribute(id));
+        int nf = Pick("numFmtId");
+        int fontId = Pick("fontId");
+        int fillId = Pick("fillId");
+        int borderId = Pick("borderId");
 
         CellAlignment? al = null;
         CellProtection? pr = null;
-        foreach (MarkupNode src in !s.IsNull && Xl.OptFlag(x, "applyAlignment") == false ? new[] { s } : new[] { x, s })
+        foreach (MarkupNode src in new[] { x, s })
         {
             if (src.IsNull)
             {
@@ -343,7 +342,7 @@ public sealed class StyleSheet
             }
         }
 
-        foreach (MarkupNode src in !s.IsNull && Xl.OptFlag(x, "applyProtection") == false ? new[] { s } : new[] { x, s })
+        foreach (MarkupNode src in new[] { x, s })
         {
             if (src.IsNull)
             {
