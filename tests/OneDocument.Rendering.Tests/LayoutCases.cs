@@ -81,6 +81,7 @@ public static class LayoutCases
         list.AddRange(PageLayoutCases.All());
 
         list.AddRange(TableCases.All());
+        list.AddRange(FieldDocs.All());
         return list;
     }
 }

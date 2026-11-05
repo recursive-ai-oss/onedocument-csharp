@@ -8,7 +8,7 @@ listed in the deviations table at the end.
 
 ## The pipeline
 
-`LayoutEngine.Layout(Document, LayoutOptions?)` → `LayoutDocument` (pages, font notes, notes) →
+`LayoutEngine.Layout(Document, LayoutOptions?)` → `LayoutDocument` (pages, font notes, notes, field passes) →
 `LayoutPainter.Paint(LayoutPage)` → OneRender `DisplayList` → `DocumentRenderer.WritePdf` / `RenderPng`, or any OneRender backend.
 OneDocument does its own text layout; OneRender's CSS engine is never involved. Layout reads the document and never changes it.
 `Office.Convert("in.docx", "out.pdf")` and `document.SaveAs("out.pdf")` go through the same path once
@@ -35,7 +35,7 @@ from several threads.
   node classes are open for that through `LayoutNodeKind`. Every node knows its parent and children.
 - `LayoutDocument.FontNotes` has one `FontSubstitutionNote` per replaced family and `Notes` has `layout.*` notes for what was skipped.
   Codes so far: `layout.font-missing`, `layout.drawing-skipped`, `layout.block-skipped`, `layout.blank-page`, `layout.page-limit`,
-  `layout.page-border-art`, `layout.valign-both`, and for tables `layout.table-skipped` (a table in a header or footer),
+  `layout.page-border-art`, `layout.valign-both`, for fields `layout.fields-unsettled`, `layout.field-source-missing`, `layout.field-skipped`, `layout.noteref-page-restart` (see `layout-fields.md`), and for tables `layout.table-skipped` (a table in a header or footer),
   `layout.table-floating`, `layout.table-text-direction`, `layout.table-depth` (see `layout-tables.md`).
 
 ## Paint contract
@@ -154,12 +154,10 @@ A taller story pushes the body edge in (`LayoutPage.ContentArea` is the body aft
 `LayoutParagraph`s with `Story` Header or Footer, listed by `HeaderParagraphs`/`FooterParagraphs`, and painted inside an
 `Artifact` tag. Tables in a story are skipped until tables are laid out.
 
-**Page numbers.** `pgNumType start` restarts the printed number at a section's first page; `fmt` formats it. `PAGE`,
-`NUMPAGES`, `SECTIONPAGES` and `SECTION` fields in headers and footers (complex and simple, `\* roman`/`ROMAN`/`alphabetic`/`ALPHABETIC`/`Arabic`
-switches) show the page's values; `NUMPAGES` and `SECTIONPAGES` need the counts, so layout runs again with the counts of the
-previous pass until they stop changing (at most three passes). This is the small hook (`PageFieldScanner`) the general field
-update replaces. Other fields keep their cached results, and page fields in the body are not replaced yet. Chapter numbers
-(`chapStyle`) in page numbers are not applied.
+**Page numbers.** `pgNumType start` restarts the printed number at a section's first page; `fmt` formats it. `PAGE`, `NUMPAGES`,
+`SECTIONPAGES` and `SECTION` fields in headers, footers and the body show the page's values, and `PAGEREF`, `REF`, `STYLEREF`, `SEQ`,
+the table of contents, index and table of authorities are resolved the same way: layout runs again with the facts of the pass before
+until they settle (see `layout-fields.md`). Chapter numbers (`chapStyle`) in page numbers are not applied.
 
 **Decoration** (`LayoutPage.Decorations`, painted as artifacts). Page borders (§17.6.2): `offsetFrom` text or page, `display`,
 single, thick, double, triple, dashed and dotted drawn as rectangles; art borders are drawn as plain lines (note
@@ -201,7 +199,7 @@ stages that lay out those features and are added to this table with them.
 | Justification in lines with tabs or bidi | spreads over spaces only | |
 | Bidi mirrored punctuation, trailing spaces in right-to-left lines | not handled specially | |
 | Hyphenation, kashida, the East Asian character grid and `w:eastAsianLayout` | not implemented | later |
-| Inline pictures, shapes, notes, fields other than page numbers | not laid out (reported) | later stages |
+| Inline pictures, shapes, notes | not laid out (reported) | later stages |
 | Tables | laid out; see `layout-tables.md`. In columns they keep the width cut for the first column; in headers and footers they are skipped | |
 | Blank page from an odd/even break | has the header and footer of the following section, counted in the numbering | needs Word output |
 | Header and footer vertical placement | header text top at `header`, footer text bottom at page height minus `footer`; the body edge takes the larger of the margin and the story | needs Word output |

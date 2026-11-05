@@ -405,6 +405,8 @@ public static partial class LayoutEngine
                 NumPages = totals?.NumPages ?? 0,
                 SectionPages = totals is not null && sec.Index < totals.SectionPages.Length ? totals.SectionPages[sec.Index] : 0,
                 SectionNumber = sec.Index + 1,
+                Physical = page.Number,
+                Totals = totals,
             };
 
             HeaderFooter? header = sec.ForPage(HeaderFooterKind.Header, first, printed).Story;

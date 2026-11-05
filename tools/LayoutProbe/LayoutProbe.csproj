@@ -28,6 +28,7 @@
     <Compile Include="../../tests/OneDocument.Rendering.Tests/TestDocx.cs" Link="TestDocx.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/PageLayoutCases.cs" Link="PageLayoutCases.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/PageDocs.cs" Link="PageDocs.cs" />
+    <Compile Include="../../tests/OneDocument.Rendering.Tests/FieldDocs.cs" Link="FieldDocs.cs" />
   </ItemGroup>
 
 </Project>

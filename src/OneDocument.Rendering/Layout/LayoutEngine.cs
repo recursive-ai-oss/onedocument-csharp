@@ -22,19 +22,38 @@ public static partial class LayoutEngine
     {
         ArgumentNullException.ThrowIfNull(document);
         LayoutOptions opt = options ?? new LayoutOptions();
-        IFontProvider fonts = opt.Fonts ?? CreateFonts(document, opt);
         CompatSettings compat = CompatSettings.Read(document);
-        IReadOnlyDictionary<string, DocumentFontInfo> fontTable = DocumentFonts.ReadFontTable(document);
-
-        // NUMPAGES and SECTIONPAGES in a header or footer need the page counts, which exist only after the pages do: lay out again with
-        // the previous pass's counts until they stop changing (at most three passes). This is the small loop the general field update
-        // replaces.
-        PageTotals? totals = null;
-        for (int pass = 0; ; pass++)
+        if (compat.UpdateFields && !opt.UpdateFields)
         {
-            var ctx = new LayoutContext(document, fonts, compat, fontTable);
-            var flow = new Flow(ctx, opt, totals, probe: false);
-            IReadOnlyList<Section> sections = document.Sections;
+            // ECMA-376 Part 1 §17.15.1.92 (updateFields): the file asks for its fields to be updated when it is opened, as Word then does.
+            opt = opt.WithUpdateFields();
+        }
+
+        // Fields first: a table of contents, index or table of authorities that has to be built is built in a private copy, and every
+        // field that depends on pages reads the facts of the previous pass (docs/layout-fields.md).
+        var pending = new List<LayoutNote>();
+        FieldModel model = FieldModel.Build(document);
+        Document work = document;
+        if (FieldUpdater.NeedsBuild(model, opt))
+        {
+            (work, model) = FieldUpdater.Apply(document, model, opt, pending);
+        }
+
+        IFontProvider fonts = opt.Fonts ?? CreateFonts(work, opt);
+        IReadOnlyDictionary<string, DocumentFontInfo> fontTable = DocumentFonts.ReadFontTable(work);
+        Document? copy = ReferenceEquals(work, document) ? null : work;
+
+        // Layout runs again with the facts of the pass before until a pass produces the facts it was given: page numbers that move
+        // text that moves page numbers settle, or after MaxFieldPasses the last pass stands with a note.
+        FieldFacts? facts = null;
+        int maxPasses = Math.Clamp(opt.MaxFieldPasses, 1, 50);
+        for (int pass = 1; ; pass++)
+        {
+            var env = new FieldEnv { Doc = work, Model = model, Options = opt, Facts = facts };
+            var ctx = new LayoutContext(work, fonts, compat, fontTable) { Fields = env };
+            ctx.Notes.AddRange(pending);
+            var flow = new Flow(ctx, opt, facts?.Totals, probe: false);
+            IReadOnlyList<Section> sections = work.Sections;
             for (int s = 0; s < sections.Count; s++)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -47,13 +66,24 @@ public static partial class LayoutEngine
             }
 
             flow.Finish();
-            PageTotals measured = PageTotals.Of(flow.Pages, sections.Count);
-            if (!ctx.UsesPageTotals || pass >= 2 || (totals is not null && totals.Equals(measured)))
+            if (!env.UsedFacts)
             {
-                return new LayoutDocument(flow.Pages, ctx.FontNotes, ctx.Notes, ctx.Compat.Mode);
+                return new LayoutDocument(flow.Pages, ctx.FontNotes, ctx.Notes, ctx.Compat.Mode, pass, copy);
             }
 
-            totals = measured;
+            FieldFacts built = FieldFacts.Build(flow.Pages, model, PageTotals.Of(flow.Pages, sections.Count), work);
+            if (facts is not null && facts.Equals(built))
+            {
+                return new LayoutDocument(flow.Pages, ctx.FontNotes, ctx.Notes, ctx.Compat.Mode, pass, copy);
+            }
+
+            if (pass >= maxPasses)
+            {
+                ctx.Notes.Add(new LayoutNote("layout.fields-unsettled", $"Page-dependent fields still changed the pages after {pass} passes; the last pass stands.", null));
+                return new LayoutDocument(flow.Pages, ctx.FontNotes, ctx.Notes, ctx.Compat.Mode, pass, copy);
+            }
+
+            facts = built;
         }
     }
 
