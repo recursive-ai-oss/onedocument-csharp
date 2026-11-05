@@ -128,6 +128,7 @@ internal static class SdtTarget
         Directory.CreateDirectory(dir);
         File.WriteAllText(Path.Combine(dir, "seed-path"), "/a:r/a:n[1]\nxmlns:a='urn:a'\n<a:r xmlns:a=\"urn:a\"><a:n k=\"v\">x</a:n></a:r>");
         File.WriteAllText(Path.Combine(dir, "seed-path-attr"), "/a:r/a:n[@k='v']/@k\nxmlns:a=\"urn:a\"\n<a:r xmlns:a=\"urn:a\"><a:n k=\"v\">x</a:n></a:r>");
+        File.WriteAllText(Path.Combine(dir, "seed-path-wide"), "//a:n[last()]/following-sibling::*[name()='a:n' and contains(., 'x') and position() > 1]/../a:n[@k!='w']/text()\nxmlns:a='urn:a'\n<a:r xmlns:a=\"urn:a\"><a:n k=\"v\">x</a:n><a:n k=\"w\">y</a:n></a:r>");
         File.WriteAllText(Path.Combine(dir, "seed-body-text"), "<w:sdt><w:sdtPr><w:tag w:val=\"t\"/><w:text/></w:sdtPr><w:sdtContent><w:p><w:r><w:t>x</w:t></w:r></w:p></w:sdtContent></w:sdt>");
         File.WriteAllText(Path.Combine(dir, "seed-body-all"), "<w:p><w:sdt><w:sdtPr><w:dataBinding w:prefixMappings=\"xmlns:a='urn:a'\" w:xpath=\"/a:r/a:n\" w:storeItemID=\"{X}\"/><w14:checkbox><w14:checked w14:val=\"1\"/></w14:checkbox></w:sdtPr><w:sdtContent><w:r><w:t>x</w:t></w:r></w:sdtContent></w:sdt><w:sdt><w:sdtPr><w:dropDownList><w:listItem w:displayText=\"A\" w:value=\"a\"/></w:dropDownList></w:sdtPr><w:sdtContent><w:r><w:t>A</w:t></w:r></w:sdtContent></w:sdt></w:p>");
         return 0;

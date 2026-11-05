@@ -1,0 +1,5 @@
+[
+  {"First":"Ada","Last":"Lovelace","First Name":"Ada","City":"London","State":"UK","Balance":1234.5,"Born":"1815-12-10","Qty":3,"Email":"ada@example.org","Note":""},
+  {"First":"grace","Last":"HOPPER","First Name":"Grace","City":"New York","State":"NY","Balance":99,"Born":"1906-12-09","Qty":12,"Email":"grace@example.org","Note":"Rear Admiral"},
+  {"First":"Linus","Last":"Torvalds","First Name":"Linus","City":"Portland","State":"OR","Balance":-15.255,"Born":"1969-12-28","Qty":0,"Email":"linus@example.org","Note":"Kernel"}
+]
