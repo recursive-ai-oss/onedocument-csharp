@@ -1,16 +1,16 @@
 Typed-view generation notes. Written by tools/ViewGenerator; do not edit.
 
-views: 712
-enumerations: 205
-attributes: 2052
-child slots: 3291
+views: 1017
+enumerations: 285
+attributes: 2548
+child slots: 3846
 
 Views per namespace:
   ContentTypes: 3
   CoreProperties: 3
   CustomProperties: 2
   DigitalSignature: 3
-  Drawing: 138
+  Drawing: 182
   Drawing2010: 42
   Drawing2012: 4
   Drawing2014: 4
@@ -22,6 +22,27 @@ Views per namespace:
   OfficeMath: 72
   PackageRelationships: 2
   Picture: 2
+  Presentation: 149
+  Presentation2010: 31
+  Presentation2012: 8
+  Presentation2013Command: 21
+  Presentation2015: 1
+  Presentation201509: 1
+  Presentation201510: 3
+  Presentation2016Six: 1
+  Presentation201703: 3
+  Presentation201710: 1
+  Presentation201804: 1
+  Presentation201808: 8
+  Presentation2019Command: 4
+  Presentation202002: 3
+  Presentation202203: 3
+  Presentation202208: 11
+  Presentation2022Command: 2
+  Presentation202302: 2
+  PresentationSectionZoom: 2
+  PresentationSlideZoom: 2
+  PresentationSummaryZoom: 4
   VariantTypes: 6
   Vml: 23
   VmlExcel: 1
@@ -58,7 +79,12 @@ Unresolved or ambiguous references:
   unresolved element ref {http://purl.org/dc/elements/1.1/}title in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
   unresolved element ref {http://purl.org/dc/terms/}created in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
   unresolved element ref {http://purl.org/dc/terms/}modified in {http://schemas.openxmlformats.org/package/2006/metadata/core-properties}CT_CoreProperties
+  unresolved element ref {http://schemas.microsoft.com/office/drawing/2013/main/command}deMkLst in {http://schemas.microsoft.com/office/powerpoint/2018/8/main}CT_Comment
+  unresolved element ref {http://schemas.microsoft.com/office/drawing/2013/main/command}deMkLst in {http://schemas.microsoft.com/office/powerpoint/2018/8/main}EG_CommentAnchor
+  unresolved element ref {http://schemas.microsoft.com/office/drawing/2013/main/command}txMkLst in {http://schemas.microsoft.com/office/powerpoint/2018/8/main}CT_Comment
+  unresolved element ref {http://schemas.microsoft.com/office/drawing/2013/main/command}txMkLst in {http://schemas.microsoft.com/office/powerpoint/2018/8/main}EG_CommentAnchor
   unresolved element ref {http://schemas.openxmlformats.org/schemaLibrary/2006/main}schemaLibrary in {http://schemas.openxmlformats.org/wordprocessingml/2006/main}CT_Settings
+  unresolved simple type {http://schemas.openxmlformats.org/drawingml/2006/main}ST_TextLanguageID
 
 Strict differences (types in a Strict schema whose declared child or attribute names differ from the Transitional type):
   CT_Charset: only Transitional [@val] only Strict []
@@ -70,9 +96,11 @@ Strict differences (types in a Strict schema whose declared child or attribute n
   CT_Ind: only Transitional [@left @leftChars @right @rightChars] only Strict []
   CT_Lvl: only Transitional [e:legacy] only Strict []
   CT_LvlLegacy: only in Transitional
+  CT_ModifyVerifier: only Transitional [@algIdExt @algIdExtSource @cryptAlgorithmClass @cryptAlgorithmSid @cryptAlgorithmType @cryptProvider @cryptProviderType @cryptProviderTypeExt @cryptProviderTypeExtSource @hashData @saltData @spinCount] only Strict []
   CT_NumPicBullet: only Transitional [e:pict] only Strict []
   CT_NumPr: only Transitional [e:numberingChange] only Strict []
   CT_Picture: only in Transitional
+  CT_PresentationProperties: only Transitional [e:htmlPubPr e:webPr] only Strict []
   CT_Settings: only Transitional [e:hdrShapeDefaults e:shapeDefaults] only Strict []
   CT_ShapeDefaults: only in Transitional
   CT_SimpleField: only Transitional [e:fldData] only Strict []
@@ -85,5 +113,6 @@ Strict differences (types in a Strict schema whose declared child or attribute n
   CT_TcPrBase: only Transitional [e:hMerge] only Strict []
   CT_TrackChangeNumbering: only in Transitional
   CT_TxbxContent: only in Transitional
+  CT_WebProperties: only in Transitional
   CT_WebSettings: only Transitional [e:relyOnVML] only Strict []
   CT_WriteProtection: only Transitional [g:AG_TransitionalPassword] only Strict []

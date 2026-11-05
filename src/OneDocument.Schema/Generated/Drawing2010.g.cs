@@ -440,7 +440,7 @@ public readonly struct IsGvmlCanvas : global::RecursiveAI.OneDocument.Schema.IEl
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing2010.IsGvmlCanvas> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_NonVisualInkContentPartProperties</c>, the type of <c>a14:cNvContentPartPr</c>, <c>w14:cNvContentPartPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_NonVisualInkContentPartProperties</c>, the type of <c>a14:cNvContentPartPr</c>, <c>p14:cNvContentPartPr</c>, <c>w14:cNvContentPartPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct NonVisualInkContentPartProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing2010.NonVisualInkContentPartProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -462,6 +462,7 @@ public readonly struct NonVisualInkContentPartProperties : global::RecursiveAI.O
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing2010) return local.SequenceEqual("cNvContentPartPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2010) return local.SequenceEqual("cNvContentPartPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("cNvContentPartPr"u8);
         return false;
     }

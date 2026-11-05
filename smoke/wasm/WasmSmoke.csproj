@@ -17,6 +17,7 @@
     <Compile Include="../shared/SmokeChecks.cs" Link="SmokeChecks.cs" />
     <Compile Include="../shared/SchemaSmoke.cs" Link="SchemaSmoke.cs" />
     <Compile Include="../shared/DocumentSmoke.cs" Link="DocumentSmoke.cs" />
+    <Compile Include="../shared/PresentationSmoke.cs" Link="PresentationSmoke.cs" />
     <Compile Include="../shared/NumFmtSmoke.cs" Link="NumFmtSmoke.cs" />
     <Compile Include="../shared/CalcSmoke.cs" Link="CalcSmoke.cs" />
     <Compile Include="../shared/SheetSmoke.cs" Link="SheetSmoke.cs" />
@@ -29,6 +30,7 @@
     <ProjectReference Include="../../src/OneDocument.Spreadsheets/OneDocument.Spreadsheets.csproj" />
     <ProjectReference Include="../../src/OneDocument.Generators/OneDocument.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <ProjectReference Include="../../src/OneDocument.Documents/OneDocument.Documents.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Presentations/OneDocument.Presentations.csproj" />
   </ItemGroup>
 
 </Project>

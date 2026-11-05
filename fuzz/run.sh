@@ -4,7 +4,7 @@
 #   fuzz/run.sh <target> <seconds> [corpus dir] [extra libFuzzer flags...]
 #   fuzz/run.sh replay <target> <file>...      # run saved inputs once, without libFuzzer (reproduce a finding)
 #
-# Targets: formula, formulaeval, statfuncs, funcs, lookups, sniff, xml, markup, opc, cfb, sdt, sdtpath, text, revisions, stories, fieldinstr, fields, numfmt, numfmtfmt, sheet, sst, wbpart, styles, sheetfeat, table, csv, stream, streamwrite   (see fuzz/README.md)
+# Targets: formula, formulaeval, statfuncs, funcs, lookups, sniff, xml, markup, opc, cfb, sdt, sdtpath, text, revisions, stories, pptx, fieldinstr, fields, numfmt, numfmtfmt, sheet, sst, wbpart, styles, sheetfeat, table, csv, stream, streamwrite   (see fuzz/README.md)
 #
 # Environment (nothing is baked into the script):
 #   ONEDOCUMENT_FUZZ_WORK    required: where builds, corpora and findings go. Keep it outside the checkout.
@@ -43,6 +43,7 @@ case "$target" in
   text) maxlen=65536 ;;
   revisions) maxlen=65536 ;;
   stories) maxlen=65536 ;;
+  pptx) maxlen=131072 ;;
   opc) maxlen=262144 ;;
   cfb) maxlen=262144 ;;
   csv) maxlen=65536 ;;

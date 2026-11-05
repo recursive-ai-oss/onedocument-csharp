@@ -14,6 +14,7 @@
   <Folder Name="/tests/">
     <Project Path="tests/OneDocument.Tests/OneDocument.Tests.csproj" />
     <Project Path="tests/OneDocument.Documents.Tests/OneDocument.Documents.Tests.csproj" />
+    <Project Path="tests/OneDocument.Presentations.Tests/OneDocument.Presentations.Tests.csproj" />
     <Project Path="tests/OneDocument.Spreadsheets.Tests/OneDocument.Spreadsheets.Tests.csproj" />
     <Project Path="tests/OneDocument.Schema.Tests/OneDocument.Schema.Tests.csproj" />
     <Project Path="tests/OneDocument.Generators.Tests/OneDocument.Generators.Tests.csproj" />
@@ -37,6 +38,7 @@
     <Project Path="tools/CalcSweep/CalcSweep.csproj" />
     <Project Path="tools/XlsxProbe/XlsxProbe.csproj" />
     <Project Path="tools/OracleCases/OracleCases.csproj" />
+    <Project Path="tools/PptxProbe/PptxProbe.csproj" />
     <Project Path="tools/CsvProbe/CsvProbe.csproj" />
     <Project Path="tools/PocoSample/PocoSample.csproj" />
   </Folder>
