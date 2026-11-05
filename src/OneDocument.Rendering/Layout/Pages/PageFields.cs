@@ -16,7 +16,7 @@ internal sealed class PageFieldState
     public int SectionNumber; // 1-based
 }
 
-// Page-number fields in headers and footers (ECMA-376 Part 1 §17.16.5.45 PAGE, §17.16.5.43 NUMPAGES, §17.16.5.58 SECTIONPAGES, §17.16.5.59 SECTION).
+// Page-number fields in headers and footers (ECMA-376 Part 1 §17.16.5: PAGE, NUMPAGES, SECTIONPAGES and SECTION).
 // Layout knows these numbers only while it places pages, so it replaces the cached result text of these fields when a header or
 // footer paragraph is formatted. The general field update (dates, references, TOC) is a later stage and replaces this hook: the
 // formatter asks `Prepare` for run replacements and nothing else.
@@ -104,7 +104,7 @@ internal static class PageFieldScanner
         }
     }
 
-    // ECMA-376 Part 1 §17.16.18 (fldChar): begin, separate and end bracket the instruction text (§17.16.13 instrText) and the result.
+    // ECMA-376 Part 1 §17.16 (fldChar, instrText): begin, separate and end bracket the instruction text and the result.
     private static void OnRun(LayoutContext ctx, PageFieldState state, Run run, Dictionary<Run, string> map, List<Open> stack)
     {
         bool replacing = stack.Count == 1 && stack[0].InResult && stack[0].Value is not null;

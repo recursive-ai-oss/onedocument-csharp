@@ -37,7 +37,7 @@ internal static class PageLayoutCases
         Add("70-section-orientation", Head("Portrait") + Long(3, "A") + PageDocs.End(PageDocs.Sect(stdHf)) + Head("Landscape") + Long(4, "B") +
             PageDocs.End(PageDocs.Sect(stdHf, "nextPage", landscape)) + Head("Portrait again") + Long(2, "C"), PageDocs.Sect(stdHf, "nextPage"), hf);
 
-        Add("71-continuous-columns", Head("One column") + Long(2, "A") + PageDocs.End(PageDocs.Sect(string.Empty)) + Long(8, "B") +
+        Add("71-continuous-columns", Head("One column") + Long(2, "A") + PageDocs.End(PageDocs.Sect(string.Empty)) + Long(4, "B") +
             PageDocs.End(PageDocs.Sect(cols2, "continuous")) + Head("One column again") + Long(2, "C"), PageDocs.Sect(string.Empty, "continuous"));
 
         Add("72-odd-even-breaks", Head("Chapter one") + Long(2, "A") + PageDocs.End(PageDocs.Sect(stdHf)) + Head("Chapter two (odd page)") + Long(2, "B") +

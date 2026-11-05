@@ -27,15 +27,14 @@ from several threads.
 | `LayoutLine` | `Baseline`, `Ascent`, `Descent`, `TextStart`/`TextLength` into `LayoutParagraph.Text`, `Text`, `IsLastLine` |
 | `LayoutRun` | `RunKind` (Text, Tab, Label), `Text`, `TextStart`, the hub `Run`, the chosen `FontMatch`, `FontSize`, `BidiLevel`, cluster offsets and x positions |
 
-- A paragraph that crosses a page has one `LayoutParagraph` per page; each has the full `Text` and its lines carry offsets into it.
-- `Text` has hidden text removed, `\t` for a tab, `\n` for a line break and `\f` for a page or column break. Offsets are UTF-16 units.
+- A paragraph that crosses a page or column has one `LayoutParagraph` per page or column; each has the full `Text` and its lines carry offsets into it.
+- `Text` has hidden text removed, `\t` for a tab, `\n` for a line break and `\f` for a page break and U+000E for a column break. Offsets are UTF-16 units.
 - A line's runs are in visual left-to-right order. A line's `Text` is in logical order and includes the spaces that hang past the
   margin and a trailing line break.
 - Later stages add blocks beside `LayoutParagraph` (tables, floating objects, notes) under the page, and fields re-run layout; the
   node classes are open for that through `LayoutNodeKind`. Every node knows its parent and children.
 - `LayoutDocument.FontNotes` has one `FontSubstitutionNote` per replaced family and `Notes` has `layout.*` notes for what was skipped.
-  Codes so far: `layout.font-missing`, `layout.drawing-skipped`, `layout.table-skipped`, `layout.block-skipped`, `layout.blank-page`,
-  `layout.page-limit`.
+  Codes so far: `layout.font-missing`, `layout.drawing-skipped`, `layout.table-skipped`, `layout.block-skipped`, `layout.blank-page`, `layout.page-limit`, `layout.page-border-art`, `layout.valign-both`.
 
 ## Paint contract
 
@@ -114,13 +113,63 @@ Run segmentation, shaping, line breaking and placement, in order:
     strike, highlight and run shading, colour. Paragraph shading and borders are painted; a top border adds its width and space to the
     paragraph's height.
 
-## Pagination (this stage)
+## Pagination
 
-A section's pages use its page size and margins (gutter on the left); sections start a new page except `continuous` ones of the same
-size, and `oddPage`/`evenPage` insert a blank page when needed. Within a page: widow and orphan control (two lines, on by default),
-keep-lines-together, keep-with-next (chains up to 20 paragraphs; the first two lines of the following paragraph),
-page-break-before, and hard page and column breaks (a column break is a page break while there is one column). Space before at the
-top of a page is dropped after a natural break and kept on the first page and after forced breaks.
+Within a page: widow and orphan control (two lines, on by default), keep-lines-together, keep-with-next (chains up to 20
+paragraphs; the first two lines of the following paragraph), page-break-before, and hard page and column breaks, including a break
+in the middle of a paragraph (the lines after it go to the next page or column). Space before at the top of a page is dropped after
+a natural break and kept on the first page and after forced breaks.
+
+## The page model (`Layout/Pages`)
+
+Every page is built from its section's properties (`SectionGeometry`) and the flow places body text into the page's columns.
+
+**Sections** (§17.6). Page size, margins, gutter and columns come from each section's `sectPr`. A `nextPage` section starts a new
+page; `continuous` shares the page when the page size is the same (else it starts a page); `nextColumn` continues in the next column
+of the same page; `oddPage` and `evenPage` start on a page whose *printed* number has that parity and insert a blank page when the
+next page has the wrong one (`LayoutPage.IsBlank`, note `layout.blank-page`). With `evenAndOddHeaders` on, a `nextPage` section
+also keeps its physical page and printed number in step (the hub's `RequiresBlankPageBefore`, observed in Word 365). A blank page
+gets the header and footer of the section it precedes and counts in the page numbering.
+
+**Margins.** The gutter is added on the left (right in a right-to-left section, top with `gutterAtTop`). With `mirrorMargins`
+odd printed pages keep the inside margin on the left and even pages swap the left and right margins, the gutter staying inside.
+
+**Columns** (§17.6.4). Equal columns share the width left after the gaps; unequal columns use each `w:col` width and the gap that
+follows it. A right-to-left section starts at the right edge. The flow fills a column to the body bottom, then the next, then a
+new page. A paragraph that moves to a column of another width is cut again for that width and resumes where the text had got to.
+A column break moves to the next column (the next page with one column); a page break always starts a new page. The separator
+line is a `LayoutDecoration` the height of the text in the region. `LayoutPage.ColumnRegions` lists the column rectangles of each
+stretch of the page (one per section on it); `LayoutParagraph.Column` is the column a block sits in.
+
+**Balanced columns.** A section that is followed by a `continuous` section is balanced: layout looks for the smallest column
+height at which its text still fits its columns (the real placement run in a scratch flow, by bisection), and the next section
+starts below the tallest column. The last section of the document is not balanced.
+
+**Headers and footers** (§17.10). The hub resolves the story for each page (`first` on a section's first page with `titlePg`,
+`even` on even printed pages with `evenAndOddHeaders`, else `default`; a missing story is taken from the nearest earlier section
+that has it). The header text starts `header` points from the page top and the footer text ends `footer` points from the bottom.
+A taller story pushes the body edge in (`LayoutPage.ContentArea` is the body after that). Their paragraphs are
+`LayoutParagraph`s with `Story` Header or Footer, listed by `HeaderParagraphs`/`FooterParagraphs`, and painted inside an
+`Artifact` tag. Tables in a story are skipped until tables are laid out.
+
+**Page numbers.** `pgNumType start` restarts the printed number at a section's first page; `fmt` formats it. `PAGE`,
+`NUMPAGES`, `SECTIONPAGES` and `SECTION` fields in headers and footers (complex and simple, `\* roman`/`ROMAN`/`alphabetic`/`ALPHABETIC`/`Arabic`
+switches) show the page's values; `NUMPAGES` and `SECTIONPAGES` need the counts, so layout runs again with the counts of the
+previous pass until they stop changing (at most three passes). This is the small hook (`PageFieldScanner`) the general field
+update replaces. Other fields keep their cached results, and page fields in the body are not replaced yet. Chapter numbers
+(`chapStyle`) in page numbers are not applied.
+
+**Decoration** (`LayoutPage.Decorations`, painted as artifacts). Page borders (§17.6.2): `offsetFrom` text or page, `display`,
+single, thick, double, triple, dashed and dotted drawn as rectangles; art borders are drawn as plain lines (note
+`layout.page-border-art`). Line numbers (§17.6.8): `countBy`, `start`, `distance` (automatic is 18 pt), restart per page, section
+or never; paragraphs with `suppressLineNumbers` are not counted. Text watermarks: a header shape with a text path (the shape Word
+writes for "DRAFT" and the like) is drawn centred in the text area at its rotation, with its fill colour and opacity, with the text
+scaled to the shape's width; picture watermarks are not drawn. `vAlign` centre and bottom move the body text (`both` is noted and
+laid out at the top, note `layout.valign-both`). A `docGrid` with a line pitch makes each line a whole number of pitches tall, the
+extra above the text, unless the paragraph turns `snapToGrid` off; the character grid (`charSpace`) is not applied.
+
+**Footnote hook.** `LayoutPage.NotesReservation` is the space the body gives up at its bottom for notes. Layout lowers the body's
+bottom edge by `Flow.ReserveForNotes(page)`, which returns 0 until notes are laid out.
 
 ## Compatibility settings
 
@@ -149,5 +198,12 @@ stages that lay out those features and are added to this table with them.
 | Small caps | 80 % size | Word's factor |
 | Justification in lines with tabs or bidi | spreads over spaces only | |
 | Bidi mirrored punctuation, trailing spaces in right-to-left lines | not handled specially | |
-| Hyphenation, kashida, East Asian grid and `w:eastAsianLayout` | not implemented | later |
-| Inline pictures, shapes, fields, tables, headers/footers, columns, notes | not laid out (reported) | later stages |
+| Hyphenation, kashida, the East Asian character grid and `w:eastAsianLayout` | not implemented | later |
+| Inline pictures, shapes, tables, notes, fields other than page numbers | not laid out (reported) | later stages |
+| Blank page from an odd/even break | has the header and footer of the following section, counted in the numbering | needs Word output |
+| Header and footer vertical placement | header text top at `header`, footer text bottom at page height minus `footer`; the body edge takes the larger of the margin and the story | needs Word output |
+| Balanced columns | bisection on the column height, line granular | Word's balancing with keep rules may differ by a line |
+| Mirror margins | parity of the printed page number | Word may use the physical page |
+| Line number distance `auto` | 18 pt, numbers right-aligned, `countBy` multiples of the line count | needs Word output |
+| Watermark placement | centre of the text area, text width = shape width | Word's `mso-position` and size fitting |
+| Section break after the last paragraph on a full page | the section's page is created even if empty | needs Word output |

@@ -4,7 +4,7 @@ using RecursiveAI.OneDocument.Schema;
 
 namespace RecursiveAI.OneDocument.Layout;
 
-// One side of a page border. ECMA-376 Part 1 §17.6.2 (pgBorders), §17.18.2 (ST_Border).
+// One side of a page border. ECMA-376 Part 1 §17.6.2 (pgBorders).
 internal readonly record struct PageBorderSide(string Style, double Width, double Space, uint Color, bool Art);
 
 internal sealed class PageBorders
@@ -92,9 +92,9 @@ internal sealed class SectionGeometry
     }
 
     // The text area of a page whose printed number is `printed`, before a header or footer pushes it.
-    // ECMA-376 Part 1 §17.15.1.57 (mirrorMargins): odd pages keep the inside margin on the left, even pages on the right; the gutter
-    // (§17.6.11 pgMar gutter) sits on the inside. Without mirroring it is added on the left (right for a right-to-left section,
-    // top when gutterAtTop is set, §17.15.1.46).
+    // ECMA-376 Part 1 (mirrorMargins in the settings part): odd pages keep the inside margin on the left, even pages on the right; the gutter
+    // (pgMar gutter) sits on the inside. Without mirroring it is added on the left (right for a right-to-left section,
+    // top when gutterAtTop is set, (gutterAtTop in the settings part)).
     public LayoutRect TextArea(long printed)
     {
         double l = Left;

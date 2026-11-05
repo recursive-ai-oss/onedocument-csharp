@@ -4,9 +4,10 @@ using RecursiveAI.OneDocument.Documents.Numbering;
 namespace RecursiveAI.OneDocument.Layout;
 
 /// <summary>
-/// Lays a document out into pages. This stage flows paragraphs down single-column pages of each section's size and margins, with
-/// widow and orphan control, keep-with-next, keep-lines-together and page-break-before. Tables, headers and footers, columns, floating
-/// objects, notes and fields are later stages and are reported in <see cref="LayoutDocument.Notes"/>.
+/// Lays a document out into pages: sections with their page sizes, margins and columns, headers and footers with page numbers, page
+/// borders, watermarks and line numbers, and the paragraphs with widow and orphan control, keep-with-next, keep-lines-together and
+/// page-break-before. Tables, floating objects, notes and fields other than page numbers are later stages and are reported in
+/// <see cref="LayoutDocument.Notes"/>.
 /// </summary>
 public static partial class LayoutEngine
 {

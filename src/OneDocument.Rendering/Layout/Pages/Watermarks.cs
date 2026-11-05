@@ -9,7 +9,7 @@ namespace RecursiveAI.OneDocument.Layout;
 internal sealed record WatermarkSpec(string Text, string Family, bool Bold, bool Italic, double ShapeWidth, uint Color, double Opacity, double Rotation);
 
 // Watermarks are WordArt shapes in the header: a VML shape whose text path holds the string ([MS-OI29500] describes Word writing
-// them as `PowerPlusWaterMarkObject`; ECMA-376 Part 1 §L.2 / Part 4 §14 define the shape and textpath elements). Only text
+// them as `PowerPlusWaterMarkObject`; the VML shape and textpath elements are in ECMA-376 Part 4). Only text
 // watermarks are drawn; a picture watermark is reported.
 internal static class Watermarks
 {

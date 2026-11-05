@@ -509,7 +509,7 @@ public static partial class LayoutEngine
         // ---- decorations ----
 
         // ECMA-376 Part 1 §17.6.2 (pgBorders): offsetFrom text measures `space` points outward from the text area, offsetFrom page
-        // inward from the page edge; display limits the borders to the first page or to the others (§17.18.4 ST_PageBorderDisplay).
+        // inward from the page edge; display limits the borders to the first page or to the others.
         private void AddBorders(LayoutPage page, SectionGeometry geo, LayoutRect area, bool first)
         {
             PageBorders? b = geo.Borders;
@@ -724,7 +724,7 @@ public static partial class LayoutEngine
         }
 
         // ECMA-376 Part 1 §17.6.5 (docGrid): with a line grid each line takes a whole number of grid pitches. The extra goes above the
-        // text. Paragraphs can opt out with snapToGrid off (§17.3.1.32).
+        // text. Paragraphs can opt out with snapToGrid off.
         private void SnapToGrid(FormattedParagraph fp)
         {
             double pitch = _geo?.GridPitch ?? 0;
