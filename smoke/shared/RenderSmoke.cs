@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text;
 using RecursiveAI.OneDocument.Documents;
 using RecursiveAI.OneDocument.Layout;
@@ -17,7 +18,7 @@ internal static class RenderSmoke
         using var pdf = new MemoryStream();
         LayoutDocument layout = DocumentRenderer.WritePdf(document, pdf);
         byte[] bytes = pdf.ToArray();
-        if (layout.Pages.Count != 1 || layout.Pages[0].Paragraphs.Count == 0)
+        if (layout.Pages.Count != 1 || !layout.Pages[0].Paragraphs.Any())
         {
             failures.Add("render layout");
         }
