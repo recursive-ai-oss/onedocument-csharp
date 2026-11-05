@@ -33,7 +33,7 @@ The `Office` statics (`Office.Open`, `Office.ExtractText`, `Office.Convert`) fin
 |---|---|---|
 | DOCX/DOCM/DOTX/DOTM, Flat OPC | yes | yes |
 | XLSX/XLSM/XLTX/XLTM/XLAM, Flat OPC | yes (`Workbook`, streaming cursors, `Spreadsheet.Read<T>`) | yes (also streaming and `Spreadsheet.Write`) |
-| PPTX/PPTM/POTX/PPSX, Flat OPC | text extraction only | planned |
+| PPTX/PPTM/POTX/PPSX, Flat OPC | yes (`Presentation`) | yes |
 | XLSB | planned | planned |
 | XLS (BIFF8) | planned | planned |
 | XLS (BIFF2–5), DOC, PPT, Word and Excel 2003 XML | planned | not planned |
@@ -82,7 +82,7 @@ Deviations and gaps: no calculation engine; XLSB, XLS and ODS are not read yet; 
 | `RecursiveAI.OneDocument` | The core: contracts, containers, markup, format registry, OOXML text extraction |
 | `RecursiveAI.OneDocument.Documents` | Word-processing documents (DOCX family) |
 | `RecursiveAI.OneDocument.Spreadsheets` | Workbooks (XLSX family), streaming, CSV/TSV, typed row binding; calculation not yet |
-| `RecursiveAI.OneDocument.Presentations` | Presentations (not yet) |
+| `RecursiveAI.OneDocument.Presentations` | Presentations |
 | `RecursiveAI.OneDocument.Schema` | Generated typed views of the WordprocessingML elements, over the markup tree |
 | `RecursiveAI.OneDocument.Rendering` | Layout and PDF/image output (not yet) |
 | `RecursiveAI.OneDocument.Cryptography` | Signatures and encryption on write (not yet) |

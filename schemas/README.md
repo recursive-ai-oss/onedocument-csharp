@@ -9,6 +9,7 @@ The typed-view generator reads these files and nothing else. They are copies of 
 | `ecma376/opc/` | ECMA-376 5th ed. Part 2 (Dec 2021), `OpenPackagingConventions-XMLSchema.zip` inside `ECMA-376-2_5th_edition_december_2021.zip` | `1d489dc491168ea1f9e9a59063acc8dd5f02b4ad1d21aa7ec19ba9a58d020c70` |
 | `ms/MS-DOCX/` | [MS-DOCX] 23.0, 2026-08-18, Appendix A | `ed5d74bb33232d083742949d8072766e99f02fc3fbc6b7dc8b73264965dcce3a` |
 | `ms/MS-ODRAWXML/` | [MS-ODRAWXML] 2026-02-17, Appendix A | `20de73988d209fd18f1776c2960103179c9c93b883c1d9a44ab3ce83b8b60f5b` |
+| `ms/MS-PPTX/` | [MS-PPTX] v20240820 (file `[MS-PPTX]-240820.docx`), Appendix A | `7530fef0768c14bee58463c896718a90f020606a0677cab221a63080e93c8170` |
 
 Files under `ms/` are named from the schema's target namespace (`word-2010-wordml.xsd` is `http://schemas.microsoft.com/office/word/2010/wordml`). The two Microsoft documents both print a `word/2010/wordml` schema; the [MS-DOCX] copy is the main one and the [MS-ODRAWXML] copy (one extra element, `contentPart`) is merged into it.
 

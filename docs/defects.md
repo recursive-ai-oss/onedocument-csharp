@@ -18,6 +18,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.` | the word-processing hub | `Structure`, `Reference`, `Value`, `Packaging` |
 | `csv.` | delimited text (CSV, TSV) | `Structure`, `Markup`, `Encoding`, `Value` |
 | `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
+| `pptx.` | the PresentationML hub | `Structure`, `Reference`, `Packaging` |
 | `calc.` | workbook calculation | `Formula`, `Limit`, `Reference` |
 | `binding.` | reading and writing rows of plain objects (`Spreadsheet.Read<T>`, `Write<T>`) | `Structure`, `Reference`, `Value` |
 
@@ -101,6 +102,15 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.revision-date-invalid` | repaired | A tracked change has a `w:date` that is not a date. It is listed without a date. |
 | `docx.revision-unresolvable` | dropped | A tracked change could not be accepted or rejected because the markup around it is not what the schema allows (a row marker outside a row, content that cannot be moved without an unbound prefix). The change is left in place; the location is the change element. |
 | `docx.revision-id-conflict` | fatal | Raised as `RevisionIdConflictException` (not reported while reading): an id the caller gave to a `RevisionAuthor` is negative or already used by a revision, bookmark, comment range or move range in the document. No location. |
+| `pptx.no-main-part` | fatal | No `officeDocument` relationship of the package points at a part that exists. |
+| `pptx.wrong-root` | fatal / dropped | The presentation part does not start with `p:presentation` (fatal). A slide, layout, master or notes part that does not start with its own root element reads as empty (dropped); the location is the part. |
+| `pptx.part-missing` | fatal | A part the reader must have is not in the package. |
+| `pptx.part-unreadable` | dropped | A part could not be parsed (damaged zip entry or markup); it is treated as absent. The location is the part and the offset of the failure. |
+| `pptx.slide-part-missing` | dropped | A slide listed in `p:sldIdLst` has no relationship or no part; it is skipped. |
+| `pptx.slide-listed-twice` | dropped | The same slide part is listed twice in `p:sldIdLst`; the second entry is skipped. |
+| `pptx.slide-id-duplicate` | repaired | Two slides carry the same id in `p:sldIdLst`; both are kept. |
+| `pptx.layout-missing` | repaired / dropped | A slide has no layout (repaired: its placeholders inherit nothing), or a layout listed by the master has no part (dropped). |
+| `pptx.master-missing` | repaired / dropped | A layout has no master (repaired), or a master listed in `p:sldMasterIdLst` has no part (dropped). |
 | `docx.no-main-part` | fatal | No `officeDocument` relationship of the package points at a part that exists. |
 | `docx.wrong-root` | fatal | The main document part does not start with `w:document`. |
 | `docx.part-missing` | fatal | A part the reader must have is not in the package. |

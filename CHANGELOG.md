@@ -12,6 +12,7 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 - Text boxes as block containers: `Document.TextBoxes()`, `BlockContainer.TextBoxes()`, `Paragraph.TextBoxes()`, `TextBox` (DrawingML and VML, the copy in `mc:Fallback` kept equal on commit, linked chains), and `Document.WrapParagraph`. Tracked changes and edits work on their paragraphs.
 - Document properties: `Document.Properties` with core, extended and custom properties (`RecursiveAI.OneDocument.Properties`), created on first write, untouched when not edited, no clock reads.
 - List labels for every story as Word counts them: `NumberingDefinitions.LabelStories()`; `DocumentText.ListLabels` now covers headers, footers, notes, comments and text boxes.
+- The presentation hub (`RecursiveAI.OneDocument.Presentations`): `Presentation` over PPTX, PPTM, POTX, PPSX and Flat OPC (Transitional and Strict) with masters, layouts, slides, notes, shapes, text, tables and comments; placeholder inheritance from master to slide; add, delete, duplicate and move slides, text and table-cell edits. Generated PresentationML and PowerPoint-extension views in `.Schema`.
 - Fixed: a package whose main part is typed only by a `Default` content type for `xml` is recognised and opens.
 
 ## [0.1.0-preview.1]

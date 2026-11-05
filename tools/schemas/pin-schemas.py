@@ -27,6 +27,7 @@ PINS = {
     'ECMA-376-4_5th_edition_december_2016.zip': 'bd25da1109f73762356596918bf5ff8b74a1331642dba5f1c1d1dfc6bed34ecd',
     'MS-DOCX-260818.docx': 'ed5d74bb33232d083742949d8072766e99f02fc3fbc6b7dc8b73264965dcce3a',
     'MS-ODRAWXML-260217.docx': '20de73988d209fd18f1776c2960103179c9c93b883c1d9a44ab3ce83b8b60f5b',
+    'MS-PPTX-240820.docx': '7530fef0768c14bee58463c896718a90f020606a0677cab221a63080e93c8170',
 }
 
 # (outer zip, inner zip, destination under schemas/)
@@ -35,7 +36,7 @@ ECMA = [
     ('ECMA-376-1_5th_edition_december_2016.zip', 'OfficeOpenXML-XMLSchema-Strict.zip', 'ecma376/strict'),
     ('ECMA-376-2_5th_edition_december_2021.zip', 'OpenPackagingConventions-XMLSchema.zip', 'ecma376/opc'),
 ]
-MS = ['MS-DOCX-260818.docx', 'MS-ODRAWXML-260217.docx']
+MS = ['MS-DOCX-260818.docx', 'MS-ODRAWXML-260217.docx', 'MS-PPTX-240820.docx']
 
 TOKEN = re.compile(r'<w:t(?: [^>]*)?>([^<]*)</w:t>|<w:tab/>|<w:br/>')
 PARA = re.compile(r'<w:p[ >].*?</w:p>', re.S)

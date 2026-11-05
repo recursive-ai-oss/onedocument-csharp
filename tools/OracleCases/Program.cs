@@ -30,6 +30,11 @@ internal static class Program
 
     private static int Main(string[] args)
     {
+        if (args.Length == 2 && args[0] == "--pptx")
+        {
+            return PptxCases.Write(args[1]);
+        }
+
         if (args.Length == 2 && args[0] == "--authoring")
         {
             return AuthoringCases.Write(args[1]);
@@ -57,7 +62,7 @@ internal static class Program
 
         if (args.Length != 1)
         {
-            Console.Error.WriteLine("usage: OracleCases DIR | --authoring DIR | --check DIR RESULTS");
+            Console.Error.WriteLine("usage: OracleCases DIR | --pptx DIR | --authoring DIR | --check DIR RESULTS");
             return 2;
         }
 

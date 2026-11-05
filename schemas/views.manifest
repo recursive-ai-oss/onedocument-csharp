@@ -10,6 +10,7 @@
 # Strict namespace URI and extra enumeration values; the views are generated from the Transitional text.
 # Names of views and members that differ from the schema's own are in names.manifest.
 ecma376/transitional/wml.xsd|Wordprocessing|w|root
+ecma376/transitional/pml.xsd|Presentation|p|root
 ecma376/transitional/shared-math.xsd|OfficeMath|m|root
 ecma376/transitional/shared-commonSimpleTypes.xsd|SharedTypes|s|support
 ecma376/transitional/shared-relationshipReference.xsd|Relationships|r|support
@@ -53,3 +54,23 @@ ms/MS-ODRAWXML/drawing-2016-SVG-main.xsd|DrawingSvg|asvg|root
 ms/MS-ODRAWXML/drawing-2017-decorative.xsd|DrawingDecorative|adec|root
 ms/MS-ODRAWXML/drawing-2020-classificationShape.xsd|DrawingClassification|aclsh|root
 ms/MS-ODRAWXML/drawing-2018-hyperlinkcolor.xsd|DrawingHyperlinkColor|ahyp|root
+ms/MS-PPTX/powerpoint-2010-main.xsd|Presentation2010|p14|root
+ms/MS-PPTX/powerpoint-2012-main.xsd|Presentation2012|p15|root
+ms/MS-PPTX/powerpoint-2013-main-command.xsd|Presentation2013Command|pc|root
+ms/MS-PPTX/powerpoint-2015-09-main.xsd|Presentation201509|p159|root
+ms/MS-PPTX/powerpoint-2015-10-main.xsd|Presentation201510|p1510|root
+ms/MS-PPTX/powerpoint-2015-main.xsd|Presentation2015|p215|root
+ms/MS-PPTX/powerpoint-2016-6-main.xsd|Presentation2016Six|p166|root
+ms/MS-PPTX/powerpoint-2016-sectionzoom.xsd|PresentationSectionZoom|psez|root
+ms/MS-PPTX/powerpoint-2016-slidezoom.xsd|PresentationSlideZoom|pslz|root
+ms/MS-PPTX/powerpoint-2016-summaryzoom.xsd|PresentationSummaryZoom|psuz|root
+ms/MS-PPTX/powerpoint-2017-10-main.xsd|Presentation201710|p1710|root
+ms/MS-PPTX/powerpoint-2017-3-main.xsd|Presentation201703|p173|root
+ms/MS-PPTX/powerpoint-2018-4-main.xsd|Presentation201804|p184|root
+ms/MS-PPTX/powerpoint-2018-8-main.xsd|Presentation201808|p188|root
+ms/MS-PPTX/powerpoint-2019-9-main-command.xsd|Presentation2019Command|p199c|root
+ms/MS-PPTX/powerpoint-2020-02-main.xsd|Presentation202002|p202|root
+ms/MS-PPTX/powerpoint-2022-03-main.xsd|Presentation202203|p223|root
+ms/MS-PPTX/powerpoint-2022-06-main-command.xsd|Presentation2022Command|p226c|root
+ms/MS-PPTX/powerpoint-2022-08-main.xsd|Presentation202208|p228|root
+ms/MS-PPTX/powerpoint-2023-02-main.xsd|Presentation202302|p232|root

@@ -18,90 +18,132 @@ public enum SchemaNamespace
     MarkupCompatibility = 3,
     /// <summary>http://schemas.openxmlformats.org/wordprocessingml/2006/main (w:).</summary>
     Wordprocessing = 4,
+    /// <summary>http://schemas.openxmlformats.org/presentationml/2006/main (p:).</summary>
+    Presentation = 5,
     /// <summary>http://schemas.openxmlformats.org/officeDocument/2006/math (m:).</summary>
-    OfficeMath = 5,
+    OfficeMath = 6,
     /// <summary>http://schemas.openxmlformats.org/officeDocument/2006/sharedTypes (s:).</summary>
-    SharedTypes = 6,
+    SharedTypes = 7,
     /// <summary>http://schemas.openxmlformats.org/officeDocument/2006/relationships (r:).</summary>
-    Relationships = 7,
+    Relationships = 8,
     /// <summary>http://schemas.openxmlformats.org/drawingml/2006/main (a:).</summary>
-    Drawing = 8,
+    Drawing = 9,
     /// <summary>http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing (wp:).</summary>
-    WordprocessingDrawing = 9,
+    WordprocessingDrawing = 10,
     /// <summary>http://schemas.openxmlformats.org/drawingml/2006/picture (pic:).</summary>
-    Picture = 10,
+    Picture = 11,
     /// <summary>urn:schemas-microsoft-com:vml (v:).</summary>
-    Vml = 11,
+    Vml = 12,
     /// <summary>urn:schemas-microsoft-com:office:office (o:).</summary>
-    VmlOffice = 12,
+    VmlOffice = 13,
     /// <summary>urn:schemas-microsoft-com:office:word (w10:).</summary>
-    VmlWord = 13,
+    VmlWord = 14,
     /// <summary>urn:schemas-microsoft-com:office:excel (x:).</summary>
-    VmlExcel = 14,
+    VmlExcel = 15,
     /// <summary>urn:schemas-microsoft-com:office:powerpoint (pvml:).</summary>
-    VmlPowerPoint = 15,
+    VmlPowerPoint = 16,
     /// <summary>http://schemas.openxmlformats.org/officeDocument/2006/extended-properties (ep:).</summary>
-    ExtendedProperties = 16,
+    ExtendedProperties = 17,
     /// <summary>http://schemas.openxmlformats.org/officeDocument/2006/custom-properties (op:).</summary>
-    CustomProperties = 17,
+    CustomProperties = 18,
     /// <summary>http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes (vt:).</summary>
-    VariantTypes = 18,
+    VariantTypes = 19,
     /// <summary>http://schemas.openxmlformats.org/package/2006/content-types (ct:).</summary>
-    ContentTypes = 19,
+    ContentTypes = 20,
     /// <summary>http://schemas.openxmlformats.org/package/2006/relationships (rel:).</summary>
-    PackageRelationships = 20,
+    PackageRelationships = 21,
     /// <summary>http://schemas.openxmlformats.org/package/2006/metadata/core-properties (cp:).</summary>
-    CoreProperties = 21,
+    CoreProperties = 22,
     /// <summary>http://schemas.openxmlformats.org/package/2006/digital-signature (ds:).</summary>
-    DigitalSignature = 22,
+    DigitalSignature = 23,
     /// <summary>http://schemas.microsoft.com/office/word/2010/wordml (w14:).</summary>
-    Word2010 = 23,
+    Word2010 = 24,
     /// <summary>http://schemas.microsoft.com/office/word/2012/wordml (w15:).</summary>
-    Word2012 = 24,
+    Word2012 = 25,
     /// <summary>http://schemas.microsoft.com/office/word/2015/wordml/symex (w16se:).</summary>
-    Word2015Symex = 25,
+    Word2015Symex = 26,
     /// <summary>http://schemas.microsoft.com/office/word/2016/wordml/cid (w16cid:).</summary>
-    Word2016Cid = 26,
+    Word2016Cid = 27,
     /// <summary>http://schemas.microsoft.com/office/word/2018/wordml (w16:).</summary>
-    Word2018 = 27,
+    Word2018 = 28,
     /// <summary>http://schemas.microsoft.com/office/word/2018/wordml/cex (w16cex:).</summary>
-    Word2018Cex = 28,
+    Word2018Cex = 29,
     /// <summary>http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash (w16sdtdh:).</summary>
-    Word2020SdtDataHash = 29,
+    Word2020SdtDataHash = 30,
     /// <summary>http://schemas.microsoft.com/office/word/2023/wordml/word16du (w16du:).</summary>
-    Word2023Du = 30,
+    Word2023Du = 31,
     /// <summary>http://schemas.microsoft.com/office/word/2024/wordml/sdtformatlock (w16sdtfl:).</summary>
-    Word2024SdtFormatLock = 31,
+    Word2024SdtFormatLock = 32,
     /// <summary>http://schemas.microsoft.com/office/word/2026/wordml/cei (w16cei:).</summary>
-    Word2026Cei = 32,
+    Word2026Cei = 33,
     /// <summary>http://schemas.microsoft.com/office/word/2010/wordprocessingShape (wps:).</summary>
-    WordprocessingShape = 33,
+    WordprocessingShape = 34,
     /// <summary>http://schemas.microsoft.com/office/word/2010/wordprocessingGroup (wpg:).</summary>
-    WordprocessingGroup = 34,
+    WordprocessingGroup = 35,
     /// <summary>http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas (wpc:).</summary>
-    WordprocessingCanvas = 35,
+    WordprocessingCanvas = 36,
     /// <summary>http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing (wp14:).</summary>
-    WordprocessingDrawing2010 = 36,
+    WordprocessingDrawing2010 = 37,
     /// <summary>http://schemas.microsoft.com/office/word/2012/wordprocessingDrawing (wp15:).</summary>
-    WordprocessingDrawing2012 = 37,
+    WordprocessingDrawing2012 = 38,
     /// <summary>http://schemas.microsoft.com/office/word/2020/oembed (woe:).</summary>
-    WordOEmbed = 38,
+    WordOEmbed = 39,
     /// <summary>http://schemas.microsoft.com/office/drawing/2010/main (a14:).</summary>
-    Drawing2010 = 39,
+    Drawing2010 = 40,
     /// <summary>http://schemas.microsoft.com/office/drawing/2010/picture (pic14:).</summary>
-    Picture2010 = 40,
+    Picture2010 = 41,
     /// <summary>http://schemas.microsoft.com/office/drawing/2012/main (a15:).</summary>
-    Drawing2012 = 41,
+    Drawing2012 = 42,
     /// <summary>http://schemas.microsoft.com/office/drawing/2014/main (a16:).</summary>
-    Drawing2014 = 42,
+    Drawing2014 = 43,
     /// <summary>http://schemas.microsoft.com/office/drawing/2016/SVG/main (asvg:).</summary>
-    DrawingSvg = 43,
+    DrawingSvg = 44,
     /// <summary>http://schemas.microsoft.com/office/drawing/2017/decorative (adec:).</summary>
-    DrawingDecorative = 44,
+    DrawingDecorative = 45,
     /// <summary>http://schemas.microsoft.com/office/drawing/2020/classificationShape (aclsh:).</summary>
-    DrawingClassification = 45,
+    DrawingClassification = 46,
     /// <summary>http://schemas.microsoft.com/office/drawing/2018/hyperlinkcolor (ahyp:).</summary>
-    DrawingHyperlinkColor = 46,
+    DrawingHyperlinkColor = 47,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2010/main (p14:).</summary>
+    Presentation2010 = 48,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2012/main (p15:).</summary>
+    Presentation2012 = 49,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2013/main/command (pc:).</summary>
+    Presentation2013Command = 50,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2015/09/main (p159:).</summary>
+    Presentation201509 = 51,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2015/10/main (p1510:).</summary>
+    Presentation201510 = 52,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2015/main (p215:).</summary>
+    Presentation2015 = 53,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2016/6/main (p166:).</summary>
+    Presentation2016Six = 54,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2016/sectionzoom (psez:).</summary>
+    PresentationSectionZoom = 55,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2016/slidezoom (pslz:).</summary>
+    PresentationSlideZoom = 56,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2016/summaryzoom (psuz:).</summary>
+    PresentationSummaryZoom = 57,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2017/10/main (p1710:).</summary>
+    Presentation201710 = 58,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2017/3/main (p173:).</summary>
+    Presentation201703 = 59,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2018/4/main (p184:).</summary>
+    Presentation201804 = 60,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2018/8/main (p188:).</summary>
+    Presentation201808 = 61,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2019/9/main/command (p199c:).</summary>
+    Presentation2019Command = 62,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2020/02/main (p202:).</summary>
+    Presentation202002 = 63,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2022/03/main (p223:).</summary>
+    Presentation202203 = 64,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2022/06/main/command (p226c:).</summary>
+    Presentation2022Command = 65,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2022/08/main (p228:).</summary>
+    Presentation202208 = 66,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2023/02/main (p232:).</summary>
+    Presentation202302 = 67,
 }
 
 /// <summary>Namespace URIs and conventional prefixes for <see cref="SchemaNamespace"/>.</summary>
@@ -115,6 +157,8 @@ public static class SchemaNamespaces
         if (uri.Length == 0) return SchemaNamespace.None;
         if (uri.SequenceEqual("http://schemas.openxmlformats.org/wordprocessingml/2006/main"u8)) return SchemaNamespace.Wordprocessing;
         if (uri.SequenceEqual("http://purl.oclc.org/ooxml/wordprocessingml/main"u8)) return SchemaNamespace.Wordprocessing;
+        if (uri.SequenceEqual("http://schemas.openxmlformats.org/presentationml/2006/main"u8)) return SchemaNamespace.Presentation;
+        if (uri.SequenceEqual("http://purl.oclc.org/ooxml/presentationml/main"u8)) return SchemaNamespace.Presentation;
         if (uri.SequenceEqual("http://schemas.openxmlformats.org/officeDocument/2006/math"u8)) return SchemaNamespace.OfficeMath;
         if (uri.SequenceEqual("http://purl.oclc.org/ooxml/officeDocument/math"u8)) return SchemaNamespace.OfficeMath;
         if (uri.SequenceEqual("http://schemas.openxmlformats.org/officeDocument/2006/sharedTypes"u8)) return SchemaNamespace.SharedTypes;
@@ -166,6 +210,26 @@ public static class SchemaNamespaces
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2017/decorative"u8)) return SchemaNamespace.DrawingDecorative;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2020/classificationShape"u8)) return SchemaNamespace.DrawingClassification;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2018/hyperlinkcolor"u8)) return SchemaNamespace.DrawingHyperlinkColor;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2010/main"u8)) return SchemaNamespace.Presentation2010;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2012/main"u8)) return SchemaNamespace.Presentation2012;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2013/main/command"u8)) return SchemaNamespace.Presentation2013Command;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2015/09/main"u8)) return SchemaNamespace.Presentation201509;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2015/10/main"u8)) return SchemaNamespace.Presentation201510;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2015/main"u8)) return SchemaNamespace.Presentation2015;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2016/6/main"u8)) return SchemaNamespace.Presentation2016Six;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2016/sectionzoom"u8)) return SchemaNamespace.PresentationSectionZoom;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2016/slidezoom"u8)) return SchemaNamespace.PresentationSlideZoom;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2016/summaryzoom"u8)) return SchemaNamespace.PresentationSummaryZoom;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2017/10/main"u8)) return SchemaNamespace.Presentation201710;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2017/3/main"u8)) return SchemaNamespace.Presentation201703;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2018/4/main"u8)) return SchemaNamespace.Presentation201804;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2018/8/main"u8)) return SchemaNamespace.Presentation201808;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2019/9/main/command"u8)) return SchemaNamespace.Presentation2019Command;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2020/02/main"u8)) return SchemaNamespace.Presentation202002;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2022/03/main"u8)) return SchemaNamespace.Presentation202203;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2022/06/main/command"u8)) return SchemaNamespace.Presentation2022Command;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2022/08/main"u8)) return SchemaNamespace.Presentation202208;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2023/02/main"u8)) return SchemaNamespace.Presentation202302;
         if (uri.SequenceEqual("http://www.w3.org/XML/1998/namespace"u8)) return SchemaNamespace.Xml;
         if (uri.SequenceEqual("http://schemas.openxmlformats.org/markup-compatibility/2006"u8)) return SchemaNamespace.MarkupCompatibility;
         return SchemaNamespace.Unknown;
@@ -179,6 +243,8 @@ public static class SchemaNamespaces
         if (uri.Length == 0) return SchemaNamespace.None;
         if (uri == "http://schemas.openxmlformats.org/wordprocessingml/2006/main") return SchemaNamespace.Wordprocessing;
         if (uri == "http://purl.oclc.org/ooxml/wordprocessingml/main") return SchemaNamespace.Wordprocessing;
+        if (uri == "http://schemas.openxmlformats.org/presentationml/2006/main") return SchemaNamespace.Presentation;
+        if (uri == "http://purl.oclc.org/ooxml/presentationml/main") return SchemaNamespace.Presentation;
         if (uri == "http://schemas.openxmlformats.org/officeDocument/2006/math") return SchemaNamespace.OfficeMath;
         if (uri == "http://purl.oclc.org/ooxml/officeDocument/math") return SchemaNamespace.OfficeMath;
         if (uri == "http://schemas.openxmlformats.org/officeDocument/2006/sharedTypes") return SchemaNamespace.SharedTypes;
@@ -230,6 +296,26 @@ public static class SchemaNamespaces
         if (uri == "http://schemas.microsoft.com/office/drawing/2017/decorative") return SchemaNamespace.DrawingDecorative;
         if (uri == "http://schemas.microsoft.com/office/drawing/2020/classificationShape") return SchemaNamespace.DrawingClassification;
         if (uri == "http://schemas.microsoft.com/office/drawing/2018/hyperlinkcolor") return SchemaNamespace.DrawingHyperlinkColor;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2010/main") return SchemaNamespace.Presentation2010;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2012/main") return SchemaNamespace.Presentation2012;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2013/main/command") return SchemaNamespace.Presentation2013Command;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2015/09/main") return SchemaNamespace.Presentation201509;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2015/10/main") return SchemaNamespace.Presentation201510;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2015/main") return SchemaNamespace.Presentation2015;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2016/6/main") return SchemaNamespace.Presentation2016Six;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2016/sectionzoom") return SchemaNamespace.PresentationSectionZoom;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2016/slidezoom") return SchemaNamespace.PresentationSlideZoom;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2016/summaryzoom") return SchemaNamespace.PresentationSummaryZoom;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2017/10/main") return SchemaNamespace.Presentation201710;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2017/3/main") return SchemaNamespace.Presentation201703;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2018/4/main") return SchemaNamespace.Presentation201804;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2018/8/main") return SchemaNamespace.Presentation201808;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2019/9/main/command") return SchemaNamespace.Presentation2019Command;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2020/02/main") return SchemaNamespace.Presentation202002;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2022/03/main") return SchemaNamespace.Presentation202203;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2022/06/main/command") return SchemaNamespace.Presentation2022Command;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2022/08/main") return SchemaNamespace.Presentation202208;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2023/02/main") return SchemaNamespace.Presentation202302;
         if (uri == "http://www.w3.org/XML/1998/namespace") return SchemaNamespace.Xml;
         if (uri == "http://schemas.openxmlformats.org/markup-compatibility/2006") return SchemaNamespace.MarkupCompatibility;
         return SchemaNamespace.Unknown;
@@ -246,6 +332,7 @@ public static class SchemaNamespaces
             case SchemaNamespace.Xml: return "http://www.w3.org/XML/1998/namespace"u8;
             case SchemaNamespace.MarkupCompatibility: return "http://schemas.openxmlformats.org/markup-compatibility/2006"u8;
             case SchemaNamespace.Wordprocessing: return strict ? "http://purl.oclc.org/ooxml/wordprocessingml/main"u8 : "http://schemas.openxmlformats.org/wordprocessingml/2006/main"u8;
+            case SchemaNamespace.Presentation: return strict ? "http://purl.oclc.org/ooxml/presentationml/main"u8 : "http://schemas.openxmlformats.org/presentationml/2006/main"u8;
             case SchemaNamespace.OfficeMath: return strict ? "http://purl.oclc.org/ooxml/officeDocument/math"u8 : "http://schemas.openxmlformats.org/officeDocument/2006/math"u8;
             case SchemaNamespace.SharedTypes: return strict ? "http://purl.oclc.org/ooxml/officeDocument/sharedTypes"u8 : "http://schemas.openxmlformats.org/officeDocument/2006/sharedTypes"u8;
             case SchemaNamespace.Relationships: return strict ? "http://purl.oclc.org/ooxml/officeDocument/relationships"u8 : "http://schemas.openxmlformats.org/officeDocument/2006/relationships"u8;
@@ -288,6 +375,26 @@ public static class SchemaNamespaces
             case SchemaNamespace.DrawingDecorative: return "http://schemas.microsoft.com/office/drawing/2017/decorative"u8;
             case SchemaNamespace.DrawingClassification: return "http://schemas.microsoft.com/office/drawing/2020/classificationShape"u8;
             case SchemaNamespace.DrawingHyperlinkColor: return "http://schemas.microsoft.com/office/drawing/2018/hyperlinkcolor"u8;
+            case SchemaNamespace.Presentation2010: return "http://schemas.microsoft.com/office/powerpoint/2010/main"u8;
+            case SchemaNamespace.Presentation2012: return "http://schemas.microsoft.com/office/powerpoint/2012/main"u8;
+            case SchemaNamespace.Presentation2013Command: return "http://schemas.microsoft.com/office/powerpoint/2013/main/command"u8;
+            case SchemaNamespace.Presentation201509: return "http://schemas.microsoft.com/office/powerpoint/2015/09/main"u8;
+            case SchemaNamespace.Presentation201510: return "http://schemas.microsoft.com/office/powerpoint/2015/10/main"u8;
+            case SchemaNamespace.Presentation2015: return "http://schemas.microsoft.com/office/powerpoint/2015/main"u8;
+            case SchemaNamespace.Presentation2016Six: return "http://schemas.microsoft.com/office/powerpoint/2016/6/main"u8;
+            case SchemaNamespace.PresentationSectionZoom: return "http://schemas.microsoft.com/office/powerpoint/2016/sectionzoom"u8;
+            case SchemaNamespace.PresentationSlideZoom: return "http://schemas.microsoft.com/office/powerpoint/2016/slidezoom"u8;
+            case SchemaNamespace.PresentationSummaryZoom: return "http://schemas.microsoft.com/office/powerpoint/2016/summaryzoom"u8;
+            case SchemaNamespace.Presentation201710: return "http://schemas.microsoft.com/office/powerpoint/2017/10/main"u8;
+            case SchemaNamespace.Presentation201703: return "http://schemas.microsoft.com/office/powerpoint/2017/3/main"u8;
+            case SchemaNamespace.Presentation201804: return "http://schemas.microsoft.com/office/powerpoint/2018/4/main"u8;
+            case SchemaNamespace.Presentation201808: return "http://schemas.microsoft.com/office/powerpoint/2018/8/main"u8;
+            case SchemaNamespace.Presentation2019Command: return "http://schemas.microsoft.com/office/powerpoint/2019/9/main/command"u8;
+            case SchemaNamespace.Presentation202002: return "http://schemas.microsoft.com/office/powerpoint/2020/02/main"u8;
+            case SchemaNamespace.Presentation202203: return "http://schemas.microsoft.com/office/powerpoint/2022/03/main"u8;
+            case SchemaNamespace.Presentation2022Command: return "http://schemas.microsoft.com/office/powerpoint/2022/06/main/command"u8;
+            case SchemaNamespace.Presentation202208: return "http://schemas.microsoft.com/office/powerpoint/2022/08/main"u8;
+            case SchemaNamespace.Presentation202302: return "http://schemas.microsoft.com/office/powerpoint/2023/02/main"u8;
             default: return default;
         }
     }
@@ -302,6 +409,7 @@ public static class SchemaNamespaces
             case SchemaNamespace.Xml: return "xml"u8;
             case SchemaNamespace.MarkupCompatibility: return "mc"u8;
             case SchemaNamespace.Wordprocessing: return "w"u8;
+            case SchemaNamespace.Presentation: return "p"u8;
             case SchemaNamespace.OfficeMath: return "m"u8;
             case SchemaNamespace.SharedTypes: return "s"u8;
             case SchemaNamespace.Relationships: return "r"u8;
@@ -344,6 +452,26 @@ public static class SchemaNamespaces
             case SchemaNamespace.DrawingDecorative: return "adec"u8;
             case SchemaNamespace.DrawingClassification: return "aclsh"u8;
             case SchemaNamespace.DrawingHyperlinkColor: return "ahyp"u8;
+            case SchemaNamespace.Presentation2010: return "p14"u8;
+            case SchemaNamespace.Presentation2012: return "p15"u8;
+            case SchemaNamespace.Presentation2013Command: return "pc"u8;
+            case SchemaNamespace.Presentation201509: return "p159"u8;
+            case SchemaNamespace.Presentation201510: return "p1510"u8;
+            case SchemaNamespace.Presentation2015: return "p215"u8;
+            case SchemaNamespace.Presentation2016Six: return "p166"u8;
+            case SchemaNamespace.PresentationSectionZoom: return "psez"u8;
+            case SchemaNamespace.PresentationSlideZoom: return "pslz"u8;
+            case SchemaNamespace.PresentationSummaryZoom: return "psuz"u8;
+            case SchemaNamespace.Presentation201710: return "p1710"u8;
+            case SchemaNamespace.Presentation201703: return "p173"u8;
+            case SchemaNamespace.Presentation201804: return "p184"u8;
+            case SchemaNamespace.Presentation201808: return "p188"u8;
+            case SchemaNamespace.Presentation2019Command: return "p199c"u8;
+            case SchemaNamespace.Presentation202002: return "p202"u8;
+            case SchemaNamespace.Presentation202203: return "p223"u8;
+            case SchemaNamespace.Presentation2022Command: return "p226c"u8;
+            case SchemaNamespace.Presentation202208: return "p228"u8;
+            case SchemaNamespace.Presentation202302: return "p232"u8;
             default: return default;
         }
     }
