@@ -78,6 +78,12 @@ public static partial class LayoutEngine
                 FloatContext c = ContextFor(fp, y0, d);
                 bool relativeToText = d.Info.RelativeFromV is "paragraph" or "line" or null;
                 LayoutRect rect = FloatPlacement.Place(d.Info, c, clampToPage: relativeToText);
+                if (relativeToText && _story == LayoutStory.Body && rect.Bottom > _limitBottom && _limitBottom > page.ContentArea.Y)
+                {
+                    // The footnotes known so far take the bottom of the column; an object positioned from the text stays above them.
+                    rect = rect with { Y = Math.Max(page.ContentArea.Y, _limitBottom - rect.Height) };
+                }
+
                 if (d.Info.Anchor is { AllowOverlap: false })
                 {
                     // Word moves an object that may not overlap below the ones already there, as far as the page allows.

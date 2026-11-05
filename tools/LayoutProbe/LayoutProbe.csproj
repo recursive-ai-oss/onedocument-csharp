@@ -31,6 +31,8 @@
     <Compile Include="../../tests/OneDocument.Rendering.Tests/FloatSamples.cs" Link="FloatSamples.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/PageLayoutCases.cs" Link="PageLayoutCases.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/PageDocs.cs" Link="PageDocs.cs" />
+    <Compile Include="../../tests/OneDocument.Rendering.Tests/NoteCases.cs" Link="NoteCases.cs" />
+    <Compile Include="../../tests/OneDocument.Rendering.Tests/NoteDocs.cs" Link="NoteDocs.cs" />
   </ItemGroup>
 
 </Project>

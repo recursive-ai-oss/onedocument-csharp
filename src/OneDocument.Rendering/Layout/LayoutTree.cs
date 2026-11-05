@@ -46,6 +46,9 @@ public enum LayoutNodeKind
 
     /// <summary>A floating (anchored) object: a picture, shape, text box or chart placed on the page (<see cref="LayoutFloat"/>).</summary>
     FloatingObject = 20,
+
+    /// <summary>The notes of one column of a page: a footnote, a separator or a continuation notice (<see cref="LayoutNoteBlock"/>).</summary>
+    NoteBlock = 8,
 }
 
 /// <summary>
@@ -91,6 +94,12 @@ public enum LayoutStory
 
     /// <summary>The page footer; painted as an artifact.</summary>
     Footer = 2,
+
+    /// <summary>A footnote in the note area of a page.</summary>
+    Footnote = 3,
+
+    /// <summary>An endnote.</summary>
+    Endnote = 4,
 }
 
 /// <summary>The columns of one stretch of a page, between two continuous section breaks (or the whole body).</summary>
@@ -173,8 +182,8 @@ public sealed class LayoutPage : LayoutNode
     public IReadOnlyList<LayoutColumnRegion> ColumnRegions { get; internal set; } = [];
 
     /// <summary>
-    /// Gets the space at the bottom of the body that a later stage keeps for footnotes. Layout lowers the body's bottom edge by this
-    /// much; it is 0 until notes are laid out.
+    /// Gets the height of the footnote area at the bottom of the page: the tallest note area of any column, separator and continuation
+    /// notice included. The body's bottom edge (<see cref="ContentArea"/>) is lowered by this much; it is 0 on a page without footnotes.
     /// </summary>
     public double NotesReservation { get; internal set; }
 
@@ -183,6 +192,12 @@ public sealed class LayoutPage : LayoutNode
 
     // What text on this page has to go around, for the objects placed so far (drawings, floating tables, frames).
     internal List<FloatBox> FloatBoxes { get; } = [];
+
+    /// <summary>Gets the note areas on the page, column by column: separators, footnotes (or parts of them) and continuation notices.</summary>
+    public IEnumerable<LayoutNoteBlock> NoteBlocks => Children.OfType<LayoutNoteBlock>();
+
+    /// <summary>Gets the footnote paragraphs on the page in order (separators and notices left out).</summary>
+    public IEnumerable<LayoutParagraph> FootnoteParagraphs => NoteBlocks.Where(static b => b.Role == LayoutNoteRole.Footnote).SelectMany(static b => b.Paragraphs);
 
     /// <summary>Gets the tables on the page in order (the part of each that sits on this page). Paragraphs inside cells are under their cells, not here.</summary>
     public IEnumerable<LayoutTable> Tables => Children.OfType<LayoutTable>();
@@ -227,6 +242,12 @@ public sealed class LayoutParagraph : LayoutNode
 
     /// <summary>Gets the 0-based column of the page's column region the paragraph sits in (0 for a single column).</summary>
     public int Column { get; internal set; }
+
+    /// <summary>Gets what kind of note text the paragraph is, or null for ordinary text. Endnote paragraphs flow in the body and carry <see cref="LayoutNoteRole.Endnote"/>.</summary>
+    public LayoutNoteRole? NoteRole { get; internal set; }
+
+    /// <summary>Gets the <c>w:id</c> of the note a note paragraph belongs to; 0 for ordinary text.</summary>
+    public long NoteId { get; internal set; }
 
     /// <summary>Gets the lines of this block in order.</summary>
     public IEnumerable<LayoutLine> Lines => Children.OfType<LayoutLine>();

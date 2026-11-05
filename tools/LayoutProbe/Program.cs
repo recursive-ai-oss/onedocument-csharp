@@ -101,11 +101,16 @@ internal static class Program
                 }
 
                 File.WriteAllBytes(Path.Combine(output, name + ".png"), DocumentRenderer.RenderPng(layout.Pages[0]));
+                for (int pg = 1; pg < Math.Min(layout.Pages.Count, 6); pg++)
+                {
+                    File.WriteAllBytes(Path.Combine(output, name + "-p" + (pg + 1) + ".png"), DocumentRenderer.RenderPng(layout.Pages[pg]));
+                }
+
                 log.WriteLine(JsonSerializer.Serialize(new
                 {
                     name,
                     pages = layout.Pages.Count,
-                    lines = layout.Pages.Select(p => p.Paragraphs.Sum(x => x.Lines.Count())).ToArray(),
+                    lines = layout.Pages.Select(p => p.Paragraphs.Concat(p.FootnoteParagraphs).Sum(x => x.Lines.Count())).ToArray(),
                     fontNotes = layout.FontNotes.Select(n => n.Message).ToArray(),
                     notes = layout.Notes.Select(n => n.Code).ToArray(),
                 }));

@@ -176,12 +176,24 @@ public static class LayoutPainter
                     continue;
                 }
 
+                if (node is LayoutNoteBlock noteBlock)
+                {
+                    if (listOpen)
+                    {
+                        List.EndTag();
+                        listOpen = false;
+                    }
+
+                    PaintNoteBlock(noteBlock);
+                    continue;
+                }
+
                 if (node is not LayoutParagraph p)
                 {
                     continue;
                 }
 
-                if (p.Story != LayoutStory.Body)
+                if (p.Story is LayoutStory.Header or LayoutStory.Footer)
                 {
                     // Headers and footers are pagination artifacts (OneRender has no finer role for them yet).
                     if (listOpen)
@@ -225,6 +237,32 @@ public static class LayoutPainter
             if (listOpen)
             {
                 List.EndTag();
+            }
+        }
+
+        // A footnote is a Div (OneRender has no Note role yet); separators and the continuation notice are page furniture, so artifacts.
+        private void PaintNoteBlock(LayoutNoteBlock block)
+        {
+            bool furniture = block.Role is LayoutNoteRole.Separator or LayoutNoteRole.ContinuationSeparator or LayoutNoteRole.ContinuationNotice;
+            if (furniture)
+            {
+                _untagged++;
+            }
+
+            if (options.Tagged)
+            {
+                List.BeginTag(Id(), furniture ? TagRole.Artifact : TagRole.Div);
+            }
+
+            PaintBlocks(block.Children);
+            if (options.Tagged)
+            {
+                List.EndTag();
+            }
+
+            if (furniture)
+            {
+                _untagged--;
             }
         }
 
@@ -669,7 +707,7 @@ public static class LayoutPainter
                 case LayoutDecorationKind.PageBorder:
                     PaintBorder(d);
                     break;
-                case LayoutDecorationKind.ColumnSeparator:
+                case LayoutDecorationKind.ColumnSeparator or LayoutDecorationKind.NoteSeparator or LayoutDecorationKind.NoteContinuationSeparator:
                     List.FillRect(Id(40), Rect(d.Bounds.X, d.Bounds.Y, d.Bounds.Width, d.Bounds.Height), Rgb(d.Color));
                     break;
                 case LayoutDecorationKind.LineNumber or LayoutDecorationKind.Watermark when d.Glyphs is { } g && d.Face is { } face:

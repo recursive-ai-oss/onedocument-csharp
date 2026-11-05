@@ -26,7 +26,8 @@ Inline drawings are not floats: they take a character's place in the line (`draw
 - Base `paragraph` is the top of the anchor paragraph's first line (after its space before); `line` is the top of the line that holds the
   anchor; `character` is the left edge of the column (the anchor's own x is not known before the lines are cut).
 - An object positioned relative to the text stays on its page: when it would run off the bottom it is moved up. Page-relative objects
-  are not moved.
+  are not moved. An object positioned from the text also stays above the footnote area of its column as far as the notes are known when
+  it is anchored (the note reservation is lowered into the body's bottom edge); notes that grow afterwards can still reach it.
 - `allowOverlap="0"`: an object that would overlap an earlier one that also may not overlap is moved below it, if the page allows.
 - `locked` and `layoutInCell` do not change layout, except that an object in a table cell is placed from the cell when `layoutInCell`
   is on (default) and from the page otherwise; text in the cell does not wrap around it.

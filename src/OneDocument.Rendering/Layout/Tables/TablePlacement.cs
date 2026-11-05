@@ -91,6 +91,7 @@ public static partial class LayoutEngine
                 node.ContinuesFromPreviousPage = partIndex > 0;
                 node.ContinuesOnNextPage = continuesOn;
                 page.Add(node);
+                CommitTableNotes(ft, part);
                 _y += part.Height;
                 _regionMaxY = Math.Max(_regionMaxY, _y);
                 _pageHasContent = true;
@@ -111,6 +112,7 @@ public static partial class LayoutEngine
                 bool pageOccupied = _pageHasContent || part.BodyRows > 0;
                 int e = breakEnd >= r ? breakEnd : ft.GroupEnd[r];
                 bool inBrokenGroup = breakEnd >= r;
+                avail -= TableNotesExtra(ft, part, r, e);
                 bool fresh = !inBrokenGroup && Fresh(ft, r, e);
                 double groupHeight = 0;
                 for (int i = r; i <= e; i++)

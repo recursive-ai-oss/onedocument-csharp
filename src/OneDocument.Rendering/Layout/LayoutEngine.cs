@@ -6,7 +6,7 @@ namespace RecursiveAI.OneDocument.Layout;
 /// <summary>
 /// Lays a document out into pages: sections with their page sizes, margins and columns, headers and footers with page numbers, page
 /// borders, watermarks and line numbers, and the paragraphs with widow and orphan control, keep-with-next, keep-lines-together and
-/// page-break-before. Tables (see docs/layout-tables.md); floating objects, notes and fields other than page numbers are later stages and are reported in
+/// page-break-before. Tables (see docs/layout-tables.md); footnotes and endnotes (see docs/layout.md); floating objects and fields other than page numbers are later stages and are reported in
 /// <see cref="LayoutDocument.Notes"/>.
 /// </summary>
 public static partial class LayoutEngine
@@ -30,9 +30,10 @@ public static partial class LayoutEngine
         // the previous pass's counts until they stop changing (at most three passes). This is the small loop the general field update
         // replaces.
         PageTotals? totals = null;
+        Dictionary<NoteKey, int>? notePages = null;
         for (int pass = 0; ; pass++)
         {
-            var ctx = new LayoutContext(document, fonts, compat, fontTable);
+            var ctx = new LayoutContext(document, fonts, compat, fontTable) { NotePlan = NotePlan.Build(document, document.Sections, notePages) };
             var flow = new Flow(ctx, opt, totals, probe: false);
             IReadOnlyList<Section> sections = document.Sections;
             for (int s = 0; s < sections.Count; s++)
@@ -48,12 +49,23 @@ public static partial class LayoutEngine
 
             flow.Finish();
             PageTotals measured = PageTotals.Of(flow.Pages, sections.Count);
-            if (!ctx.UsesPageTotals || pass >= 2 || (totals is not null && totals.Equals(measured)))
+
+            // Footnote numbers that restart on each page depend on where the references land: lay out again with the pages of the last
+            // pass until they stop moving.
+            bool notesSettled = !ctx.NotePlan.UsesPageRestart || ctx.NoteRefPages.Count == (notePages?.Count ?? -1) && ctx.NoteRefPages.All(p => notePages!.TryGetValue(p.Key, out int pg) && pg == p.Value);
+            bool totalsSettled = !ctx.UsesPageTotals || (totals is not null && totals.Equals(measured));
+            if ((totalsSettled && notesSettled) || pass >= (ctx.NotePlan.UsesPageRestart ? 3 : 2))
             {
+                if (!notesSettled)
+                {
+                    ctx.NoteOnce("layout.note-numbering-unsettled", "layout.note-numbering-unsettled", "Footnote numbers that restart on each page did not settle after four layout passes; the last pass is used.", null);
+                }
+
                 return new LayoutDocument(flow.Pages, ctx.FontNotes, ctx.Notes, ctx.Compat.Mode);
             }
 
             totals = measured;
+            notePages = new Dictionary<NoteKey, int>(ctx.NoteRefPages);
         }
     }
 
@@ -95,6 +107,12 @@ public static partial class LayoutEngine
             if (_pages.Count == 0)
             {
                 // An empty document still has one page.
+                StartPage();
+            }
+
+            // Footnote text that did not fit continues on pages of its own; each page takes at least one more line of it.
+            while (_carry.Count > 0 && !Stopped && !probe)
+            {
                 StartPage();
             }
 
@@ -304,15 +322,16 @@ public static partial class LayoutEngine
                 double avail = _limitBottom - (_y + (placed == 0 ? gap : 0));
                 double remainingHeight = Total(fp, placed, fp.Lines.Count - placed, includeTop: placed == 0);
                 int count;
-                if (remainingHeight <= avail + 0.01)
+                bool withNotes = fp.HasNoteRefs && NotesActive;
+                if (!withNotes && remainingHeight <= avail + 0.01)
                 {
                     count = fp.Lines.Count - placed;
                 }
                 else
                 {
-                    count = FitLines(fp, placed, avail);
+                    count = withNotes ? FitLinesNotes(fp, placed, placed == 0 ? gap : 0) : FitLines(fp, placed, avail);
                     int remainingLines = fp.Lines.Count - placed;
-                    bool keepTogether = fp.KeepLines && placed == 0;
+                    bool keepTogether = fp.KeepLines && placed == 0 && count < remainingLines;
                     if (fp.WidowControl && count < remainingLines)
                     {
                         // Orphan control keeps two lines at the bottom, widow control two at the top of the next page.
@@ -339,7 +358,7 @@ public static partial class LayoutEngine
                             continue;
                         }
 
-                        count = Math.Max(1, FitLines(fp, placed, avail));
+                        count = Math.Max(1, withNotes ? FitLinesNotes(fp, placed, placed == 0 ? gap : 0) : FitLines(fp, placed, avail));
                     }
                 }
 
@@ -431,6 +450,12 @@ public static partial class LayoutEngine
             LayoutParagraph lp = ParagraphEmitter.Build(fp, from, count, _colX, top, first, last, out double y, out bool breakAfter);
             lp.Story = _story;
             lp.Column = _colIndex;
+            if (fp.NoteRole is { } noteRole)
+            {
+                lp.NoteRole = noteRole;
+                lp.NoteId = fp.NoteId;
+            }
+
             bool columnBreak = false;
             if (breakAfter)
             {
@@ -460,6 +485,20 @@ public static partial class LayoutEngine
             }
 
             page.Add(lp);
+            if (_story == LayoutStory.Body && !probe)
+            {
+                if (fp.HasNoteRefs)
+                {
+                    CommitNoteRefs(fp, from, lp);
+                }
+
+                if (fp.NoteRole == LayoutNoteRole.Separator)
+                {
+                    AddEndnoteRule(page, lp);
+                }
+            }
+
+            // After the notes: the footnote area the references reserved is known, and objects keep above it.
             if (first)
             {
                 CommitFloats(fp, lp, top);

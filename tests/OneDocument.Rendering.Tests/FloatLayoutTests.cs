@@ -351,6 +351,20 @@ public sealed class FloatLayoutTests
     }
 
     [Fact]
+    public void An_object_positioned_from_the_text_stays_above_the_footnote_area()
+    {
+        // The object would reach the page's bottom margin; the footnote on the page takes the bottom of the column.
+        string body = "<w:p>" + FloatSamples.Anchor(100, 60, FloatSamples.H("margin", 300), FloatSamples.V("paragraph", 650), FloatSamples.Square()) +
+            "<w:r><w:t>Reference line</w:t></w:r>" + NoteDocs.Ref(1) + "</w:p>";
+        byte[] docx = NoteDocs.Build(body, NoteDocs.Fn(1, "A footnote that takes a line or two at the bottom of the page, long enough to need two lines of the narrow text area it is set in."));
+        using Document doc = Document.Open(new MemoryStream(docx), leaveOpen: false);
+        LayoutPage page = LayoutEngine.Layout(doc, new LayoutOptions { Fonts = TestFonts.Library }).Pages[0];
+        LayoutFloat f = page.Floats.Single();
+        double noteTop = page.NoteBlocks.Min(b => b.Bounds.Y);
+        Assert.True(f.Bounds.Bottom <= noteTop + 0.01, $"object bottom {f.Bounds.Bottom} is below the note area top {noteTop}");
+    }
+
+    [Fact]
     public void A_table_in_a_text_box_is_laid_out_and_painted()
     {
         LayoutDocument layout = Lay("textbox-table");
