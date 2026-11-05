@@ -807,6 +807,11 @@ public sealed class Evaluator
     private CalcArray ReadArea(CellArea a)
     {
         CellArea concrete = a with { Sheet = a.Sheet ?? _origin.Sheet };
+        if (concrete.Rows >= CellArea.MaxRow || concrete.Columns >= CellArea.MaxColumn)
+        {
+            concrete = _resolver.ClipArea(concrete);
+        }
+
         long count = (long)concrete.Rows * concrete.Columns;
         if (count == 1)
         {
