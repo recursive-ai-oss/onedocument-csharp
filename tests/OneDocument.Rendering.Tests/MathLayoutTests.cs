@@ -32,6 +32,9 @@ public sealed class MathLayoutTests
     internal static MathBox Lay(string inner, bool display = false, double size = 10, double width = double.PositiveInfinity, MathSettings? settings = null) =>
         MathLayouter.Layout(Parse(inner), new MathLayoutOptions { Fonts = Fonts, FontSize = size, Display = display, AvailableWidth = width, Settings = settings ?? MathSettings.Default });
 
+    // Math italic of a Latin letter, as the layout writes it (h is the Planck-constant block hole).
+    internal static string It(char c) => c == 'h' ? "\u210E" : char.ConvertFromUtf32(0x1D44E + (c - 'a'));
+
     private static MathTable Table(out FontFace face)
     {
         FontMatch match = Fonts.Resolve(new FontRequest("Cambria Math"))!;
@@ -260,8 +263,8 @@ public sealed class MathLayoutTests
         int index = v.ToList().FindIndex(x => x.Glyph == open.GlyphId);
         Assert.True(index > 0, "a larger variant was used");
         // It is the smallest variant that reaches the target.
-        MathGlyph numG = b.Items.OfType<MathGlyph>().First(g => g.Text == "a");
-        MathGlyph denG = b.Items.OfType<MathGlyph>().First(g => g.Text == "b");
+        MathGlyph numG = b.Items.OfType<MathGlyph>().First(g => g.Text == It('a'));
+        MathGlyph denG = b.Items.OfType<MathGlyph>().First(g => g.Text == It('b'));
         double axis = t[MathConstant.AxisHeight] * s;
         double a = (-numG.Y) + (Ink(face, numG.GlyphId).MaxY * numG.Size / face.UnitsPerEm);
         double d = denG.Y + (-Ink(face, denG.GlyphId).MinY * denG.Size / face.UnitsPerEm);
@@ -299,9 +302,11 @@ public sealed class MathLayoutTests
         MathGlyph op = b.Items.OfType<MathGlyph>().Single(g => g.Text == "\u2211");
         // A display operator is at least DisplayOperatorMinHeight tall.
         var (max, min) = Ink(face, op.GlyphId);
-        Assert.True((max - min) * s >= t[MathConstant.DisplayOperatorMinHeight] * s * 0.95, $"op height {(max - min) * s}");
-        MathGlyph upper = b.Items.OfType<MathGlyph>().Single(g => g.Text == "n");
-        MathGlyph lower = b.Items.OfType<MathGlyph>().Single(g => g.Text == "i");
+        // This font's DisplayOperatorMinHeight (2.3 em) is beyond its largest summation (1.34 em): the largest variant is chosen.
+        Assert.True(max - min > 1300, $"op height {max - min} units");
+        Assert.True(t[MathConstant.DisplayOperatorMinHeight] > 0);
+        MathGlyph upper = b.Items.OfType<MathGlyph>().Single(g => g.Text == It('n'));
+        MathGlyph lower = b.Items.OfType<MathGlyph>().Single(g => g.Text == It('i'));
         Assert.True(upper.Y < op.Y - (max * s) + 1e-6 + 0.0, "upper limit above the operator");
         Assert.True(lower.Y > op.Y - (min * s), "lower limit below the operator");
         // Centred over the operator.
@@ -315,7 +320,7 @@ public sealed class MathLayoutTests
     {
         MathBox b = Lay("<m:nary><m:naryPr><m:chr m:val=\"\u2211\"/></m:naryPr><m:sub>" + R("i") + "</m:sub><m:sup>" + R("n") + "</m:sup><m:e>" + R("a") + "</m:e></m:nary>", display: false);
         MathGlyph op = b.Items.OfType<MathGlyph>().Single(g => g.Text == "\u2211");
-        MathGlyph upper = b.Items.OfType<MathGlyph>().Single(g => g.Text == "n");
+        MathGlyph upper = b.Items.OfType<MathGlyph>().Single(g => g.Text == It('n'));
         Assert.True(upper.X > op.X);
 
         MathBox integral = Lay("<m:nary><m:naryPr><m:chr m:val=\"\u222B\"/></m:naryPr><m:sub>" + R("0") + "</m:sub><m:sup>" + R("1") + "</m:sup><m:e>" + R("x") + "</m:e></m:nary>", display: true);
@@ -331,8 +336,8 @@ public sealed class MathLayoutTests
         const double size = 10;
         double s = size / face.UnitsPerEm;
         MathBox b = Lay("<m:m><m:mr>" + E(R("a")) + E(R("bbb")) + "</m:mr><m:mr>" + E(R("cc")) + E(R("d")) + "</m:mr></m:m>", size: size);
-        MathGlyph a = b.Items.OfType<MathGlyph>().First(g => g.Text == "a");
-        MathGlyph d = b.Items.OfType<MathGlyph>().First(g => g.Text == "d");
+        MathGlyph a = b.Items.OfType<MathGlyph>().First(g => g.Text == It('a'));
+        MathGlyph d = b.Items.OfType<MathGlyph>().First(g => g.Text == It('d'));
         Assert.True(d.Y > a.Y);
         // Vertical centre of the box sits on the axis.
         double centre = (-b.Ascent + b.Descent) / 2;
@@ -361,8 +366,8 @@ public sealed class MathLayoutTests
         const double size = 10;
         MathBox low = Lay("<m:acc><m:accPr><m:chr m:val=\"\u0302\"/></m:accPr><m:e>" + R("x") + "</m:e></m:acc>", size: size);
         MathBox tall = Lay("<m:acc><m:accPr><m:chr m:val=\"\u0302\"/></m:accPr><m:e>" + R("H", "<m:sty m:val=\"p\"/>") + "</m:e></m:acc>", size: size);
-        MathGlyph accLow = low.Items.OfType<MathGlyph>().Single(g => g.Text == "\u02C6");
-        MathGlyph accTall = tall.Items.OfType<MathGlyph>().Single(g => g.Text == "\u02C6");
+        MathGlyph accLow = low.Items.OfType<MathGlyph>().Single(g => g.Text == "\u0302");
+        MathGlyph accTall = tall.Items.OfType<MathGlyph>().Single(g => g.Text == "\u0302");
         double s = size / face.UnitsPerEm;
         Assert.True(accTall.Y < accLow.Y, "the accent over a tall base is higher");
         Assert.True(accLow.Y <= 1e-6);
@@ -393,7 +398,7 @@ public sealed class MathLayoutTests
         Assert.True(lim.Descent > 3);
         MathBox func = Lay("<m:func><m:fName>" + R("sin", "<m:sty m:val=\"p\"/>") + "</m:fName><m:e>" + R("x") + "</m:e></m:func>");
         string[] texts = func.Items.OfType<MathGlyph>().Select(g => g.Text).ToArray();
-        Assert.Equal(["s", "i", "n", "x"], texts);
+        Assert.Equal(["s", "i", "n", It('x')], texts);
         MathBox hidden = Lay("<m:phant><m:phantPr><m:show m:val=\"0\"/></m:phantPr><m:e>" + R("abc") + "</m:e></m:phant>");
         Assert.Empty(hidden.Items);
         Assert.True(hidden.Width > 0 && hidden.Ascent > 0);

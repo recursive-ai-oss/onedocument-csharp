@@ -1105,6 +1105,47 @@ internal sealed class MathEngine
         _ => cp,
     };
 
+    // The code point to draw an accent with: the spacing character when the math font has it, else the combining mark itself
+    // (Noto Sans Math carries the combining forms), else the ASCII look-alike.
+    private int AccentCodePoint(int combining)
+    {
+        int spacing = SpacingAccent(combining);
+        if (_face.HasGlyph(spacing))
+        {
+            return spacing;
+        }
+
+        if (_face.HasGlyph(combining))
+        {
+            return combining;
+        }
+
+        int ascii = combining switch { 0x0302 => 0x5E, 0x0303 => 0x7E, 0x0300 => 0x60, _ => spacing };
+        return _face.HasGlyph(ascii) ? ascii : spacing;
+    }
+
+    // A combining mark's outline sits left of its origin with no advance; move it so its ink starts at x = 0 and the width is the ink's.
+    private static Frag CentreInk(Frag f)
+    {
+        if (f.W > 1e-9 || f.Items.Count != 1 || f.Items[0] is not MathGlyph g)
+        {
+            return f;
+        }
+
+        GlyphOutline o = g.Face.GetOutline(g.GlyphId);
+        if (o.IsEmpty)
+        {
+            return f;
+        }
+
+        var box = o.TightBox();
+        double s = g.Size / g.Face.UnitsPerEm;
+        var r = new Frag { W = (box.MaxX - box.MinX) * s, A = f.A, D = f.D, Class = f.Class };
+        r.Add(f, -box.MinX * s, 0);
+        r.AccentX = f.AccentX is { } ax ? ax - (box.MinX * s) : null;
+        return r;
+    }
+
     private Frag Accent(MathNode n, MathProperties p, St st, int depth, uint color)
     {
         Frag b = Arg(n.Argument(MathRole.Base), st.AsCramped, depth);
@@ -1114,12 +1155,12 @@ internal sealed class MathEngine
             return b;
         }
 
-        int cp = SpacingAccent(char.ConvertToUtf32(chr, 0));
-        Frag acc = CharFrag(cp, Size(st), color, null);
+        int cp = AccentCodePoint(char.ConvertToUtf32(chr, 0));
+        Frag acc = CentreInk(CharFrag(cp, Size(st), color, null));
         bool single = b.IsChar;
         if (!single && b.W > acc.W * 1.05)
         {
-            acc = Stretchy(cp, b.W, false, st, color);
+            acc = CentreInk(Stretchy(cp, b.W, false, st, color));
         }
 
         double baseAttach = b.AccentX ?? (b.W / 2);
