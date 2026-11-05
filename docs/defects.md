@@ -112,6 +112,11 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `pptx.slide-id-duplicate` | repaired | Two slides carry the same id in `p:sldIdLst`; both are kept. |
 | `pptx.layout-missing` | repaired / dropped | A slide has no layout (repaired: its placeholders inherit nothing), or a layout listed by the master has no part (dropped). |
 | `pptx.master-missing` | repaired / dropped | A layout has no master (repaired), or a master listed in `p:sldMasterIdLst` has no part (dropped). |
+| `pptx.template-scope-unsupported` | dropped | A `scope=` the presentation binder cannot use (`sheet`, `row`, `column`, `section`), or `table-row`/`table` with tags that are not in a table. The scope the structure implies is used instead. |
+| `pptx.template-image-position` | dropped | An `{% image %}` tag that is not the only content of a text shape on a slide (inside other text, in a table cell, in notes, in a picture or group). The tag prints nothing. |
+| `pptx.template-image-invalid` | dropped | An `{% image %}` value that is not PNG, JPEG, GIF or BMP data, as bytes or base64 text. The shape is left empty. |
+| `pptx.template-orphan-unit` | dropped | Text came out outside the slide, shape or table row it belongs to, because a block's scope does not match where its tags stand (for example `scope=inline` with tags on different slides). The text is left out. |
+| `pptx.template-injection-unsupported` | dropped | An `{% html %}` or `{% markdown %}` tag in a presentation; its value is inserted as plain text. |
 | `docx.no-main-part` | fatal | No `officeDocument` relationship of the package points at a part that exists. |
 | `docx.wrong-root` | fatal | The main document part does not start with `w:document`. |
 | `docx.part-missing` | fatal | A part the reader must have is not in the package. |

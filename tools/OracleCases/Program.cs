@@ -40,6 +40,11 @@ internal static class Program
             return MailMergeCases.Write(args[1], args[2]);
         }
 
+        if (args.Length == 3 && args[0] == "--pptx-templates")
+        {
+            return PptxTemplateCases.Write(args[1], args[2]);
+        }
+
         if (args.Length == 2 && args[0] == "--authoring")
         {
             return AuthoringCases.Write(args[1]);
