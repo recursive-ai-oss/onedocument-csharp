@@ -82,6 +82,7 @@ public static class LayoutCases
         list.AddRange(NoteCases.All());
 
         list.AddRange(TableCases.All());
+        list.AddRange(FieldDocs.All());
         list.AddRange(MathCases.All());
         return list;
     }

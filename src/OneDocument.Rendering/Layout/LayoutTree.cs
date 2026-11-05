@@ -362,13 +362,24 @@ public sealed class LayoutRun : LayoutNode
 /// <summary>The result of laying out a document.</summary>
 public sealed class LayoutDocument
 {
-    internal LayoutDocument(IReadOnlyList<LayoutPage> pages, IReadOnlyList<FontSubstitutionNote> fontNotes, IReadOnlyList<LayoutNote> notes, int compatibilityMode)
+    internal LayoutDocument(IReadOnlyList<LayoutPage> pages, IReadOnlyList<FontSubstitutionNote> fontNotes, IReadOnlyList<LayoutNote> notes, int compatibilityMode, int fieldPasses = 1, Document? workingCopy = null)
     {
         Pages = pages;
         FontNotes = fontNotes;
         Notes = notes;
         CompatibilityMode = compatibilityMode;
+        FieldPasses = fieldPasses;
+        WorkingCopy = workingCopy;
     }
+
+    /// <summary>Gets how many layout passes ran; 1 when no field needed the layout, more while page-dependent fields settled.</summary>
+    public int FieldPasses { get; }
+
+    /// <summary>
+    /// Gets the copy of the document the pages were laid out from when a table of contents, index or table of authorities had to be built (the
+    /// paragraphs of such pages belong to it, not to the document passed in); null when the document itself was laid out.
+    /// </summary>
+    public Document? WorkingCopy { get; }
 
     /// <summary>Gets the pages in order.</summary>
     public IReadOnlyList<LayoutPage> Pages { get; }
@@ -400,6 +411,37 @@ public sealed class LayoutOptions
 
     /// <summary>Gets or sets the most pages to lay out; layout stops there and adds a note. Default 100,000.</summary>
     public int MaxPages { get; set; } = 100_000;
+
+    /// <summary>
+    /// Gets or sets whether every field is updated, as Word does when it prints with "update fields before printing" on. Default false: fields
+    /// that depend on the page (<c>PAGE</c>, <c>NUMPAGES</c>, <c>SECTIONPAGES</c>, <c>SECTION</c>, <c>PAGEREF</c>, <c>NOTEREF</c>, <c>REF</c>,
+    /// <c>STYLEREF</c>, <c>SEQ</c>) are computed from the layout and the others show the result stored in the file; a <c>TOC</c> with no stored
+    /// result is built, and one with a result keeps its entries and gets the page numbers of its <c>PAGEREF</c> fields recomputed. When true,
+    /// the table of contents, index and table of authorities are rebuilt and the date, property, <c>IF</c>, <c>=</c>, <c>SYMBOL</c> and <c>QUOTE</c>
+    /// fields are computed too. A document whose settings carry <c>w:updateFields</c> is laid out as if this were true, as Word updates its
+    /// fields when it opens such a file. The document itself is never changed.
+    /// </summary>
+    public bool UpdateFields { get; set; }
+
+    /// <summary>
+    /// Gets or sets the clock <c>DATE</c> and <c>TIME</c> read when <see cref="UpdateFields"/> is on. Null (the default) keeps their stored results:
+    /// layout never reads the system time on its own, so the same input gives the same pages.
+    /// </summary>
+    public TimeProvider? Clock { get; set; }
+
+    /// <summary>
+    /// Gets or sets how many layout passes may run while fields settle (page numbers that depend on layout that depends on page numbers).
+    /// Default 6. When the fields still change after the last pass the layout keeps that pass and adds the note <c>layout.fields-unsettled</c>.
+    /// </summary>
+    public int MaxFieldPasses { get; set; } = 6;
+
+    // The same options with every field updated: what a document that asks Word to update its fields on open gets.
+    internal LayoutOptions WithUpdateFields()
+    {
+        var copy = (LayoutOptions)MemberwiseClone();
+        copy.UpdateFields = true;
+        return copy;
+    }
 }
 
 /// <summary>
