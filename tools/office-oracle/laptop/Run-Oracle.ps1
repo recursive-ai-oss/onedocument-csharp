@@ -378,6 +378,8 @@ function Invoke-ExcelFormulas($app, $item, $path, $outDir, $res) {
             $lines.Add($t.id + "`tok`t" + (& $esc $cell.Formula2) + "`t" + (& $esc $cell.Formula2R1C1) + "`t" + (& $esc $cell.Formula2Local) + "`t" + $rows + "`t" + $cols + "`t" + ($items -join $sep))
         }
         [IO.File]::WriteAllLines((Join-Path $outDir ([IO.Path]::GetFileName($path) + '.tsv')), $lines, $utf8)
+        # The file form of every formula (prefixes, array flags) is only visible in the saved file.
+        try { $wb.SaveCopyAs((Join-Path $outDir ([IO.Path]::GetFileName($path) + '.xlsx'))) } catch { $res.saveCopyError = $_.Exception.Message }
         $res.formulas = @{ tests = $tests.Count; decimal = [string]$app.International(3); list = [string]$app.International(5); country = [string]$app.International(1); excelVersion = [string]$app.Version; build = [string]$app.Build }
     } finally {
         try { $wb.Close($false) } catch { }

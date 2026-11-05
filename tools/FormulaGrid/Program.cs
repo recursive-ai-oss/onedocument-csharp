@@ -165,6 +165,8 @@ internal static class Program
         {
             "gen" => Generate(args[1]),
             "compare" => Compare(args[1], args.Length > 2 ? args[2] : args[1]),
+            "futuregen" => FutureGenerate(args[1], args.Length > 2 ? args[2] : ""),
+            "futurecompare" => FutureCompare(args[1], args.Length > 2 ? args[2] : args[1]),
             _ => 2,
         };
     }
@@ -215,6 +217,79 @@ internal static class Program
         {
             yield return new Test($"sr{i++}", "r1c1", "=" + s);
         }
+    }
+
+    // Future-function prefixes: every candidate name is entered with 0..4 numeric arguments (Excel rejects a wrong argument count at entry, so one
+    // of them is usually accepted); the saved file shows whether Excel stored the name with _xlfn. or _xlfn._xlws.
+    private static int FutureGenerate(string dir, string namesFile)
+    {
+        Directory.CreateDirectory(dir);
+        var tests = new List<string>();
+        foreach (string n in File.ReadAllLines(namesFile).Select(x => x.Trim()).Where(x => x.Length > 0).Distinct(StringComparer.OrdinalIgnoreCase))
+        {
+            for (int k = 0; k <= 4; k++)
+            {
+                tests.Add($"{n}#{k}\ta1\t={n}({string.Join(",", Enumerable.Repeat("1", k))})");
+            }
+        }
+
+        for (int f = 0; f * 600 < tests.Count; f++)
+        {
+            File.WriteAllLines(Path.Combine(dir, $"future{f:000}.fgrid"), tests.Skip(f * 600).Take(600), new UTF8Encoding(false));
+        }
+
+        Console.WriteLine($"wrote {tests.Count} tests");
+        return 0;
+    }
+
+    private static int FutureCompare(string testDir, string answerDir)
+    {
+        var seen = new SortedDictionary<string, string>(StringComparer.Ordinal);
+        var rejected = new SortedSet<string>(StringComparer.Ordinal);
+        foreach (string file in Directory.GetFiles(testDir, "future*.fgrid").Order(StringComparer.Ordinal))
+        {
+            string[] lines = File.ReadAllLines(file).Where(l => l.Length > 0).ToArray();
+            string book = Path.Combine(answerDir, Path.GetFileName(file) + ".xlsx");
+            if (!File.Exists(book))
+            {
+                Console.WriteLine("missing " + book);
+                continue;
+            }
+
+            using var zip = System.IO.Compression.ZipFile.OpenRead(book);
+            string xml = new StreamReader(zip.GetEntry("xl/worksheets/sheet1.xml")!.Open(), Encoding.UTF8).ReadToEnd();
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string name = lines[i].Split('\t')[0].Split('#')[0];
+                var m = System.Text.RegularExpressions.Regex.Match(xml, "<c r=\"B" + (1 + 60 * i) + "\"[^>]*><f[^>]*>([^<]*)</f>");
+                if (!m.Success)
+                {
+                    rejected.Add(name);
+                    continue;
+                }
+
+                string f = System.Net.WebUtility.HtmlDecode(m.Groups[1].Value);
+                var pm = System.Text.RegularExpressions.Regex.Match(f, "^((?:_xlfn\\.)?(?:_xlws\\.)?)" + System.Text.RegularExpressions.Regex.Escape(name) + "\\(", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                seen.TryAdd(name, pm.Success ? pm.Groups[1].Value : "?" + f);
+            }
+        }
+
+        int bad = 0;
+        foreach (var (name, prefix) in seen)
+        {
+            string ours = FutureFunctions.PrefixFor(name);
+            bool ok = prefix == ours;
+            if (!ok)
+            {
+                bad++;
+            }
+
+            Console.WriteLine($"{(ok ? "same" : "DIFF")}\t{name}\texcel={prefix}\tours={ours}");
+        }
+
+        Console.WriteLine($"names accepted {seen.Count}, differ from FutureFunctions {bad}, never accepted {rejected.Count(n => !seen.ContainsKey(n))}");
+        Console.WriteLine("never accepted: " + string.Join(" ", rejected.Where(n => !seen.ContainsKey(n))));
+        return 0;
     }
 
     private static int Generate(string dir)
