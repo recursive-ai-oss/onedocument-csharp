@@ -67,7 +67,7 @@ internal static class MailMergeTarget
             var sb = new StringBuilder();
             foreach (Document d in result.Documents)
             {
-                sb.Append(d.Body.Text).Append('\u0001');
+                sb.Append(d.ExtractText()).Append('\u0001');
             }
 
             return sb.ToString();

@@ -59,7 +59,7 @@ internal static class DocumentSmoke
         };
         using (RecursiveAI.OneDocument.Documents.MailMerge.MailMergeResult result = merged.MailMerge(records))
         {
-            if (result.Documents.Count != 2 || result.Documents[0].Body.Text.Trim() != "Dear Ann492" || result.Documents[1].Body.Text.Trim() != "Dear Bo3")
+            if (result.Documents.Count != 2 || result.Documents[0].ExtractText().Trim() != "Dear Ann492" || result.Documents[1].ExtractText().Trim() != "Dear Bo3")
             {
                 failures.Add("mail merge");
             }
