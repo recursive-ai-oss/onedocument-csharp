@@ -24,7 +24,7 @@ internal static class CalcSmoke
             }
         }
 
-        Check("SUM(A1:B2)", "72");
+        Check("SUM(A1:B2)", "66"); // 11 + 12 + 21 + 22
         Check("LET(x,2,x*LAMBDA(a,a+1)(3))", "8");
         Check("SUM(MAP(SEQUENCE(3),LAMBDA(v,v*v)))", "14");
         Check("SEQUENCE(2,3)", "array 2x3");
