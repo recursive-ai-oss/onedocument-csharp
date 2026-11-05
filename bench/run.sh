@@ -6,6 +6,9 @@
 #   --run NAME      result directory name under $ONEOFFICE_RESULTS (default: UTC timestamp)
 #   --filter GLOB   BenchmarkDotNet filter, e.g. '*Bench.DocxLoadSave*' (default: all document rows)
 #   --threads 1     one core visible to the runtime (DOTNET_PROCESSOR_COUNT=1); 'all' leaves the machine alone
+#   --xlsx KIND     run a spreadsheet group instead of the document rows: read, write, model (fresh process per row and input,
+#                   see XlsxStreamBench) or bpc (bytes per cell, fresh process per library and input). XLSXBENCH_SIZES narrows
+#                   the row counts; bpc takes every .xlsx in $ONEOFFICE_BENCH_INPUTS/xlsx.
 #   --no-peak       skip the fresh-process peak-memory pass
 #   --no-timing     skip BenchmarkDotNet (peak-memory pass only)
 #   --force         start even when the machine is busy; the override is written into env.txt
@@ -24,6 +27,7 @@ results_root="${ONEOFFICE_RESULTS:-$HOME/oneoffice/results/bench}"
 run="$(date -u +%Y%m%dT%H%M%SZ)"
 filter='*Bench.Docx*'
 threads=all
+xlsx=
 peak=1
 timing=1
 force=0
@@ -32,6 +36,7 @@ while [[ $# -gt 0 ]]; do
     --run) run="$2"; shift 2 ;;
     --filter) filter="$2"; shift 2 ;;
     --threads) threads="$2"; shift 2 ;;
+    --xlsx) xlsx="$2"; shift 2 ;;
     --no-peak) peak=0; shift ;;
     --no-timing) timing=0; shift ;;
     --force) force=1; shift ;;
@@ -100,13 +105,27 @@ if [[ "$threads" == 1 ]]; then
 fi
 
 "$dotnet_bin" "$dll" versions > "$out/versions.txt"
-"$dotnet_bin" "$dll" gen "$inputs" > "$out/inputs.txt"
+if [[ -z "$xlsx" ]]; then
+  "$dotnet_bin" "$dll" gen "$inputs" > "$out/inputs.txt"
+else
+  "$dotnet_bin" "$dll" xlsxstream gen "$inputs/xlsx" > "$out/inputs.txt"
+  ( cd "$inputs/xlsx" && sha256sum *.xlsx 2>/dev/null || shasum -a 256 *.xlsx ) >> "$out/inputs.txt"
+fi
 
 # Sample the load every 10 s while the benchmarks run; stopped when this script exits.
 ( while true; do snapshot during >> "$out/load.log"; sleep 10; done ) &
 sampler=$!
 trap 'kill "$sampler" 2>/dev/null || true' EXIT
 
+if [[ -n "$xlsx" ]]; then
+  case "$xlsx" in
+    bpc) "$dotnet_bin" "$dll" bpcall "$inputs/xlsx" "$out/bpc.tsv" > "$out/bpc.log" 2>&1 ;;
+    read|write|model) XLSXBENCH_KIND="$xlsx" "$dotnet_bin" "$dll" xlsxstream all "$inputs/xlsx" "$out/xlsx-$xlsx.tsv" > "$out/xlsx-$xlsx.log" 2>&1 ;;
+    *) echo "unknown --xlsx kind '$xlsx'" >&2; exit 2 ;;
+  esac
+  timing=0
+  peak=0
+fi
 if [[ $timing -eq 1 ]]; then
   "$dotnet_bin" "$dll" --filter "$filter" --artifacts "$out/bdn" > "$out/bdn.log" 2>&1
 fi
