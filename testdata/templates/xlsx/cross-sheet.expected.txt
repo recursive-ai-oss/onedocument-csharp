@@ -1,0 +1,11 @@
+[Sheet1] merges=
+A1 s=0 n 3
+B1 s=0 -
+A2 s=0 n 10
+B2 s=0 -
+A3 s=0 n 2
+B3 s=0 -
+[Summary] merges=
+A1 s=0 - f=SUM(Sheet1!A1:A3)
+A2 s=0 - f=Sheet1!A1
+extra: SUM(Sheet1!A1:A3)|Sheet1!A1

@@ -265,5 +265,8 @@ Located by the binder's unit location plus the offset in the unit's text, or by 
 | `template.not-a-collection` | repaired (strict: fatal) | A loop's source is a single value; the loop runs once for it. |
 | `template.include-denied` | repaired (strict: fatal) | `include` was used but no `ITemplateIncludes` was supplied; nothing is read. |
 | `template.include-not-found` | repaired (strict: fatal) | The supplied `ITemplateIncludes` has no template of that name. |
+| `template.sheet-overflow` | fatal | A rendered workbook sheet would have more rows (or, for a column block, columns) than a sheet can hold. Located at the sheet's part. |
+| `template.sheet-name-repaired` | repaired | A rendered sheet name is empty, too long, uses a character sheet names cannot, or is taken; the sheet gets a cleaned or numbered name. |
+| `template.tag-not-bound` | dropped | An `image`, `html` or `markdown` tag sits in a workbook cell, where it cannot be bound; it printed nothing. Located at the cell. |
 
 Limits surface as `OfficeLimitException`: `limit.max-iterations`, `limit.max-output-characters`, `limit.max-block-depth` (block nesting and include depth), `limit.max-recursion-depth` and the formula limits.

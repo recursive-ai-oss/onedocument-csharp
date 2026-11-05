@@ -1,0 +1,12 @@
+[Sheet1] merges=
+A1 s=0 t Name
+B1 s=0 t Qty
+D1 s=0 - f=B5*2
+A2 s=0 t Bolt
+B2 s=0 n 3
+A3 s=0 t Nut
+B3 s=0 n 10
+A4 s=0 t Gear
+B4 s=0 n 2
+A5 s=0 t Total
+B5 s=0 - f=SUM(B2:B4)
