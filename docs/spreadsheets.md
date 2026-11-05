@@ -11,7 +11,9 @@
 | the workbook part | open (it holds the sheet list) |
 | a worksheet part | the first use of that sheet's `Store`, a cell or its row, column or merge data |
 | the shared string table | a string cell is read as text, or a string is set |
-| styles, themes, drawings, tables, pivots, calc chain, … | never; they stay as stored |
+| styles, theme | when `Workbook.Styles`, a colour or `Cell.FormattedText` is first used |
+| tables | when `Worksheet.Tables` is first enumerated |
+| drawings, pivots, calc chain, … | never; they stay as stored |
 
 A chart sheet, dialog sheet or macro sheet is listed (`Worksheet.Kind`) and never opened. Opening never recalculates.
 
@@ -80,6 +82,6 @@ Bytes per cell, load time and lazy open on the generated stress workbooks (1M ro
 
 ## Known limits of this layer
 
-- Styles are indices; the style model, number formats, dates, tables, conditional formatting, data validation and defined-name semantics are other layers and stay untouched.
+- Styles are indices on the cell store; the style sheet, number formats, dates, tables, conditional formatting, data validation and defined names are in `spreadsheets-styles.md`.
 - A UTF-16 sheet part is read and written as UTF-8 (the declaration is replaced).
 - Adding a string looks for an equal string only among those added in the session.

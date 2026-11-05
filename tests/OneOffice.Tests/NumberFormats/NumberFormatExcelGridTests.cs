@@ -111,4 +111,31 @@ public class NumberFormatExcelGridTests
         Assert.True(checkedText > 7000 && checkedCell > 7000, $"{checkedText} TEXT cases and {checkedCell} cell cases were compared");
         Assert.True(problems.Count == 0, $"{problems.Count} differences from Excel:\n" + string.Join('\n', problems.Take(25)));
     }
+
+    private static string LocalesPath([CallerFilePath] string here = "") =>
+        Path.Combine(Path.GetDirectoryName(here)!, "..", "..", "..", "testdata", "numfmt", "excel-locales.tsv");
+
+    /// <summary>
+    /// Month and weekday names, AM/PM and a day-with-month date under a <c>[$-LCID]</c> tag for the locales that real workbooks use
+    /// beyond the first thirteen, as Excel displayed them.
+    /// </summary>
+    [Fact]
+    public void LocaleTagsAgreeWithExcelNames()
+    {
+        string[] lines = File.ReadAllLines(LocalesPath(), Encoding.UTF8);
+        Assert.True(lines.Length > 500);
+        var problems = new List<string>();
+        for (int i = 1; i < lines.Length; i++)
+        {
+            string[] f = lines[i].Split('\t');
+            NumberFormat format = NumberFormat.Parse(f[0]);
+            string ours = format.Format(double.Parse(f[1], CultureInfo.InvariantCulture));
+            if (ours != f[2])
+            {
+                problems.Add(f[0] + " " + f[1] + ": ours '" + ours + "', Excel '" + f[2] + "'");
+            }
+        }
+
+        Assert.True(problems.Count == 0, string.Join('\n', problems.Take(20)));
+    }
 }
