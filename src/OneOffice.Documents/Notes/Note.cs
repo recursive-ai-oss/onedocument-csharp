@@ -322,13 +322,13 @@ public sealed class NoteCollection : IReadOnlyList<Note>
     /// <see cref="Note.InsertReference"/> is called.
     /// </summary>
     /// <param name="text">The note text.</param>
-    /// <returns>The new note. Its id is one more than the highest id in use, and at least 1.</returns>
+    /// <returns>The new note. Its id is one more than the highest id in use anywhere in the main part, the notes part (separators included) and the settings part, and at least 1.</returns>
     /// <exception cref="ArgumentException">The text holds a character XML cannot carry.</exception>
     public Note Add(string text)
     {
         ArgumentNullException.ThrowIfNull(text);
         EnsurePart();
-        long id = Math.Max(1, Items.Count == 0 ? 1 : Items.Max(n => n.Id) + 1);
+        long id = Math.Max(1, NoteIds.NextFree(_owner, _root.Node, 1, ElementName, ElementName + "Reference"));
         MarkupNode root = _root.Node;
         string p = HubXml.Prefix(root, _owner.WordprocessingNamespaceUri, "w", out string decl);
         string textStyle = Kind == NoteKind.Footnote ? "FootnoteText" : "EndnoteText";

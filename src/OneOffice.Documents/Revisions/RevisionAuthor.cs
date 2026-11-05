@@ -167,7 +167,7 @@ public sealed partial class RevisionAuthor
         var copy = new StringBuilder();
         foreach (MarkupNode r in runs)
         {
-            copy.Append(r.OuterXml);
+            copy.Append(WordXml.Portable(r));
         }
 
         WmlWriter w = WmlWriter.For(paragraph);
@@ -213,7 +213,7 @@ public sealed partial class RevisionAuthor
             // Pressing Enter copies the paragraph's pending property change too, so that rejecting it restores the original
             // properties on the paragraph that rejecting the inserted mark leaves behind (ECMA-376 Part 1 §17.13.5.29).
             MarkupNode before = WordXml.Child(oldChange, "pPr");
-            string old = before.IsNull ? w.Empty("pPr") : before.OuterXml;
+            string old = before.IsNull ? w.Empty("pPr") : WordXml.Portable(before);
             string copy = w.Wrap("pPrChange", Attributes(w), old);
             newProps = newProps.Insert(newProps.Length - ("</" + w.Name("pPr") + ">").Length, copy);
         }
@@ -265,7 +265,7 @@ public sealed partial class RevisionAuthor
         var copy = new StringBuilder();
         foreach (MarkupNode r in runs)
         {
-            copy.Append(r.OuterXml);
+            copy.Append(WordXml.Portable(r));
         }
 
         MarkupNode pPr = WordXml.Child(paragraph, "pPr");
@@ -319,7 +319,7 @@ public sealed partial class RevisionAuthor
                 {
                     if (!WordXml.InMain(c) || (!names.Contains(c.LocalNameString) && !WordXml.IsAny(c, "rPrChange")))
                     {
-                        keep.Append(c.OuterXml);
+                        keep.Append(WordXml.Portable(c));
                     }
                 }
             }
@@ -743,7 +743,7 @@ public sealed partial class RevisionAuthor
         {
             if (WordXml.Is(c, "rPr"))
             {
-                rPr = c.OuterXml;
+                rPr = WordXml.Portable(c);
             }
             else
             {
@@ -799,7 +799,7 @@ public sealed partial class RevisionAuthor
     {
         (string tag, string rPr, List<MarkupNode> kids) = RunParts(run);
         int at = kids.IndexOf(child);
-        string xml = RunXml(run, tag, rPr, kids.Take(at).Select(k => k.OuterXml)) + RunXml(run, tag, rPr, kids.Skip(at).Select(k => k.OuterXml));
+        string xml = RunXml(run, tag, rPr, kids.Take(at).Select(k => WordXml.Portable(k))) + RunXml(run, tag, rPr, kids.Skip(at).Select(k => WordXml.Portable(k)));
         return ReplaceRun(run, xml);
     }
 
@@ -809,8 +809,8 @@ public sealed partial class RevisionAuthor
         (string tag, string rPr, List<MarkupNode> kids) = RunParts(run);
         int at = kids.IndexOf(a.Child);
         string text = a.Child.InnerText;
-        string left = RunXml(run, tag, rPr, kids.Take(at).Select(k => k.OuterXml).Append(TextElement(a.Child, text[..within])));
-        string right = RunXml(run, tag, rPr, kids.Skip(at + 1).Select(k => k.OuterXml).Prepend(TextElement(a.Child, text[within..])));
+        string left = RunXml(run, tag, rPr, kids.Take(at).Select(k => WordXml.Portable(k)).Append(TextElement(a.Child, text[..within])));
+        string right = RunXml(run, tag, rPr, kids.Skip(at + 1).Select(k => WordXml.Portable(k)).Prepend(TextElement(a.Child, text[within..])));
         ReplaceRun(run, left + right);
     }
 
@@ -864,7 +864,7 @@ public sealed partial class RevisionAuthor
         {
             if (!WordXml.IsAny(c, "rPrChange", "ins", "del", "moveFrom", "moveTo"))
             {
-                sb.Append(c.OuterXml);
+                sb.Append(WordXml.Portable(c));
             }
         }
 
@@ -900,7 +900,7 @@ public sealed partial class RevisionAuthor
             var moved = new List<MarkupNode>();
             for (MarkupNode s = node; !s.IsNull; s = s.NextSibling)
             {
-                rest.Append(s.OuterXml);
+                rest.Append(WordXml.Portable(s));
                 moved.Add(s);
             }
 
@@ -1020,7 +1020,7 @@ public sealed partial class RevisionAuthor
             {
                 // Observed in Word 365 (16.0.20527): moved-away text stays w:t inside w:moveFrom (only w:del uses w:delText);
                 // a w:moveFrom holding w:delText makes Word offer to repair the file.
-                inner.Append(wrapperName == "moveFrom" ? r.OuterXml : DeletedRunXml(r));
+                inner.Append(wrapperName == "moveFrom" ? WordXml.Portable(r) : DeletedRunXml(r));
             }
 
             int id = NextId();
@@ -1089,7 +1089,7 @@ public sealed partial class RevisionAuthor
             }
             else
             {
-                parts.Add(k.OuterXml);
+                parts.Add(WordXml.Portable(k));
             }
         }
 
@@ -1176,7 +1176,7 @@ public sealed partial class RevisionAuthor
             }
 
             nodes.Add(c);
-            inner.Append(c.OuterXml);
+            inner.Append(WordXml.Portable(c));
         }
 
         if (nodes.Count > 0)
@@ -1210,7 +1210,7 @@ public sealed partial class RevisionAuthor
                 {
                     if (!WordXml.IsAny(rc, "ins", "del", "moveFrom", "moveTo", "rPrChange"))
                     {
-                        inner.Append(rc.OuterXml);
+                        inner.Append(WordXml.Portable(rc));
                     }
                 }
 
@@ -1221,7 +1221,7 @@ public sealed partial class RevisionAuthor
             }
             else
             {
-                sb.Append(c.OuterXml);
+                sb.Append(WordXml.Portable(c));
             }
         }
 
@@ -1298,19 +1298,19 @@ public sealed partial class RevisionAuthor
         {
             if (WordXml.Is(c, changeName))
             {
-                existingChange = c.OuterXml;
+                existingChange = WordXml.Portable(c);
             }
             else if (WordXml.IsAny(c, leading))
             {
-                head.Append(c.OuterXml);
+                head.Append(WordXml.Portable(c));
             }
             else if (WordXml.IsAny(c, trailing))
             {
-                tail.Append(c.OuterXml);
+                tail.Append(WordXml.Portable(c));
             }
             else
             {
-                oldBase.Append(c.OuterXml);
+                oldBase.Append(WordXml.Portable(c));
             }
         }
 
