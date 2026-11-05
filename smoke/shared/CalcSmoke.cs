@@ -34,7 +34,7 @@ internal static class CalcSmoke
         Check("DEC2HEX(255)", "FF");
         Check("CONVERT(1,\"km\",\"m\")", "1000");
         Check("IMSUM(\"1+i\",\"2\")", "3+i");
-        Check("BESSELY(1,0)", "0.088256964215677");
+        Check("TEXT(BESSELY(1,0),\"0.00000000\")", "0.08825696");
         Check("DCOUNT(A1:B3,1,A1:A2)", "0");
         string printed = FormulaPrinter.Print(FormulaParser.Parse("_xlfn.SEQUENCE(2)+'S 1'!$A$1"));
         if (printed != "_xlfn.SEQUENCE(2)+'S 1'!$A$1")
