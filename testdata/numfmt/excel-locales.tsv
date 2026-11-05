@@ -1,0 +1,1351 @@
+code	value	excel_cell_display
+[$-409]mmmm	44941	January
+[$-409]mmm	44941	Jan
+[$-409]d mmmm yyyy	44941	15 January 2023
+[$-409]mmmm	44972	February
+[$-409]mmm	44972	Feb
+[$-409]d mmmm yyyy	44972	15 February 2023
+[$-409]mmmm	45000	March
+[$-409]mmm	45000	Mar
+[$-409]d mmmm yyyy	45000	15 March 2023
+[$-409]mmmm	45031	April
+[$-409]mmm	45031	Apr
+[$-409]d mmmm yyyy	45031	15 April 2023
+[$-409]mmmm	45061	May
+[$-409]mmm	45061	May
+[$-409]d mmmm yyyy	45061	15 May 2023
+[$-409]mmmm	45092	June
+[$-409]mmm	45092	Jun
+[$-409]d mmmm yyyy	45092	15 June 2023
+[$-409]mmmm	45122	July
+[$-409]mmm	45122	Jul
+[$-409]d mmmm yyyy	45122	15 July 2023
+[$-409]mmmm	45153	August
+[$-409]mmm	45153	Aug
+[$-409]d mmmm yyyy	45153	15 August 2023
+[$-409]mmmm	45184	September
+[$-409]mmm	45184	Sep
+[$-409]d mmmm yyyy	45184	15 September 2023
+[$-409]mmmm	45214	October
+[$-409]mmm	45214	Oct
+[$-409]d mmmm yyyy	45214	15 October 2023
+[$-409]mmmm	45245	November
+[$-409]mmm	45245	Nov
+[$-409]d mmmm yyyy	45245	15 November 2023
+[$-409]mmmm	45275	December
+[$-409]mmm	45275	Dec
+[$-409]d mmmm yyyy	45275	15 December 2023
+[$-409]dddd	44927	Sunday
+[$-409]ddd	44927	Sun
+[$-409]dddd	44928	Monday
+[$-409]ddd	44928	Mon
+[$-409]dddd	44929	Tuesday
+[$-409]ddd	44929	Tue
+[$-409]dddd	44930	Wednesday
+[$-409]ddd	44930	Wed
+[$-409]dddd	44931	Thursday
+[$-409]ddd	44931	Thu
+[$-409]dddd	44932	Friday
+[$-409]ddd	44932	Fri
+[$-409]dddd	44933	Saturday
+[$-409]ddd	44933	Sat
+[$-409]h AM/PM	0.25	6 AM
+[$-409]h AM/PM	0.75	6 PM
+[$-409]h A/P	0.75	6 PM
+[$-409]h a/p	0.25	6 AM
+[$-809]mmmm	44941	January
+[$-809]mmm	44941	Jan
+[$-809]d mmmm yyyy	44941	15 January 2023
+[$-809]mmmm	44972	February
+[$-809]mmm	44972	Feb
+[$-809]d mmmm yyyy	44972	15 February 2023
+[$-809]mmmm	45000	March
+[$-809]mmm	45000	Mar
+[$-809]d mmmm yyyy	45000	15 March 2023
+[$-809]mmmm	45031	April
+[$-809]mmm	45031	Apr
+[$-809]d mmmm yyyy	45031	15 April 2023
+[$-809]mmmm	45061	May
+[$-809]mmm	45061	May
+[$-809]d mmmm yyyy	45061	15 May 2023
+[$-809]mmmm	45092	June
+[$-809]mmm	45092	Jun
+[$-809]d mmmm yyyy	45092	15 June 2023
+[$-809]mmmm	45122	July
+[$-809]mmm	45122	Jul
+[$-809]d mmmm yyyy	45122	15 July 2023
+[$-809]mmmm	45153	August
+[$-809]mmm	45153	Aug
+[$-809]d mmmm yyyy	45153	15 August 2023
+[$-809]mmmm	45184	September
+[$-809]mmm	45184	Sep
+[$-809]d mmmm yyyy	45184	15 September 2023
+[$-809]mmmm	45214	October
+[$-809]mmm	45214	Oct
+[$-809]d mmmm yyyy	45214	15 October 2023
+[$-809]mmmm	45245	November
+[$-809]mmm	45245	Nov
+[$-809]d mmmm yyyy	45245	15 November 2023
+[$-809]mmmm	45275	December
+[$-809]mmm	45275	Dec
+[$-809]d mmmm yyyy	45275	15 December 2023
+[$-809]dddd	44927	Sunday
+[$-809]ddd	44927	Sun
+[$-809]dddd	44928	Monday
+[$-809]ddd	44928	Mon
+[$-809]dddd	44929	Tuesday
+[$-809]ddd	44929	Tue
+[$-809]dddd	44930	Wednesday
+[$-809]ddd	44930	Wed
+[$-809]dddd	44931	Thursday
+[$-809]ddd	44931	Thu
+[$-809]dddd	44932	Friday
+[$-809]ddd	44932	Fri
+[$-809]dddd	44933	Saturday
+[$-809]ddd	44933	Sat
+[$-809]h AM/PM	0.25	6 AM
+[$-809]h AM/PM	0.75	6 PM
+[$-809]h A/P	0.75	6 PM
+[$-809]h a/p	0.25	6 AM
+[$-407]mmmm	44941	Januar
+[$-407]mmm	44941	Jan
+[$-407]d mmmm yyyy	44941	15 Januar 2023
+[$-407]mmmm	44972	Februar
+[$-407]mmm	44972	Feb
+[$-407]d mmmm yyyy	44972	15 Februar 2023
+[$-407]mmmm	45000	März
+[$-407]mmm	45000	Mrz
+[$-407]d mmmm yyyy	45000	15 März 2023
+[$-407]mmmm	45031	April
+[$-407]mmm	45031	Apr
+[$-407]d mmmm yyyy	45031	15 April 2023
+[$-407]mmmm	45061	Mai
+[$-407]mmm	45061	Mai
+[$-407]d mmmm yyyy	45061	15 Mai 2023
+[$-407]mmmm	45092	Juni
+[$-407]mmm	45092	Jun
+[$-407]d mmmm yyyy	45092	15 Juni 2023
+[$-407]mmmm	45122	Juli
+[$-407]mmm	45122	Jul
+[$-407]d mmmm yyyy	45122	15 Juli 2023
+[$-407]mmmm	45153	August
+[$-407]mmm	45153	Aug
+[$-407]d mmmm yyyy	45153	15 August 2023
+[$-407]mmmm	45184	September
+[$-407]mmm	45184	Sep
+[$-407]d mmmm yyyy	45184	15 September 2023
+[$-407]mmmm	45214	Oktober
+[$-407]mmm	45214	Okt
+[$-407]d mmmm yyyy	45214	15 Oktober 2023
+[$-407]mmmm	45245	November
+[$-407]mmm	45245	Nov
+[$-407]d mmmm yyyy	45245	15 November 2023
+[$-407]mmmm	45275	Dezember
+[$-407]mmm	45275	Dez
+[$-407]d mmmm yyyy	45275	15 Dezember 2023
+[$-407]dddd	44927	Sonntag
+[$-407]ddd	44927	So
+[$-407]dddd	44928	Montag
+[$-407]ddd	44928	Mo
+[$-407]dddd	44929	Dienstag
+[$-407]ddd	44929	Di
+[$-407]dddd	44930	Mittwoch
+[$-407]ddd	44930	Mi
+[$-407]dddd	44931	Donnerstag
+[$-407]ddd	44931	Do
+[$-407]dddd	44932	Freitag
+[$-407]ddd	44932	Fr
+[$-407]dddd	44933	Samstag
+[$-407]ddd	44933	Sa
+[$-407]h AM/PM	0.25	6 AM
+[$-407]h AM/PM	0.75	6 PM
+[$-407]h A/P	0.75	6 PM
+[$-407]h a/p	0.25	6 AM
+[$-40C]mmmm	44941	janvier
+[$-40C]mmm	44941	janv.
+[$-40C]d mmmm yyyy	44941	15 janvier 2023
+[$-40C]mmmm	44972	février
+[$-40C]mmm	44972	févr.
+[$-40C]d mmmm yyyy	44972	15 février 2023
+[$-40C]mmmm	45000	mars
+[$-40C]mmm	45000	mars
+[$-40C]d mmmm yyyy	45000	15 mars 2023
+[$-40C]mmmm	45031	avril
+[$-40C]mmm	45031	avr.
+[$-40C]d mmmm yyyy	45031	15 avril 2023
+[$-40C]mmmm	45061	mai
+[$-40C]mmm	45061	mai
+[$-40C]d mmmm yyyy	45061	15 mai 2023
+[$-40C]mmmm	45092	juin
+[$-40C]mmm	45092	juin
+[$-40C]d mmmm yyyy	45092	15 juin 2023
+[$-40C]mmmm	45122	juillet
+[$-40C]mmm	45122	juil.
+[$-40C]d mmmm yyyy	45122	15 juillet 2023
+[$-40C]mmmm	45153	août
+[$-40C]mmm	45153	août
+[$-40C]d mmmm yyyy	45153	15 août 2023
+[$-40C]mmmm	45184	septembre
+[$-40C]mmm	45184	sept.
+[$-40C]d mmmm yyyy	45184	15 septembre 2023
+[$-40C]mmmm	45214	octobre
+[$-40C]mmm	45214	oct.
+[$-40C]d mmmm yyyy	45214	15 octobre 2023
+[$-40C]mmmm	45245	novembre
+[$-40C]mmm	45245	nov.
+[$-40C]d mmmm yyyy	45245	15 novembre 2023
+[$-40C]mmmm	45275	décembre
+[$-40C]mmm	45275	déc.
+[$-40C]d mmmm yyyy	45275	15 décembre 2023
+[$-40C]dddd	44927	dimanche
+[$-40C]ddd	44927	dim.
+[$-40C]dddd	44928	lundi
+[$-40C]ddd	44928	lun.
+[$-40C]dddd	44929	mardi
+[$-40C]ddd	44929	mar.
+[$-40C]dddd	44930	mercredi
+[$-40C]ddd	44930	mer.
+[$-40C]dddd	44931	jeudi
+[$-40C]ddd	44931	jeu.
+[$-40C]dddd	44932	vendredi
+[$-40C]ddd	44932	ven.
+[$-40C]dddd	44933	samedi
+[$-40C]ddd	44933	sam.
+[$-40C]h AM/PM	0.25	6 AM
+[$-40C]h AM/PM	0.75	6 PM
+[$-40C]h A/P	0.75	6 PM
+[$-40C]h a/p	0.25	6 AM
+[$-40A]mmmm	44941	enero
+[$-40A]mmm	44941	ene.
+[$-40A]d mmmm yyyy	44941	15 enero 2023
+[$-40A]mmmm	44972	febrero
+[$-40A]mmm	44972	feb.
+[$-40A]d mmmm yyyy	44972	15 febrero 2023
+[$-40A]mmmm	45000	marzo
+[$-40A]mmm	45000	mar.
+[$-40A]d mmmm yyyy	45000	15 marzo 2023
+[$-40A]mmmm	45031	abril
+[$-40A]mmm	45031	abr.
+[$-40A]d mmmm yyyy	45031	15 abril 2023
+[$-40A]mmmm	45061	mayo
+[$-40A]mmm	45061	may.
+[$-40A]d mmmm yyyy	45061	15 mayo 2023
+[$-40A]mmmm	45092	junio
+[$-40A]mmm	45092	jun.
+[$-40A]d mmmm yyyy	45092	15 junio 2023
+[$-40A]mmmm	45122	julio
+[$-40A]mmm	45122	jul.
+[$-40A]d mmmm yyyy	45122	15 julio 2023
+[$-40A]mmmm	45153	agosto
+[$-40A]mmm	45153	ago.
+[$-40A]d mmmm yyyy	45153	15 agosto 2023
+[$-40A]mmmm	45184	septiembre
+[$-40A]mmm	45184	sep.
+[$-40A]d mmmm yyyy	45184	15 septiembre 2023
+[$-40A]mmmm	45214	octubre
+[$-40A]mmm	45214	oct.
+[$-40A]d mmmm yyyy	45214	15 octubre 2023
+[$-40A]mmmm	45245	noviembre
+[$-40A]mmm	45245	nov.
+[$-40A]d mmmm yyyy	45245	15 noviembre 2023
+[$-40A]mmmm	45275	diciembre
+[$-40A]mmm	45275	dic.
+[$-40A]d mmmm yyyy	45275	15 diciembre 2023
+[$-40A]dddd	44927	domingo
+[$-40A]ddd	44927	do.
+[$-40A]dddd	44928	lunes
+[$-40A]ddd	44928	lu.
+[$-40A]dddd	44929	martes
+[$-40A]ddd	44929	ma.
+[$-40A]dddd	44930	miércoles
+[$-40A]ddd	44930	mi.
+[$-40A]dddd	44931	jueves
+[$-40A]ddd	44931	ju.
+[$-40A]dddd	44932	viernes
+[$-40A]ddd	44932	vi.
+[$-40A]dddd	44933	sábado
+[$-40A]ddd	44933	sá.
+[$-40A]h AM/PM	0.25	6 AM
+[$-40A]h AM/PM	0.75	6 PM
+[$-40A]h A/P	0.75	6 PM
+[$-40A]h a/p	0.25	6 AM
+[$-410]mmmm	44941	gennaio
+[$-410]mmm	44941	gen
+[$-410]d mmmm yyyy	44941	15 gennaio 2023
+[$-410]mmmm	44972	febbraio
+[$-410]mmm	44972	feb
+[$-410]d mmmm yyyy	44972	15 febbraio 2023
+[$-410]mmmm	45000	marzo
+[$-410]mmm	45000	mar
+[$-410]d mmmm yyyy	45000	15 marzo 2023
+[$-410]mmmm	45031	aprile
+[$-410]mmm	45031	apr
+[$-410]d mmmm yyyy	45031	15 aprile 2023
+[$-410]mmmm	45061	maggio
+[$-410]mmm	45061	mag
+[$-410]d mmmm yyyy	45061	15 maggio 2023
+[$-410]mmmm	45092	giugno
+[$-410]mmm	45092	giu
+[$-410]d mmmm yyyy	45092	15 giugno 2023
+[$-410]mmmm	45122	luglio
+[$-410]mmm	45122	lug
+[$-410]d mmmm yyyy	45122	15 luglio 2023
+[$-410]mmmm	45153	agosto
+[$-410]mmm	45153	ago
+[$-410]d mmmm yyyy	45153	15 agosto 2023
+[$-410]mmmm	45184	settembre
+[$-410]mmm	45184	set
+[$-410]d mmmm yyyy	45184	15 settembre 2023
+[$-410]mmmm	45214	ottobre
+[$-410]mmm	45214	ott
+[$-410]d mmmm yyyy	45214	15 ottobre 2023
+[$-410]mmmm	45245	novembre
+[$-410]mmm	45245	nov
+[$-410]d mmmm yyyy	45245	15 novembre 2023
+[$-410]mmmm	45275	dicembre
+[$-410]mmm	45275	dic
+[$-410]d mmmm yyyy	45275	15 dicembre 2023
+[$-410]dddd	44927	domenica
+[$-410]ddd	44927	dom
+[$-410]dddd	44928	lunedì
+[$-410]ddd	44928	lun
+[$-410]dddd	44929	martedì
+[$-410]ddd	44929	mar
+[$-410]dddd	44930	mercoledì
+[$-410]ddd	44930	mer
+[$-410]dddd	44931	giovedì
+[$-410]ddd	44931	gio
+[$-410]dddd	44932	venerdì
+[$-410]ddd	44932	ven
+[$-410]dddd	44933	sabato
+[$-410]ddd	44933	sab
+[$-410]h AM/PM	0.25	6 AM
+[$-410]h AM/PM	0.75	6 PM
+[$-410]h A/P	0.75	6 PM
+[$-410]h a/p	0.25	6 AM
+[$-416]mmmm	44941	janeiro
+[$-416]mmm	44941	jan
+[$-416]d mmmm yyyy	44941	15 janeiro 2023
+[$-416]mmmm	44972	fevereiro
+[$-416]mmm	44972	fev
+[$-416]d mmmm yyyy	44972	15 fevereiro 2023
+[$-416]mmmm	45000	março
+[$-416]mmm	45000	mar
+[$-416]d mmmm yyyy	45000	15 março 2023
+[$-416]mmmm	45031	abril
+[$-416]mmm	45031	abr
+[$-416]d mmmm yyyy	45031	15 abril 2023
+[$-416]mmmm	45061	maio
+[$-416]mmm	45061	mai
+[$-416]d mmmm yyyy	45061	15 maio 2023
+[$-416]mmmm	45092	junho
+[$-416]mmm	45092	jun
+[$-416]d mmmm yyyy	45092	15 junho 2023
+[$-416]mmmm	45122	julho
+[$-416]mmm	45122	jul
+[$-416]d mmmm yyyy	45122	15 julho 2023
+[$-416]mmmm	45153	agosto
+[$-416]mmm	45153	ago
+[$-416]d mmmm yyyy	45153	15 agosto 2023
+[$-416]mmmm	45184	setembro
+[$-416]mmm	45184	set
+[$-416]d mmmm yyyy	45184	15 setembro 2023
+[$-416]mmmm	45214	outubro
+[$-416]mmm	45214	out
+[$-416]d mmmm yyyy	45214	15 outubro 2023
+[$-416]mmmm	45245	novembro
+[$-416]mmm	45245	nov
+[$-416]d mmmm yyyy	45245	15 novembro 2023
+[$-416]mmmm	45275	dezembro
+[$-416]mmm	45275	dez
+[$-416]d mmmm yyyy	45275	15 dezembro 2023
+[$-416]dddd	44927	domingo
+[$-416]ddd	44927	dom
+[$-416]dddd	44928	segunda-feira
+[$-416]ddd	44928	seg
+[$-416]dddd	44929	terça-feira
+[$-416]ddd	44929	ter
+[$-416]dddd	44930	quarta-feira
+[$-416]ddd	44930	qua
+[$-416]dddd	44931	quinta-feira
+[$-416]ddd	44931	qui
+[$-416]dddd	44932	sexta-feira
+[$-416]ddd	44932	sex
+[$-416]dddd	44933	sábado
+[$-416]ddd	44933	sáb
+[$-416]h AM/PM	0.25	6 AM
+[$-416]h AM/PM	0.75	6 PM
+[$-416]h A/P	0.75	6 PM
+[$-416]h a/p	0.25	6 AM
+[$-413]mmmm	44941	januari
+[$-413]mmm	44941	jan
+[$-413]d mmmm yyyy	44941	15 januari 2023
+[$-413]mmmm	44972	februari
+[$-413]mmm	44972	feb
+[$-413]d mmmm yyyy	44972	15 februari 2023
+[$-413]mmmm	45000	maart
+[$-413]mmm	45000	mrt
+[$-413]d mmmm yyyy	45000	15 maart 2023
+[$-413]mmmm	45031	april
+[$-413]mmm	45031	apr
+[$-413]d mmmm yyyy	45031	15 april 2023
+[$-413]mmmm	45061	mei
+[$-413]mmm	45061	mei
+[$-413]d mmmm yyyy	45061	15 mei 2023
+[$-413]mmmm	45092	juni
+[$-413]mmm	45092	jun
+[$-413]d mmmm yyyy	45092	15 juni 2023
+[$-413]mmmm	45122	juli
+[$-413]mmm	45122	jul
+[$-413]d mmmm yyyy	45122	15 juli 2023
+[$-413]mmmm	45153	augustus
+[$-413]mmm	45153	aug
+[$-413]d mmmm yyyy	45153	15 augustus 2023
+[$-413]mmmm	45184	september
+[$-413]mmm	45184	sep
+[$-413]d mmmm yyyy	45184	15 september 2023
+[$-413]mmmm	45214	oktober
+[$-413]mmm	45214	okt
+[$-413]d mmmm yyyy	45214	15 oktober 2023
+[$-413]mmmm	45245	november
+[$-413]mmm	45245	nov
+[$-413]d mmmm yyyy	45245	15 november 2023
+[$-413]mmmm	45275	december
+[$-413]mmm	45275	dec
+[$-413]d mmmm yyyy	45275	15 december 2023
+[$-413]dddd	44927	zondag
+[$-413]ddd	44927	zo
+[$-413]dddd	44928	maandag
+[$-413]ddd	44928	ma
+[$-413]dddd	44929	dinsdag
+[$-413]ddd	44929	di
+[$-413]dddd	44930	woensdag
+[$-413]ddd	44930	wo
+[$-413]dddd	44931	donderdag
+[$-413]ddd	44931	do
+[$-413]dddd	44932	vrijdag
+[$-413]ddd	44932	vr
+[$-413]dddd	44933	zaterdag
+[$-413]ddd	44933	za
+[$-413]h AM/PM	0.25	6 AM
+[$-413]h AM/PM	0.75	6 PM
+[$-413]h A/P	0.75	6 PM
+[$-413]h a/p	0.25	6 AM
+[$-419]mmmm	44941	Январь
+[$-419]mmm	44941	янв
+[$-419]d mmmm yyyy	44941	15 Январь 2023
+[$-419]mmmm	44972	Февраль
+[$-419]mmm	44972	фев
+[$-419]d mmmm yyyy	44972	15 Февраль 2023
+[$-419]mmmm	45000	Март
+[$-419]mmm	45000	мар
+[$-419]d mmmm yyyy	45000	15 Март 2023
+[$-419]mmmm	45031	Апрель
+[$-419]mmm	45031	апр
+[$-419]d mmmm yyyy	45031	15 Апрель 2023
+[$-419]mmmm	45061	Май
+[$-419]mmm	45061	май
+[$-419]d mmmm yyyy	45061	15 Май 2023
+[$-419]mmmm	45092	Июнь
+[$-419]mmm	45092	июн
+[$-419]d mmmm yyyy	45092	15 Июнь 2023
+[$-419]mmmm	45122	Июль
+[$-419]mmm	45122	июл
+[$-419]d mmmm yyyy	45122	15 Июль 2023
+[$-419]mmmm	45153	Август
+[$-419]mmm	45153	авг
+[$-419]d mmmm yyyy	45153	15 Август 2023
+[$-419]mmmm	45184	Сентябрь
+[$-419]mmm	45184	сен
+[$-419]d mmmm yyyy	45184	15 Сентябрь 2023
+[$-419]mmmm	45214	Октябрь
+[$-419]mmm	45214	окт
+[$-419]d mmmm yyyy	45214	15 Октябрь 2023
+[$-419]mmmm	45245	Ноябрь
+[$-419]mmm	45245	ноя
+[$-419]d mmmm yyyy	45245	15 Ноябрь 2023
+[$-419]mmmm	45275	Декабрь
+[$-419]mmm	45275	дек
+[$-419]d mmmm yyyy	45275	15 Декабрь 2023
+[$-419]dddd	44927	воскресенье
+[$-419]ddd	44927	Вс
+[$-419]dddd	44928	понедельник
+[$-419]ddd	44928	Пн
+[$-419]dddd	44929	вторник
+[$-419]ddd	44929	Вт
+[$-419]dddd	44930	среда
+[$-419]ddd	44930	Ср
+[$-419]dddd	44931	четверг
+[$-419]ddd	44931	Чт
+[$-419]dddd	44932	пятница
+[$-419]ddd	44932	Пт
+[$-419]dddd	44933	суббота
+[$-419]ddd	44933	Сб
+[$-419]h AM/PM	0.25	6 AM
+[$-419]h AM/PM	0.75	6 PM
+[$-419]h A/P	0.75	6 PM
+[$-419]h a/p	0.25	6 AM
+[$-411]mmmm	44941	1月
+[$-411]mmm	44941	1
+[$-411]d mmmm yyyy	44941	15 1月 2023
+[$-411]mmmm	44972	2月
+[$-411]mmm	44972	2
+[$-411]d mmmm yyyy	44972	15 2月 2023
+[$-411]mmmm	45000	3月
+[$-411]mmm	45000	3
+[$-411]d mmmm yyyy	45000	15 3月 2023
+[$-411]mmmm	45031	4月
+[$-411]mmm	45031	4
+[$-411]d mmmm yyyy	45031	15 4月 2023
+[$-411]mmmm	45061	5月
+[$-411]mmm	45061	5
+[$-411]d mmmm yyyy	45061	15 5月 2023
+[$-411]mmmm	45092	6月
+[$-411]mmm	45092	6
+[$-411]d mmmm yyyy	45092	15 6月 2023
+[$-411]mmmm	45122	7月
+[$-411]mmm	45122	7
+[$-411]d mmmm yyyy	45122	15 7月 2023
+[$-411]mmmm	45153	8月
+[$-411]mmm	45153	8
+[$-411]d mmmm yyyy	45153	15 8月 2023
+[$-411]mmmm	45184	9月
+[$-411]mmm	45184	9
+[$-411]d mmmm yyyy	45184	15 9月 2023
+[$-411]mmmm	45214	10月
+[$-411]mmm	45214	10
+[$-411]d mmmm yyyy	45214	15 10月 2023
+[$-411]mmmm	45245	11月
+[$-411]mmm	45245	11
+[$-411]d mmmm yyyy	45245	15 11月 2023
+[$-411]mmmm	45275	12月
+[$-411]mmm	45275	12
+[$-411]d mmmm yyyy	45275	15 12月 2023
+[$-411]dddd	44927	日曜日
+[$-411]ddd	44927	日
+[$-411]dddd	44928	月曜日
+[$-411]ddd	44928	月
+[$-411]dddd	44929	火曜日
+[$-411]ddd	44929	火
+[$-411]dddd	44930	水曜日
+[$-411]ddd	44930	水
+[$-411]dddd	44931	木曜日
+[$-411]ddd	44931	木
+[$-411]dddd	44932	金曜日
+[$-411]ddd	44932	金
+[$-411]dddd	44933	土曜日
+[$-411]ddd	44933	土
+[$-411]h AM/PM	0.25	6 午前
+[$-411]h AM/PM	0.75	6 午後
+[$-411]h A/P	0.75	6 午後
+[$-411]h a/p	0.25	6 午前
+[$-804]mmmm	44941	一月
+[$-804]mmm	44941	1月
+[$-804]d mmmm yyyy	44941	15 一月 2023
+[$-804]mmmm	44972	二月
+[$-804]mmm	44972	2月
+[$-804]d mmmm yyyy	44972	15 二月 2023
+[$-804]mmmm	45000	三月
+[$-804]mmm	45000	3月
+[$-804]d mmmm yyyy	45000	15 三月 2023
+[$-804]mmmm	45031	四月
+[$-804]mmm	45031	4月
+[$-804]d mmmm yyyy	45031	15 四月 2023
+[$-804]mmmm	45061	五月
+[$-804]mmm	45061	5月
+[$-804]d mmmm yyyy	45061	15 五月 2023
+[$-804]mmmm	45092	六月
+[$-804]mmm	45092	6月
+[$-804]d mmmm yyyy	45092	15 六月 2023
+[$-804]mmmm	45122	七月
+[$-804]mmm	45122	7月
+[$-804]d mmmm yyyy	45122	15 七月 2023
+[$-804]mmmm	45153	八月
+[$-804]mmm	45153	8月
+[$-804]d mmmm yyyy	45153	15 八月 2023
+[$-804]mmmm	45184	九月
+[$-804]mmm	45184	9月
+[$-804]d mmmm yyyy	45184	15 九月 2023
+[$-804]mmmm	45214	十月
+[$-804]mmm	45214	10月
+[$-804]d mmmm yyyy	45214	15 十月 2023
+[$-804]mmmm	45245	十一月
+[$-804]mmm	45245	11月
+[$-804]d mmmm yyyy	45245	15 十一月 2023
+[$-804]mmmm	45275	十二月
+[$-804]mmm	45275	12月
+[$-804]d mmmm yyyy	45275	15 十二月 2023
+[$-804]dddd	44927	星期日
+[$-804]ddd	44927	周日
+[$-804]dddd	44928	星期一
+[$-804]ddd	44928	周一
+[$-804]dddd	44929	星期二
+[$-804]ddd	44929	周二
+[$-804]dddd	44930	星期三
+[$-804]ddd	44930	周三
+[$-804]dddd	44931	星期四
+[$-804]ddd	44931	周四
+[$-804]dddd	44932	星期五
+[$-804]ddd	44932	周五
+[$-804]dddd	44933	星期六
+[$-804]ddd	44933	周六
+[$-804]h AM/PM	0.25	6 上午
+[$-804]h AM/PM	0.75	6 下午
+[$-804]h A/P	0.75	6 下午
+[$-804]h a/p	0.25	6 上午
+[$-404]mmmm	44941	一月
+[$-404]mmm	44941	一月
+[$-404]d mmmm yyyy	44941	15 一月 2023
+[$-404]mmmm	44972	二月
+[$-404]mmm	44972	二月
+[$-404]d mmmm yyyy	44972	15 二月 2023
+[$-404]mmmm	45000	三月
+[$-404]mmm	45000	三月
+[$-404]d mmmm yyyy	45000	15 三月 2023
+[$-404]mmmm	45031	四月
+[$-404]mmm	45031	四月
+[$-404]d mmmm yyyy	45031	15 四月 2023
+[$-404]mmmm	45061	五月
+[$-404]mmm	45061	五月
+[$-404]d mmmm yyyy	45061	15 五月 2023
+[$-404]mmmm	45092	六月
+[$-404]mmm	45092	六月
+[$-404]d mmmm yyyy	45092	15 六月 2023
+[$-404]mmmm	45122	七月
+[$-404]mmm	45122	七月
+[$-404]d mmmm yyyy	45122	15 七月 2023
+[$-404]mmmm	45153	八月
+[$-404]mmm	45153	八月
+[$-404]d mmmm yyyy	45153	15 八月 2023
+[$-404]mmmm	45184	九月
+[$-404]mmm	45184	九月
+[$-404]d mmmm yyyy	45184	15 九月 2023
+[$-404]mmmm	45214	十月
+[$-404]mmm	45214	十月
+[$-404]d mmmm yyyy	45214	15 十月 2023
+[$-404]mmmm	45245	十一月
+[$-404]mmm	45245	十一月
+[$-404]d mmmm yyyy	45245	15 十一月 2023
+[$-404]mmmm	45275	十二月
+[$-404]mmm	45275	十二月
+[$-404]d mmmm yyyy	45275	15 十二月 2023
+[$-404]dddd	44927	星期日
+[$-404]ddd	44927	週日
+[$-404]dddd	44928	星期一
+[$-404]ddd	44928	週一
+[$-404]dddd	44929	星期二
+[$-404]ddd	44929	週二
+[$-404]dddd	44930	星期三
+[$-404]ddd	44930	週三
+[$-404]dddd	44931	星期四
+[$-404]ddd	44931	週四
+[$-404]dddd	44932	星期五
+[$-404]ddd	44932	週五
+[$-404]dddd	44933	星期六
+[$-404]ddd	44933	週六
+[$-404]h AM/PM	0.25	6 上午
+[$-404]h AM/PM	0.75	6 下午
+[$-404]h A/P	0.75	6 下午
+[$-404]h a/p	0.25	6 上午
+[$-412]mmmm	44941	1월
+[$-412]mmm	44941	1
+[$-412]d mmmm yyyy	44941	15 1월 2023
+[$-412]mmmm	44972	2월
+[$-412]mmm	44972	2
+[$-412]d mmmm yyyy	44972	15 2월 2023
+[$-412]mmmm	45000	3월
+[$-412]mmm	45000	3
+[$-412]d mmmm yyyy	45000	15 3월 2023
+[$-412]mmmm	45031	4월
+[$-412]mmm	45031	4
+[$-412]d mmmm yyyy	45031	15 4월 2023
+[$-412]mmmm	45061	5월
+[$-412]mmm	45061	5
+[$-412]d mmmm yyyy	45061	15 5월 2023
+[$-412]mmmm	45092	6월
+[$-412]mmm	45092	6
+[$-412]d mmmm yyyy	45092	15 6월 2023
+[$-412]mmmm	45122	7월
+[$-412]mmm	45122	7
+[$-412]d mmmm yyyy	45122	15 7월 2023
+[$-412]mmmm	45153	8월
+[$-412]mmm	45153	8
+[$-412]d mmmm yyyy	45153	15 8월 2023
+[$-412]mmmm	45184	9월
+[$-412]mmm	45184	9
+[$-412]d mmmm yyyy	45184	15 9월 2023
+[$-412]mmmm	45214	10월
+[$-412]mmm	45214	10
+[$-412]d mmmm yyyy	45214	15 10월 2023
+[$-412]mmmm	45245	11월
+[$-412]mmm	45245	11
+[$-412]d mmmm yyyy	45245	15 11월 2023
+[$-412]mmmm	45275	12월
+[$-412]mmm	45275	12
+[$-412]d mmmm yyyy	45275	15 12월 2023
+[$-412]dddd	44927	일요일
+[$-412]ddd	44927	일
+[$-412]dddd	44928	월요일
+[$-412]ddd	44928	월
+[$-412]dddd	44929	화요일
+[$-412]ddd	44929	화
+[$-412]dddd	44930	수요일
+[$-412]ddd	44930	수
+[$-412]dddd	44931	목요일
+[$-412]ddd	44931	목
+[$-412]dddd	44932	금요일
+[$-412]ddd	44932	금
+[$-412]dddd	44933	토요일
+[$-412]ddd	44933	토
+[$-412]h AM/PM	0.25	6 오전
+[$-412]h AM/PM	0.75	6 오후
+[$-412]h A/P	0.75	6 오후
+[$-412]h a/p	0.25	6 오전
+[$-41E]mmmm	44941	มกราคม
+[$-41E]mmm	44941	ม.ค.
+[$-41E]d mmmm yyyy	44941	15 มกราคม 2023
+[$-41E]mmmm	44972	กุมภาพันธ์
+[$-41E]mmm	44972	ก.พ.
+[$-41E]d mmmm yyyy	44972	15 กุมภาพันธ์ 2023
+[$-41E]mmmm	45000	มีนาคม
+[$-41E]mmm	45000	มี.ค.
+[$-41E]d mmmm yyyy	45000	15 มีนาคม 2023
+[$-41E]mmmm	45031	เมษายน
+[$-41E]mmm	45031	เม.ย.
+[$-41E]d mmmm yyyy	45031	15 เมษายน 2023
+[$-41E]mmmm	45061	พฤษภาคม
+[$-41E]mmm	45061	พ.ค.
+[$-41E]d mmmm yyyy	45061	15 พฤษภาคม 2023
+[$-41E]mmmm	45092	มิถุนายน
+[$-41E]mmm	45092	มิ.ย.
+[$-41E]d mmmm yyyy	45092	15 มิถุนายน 2023
+[$-41E]mmmm	45122	กรกฎาคม
+[$-41E]mmm	45122	ก.ค.
+[$-41E]d mmmm yyyy	45122	15 กรกฎาคม 2023
+[$-41E]mmmm	45153	สิงหาคม
+[$-41E]mmm	45153	ส.ค.
+[$-41E]d mmmm yyyy	45153	15 สิงหาคม 2023
+[$-41E]mmmm	45184	กันยายน
+[$-41E]mmm	45184	ก.ย.
+[$-41E]d mmmm yyyy	45184	15 กันยายน 2023
+[$-41E]mmmm	45214	ตุลาคม
+[$-41E]mmm	45214	ต.ค.
+[$-41E]d mmmm yyyy	45214	15 ตุลาคม 2023
+[$-41E]mmmm	45245	พฤศจิกายน
+[$-41E]mmm	45245	พ.ย.
+[$-41E]d mmmm yyyy	45245	15 พฤศจิกายน 2023
+[$-41E]mmmm	45275	ธันวาคม
+[$-41E]mmm	45275	ธ.ค.
+[$-41E]d mmmm yyyy	45275	15 ธันวาคม 2023
+[$-41E]dddd	44927	อาทิตย์
+[$-41E]ddd	44927	อา.
+[$-41E]dddd	44928	จันทร์
+[$-41E]ddd	44928	จ.
+[$-41E]dddd	44929	อังคาร
+[$-41E]ddd	44929	อ.
+[$-41E]dddd	44930	พุธ
+[$-41E]ddd	44930	พ.
+[$-41E]dddd	44931	พฤหัสบดี
+[$-41E]ddd	44931	พฤ.
+[$-41E]dddd	44932	ศุกร์
+[$-41E]ddd	44932	ศ.
+[$-41E]dddd	44933	เสาร์
+[$-41E]ddd	44933	ส.
+[$-41E]h AM/PM	0.25	6 AM
+[$-41E]h AM/PM	0.75	6 PM
+[$-41E]h A/P	0.75	6 PM
+[$-41E]h a/p	0.25	6 AM
+[$-40E]mmmm	44941	január
+[$-40E]mmm	44941	jan.
+[$-40E]d mmmm yyyy	44941	15 január 2023
+[$-40E]mmmm	44972	február
+[$-40E]mmm	44972	febr.
+[$-40E]d mmmm yyyy	44972	15 február 2023
+[$-40E]mmmm	45000	március
+[$-40E]mmm	45000	márc.
+[$-40E]d mmmm yyyy	45000	15 március 2023
+[$-40E]mmmm	45031	április
+[$-40E]mmm	45031	ápr.
+[$-40E]d mmmm yyyy	45031	15 április 2023
+[$-40E]mmmm	45061	május
+[$-40E]mmm	45061	máj.
+[$-40E]d mmmm yyyy	45061	15 május 2023
+[$-40E]mmmm	45092	június
+[$-40E]mmm	45092	jún.
+[$-40E]d mmmm yyyy	45092	15 június 2023
+[$-40E]mmmm	45122	július
+[$-40E]mmm	45122	júl.
+[$-40E]d mmmm yyyy	45122	15 július 2023
+[$-40E]mmmm	45153	augusztus
+[$-40E]mmm	45153	aug.
+[$-40E]d mmmm yyyy	45153	15 augusztus 2023
+[$-40E]mmmm	45184	szeptember
+[$-40E]mmm	45184	szept.
+[$-40E]d mmmm yyyy	45184	15 szeptember 2023
+[$-40E]mmmm	45214	október
+[$-40E]mmm	45214	okt.
+[$-40E]d mmmm yyyy	45214	15 október 2023
+[$-40E]mmmm	45245	november
+[$-40E]mmm	45245	nov.
+[$-40E]d mmmm yyyy	45245	15 november 2023
+[$-40E]mmmm	45275	december
+[$-40E]mmm	45275	dec.
+[$-40E]d mmmm yyyy	45275	15 december 2023
+[$-40E]dddd	44927	vasárnap
+[$-40E]ddd	44927	V
+[$-40E]dddd	44928	hétfő
+[$-40E]ddd	44928	H
+[$-40E]dddd	44929	kedd
+[$-40E]ddd	44929	K
+[$-40E]dddd	44930	szerda
+[$-40E]ddd	44930	Sze
+[$-40E]dddd	44931	csütörtök
+[$-40E]ddd	44931	Cs
+[$-40E]dddd	44932	péntek
+[$-40E]ddd	44932	P
+[$-40E]dddd	44933	szombat
+[$-40E]ddd	44933	Szo
+[$-40E]h AM/PM	0.25	6 de.
+[$-40E]h AM/PM	0.75	6 du.
+[$-40E]h A/P	0.75	6 du.
+[$-40E]h a/p	0.25	6 de.
+[$-406]mmmm	44941	januar
+[$-406]mmm	44941	jan
+[$-406]d mmmm yyyy	44941	15 januar 2023
+[$-406]mmmm	44972	februar
+[$-406]mmm	44972	feb
+[$-406]d mmmm yyyy	44972	15 februar 2023
+[$-406]mmmm	45000	marts
+[$-406]mmm	45000	mar
+[$-406]d mmmm yyyy	45000	15 marts 2023
+[$-406]mmmm	45031	april
+[$-406]mmm	45031	apr
+[$-406]d mmmm yyyy	45031	15 april 2023
+[$-406]mmmm	45061	maj
+[$-406]mmm	45061	maj
+[$-406]d mmmm yyyy	45061	15 maj 2023
+[$-406]mmmm	45092	juni
+[$-406]mmm	45092	jun
+[$-406]d mmmm yyyy	45092	15 juni 2023
+[$-406]mmmm	45122	juli
+[$-406]mmm	45122	jul
+[$-406]d mmmm yyyy	45122	15 juli 2023
+[$-406]mmmm	45153	august
+[$-406]mmm	45153	aug
+[$-406]d mmmm yyyy	45153	15 august 2023
+[$-406]mmmm	45184	september
+[$-406]mmm	45184	sep
+[$-406]d mmmm yyyy	45184	15 september 2023
+[$-406]mmmm	45214	oktober
+[$-406]mmm	45214	okt
+[$-406]d mmmm yyyy	45214	15 oktober 2023
+[$-406]mmmm	45245	november
+[$-406]mmm	45245	nov
+[$-406]d mmmm yyyy	45245	15 november 2023
+[$-406]mmmm	45275	december
+[$-406]mmm	45275	dec
+[$-406]d mmmm yyyy	45275	15 december 2023
+[$-406]dddd	44927	søndag
+[$-406]ddd	44927	sø
+[$-406]dddd	44928	mandag
+[$-406]ddd	44928	ma
+[$-406]dddd	44929	tirsdag
+[$-406]ddd	44929	ti
+[$-406]dddd	44930	onsdag
+[$-406]ddd	44930	on
+[$-406]dddd	44931	torsdag
+[$-406]ddd	44931	to
+[$-406]dddd	44932	fredag
+[$-406]ddd	44932	fr
+[$-406]dddd	44933	lørdag
+[$-406]ddd	44933	lø
+[$-406]h AM/PM	0.25	6 AM
+[$-406]h AM/PM	0.75	6 PM
+[$-406]h A/P	0.75	6 PM
+[$-406]h a/p	0.25	6 AM
+[$-414]mmmm	44941	januar
+[$-414]mmm	44941	jan
+[$-414]d mmmm yyyy	44941	15 januar 2023
+[$-414]mmmm	44972	februar
+[$-414]mmm	44972	feb
+[$-414]d mmmm yyyy	44972	15 februar 2023
+[$-414]mmmm	45000	mars
+[$-414]mmm	45000	mar
+[$-414]d mmmm yyyy	45000	15 mars 2023
+[$-414]mmmm	45031	april
+[$-414]mmm	45031	apr
+[$-414]d mmmm yyyy	45031	15 april 2023
+[$-414]mmmm	45061	mai
+[$-414]mmm	45061	mai
+[$-414]d mmmm yyyy	45061	15 mai 2023
+[$-414]mmmm	45092	juni
+[$-414]mmm	45092	jun
+[$-414]d mmmm yyyy	45092	15 juni 2023
+[$-414]mmmm	45122	juli
+[$-414]mmm	45122	jul
+[$-414]d mmmm yyyy	45122	15 juli 2023
+[$-414]mmmm	45153	august
+[$-414]mmm	45153	aug
+[$-414]d mmmm yyyy	45153	15 august 2023
+[$-414]mmmm	45184	september
+[$-414]mmm	45184	sep
+[$-414]d mmmm yyyy	45184	15 september 2023
+[$-414]mmmm	45214	oktober
+[$-414]mmm	45214	okt
+[$-414]d mmmm yyyy	45214	15 oktober 2023
+[$-414]mmmm	45245	november
+[$-414]mmm	45245	nov
+[$-414]d mmmm yyyy	45245	15 november 2023
+[$-414]mmmm	45275	desember
+[$-414]mmm	45275	des
+[$-414]d mmmm yyyy	45275	15 desember 2023
+[$-414]dddd	44927	søndag
+[$-414]ddd	44927	søn
+[$-414]dddd	44928	mandag
+[$-414]ddd	44928	man
+[$-414]dddd	44929	tirsdag
+[$-414]ddd	44929	tir
+[$-414]dddd	44930	onsdag
+[$-414]ddd	44930	ons
+[$-414]dddd	44931	torsdag
+[$-414]ddd	44931	tor
+[$-414]dddd	44932	fredag
+[$-414]ddd	44932	fre
+[$-414]dddd	44933	lørdag
+[$-414]ddd	44933	lør
+[$-414]h AM/PM	0.25	6 a.m.
+[$-414]h AM/PM	0.75	6 p.m.
+[$-414]h A/P	0.75	6 p.m.
+[$-414]h a/p	0.25	6 a.m.
+[$-41D]mmmm	44941	januari
+[$-41D]mmm	44941	jan
+[$-41D]d mmmm yyyy	44941	15 januari 2023
+[$-41D]mmmm	44972	februari
+[$-41D]mmm	44972	feb
+[$-41D]d mmmm yyyy	44972	15 februari 2023
+[$-41D]mmmm	45000	mars
+[$-41D]mmm	45000	mar
+[$-41D]d mmmm yyyy	45000	15 mars 2023
+[$-41D]mmmm	45031	april
+[$-41D]mmm	45031	apr
+[$-41D]d mmmm yyyy	45031	15 april 2023
+[$-41D]mmmm	45061	maj
+[$-41D]mmm	45061	maj
+[$-41D]d mmmm yyyy	45061	15 maj 2023
+[$-41D]mmmm	45092	juni
+[$-41D]mmm	45092	jun
+[$-41D]d mmmm yyyy	45092	15 juni 2023
+[$-41D]mmmm	45122	juli
+[$-41D]mmm	45122	jul
+[$-41D]d mmmm yyyy	45122	15 juli 2023
+[$-41D]mmmm	45153	augusti
+[$-41D]mmm	45153	aug
+[$-41D]d mmmm yyyy	45153	15 augusti 2023
+[$-41D]mmmm	45184	september
+[$-41D]mmm	45184	sep
+[$-41D]d mmmm yyyy	45184	15 september 2023
+[$-41D]mmmm	45214	oktober
+[$-41D]mmm	45214	okt
+[$-41D]d mmmm yyyy	45214	15 oktober 2023
+[$-41D]mmmm	45245	november
+[$-41D]mmm	45245	nov
+[$-41D]d mmmm yyyy	45245	15 november 2023
+[$-41D]mmmm	45275	december
+[$-41D]mmm	45275	dec
+[$-41D]d mmmm yyyy	45275	15 december 2023
+[$-41D]dddd	44927	söndag
+[$-41D]ddd	44927	sön
+[$-41D]dddd	44928	måndag
+[$-41D]ddd	44928	mån
+[$-41D]dddd	44929	tisdag
+[$-41D]ddd	44929	tis
+[$-41D]dddd	44930	onsdag
+[$-41D]ddd	44930	ons
+[$-41D]dddd	44931	torsdag
+[$-41D]ddd	44931	tor
+[$-41D]dddd	44932	fredag
+[$-41D]ddd	44932	fre
+[$-41D]dddd	44933	lördag
+[$-41D]ddd	44933	lör
+[$-41D]h AM/PM	0.25	6 AM
+[$-41D]h AM/PM	0.75	6 PM
+[$-41D]h A/P	0.75	6 PM
+[$-41D]h a/p	0.25	6 AM
+[$-40B]mmmm	44941	tammikuu
+[$-40B]mmm	44941	tammi
+[$-40B]d mmmm yyyy	44941	15 tammikuu 2023
+[$-40B]mmmm	44972	helmikuu
+[$-40B]mmm	44972	helmi
+[$-40B]d mmmm yyyy	44972	15 helmikuu 2023
+[$-40B]mmmm	45000	maaliskuu
+[$-40B]mmm	45000	maalis
+[$-40B]d mmmm yyyy	45000	15 maaliskuu 2023
+[$-40B]mmmm	45031	huhtikuu
+[$-40B]mmm	45031	huhti
+[$-40B]d mmmm yyyy	45031	15 huhtikuu 2023
+[$-40B]mmmm	45061	toukokuu
+[$-40B]mmm	45061	touko
+[$-40B]d mmmm yyyy	45061	15 toukokuu 2023
+[$-40B]mmmm	45092	kesäkuu
+[$-40B]mmm	45092	kesä
+[$-40B]d mmmm yyyy	45092	15 kesäkuu 2023
+[$-40B]mmmm	45122	heinäkuu
+[$-40B]mmm	45122	heinä
+[$-40B]d mmmm yyyy	45122	15 heinäkuu 2023
+[$-40B]mmmm	45153	elokuu
+[$-40B]mmm	45153	elo
+[$-40B]d mmmm yyyy	45153	15 elokuu 2023
+[$-40B]mmmm	45184	syyskuu
+[$-40B]mmm	45184	syys
+[$-40B]d mmmm yyyy	45184	15 syyskuu 2023
+[$-40B]mmmm	45214	lokakuu
+[$-40B]mmm	45214	loka
+[$-40B]d mmmm yyyy	45214	15 lokakuu 2023
+[$-40B]mmmm	45245	marraskuu
+[$-40B]mmm	45245	marras
+[$-40B]d mmmm yyyy	45245	15 marraskuu 2023
+[$-40B]mmmm	45275	joulukuu
+[$-40B]mmm	45275	joulu
+[$-40B]d mmmm yyyy	45275	15 joulukuu 2023
+[$-40B]dddd	44927	sunnuntai
+[$-40B]ddd	44927	su
+[$-40B]dddd	44928	maanantai
+[$-40B]ddd	44928	ma
+[$-40B]dddd	44929	tiistai
+[$-40B]ddd	44929	ti
+[$-40B]dddd	44930	keskiviikko
+[$-40B]ddd	44930	ke
+[$-40B]dddd	44931	torstai
+[$-40B]ddd	44931	to
+[$-40B]dddd	44932	perjantai
+[$-40B]ddd	44932	pe
+[$-40B]dddd	44933	lauantai
+[$-40B]ddd	44933	la
+[$-40B]h AM/PM	0.25	6 ap.
+[$-40B]h AM/PM	0.75	6 ip.
+[$-40B]h A/P	0.75	6 ip.
+[$-40B]h a/p	0.25	6 ap.
+[$-427]mmmm	44941	sausis
+[$-427]mmm	44941	saus.
+[$-427]d mmmm yyyy	44941	15 sausis 2023
+[$-427]mmmm	44972	vasaris
+[$-427]mmm	44972	vas.
+[$-427]d mmmm yyyy	44972	15 vasaris 2023
+[$-427]mmmm	45000	kovas
+[$-427]mmm	45000	kov.
+[$-427]d mmmm yyyy	45000	15 kovas 2023
+[$-427]mmmm	45031	balandis
+[$-427]mmm	45031	bal.
+[$-427]d mmmm yyyy	45031	15 balandis 2023
+[$-427]mmmm	45061	gegužė
+[$-427]mmm	45061	geg.
+[$-427]d mmmm yyyy	45061	15 gegužė 2023
+[$-427]mmmm	45092	birželis
+[$-427]mmm	45092	birž.
+[$-427]d mmmm yyyy	45092	15 birželis 2023
+[$-427]mmmm	45122	liepa
+[$-427]mmm	45122	liep.
+[$-427]d mmmm yyyy	45122	15 liepa 2023
+[$-427]mmmm	45153	rugpjūtis
+[$-427]mmm	45153	rugp.
+[$-427]d mmmm yyyy	45153	15 rugpjūtis 2023
+[$-427]mmmm	45184	rugsėjis
+[$-427]mmm	45184	rugs.
+[$-427]d mmmm yyyy	45184	15 rugsėjis 2023
+[$-427]mmmm	45214	spalis
+[$-427]mmm	45214	spal.
+[$-427]d mmmm yyyy	45214	15 spalis 2023
+[$-427]mmmm	45245	lapkritis
+[$-427]mmm	45245	lapkr.
+[$-427]d mmmm yyyy	45245	15 lapkritis 2023
+[$-427]mmmm	45275	gruodis
+[$-427]mmm	45275	gruod.
+[$-427]d mmmm yyyy	45275	15 gruodis 2023
+[$-427]dddd	44927	sekmadienis
+[$-427]ddd	44927	sk
+[$-427]dddd	44928	pirmadienis
+[$-427]ddd	44928	pr
+[$-427]dddd	44929	antradienis
+[$-427]ddd	44929	an
+[$-427]dddd	44930	trečiadienis
+[$-427]ddd	44930	tr
+[$-427]dddd	44931	ketvirtadienis
+[$-427]ddd	44931	kt
+[$-427]dddd	44932	penktadienis
+[$-427]ddd	44932	pn
+[$-427]dddd	44933	šeštadienis
+[$-427]ddd	44933	št
+[$-427]h AM/PM	0.25	6 priešpiet
+[$-427]h AM/PM	0.75	6 popiet
+[$-427]h A/P	0.75	6 popiet
+[$-427]h a/p	0.25	6 priešpiet
+[$-415]mmmm	44941	styczeń
+[$-415]mmm	44941	sty
+[$-415]d mmmm yyyy	44941	15 styczeń 2023
+[$-415]mmmm	44972	luty
+[$-415]mmm	44972	lut
+[$-415]d mmmm yyyy	44972	15 luty 2023
+[$-415]mmmm	45000	marzec
+[$-415]mmm	45000	mar
+[$-415]d mmmm yyyy	45000	15 marzec 2023
+[$-415]mmmm	45031	kwiecień
+[$-415]mmm	45031	kwi
+[$-415]d mmmm yyyy	45031	15 kwiecień 2023
+[$-415]mmmm	45061	maj
+[$-415]mmm	45061	maj
+[$-415]d mmmm yyyy	45061	15 maj 2023
+[$-415]mmmm	45092	czerwiec
+[$-415]mmm	45092	cze
+[$-415]d mmmm yyyy	45092	15 czerwiec 2023
+[$-415]mmmm	45122	lipiec
+[$-415]mmm	45122	lip
+[$-415]d mmmm yyyy	45122	15 lipiec 2023
+[$-415]mmmm	45153	sierpień
+[$-415]mmm	45153	sie
+[$-415]d mmmm yyyy	45153	15 sierpień 2023
+[$-415]mmmm	45184	wrzesień
+[$-415]mmm	45184	wrz
+[$-415]d mmmm yyyy	45184	15 wrzesień 2023
+[$-415]mmmm	45214	październik
+[$-415]mmm	45214	paź
+[$-415]d mmmm yyyy	45214	15 październik 2023
+[$-415]mmmm	45245	listopad
+[$-415]mmm	45245	lis
+[$-415]d mmmm yyyy	45245	15 listopad 2023
+[$-415]mmmm	45275	grudzień
+[$-415]mmm	45275	gru
+[$-415]d mmmm yyyy	45275	15 grudzień 2023
+[$-415]dddd	44927	niedziela
+[$-415]ddd	44927	niedz.
+[$-415]dddd	44928	poniedziałek
+[$-415]ddd	44928	pon.
+[$-415]dddd	44929	wtorek
+[$-415]ddd	44929	wt.
+[$-415]dddd	44930	środa
+[$-415]ddd	44930	śr.
+[$-415]dddd	44931	czwartek
+[$-415]ddd	44931	czw.
+[$-415]dddd	44932	piątek
+[$-415]ddd	44932	pt.
+[$-415]dddd	44933	sobota
+[$-415]ddd	44933	sob.
+[$-415]h AM/PM	0.25	6 AM
+[$-415]h AM/PM	0.75	6 PM
+[$-415]h A/P	0.75	6 PM
+[$-415]h a/p	0.25	6 AM
+[$-405]mmmm	44941	leden
+[$-405]mmm	44941	I
+[$-405]d mmmm yyyy	44941	15 leden 2023
+[$-405]mmmm	44972	únor
+[$-405]mmm	44972	II
+[$-405]d mmmm yyyy	44972	15 únor 2023
+[$-405]mmmm	45000	březen
+[$-405]mmm	45000	III
+[$-405]d mmmm yyyy	45000	15 březen 2023
+[$-405]mmmm	45031	duben
+[$-405]mmm	45031	IV
+[$-405]d mmmm yyyy	45031	15 duben 2023
+[$-405]mmmm	45061	květen
+[$-405]mmm	45061	V
+[$-405]d mmmm yyyy	45061	15 květen 2023
+[$-405]mmmm	45092	červen
+[$-405]mmm	45092	VI
+[$-405]d mmmm yyyy	45092	15 červen 2023
+[$-405]mmmm	45122	červenec
+[$-405]mmm	45122	VII
+[$-405]d mmmm yyyy	45122	15 červenec 2023
+[$-405]mmmm	45153	srpen
+[$-405]mmm	45153	VIII
+[$-405]d mmmm yyyy	45153	15 srpen 2023
+[$-405]mmmm	45184	září
+[$-405]mmm	45184	IX
+[$-405]d mmmm yyyy	45184	15 září 2023
+[$-405]mmmm	45214	říjen
+[$-405]mmm	45214	X
+[$-405]d mmmm yyyy	45214	15 říjen 2023
+[$-405]mmmm	45245	listopad
+[$-405]mmm	45245	XI
+[$-405]d mmmm yyyy	45245	15 listopad 2023
+[$-405]mmmm	45275	prosinec
+[$-405]mmm	45275	XII
+[$-405]d mmmm yyyy	45275	15 prosinec 2023
+[$-405]dddd	44927	neděle
+[$-405]ddd	44927	ne
+[$-405]dddd	44928	pondělí
+[$-405]ddd	44928	po
+[$-405]dddd	44929	úterý
+[$-405]ddd	44929	út
+[$-405]dddd	44930	středa
+[$-405]ddd	44930	st
+[$-405]dddd	44931	čtvrtek
+[$-405]ddd	44931	čt
+[$-405]dddd	44932	pátek
+[$-405]ddd	44932	pá
+[$-405]dddd	44933	sobota
+[$-405]ddd	44933	so
+[$-405]h AM/PM	0.25	6 dop.
+[$-405]h AM/PM	0.75	6 odp.
+[$-405]h A/P	0.75	6 odp.
+[$-405]h a/p	0.25	6 dop.
+[$-41F]mmmm	44941	Ocak
+[$-41F]mmm	44941	Oca
+[$-41F]d mmmm yyyy	44941	15 Ocak 2023
+[$-41F]mmmm	44972	Şubat
+[$-41F]mmm	44972	Şub
+[$-41F]d mmmm yyyy	44972	15 Şubat 2023
+[$-41F]mmmm	45000	Mart
+[$-41F]mmm	45000	Mar
+[$-41F]d mmmm yyyy	45000	15 Mart 2023
+[$-41F]mmmm	45031	Nisan
+[$-41F]mmm	45031	Nis
+[$-41F]d mmmm yyyy	45031	15 Nisan 2023
+[$-41F]mmmm	45061	Mayıs
+[$-41F]mmm	45061	May
+[$-41F]d mmmm yyyy	45061	15 Mayıs 2023
+[$-41F]mmmm	45092	Haziran
+[$-41F]mmm	45092	Haz
+[$-41F]d mmmm yyyy	45092	15 Haziran 2023
+[$-41F]mmmm	45122	Temmuz
+[$-41F]mmm	45122	Tem
+[$-41F]d mmmm yyyy	45122	15 Temmuz 2023
+[$-41F]mmmm	45153	Ağustos
+[$-41F]mmm	45153	Ağu
+[$-41F]d mmmm yyyy	45153	15 Ağustos 2023
+[$-41F]mmmm	45184	Eylül
+[$-41F]mmm	45184	Eyl
+[$-41F]d mmmm yyyy	45184	15 Eylül 2023
+[$-41F]mmmm	45214	Ekim
+[$-41F]mmm	45214	Eki
+[$-41F]d mmmm yyyy	45214	15 Ekim 2023
+[$-41F]mmmm	45245	Kasım
+[$-41F]mmm	45245	Kas
+[$-41F]d mmmm yyyy	45245	15 Kasım 2023
+[$-41F]mmmm	45275	Aralık
+[$-41F]mmm	45275	Ara
+[$-41F]d mmmm yyyy	45275	15 Aralık 2023
+[$-41F]dddd	44927	Pazar
+[$-41F]ddd	44927	Paz
+[$-41F]dddd	44928	Pazartesi
+[$-41F]ddd	44928	Pzt
+[$-41F]dddd	44929	Salı
+[$-41F]ddd	44929	Sal
+[$-41F]dddd	44930	Çarşamba
+[$-41F]ddd	44930	Çar
+[$-41F]dddd	44931	Perşembe
+[$-41F]ddd	44931	Per
+[$-41F]dddd	44932	Cuma
+[$-41F]ddd	44932	Cum
+[$-41F]dddd	44933	Cumartesi
+[$-41F]ddd	44933	Cmt
+[$-41F]h AM/PM	0.25	6 ÖÖ
+[$-41F]h AM/PM	0.75	6 ÖS
+[$-41F]h A/P	0.75	6 ÖS
+[$-41F]h a/p	0.25	6 ÖÖ
+[$-465]mmmm	44941	ޖަނަވަރީ
+[$-465]mmm	44941	ޖަނަވަރީ
+[$-465]d mmmm yyyy	44941	15 ޖަނަވަރީ 2023
+[$-465]mmmm	44972	ފެބްރުއަރީ
+[$-465]mmm	44972	ފެބްރުއަރީ
+[$-465]d mmmm yyyy	44972	15 ފެބްރުއަރީ 2023
+[$-465]mmmm	45000	މާރޗް
+[$-465]mmm	45000	މާރޗް
+[$-465]d mmmm yyyy	45000	15 މާރޗް 2023
+[$-465]mmmm	45031	އޭޕްރިލް
+[$-465]mmm	45031	އޭޕްރިލް
+[$-465]d mmmm yyyy	45031	15 އޭޕްރިލް 2023
+[$-465]mmmm	45061	މެއި
+[$-465]mmm	45061	މެއި
+[$-465]d mmmm yyyy	45061	15 މެއި 2023
+[$-465]mmmm	45092	ޖޫން
+[$-465]mmm	45092	ޖޫން
+[$-465]d mmmm yyyy	45092	15 ޖޫން 2023
+[$-465]mmmm	45122	ޖުލައި
+[$-465]mmm	45122	ޖުލައި
+[$-465]d mmmm yyyy	45122	15 ޖުލައި 2023
+[$-465]mmmm	45153	އޮގަސްޓް
+[$-465]mmm	45153	އޮގަސްޓް
+[$-465]d mmmm yyyy	45153	15 އޮގަސްޓް 2023
+[$-465]mmmm	45184	ސެޕްޓެމްބަރ
+[$-465]mmm	45184	ސެޕްޓެމްބަރ
+[$-465]d mmmm yyyy	45184	15 ސެޕްޓެމްބަރ 2023
+[$-465]mmmm	45214	އޮކްޓޯބަރ
+[$-465]mmm	45214	އޮކްޓޯބަރ
+[$-465]d mmmm yyyy	45214	15 އޮކްޓޯބަރ 2023
+[$-465]mmmm	45245	ނޮވެމްބަރ
+[$-465]mmm	45245	ނޮވެމްބަރ
+[$-465]d mmmm yyyy	45245	15 ނޮވެމްބަރ 2023
+[$-465]mmmm	45275	ޑިސެމްބަރ
+[$-465]mmm	45275	ޑިސެމްބަރ
+[$-465]d mmmm yyyy	45275	15 ޑިސެމްބަރ 2023
+[$-465]dddd	44927	އާދީއްތަ
+[$-465]ddd	44927	އާދީއްތަ
+[$-465]dddd	44928	ހޯމަ
+[$-465]ddd	44928	ހޯމަ
+[$-465]dddd	44929	އަންގާރަ
+[$-465]ddd	44929	އަންގާރަ
+[$-465]dddd	44930	ބުދަ
+[$-465]ddd	44930	ބުދަ
+[$-465]dddd	44931	ބުރާސްފަތި
+[$-465]ddd	44931	ބުރާސްފަތި
+[$-465]dddd	44932	ހުކުރު
+[$-465]ddd	44932	ހުކުރު
+[$-465]dddd	44933	ހޮނިހިރު
+[$-465]ddd	44933	ހޮނިހިރު
+[$-465]h AM/PM	0.25	6 މކ
+[$-465]h AM/PM	0.75	6 މފ
+[$-465]h A/P	0.75	6 މފ
+[$-465]h a/p	0.25	6 މކ
+[$-4009]mmmm	44941	January
+[$-4009]mmm	44941	Jan
+[$-4009]d mmmm yyyy	44941	15 January 2023
+[$-4009]mmmm	44972	February
+[$-4009]mmm	44972	Feb
+[$-4009]d mmmm yyyy	44972	15 February 2023
+[$-4009]mmmm	45000	March
+[$-4009]mmm	45000	Mar
+[$-4009]d mmmm yyyy	45000	15 March 2023
+[$-4009]mmmm	45031	April
+[$-4009]mmm	45031	Apr
+[$-4009]d mmmm yyyy	45031	15 April 2023
+[$-4009]mmmm	45061	May
+[$-4009]mmm	45061	May
+[$-4009]d mmmm yyyy	45061	15 May 2023
+[$-4009]mmmm	45092	June
+[$-4009]mmm	45092	Jun
+[$-4009]d mmmm yyyy	45092	15 June 2023
+[$-4009]mmmm	45122	July
+[$-4009]mmm	45122	Jul
+[$-4009]d mmmm yyyy	45122	15 July 2023
+[$-4009]mmmm	45153	August
+[$-4009]mmm	45153	Aug
+[$-4009]d mmmm yyyy	45153	15 August 2023
+[$-4009]mmmm	45184	September
+[$-4009]mmm	45184	Sep
+[$-4009]d mmmm yyyy	45184	15 September 2023
+[$-4009]mmmm	45214	October
+[$-4009]mmm	45214	Oct
+[$-4009]d mmmm yyyy	45214	15 October 2023
+[$-4009]mmmm	45245	November
+[$-4009]mmm	45245	Nov
+[$-4009]d mmmm yyyy	45245	15 November 2023
+[$-4009]mmmm	45275	December
+[$-4009]mmm	45275	Dec
+[$-4009]d mmmm yyyy	45275	15 December 2023
+[$-4009]dddd	44927	Sunday
+[$-4009]ddd	44927	Sun
+[$-4009]dddd	44928	Monday
+[$-4009]ddd	44928	Mon
+[$-4009]dddd	44929	Tuesday
+[$-4009]ddd	44929	Tue
+[$-4009]dddd	44930	Wednesday
+[$-4009]ddd	44930	Wed
+[$-4009]dddd	44931	Thursday
+[$-4009]ddd	44931	Thu
+[$-4009]dddd	44932	Friday
+[$-4009]ddd	44932	Fri
+[$-4009]dddd	44933	Saturday
+[$-4009]ddd	44933	Sat
+[$-4009]h AM/PM	0.25	6 AM
+[$-4009]h AM/PM	0.75	6 PM
+[$-4009]h A/P	0.75	6 PM
+[$-4009]h a/p	0.25	6 AM

@@ -452,7 +452,7 @@ public sealed partial class Workbook : OfficeFile
     {
         get
         {
-            if (_tree.IsModified || (_sst?.IsModified ?? false) || _structureChanged)
+            if (_tree.IsModified || (_sst?.IsModified ?? false) || _structureChanged || FeaturePartsModified())
             {
                 return true;
             }
@@ -515,6 +515,8 @@ public sealed partial class Workbook : OfficeFile
                 Package.SetRelationships(MainPartName, rels);
             }
         }
+
+        CommitFeatureParts();
 
         if (staleChain)
         {
