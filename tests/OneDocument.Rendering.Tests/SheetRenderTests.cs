@@ -61,6 +61,17 @@ public sealed class SheetRenderTests
         Assert.DoesNotContain(layout.Notes, n => n.Code is "sheet-layout.font-missing");
     }
 
+    // The PDF writer refuses a profile the structure does not meet (a table without header cells, rows of different width), so this fails if tagging drifts.
+    [Theory]
+    [MemberData(nameof(CaseNames))]
+    public void EveryCaseMeetsThePdfUa1StructureRules(string name)
+    {
+        using Workbook wb = Open(name);
+        using var ms = new MemoryStream();
+        WorkbookRenderer.WritePdf(wb, ms, new PdfRenderOptions { Profile = OneRender.Pdf.PdfProfile.PdfUA1 }, Options());
+        Assert.StartsWith("%PDF-", Encoding.ASCII.GetString(ms.ToArray(), 0, 5), StringComparison.Ordinal);
+    }
+
     public static IEnumerable<object[]> CaseNames() => SheetCases.All().Select(c => new object[] { c.Name });
 
     // ---- pagination ---------------------------------------------------------------------------------------------------------

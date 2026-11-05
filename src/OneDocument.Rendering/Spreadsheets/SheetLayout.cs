@@ -142,6 +142,8 @@ public sealed class SheetPage
     public IReadOnlyList<SheetObject> Objects { get; internal set; } = [];
 
     internal int AreaIndex { get; set; }
+
+    internal int Index { get; set; }
 }
 
 /// <summary>The pages a workbook prints and what the layout had to approximate or skip.</summary>

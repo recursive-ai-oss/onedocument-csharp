@@ -48,6 +48,9 @@ internal sealed class SheetPainter
         _s = _plan.Settings;
         _store = _plan.Sheet.Store;
         _bw = _s.BlackAndWhite;
+        // The PDF writer treats an element with the same id as the one still open from the previous page as the same element (a table that
+        // continues), so every page numbers its items from a base of its own.
+        _owner = (uint)(page.Index % 4000) << 20;
     }
 
     public static DisplayList Paint(SheetLayoutDocument doc, SheetPage page)
@@ -176,7 +179,7 @@ internal sealed class SheetPainter
     }
 
     // The distinct cells and merged ranges to paint: a merged range once, from its first cell on this page.
-    private IEnumerable<(int Row, int Col, CellRange? Merge)> Items()
+    private IEnumerable<(int Row, int Col, CellRange? Merge, int AnchorRow, int AnchorCol)> Items()
     {
         var done = new HashSet<long>();
         foreach (int r in _rows)
@@ -188,13 +191,13 @@ internal sealed class SheetPainter
                     long mk = SheetPlan.Key(m.TopLeft.Row, m.TopLeft.Column);
                     if (done.Add(mk))
                     {
-                        yield return (m.TopLeft.Row, m.TopLeft.Column, m);
+                        yield return (m.TopLeft.Row, m.TopLeft.Column, m, r, c);
                     }
 
                     continue;
                 }
 
-                yield return (r, c, null);
+                yield return (r, c, null, r, c);
             }
         }
     }
@@ -228,7 +231,7 @@ internal sealed class SheetPainter
 
     private void Backgrounds()
     {
-        foreach ((int r, int c, CellRange? m) in Items())
+        foreach ((int r, int c, CellRange? m, _, _) in Items())
         {
             (CellValue value, int styleIndex, bool exists) = Fetch(r, c);
             StyleInfo st = _ctx.Styles.Get(styleIndex);
@@ -619,63 +622,164 @@ internal sealed class SheetPainter
 
     // ---- text -----------------------------------------------------------------------------------------------------------------
 
+    // Text is tagged as a table whose rows and cells cover the same grid: every visible column of every row is accounted for, by a cell with
+    // text, a merged cell's spans, or an empty cell that spans the gap (PDF/UA wants rows of one width). Rows and columns repeated from an
+    // earlier page are artifacts. The print-title and table-header rows are header cells; a page with none takes its first row with text.
     private void Texts()
     {
         bool tagged = Tagged;
+        var items = new Dictionary<long, (CellRange? Merge, CellContent Content, StyleInfo Style, CfCell? Cf, int Row, int Col)>();
+        foreach ((int ir, int ic, CellRange? m, int ar, int ac) in Items())
+        {
+            if (PrepareCell(ir, ic, m) is { } prepared)
+            {
+                items[SheetPlan.Key(ar, ac)] = (m, prepared.Content, prepared.Style, prepared.Cf, ir, ic);
+            }
+        }
+
+        if (items.Count == 0)
+        {
+            return;
+        }
+
+        HashSet<int> headerRows = HeaderRows();
+        var thRows = new HashSet<int>();
+        foreach (int r in _rows)
+        {
+            if (!InTitleRows(r) && headerRows.Contains(r) && _cols.Any(c => items.ContainsKey(SheetPlan.Key(r, c))))
+            {
+                thRows.Add(r);
+            }
+        }
+
+        if (thRows.Count == 0)
+        {
+            foreach (int r in _rows)
+            {
+                if (!InTitleRows(r) && _cols.Any(c => items.ContainsKey(SheetPlan.Key(r, c))))
+                {
+                    thRows.Add(r);
+                    break;
+                }
+            }
+        }
+
         if (tagged)
         {
             _list.BeginTag(Id(), TagRole.Table);
         }
 
-        var headerRows = HeaderRows();
-        var byRow = Items().GroupBy(i => i.Row).ToDictionary(g => g.Key, g => g.ToList());
-        var done = new HashSet<long>();
-        foreach (int r in _rows)
+        var occupied = new HashSet<long>();
+        for (int ri = 0; ri < _rows.Count; ri++)
         {
-            if (!byRow.TryGetValue(r, out var items))
+            int r = _rows[ri];
+            if (InTitleRows(r))
             {
+                // A repeated title row is drawn as an artifact, outside the table's rows.
+                if (tagged)
+                {
+                    _list.BeginTag(Id(), TagRole.Artifact);
+                }
+
+                foreach (int c in _cols)
+                {
+                    if (items.TryGetValue(SheetPlan.Key(r, c), out var it))
+                    {
+                        PaintCellText(it.Row, it.Col, it.Merge, it.Content, it.Style, it.Cf);
+                    }
+                }
+
+                if (tagged)
+                {
+                    _list.EndTag();
+                }
+
                 continue;
             }
 
-            bool repeated = InTitleRows(r);
-            var rowItems = new List<(int Row, int Col, CellRange? Merge, CellContent Content, StyleInfo Style, CfCell? Cf)>();
-            foreach ((int ir, int ic, CellRange? m) in items.OrderBy(i => X(i.Col)))
+            bool header = thRows.Contains(r);
+            TagRole cellRole = header ? TagRole.TableHeaderCell : TagRole.TableDataCell;
+            if (tagged)
             {
-                if (!done.Add(SheetPlan.Key(ir, ic)))
+                _list.BeginTag(Id(), TagRole.TableRow);
+            }
+
+            int ci = 0;
+            while (ci < _cols.Count)
+            {
+                if (occupied.Contains(SheetPlan.Key(ri, ci)))
                 {
+                    ci++;
                     continue;
                 }
 
-                if (PrepareCell(ir, ic, m) is { } prepared)
+                int c = _cols[ci];
+                if (items.TryGetValue(SheetPlan.Key(r, c), out var it))
                 {
-                    rowItems.Add((ir, ic, m, prepared.Content, prepared.Style, prepared.Cf));
+                    int colSpan = 1;
+                    int rowSpan = 1;
+                    if (it.Merge is { } m)
+                    {
+                        while (ci + colSpan < _cols.Count && _cols[ci + colSpan] <= m.BottomRight.Column)
+                        {
+                            colSpan++;
+                        }
+
+                        while (ri + rowSpan < _rows.Count && _rows[ri + rowSpan] <= m.BottomRight.Row && !InTitleRows(_rows[ri + rowSpan]))
+                        {
+                            rowSpan++;
+                        }
+
+                        for (int dr = 0; dr < rowSpan; dr++)
+                        {
+                            for (int dc = 0; dc < colSpan; dc++)
+                            {
+                                if (dr > 0 || dc > 0)
+                                {
+                                    occupied.Add(SheetPlan.Key(ri + dr, ci + dc));
+                                }
+                            }
+                        }
+                    }
+
+                    bool repeatedColumn = InTitleCols(c);
+                    if (tagged)
+                    {
+                        _list.BeginTag(Id(), cellRole, columnSpan: colSpan, rowSpan: rowSpan);
+                    }
+
+                    if (repeatedColumn && tagged)
+                    {
+                        // The cell is still a cell of the row; its repeated text is an artifact inside it.
+                        _list.BeginTag(Id(), TagRole.Artifact);
+                    }
+
+                    PaintCellText(it.Row, it.Col, it.Merge, it.Content, it.Style, it.Cf);
+                    if (repeatedColumn && tagged)
+                    {
+                        _list.EndTag();
+                    }
+
+                    if (tagged)
+                    {
+                        _list.EndTag();
+                    }
+
+                    ci += colSpan;
+                    continue;
                 }
-            }
 
-            if (rowItems.Count == 0)
-            {
-                continue;
-            }
+                int start = ci;
+                ci++;
+                while (ci < _cols.Count && !occupied.Contains(SheetPlan.Key(ri, ci)) && !items.ContainsKey(SheetPlan.Key(r, _cols[ci])))
+                {
+                    ci++;
+                }
 
-            if (tagged)
-            {
-                _list.BeginTag(Id(), repeated ? TagRole.Artifact : TagRole.TableRow);
-            }
-
-            foreach ((int ir, int ic, CellRange? m, CellContent content, StyleInfo style, CfCell? cf) in rowItems)
-            {
                 if (tagged)
                 {
-                    bool artifact = InTitleCols(ic);
-                    bool header = headerRows.Contains(ir);
-                    int colSpan = m is { } mr ? mr.ColumnCount : 1;
-                    int rowSpan = m is { } mr2 ? mr2.RowCount : 1;
-                    _list.BeginTag(Id(), artifact ? TagRole.Artifact : header ? TagRole.TableHeaderCell : TagRole.TableDataCell, columnSpan: colSpan, rowSpan: rowSpan);
-                }
-
-                PaintCellText(ir, ic, m, content, style, cf);
-                if (tagged)
-                {
+                    _list.BeginTag(Id(), cellRole, columnSpan: ci - start);
+                    EmptyCellContent(X(_cols[start]), Y(r));
                     _list.EndTag();
                 }
             }
@@ -689,6 +793,16 @@ internal sealed class SheetPainter
         if (tagged)
         {
             _list.EndTag();
+        }
+    }
+
+    // A cell with nothing in it still needs content to stay in the structure tree, so it holds one no-break space, which draws nothing.
+    private void EmptyCellContent(double x, double y)
+    {
+        TextBlock block = _ctx.Text.Layout([("\u00A0", _ctx.DefaultStyle)], double.PositiveInfinity, false, null);
+        if (block.Lines.Count > 0 && block.Lines[0].Chunks.Count > 0)
+        {
+            DrawLine(block.Lines[0], x, y + block.Lines[0].Ascent);
         }
     }
 

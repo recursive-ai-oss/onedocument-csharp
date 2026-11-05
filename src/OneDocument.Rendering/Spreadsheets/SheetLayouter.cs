@@ -49,6 +49,7 @@ internal static class SheetLayouter
                         goto done;
                     }
 
+                    page.Index = pages.Count;
                     page.NumberInSheet = ++inSheet;
                     page.Number = first + inSheet - 1;
                     pages.Add(page);
