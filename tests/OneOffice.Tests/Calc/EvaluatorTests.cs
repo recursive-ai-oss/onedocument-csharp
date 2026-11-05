@@ -314,9 +314,14 @@ public class EvaluatorTests
         var ev = new Evaluator(new FakeResolver());
         FormulaNode n = FormulaParser.Parse("(1+2)*3-4/2+7^2>5");
         var origin = new CalcCell("Sheet1", 1, 1);
-        for (int i = 0; i < 1000; i++)
+        for (int round = 0; round < 3; round++)
         {
-            _ = ev.Evaluate(n, origin);
+            for (int i = 0; i < 2000; i++)
+            {
+                _ = ev.Evaluate(n, origin);
+            }
+
+            Thread.Sleep(120); // let the runtime reach its final tier before counting
         }
 
         long before = GC.GetAllocatedBytesForCurrentThread();
