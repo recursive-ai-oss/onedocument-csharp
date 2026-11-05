@@ -143,6 +143,11 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `xlsx.column-range-invalid` | dropped | A `col` has no valid `min`/`max`; it is dropped. |
 | `xlsx.merge-range-invalid` | dropped | A `mergeCell` has a `ref` that is not a range of the sheet; it is dropped. |
 | `xlsx.shared-string-missing` | repaired | A cell refers to a shared string index the table does not have; its text reads as empty. |
+| `xlsx.styles-wrong-root` | fatal | The styles part does not start with a `styleSheet` element. Raised when the style sheet is first used, not on open. |
+| `xlsx.numfmt-invalid` | dropped | A `numFmt` has no numeric id or no format code; it is ignored. |
+| `xlsx.theme-unreadable` | repaired | The theme part is not well-formed XML; theme colours use the default Office scheme. |
+| `xlsx.table-part-missing` | dropped | A `tablePart` does not lead to a table part that exists; the table is ignored (the element stays in the sheet). |
+| `xlsx.table-unreadable` | dropped | A table part is not well-formed or does not start with `table`; the table is ignored and the part is kept as stored. |
 
 The XML layer repairs nothing: Office refuses an ill-formed part, and so does this layer. The limits it enforces (`MaxXmlDepth`, `MaxXmlAttributeCount`, `MaxXmlNameLength`, and `MaxPartSize` for a part held whole) raise `limit.*` as above.
 

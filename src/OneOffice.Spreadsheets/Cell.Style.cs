@@ -29,22 +29,24 @@ public sealed partial class Cell
     /// text through the format's text section, TRUE/FALSE for booleans, the error text for errors, the empty string for an empty cell.
     /// General shows at most 11 characters, as in a default-width column; a number a format cannot show gives a row of <c>#</c>.
     /// </summary>
-    public string FormattedText
+    public string FormattedText => GetFormattedText(11);
+
+    /// <summary>Gets the text Excel shows for the cell in a column that fits <paramref name="generalWidth"/> characters of a General number (see <see cref="FormattedText"/>, which uses 11, the width of a default column).</summary>
+    /// <param name="generalWidth">The characters a General number may use before it turns to scientific form or rounds; at most 15 significant digits are shown whatever the width.</param>
+    /// <returns>The displayed text.</returns>
+    public string GetFormattedText(int generalWidth)
     {
-        get
+        CellValue v = Value;
+        switch (v.Kind)
         {
-            CellValue v = Value;
-            switch (v.Kind)
-            {
-                case CellValueKind.Number:
-                    return Format().Format(v.Number, new FormatOptions(_sheet.Workbook.DateSystem));
-                case CellValueKind.Text:
-                    return Format().FormatText(_sheet.GetText(v));
-                case CellValueKind.Boolean:
-                    return v.Number != 0 ? "TRUE" : "FALSE";
-                default:
-                    return _sheet.GetText(v);
-            }
+            case CellValueKind.Number:
+                return Format().Format(v.Number, new FormatOptions(_sheet.Workbook.DateSystem, GeneralWidth: generalWidth));
+            case CellValueKind.Text:
+                return Format().FormatText(_sheet.GetText(v));
+            case CellValueKind.Boolean:
+                return v.Number != 0 ? "TRUE" : "FALSE";
+            default:
+                return _sheet.GetText(v);
         }
     }
 
