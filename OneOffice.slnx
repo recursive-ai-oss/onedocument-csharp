@@ -31,6 +31,7 @@
     <Project Path="tools/NumFmtGrid/NumFmtGrid.csproj" />
     <Project Path="tools/StreamProbe/StreamProbe.csproj" />
     <Project Path="tools/FormulaGrid/FormulaGrid.csproj" />
+    <Project Path="tools/LookupGrid/LookupGrid.csproj" />
     <Project Path="tools/FormulaSweep/FormulaSweep.csproj" />
     <Project Path="tools/CalcSweep/CalcSweep.csproj" />
     <Project Path="tools/XlsxProbe/XlsxProbe.csproj" />

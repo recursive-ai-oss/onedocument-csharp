@@ -30,6 +30,11 @@ internal static class CalcSmoke
         Check("SEQUENCE(2,3)", "array 2x3");
         Check("TEXT(1234.5,\"#,##0.00\")", "1,234.50");
         Check("IFERROR(1/0,\"e\")", "e");
+        Check("XLOOKUP(2,{1,2,3},{10,20,30})", "20");
+        Check("SORT({3;1;2})", "array 3x1");
+        Check("REDUCE(0,{1,2,3},SUM)", "6");
+        Check("INDIRECT(\"B2\")", "22");
+        Check("GROUPBY({\"a\";\"b\";\"a\"},{1;2;3},SUM,0,0)", "array 2x2");
         string printed = FormulaPrinter.Print(FormulaParser.Parse("_xlfn.SEQUENCE(2)+'S 1'!$A$1"));
         if (printed != "_xlfn.SEQUENCE(2)+'S 1'!$A$1")
         {
