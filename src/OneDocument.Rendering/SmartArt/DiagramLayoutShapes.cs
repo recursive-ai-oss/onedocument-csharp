@@ -23,6 +23,34 @@ internal sealed partial class DiagramLayoutEngine
         }
     }
 
+    /// <summary>Lists the layout nodes with their algorithms and rectangles.</summary>
+    public string Outline()
+    {
+        var sb = new System.Text.StringBuilder();
+        if (Root is not null)
+        {
+            OutlineOf(Root, 0, sb);
+        }
+
+        return sb.ToString();
+    }
+
+    private static void OutlineOf(LayoutInstance n, int depth, System.Text.StringBuilder sb)
+    {
+        if (depth > 24 || sb.Length > 200_000)
+        {
+            return;
+        }
+
+        sb.Append(' ', depth * 2).Append(n.Name.Length == 0 ? "(unnamed)" : n.Name).Append(" alg=").Append(n.Algorithm.Type).Append(" pt=").Append(n.Context.Type)
+            .Append(" shape=").Append(n.Shape?.Type ?? "-").Append(n.Placed ? " [" + Dx.F(n.X) + "," + Dx.F(n.Y) + " " + Dx.F(n.W) + "x" + Dx.F(n.H) + "]" : " [unplaced]")
+            .Append(" pres=").Append(n.PresentationOf.Count).Append('\n');
+        foreach (LayoutInstance c in n.Children)
+        {
+            OutlineOf(c, depth + 1, sb);
+        }
+    }
+
     // ---------------------------------------------------------------- connectors
 
     private void ConnectAll()

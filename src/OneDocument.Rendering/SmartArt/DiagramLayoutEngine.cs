@@ -125,7 +125,8 @@ internal sealed partial class DiagramLayoutEngine
         {
             foreach (ConstraintDef c in owner.Constraints)
             {
-                if (c.Type == "none")
+                // A bare constraint (no value, no reference) only names a property; rules grow it, so it states no size.
+                if (c.Type == "none" || (c.RefType == "none" && !c.HasValue))
                 {
                     continue;
                 }

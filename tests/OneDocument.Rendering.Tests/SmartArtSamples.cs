@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using System.Text;
 using RecursiveAI.OneDocument.Rendering.SmartArt;
 
@@ -12,6 +13,8 @@ internal static class SmartArtSamples
     internal const string A = "http://schemas.openxmlformats.org/drawingml/2006/main";
     internal const string R = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
     private const string Ns = $"xmlns:dgm=\"{Dgm}\" xmlns:a=\"{A}\" xmlns:r=\"{R}\"";
+
+    private static readonly Lazy<RecursiveAI.OneDocument.Layout.FontLibrary> Fonts = new(RecursiveAI.OneDocument.Layout.FontLibrary.CreateDefault);
 
     internal sealed class Node(string text, params Node[] children)
     {
@@ -290,12 +293,14 @@ internal static class SmartArtSamples
             $"<Relationship Id=\"rIdL1\" Type=\"{RT}/diagramLayout\" Target=\"diagrams/layout1.xml\"/>" +
             $"<Relationship Id=\"rIdQ1\" Type=\"{RT}/diagramQuickStyle\" Target=\"diagrams/quickStyle1.xml\"/>" +
             $"<Relationship Id=\"rIdC1\" Type=\"{RT}/diagramColors\" Target=\"diagrams/colors1.xml\"/>" +
+            $"<Relationship Id=\"rIdTh\" Type=\"{RT}/theme\" Target=\"theme/theme1.xml\"/>" +
             (cache is null ? string.Empty : "<Relationship Id=\"rIdX1\" Type=\"http://schemas.microsoft.com/office/2007/relationships/diagramDrawing\" Target=\"diagrams/drawing1.xml\"/>");
         string types =
             "<Override PartName=\"/word/diagrams/data1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.drawingml.diagramData+xml\"/>" +
             "<Override PartName=\"/word/diagrams/layout1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.drawingml.diagramLayout+xml\"/>" +
             "<Override PartName=\"/word/diagrams/quickStyle1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.drawingml.diagramStyle+xml\"/>" +
             "<Override PartName=\"/word/diagrams/colors1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.drawingml.diagramColors+xml\"/>" +
+            "<Override PartName=\"/word/theme/theme1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.theme+xml\"/>" +
             (cache is null ? string.Empty : "<Override PartName=\"/word/diagrams/drawing1.xml\" ContentType=\"application/vnd.ms-office.drawingml.diagramDrawing+xml\"/>");
         var parts = new List<(string, byte[])>
         {
@@ -303,6 +308,7 @@ internal static class SmartArtSamples
             ("word/diagrams/layout1.xml", Encoding.UTF8.GetBytes(layoutXml ?? LayoutFor(family))),
             ("word/diagrams/quickStyle1.xml", Encoding.UTF8.GetBytes(QuickStyle())),
             ("word/diagrams/colors1.xml", Encoding.UTF8.GetBytes(Colors(span))),
+            ("word/theme/theme1.xml", Encoding.UTF8.GetBytes(DrawingSamples.ThemeXml)),
         };
         if (cache is not null)
         {
@@ -312,12 +318,84 @@ internal static class SmartArtSamples
         return TestDocx.Bytes(FrameBody(widthPt, heightPt, alt), extraRels: rels, extraParts: parts, extraTypes: types);
     }
 
+    // A one-slide PPTX with the diagram in a graphic frame at (36, 54) points.
+    internal static byte[] Pptx(string family, IReadOnlyList<Node> roots, double widthPt = 648, double heightPt = 400, string? cache = null, string? alt = "A diagram", bool span = false)
+    {
+        const string RT = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/";
+        string Pns = DrawingSamples.Pns;
+        const string Decl = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
+        string frame = "<p:graphicFrame><p:nvGraphicFramePr><p:cNvPr id=\"2\" name=\"Diagram 1\"" + (alt is null ? string.Empty : $" descr=\"{System.Security.SecurityElement.Escape(alt)}\"") + "/><p:cNvGraphicFramePr/><p:nvPr/></p:nvGraphicFramePr>" +
+            $"<p:xfrm><a:off x=\"{36 * 12700}\" y=\"{54 * 12700}\"/><a:ext cx=\"{(long)(widthPt * 12700)}\" cy=\"{(long)(heightPt * 12700)}\"/></p:xfrm><a:graphic><a:graphicData uri=\"{DgmUri}\"><dgm:relIds xmlns:dgm=\"{Dgm}\" r:dm=\"rIdD1\" r:lo=\"rIdL1\" r:qs=\"rIdQ1\" r:cs=\"rIdC1\"/></a:graphicData></a:graphic></p:graphicFrame>";
+        string slide = Decl + $"<p:sld {Pns}><p:cSld><p:spTree><p:nvGrpSpPr><p:cNvPr id=\"1\" name=\"\"/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr/>{frame}</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>";
+        const string Rels = Decl + "<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">";
+        var parts = new List<(string Name, string Xml)>
+        {
+            ("[Content_Types].xml", Decl + "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/>" +
+                "<Override PartName=\"/ppt/presentation.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml\"/><Override PartName=\"/ppt/slides/slide1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.presentationml.slide+xml\"/>" +
+                "<Override PartName=\"/ppt/slideLayouts/slideLayout1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml\"/><Override PartName=\"/ppt/slideMasters/slideMaster1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml\"/>" +
+                "<Override PartName=\"/ppt/theme/theme1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.theme+xml\"/>" +
+                "<Override PartName=\"/ppt/diagrams/data1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.drawingml.diagramData+xml\"/><Override PartName=\"/ppt/diagrams/layout1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.drawingml.diagramLayout+xml\"/>" +
+                "<Override PartName=\"/ppt/diagrams/quickStyle1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.drawingml.diagramStyle+xml\"/><Override PartName=\"/ppt/diagrams/colors1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.drawingml.diagramColors+xml\"/>" +
+                (cache is null ? string.Empty : "<Override PartName=\"/ppt/diagrams/drawing1.xml\" ContentType=\"application/vnd.ms-office.drawingml.diagramDrawing+xml\"/>") + "</Types>"),
+            ("_rels/.rels", Rels + $"<Relationship Id=\"rId1\" Type=\"{RT}officeDocument\" Target=\"ppt/presentation.xml\"/></Relationships>"),
+            ("ppt/presentation.xml", Decl + $"<p:presentation {Pns}><p:sldMasterIdLst><p:sldMasterId id=\"2147483648\" r:id=\"rId1\"/></p:sldMasterIdLst><p:sldIdLst><p:sldId id=\"256\" r:id=\"rId2\"/></p:sldIdLst><p:sldSz cx=\"9144000\" cy=\"6858000\"/><p:notesSz cx=\"6858000\" cy=\"9144000\"/></p:presentation>"),
+            ("ppt/_rels/presentation.xml.rels", Rels + $"<Relationship Id=\"rId1\" Type=\"{RT}slideMaster\" Target=\"slideMasters/slideMaster1.xml\"/><Relationship Id=\"rId2\" Type=\"{RT}slide\" Target=\"slides/slide1.xml\"/></Relationships>"),
+            ("ppt/slideMasters/slideMaster1.xml", Decl + $"<p:sldMaster {Pns}><p:cSld><p:spTree><p:nvGrpSpPr><p:cNvPr id=\"1\" name=\"\"/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr/></p:spTree></p:cSld><p:clrMap bg1=\"lt1\" tx1=\"dk1\" bg2=\"lt2\" tx2=\"dk2\" accent1=\"accent1\" accent2=\"accent2\" accent3=\"accent3\" accent4=\"accent4\" accent5=\"accent5\" accent6=\"accent6\" hlink=\"hlink\" folHlink=\"folHlink\"/><p:sldLayoutIdLst><p:sldLayoutId id=\"2147483649\" r:id=\"rId1\"/></p:sldLayoutIdLst></p:sldMaster>"),
+            ("ppt/slideMasters/_rels/slideMaster1.xml.rels", Rels + $"<Relationship Id=\"rId1\" Type=\"{RT}slideLayout\" Target=\"../slideLayouts/slideLayout1.xml\"/><Relationship Id=\"rId2\" Type=\"{RT}theme\" Target=\"../theme/theme1.xml\"/></Relationships>"),
+            ("ppt/slideLayouts/slideLayout1.xml", Decl + $"<p:sldLayout {Pns} type=\"blank\"><p:cSld name=\"Blank\"><p:spTree><p:nvGrpSpPr><p:cNvPr id=\"1\" name=\"\"/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr/></p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sldLayout>"),
+            ("ppt/slideLayouts/_rels/slideLayout1.xml.rels", Rels + $"<Relationship Id=\"rId1\" Type=\"{RT}slideMaster\" Target=\"../slideMasters/slideMaster1.xml\"/></Relationships>"),
+            ("ppt/slides/slide1.xml", slide),
+            ("ppt/slides/_rels/slide1.xml.rels", Rels + $"<Relationship Id=\"rId1\" Type=\"{RT}slideLayout\" Target=\"../slideLayouts/slideLayout1.xml\"/>" +
+                $"<Relationship Id=\"rIdD1\" Type=\"{RT}diagramData\" Target=\"../diagrams/data1.xml\"/><Relationship Id=\"rIdL1\" Type=\"{RT}diagramLayout\" Target=\"../diagrams/layout1.xml\"/>" +
+                $"<Relationship Id=\"rIdQ1\" Type=\"{RT}diagramQuickStyle\" Target=\"../diagrams/quickStyle1.xml\"/><Relationship Id=\"rIdC1\" Type=\"{RT}diagramColors\" Target=\"../diagrams/colors1.xml\"/>" +
+                (cache is null ? string.Empty : "<Relationship Id=\"rIdX1\" Type=\"http://schemas.microsoft.com/office/2007/relationships/diagramDrawing\" Target=\"../diagrams/drawing1.xml\"/>") + "</Relationships>"),
+            ("ppt/theme/theme1.xml", DrawingSamples.ThemeXml),
+            ("ppt/diagrams/data1.xml", DataModel(roots, cache is null ? null : "rIdX1")),
+            ("ppt/diagrams/layout1.xml", LayoutFor(family)),
+            ("ppt/diagrams/quickStyle1.xml", QuickStyle()),
+            ("ppt/diagrams/colors1.xml", Colors(span)),
+        };
+        if (cache is not null)
+        {
+            parts.Add(("ppt/diagrams/drawing1.xml", cache));
+        }
+
+        using var ms = new MemoryStream();
+        using (var zip = new ZipArchive(ms, ZipArchiveMode.Create, leaveOpen: true))
+        {
+            foreach ((string name, string xml) in parts)
+            {
+                ZipArchiveEntry e = zip.CreateEntry(name, CompressionLevel.Optimal);
+                e.LastWriteTime = new DateTimeOffset(2000, 1, 1, 0, 0, 0, TimeSpan.Zero);
+                using var w = new StreamWriter(e.Open(), new UTF8Encoding(false));
+                w.Write(xml);
+            }
+        }
+
+        return ms.ToArray();
+    }
+
+    // The same families as slides, with the engine's own drawing stored in the cached variants.
+    internal static IEnumerable<(string Name, byte[] Pptx)> Presentations()
+    {
+        foreach ((string name, string family, Node[] roots, bool span) in Cases())
+        {
+            if (name is not ("list-5" or "process-3" or "cycle-4" or "hierarchy-7" or "pyramid-4" or "venn-3"))
+            {
+                continue;
+            }
+
+            yield return ("smartart-" + name, Pptx(family, roots, 648, 400, null, "Diagram " + name, span));
+            yield return ("smartart-" + name + "-cached", Pptx(family, roots, 648, 400, CacheFor(family, roots, 648, 400), "Diagram " + name, span));
+        }
+    }
+
     // The drawing part our own engine makes for a generated diagram: used as the stored cache of the "cached" variants.
     internal static string CacheFor(string family, IReadOnlyList<Node> roots, double widthPt, double heightPt)
     {
         byte[] plain = Docx(family, roots, widthPt, heightPt);
         using RecursiveAI.OneDocument.Documents.Document doc = RecursiveAI.OneDocument.Documents.Document.Open(new MemoryStream(plain), leaveOpen: false);
-        DiagramLayoutResult result = DiagramHost.Generate(doc.Package, doc.MainPartName, new DiagramReferences("rIdD1", "rIdL1", "rIdQ1", "rIdC1"), widthPt, heightPt, fonts: TestFonts.Library)
+        DiagramLayoutResult result = DiagramHost.Generate(doc.Package, doc.MainPartName, new DiagramReferences("rIdD1", "rIdL1", "rIdQ1", "rIdC1"), widthPt, heightPt, fonts: Fonts.Value)
             ?? throw new InvalidOperationException("layout failed");
         return Encoding.UTF8.GetString(result.Drawing);
     }

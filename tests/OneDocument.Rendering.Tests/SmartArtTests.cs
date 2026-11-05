@@ -3,6 +3,7 @@ using OneRender.Painting;
 using RecursiveAI.OneDocument.Documents;
 using RecursiveAI.OneDocument.Layout;
 using RecursiveAI.OneDocument.Markup;
+using RecursiveAI.OneDocument.Packaging;
 using RecursiveAI.OneDocument.Rendering.Drawing;
 using RecursiveAI.OneDocument.Rendering.SmartArt;
 using static RecursiveAI.OneDocument.Rendering.Tests.SmartArtSamples;
@@ -486,6 +487,61 @@ public sealed class SmartArtTests
             Assert.DoesNotContain(notes, n => n.Code.StartsWith("smartart.", StringComparison.Ordinal));
             list.Validate();
         }
+    }
+
+    // ---------------------------------------------------------------- slides and sheets
+
+    [Fact]
+    public void A_slide_frame_is_painted_through_the_shape_tree_hook_with_the_frames_alt_text()
+    {
+        byte[] pptx = Pptx("process", Flat("Collect", "Process", "Report"), 648, 300);
+        using OpcPackage package = OpcPackage.Open(new MemoryStream(pptx), null, false);
+        DiagramLocation loc = Assert.Single(DiagramHost.Find(package));
+        Assert.Equal("/ppt/slides/slide1.xml", loc.HostPart);
+        Assert.Equal(648, loc.WidthPoints);
+        Assert.Equal(300, loc.HeightPoints);
+
+        MarkupDocument slide = MarkupDocument.Parse(package.FindPart(loc.HostPart)!.GetBytes());
+        var reports = new List<DiagramReport>();
+        var ctx = new DrawingContext { DiagramPainter = DiagramHost.CreatePainter(package, loc.HostPart, new DiagramOptions { Report = reports.Add }) };
+        var list = new DisplayList();
+        uint id = 0;
+        MarkupNode tree = slide.Root.ChildElements.First().ChildElements.First();
+        Assert.Equal(1, DrawingPainter.DrawShapes(list, () => ItemId.Of(++id), tree, 0, 0, ctx));
+        DiagramReport r = Assert.Single(reports);
+        Assert.Equal(DiagramSource.Regenerated, r.Source);
+        Assert.Equal(5, r.ShapeCount); // three boxes and two arrows
+        Assert.DoesNotContain(ctx.Notes, n => n.Code.StartsWith("drawing.", StringComparison.Ordinal));
+        list.Validate();
+        bool figure = false;
+        for (int i = 0; i < list.Count; i++)
+        {
+            figure |= list[i].Kind == ItemKind.BeginTag && list[i].Role == TagRole.Figure && list[i].AltText == "A diagram";
+        }
+
+        Assert.True(figure);
+        // The frame sits at (36, 54) points: nothing is painted left of or above it.
+        RgbaImage img = DisplayListRasterizer.Render(list, 960, 720, new RasterOptions());
+        for (int y = 0; y < 70; y++)
+        {
+            for (int x = 0; x < 960; x++)
+            {
+                Assert.Equal(255, img.Pixels[((y * 960) + x) * 4]);
+            }
+        }
+    }
+
+    [Fact]
+    public void Without_a_diagram_painter_a_diagram_frame_is_noted_and_the_rest_still_paints()
+    {
+        byte[] pptx = Pptx("list", Flat("A"));
+        using OpcPackage package = OpcPackage.Open(new MemoryStream(pptx), null, false);
+        MarkupDocument slide = MarkupDocument.Parse(package.FindPart("/ppt/slides/slide1.xml")!.GetBytes());
+        var ctx = new DrawingContext();
+        var list = new DisplayList();
+        uint id = 0;
+        DrawingPainter.DrawShapes(list, () => ItemId.Of(++id), slide.Root.ChildElements.First().ChildElements.First(), 0, 0, ctx);
+        Assert.Contains(ctx.Notes, n => n.Code == "drawing.graphic-frame");
     }
 
     // Writes the generated documents and their renderings (PDF is the page list's tagged output; PNG the first page) to a folder.

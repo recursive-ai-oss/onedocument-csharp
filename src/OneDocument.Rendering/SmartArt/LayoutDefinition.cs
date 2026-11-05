@@ -75,6 +75,9 @@ internal sealed class ConstraintDef
 
     public double Value { get; init; }
 
+    /// <summary>True when the constraint states a <c>val</c>. A constraint with neither a value nor a reference only names the property (to be grown by a rule).</summary>
+    public bool HasValue { get; init; }
+
     public double Fact { get; init; } = 1;
 }
 
@@ -283,6 +286,7 @@ internal sealed class LayoutDefinition
                             RefPointType = k.GetAttribute("refPtType") ?? "all",
                             Op = k.GetAttribute("op") ?? "none",
                             Value = Dx.Num(k.GetAttribute("val"), 0),
+                            HasValue = k.GetAttribute("val") is not null,
                             Fact = Dx.Num(k.GetAttribute("fact"), 1),
                         });
                     }

@@ -65,7 +65,9 @@ public sealed record DiagramReferences(string Data, string? Layout, string? Quic
 /// <summary>A diagram frame found in a package.</summary>
 /// <param name="HostPart">The part that holds the frame.</param>
 /// <param name="References">The frame's relationship ids.</param>
-public sealed record DiagramLocation(string HostPart, DiagramReferences References);
+/// <param name="WidthPoints">The frame's width in points, or null when the frame states none.</param>
+/// <param name="HeightPoints">The frame's height in points, or null.</param>
+public sealed record DiagramLocation(string HostPart, DiagramReferences References, double? WidthPoints = null, double? HeightPoints = null);
 
 /// <summary>A request from the drawing painter to paint a diagram frame.</summary>
 /// <param name="References">The frame's relationship ids.</param>
@@ -98,7 +100,8 @@ public sealed record DiagramShape(string Name, string Geometry, double X, double
 /// <param name="Shapes">The shapes in drawing order.</param>
 /// <param name="Drawing">The shapes as a <c>dsp:drawing</c> part, the form Office caches.</param>
 /// <param name="Notes">Notes about what the engine approximated or could not do.</param>
-public sealed record DiagramLayoutResult(IReadOnlyList<DiagramShape> Shapes, byte[] Drawing, IReadOnlyList<string> Notes);
+/// <param name="Outline">The layout nodes the definition produced, one per line, indented by depth: name, algorithm, the point type it was made for, and its rectangle in points. For diagnosing a layout that does not come out as expected.</param>
+public sealed record DiagramLayoutResult(IReadOnlyList<DiagramShape> Shapes, byte[] Drawing, IReadOnlyList<string> Notes, string Outline = "");
 
 /// <summary>
 /// Paints SmartArt diagrams. The stored drawing (<c>dsp:drawing</c>, [MS-ODRAWXML]) is painted as ordinary shapes; when it is missing or
@@ -151,13 +154,33 @@ public static class DiagramHost
         {
             if (c.LocalNameString == "relIds" && DiagramReferences.Read(c) is { } refs)
             {
-                found.Add(new DiagramLocation(host, refs));
+                (double? w, double? h) = FrameSize(c);
+                found.Add(new DiagramLocation(host, refs, w, h));
             }
             else if (c.LocalNameString != "Fallback")
             {
                 Collect(c, host, found, depth + 1);
             }
         }
+    }
+
+    // The size the frame states, from the nearest ancestor that has a wp:extent or an xfrm/ext (EMU to points).
+    private static (double? Width, double? Height) FrameSize(MarkupNode relIds)
+    {
+        int guard = 0;
+        for (MarkupNode cur = relIds.Parent; !cur.IsNull && guard++ < 8; cur = cur.Parent)
+        {
+            foreach (MarkupNode c in cur.ChildElements)
+            {
+                MarkupNode ext = c.LocalNameString == "extent" ? c : c.LocalNameString == "xfrm" ? Dx.Child(c, "ext") : default;
+                if (!ext.IsNull && ext.GetAttribute("cx") is { } cx && ext.GetAttribute("cy") is { } cy)
+                {
+                    return (Dx.Num(cx, 0) / 12700, Dx.Num(cy, 0) / 12700);
+                }
+            }
+        }
+
+        return (null, null);
     }
 
     /// <summary>Creates the function a host installs as <see cref="DrawingContext.DiagramPainter"/>.</summary>
@@ -313,6 +336,73 @@ public static class DiagramHost
         return Regenerate(package, sourcePartName, references, data, widthPoints, heightPoints, ctx);
     }
 
+    /// <summary>Reads the shapes of a diagram's stored drawing without painting it.</summary>
+    /// <param name="package">The package.</param>
+    /// <param name="sourcePartName">The part that holds the frame.</param>
+    /// <param name="references">The frame's relationship ids.</param>
+    /// <returns>The stored shapes in drawing order, or null when the diagram has no readable stored drawing.</returns>
+    public static IReadOnlyList<DiagramShape>? ReadStored(IOpcPackage package, string sourcePartName, DiagramReferences references)
+    {
+        ArgumentNullException.ThrowIfNull(package);
+        ArgumentNullException.ThrowIfNull(references);
+        string? dataPart = ResolvePart(package, sourcePartName, references.Data);
+        DiagramData? data = dataPart is null ? null : LoadData(package, dataPart);
+        string? cachePart = data?.DrawingRelationshipId is { } rid ? ResolvePart(package, sourcePartName, rid) : null;
+        if (cachePart is null || Load(package, cachePart) is not { } drawing || !IsDrawing(drawing))
+        {
+            return null;
+        }
+
+        var shapes = new List<DiagramShape>();
+        foreach (MarkupNode sp in Dx.Child(drawing.Root, "spTree").ChildElements)
+        {
+            if (sp.LocalNameString != "sp")
+            {
+                continue;
+            }
+
+            MarkupNode spPr = Dx.Child(sp, "spPr");
+            MarkupNode xfrm = Dx.Child(spPr, "xfrm");
+            MarkupNode off = Dx.Child(xfrm, "off"), ext = Dx.Child(xfrm, "ext");
+            var sb = new System.Text.StringBuilder();
+            double size = 0;
+            bool first = true;
+            foreach (MarkupNode p in Dx.Children(Dx.Child(sp, "txBody"), "p"))
+            {
+                if (!first)
+                {
+                    sb.Append('\n');
+                }
+
+                first = false;
+                DiagramPoint.AppendParagraph(sb, p);
+                if (size == 0)
+                {
+                    foreach (MarkupNode r in Dx.Children(p, "r"))
+                    {
+                        size = Dx.Num(Dx.Child(r, "rPr").GetAttribute("sz"), 0) / 100;
+                        break;
+                    }
+                }
+            }
+
+            shapes.Add(new DiagramShape(
+                string.Empty,
+                Dx.Child(spPr, "prstGeom").GetAttribute("prst") ?? (Dx.Child(spPr, "custGeom").IsNull ? string.Empty : "custGeom"),
+                Dx.Num(off.IsNull ? null : off.GetAttribute("x"), 0) / 12700,
+                Dx.Num(off.IsNull ? null : off.GetAttribute("y"), 0) / 12700,
+                Dx.Num(ext.IsNull ? null : ext.GetAttribute("cx"), 0) / 12700,
+                Dx.Num(ext.IsNull ? null : ext.GetAttribute("cy"), 0) / 12700,
+                Dx.Num(xfrm.IsNull ? null : xfrm.GetAttribute("rot"), 0) / 60000,
+                sb.ToString(),
+                size,
+                string.Empty,
+                false));
+        }
+
+        return shapes;
+    }
+
     private static DiagramLayoutResult? Regenerate(IOpcPackage package, string source, DiagramReferences refs, DiagramData data, double wPt, double hPt, DrawingContext ctx)
     {
         if (wPt < 1 || hPt < 1 || refs.Layout is null || ResolvePart(package, source, refs.Layout) is not { } loPart || Load(package, loPart) is not { } loDoc || LayoutDefinition.TryRead(loDoc) is not { } def)
@@ -339,7 +429,7 @@ public static class DiagramHost
             s.Instance.FontSize,
             s.Label,
             s.IsConnector)).ToList();
-        return new DiagramLayoutResult(list, drawing, engine.Notes);
+        return new DiagramLayoutResult(list, drawing, engine.Notes, engine.Outline());
     }
 
     // The text of every node must appear in the stored drawing, or the drawing no longer shows the data.
