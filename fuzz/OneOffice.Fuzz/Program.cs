@@ -48,6 +48,7 @@ internal static class Program
         ["table"] = StyleTarget.RunTable,
         ["formula"] = FormulaTarget.RunParse,
         ["formulaeval"] = FormulaTarget.RunEval,
+        ["lookups"] = LookupTarget.Run,
     };
 
     private static int Main(string[] args)
@@ -76,6 +77,7 @@ internal static class Program
                 "csv" => CsvTarget.WriteSeeds(args[2]),
                 "styles" or "sheetfeat" or "table" => StyleTarget.WriteSeeds(args[2]),
                 "formula" or "formulaeval" => FormulaTarget.WriteSeeds(args[2]),
+                "lookups" => LookupTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }
