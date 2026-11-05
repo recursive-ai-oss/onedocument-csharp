@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../src/OneDocument/OneDocument.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Generators/OneDocument.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>

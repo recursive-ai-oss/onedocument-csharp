@@ -54,6 +54,7 @@ internal static class Program
         ["statfuncs"] = StatFuncsTarget.Run,
         ["funcs"] = FuncsTarget.Run,
         ["lookups"] = LookupTarget.Run,
+        ["template"] = TemplateTarget.Run,
     };
 
     private static int Main(string[] args)
@@ -88,6 +89,7 @@ internal static class Program
                 "statfuncs" => StatFuncsTarget.WriteSeeds(args[2]),
                 "funcs" => FuncsTarget.WriteSeeds(args[2]),
                 "lookups" => LookupTarget.WriteSeeds(args[2]),
+                "template" => TemplateTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }
