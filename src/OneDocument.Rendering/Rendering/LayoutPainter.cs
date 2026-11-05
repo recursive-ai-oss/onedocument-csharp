@@ -62,6 +62,9 @@ public static class LayoutPainter
     {
         private const double K = PixelsPerPoint;
         private uint _owner;
+        private int _untagged; // above 0 while painting content that is an artifact (repeated header rows)
+
+        private bool Tagged => options.Tagged && _untagged == 0;
 
         private readonly Dictionary<DrawingSources, DrawingContext> _drawingContexts = [];
 
@@ -103,10 +106,35 @@ public static class LayoutPainter
 
         public void Paint(LayoutPage page)
         {
+            PaintBlocks(page.Children);
+            FlushDrawingNotes();
+            List.Validate();
+        }
+
+        // The blocks of a page or of a table cell: paragraphs (consecutive numbered ones share a list) and tables.
+        private void PaintBlocks(IEnumerable<LayoutNode> blocks)
+        {
             bool listOpen = false;
-            foreach (LayoutParagraph p in page.Paragraphs)
+            foreach (LayoutNode node in blocks)
             {
-                bool inList = p.Label is not null && options.Tagged;
+                if (node is LayoutTable table)
+                {
+                    if (listOpen)
+                    {
+                        List.EndTag();
+                        listOpen = false;
+                    }
+
+                    PaintTable(table);
+                    continue;
+                }
+
+                if (node is not LayoutParagraph p)
+                {
+                    continue;
+                }
+
+                bool inList = p.Label is not null && Tagged;
                 if (listOpen && !inList)
                 {
                     List.EndTag();
@@ -126,15 +154,163 @@ public static class LayoutPainter
             {
                 List.EndTag();
             }
+        }
 
-            FlushDrawingNotes();
-            List.Validate();
+        // Tables: Table > TR > TH/TD > content. Header rows repeated from an earlier page are artifacts. Shading goes under the cell's
+        // content; borders are drawn last so the winning border of a shared edge lies on top of both cells' shading.
+        private void PaintTable(LayoutTable table)
+        {
+            if (Tagged)
+            {
+                List.BeginTag(Id(), TagRole.Table);
+            }
+
+            List<LayoutTableRow> rows = [.. table.Rows];
+            foreach (LayoutTableRow row in rows)
+            {
+                bool artifact = row.IsRepeatedHeader && options.Tagged && _untagged == 0;
+                if (artifact)
+                {
+                    List.BeginTag(Id(), TagRole.Artifact);
+                    _untagged++;
+                }
+                else if (Tagged)
+                {
+                    List.BeginTag(Id(), TagRole.TableRow);
+                }
+
+                foreach (LayoutTableCell cell in row.Cells)
+                {
+                    if (cell.Paint.Shading is { } fill)
+                    {
+                        LayoutRect cb = cell.Bounds;
+                        List.FillRect(Id(20), Rect(cb.X, cb.Y, cb.Width, cb.Height), Rgb(fill));
+                    }
+
+                    if (Tagged)
+                    {
+                        int last = cell.Row + cell.RowSpan - 1;
+                        int span = Math.Max(1, rows.Count(r => r.Index >= cell.Row && r.Index <= last));
+                        List.BeginTag(Id(), cell.IsHeader ? TagRole.TableHeaderCell : TagRole.TableDataCell, columnSpan: cell.ColumnSpan, rowSpan: span);
+                    }
+
+                    PaintBlocks(cell.Children);
+                    if (Tagged)
+                    {
+                        List.EndTag();
+                    }
+                }
+
+                if (artifact)
+                {
+                    _untagged--;
+                    List.EndTag();
+                }
+                else if (Tagged)
+                {
+                    List.EndTag();
+                }
+            }
+
+            if (Tagged)
+            {
+                List.EndTag();
+            }
+
+            foreach (LayoutTableRow row in rows)
+            {
+                foreach (LayoutTableCell cell in row.Cells)
+                {
+                    PaintCellBorders(cell);
+                }
+            }
+        }
+
+        // Collapsed borders straddle the cell edge; with cell spacing each cell's borders sit inside its own box.
+        private void PaintCellBorders(LayoutTableCell cell)
+        {
+            CellPaintInfo info = cell.Paint;
+            LayoutRect b = cell.Bounds;
+            double tw = info.Top?.Width ?? 0;
+            double bw = info.Bottom?.Width ?? 0;
+            double lw = info.Left?.Width ?? 0;
+            double rw = info.Right?.Width ?? 0;
+            if (info.Separate)
+            {
+                if (info.Top is { } t) { Edge(t, b.X, b.Y, b.Width, t.Width, true); }
+                if (info.Bottom is { } bt) { Edge(bt, b.X, b.Bottom - bt.Width, b.Width, bt.Width, true); }
+                if (info.Left is { } l) { Edge(l, b.X, b.Y, b.Height, l.Width, false); }
+                if (info.Right is { } r) { Edge(r, b.Right - r.Width, b.Y, b.Height, r.Width, false); }
+                return;
+            }
+
+            if (info.Top is { } top)
+            {
+                Edge(top, b.X - (lw / 2), b.Y - (tw / 2), b.Width + (lw / 2) + (rw / 2), tw, true);
+            }
+
+            if (info.Left is { } left)
+            {
+                Edge(left, b.X - (lw / 2), b.Y - (tw / 2), b.Height + (tw / 2) + (bw / 2), lw, false);
+            }
+
+            if (info.PaintBottom && info.Bottom is { } bottom)
+            {
+                Edge(bottom, b.X - (lw / 2), b.Bottom - (bw / 2), b.Width + (lw / 2) + (rw / 2), bw, true);
+            }
+
+            if (info.PaintRight && info.Right is { } right)
+            {
+                Edge(right, b.Right - (rw / 2), b.Y - (tw / 2), b.Height + (tw / 2) + (bw / 2), rw, false);
+            }
+        }
+
+        // One border line: (x, y) is the top-left of a box that is len long and thick across. Double and triple styles draw alternate
+        // strips; dotted and dashed draw segments; everything else is solid.
+        private void Edge(CellEdge e, double x, double y, double len, double thick, bool horizontal)
+        {
+            PaintColor color = Rgb(e.Color);
+            void Piece(double along, double length, double across, double width)
+            {
+                if (length <= 0 || width <= 0)
+                {
+                    return;
+                }
+
+                RectF rect = horizontal ? Rect(x + along, y + across, length, width) : Rect(x + across, y + along, width, length);
+                List.FillRect(Id(21), rect, color);
+            }
+
+            int lines = TableBorders.Lines(e.Style);
+            if (lines > 1)
+            {
+                double strip = thick / ((2 * lines) - 1);
+                for (int i = 0; i < lines; i++)
+                {
+                    Piece(0, len, i * 2 * strip, strip);
+                }
+
+                return;
+            }
+
+            if (e.Style is "dotted" or "dashed" or "dotDash" or "dotDotDash" or "dashSmallGap")
+            {
+                double seg = Math.Max(thick, 1) * (e.Style == "dotted" ? 1 : 3);
+                for (double a = 0; a < len; a += seg * 2)
+                {
+                    Piece(a, Math.Min(seg, len - a), 0, thick);
+                }
+
+                return;
+            }
+
+            Piece(0, len, 0, thick);
         }
 
         private void PaintParagraph(LayoutParagraph p, bool inList)
         {
             PaintDecoration(p);
-            bool tagged = options.Tagged;
+            bool tagged = Tagged;
             foreach (InlineDrawing f in p.Floats)
             {
                 if (f.Info.BehindText && !p.ContinuesFromPreviousPage)
@@ -321,7 +497,7 @@ public static class LayoutPainter
 
                 FormattedParagraph fp = ParagraphFormatter.Format(lc.Doc.WrapParagraph(new MarkupRef(child)), lc, lineWidth);
                 double gap = first ? fp.SpaceBefore : pendingAfter + fp.SpaceBefore;
-                laid.Add(ParagraphBuilder.Build(fp, 0, fp.Lines.Count, 0, y + gap, true, true, out double end, out _));
+                laid.Add(ParagraphEmitter.Build(fp, 0, fp.Lines.Count, 0, y + gap, true, true, out double end, out _));
                 y = end;
                 pendingAfter = fp.SpaceAfter;
                 first = false;
@@ -452,8 +628,8 @@ public static class LayoutPainter
                 return;
             }
 
-            bool link = options.Tagged && paint.LinkTarget is not null && run.RunKind == LayoutRunKind.Text;
-            bool span = options.Tagged && !link && paint.Language is { Length: > 0 } lang && !string.Equals(lang, options.Language, StringComparison.OrdinalIgnoreCase);
+            bool link = Tagged && paint.LinkTarget is not null && run.RunKind == LayoutRunKind.Text;
+            bool span = Tagged && !link && paint.Language is { Length: > 0 } lang && !string.Equals(lang, options.Language, StringComparison.OrdinalIgnoreCase);
             if (link)
             {
                 List.BeginTag(Id(), TagRole.Link, linkTarget: paint.LinkTarget, language: null);

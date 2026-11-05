@@ -4,10 +4,10 @@ namespace RecursiveAI.OneDocument.Layout;
 
 /// <summary>
 /// Lays a document out into pages. This stage flows paragraphs down single-column pages of each section's size and margins, with
-/// widow and orphan control, keep-with-next, keep-lines-together and page-break-before. Tables, headers and footers, columns, floating
-/// objects, notes and fields are later stages and are reported in <see cref="LayoutDocument.Notes"/>.
+/// widow and orphan control, keep-with-next, keep-lines-together and page-break-before, and tables (see docs/layout-tables.md). Headers
+/// and footers, columns, floating objects, notes and fields are later stages and are reported in <see cref="LayoutDocument.Notes"/>.
 /// </summary>
-public static class LayoutEngine
+public static partial class LayoutEngine
 {
     /// <summary>Lays out a document.</summary>
     /// <param name="document">The document. It is read, not changed.</param>
@@ -52,7 +52,7 @@ public static class LayoutEngine
     }
 
     // The page-by-page placement state.
-    private sealed class Flow(LayoutContext ctx, LayoutOptions options)
+    private sealed partial class Flow(LayoutContext ctx, LayoutOptions options)
     {
         private readonly List<LayoutPage> _pages = [];
         private LayoutPage? _page;
@@ -67,6 +67,8 @@ public static class LayoutEngine
         private double _pageHeight;
         private double _textWidth;
         private bool _forceBreakBeforeNext;
+
+        private LayoutContext Ctx => ctx;
 
         public bool Stopped { get; private set; }
 
@@ -146,8 +148,8 @@ public static class LayoutEngine
                     case BlockContentControl cc:
                         Collect(cc.Content.Blocks(), into, ct);
                         break;
-                    case Table:
-                        ctx.NoteOnce("layout.table-skipped", "layout.table-skipped", "Tables are not laid out yet; their content is left out of the pages.", b);
+                    case Table t:
+                        into.Add(TableFormatter.FormatBlock(t, ctx, _textWidth));
                         break;
                     default:
                         ctx.NoteOnce("layout.block-skipped", "layout.block-skipped", "A block that is not a paragraph or a table is left out of the pages.", b);
@@ -209,6 +211,12 @@ public static class LayoutEngine
         private void Place(List<FormattedParagraph> blocks, int index)
         {
             FormattedParagraph fp = blocks[index];
+            if (fp is FormattedTableBlock tableBlock)
+            {
+                PlaceTable(tableBlock.Table);
+                return;
+            }
+
             if (_page is null)
             {
                 StartPage();
@@ -367,7 +375,7 @@ public static class LayoutEngine
                 top = _y;
             }
 
-            LayoutParagraph lp = ParagraphBuilder.Build(fp, from, count, page.ContentArea.X, top, first, last, out double y, out bool breakAfter);
+            LayoutParagraph lp = ParagraphEmitter.Build(fp, from, count, page.ContentArea.X, top, first, last, out double y, out bool breakAfter);
             page.Add(lp);
             _y = y;
             _pageHasContent = true;
@@ -377,91 +385,5 @@ public static class LayoutEngine
                 _forceBreakBeforeNext = true;
             }
         }
-    }
-}
-
-// Turns formatted lines into layout nodes at a given origin: the page flow and shape text both build their paragraphs here.
-internal static class ParagraphBuilder
-{
-    public static LayoutParagraph Build(FormattedParagraph fp, int from, int count, double left, double top, bool first, bool last, out double endY, out bool breakAfter)
-    {
-        double y = top + (first ? fp.BorderTopHeight : 0);
-        var lp = new LayoutParagraph(fp.Source, fp.Text)
-        {
-            Label = first ? fp.Label : null,
-            HeadingLevel = fp.Heading,
-            IsRightToLeft = fp.Rtl,
-            ContinuesFromPreviousPage = !first,
-            ContinuesOnNextPage = !last,
-            Paint = fp.Paint,
-        };
-
-        breakAfter = false;
-        for (int i = from; i < from + count; i++)
-        {
-            FormattedLine fl = fp.Lines[i];
-            var line = new LayoutLine
-            {
-                Ascent = fl.Ascent,
-                Descent = fl.Descent,
-                Baseline = y + fl.Ascent,
-                TextStart = fl.TextStart,
-                TextLength = fl.TextLength,
-                Text = fl.Text,
-                IsLastLine = fl.IsLast,
-            };
-            double minX = double.MaxValue;
-            double maxX = double.MinValue;
-            foreach (LineItem item in fl.Items)
-            {
-                var run = new LayoutRun(item.Kind)
-                {
-                    Text = item.Text,
-                    TextStart = item.TextStart,
-                    Source = item.Source,
-                    Font = item.Font,
-                    FontSize = item.Size,
-                    BidiLevel = item.Level,
-                    Bounds = new LayoutRect(left + item.X, y, item.Width, fl.Height),
-                    ClusterStarts = item.ClusterStarts,
-                    ClusterX = [.. item.ClusterX.Select(v => v + left)],
-                    Paint = item.Paint,
-                    Glyphs = item.Glyphs,
-                    Drawing = item.Drawing,
-                };
-                line.Add(run);
-                minX = Math.Min(minX, left + item.X);
-                maxX = Math.Max(maxX, left + item.X + item.Width);
-            }
-
-            if (minX > maxX)
-            {
-                minX = left + fp.Paint.LeftEdge;
-                maxX = minX;
-            }
-
-            line.Bounds = new LayoutRect(minX, y, maxX - minX, fl.Height);
-            lp.Add(line);
-            y += fl.Height;
-            if (fl.EndsWithPageBreak)
-            {
-                breakAfter = true;
-            }
-        }
-
-        if (last)
-        {
-            y += fp.BorderBottomHeight;
-        }
-
-        if (first)
-        {
-            lp.Floats.AddRange(fp.Floats);
-        }
-
-        lp.Bounds = new LayoutRect(left + fp.Paint.LeftEdge, top, Math.Max(0, fp.Paint.RightEdge - fp.Paint.LeftEdge), y - top);
-
-        endY = y;
-        return lp;
     }
 }

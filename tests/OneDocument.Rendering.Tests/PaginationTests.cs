@@ -142,12 +142,13 @@ public sealed class PaginationTests
     }
 
     [Fact]
-    public void TablesAreReportedNotDropped()
+    public void TablesAreLaidOutBetweenParagraphs()
     {
         string table = "<w:tbl><w:tblPr/><w:tblGrid><w:gridCol w:w=\"2000\"/></w:tblGrid><w:tr><w:tc><w:p><w:r><w:t>cell</w:t></w:r></w:p></w:tc></w:tr></w:tbl>";
         LayoutDocument l = Lay(TestDocx.P("a") + table + TestDocx.P("b"));
-        Assert.Contains(l.Notes, n => n.Code == "layout.table-skipped");
+        Assert.DoesNotContain(l.Notes, n => n.Code == "layout.table-skipped");
         Assert.Equal(2, l.Pages[0].Paragraphs.Count());
+        Assert.Equal("cell", l.Pages[0].Tables.Single().Rows.Single().Cells.Single().Paragraphs.Single().Text);
     }
 
     [Fact]
