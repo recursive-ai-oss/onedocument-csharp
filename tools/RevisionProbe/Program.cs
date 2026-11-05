@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using RecursiveAI.OneOffice.Packaging;
+using RecursiveAI.OneDocument.Packaging;
 using System.Text;
 using System.Text.Json;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Diagnostics;
-using RecursiveAI.OneOffice.Documents.Revisions;
-using RecursiveAI.OneOffice.Markup;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.Documents.Revisions;
+using RecursiveAI.OneDocument.Markup;
 
-namespace RecursiveAI.OneOffice.Tools.RevisionProbe;
+namespace RecursiveAI.OneDocument.Tools.RevisionProbe;
 
 /// <summary>
 /// Corpus driver for the revision model.

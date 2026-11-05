@@ -5,10 +5,10 @@ using System.Linq;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Diagnostics;
-using RecursiveAI.OneOffice.Spreadsheets;
-using RecursiveAI.OneOffice.Spreadsheets.Csv;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets.Csv;
 
 // CsvProbe: drives the CSV layer for the checks in tools/csv-grid and the corpus sweep.
 //

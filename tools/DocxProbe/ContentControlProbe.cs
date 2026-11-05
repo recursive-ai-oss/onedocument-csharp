@@ -5,12 +5,12 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using RecursiveAI.OneOffice.Diagnostics;
-using RecursiveAI.OneOffice.Documents;
-using RecursiveAI.OneOffice.Documents.ContentControls;
-using RecursiveAI.OneOffice.Packaging;
+using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.Documents;
+using RecursiveAI.OneDocument.Documents.ContentControls;
+using RecursiveAI.OneDocument.Packaging;
 
-namespace RecursiveAI.OneOffice.Tools.DocxProbe;
+namespace RecursiveAI.OneDocument.Tools.DocxProbe;
 
 /// <summary>
 /// Content-control commands. <c>sdt-census FILE...</c> prints one JSON line per file with the controls by type and level, how many are

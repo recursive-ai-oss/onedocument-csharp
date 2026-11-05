@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RecursiveAI.OneDocument.Tools.CalcSweep</RootNamespace>
+    <AssemblyName>CalcSweep</AssemblyName>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/OneDocument.Spreadsheets/OneDocument.Spreadsheets.csproj" />
+  </ItemGroup>
+
+</Project>

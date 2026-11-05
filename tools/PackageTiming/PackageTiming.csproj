@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <RootNamespace>RecursiveAI.OneOffice.Tools.PackageTiming</RootNamespace>
+    <RootNamespace>RecursiveAI.OneDocument.Tools.PackageTiming</RootNamespace>
     <AssemblyName>PackageTiming</AssemblyName>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../src/OneOffice/OneOffice.csproj" />
+    <ProjectReference Include="../../src/OneDocument/OneDocument.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RecursiveAI.OneDocument.Fuzz</RootNamespace>
+    <AssemblyName>RecursiveAI.OneDocument.Fuzz</AssemblyName>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SharpFuzz" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/OneDocument/OneDocument.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Documents/OneDocument.Documents.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Spreadsheets/OneDocument.Spreadsheets.csproj" />
+  </ItemGroup>
+
+</Project>

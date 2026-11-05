@@ -1,0 +1,8 @@
+<Project>
+  <!-- Adds a module initializer to the consuming C# project that registers this package's formats with the default registry.
+       It is a plain source file, not reflection or assembly scanning: the trimmer and NativeAOT keep only the kinds an application
+       references. -->
+  <ItemGroup Condition="'$(Language)' == 'C#' and '$(OneDocumentAutoRegister)' != 'false'">
+    <Compile Include="$(MSBuildThisFileDirectory)RecursiveAI.OneDocument.Spreadsheets.cs" Visible="false" />
+  </ItemGroup>
+</Project>

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <RootNamespace>RecursiveAI.OneOffice.Tools.ViewGenerator</RootNamespace>
+    <RootNamespace>RecursiveAI.OneDocument.Tools.ViewGenerator</RootNamespace>
     <AssemblyName>ViewGenerator</AssemblyName>
     <IsPackable>false</IsPackable>
   </PropertyGroup>

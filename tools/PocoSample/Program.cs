@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using RecursiveAI.OneOffice.Diagnostics;
-using RecursiveAI.OneOffice.Spreadsheets;
-using RecursiveAI.OneOffice.Spreadsheets.Binding;
+using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets.Binding;
 
-namespace RecursiveAI.OneOffice.PocoSample;
+namespace RecursiveAI.OneDocument.PocoSample;
 
 public enum Tier
 {

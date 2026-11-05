@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.WebAssembly">
 
   <PropertyGroup>
-    <RootNamespace>RecursiveAI.OneOffice.Smoke</RootNamespace>
+    <RootNamespace>RecursiveAI.OneDocument.Smoke</RootNamespace>
     <AssemblyName>WasmSmoke</AssemblyName>
     <IsPackable>false</IsPackable>
     <IsAotCompatible>true</IsAotCompatible>
@@ -23,12 +23,12 @@
     <Compile Include="../shared/StreamSmoke.cs" Link="StreamSmoke.cs" />
     <Compile Include="../shared/CsvSmoke.cs" Link="CsvSmoke.cs" />
     <Compile Include="../shared/PocoSmoke.cs" Link="PocoSmoke.cs" />
-    <Compile Include="../../tests/OneOffice.Schema.Tests/TextTree.cs" Link="TextTree.cs" />
-    <ProjectReference Include="../../src/OneOffice/OneOffice.csproj" />
-    <ProjectReference Include="../../src/OneOffice.Schema/OneOffice.Schema.csproj" />
-    <ProjectReference Include="../../src/OneOffice.Spreadsheets/OneOffice.Spreadsheets.csproj" />
-    <ProjectReference Include="../../src/OneOffice.Generators/OneOffice.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-    <ProjectReference Include="../../src/OneOffice.Documents/OneOffice.Documents.csproj" />
+    <Compile Include="../../tests/OneDocument.Schema.Tests/TextTree.cs" Link="TextTree.cs" />
+    <ProjectReference Include="../../src/OneDocument/OneDocument.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Schema/OneDocument.Schema.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Spreadsheets/OneDocument.Spreadsheets.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Generators/OneDocument.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="../../src/OneDocument.Documents/OneDocument.Documents.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 # Spreadsheets: the workbook hub and the cell store
 
-`RecursiveAI.OneOffice.Spreadsheets` holds the SpreadsheetML hub: `Workbook`, `Worksheet`, `Cell`, the cell store and the shared string table. This note states what they do; the XML documentation on each type gives the details. Defect codes are in `defects.md` (prefix `xlsx.`).
+`RecursiveAI.OneDocument.Spreadsheets` holds the SpreadsheetML hub: `Workbook`, `Worksheet`, `Cell`, the cell store and the shared string table. This note states what they do; the XML documentation on each type gives the details. Defect codes are in `defects.md` (prefix `xlsx.`).
 
 ## What is read, when
 

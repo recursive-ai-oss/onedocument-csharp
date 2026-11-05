@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Compares OneOffice's reading of a CSV (CsvProbe cells) with Excel's (office-oracle --cells).
+"""Compares OneDocument's reading of a CSV (CsvProbe cells) with Excel's (office-oracle --cells).
 
     compare.py INPUT.csv OURS.tsv EXCEL.tsv [--ids] [--tol X]   (--ids skips the leading id column of the value grid)
 
 Cells are keyed by row and column. A cell agrees when the type and value agree; number formats are listed separately (Excel's
-format for a typed date or percent against the code OneOffice would give it). Prints the counts and every difference.
+format for a typed date or percent against the code OneDocument would give it). Prints the counts and every difference.
 """
 import sys
 

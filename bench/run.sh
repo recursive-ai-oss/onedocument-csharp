@@ -3,27 +3,27 @@
 #
 #   bench/run.sh [--run NAME] [--filter GLOB] [--threads 1|all] [--no-peak] [--no-timing] [--force]
 #
-#   --run NAME      result directory name under $ONEOFFICE_RESULTS (default: UTC timestamp)
+#   --run NAME      result directory name under $ONEDOCUMENT_RESULTS (default: UTC timestamp)
 #   --filter GLOB   BenchmarkDotNet filter, e.g. '*Bench.DocxLoadSave*' (default: all document rows)
 #   --threads 1     one core visible to the runtime (DOTNET_PROCESSOR_COUNT=1); 'all' leaves the machine alone
 #   --xlsx KIND     run a spreadsheet group instead of the document rows: read, write, model (fresh process per row and input,
 #                   see XlsxStreamBench) or bpc (bytes per cell, fresh process per library and input). XLSXBENCH_SIZES narrows
-#                   the row counts; bpc takes every .xlsx in $ONEOFFICE_BENCH_INPUTS/xlsx.
+#                   the row counts; bpc takes every .xlsx in $ONEDOCUMENT_BENCH_INPUTS/xlsx.
 #   --no-peak       skip the fresh-process peak-memory pass
 #   --no-timing     skip BenchmarkDotNet (peak-memory pass only)
 #   --force         start even when the machine is busy; the override is written into env.txt
 #
 # Environment:
-#   ONEOFFICE_RESULTS         where result directories go (default: $HOME/oneoffice/results/bench)
-#   ONEOFFICE_BENCH_INPUTS    where generated inputs are kept (default: $ONEOFFICE_RESULTS/inputs)
-#   ONEOFFICE_BENCH_MAXLOAD   refuse to start when the 1-minute load average is above this (default: 2.0)
-#   ONEOFFICE_BENCH_DLL       a built OneOffice.Bench.dll (default: build Release and use that)
+#   ONEDOCUMENT_RESULTS         where result directories go (default: $HOME/oneoffice/results/bench)
+#   ONEDOCUMENT_BENCH_INPUTS    where generated inputs are kept (default: $ONEDOCUMENT_RESULTS/inputs)
+#   ONEDOCUMENT_BENCH_MAXLOAD   refuse to start when the 1-minute load average is above this (default: 2.0)
+#   ONEDOCUMENT_BENCH_DLL       a built OneDocument.Bench.dll (default: build Release and use that)
 #   DOTNET                    the dotnet executable (default: dotnet from PATH)
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 dotnet_bin="${DOTNET:-dotnet}"
-results_root="${ONEOFFICE_RESULTS:-$HOME/oneoffice/results/bench}"
+results_root="${ONEDOCUMENT_RESULTS:-$HOME/oneoffice/results/bench}"
 run="$(date -u +%Y%m%dT%H%M%SZ)"
 filter='*Bench.Docx*'
 threads=all
@@ -45,10 +45,10 @@ while [[ $# -gt 0 ]]; do
 done
 
 out="$results_root/$run"
-inputs="${ONEOFFICE_BENCH_INPUTS:-$results_root/inputs}"
-maxload="${ONEOFFICE_BENCH_MAXLOAD:-2.0}"
+inputs="${ONEDOCUMENT_BENCH_INPUTS:-$results_root/inputs}"
+maxload="${ONEDOCUMENT_BENCH_MAXLOAD:-2.0}"
 mkdir -p "$out" "$inputs"
-export ONEOFFICE_BENCH_INPUTS="$inputs"
+export ONEDOCUMENT_BENCH_INPUTS="$inputs"
 
 # Load average: /proc on Linux, sysctl on macOS.
 loadavg3() {
@@ -93,11 +93,11 @@ fi
   snapshot before
 } > "$out/env.txt"
 
-dll="${ONEOFFICE_BENCH_DLL:-}"
+dll="${ONEDOCUMENT_BENCH_DLL:-}"
 if [[ -z "$dll" ]]; then
-  "$dotnet_bin" build "$root/bench/OneOffice.Bench/OneOffice.Bench.csproj" -c Release -v quiet -clp:NoSummary >"$out/build.log" 2>&1
-  # The repository's Directory.Build.props sends build output to $ONEOFFICE_ARTIFACTS (default: artifacts/ at the root).
-  dll="$(find "${ONEOFFICE_ARTIFACTS:-$root/artifacts}/bin/OneOffice.Bench/release" -name 'OneOffice.Bench.dll' | head -1)"
+  "$dotnet_bin" build "$root/bench/OneDocument.Bench/OneDocument.Bench.csproj" -c Release -v quiet -clp:NoSummary >"$out/build.log" 2>&1
+  # The repository's Directory.Build.props sends build output to $ONEDOCUMENT_ARTIFACTS (default: artifacts/ at the root).
+  dll="$(find "${ONEDOCUMENT_ARTIFACTS:-$root/artifacts}/bin/OneDocument.Bench/release" -name 'OneDocument.Bench.dll' | head -1)"
 fi
 
 if [[ "$threads" == 1 ]]; then

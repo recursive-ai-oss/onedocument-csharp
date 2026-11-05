@@ -34,7 +34,7 @@ sdk: 10.0.403
 
 ```text
 runtime	.NET 10.0.14
-OneOffice	0.1.0-preview.1
+OneDocument	0.1.0-preview.1
 DocumentFormat.OpenXml	3.5.1
 NPOI	2.7.6
 ClosedXML	0.105.1
@@ -47,26 +47,26 @@ BenchmarkDotNet	0.15.8
 
 ## Streaming write
 
-| Input | Row | Reps | Median | Min | Ratio to OneOffice | Allocated per cell | Peak working set | Checksum |
+| Input | Row | Reps | Median | Min | Ratio to OneDocument | Allocated per cell | Peak working set | Checksum |
 |---|---|---:|---:|---:|---:|---:|---:|---|
-| write-10000 | oneoffice.write.shared | 5 | 18.6 ms | 18.3 ms | 1.00x | 8.81 B | 49 MB | 10000 |
-| write-10000 | oneoffice.write.inline | 5 | 19.5 ms | 19.3 ms | 1.05x | 4.03 B | 47 MB | 10000 |
+| write-10000 | onedocument.write.shared | 5 | 18.6 ms | 18.3 ms | 1.00x | 8.81 B | 49 MB | 10000 |
+| write-10000 | onedocument.write.inline | 5 | 19.5 ms | 19.3 ms | 1.05x | 4.03 B | 47 MB | 10000 |
 | write-10000 | miniexcel.write | 5 | 58.4 ms | 57.5 ms | 3.14x | 571.10 B | 89 MB | 10000 |
 | write-10000 | openxml.write | 5 | 213.7 ms | 209.8 ms | 11.49x | 817.07 B | 114 MB | 10000 |
-| write-100000 | oneoffice.write.shared | 3 | 170.0 ms | 165.9 ms | 1.00x | 0.88 B | 47 MB | 100000 |
-| write-100000 | oneoffice.write.inline | 3 | 185.9 ms | 183.6 ms | 1.09x | 0.40 B | 47 MB | 100000 |
+| write-100000 | onedocument.write.shared | 3 | 170.0 ms | 165.9 ms | 1.00x | 0.88 B | 47 MB | 100000 |
+| write-100000 | onedocument.write.inline | 3 | 185.9 ms | 183.6 ms | 1.09x | 0.40 B | 47 MB | 100000 |
 | write-100000 | miniexcel.write | 3 | 559.5 ms | 558.2 ms | 3.29x | 440.35 B | 101 MB | 100000 |
 | write-100000 | openxml.write | 3 | 1.70 s | 744.3 ms | 9.99x | 781.58 B | 188 MB | 100000 |
-| write-1000000 | oneoffice.write.shared | 2 | 2.34 s | 1.92 s | 1.00x | 0.09 B | 49 MB | 1000000 |
-| write-1000000 | oneoffice.write.inline | 2 | 2.31 s | 2.15 s | 0.99x | 0.04 B | 48 MB | 1000000 |
+| write-1000000 | onedocument.write.shared | 2 | 2.34 s | 1.92 s | 1.00x | 0.09 B | 49 MB | 1000000 |
+| write-1000000 | onedocument.write.inline | 2 | 2.31 s | 2.15 s | 0.99x | 0.04 B | 48 MB | 1000000 |
 | write-1000000 | miniexcel.write | 2 | 3.26 s | 2.55 s | 1.39x | 390.14 B | 104 MB | 1000000 |
 | write-1000000 | openxml.write | 2 | 7.57 s | 7.54 s | 3.23x | 842.93 B | 1240 MB | 1000000 |
 
-## Bar: OneOffice against the fastest managed comparator
+## Bar: OneDocument against the fastest managed comparator
 
-Ratio is OneOffice median / the fastest comparator's median for the same operation and input; at or below 1.00 is faster. Gate rows only (the informational rows above are not in it).
+Ratio is OneDocument median / the fastest comparator's median for the same operation and input; at or below 1.00 is faster. Gate rows only (the informational rows above are not in it).
 
-| Operation | Input | OneOffice | Fastest comparator | Comparator median | Ratio |
+| Operation | Input | OneDocument | Fastest comparator | Comparator median | Ratio |
 |---|---|---:|---|---:|---:|
 | Streaming write | write-10000 | 18.6 ms | miniexcel.write | 58.4 ms | 0.32x |
 | Streaming write | write-100000 | 170.0 ms | miniexcel.write | 559.5 ms | 0.30x |

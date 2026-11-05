@@ -1,6 +1,6 @@
-using RecursiveAI.OneOffice.NumberFormats;
+using RecursiveAI.OneDocument.NumberFormats;
 
-namespace RecursiveAI.OneOffice.Smoke;
+namespace RecursiveAI.OneDocument.Smoke;
 
 /// <summary>Number formats under NativeAOT and WASM: output must not depend on the host's culture data.</summary>
 internal static class NumFmtSmoke

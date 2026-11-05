@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds a folder of .docx files for the typed-view walk test (tests/OneOffice.Schema.Tests/WalkTests.cs) by converting legacy
+# Builds a folder of .docx files for the typed-view walk test (tests/OneDocument.Schema.Tests/WalkTests.cs) by converting legacy
 # .doc files with LibreOffice headless, run as a black-box converter.
 #
 #   make-docx-walk-corpus.sh <soffice-wrapper> <folder-with-doc-files> <output-folder> <count> <profile-dir>

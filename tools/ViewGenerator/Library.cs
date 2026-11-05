@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace RecursiveAI.OneOffice.Tools.ViewGenerator;
+namespace RecursiveAI.OneDocument.Tools.ViewGenerator;
 
 /// <summary>One line of views.manifest: a schema file and how its vocabulary is named in C#.</summary>
 internal sealed record ManifestEntry(string Path, string EnumName, string Prefix, string Role)

@@ -203,9 +203,9 @@ def main():
     ap.add_argument("--quiet", action="store_true")
     ap.add_argument("files", nargs="+")
     a = ap.parse_args()
-    dirs = a.schemas or [d for d in os.environ.get("ONEOFFICE_XSD", "").split(os.pathsep) if d]
+    dirs = a.schemas or [d for d in os.environ.get("ONEDOCUMENT_XSD", "").split(os.pathsep) if d]
     if not dirs:
-        print("no schema directories: pass --schemas or set ONEOFFICE_XSD", file=sys.stderr)
+        print("no schema directories: pass --schemas or set ONEDOCUMENT_XSD", file=sys.stderr)
         return 2
     schemas = SchemaSet(dirs)
     understood = schemas.namespaces | set(a.understand)

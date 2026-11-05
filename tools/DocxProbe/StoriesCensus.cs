@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Diagnostics;
-using RecursiveAI.OneOffice.Documents;
-using RecursiveAI.OneOffice.Documents.Numbering;
-using RecursiveAI.OneOffice.Packaging;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.Documents;
+using RecursiveAI.OneDocument.Documents.Numbering;
+using RecursiveAI.OneDocument.Packaging;
 
-namespace RecursiveAI.OneOffice.Tools.DocxProbe;
+namespace RecursiveAI.OneDocument.Tools.DocxProbe;
 
 internal static partial class Program
 {
@@ -75,11 +75,11 @@ internal static partial class Program
 
     private static void CoreInfo(Document doc, Dictionary<string, object?> line)
     {
-        RecursiveAI.OneOffice.Properties.CoreProperties c = doc.Properties.Core;
+        RecursiveAI.OneDocument.Properties.CoreProperties c = doc.Properties.Core;
         int core = new object?[] { c.Title, c.Subject, c.Creator, c.Keywords, c.Description, c.LastModifiedBy, c.Revision, c.Category, c.ContentStatus, c.Language, c.Identifier, c.Version, c.Created, c.Modified, c.LastPrinted }.Count(v => v is not null);
         line["coreProperties"] = core;
         line["appProperties"] = new object?[] { doc.Properties.Extended.Application, doc.Properties.Extended.Company, doc.Properties.Extended.Pages, doc.Properties.Extended.Words }.Count(v => v is not null);
-        IReadOnlyList<RecursiveAI.OneOffice.Properties.CustomProperty> custom = doc.Properties.Custom.List();
+        IReadOnlyList<RecursiveAI.OneDocument.Properties.CustomProperty> custom = doc.Properties.Custom.List();
         line["customProperties"] = custom.Count;
         line["customTypes"] = custom.GroupBy(p => p.Type.ToString()).OrderBy(g => g.Key, StringComparer.Ordinal).ToDictionary(g => g.Key, g => g.Count());
         line["createdParsed"] = c.Created is not null;

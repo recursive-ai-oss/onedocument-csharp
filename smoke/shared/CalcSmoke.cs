@@ -1,6 +1,6 @@
-using RecursiveAI.OneOffice.Calc;
+using RecursiveAI.OneDocument.Calc;
 
-namespace RecursiveAI.OneOffice.Smoke;
+namespace RecursiveAI.OneDocument.Smoke;
 
 /// <summary>The formula parser, printer and evaluator under NativeAOT and WASM: no reflection, so the explicit function registry must be enough.</summary>
 internal static class CalcSmoke
@@ -36,6 +36,17 @@ internal static class CalcSmoke
         Check("IMSUM(\"1+i\",\"2\")", "3+i");
         Check("TEXT(BESSELY(1,0),\"0.00000000\")", "0.08825696");
         Check("DCOUNT(A1:B3,1,A1:A2)", "0");
+        Check("ROUND(2.675,2)+MOD(-3,2)", "3.68");
+        Check("SUMIF(A1:A3,\">11\")", "52"); // 21 + 31
+        Check("TEXTJOIN(\"-\",TRUE,\"a\",\"\",\"b\")", "a-b");
+        Check("REGEXREPLACE(\"a1b2\",\"[0-9]\",\"#\")", "a#b#");
+        Check("MMULT({1,2;3,4},{5;6})", "array 2x1");
+        Check("ROMAN(2013)&SUBSTITUTE(\"x\",\"x\",\"y\")", "MMXIIIy");
+        Check("XLOOKUP(2,{1,2,3},{10,20,30})", "20");
+        Check("SORT({3;1;2})", "array 3x1");
+        Check("REDUCE(0,{1,2,3},SUM)", "6");
+        Check("INDIRECT(\"B2\")", "22");
+        Check("GROUPBY({\"a\";\"b\";\"a\"},{1;2;3},SUM,0,0)", "array 2x2");
         string printed = FormulaPrinter.Print(FormulaParser.Parse("_xlfn.SEQUENCE(2)+'S 1'!$A$1"));
         if (printed != "_xlfn.SEQUENCE(2)+'S 1'!$A$1")
         {

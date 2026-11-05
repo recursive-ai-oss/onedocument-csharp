@@ -1,6 +1,6 @@
 # Markup: the XML tokenizer, writer, tree and reader
 
-This note states the behaviour of the XML layer (`RecursiveAI.OneOffice.Markup.Xml` and `RecursiveAI.OneOffice.Markup`). The XML documentation on each type states the details.
+This note states the behaviour of the XML layer (`RecursiveAI.OneDocument.Markup.Xml` and `RecursiveAI.OneDocument.Markup`). The XML documentation on each type states the details.
 
 ## Standards
 
@@ -8,7 +8,7 @@ XML 1.0 fifth edition and Namespaces in XML 1.0 third edition (W3C) are the gram
 
 ## The tokenizer (`Markup.Xml`)
 
-A forward-only reader over UTF-8 bytes. It depends on nothing else in OneOffice (limits and errors are its own types), so it can be lifted out.
+A forward-only reader over UTF-8 bytes. It depends on nothing else in OneDocument (limits and errors are its own types), so it can be lifted out.
 
 - **Tokens tile the input.** Apart from a leading UTF-8 byte order mark, every byte belongs to exactly one token (XML declaration, start tag, empty-element tag, end tag, text, whitespace, CDATA section, comment, processing instruction). Concatenating the raw tokens reproduces the input.
 - **Names keep their prefixes** as written. Namespaces are resolved from the declarations in scope; `xml` is predeclared.

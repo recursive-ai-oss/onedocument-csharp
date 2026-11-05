@@ -1,6 +1,6 @@
 # Fuzzing
 
-`fuzz/OneOffice.Fuzz` holds the fuzz targets; SharpFuzz instruments `RecursiveAI.OneOffice.dll` and `RecursiveAI.OneArchive.dll` and libFuzzer drives them. Every parser gets a target here as it is written.
+`fuzz/OneDocument.Fuzz` holds the fuzz targets; SharpFuzz instruments `RecursiveAI.OneDocument.dll` and `RecursiveAI.OneArchive.dll` and libFuzzer drives them. Every parser gets a target here as it is written.
 
 | Target | Input | Surface |
 |---|---|---|
@@ -17,8 +17,10 @@
 | `csv` | one option byte + delimited text | the CSV reader, value parser, writer and workbook import: the same records whether read whole or in 1 to 8 byte pieces, write then read gives the same fields, every field parses as a value, the import then export works; typed rejections only |
 | `numfmtfmt` | 8 bytes double, 1 option byte, UTF-8 code | the formatter: string and span results agree, an exactly sized span succeeds, one character less reports `DestinationTooSmall` |
 | `formula` | 1 option byte, UTF-8 formula text | the formula parser and printer: a rejection is a located `formula.` error; text that parses prints back to the same characters in file form, and its printed A1, R1C1, display and translated forms parse again |
+| `funcs` | 2 bytes pick a function, then bytes for the argument count and values | calls of the math, logical, information and text functions with random arguments over a fixed grid: only a typed `OfficeException` may escape; results are finite, never references, and repeat on a second run |
 | `formulaeval` | 1 option byte, UTF-8 formula text | the evaluator over a deterministic grid with small limits: only a typed `OfficeException` may escape; results are finite, never references, and the same on a second run |
 | `finfuncs` | function index, argument count, then typed arguments | the financial, engineering and database functions called with random numbers, pool text, ranges over a small database and omitted arguments: only a typed `OfficeException` may escape; number results are finite, never references, and repeatable |
+| `lookups` | a function byte + bytes that make arrays and scalar arguments | the lookup, reference, dynamic-array and LAMBDA-helper functions called over small mixed arrays with small limits: only a typed `OfficeException` may escape, results are never references and repeat on a second run |
 | `stream` | one mode byte + a part (worksheet, shared strings or style sheet) | the streaming workbook cursor: every row and cell is read through every accessor, typed rejections only, and a second walk gives the same result |
 | `streamwrite` | a script of writer calls | the streaming writer: numbers, any text (controls, lone surrogates), booleans, errors, formulas, gaps and merges are written, and the cursor and the workbook model read back exactly the cells that were written |
 | `styles` | a style sheet part | the style model: every cell format resolved, every number format parsed, colours resolved through palette and theme, a format and a differential format added, the part written and read back |
@@ -29,12 +31,12 @@ Only `OfficeException` may come out of a library call: it is the typed rejection
 
 ## Running
 
-    export ONEOFFICE_FUZZ_TOOLS=/path/to/tools     # holds fuzz/libfuzzer-dotnet and sharpfuzz/sharpfuzz
-    export ONEOFFICE_FUZZ_WORK=/path/to/workdir    # builds, corpora, findings; must be outside the checkout
+    export ONEDOCUMENT_FUZZ_TOOLS=/path/to/tools     # holds fuzz/libfuzzer-dotnet and sharpfuzz/sharpfuzz
+    export ONEDOCUMENT_FUZZ_WORK=/path/to/workdir    # builds, corpora, findings; must be outside the checkout
     fuzz/run.sh sniff 600                          # fuzz for 10 minutes
     fuzz/run.sh replay sniff some-input...         # run saved inputs once, without libFuzzer
 
-`run.sh` builds the harness in release mode into `$ONEOFFICE_FUZZ_WORK/bin`, writes seeds into `$ONEOFFICE_FUZZ_WORK/corpus/<target>/`, instruments the library assemblies, and runs libFuzzer. Findings land in `$ONEOFFICE_FUZZ_WORK/findings/<target>/`. `replay` runs on the uninstrumented build.
+`run.sh` builds the harness in release mode into `$ONEDOCUMENT_FUZZ_WORK/bin`, writes seeds into `$ONEDOCUMENT_FUZZ_WORK/corpus/<target>/`, instruments the library assemblies, and runs libFuzzer. Findings land in `$ONEDOCUMENT_FUZZ_WORK/findings/<target>/`. `replay` runs on the uninstrumented build.
 
 The tools:
 

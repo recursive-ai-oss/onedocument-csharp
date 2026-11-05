@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using RecursiveAI.OneOffice;
-using RecursiveAI.OneOffice.Calc;
-using RecursiveAI.OneOffice.Spreadsheets;
+using RecursiveAI.OneDocument;
+using RecursiveAI.OneDocument.Calc;
+using RecursiveAI.OneDocument.Spreadsheets;
 
-namespace RecursiveAI.OneOffice.Tools.FormulaSweep;
+namespace RecursiveAI.OneDocument.Tools.FormulaSweep;
 
 /// <summary>
 /// Parses every formula of every workbook under the given directories and prints them back in file form.

@@ -1,6 +1,7 @@
-using RecursiveAI.OneOffice.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets.Calc;
 
-namespace RecursiveAI.OneOffice.Smoke;
+namespace RecursiveAI.OneDocument.Smoke;
 
 /// <summary>Creates a workbook, writes it to memory, reopens it, edits a cell, saves again and reads the result back, under NativeAOT and WASM.</summary>
 internal static class SheetSmoke
@@ -38,7 +39,39 @@ internal static class SheetSmoke
         if (t["B2"].Number != 42 || t["A2"].Text != "second" || t["A1"].Text != "hello") failures.Add("sheet edit");
         if (t.MergedCells.Count != 1 || t.MergedCells[0].ToString() != "E1:F2") failures.Add("sheet merge");
         FeatureChecks(failures);
+        RecalcChecks(failures);
         return failures;
+    }
+
+    /// <summary>Recalculation: a name, a 3-D reference, a spill, a cycle, a parallel level and an incremental pass.</summary>
+    private static void RecalcChecks(List<string> failures)
+    {
+        using Workbook wb = Workbook.Create();
+        Worksheet s = wb.Sheets[0];
+        Worksheet b = wb.Sheets.Add("Sheet2");
+        s["A1"].SetNumber(2);
+        s["A2"].SetNumber(3);
+        b["A1"].SetNumber(10);
+        wb.Names.Add("Pair", "Sheet1!$A$1:$A$2");
+        s["B1"].Formula = "SUM(Pair)*2";
+        s["B2"].Formula = "SUM(Sheet1:Sheet2!A1)";
+        s["C1"].SetDynamicArrayFormula("SEQUENCE(3)");
+        s["D1"].Formula = "SUM(C1#)";
+        s["E1"].Formula = "E2+1";
+        s["E2"].Formula = "E1+1";
+        for (int i = 1; i <= 300; i++)
+        {
+            s[10 + i, 1].Formula = "A1*" + i;
+        }
+
+        RecalcResult r = wb.Recalculate();
+        if (s["B1"].Number != 10) failures.Add("recalc name");
+        if (s["B2"].Number != 12) failures.Add("recalc 3-D");
+        if (s["C3"].Number != 3 || s["D1"].Number != 6) failures.Add("recalc spill");
+        if (r.CircularCells != 2 || s["E1"].Number != 0) failures.Add("recalc cycle");
+        if (s["A310"].Number != 600) failures.Add("recalc parallel");
+        s["A1"].SetNumber(5);
+        if (wb.Recalculate().Evaluated != 302 || s["B1"].Number != 16) failures.Add("recalc incremental");
     }
 
     /// <summary>Styles, formatted text, a table, a conditional format, a validation and a name, written and read back.</summary>

@@ -5,7 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
-using RecursiveAI.OneOffice.NumberFormats;
+using RecursiveAI.OneDocument.NumberFormats;
 
 // Writes the number-format edge-case grid: a workbook of format codes x values for Excel to answer, and a manifest of our answers.
 //
