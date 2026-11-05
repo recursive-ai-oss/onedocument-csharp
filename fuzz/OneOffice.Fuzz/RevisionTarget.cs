@@ -137,6 +137,8 @@ internal static class RevisionTarget
             // A text box written twice (mc:Choice and mc:Fallback), each copy with the same tracked changes.
             "<w:p xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"><w:r><mc:AlternateContent><mc:Choice Requires=\"w\"><w:txbxContent><w:p><w:pPr><w:rPr><w:ins w:id=\"3\" w:author=\"A\"/></w:rPr><w:jc w:val=\"center\"/><w:pPrChange w:id=\"4\" w:author=\"A\"><w:pPr><w:jc w:val=\"right\"/></w:pPr></w:pPrChange></w:pPr><w:ins w:id=\"5\" w:author=\"A\"><w:r><w:t>x</w:t></w:r></w:ins></w:p></w:txbxContent></mc:Choice>" +
             "<mc:Fallback><w:txbxContent><w:p><w:pPr><w:rPr><w:ins w:id=\"3\" w:author=\"A\"/></w:rPr><w:jc w:val=\"center\"/><w:pPrChange w:id=\"4\" w:author=\"A\"><w:pPr><w:jc w:val=\"right\"/></w:pPr></w:pPrChange></w:pPr><w:ins w:id=\"5\" w:author=\"A\"><w:r><w:t>x</w:t></w:r></w:ins></w:p></w:txbxContent></mc:Fallback></mc:AlternateContent></w:r></w:p>",
+            // Wrappers whose only content is a tracked change, and a paragraph whose prefix is declared on itself.
+            "<w:p xmlns:r=\"urn:r\"><w:pPr><w:rPr><w:ins w:id=\"1\"/></w:rPr><w:pPrChange w:id=\"2\"><w:pPr/></w:pPrChange></w:pPr><w:smartTag w:uri=\"u\" w:element=\"e\"><w:ins w:id=\"3\"><w:r><w:t r:x=\"1\">a</w:t></w:r></w:ins></w:smartTag><w:customXml w:uri=\"u\" w:element=\"e\"><w:del w:id=\"4\"><w:r><w:delText>b</w:delText></w:r></w:del></w:customXml></w:p><w:p><w:r><w:t>n</w:t></w:r></w:p>",
         ];
         for (int i = 0; i < bodies.Length; i++)
         {

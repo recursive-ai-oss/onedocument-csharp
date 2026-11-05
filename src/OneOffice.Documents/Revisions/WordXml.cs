@@ -161,16 +161,112 @@ internal static class WordXml
     /// <summary>The UTF-8 bytes of a string.</summary>
     internal static byte[] Bytes(string s) => Encoding.UTF8.GetBytes(s);
 
-    /// <summary>The XML of all children of a node, in order, exactly as they stand.</summary>
+    /// <summary>The XML of all children of a node, in order, exactly as they stand, each one made portable (see <see cref="Portable"/>).</summary>
     internal static string InnerXml(MarkupNode n)
     {
-        var w = new ArrayBufferWriter<byte>();
+        var sb = new StringBuilder();
         for (MarkupNode c = n.FirstChild; !c.IsNull; c = c.NextSibling)
         {
-            c.WriteTo(w);
+            sb.Append(Portable(c));
         }
 
-        return Encoding.UTF8.GetString(w.WrittenSpan);
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// The XML of a node for putting it somewhere else in the same part. A prefix the node uses that is declared above it, but not on
+    /// the part's root element, would be unbound at a new place under another parent (a declaration on the old paragraph is gone with it),
+    /// so those declarations are written on the node's own start tag. When every prefix is declared inside the node or on the root, the
+    /// text is exactly <see cref="MarkupNode.OuterXml"/>. XML 1.0 and Namespaces in XML 1.0 §6: a prefix is bound by a declaration on the element or an ancestor.
+    /// </summary>
+    internal static string Portable(MarkupNode n)
+    {
+        if (n.Kind != MarkupNodeKind.Element)
+        {
+            return n.OuterXml;
+        }
+
+        SortedDictionary<string, string>? free = null;
+        FreePrefixes(n, [], ref free);
+        string xml = n.OuterXml;
+        if (free is null)
+        {
+            return xml;
+        }
+
+        MarkupNode root = n;
+        while (!root.Parent.IsNull && root.Parent.Kind == MarkupNodeKind.Element)
+        {
+            root = root.Parent;
+        }
+
+        var decl = new StringBuilder();
+        foreach ((string prefix, string uri) in free)
+        {
+            if (root.TryResolvePrefix(prefix, out string atRoot) && atRoot == uri)
+            {
+                continue;
+            }
+
+            decl.Append(prefix.Length == 0 ? " xmlns=\"" : " xmlns:" + prefix + "=\"").Append(EscapeAttribute(uri)).Append('"');
+        }
+
+        if (decl.Length == 0)
+        {
+            return xml;
+        }
+
+        int at = 1;
+        while (at < xml.Length && !char.IsWhiteSpace(xml[at]) && xml[at] != '>' && xml[at] != '/')
+        {
+            at++;
+        }
+
+        return xml[..at] + decl + xml[at..];
+    }
+
+    private static void FreePrefixes(MarkupNode e, HashSet<string> declared, ref SortedDictionary<string, string>? free)
+    {
+        HashSet<string> here = declared;
+        foreach (MarkupAttributeRef a in e.Attributes)
+        {
+            if (a.IsNamespaceDeclaration)
+            {
+                if (ReferenceEquals(here, declared))
+                {
+                    here = [.. declared];
+                }
+
+                here.Add(a.RawName.Length <= 5 ? string.Empty : Encoding.UTF8.GetString(a.LocalName));
+            }
+        }
+
+        Need(e, Encoding.UTF8.GetString(e.Prefix), here, ref free);
+        foreach (MarkupAttributeRef a in e.Attributes)
+        {
+            if (!a.IsNamespaceDeclaration && a.Prefix.Length > 0)
+            {
+                Need(e, Encoding.UTF8.GetString(a.Prefix), here, ref free);
+            }
+        }
+
+        foreach (MarkupNode c in e.ChildElements)
+        {
+            FreePrefixes(c, here, ref free);
+        }
+    }
+
+    private static void Need(MarkupNode e, string prefix, HashSet<string> declared, ref SortedDictionary<string, string>? free)
+    {
+        if (prefix == "xml" || declared.Contains(prefix) || (free is not null && free.ContainsKey(prefix)))
+        {
+            return;
+        }
+
+        if (e.TryResolvePrefix(prefix, out string uri) && (uri.Length > 0 || prefix.Length > 0))
+        {
+            (free ??= [])[prefix] = uri;
+        }
     }
 
     /// <summary>The XML of the element children of a node (text between them left out).</summary>
@@ -179,7 +275,7 @@ internal static class WordXml
         var sb = new StringBuilder();
         foreach (MarkupNode c in n.ChildElements)
         {
-            sb.Append(c.OuterXml);
+            sb.Append(Portable(c));
         }
 
         return sb.ToString();
