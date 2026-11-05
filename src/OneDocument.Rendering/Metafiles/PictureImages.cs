@@ -14,9 +14,20 @@ namespace RecursiveAI.OneDocument.Rendering.Metafiles;
 public sealed class PictureImages : IImageResolver
 {
     private readonly List<RgbaImage> _images = [];
+    private readonly ImageStore? _shared;
+
+    /// <summary>Creates an empty table of its own.</summary>
+    public PictureImages()
+    {
+    }
+
+    // A table that shares the handles of a drawing's image store, so one resolver serves both the pictures and the metafile bitmaps.
+    internal PictureImages(ImageStore shared) => _shared = shared;
 
     /// <summary>Gets the number of images held.</summary>
-    public int Count => _images.Count;
+    public int Count => _shared is null ? _images.Count : _count;
+
+    private int _count;
 
     /// <summary>Adds an image and returns the handle display-list items use for it.</summary>
     /// <param name="image">The pixels, RGBA with straight alpha.</param>
@@ -25,6 +36,13 @@ public sealed class PictureImages : IImageResolver
     public ImageHandle Add(RgbaImage image)
     {
         ArgumentNullException.ThrowIfNull(image);
+        if (_shared is not null)
+        {
+            string key = "metafile-bitmap:" + (++_count).ToString(System.Globalization.CultureInfo.InvariantCulture);
+            _shared.Add(key, image);
+            return _shared.TryGetImage(key, out ImageInfo info) ? info.Handle : default;
+        }
+
         _images.Add(image);
         return new ImageHandle(_images.Count);
     }
@@ -33,5 +51,5 @@ public sealed class PictureImages : IImageResolver
     /// <param name="handle">The handle a display-list item carries.</param>
     /// <returns>The pixels, or null when the handle is not from this table.</returns>
     public RgbaImage? Resolve(ImageHandle handle) =>
-        handle.Value >= 1 && handle.Value <= _images.Count ? _images[handle.Value - 1] : null;
+        _shared is not null ? _shared.Resolve(handle) : handle.Value >= 1 && handle.Value <= _images.Count ? _images[handle.Value - 1] : null;
 }

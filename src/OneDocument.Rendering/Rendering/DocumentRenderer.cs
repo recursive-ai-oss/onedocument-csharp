@@ -66,7 +66,8 @@ public static class DocumentRenderer
         ArgumentNullException.ThrowIfNull(destination);
         PdfRenderOptions opt = options ?? new PdfRenderOptions();
         string language = DefaultLanguage(document);
-        var paint = new PaintOptions { Tagged = opt.Tagged, Language = language };
+        var images = new Drawing.DrawingImages();
+        var paint = new PaintOptions { Tagged = opt.Tagged, Language = language, Images = images };
         var pdfOptions = new PdfOutputOptions
         {
             Title = opt.Title ?? document.Properties.Core.Title ?? FirstHeading(layout) ?? "Document",
@@ -79,7 +80,7 @@ public static class DocumentRenderer
         };
         try
         {
-            using var writer = new DisplayListPdfWriter(destination, pdfOptions);
+            using var writer = new DisplayListPdfWriter(destination, pdfOptions, images);
             foreach (LayoutPage page in layout.Pages)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -107,7 +108,8 @@ public static class DocumentRenderer
     public static byte[] RenderPng(LayoutPage page, string language = "en-US")
     {
         ArgumentNullException.ThrowIfNull(page);
-        DisplayList list = LayoutPainter.Paint(page, new PaintOptions { Tagged = false, Language = language });
+        var images = new Drawing.DrawingImages();
+        DisplayList list = LayoutPainter.Paint(page, new PaintOptions { Tagged = false, Language = language, Images = images });
         double ratio = PngDpi / 96.0;
         int w = (int)Math.Ceiling(page.Width * LayoutPainter.PixelsPerPoint * ratio);
         int h = (int)Math.Ceiling(page.Height * LayoutPainter.PixelsPerPoint * ratio);
@@ -119,7 +121,7 @@ public static class DocumentRenderer
 
         try
         {
-            RgbaImage image = DisplayListRasterizer.Render(list, w, h, new RasterOptions { DevicePixelRatio = (float)ratio });
+            RgbaImage image = DisplayListRasterizer.Render(list, w, h, new RasterOptions { DevicePixelRatio = (float)ratio, Images = images });
             return image.ToPng();
         }
         catch (Exception ex) when (ex is RasterizationException or DisplayListException or ArgumentException)
