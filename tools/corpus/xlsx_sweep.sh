@@ -4,12 +4,12 @@
 #   tools/corpus/xlsx_sweep.sh OUTDIR [LO_SAMPLE]
 #
 # Needs: XlsxProbe built in Release (path in XLSXPROBE_DLL), ONEDOCUMENT_SOFFICE and ONEDOCUMENT_XSD as for run_checks.py, and the
-# corpus sets under $ONEDOCUMENT_HOME/corpus (default ~/oneoffice/corpus). Sets that are absent are skipped.
+# corpus sets under $ONEDOCUMENT_HOME/corpus. Sets that are absent are skipped.
 set -uo pipefail
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 out="${1:?usage: xlsx_sweep.sh OUTDIR [LO_SAMPLE]}"
 sample="${2:-200}"
-home="${ONEDOCUMENT_HOME:-$HOME/oneoffice}"
+home="${ONEDOCUMENT_HOME:?set ONEDOCUMENT_HOME}"
 sets="commoncrawl/xlsx bugzilla/documentfoundation/xlsx bugzilla/apache/xlsx lo-xlsx"
 rm -rf "$out"; mkdir -p "$out"
 for s in $sets; do

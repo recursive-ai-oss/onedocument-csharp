@@ -2,13 +2,13 @@
 # Fetches govdocs1 thread zips (1000 files each) and extracts the Office files.
 #
 #   fetch-govdocs1.sh [threads]        default 10 (000-009)
-#   ONEDOCUMENT_CORPUS     corpus root (default ~/oneoffice/corpus); files land in $ONEDOCUMENT_CORPUS/govdocs1/files
+#   ONEDOCUMENT_CORPUS     corpus root (required); files land in $ONEDOCUMENT_CORPUS/govdocs1/files
 #   ONEDOCUMENT_PAUSE_FILE optional: while this file exists the loop waits
 #
 # Network-bound. Fetch-only: the files are never committed or redistributed.
 set -u
 N=${1:-10}
-C="${ONEDOCUMENT_CORPUS:-$HOME/oneoffice/corpus}/govdocs1"
+C="${ONEDOCUMENT_CORPUS:?set ONEDOCUMENT_CORPUS}/govdocs1"
 mkdir -p "$C"/zip "$C"/files
 cd "$C"
 for i in $(seq 0 $((N-1))); do

@@ -14,7 +14,7 @@
 #   --force         start even when the machine is busy; the override is written into env.txt
 #
 # Environment:
-#   ONEDOCUMENT_RESULTS         where result directories go (default: $HOME/oneoffice/results/bench)
+#   ONEDOCUMENT_RESULTS         where result directories go (required)
 #   ONEDOCUMENT_BENCH_INPUTS    where generated inputs are kept (default: $ONEDOCUMENT_RESULTS/inputs)
 #   ONEDOCUMENT_BENCH_MAXLOAD   refuse to start when the 1-minute load average is above this (default: 2.0)
 #   ONEDOCUMENT_BENCH_DLL       a built OneDocument.Bench.dll (default: build Release and use that)
@@ -23,7 +23,7 @@ set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 dotnet_bin="${DOTNET:-dotnet}"
-results_root="${ONEDOCUMENT_RESULTS:-$HOME/oneoffice/results/bench}"
+results_root="${ONEDOCUMENT_RESULTS:?set ONEDOCUMENT_RESULTS}"
 run="$(date -u +%Y%m%dT%H%M%SZ)"
 filter='*Bench.Docx*'
 threads=all
