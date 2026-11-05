@@ -327,4 +327,36 @@ public sealed class SectionPageTests
 
         Assert.Equal(new[] { TagRole.Artifact, TagRole.Paragraph }, roles);
     }
+
+    private static string Rows(int n) => string.Concat(Enumerable.Range(0, n).Select(i => TableCases.Tr(TableCases.Tc(TestDocx.P("Row " + i)) + TableCases.Tc(TestDocx.P("Value " + i)))));
+
+    [Fact]
+    public void ATableFlowsAcrossColumnsAndRepeatsItsHeaderRow()
+    {
+        string body = TableCases.Tbl(TableCases.Tr(TableCases.Tc(TestDocx.P("Name")) + TableCases.Tc(TestDocx.P("Value")), "<w:tblHeader/>") + Rows(80), "<w:tblLayout w:type=\"fixed\"/>", 2000, 2000);
+        LayoutDocument l = Lay(body, PageDocs.Sect("<w:cols w:num=\"2\" w:space=\"720\"/>"));
+        LayoutPage p = l.Pages[0];
+        var parts = p.Tables.ToList();
+        Assert.Equal(2, parts.Count);
+        Assert.True(parts[1].Bounds.X > p.Columns[1].X - 10 && parts[1].Bounds.X < p.Columns[1].Right, parts[1].Bounds + " / " + p.Columns[1]);
+        Assert.True(parts[1].Rows.First().IsRepeatedHeader);
+        Assert.True(parts[0].Bounds.Bottom <= p.ContentArea.Bottom + 0.01);
+    }
+
+    [Fact]
+    public void ATableInAContinuousSectionStartsBelowTheTextAboveAndPaginatesWithHeadersAndFooters()
+    {
+        string hdr = PageDocs.Story("hdr", TestDocx.P("Header"));
+        string rows = TableCases.Tbl(TableCases.Tr(TableCases.Tc(TestDocx.P("Name")), "<w:tblHeader/>") + Rows(120), "<w:tblLayout w:type=\"fixed\"/>", 3000);
+        string body = TestDocx.P("above") + PageDocs.End(PageDocs.Sect(PageDocs.Ref("header", "default", "header1.xml"))) + rows;
+        LayoutDocument l = Lay(body, PageDocs.Sect(PageDocs.Ref("header", "default", "header1.xml"), "continuous"), [("header1.xml", hdr)]);
+        Assert.True(l.Pages.Count >= 2);
+        LayoutTable first = l.Pages[0].Tables.First();
+        Assert.True(first.Bounds.Y > l.Pages[0].BodyParagraphs.Last().Bounds.Y);
+        foreach (LayoutPage p in l.Pages)
+        {
+            Assert.Single(p.HeaderParagraphs);
+            Assert.All(p.Tables, t => Assert.True(t.Bounds.Y >= p.ContentArea.Y - 0.01 && t.Bounds.Bottom <= p.ContentArea.Bottom + 0.01));
+        }
+    }
 }

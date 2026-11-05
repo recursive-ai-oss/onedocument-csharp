@@ -133,7 +133,7 @@ internal sealed class FormattedLine
     public double Height => Ascent + Descent;
 }
 
-internal sealed class FormattedParagraph
+internal class FormattedParagraph
 {
     public required Paragraph Source;
     public string Text = string.Empty;

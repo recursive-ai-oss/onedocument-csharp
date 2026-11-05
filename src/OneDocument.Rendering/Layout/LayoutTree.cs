@@ -33,7 +33,16 @@ public enum LayoutNodeKind
     Run = 3,
 
     /// <summary>Page decoration that is not text flow: a page border side, a column separator, a line number or a watermark (<see cref="LayoutDecoration"/>).</summary>
-    Decoration = 4,
+    Decoration = 7,
+
+    /// <summary>A table, or the part of one that sits on this page (or in this cell, for a nested table).</summary>
+    Table = 4,
+
+    /// <summary>A row of a table, or the part of a row that sits on this page.</summary>
+    TableRow = 5,
+
+    /// <summary>A cell of a table row.</summary>
+    TableCell = 6,
 }
 
 /// <summary>
@@ -165,6 +174,9 @@ public sealed class LayoutPage : LayoutNode
     /// much; it is 0 until notes are laid out.
     /// </summary>
     public double NotesReservation { get; internal set; }
+
+    /// <summary>Gets the tables on the page in order (the part of each that sits on this page). Paragraphs inside cells are under their cells, not here.</summary>
+    public IEnumerable<LayoutTable> Tables => Children.OfType<LayoutTable>();
 }
 
 /// <summary>A paragraph on a page. A paragraph that breaks across pages has one <see cref="LayoutParagraph"/> per page.</summary>
@@ -320,7 +332,7 @@ public sealed class LayoutDocument
     /// <summary>Gets one note for every font family that was replaced by another, never silent.</summary>
     public IReadOnlyList<FontSubstitutionNote> FontNotes { get; }
 
-    /// <summary>Gets what the layout skipped or approximated (for example tables, which a later layout stage handles).</summary>
+    /// <summary>Gets what the layout skipped or approximated (for example floating objects, which a later layout stage handles).</summary>
     public IReadOnlyList<LayoutNote> Notes { get; }
 
     /// <summary>Gets the compatibility mode the layout followed (11 to 15), from <c>w:compatSetting compatibilityMode</c>; 12 when the document names none.</summary>

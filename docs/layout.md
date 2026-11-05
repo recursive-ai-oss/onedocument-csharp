@@ -34,7 +34,9 @@ from several threads.
 - Later stages add blocks beside `LayoutParagraph` (tables, floating objects, notes) under the page, and fields re-run layout; the
   node classes are open for that through `LayoutNodeKind`. Every node knows its parent and children.
 - `LayoutDocument.FontNotes` has one `FontSubstitutionNote` per replaced family and `Notes` has `layout.*` notes for what was skipped.
-  Codes so far: `layout.font-missing`, `layout.drawing-skipped`, `layout.table-skipped`, `layout.block-skipped`, `layout.blank-page`, `layout.page-limit`, `layout.page-border-art`, `layout.valign-both`.
+  Codes so far: `layout.font-missing`, `layout.drawing-skipped`, `layout.block-skipped`, `layout.blank-page`, `layout.page-limit`,
+  `layout.page-border-art`, `layout.valign-both`, and for tables `layout.table-skipped` (a table in a header or footer),
+  `layout.table-floating`, `layout.table-text-direction`, `layout.table-depth` (see `layout-tables.md`).
 
 ## Paint contract
 
@@ -199,7 +201,8 @@ stages that lay out those features and are added to this table with them.
 | Justification in lines with tabs or bidi | spreads over spaces only | |
 | Bidi mirrored punctuation, trailing spaces in right-to-left lines | not handled specially | |
 | Hyphenation, kashida, the East Asian character grid and `w:eastAsianLayout` | not implemented | later |
-| Inline pictures, shapes, tables, notes, fields other than page numbers | not laid out (reported) | later stages |
+| Inline pictures, shapes, notes, fields other than page numbers | not laid out (reported) | later stages |
+| Tables | laid out; see `layout-tables.md`. In columns they keep the width cut for the first column; in headers and footers they are skipped | |
 | Blank page from an odd/even break | has the header and footer of the following section, counted in the numbering | needs Word output |
 | Header and footer vertical placement | header text top at `header`, footer text bottom at page height minus `footer`; the body edge takes the larger of the margin and the story | needs Word output |
 | Balanced columns | bisection on the column height, line granular | Word's balancing with keep rules may differ by a line |

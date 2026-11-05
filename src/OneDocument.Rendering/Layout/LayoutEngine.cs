@@ -6,7 +6,7 @@ namespace RecursiveAI.OneDocument.Layout;
 /// <summary>
 /// Lays a document out into pages: sections with their page sizes, margins and columns, headers and footers with page numbers, page
 /// borders, watermarks and line numbers, and the paragraphs with widow and orphan control, keep-with-next, keep-lines-together and
-/// page-break-before. Tables, floating objects, notes and fields other than page numbers are later stages and are reported in
+/// page-break-before. Tables (see docs/layout-tables.md); floating objects, notes and fields other than page numbers are later stages and are reported in
 /// <see cref="LayoutDocument.Notes"/>.
 /// </summary>
 public static partial class LayoutEngine
@@ -84,6 +84,8 @@ public static partial class LayoutEngine
         private bool _forceBreakBeforeNext;
         private bool _forceIsColumn;
 
+        private LayoutContext Ctx => ctx;
+
         public bool Stopped { get; private set; }
 
         public IReadOnlyList<LayoutPage> Pages => _pages;
@@ -114,8 +116,8 @@ public static partial class LayoutEngine
                     case BlockContentControl cc:
                         Collect(cc.Content.Blocks(), into, ct);
                         break;
-                    case Table:
-                        ctx.NoteOnce("layout.table-skipped", "layout.table-skipped", "Tables are not laid out yet; their content is left out of the pages.", b);
+                    case Table t:
+                        into.Add(TableFormatter.FormatBlock(t, ctx, _textWidth));
                         break;
                     default:
                         ctx.NoteOnce("layout.block-skipped", "layout.block-skipped", "A block that is not a paragraph or a table is left out of the pages.", b);
@@ -168,6 +170,12 @@ public static partial class LayoutEngine
         private void Place(List<FormattedParagraph> blocks, int index)
         {
             FormattedParagraph fp = blocks[index];
+            if (fp is FormattedTableBlock tableBlock)
+            {
+                PlaceTable(tableBlock.Table);
+                return;
+            }
+
             if (NeedsPage)
             {
                 StartPage();
@@ -379,85 +387,34 @@ public static partial class LayoutEngine
                 top = _y;
             }
 
-            double y = top + (first ? fp.BorderTopHeight : 0);
-            var lp = new LayoutParagraph(fp.Source, fp.Text)
-            {
-                Label = first ? fp.Label : null,
-                HeadingLevel = fp.Heading,
-                IsRightToLeft = fp.Rtl,
-                ContinuesFromPreviousPage = !first,
-                ContinuesOnNextPage = !last,
-                Paint = fp.Paint,
-            };
-
-            double left = _colX;
+            LayoutParagraph lp = ParagraphEmitter.Build(fp, from, count, _colX, top, first, last, out double y, out bool breakAfter);
             lp.Story = _story;
             lp.Column = _colIndex;
-            bool breakAfter = false;
             bool columnBreak = false;
-            for (int i = from; i < from + count; i++)
+            if (breakAfter)
             {
-                FormattedLine fl = fp.Lines[i];
-                var line = new LayoutLine
+                // The break that ended the lines is a column break when its character is U+000E.
+                for (int i = from + count - 1; i >= from; i--)
                 {
-                    Ascent = fl.Ascent,
-                    Descent = fl.Descent,
-                    Baseline = y + fl.Ascent,
-                    TextStart = fl.TextStart,
-                    TextLength = fl.TextLength,
-                    Text = fl.Text,
-                    IsLastLine = fl.IsLast,
-                };
-                if (_story == LayoutStory.Body)
-                {
-                    NumberLine(fp, fl, line, y, left);
-                }
-
-                double minX = double.MaxValue;
-                double maxX = double.MinValue;
-                foreach (LineItem item in fl.Items)
-                {
-                    var run = new LayoutRun(item.Kind)
+                    FormattedLine fl = fp.Lines[i];
+                    if (fl.EndsWithPageBreak)
                     {
-                        Text = item.Text,
-                        TextStart = item.TextStart,
-                        Source = item.Source,
-                        Font = item.Font,
-                        FontSize = item.Size,
-                        BidiLevel = item.Level,
-                        Bounds = new LayoutRect(left + item.X, y, item.Width, fl.Height),
-                        ClusterStarts = item.ClusterStarts,
-                        ClusterX = [.. item.ClusterX.Select(v => v + left)],
-                        Paint = item.Paint,
-                        Glyphs = item.Glyphs,
-                    };
-                    line.Add(run);
-                    minX = Math.Min(minX, left + item.X);
-                    maxX = Math.Max(maxX, left + item.X + item.Width);
-                }
-
-                if (minX > maxX)
-                {
-                    minX = left + fp.Paint.LeftEdge;
-                    maxX = minX;
-                }
-
-                line.Bounds = new LayoutRect(minX, y, maxX - minX, fl.Height);
-                lp.Add(line);
-                y += fl.Height;
-                if (fl.EndsWithPageBreak)
-                {
-                    breakAfter = true;
-                    columnBreak = fl.TextLength > 0 && fp.Text[fl.TextStart + fl.TextLength - 1] == '';
+                        columnBreak = fl.TextLength > 0 && fp.Text[fl.TextStart + fl.TextLength - 1] == '\u000E';
+                        break;
+                    }
                 }
             }
 
-            if (last)
+            if (_story == LayoutStory.Body)
             {
-                y += fp.BorderBottomHeight;
+                int n = 0;
+                foreach (LayoutLine line in lp.Lines)
+                {
+                    FormattedLine fl = fp.Lines[from + n++];
+                    NumberLine(fp, fl, line, line.Baseline - fl.Ascent, _colX);
+                }
             }
 
-            lp.Bounds = new LayoutRect(left + fp.Paint.LeftEdge, top, Math.Max(0, fp.Paint.RightEdge - fp.Paint.LeftEdge), y - top);
             page.Add(lp);
             _y = y;
             _pageHasContent = true;
