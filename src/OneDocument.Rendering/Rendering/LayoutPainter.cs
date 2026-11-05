@@ -1,6 +1,9 @@
 using System.Numerics;
 using OneRender.Painting;
 using RecursiveAI.OneDocument.Layout;
+using RecursiveAI.OneDocument.Markup;
+using RecursiveAI.OneDocument.Schema;
+using RecursiveAI.OneDocument.Rendering.Drawing;
 
 namespace RecursiveAI.OneDocument.Rendering;
 
@@ -15,6 +18,15 @@ public sealed class PaintOptions
     /// Default <c>en-US</c>.
     /// </summary>
     public string Language { get; set; } = "en-US";
+
+    /// <summary>
+    /// Gets or sets the pictures of the rendering. Pass the same object to every page and to the PDF or image backend as its image resolver
+    /// (<see cref="DrawingImages"/> is one); with null, pictures are decoded per page and a backend cannot draw them. Default null.
+    /// </summary>
+    public DrawingImages? Images { get; set; }
+
+    /// <summary>Gets or sets a list that receives notes about drawing features that were approximated or left out (each code once per page). Default null.</summary>
+    public IList<DrawingNote>? DrawingNotes { get; set; }
 }
 
 /// <summary>
@@ -54,7 +66,52 @@ public static class LayoutPainter
 
         private bool Tagged => options.Tagged && _untagged == 0;
 
+        private readonly Dictionary<DrawingSources, DrawingContext> _drawingContexts = [];
+
         public DisplayList List { get; } = new();
+
+        private DrawingContext ContextFor(DrawingSources sources)
+        {
+            if (!_drawingContexts.TryGetValue(sources, out DrawingContext? c))
+            {
+                c = new DrawingContext(new ColorResolver(sources.Theme, sources.Map), options.Images, sources.ImageBytes, sources.Scope) { Tagged = options.Tagged };
+                DrawingContext captured = c;
+                c.TextPainter = request => PaintShapeText(request, sources, captured);
+                c.Fonts = sources.Layout?.Fonts;
+                c.ChartPainter = (rel, list, x, y, w, h) =>
+                {
+                    if (sources.Chart(rel) is not { } chart)
+                    {
+                        return false;
+                    }
+
+                    RecursiveAI.OneDocument.Charts.ChartHost.Paint(list, chart.Chart, x, y, w, h, chart.Theme, sources.Layout?.Fonts);
+                    return true;
+                };
+                _drawingContexts[sources] = c;
+            }
+
+            return c;
+        }
+
+        private void FlushDrawingNotes()
+        {
+            if (options.DrawingNotes is null)
+            {
+                return;
+            }
+
+            foreach (DrawingContext c in _drawingContexts.Values)
+            {
+                foreach (DrawingNote n in c.Notes)
+                {
+                    if (!options.DrawingNotes.Any(x => x.Code == n.Code))
+                    {
+                        options.DrawingNotes.Add(n);
+                    }
+                }
+            }
+        }
 
         private ItemId Id(ushort part = 0, ushort sub = 0) => ItemId.Of(++_owner, part, sub);
 
@@ -79,6 +136,7 @@ public static class LayoutPainter
                 }
             }
 
+            FlushDrawingNotes();
             List.Validate();
         }
 
@@ -307,6 +365,14 @@ public static class LayoutPainter
         {
             PaintDecoration(p);
             bool tagged = Tagged;
+            foreach (InlineDrawing f in p.Floats)
+            {
+                if (f.Info.BehindText && !p.ContinuesFromPreviousPage)
+                {
+                    PaintAnchored(p, f);
+                }
+            }
+
             if (tagged && inList && !p.ContinuesFromPreviousPage)
             {
                 List.BeginTag(Id(), TagRole.ListItem);
@@ -375,6 +441,166 @@ public static class LayoutPainter
             {
                 List.EndTag();
             }
+
+            foreach (InlineDrawing f in p.Floats)
+            {
+                if (!f.Info.BehindText && !p.ContinuesFromPreviousPage)
+                {
+                    PaintAnchored(p, f);
+                }
+            }
+        }
+
+        // An anchored drawing sits at its own position: an offset or an alignment inside the page, the margins or the paragraph.
+        // ECMA-376 Part 1 §20.4.2.10 (positionH) and §20.4.2.11 (positionV). Text does not wrap around it yet.
+        private void PaintAnchored(LayoutParagraph p, InlineDrawing d)
+        {
+            LayoutPage? page = p.Parent as LayoutPage;
+            if (page is null)
+            {
+                return;
+            }
+
+            DrawingInfo i = d.Info;
+            LayoutRect area = page.ContentArea;
+            (double bx, double bw) = i.RelativeFromH switch
+            {
+                "page" => (0.0, page.Width),
+                "character" => (p.Bounds.X, p.Bounds.Width),
+                _ => (area.X, area.Width),
+            };
+            double lineTop = p.Lines.FirstOrDefault()?.Bounds.Y ?? p.Bounds.Y;
+            (double by, double bh) = i.RelativeFromV switch
+            {
+                "page" => (0.0, page.Height),
+                "paragraph" => (p.Bounds.Y, p.Bounds.Height),
+                "line" => (lineTop, 0.0),
+                _ => (area.Y, area.Height),
+            };
+            double x = i.AlignH switch
+            {
+                "center" => bx + ((bw - i.Width) / 2),
+                "right" or "outside" => bx + bw - i.Width,
+                "left" or "inside" => bx,
+                _ => bx + (i.OffsetX ?? 0),
+            };
+            double y = i.AlignV switch
+            {
+                "center" => by + ((bh - i.Height) / 2),
+                "bottom" or "outside" => by + bh - i.Height,
+                "top" or "inside" => by,
+                _ => by + (i.OffsetY ?? 0),
+            };
+            DrawingPainter.Draw(List, () => Id(), d.Node, new DrawingBox(x, y, i.Width, i.Height), ContextFor(d.Sources), i.AltText, i.Decorative);
+        }
+
+        private int _textDepth;
+
+        // Text inside a Word shape (wps:txbx). ECMA-376 Part 1 §20.1.2.1.1 (bodyPr): the lines are laid out at the text rectangle's width
+        // (its height for vertical text), stacked from the top, the middle or the bottom (anchor), and drawn through the shape's transform.
+        // Text taller than the box is not clipped; Word clips it at the box, which is reported as a note.
+        private void PaintShapeText(ShapeTextRequest req, DrawingSources sources, DrawingContext dctx)
+        {
+            MarkupNode content = DrawingTheme.Child(DrawingTheme.Child(req.Shape, "txbx"), "txbxContent");
+            if (content.IsNull)
+            {
+                dctx.Note("drawing.text-body-not-painted", "The text body of a presentation or worksheet shape is not painted by the document renderer.");
+                return;
+            }
+
+            if (sources.Layout is not { } lc || _textDepth > 4)
+            {
+                return;
+            }
+
+            string vert = req.BodyProperties.IsNull ? "horz" : req.BodyProperties.GetAttribute("vert") ?? "horz";
+            bool v90 = vert is "vert" or "eaVert" or "mongolianVert" or "wordArtVert";
+            bool v270 = vert is "vert270" or "wordArtVertRtl";
+            if (vert is "mongolianVert" or "wordArtVert" or "wordArtVertRtl")
+            {
+                dctx.Note("drawing.text-vertical-approximated", "Word-art and Mongolian vertical text is drawn as ordinary rotated text.");
+            }
+
+            bool rotated = v90 || v270;
+            double lineWidth = rotated ? req.Height : req.Width;
+            double avail = rotated ? req.Width : req.Height;
+            if (lineWidth < 1)
+            {
+                return;
+            }
+
+            if (!req.BodyProperties.IsNull && req.BodyProperties.GetAttribute("wrap") == "none")
+            {
+                dctx.Note("drawing.text-wrap-none-approximated", "Text in a shape that does not wrap is wrapped at the shape's width.");
+            }
+
+            var laid = new List<LayoutParagraph>();
+            double y = 0, pendingAfter = 0;
+            bool first = true;
+            foreach (MarkupNode child in content.ChildElements)
+            {
+                if (child.LocalNameString != "p")
+                {
+                    if (child.LocalNameString is "tbl" or "sdt")
+                    {
+                        dctx.Note("drawing.text-block-skipped", "A table or content control inside a text box is not laid out.");
+                    }
+
+                    continue;
+                }
+
+                FormattedParagraph fp = ParagraphFormatter.Format(lc.Doc.WrapParagraph(new MarkupRef(child)), lc, lineWidth);
+                double gap = first ? fp.SpaceBefore : pendingAfter + fp.SpaceBefore;
+                laid.Add(ParagraphEmitter.Build(fp, 0, fp.Lines.Count, 0, y + gap, true, true, out double end, out _));
+                y = end;
+                pendingAfter = fp.SpaceAfter;
+                first = false;
+            }
+
+            if (laid.Count == 0)
+            {
+                return;
+            }
+
+            if (y > avail + 0.5)
+            {
+                dctx.Note("drawing.text-overflow", "Text taller than its shape is drawn past the shape's edge; Word clips it.");
+            }
+
+            string anchor = req.BodyProperties.IsNull ? "t" : req.BodyProperties.GetAttribute("anchor") ?? "t";
+            double shift = anchor switch { "ctr" => Math.Max(0, (avail - y) / 2), "b" => Math.Max(0, avail - y), _ => 0 };
+            Matrix3x2 rot = Matrix3x2.Identity;
+            if (v90)
+            {
+                // Lines run top to bottom and stack right to left: (x, y) in the line frame lands at (width - y, x).
+                rot = new Matrix3x2(0, 1, -1, 0, (float)req.Width, 0);
+            }
+            else if (v270)
+            {
+                rot = new Matrix3x2(0, -1, 1, 0, 0, (float)req.Height);
+            }
+
+            Matrix3x2 m = Matrix3x2.CreateScale((float)(1 / K)) * Matrix3x2.CreateTranslation(0, (float)shift) * rot * req.Transform;
+            List.PushTransform(Id(), m);
+            _textDepth++;
+            foreach (LayoutParagraph lp in laid)
+            {
+                PaintParagraph(lp, false);
+            }
+
+            _textDepth--;
+            List.PopTransform();
+        }
+
+        private void PaintInlineObject(LayoutRun run, LayoutLine line)
+        {
+            if (run.Drawing is not { } d)
+            {
+                return;
+            }
+
+            var box = new DrawingBox(run.Bounds.X, line.Baseline - d.Info.Height - run.Paint.BaselineShift, d.Info.Width, d.Info.Height);
+            DrawingPainter.Draw(List, () => Id(), d.Node, box, ContextFor(d.Sources), d.Info.AltText, d.Info.Decorative);
         }
 
         // Borders, separators, line numbers and watermarks are page furniture, not content: artifacts.
@@ -568,6 +794,12 @@ public static class LayoutPainter
             if (run.RunKind == LayoutRunKind.Math)
             {
                 PaintMath(run, line);
+                return;
+            }
+
+            if (run.RunKind == LayoutRunKind.Drawing)
+            {
+                PaintInlineObject(run, line);
                 return;
             }
 

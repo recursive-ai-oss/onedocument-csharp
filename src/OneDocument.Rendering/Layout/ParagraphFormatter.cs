@@ -63,6 +63,7 @@ internal enum AtomKind
     PageBreak,
     Soft,
     Math,
+    Object,
 }
 
 // One line-breaking unit: a shaped cluster, a tab, or a break character.
@@ -95,6 +96,7 @@ internal sealed class Piece
     public global::RecursiveAI.OneDocument.Rendering.Equations.MathBox? Box; // the laid-out equation of a Math piece
     public AlignMode MathAlign;
     public bool Display;
+    public InlineDrawing? Drawing;
     public int ClusterCount;
     public int[] CStart = [];
     public int[] CLength = [];
@@ -123,6 +125,7 @@ internal sealed class LineItem
     public GlyphData? Glyphs;
     public int[] ClusterStarts = [];
     public double[] ClusterX = [];
+    public InlineDrawing? Drawing;
     public global::RecursiveAI.OneDocument.Rendering.Equations.MathBox? Math;
 }
 
@@ -158,6 +161,7 @@ internal class FormattedParagraph
     public double BorderBottomHeight;
     public double FormattedWidth; // the text width the lines were cut for, so the flow can re-cut them in a column of another width
     public List<FormattedLine> Lines = [];
+    public List<InlineDrawing> Floats = [];
     public ParagraphPaintInfo Paint = new();
 }
 
@@ -199,6 +203,7 @@ internal static class ParagraphFormatter
         var text = new System.Text.StringBuilder();
         var charRun = new List<int>();
         Dictionary<int, MathSpan>? maths = null;
+        var drawings = new Dictionary<int, InlineDrawing>();
         foreach ((Run? run, string? link, OtherInline? mathElement) in runs)
         {
             if (mathElement is not null)
@@ -217,7 +222,7 @@ internal static class ParagraphFormatter
             }
 
             int before = text.Length;
-            AppendRunText(ctx, run!, text, p);
+            AppendRunText(ctx, run!, text, p, drawings, fp.Floats);
             if (text.Length > before)
             {
                 infos.Add(info);
@@ -262,7 +267,7 @@ internal static class ParagraphFormatter
         }
 
         int labelAtoms = atoms.Count;
-        BuildPieces(ctx, paragraphText, charRun, infos, rtl, pieces, atoms, p, maths);
+        BuildPieces(ctx, paragraphText, charRun, infos, rtl, pieces, atoms, p, drawings, maths);
 
         TabStop[] stops = ReadTabs(pp, rtl);
         (double asc, double desc) mark = MarkMetrics(ctx, p, pp);
@@ -487,7 +492,7 @@ internal static class ParagraphFormatter
 
     // The characters a run shows. ECMA-376 Part 1 §17.3.3: t is text, tab a tab, br a break (page and column breaks end the page),
     // noBreakHyphen and softHyphen their characters. Drawings and objects are not laid out yet and are reported once.
-    private static void AppendRunText(LayoutContext ctx, Run run, System.Text.StringBuilder sb, Paragraph p)
+    private static void AppendRunText(LayoutContext ctx, Run run, System.Text.StringBuilder sb, Paragraph p, Dictionary<int, InlineDrawing> drawings, List<InlineDrawing> floats)
     {
         if (ctx.RunText is { } replaced && replaced.TryGetValue(run, out string? replacement))
         {
@@ -504,6 +509,18 @@ internal static class ParagraphFormatter
             }
 
             var e = new MarkupRef(n);
+            if (Xml.Eq(e.LocalName, "AlternateContent"))
+            {
+                // A drawing wrapped for older readers: the Choice holds the modern form, the Fallback a legacy picture.
+                MarkupNode alt = AlternateDrawing(n);
+                if (!alt.IsNull)
+                {
+                    AddDrawing(ctx, alt, sb, p, drawings, floats);
+                }
+
+                continue;
+            }
+
             if (e.Namespace != SchemaNamespace.Wordprocessing)
             {
                 continue;
@@ -542,11 +559,64 @@ internal static class ParagraphFormatter
                     sb.Append(SymbolMap.Map(Xml.Attr(e, "font"), code));
                 }
             }
-            else if ((Xml.Eq(e.LocalName, "drawing") || Xml.Eq(e.LocalName, "pict") || Xml.Eq(e.LocalName, "object")) && !Watermarks.IsWatermark(n))
+            else if (Xml.Eq(e.LocalName, "drawing") && !Watermarks.IsWatermark(n))
             {
-                ctx.NoteOnce("layout.drawing-skipped", "layout.drawing-skipped", "Pictures and drawn objects in paragraphs are not laid out yet; their space is not reserved.", p);
+                AddDrawing(ctx, n, sb, p, drawings, floats);
+            }
+            else if ((Xml.Eq(e.LocalName, "pict") || Xml.Eq(e.LocalName, "object")) && !Watermarks.IsWatermark(n))
+            {
+                ctx.NoteOnce("layout.drawing-skipped", "layout.drawing-skipped", "Legacy pictures and embedded objects in paragraphs are not laid out yet; their space is not reserved.", p);
             }
         }
+    }
+
+    private static MarkupNode AlternateDrawing(MarkupNode alternate)
+    {
+        foreach (MarkupNode branch in alternate.ChildElements)
+        {
+            foreach (MarkupNode child in branch.ChildElements)
+            {
+                if (child.LocalNameString == "drawing" && branch.LocalNameString == "Choice")
+                {
+                    return child;
+                }
+            }
+        }
+
+        foreach (MarkupNode branch in alternate.ChildElements)
+        {
+            foreach (MarkupNode child in branch.ChildElements)
+            {
+                if (child.LocalNameString == "drawing")
+                {
+                    return child;
+                }
+            }
+        }
+
+        return default;
+    }
+
+    // ECMA-376 Part 1 §20.4.2.8 (inline) and §20.4.2.3 (anchor): an inline drawing takes a character's place in the line; an anchored one
+    // is painted at its position and the text does not wrap around it yet.
+    private static void AddDrawing(LayoutContext ctx, MarkupNode drawing, System.Text.StringBuilder sb, Paragraph p, Dictionary<int, InlineDrawing> drawings, List<InlineDrawing> floats)
+    {
+        if (RecursiveAI.OneDocument.Rendering.Drawing.DrawingInfo.Read(drawing) is not { } info)
+        {
+            ctx.NoteOnce("layout.drawing-skipped", "layout.drawing-skipped", "A drawing without an inline or anchor extent is not laid out.", p);
+            return;
+        }
+
+        var item = new InlineDrawing(drawing, info, ctx.Drawings);
+        if (info.Inline)
+        {
+            drawings[sb.Length] = item;
+            sb.Append('\uFFFC');
+            return;
+        }
+
+        floats.Add(item);
+        ctx.NoteOnce("layout.anchored-drawing-unwrapped", "layout.anchored-drawing-unwrapped", "Anchored drawings are painted at their position; text does not wrap around them yet.", p);
     }
 
     private static RunInfo ReadRun(LayoutContext ctx, Run run, string? link)
@@ -798,7 +868,7 @@ internal static class ParagraphFormatter
         return Category.HighAnsi;
     }
 
-    private static void BuildPieces(LayoutContext ctx, string text, List<int> charRun, List<RunInfo> infos, bool rtl, List<Piece> pieces, List<Atom> atoms, Paragraph p, Dictionary<int, MathSpan>? maths)
+    private static void BuildPieces(LayoutContext ctx, string text, List<int> charRun, List<RunInfo> infos, bool rtl, List<Piece> pieces, List<Atom> atoms, Paragraph p, Dictionary<int, InlineDrawing> drawings, Dictionary<int, MathSpan>? maths)
     {
         if (text.Length == 0)
         {
@@ -820,6 +890,16 @@ internal static class ParagraphFormatter
                 pieces.Add(ParagraphMath.MakePiece(span, info, i, paragraphLevel));
                 atoms.Add(ParagraphMath.MakeAtom(span, pieces.Count - 1, i, paragraphLevel, opps[i] != global::OneFont.LineBreakOpportunity.None));
                 i += span.Length;
+                continue;
+            }
+
+            if (ch == '\uFFFC' && drawings.TryGetValue(i, out InlineDrawing? drawing))
+            {
+                // An inline drawing is one unbreakable box that sits on the baseline. ECMA-376 Part 1 §20.4.2.8 (inline).
+                var box = new Piece { Kind = AtomKind.Object, Run = info, Start = i, Length = 1, Level = paragraphLevel, Size = info.Size, Text = "\uFFFC", Drawing = drawing };
+                pieces.Add(box);
+                atoms.Add(new Atom { Piece = pieces.Count - 1, TextStart = i, TextLength = 1, Kind = AtomKind.Object, Level = levels[i], BreakBefore = opps[i] != global::OneFont.LineBreakOpportunity.None, Width = drawing.Info.Width });
+                i++;
                 continue;
             }
 
@@ -1245,7 +1325,7 @@ internal static class ParagraphFormatter
             widths[k] = w;
             leaders[k] = leader;
             x += w;
-            if (a.Kind is AtomKind.Glyphs or AtomKind.Tab or AtomKind.Math)
+            if (a.Kind is AtomKind.Glyphs or AtomKind.Tab or AtomKind.Math or AtomKind.Object)
             {
                 lastVisible = k;
             }
@@ -1345,6 +1425,13 @@ internal static class ParagraphFormatter
                 continue;
             }
 
+            if (a.Kind == AtomKind.Object)
+            {
+                // The box rests on the baseline, so it only adds to the height above it.
+                asc = Math.Max(asc, pc.Drawing!.Info.Height);
+                continue;
+            }
+
             if (pc.Font is null && pc.Faces.Length == 0)
             {
                 continue;
@@ -1438,6 +1525,14 @@ internal static class ParagraphFormatter
                 continue;
             }
 
+            if (first.Kind == AtomKind.Object)
+            {
+                line.Items.Add(new LineItem { Kind = LayoutRunKind.Drawing, X = cx, Width = visualWidth[v0], Text = "\uFFFC", TextStart = first.TextStart, Source = pc.Run?.Source, Size = pc.Size, Level = first.Level, Paint = pc.Run?.Paint ?? new RunPaintInfo(), Drawing = pc.Drawing });
+                cx += visualWidth[v0];
+                v0++;
+                continue;
+            }
+
             if (first.Kind == AtomKind.Tab)
             {
                 line.Items.Add(new LineItem { Kind = LayoutRunKind.Tab, X = cx, Width = visualWidth[v0], Text = "\t", TextStart = first.TextStart, Source = pc.Run?.Source, Size = pc.Size, Level = first.Level, Paint = WithLeader(pc.Run?.Paint, leaders[k0]) });
@@ -1451,7 +1546,7 @@ internal static class ParagraphFormatter
             while (v1 < count)
             {
                 Atom b = atoms[start + order[v1]];
-                if (b.Piece != first.Piece || b.Kind is AtomKind.Tab or AtomKind.LineBreak or AtomKind.PageBreak or AtomKind.Soft || pc.CFace[b.Cluster] != face)
+                if (b.Piece != first.Piece || b.Kind is AtomKind.Tab or AtomKind.LineBreak or AtomKind.PageBreak or AtomKind.Soft or AtomKind.Object || pc.CFace[b.Cluster] != face)
                 {
                     break;
                 }
