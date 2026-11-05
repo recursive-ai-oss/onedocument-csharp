@@ -47,6 +47,14 @@ public interface ICalcResolver
         return new CalcArray(area.Rows, area.Columns, cells);
     }
 
+    /// <summary>
+    /// Narrows a whole-row or whole-column area to the part that can hold data, so <c>SUM(A:A)</c> does not read a million empty cells. The evaluator
+    /// calls it only for an area that spans a whole sheet axis, and the returned area keeps the original's first row and column.
+    /// </summary>
+    /// <param name="area">The area, with its sheet filled in.</param>
+    /// <returns>The area to read: the same one (the default) or a smaller one with the same top-left corner.</returns>
+    CellArea ClipArea(in CellArea area) => area;
+
     /// <summary>Lists the sheets of a 3-D reference, in workbook order.</summary>
     /// <param name="first">First sheet.</param>
     /// <param name="last">Last sheet.</param>

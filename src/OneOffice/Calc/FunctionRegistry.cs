@@ -34,6 +34,9 @@ public enum FunctionTraits
 
     /// <summary>The function reads the formula's own cell or position (<c>ROW()</c>, <c>COLUMN()</c>).</summary>
     UsesOrigin = 4,
+
+    /// <summary>The function builds a reference from its arguments at run time (<c>INDIRECT</c>, <c>OFFSET</c>), so the cells it reads cannot be found by reading the formula. Workbook calculation evaluates such formulas after the cells they may read.</summary>
+    DynamicReference = 8,
 }
 
 /// <summary>A function that receives evaluated arguments.</summary>
