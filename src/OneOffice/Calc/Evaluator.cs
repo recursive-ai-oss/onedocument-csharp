@@ -31,6 +31,9 @@ public sealed class EvaluatorOptions
 
     /// <summary>The culture for <c>TEXT</c> and number-to-text conversion in functions that format. Default US English.</summary>
     public NumberFormatCulture? Culture { get; init; }
+
+    /// <summary>The source of <c>RAND</c>, <c>RANDBETWEEN</c> and <c>RANDARRAY</c>. Null uses a fresh system generator per evaluator; set it to a seeded <see cref="Random"/> for repeatable results.</summary>
+    public Random? Random { get; init; }
 }
 
 /// <summary>
@@ -52,6 +55,7 @@ public sealed class Evaluator
     private int _lambdaDepth;
     private long _steps;
     private FormulaNode? _snapRoot;
+    private Random? _rng;
 
     /// <summary>Creates an evaluator.</summary>
     /// <param name="resolver">Where cells, names and tables come from.</param>
@@ -393,6 +397,9 @@ public sealed class Evaluator
     }
 
     internal CalcValue MakeLambda(string[] parameters, FormulaNode body) => CalcValue.FromLambda(new LambdaValue(parameters, body, _scope));
+
+    // The generator behind RAND and friends; the caller's own when supplied (see EvaluatorOptions.Random).
+    internal Random Rng => _rng ??= _options.Random ?? new Random();
 
     internal Scope? CurrentScope
     {
