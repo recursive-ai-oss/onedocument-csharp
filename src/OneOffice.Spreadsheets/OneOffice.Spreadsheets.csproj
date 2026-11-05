@@ -3,13 +3,20 @@
   <PropertyGroup>
     <AssemblyName>RecursiveAI.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>RecursiveAI.$(MSBuildProjectName)</RootNamespace>
-    <Description>Read, write, calculate, template and render Word, Excel and PowerPoint documents (OOXML, legacy binary, RTF, ODF) in pure .NET. Not affiliated with Microsoft. Workbooks (XLSX, XLSB, XLS, ODS, CSV) and the calculation engine for OneOffice.</Description>
-    <IsPackable>false</IsPackable>
+    <Description>Read, write, calculate, template and render Word, Excel and PowerPoint documents (OOXML, legacy binary, RTF, ODF) in pure .NET. Not affiliated with Microsoft. Spreadsheets for OneOffice: open, edit and save XLSX, XLSM, XLTX and Flat OPC workbooks with untouched parts kept byte-identical, read and write CSV and TSV, and stream rows and cells at constant memory; styles, number formats, tables, conditional formatting, data validation and defined names.</Description>
+    <PackageTags>$(PackageTags);spreadsheet;xlsm;tsv;streaming;exceldatareader;sylvan</PackageTags>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
     <InternalsVisibleTo Include="RecursiveAI.OneOffice.Spreadsheets.Tests" />
     <InternalsVisibleTo Include="RecursiveAI.OneOffice.Fuzz" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- This package carries its own readme instead of the repository-wide one. -->
+    <None Remove="../../PACKAGE.md" />
+    <None Include="PACKAGE.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 
   <ItemGroup>

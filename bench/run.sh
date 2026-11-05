@@ -73,7 +73,7 @@ fi
 
 {
   echo "run: $run"
-  echo "filter: $filter"
+  if [[ -n "$xlsx" ]]; then echo "group: xlsx $xlsx"; else echo "filter: $filter"; fi
   echo "threads: $threads"
   echo "load override: $forced"
   if [[ -r /proc/cpuinfo ]]; then

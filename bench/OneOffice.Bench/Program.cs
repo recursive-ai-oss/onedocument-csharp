@@ -105,8 +105,6 @@ internal static class Program
             return 2;
         }
 
-        string dll = Environment.GetCommandLineArgs()[0];
-        string host = Environment.ProcessPath ?? "dotnet";
         Dictionary<string, string> inputs = DocxGenerator.Ensure(args[0]);
         using var output = new StreamWriter(args[1]);
         output.WriteLine("row\tinput\tbaseline_bytes\tpeak_bytes\tallocated_bytes\tresult");
@@ -114,16 +112,11 @@ internal static class Program
         {
             foreach ((string name, string path) in inputs.OrderBy(kv => kv.Key, StringComparer.Ordinal))
             {
-                var psi = new ProcessStartInfo(host) { RedirectStandardOutput = true, UseShellExecute = false };
-                psi.ArgumentList.Add(dll);
-                psi.ArgumentList.Add("peak");
-                psi.ArgumentList.Add(row);
-                psi.ArgumentList.Add(path);
-                using Process p = Process.Start(psi)!;
-                string line = p.StandardOutput.ReadToEnd().Trim();
-                p.WaitForExit();
-                output.WriteLine(p.ExitCode == 0 ? line : $"{row}\t{name}\tFAILED\tFAILED\tFAILED\texit {p.ExitCode}");
-                Console.WriteLine(p.ExitCode == 0 ? line : $"{row} {name}: exit {p.ExitCode}");
+                int exit = ChildProcess.Run(["peak", row, path], out string line, out long peakMb);
+                // Columns: row, input, baseline, peak (index 3), allocated, result. Where the runtime reports no peak, the external figure fills it.
+                line = ChildProcess.WithPeak(line, 3, peakMb << 20);
+                output.WriteLine(exit == 0 ? line : $"{row}\t{name}\tFAILED\tFAILED\tFAILED\texit {exit}");
+                Console.WriteLine(exit == 0 ? line : $"{row} {name}: exit {exit}");
             }
         }
 
