@@ -14,6 +14,7 @@
   <Folder Name="/tests/">
     <Project Path="tests/OneOffice.Tests/OneOffice.Tests.csproj" />
     <Project Path="tests/OneOffice.Documents.Tests/OneOffice.Documents.Tests.csproj" />
+    <Project Path="tests/OneOffice.Spreadsheets.Tests/OneOffice.Spreadsheets.Tests.csproj" />
     <Project Path="tests/OneOffice.Schema.Tests/OneOffice.Schema.Tests.csproj" />
   </Folder>
   <Folder Name="/tools/">
@@ -26,6 +27,8 @@
     <Project Path="tools/RevisionProbe/RevisionProbe.csproj" />
     <Project Path="tools/DocumentSweep/DocumentSweep.csproj" />
     <Project Path="tools/DocxProbe/DocxProbe.csproj" />
+    <Project Path="tools/NumFmtGrid/NumFmtGrid.csproj" />
+    <Project Path="tools/XlsxProbe/XlsxProbe.csproj" />
     <Project Path="tools/OracleCases/OracleCases.csproj" />
   </Folder>
   <Folder Name="/fuzz/">
