@@ -33,7 +33,7 @@ The `Office` statics (`Office.Open`, `Office.ExtractText`, `Office.Convert`) fin
 |---|---|---|
 | DOCX/DOCM/DOTX/DOTM, Flat OPC | yes | yes |
 | XLSX/XLSM/XLTX/XLTM/XLAM, Flat OPC | yes (`Workbook`, streaming cursors, `Spreadsheet.Read<T>`) | yes (also streaming and `Spreadsheet.Write`) |
-| PPTX/PPTM/POTX/PPSX, Flat OPC | read, edit slides and text, write | planned |
+| PPTX/PPTM/POTX/PPSX, Flat OPC | yes (`Presentation`) | yes |
 | XLSB | planned | planned |
 | XLS (BIFF8) | planned | planned |
 | XLS (BIFF2–5), DOC, PPT, Word and Excel 2003 XML | planned | not planned |
