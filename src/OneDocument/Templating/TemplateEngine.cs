@@ -399,6 +399,8 @@ internal sealed class Renderer
         public int Source { get; } = source;
 
         public List<TemplatePiece> Pieces { get; } = [];
+
+        public TemplateLoopFrame[] Loops { get; init; } = [];
     }
 
     private readonly ParsedTemplate _template;
@@ -406,6 +408,8 @@ internal sealed class Renderer
     private readonly List<OutUnit> _units = [];
     private OutUnit? _cur;
     private bool _force;
+    private readonly List<TemplateLoopFrame> _loopStack = [];
+    private Dictionary<ForNode, int>? _blockIndex;
     private int[][]? _segStarts;
 
     public Renderer(ParsedTemplate template, RenderState state)
@@ -414,7 +418,7 @@ internal sealed class Renderer
         _s = state;
     }
 
-    public IReadOnlyList<TemplateRenderedUnit> Units => [.. _units.Select(static u => new TemplateRenderedUnit(u.Source, u.Pieces))];
+    public IReadOnlyList<TemplateRenderedUnit> Units => [.. _units.Select(static u => new TemplateRenderedUnit(u.Source, u.Pieces) { Loops = u.Loops })];
 
     public void Run()
     {
@@ -463,7 +467,7 @@ internal sealed class Renderer
     {
         if (_cur is null || _cur.Source != unit || _force)
         {
-            _cur = new OutUnit(unit);
+            _cur = new OutUnit(unit) { Loops = [.. _loopStack] };
             _units.Add(_cur);
             _force = false;
         }
@@ -480,7 +484,7 @@ internal sealed class Renderer
         List<TemplatePiece> pieces = _cur!.Pieces;
         if (piece.Kind == TemplatePieceKind.Text && pieces.Count > 0 && pieces[^1].Kind == TemplatePieceKind.Text && pieces[^1].Segment == piece.Segment)
         {
-            pieces[^1] = pieces[^1] with { Text = pieces[^1].Text + piece.Text };
+            pieces[^1] = pieces[^1] with { Text = pieces[^1].Text + piece.Text, Typed = null };
         }
         else
         {
@@ -665,7 +669,20 @@ internal sealed class Renderer
     {
         (ITemplateData? node, CalcValue v, bool isMissing) = Evaluate(o.Expr);
         string text = isMissing ? string.Empty : Print(node, v);
-        EmitTag(o.Token, new TemplatePiece(TemplatePieceKind.Text, SegmentAt(o.Token.Unit, o.Token.Start), text));
+        CalcValue? typed = null;
+        if (!isMissing)
+        {
+            if (node is { Kind: TemplateDataKind.Scalar })
+            {
+                typed = node.Value;
+            }
+            else if (node is null && v.Kind != ValueKind.Array && v.Kind != ValueKind.Lambda)
+            {
+                typed = v;
+            }
+        }
+
+        EmitTag(o.Token, new TemplatePiece(TemplatePieceKind.Text, SegmentAt(o.Token.Unit, o.Token.Start), text, null, typed));
     }
 
     private bool Truthy(Expr e)
@@ -785,6 +802,7 @@ internal sealed class Renderer
             if (f.BodyStartsNewUnit)
             {
                 _force = true;
+                _loopStack.Add(new TemplateLoopFrame(BlockIndexOf(f), i));
             }
 
             try
@@ -794,10 +812,34 @@ internal sealed class Renderer
             finally
             {
                 _s.Frames.RemoveAt(_s.Frames.Count - 1);
+                if (f.BodyStartsNewUnit)
+                {
+                    _loopStack.RemoveAt(_loopStack.Count - 1);
+                }
             }
         }
 
         _s.Depth--;
+    }
+
+    private int BlockIndexOf(ForNode f)
+    {
+        if (_blockIndex is null)
+        {
+            _blockIndex = new Dictionary<ForNode, int>(ReferenceEqualityComparer.Instance);
+            int k = 0;
+            foreach ((ForNode? fn, IfNode? _) in Syntax.Blocks)
+            {
+                if (fn is not null)
+                {
+                    _blockIndex[fn] = k;
+                }
+
+                k++;
+            }
+        }
+
+        return _blockIndex.TryGetValue(f, out int index) ? index : -1;
     }
 
     private ITemplateData? FindVariable(string name)

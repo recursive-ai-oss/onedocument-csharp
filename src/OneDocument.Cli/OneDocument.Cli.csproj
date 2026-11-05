@@ -17,11 +17,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="RecursiveAI.OneDocument.Cli.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="../OneDocument.All/OneDocument.All.csproj" />
   </ItemGroup>
 
   <!-- The tool references the kind projects directly, so it takes their registration files the way a package reference would. -->
   <Import Project="../OneDocument.Documents/build/RecursiveAI.OneDocument.Documents.targets" />
   <Import Project="../OneDocument.Spreadsheets/build/RecursiveAI.OneDocument.Spreadsheets.targets" />
+  <Import Project="../OneDocument.Presentations/build/RecursiveAI.OneDocument.Presentations.targets" />
 
 </Project>

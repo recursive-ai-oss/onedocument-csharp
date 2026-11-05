@@ -1,0 +1,9 @@
+[Sheet1] merges=
+A1 s=0 n 3
+B1 s=0 -
+A2 s=0 n 10
+B2 s=0 -
+A3 s=0 n 2
+B3 s=0 -
+A4 s=0 t foot
+extra: A1:A3|A1:B4

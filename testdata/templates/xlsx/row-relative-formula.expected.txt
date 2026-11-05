@@ -1,0 +1,17 @@
+[Sheet1] merges=
+A2 s=0 t Bolt
+B2 s=0 n 3
+C2 s=0 n 1.5
+D2 s=0 - f=B2*C2
+E2 s=0 -
+A3 s=0 t Nut
+B3 s=0 n 10
+C3 s=0 n 0.25
+D3 s=0 - f=B3*C3
+E3 s=0 -
+A4 s=0 t Gear
+B4 s=0 n 2
+C4 s=0 n 12
+D4 s=0 - f=B4*C4
+E4 s=0 -
+D5 s=0 - f=SUM(D2:D4)

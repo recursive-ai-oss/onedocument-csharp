@@ -42,7 +42,7 @@ internal sealed class FrameModel
 
     public List<ColumnProperties> Columns { get; set; } = [];
 
-    public List<CellRange> Merges { get; private set; } = [];
+    public List<CellRange> Merges { get; internal set; } = [];
 
     public int FrozenRows { get; private set; }
 

@@ -265,6 +265,12 @@ Located by the binder's unit location plus the offset in the unit's text, or by 
 | `template.not-a-collection` | repaired (strict: fatal) | A loop's source is a single value; the loop runs once for it. |
 | `template.include-denied` | repaired (strict: fatal) | `include` was used but no `ITemplateIncludes` was supplied; nothing is read. |
 | `template.include-not-found` | repaired (strict: fatal) | The supplied `ITemplateIncludes` has no template of that name. |
+| `template.sheet-overflow` | fatal | A rendered workbook sheet would have more rows (or, for a column block, columns) than a sheet can hold. Located at the sheet's part. |
+| `template.sheet-name-repaired` | repaired | A rendered sheet name is empty, too long, uses a character sheet names cannot, or is taken; the sheet gets a cleaned or numbered name. |
+| `template.tag-not-bound` | dropped | An `image`, `html` or `markdown` tag sits in a workbook cell, where it cannot be bound; it printed nothing. Located at the cell. |
+| `template.scope-unusable` | repaired | A document block asks for a scope the structure cannot give (`scope=table-row` or `table` outside a table). Located at the part and the paragraph of the opening tag; the block repeats the paragraphs between its tags. |
+| `template.image-unsupported` | dropped | An `{% image %}` value that is not PNG, JPEG, GIF or BMP data (bytes, a stream, base64 or a `data:` URI). Nothing is inserted. |
+| `template.markup-dropped` | dropped | An `{% html %}` or `{% markdown %}` value held markup the converter does not carry over (scripts, event handlers, unknown elements, disallowed link targets, images, tables, raw HTML, content over the size or nesting limit). The rest is inserted. |
 
 Limits surface as `OfficeLimitException`: `limit.max-iterations`, `limit.max-output-characters`, `limit.max-block-depth` (block nesting and include depth), `limit.max-recursion-depth` and the formula limits.
 

@@ -429,6 +429,17 @@ public sealed partial class Worksheet
         _model!.Apply(_store, cellsEdited, out head, out tail);
     }
 
+    /// <summary>The markup around the cells, for binders that edit elements the model does not own (hyperlinks, merged cells). Editing it marks the sheet to be written.</summary>
+    internal FrameModel Frame
+    {
+        get
+        {
+            EnsureModel();
+            _model!.Changed = true;
+            return _model;
+        }
+    }
+
     private void EnsureModel()
     {
         if (_model is not null)
