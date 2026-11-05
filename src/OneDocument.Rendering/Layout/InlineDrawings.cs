@@ -57,6 +57,10 @@ internal sealed class DrawingSources
     public RecursiveAI.OneDocument.Charts.ChartPart? Chart(string relationshipId) =>
         RecursiveAI.OneDocument.Charts.ChartHost.Load(_doc.Package, _doc.MainPartName, relationshipId);
 
+    // The SmartArt painter for frames in the main part.
+    public Func<RecursiveAI.OneDocument.Rendering.SmartArt.DiagramPaintRequest, bool> DiagramPainter(RecursiveAI.OneDocument.Rendering.SmartArt.DiagramOptions? options) =>
+        RecursiveAI.OneDocument.Rendering.SmartArt.DiagramHost.CreatePainter(_doc.Package, _doc.MainPartName, options);
+
     // The bytes of the part a relationship id of the main part names; external (linked) targets are never opened.
     public byte[]? ImageBytes(string relationshipId)
     {

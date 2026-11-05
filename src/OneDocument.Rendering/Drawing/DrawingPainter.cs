@@ -194,7 +194,7 @@ public static class DrawingPainter
                         break;
                     }
 
-                case "graphicFrame" or "chart":
+                case "graphicFrame" or "chart" or "relIds":
                     PaintChartFrame(node, parent, top);
                     break;
                 case "graphic" or "drawing":
@@ -214,7 +214,13 @@ public static class DrawingPainter
         // painter the host installed. Anything else in a frame (tables, diagrams, OLE) is not painted here.
         private void PaintChartFrame(MarkupNode node, Matrix3x2 parent, DrawingBox? top)
         {
-            string? rel = node.LocalNameString == "chart" ? RelationshipId(node) : ChartReference(node, 0);
+            string? rel = node.LocalNameString is "chart" ? RelationshipId(node) : node.LocalNameString is "relIds" ? null : ChartReference(node, 0);
+            if (rel is null && DiagramReference(node, 0) is { } diagram)
+            {
+                PaintDiagramFrame(node, diagram, parent, top);
+                return;
+            }
+
             if (rel is null || ctx.ChartPainter is not { } painter)
             {
                 ctx.Note("drawing.graphic-frame", rel is null
@@ -241,6 +247,64 @@ public static class DrawingPainter
             {
                 ctx.Note("drawing.chart-not-painted", "A chart could not be read or painted; nothing is drawn for it.");
             }
+        }
+
+        // A graphic frame that shows a SmartArt diagram (dgm:relIds): painted at the frame's box by the diagram painter the host installed.
+        private void PaintDiagramFrame(MarkupNode node, SmartArt.DiagramReferences refs, Matrix3x2 parent, DrawingBox? top)
+        {
+            if (ctx.DiagramPainter is not { } painter)
+            {
+                ctx.Note("drawing.graphic-frame", "A diagram inside a drawing is not painted because no diagram painter was installed.");
+                return;
+            }
+
+            MarkupNode xf = default;
+            foreach (MarkupNode c in node.ChildElements)
+            {
+                if (c.LocalNameString == "xfrm")
+                {
+                    xf = c;
+                }
+            }
+
+            Xfrm f = ReadXfrm(xf, top);
+            Vector2 a = Vector2.Transform(new Vector2((float)f.X, (float)f.Y), parent);
+            Vector2 b = Vector2.Transform(new Vector2((float)(f.X + f.W), (float)(f.Y + f.H)), parent);
+            double w = Math.Abs(b.X - a.X), h = Math.Abs(b.Y - a.Y);
+            string? alt = null;
+            if (top is null)
+            {
+                MarkupNode props = DrawingTheme.Child(DrawingTheme.Child(node, "nvGraphicFramePr"), "cNvPr");
+                alt = props.IsNull ? null : props.GetAttribute("descr") ?? props.GetAttribute("title");
+            }
+
+            if (w < 1 || h < 1 || !painter(new SmartArt.DiagramPaintRequest(refs, list, nextId, ctx, Math.Min(a.X, b.X), Math.Min(a.Y, b.Y), w, h, alt, top is not null)))
+            {
+                ctx.Note("drawing.diagram-not-painted", "A diagram could not be read or painted; nothing is drawn for it.");
+            }
+        }
+
+        private static SmartArt.DiagramReferences? DiagramReference(MarkupNode n, int depth)
+        {
+            if (n.LocalNameString == "relIds")
+            {
+                return SmartArt.DiagramReferences.Read(n);
+            }
+
+            if (depth > 6)
+            {
+                return null;
+            }
+
+            foreach (MarkupNode c in n.ChildElements)
+            {
+                if (c.LocalNameString != "Fallback" && DiagramReference(c, depth + 1) is { } found)
+                {
+                    return found;
+                }
+            }
+
+            return null;
         }
 
         private static string? RelationshipId(MarkupNode e)
@@ -499,10 +563,10 @@ public static class DrawingPainter
                 ctx.Note("drawing.3d-flattened", "3-D formatting is drawn as its flat two-dimensional shape.");
             }
 
-            PaintShapeText(shape, eg, m);
+            PaintShapeText(shape, eg, m, parent);
         }
 
-        private void PaintShapeText(MarkupNode shape, EvaluatedGeometry? eg, Matrix3x2 m)
+        private void PaintShapeText(MarkupNode shape, EvaluatedGeometry? eg, Matrix3x2 m, Matrix3x2 parent)
         {
             MarkupNode body = DrawingTheme.Child(shape, "bodyPr");
             MarkupNode txBody = DrawingTheme.Child(shape, "txBody");
@@ -527,12 +591,25 @@ public static class DrawingPainter
             double l = Inset(body, "lIns", 91440), t = Inset(body, "tIns", 45720), r = Inset(body, "rIns", 91440), b = Inset(body, "bIns", 45720);
             double x0 = eg.TextLeft + l, y0 = eg.TextTop + t;
             double w = eg.TextRight - eg.TextLeft - l - r, h = eg.TextBottom - eg.TextTop - t - b;
+            Matrix3x2 origin = m;
+
+            // [MS-ODRAWXML] §2.3.1 (txXfrm): a diagram shape states its text rectangle itself, in the same space as the shape.
+            if (DrawingTheme.Child(shape, "txXfrm") is { IsNull: false } txXfrm)
+            {
+                Xfrm tf = ReadXfrm(txXfrm, null);
+                origin = Placement(tf, EmuPerPoint) * parent;
+                x0 = l;
+                y0 = t;
+                w = (tf.W / EmuPerPoint) - l - r;
+                h = (tf.H / EmuPerPoint) - t - b;
+            }
+
             if (w <= 0 || h <= 0)
             {
                 return;
             }
 
-            painter(new ShapeTextRequest(list, shape, Matrix3x2.CreateTranslation((float)x0, (float)y0) * m, w, h, nextId, body));
+            painter(new ShapeTextRequest(list, shape, Matrix3x2.CreateTranslation((float)x0, (float)y0) * origin, w, h, nextId, body));
         }
 
         private static double Inset(MarkupNode body, string name, double fallback) =>

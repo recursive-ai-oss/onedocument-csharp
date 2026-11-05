@@ -117,6 +117,12 @@ public sealed class DrawingContext
     /// </summary>
     public Func<string, DisplayList, double, double, double, double, bool>? ChartPainter { get; set; }
 
+    /// <summary>
+    /// Gets or sets the diagram painter for a graphic frame that shows a SmartArt diagram (<c>dgm:relIds</c>). Hosts install
+    /// <see cref="SmartArt.DiagramHost.CreatePainter"/> here. Null leaves diagrams unpainted (note <c>drawing.graphic-frame</c>).
+    /// </summary>
+    public Func<SmartArt.DiagramPaintRequest, bool>? DiagramPainter { get; set; }
+
     /// <summary>Gets or sets the font provider metafile text uses; null takes the default library.</summary>
     public RecursiveAI.OneDocument.Layout.IFontProvider? Fonts { get; set; }
 
