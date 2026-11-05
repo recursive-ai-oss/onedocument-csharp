@@ -27,6 +27,11 @@ public sealed class DrawingImages : IImageResolver
     /// <inheritdoc/>
     public RgbaImage? Resolve(ImageHandle handle) => _store.Resolve(handle);
 
+    // The bitmaps a metafile painter produces, in the same handle space as the pictures.
+    internal RecursiveAI.OneDocument.Rendering.Metafiles.PictureImages Pictures => _pictures ??= new RecursiveAI.OneDocument.Rendering.Metafiles.PictureImages(_store);
+
+    private RecursiveAI.OneDocument.Rendering.Metafiles.PictureImages? _pictures;
+
     /// <summary>Registers (once) and looks up a picture.</summary>
     /// <param name="key">A key unique to the picture within the document.</param>
     /// <param name="bytes">The encoded file; only read the first time the key is seen.</param>
@@ -104,6 +109,16 @@ public sealed class DrawingContext
     /// it is given. Null leaves shape text unpainted (a note is recorded).
     /// </summary>
     public Action<ShapeTextRequest>? TextPainter { get; set; }
+
+    /// <summary>
+    /// Gets or sets the chart painter for a graphic frame that shows a chart (<c>c:chart</c> or <c>cx:chart</c>). It receives the
+    /// relationship id of the chart in the frame's part, the display list and the frame's box in CSS pixels, and returns false when the
+    /// chart cannot be painted. Null leaves charts unpainted (note <c>drawing.graphic-frame</c>).
+    /// </summary>
+    public Func<string, DisplayList, double, double, double, double, bool>? ChartPainter { get; set; }
+
+    /// <summary>Gets or sets the font provider metafile text uses; null takes the default library.</summary>
+    public RecursiveAI.OneDocument.Layout.IFontProvider? Fonts { get; set; }
 
     internal void Note(string code, string message)
     {

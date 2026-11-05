@@ -32,7 +32,7 @@ public static class ChartHost
     /// <param name="sourcePartName">The part holding the frame (slide, drawing part or document part).</param>
     /// <param name="relationshipId">The <c>r:id</c> of the frame's <c>c:chart</c> or <c>cx:chart</c> element.</param>
     /// <returns>The chart, or null when the relationship, the part or its XML is missing or unreadable.</returns>
-    public static ChartPart? Load(OpcPackage package, string sourcePartName, string relationshipId)
+    public static ChartPart? Load(IOpcPackage package, string sourcePartName, string relationshipId)
     {
         ArgumentNullException.ThrowIfNull(package);
         foreach (Relationship r in package.GetRelationships(sourcePartName))
@@ -52,7 +52,7 @@ public static class ChartHost
     /// <param name="package">The package.</param>
     /// <param name="partName">The chart part's name.</param>
     /// <returns>The chart, or null when the part is missing or is not a readable chart.</returns>
-    public static ChartPart? LoadPart(OpcPackage package, string partName)
+    public static ChartPart? LoadPart(IOpcPackage package, string partName)
     {
         ArgumentNullException.ThrowIfNull(package);
         IPackagePart? part = package.FindPart(partName);
@@ -76,7 +76,7 @@ public static class ChartHost
     /// <summary>Lists the chart parts of a package (classic and chartex), by content type.</summary>
     /// <param name="package">The package.</param>
     /// <returns>The part names in package order.</returns>
-    public static IReadOnlyList<string> FindChartParts(OpcPackage package)
+    public static IReadOnlyList<string> FindChartParts(IOpcPackage package)
     {
         ArgumentNullException.ThrowIfNull(package);
         var list = new List<string>();

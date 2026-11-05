@@ -53,6 +53,10 @@ internal sealed class DrawingSources
         return new DrawingSources(doc, relationships, theme, map);
     }
 
+    // The chart a relationship id of the main part names, or null when it is missing or is not a chart.
+    public RecursiveAI.OneDocument.Charts.ChartPart? Chart(string relationshipId) =>
+        RecursiveAI.OneDocument.Charts.ChartHost.Load(_doc.Package, _doc.MainPartName, relationshipId);
+
     // The bytes of the part a relationship id of the main part names; external (linked) targets are never opened.
     public byte[]? ImageBytes(string relationshipId)
     {

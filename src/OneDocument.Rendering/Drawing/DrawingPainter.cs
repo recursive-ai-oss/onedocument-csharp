@@ -194,8 +194,8 @@ public static class DrawingPainter
                         break;
                     }
 
-                case "graphicFrame":
-                    ctx.Note("drawing.graphic-frame", "A chart, table or other graphic frame inside a drawing is not painted by the shape painter.");
+                case "graphicFrame" or "chart":
+                    PaintChartFrame(node, parent, top);
                     break;
                 case "graphic" or "drawing":
                     {
@@ -208,6 +208,80 @@ public static class DrawingPainter
                         break;
                     }
             }
+        }
+
+        // A graphic frame that shows a chart (c:chart or cx:chart with an r:id): the chart is painted at the frame's box by the chart
+        // painter the host installed. Anything else in a frame (tables, diagrams, OLE) is not painted here.
+        private void PaintChartFrame(MarkupNode node, Matrix3x2 parent, DrawingBox? top)
+        {
+            string? rel = node.LocalNameString == "chart" ? RelationshipId(node) : ChartReference(node, 0);
+            if (rel is null || ctx.ChartPainter is not { } painter)
+            {
+                ctx.Note("drawing.graphic-frame", rel is null
+                    ? "A table, diagram or other graphic frame inside a drawing is not painted by the shape painter."
+                    : "A chart inside a drawing is not painted because no chart painter was installed.");
+                return;
+            }
+
+            // The frame's own transform is p:xfrm (a plain a:xfrm-like element with off and ext) or, in a Word drawing, the box given.
+            MarkupNode xf = default;
+            foreach (MarkupNode c in node.ChildElements)
+            {
+                if (c.LocalNameString == "xfrm")
+                {
+                    xf = c;
+                }
+            }
+
+            Xfrm f = ReadXfrm(xf, top);
+            Vector2 a = Vector2.Transform(new Vector2((float)f.X, (float)f.Y), parent);
+            Vector2 b = Vector2.Transform(new Vector2((float)(f.X + f.W), (float)(f.Y + f.H)), parent);
+            double w = Math.Abs(b.X - a.X), h = Math.Abs(b.Y - a.Y);
+            if (w < 1 || h < 1 || !painter(rel, list, Math.Min(a.X, b.X), Math.Min(a.Y, b.Y), w, h))
+            {
+                ctx.Note("drawing.chart-not-painted", "A chart could not be read or painted; nothing is drawn for it.");
+            }
+        }
+
+        private static string? RelationshipId(MarkupNode e)
+        {
+            foreach (MarkupAttributeRef a in e.Attributes)
+            {
+                if (!a.IsNamespaceDeclaration && a.LocalName.SequenceEqual("id"u8))
+                {
+                    return a.Value;
+                }
+            }
+
+            return null;
+        }
+
+        private static string? ChartReference(MarkupNode n, int depth)
+        {
+            if (depth > 6)
+            {
+                return null;
+            }
+
+            foreach (MarkupNode c in n.ChildElements)
+            {
+                if (c.LocalNameString == "chart" && RelationshipId(c) is { } id)
+                {
+                    return id;
+                }
+
+                if (c.LocalNameString is "Fallback")
+                {
+                    continue;
+                }
+
+                if (ChartReference(c, depth + 1) is { } found)
+                {
+                    return found;
+                }
+            }
+
+            return null;
         }
 
         private readonly record struct Xfrm(double X, double Y, double W, double H, double Rot, bool FlipH, bool FlipV, double ChX, double ChY, double ChW, double ChH);
@@ -670,6 +744,26 @@ public static class DrawingPainter
             bool ok = false;
             if (embed is not null && ctx.ImageBytes(embed) is { } bytes)
             {
+                // EMF and WMF are drawn as vector content by the metafile painter, clipped to the shape's outline; when it cannot draw
+                // the picture the bitmap path below runs, and ends in the placeholder.
+                if (RecursiveAI.OneDocument.Rendering.Metafiles.PictureHook.IsVectorPicture(bytes))
+                {
+                    MarkupNode crop = DrawingTheme.Child(blipFill, "srcRect");
+                    var mctx = new RecursiveAI.OneDocument.Rendering.Metafiles.MetafilePaintContext(list, ctx.Images.Pictures, nextId)
+                    {
+                        Fonts = ctx.Fonts,
+                        Report = d => ctx.Note("drawing.metafile-" + d.Code, d.Message),
+                    };
+                    list.PushClipPath(nextId(), path);
+                    bool drawn = RecursiveAI.OneDocument.Rendering.Metafiles.PictureHook.TryPaint(bytes, null, mctx, in bounds,
+                        new RecursiveAI.OneDocument.Rendering.Metafiles.PictureCrop(Pct(crop, "l"), Pct(crop, "t"), Pct(crop, "r"), Pct(crop, "b")));
+                    list.PopClip();
+                    if (drawn)
+                    {
+                        return;
+                    }
+                }
+
                 string key = ctx.Scope + "|" + embed;
                 ok = ctx.Images.TryGet(key, bytes, out info);
                 if (ok)

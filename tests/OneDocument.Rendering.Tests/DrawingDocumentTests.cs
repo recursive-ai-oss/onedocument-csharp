@@ -89,6 +89,26 @@ public sealed class DrawingDocumentTests
     }
 
     [Fact]
+    public void A_metafile_picture_and_a_chart_are_painted_as_vector_content()
+    {
+        byte[] docx = DrawingSamples.All().First(s => s.Name == "metafile-chart").Docx;
+        using Document doc = Document.Open(new MemoryStream(docx), leaveOpen: false);
+        LayoutDocument layout = LayoutEngine.Layout(doc, new LayoutOptions { Fonts = TestFonts.Library });
+        var notes = new List<DrawingNote>();
+        DisplayList list = LayoutPainter.Paint(layout.Pages[0], new PaintOptions { Images = new DrawingImages(), DrawingNotes = notes });
+        Assert.DoesNotContain(notes, n => n.Code is "drawing.picture-undecodable" or "drawing.graphic-frame" or "drawing.chart-not-painted");
+        int glyphRuns = 0, fills = 0;
+        for (int i = 0; i < list.Count; i++)
+        {
+            glyphRuns += list[i].Kind == ItemKind.GlyphRun ? 1 : 0;
+            fills += list[i].Kind == ItemKind.FillPath ? 1 : 0;
+        }
+
+        Assert.True(glyphRuns > 5, "chart axis labels and legend are text");
+        Assert.True(fills > 6, "metafile shapes and chart bars are fills");
+    }
+
+    [Fact]
     public void Layout_stays_correct_when_a_drawing_cannot_be_painted()
     {
         // A drawing without extent, and an inline shape of zero size, must not stop the page.

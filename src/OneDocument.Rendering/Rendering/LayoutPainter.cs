@@ -77,6 +77,17 @@ public static class LayoutPainter
                 c = new DrawingContext(new ColorResolver(sources.Theme, sources.Map), options.Images, sources.ImageBytes, sources.Scope) { Tagged = options.Tagged };
                 DrawingContext captured = c;
                 c.TextPainter = request => PaintShapeText(request, sources, captured);
+                c.Fonts = sources.Layout?.Fonts;
+                c.ChartPainter = (rel, list, x, y, w, h) =>
+                {
+                    if (sources.Chart(rel) is not { } chart)
+                    {
+                        return false;
+                    }
+
+                    RecursiveAI.OneDocument.Charts.ChartHost.Paint(list, chart.Chart, x, y, w, h, chart.Theme, sources.Layout?.Fonts);
+                    return true;
+                };
                 _drawingContexts[sources] = c;
             }
 

@@ -13,9 +13,13 @@ in CSS pixels (1 pt = 4/3 px), tagged as described at the end.
 | `DrawingPainter.DrawShapes(list, nextId, tree, originX, originY, context)` | The children of a shape tree (`p:spTree`, a group); each shape sits where its own transform puts it. Used for slides and worksheet drawing layers. |
 | `DrawingContext` | The theme and colour map (`ColorResolver`), the shared `DrawingImages`, a callback giving the bytes of the picture a relationship id names, the scope that keys the image cache, the `Notes` list, and the `TextPainter` hook. |
 
-Charts and metafile pictures hook in here: a chart renderer is called for a `graphicFrame` the painter reports with
-`drawing.graphic-frame`, and a metafile interpreter takes over where a picture cannot be decoded as a bitmap
-(`drawing.picture-undecodable`), before the grey placeholder is drawn.
+A chart frame (`c:chart` or `cx:chart` with an `r:id`, in a Word drawing or a slide/worksheet `graphicFrame`) is painted by the
+`DrawingContext.ChartPainter` the host installs, at the frame's box in CSS pixels; the Word renderer installs one that loads the chart
+part through `ChartHost.Load` and paints it with `ChartHost.Paint` (see `charts.md`). Without a painter, or for a frame that is not a
+chart, the painter notes `drawing.graphic-frame`; a chart that cannot be read notes `drawing.chart-not-painted`. A metafile picture
+(EMF or WMF, recognised by its bytes) is drawn through `PictureHook.TryPaint` (see `metafiles.md`), clipped to the shape's outline and
+cropped by `srcRect`; its bitmaps share the drawing's image handles. When the hook cannot draw it, the usual bitmap path runs and ends
+in the placeholder (`drawing.picture-undecodable`). Metafile defects arrive as notes `drawing.metafile-<defect code>`.
 
 ## Geometry
 
@@ -133,7 +137,7 @@ Codes on `DrawingContext.Notes` (each once per context): `drawing.limit`, `drawi
 `drawing.pattern-approximated`, `drawing.line-gradient`, `drawing.effect-skipped`, `drawing.3d-flattened`, `drawing.graphic-frame`,
 `drawing.picture-missing`, `drawing.picture-linked`, `drawing.picture-undecodable`, `drawing.picture-effect`,
 `drawing.text-body-not-painted`, `drawing.text-not-painted`, `drawing.text-overflow`, `drawing.text-block-skipped`,
-`drawing.text-vertical-approximated`, `drawing.text-wrap-none-approximated`. `PaintOptions.DrawingNotes` collects them from
+`drawing.text-vertical-approximated`, `drawing.text-wrap-none-approximated`, `drawing.chart-not-painted`, `drawing.metafile-*`. `PaintOptions.DrawingNotes` collects them from
 `LayoutPainter.Paint`. They are painting notes, not read defects: the file is fine, the renderer approximated.
 
 ## Checks

@@ -284,7 +284,102 @@ internal static class DrawingSamples
             list.Add(("pictures", docx));
         }
 
+        // An embedded EMF picture (drawn as vector content, plain and in a shape with a crop) and an inline chart.
+        {
+            var sb = new StringBuilder(Title("Embedded metafile and chart"));
+            sb.Append(Row(
+                PicRun(string.Empty, string.Empty, 120, 90, Prst("rect"), "emf plain", "A drawn rectangle and ellipse in a metafile", embed: "rIdEmf"),
+                PicRun(string.Empty, "<a:srcRect l=\"25000\" t=\"25000\" r=\"0\" b=\"0\"/>", 120, 90, Prst("rect"), "emf crop", "cropped metafile", embed: "rIdEmf"),
+                PicRun(string.Empty, string.Empty, 120, 90, Prst("ellipse"), "emf ellipse", "metafile clipped to an ellipse", embed: "rIdEmf")));
+            sb.Append(Row(Inline("<c:chart xmlns:c=\"http://schemas.openxmlformats.org/drawingml/2006/chart\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"rIdChart\"/>", 360, 216, "http://schemas.openxmlformats.org/drawingml/2006/chart", "chart", "A column chart of two series")));
+            byte[] raw = TestDocx.Bytes(sb.ToString(), extraRels:
+                "<Relationship Id=\"rIdEmf\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/image\" Target=\"media/image1.emf\"/>" +
+                "<Relationship Id=\"rIdChart\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart\" Target=\"charts/chart1.xml\"/>",
+                extraParts: [("word/media/image1.emf", Emf()), ("word/charts/chart1.xml", Encoding.UTF8.GetBytes(ChartXml))]);
+            list.Add(("metafile-chart", AddContentTypes(raw, "<Default Extension=\"emf\" ContentType=\"image/x-emf\"/><Override PartName=\"/word/charts/chart1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.drawingml.chart+xml\"/>")));
+        }
+
         return list;
+    }
+
+    private const string ChartXml =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><c:chartSpace xmlns:c=\"http://schemas.openxmlformats.org/drawingml/2006/chart\" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"><c:chart><c:autoTitleDeleted val=\"1\"/><c:plotArea><c:layout/>" +
+        "<c:barChart><c:barDir val=\"col\"/><c:grouping val=\"clustered\"/><c:varyColors val=\"0\"/>" +
+        "<c:ser><c:idx val=\"0\"/><c:order val=\"0\"/><c:tx><c:strRef><c:f>S!$B$1</c:f><c:strCache><c:ptCount val=\"1\"/><c:pt idx=\"0\"><c:v>North</c:v></c:pt></c:strCache></c:strRef></c:tx><c:cat><c:strRef><c:f>S!$A$2:$A$4</c:f><c:strCache><c:ptCount val=\"3\"/><c:pt idx=\"0\"><c:v>Q1</c:v></c:pt><c:pt idx=\"1\"><c:v>Q2</c:v></c:pt><c:pt idx=\"2\"><c:v>Q3</c:v></c:pt></c:strCache></c:strRef></c:cat><c:val><c:numRef><c:f>S!$B$2:$B$4</c:f><c:numCache><c:formatCode>General</c:formatCode><c:ptCount val=\"3\"/><c:pt idx=\"0\"><c:v>12</c:v></c:pt><c:pt idx=\"1\"><c:v>19</c:v></c:pt><c:pt idx=\"2\"><c:v>7</c:v></c:pt></c:numCache></c:numRef></c:val></c:ser>" +
+        "<c:ser><c:idx val=\"1\"/><c:order val=\"1\"/><c:tx><c:strRef><c:f>S!$C$1</c:f><c:strCache><c:ptCount val=\"1\"/><c:pt idx=\"0\"><c:v>South</c:v></c:pt></c:strCache></c:strRef></c:tx><c:cat><c:strRef><c:f>S!$A$2:$A$4</c:f><c:strCache><c:ptCount val=\"3\"/><c:pt idx=\"0\"><c:v>Q1</c:v></c:pt><c:pt idx=\"1\"><c:v>Q2</c:v></c:pt><c:pt idx=\"2\"><c:v>Q3</c:v></c:pt></c:strCache></c:strRef></c:cat><c:val><c:numRef><c:f>S!$C$2:$C$4</c:f><c:numCache><c:formatCode>General</c:formatCode><c:ptCount val=\"3\"/><c:pt idx=\"0\"><c:v>8</c:v></c:pt><c:pt idx=\"1\"><c:v>14</c:v></c:pt><c:pt idx=\"2\"><c:v>18</c:v></c:pt></c:numCache></c:numRef></c:val></c:ser>" +
+        "<c:axId val=\"111\"/><c:axId val=\"222\"/></c:barChart><c:catAx><c:axId val=\"111\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"0\"/><c:axPos val=\"b\"/><c:crossAx val=\"222\"/></c:catAx><c:valAx><c:axId val=\"222\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"0\"/><c:axPos val=\"l\"/><c:majorGridlines/><c:crossAx val=\"111\"/></c:valAx></c:plotArea><c:legend><c:legendPos val=\"b\"/></c:legend><c:plotVisOnly val=\"1\"/></c:chart></c:chartSpace>";
+
+    // A small enhanced metafile (a filled rectangle and an ellipse, 100 x 75 units), written record by record.
+    internal static byte[] Emf()
+    {
+        using var ms = new MemoryStream();
+        using var w = new BinaryWriter(ms);
+        void Rec(int type, params int[] data)
+        {
+            w.Write(type);
+            w.Write(8 + (data.Length * 4));
+            foreach (int d in data)
+            {
+                w.Write(d);
+            }
+        }
+
+        // EMR_HEADER: bounds, frame (0.01 mm), signature, version, size, records, handles, description, palette, device, millimetres.
+        w.Write(1);
+        w.Write(88);
+        foreach (int v in new[] { 0, 0, 99, 74, 0, 0, 3125, 2344 })
+        {
+            w.Write(v);
+        }
+
+        w.Write(0x464D4520);
+        w.Write(0x10000);
+        long sizePos = ms.Position;
+        w.Write(0);
+        long recPos = ms.Position;
+        w.Write(0);
+        w.Write((short)3);
+        w.Write((short)0);
+        w.Write(0);
+        w.Write(0);
+        w.Write(0);
+        w.Write(1024);
+        w.Write(768);
+        w.Write(320);
+        w.Write(240);
+        Rec(39, 1, 0, 0x00C07030, 0);       // CREATEBRUSHINDIRECT: handle 1, solid, colour (BGR)
+        Rec(37, 1);                          // SELECTOBJECT 1
+        Rec(43, 5, 5, 70, 50);               // RECTANGLE
+        Rec(39, 2, 0, 0x0030A0F0, 0);
+        Rec(37, 2);
+        Rec(42, 40, 25, 95, 70);             // ELLIPSE
+        Rec(14, 0, 16, 20);                  // EOF
+        byte[] bytes = ms.ToArray();
+        BitConverter.GetBytes(bytes.Length).CopyTo(bytes, (int)sizePos);
+        BitConverter.GetBytes(8).CopyTo(bytes, (int)recPos);
+        return bytes;
+    }
+
+    private static byte[] AddContentTypes(byte[] raw, string entries)
+    {
+        using var ms = new MemoryStream();
+        ms.Write(raw);
+        using (var zip = new ZipArchive(ms, ZipArchiveMode.Update, leaveOpen: true))
+        {
+            ZipArchiveEntry ct = zip.GetEntry("[Content_Types].xml")!;
+            string xml;
+            using (var r = new StreamReader(ct.Open(), Encoding.UTF8))
+            {
+                xml = r.ReadToEnd();
+            }
+
+            ct.Delete();
+            xml = xml.Replace("</Types>", entries + "</Types>");
+            using var w = new StreamWriter(zip.CreateEntry("[Content_Types].xml").Open(), new UTF8Encoding(false));
+            w.Write(xml);
+        }
+
+        return ms.ToArray();
     }
 
     // The test packages: styles from TestDocx plus a PNG part and a bogus metafile part so the picture cases have something to point at.
