@@ -147,7 +147,7 @@ public class BindingTests
     public void XlsxDatesAreDatesAndHeaderIsFirstRow()
     {
         using MemoryStream ms = WriteTo(People(3), OfficeFormat.Xlsx);
-        string path = Path.Combine(Path.GetTempPath(), "u24-rows-" + Guid.NewGuid().ToString("N") + ".xlsx");
+        string path = Path.Combine(Path.GetTempPath(), "oneoffice-rows-" + Guid.NewGuid().ToString("N") + ".xlsx");
         try
         {
             File.WriteAllBytes(path, ms.ToArray());
@@ -328,7 +328,7 @@ public class BindingTests
     [Fact]
     public async Task WriteByExtensionAndAsyncReadBack()
     {
-        string dir = Path.Combine(Path.GetTempPath(), "u24-" + Guid.NewGuid().ToString("N"));
+        string dir = Path.Combine(Path.GetTempPath(), "oneoffice-poco-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(dir);
         try
         {
