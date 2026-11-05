@@ -110,6 +110,15 @@ build. It is used by the number-format grid in `tools/NumFmtGrid`.
 (escapes as in grid mode). `type` is `string`, `number` (round-trip text, invariant culture), `boolean`, `error` (Excel's numeric
 code, 2042 for `#N/A`) or `empty`. The CSV tests use it to compare Excel's reading of a text file with OneOffice's.
 
+## Formulas mode (Excel)
+
+`office-oracle.sh run --formulas ...` takes `NAME.fgrid` files: one test per line, `id<TAB>how<TAB>text` with `how` one of `a1`,
+`r1c1`, `local` and the text escaped as above. Each text is entered with `Formula2`, `Formula2R1C1` or `Formula2Local` (dynamic-array
+semantics) into its own block of 60 rows of a new workbook; after a full recalculation `NAME.fgrid.tsv` has, per test,
+`id<TAB>ok<TAB>Formula2<TAB>Formula2R1C1<TAB>Formula2Local<TAB>rows<TAB>cols<TAB>cells` (cells as `t:value` items separated by U+001F;
+`z` blank, `n` number, `s` text, `b` boolean, `e` error code over the whole spill range), or `id<TAB>rejected: message` when Excel
+refuses the text. The result line's `formulas` field records Excel's separators and build. Used by `tools/FormulaGrid`.
+
 ## Runs are self-contained
 
 Each `run` registers its own one-off task, `OneOfficeOracle-<run>` (`laptop/Start-Run.ps1`), whose command line carries the

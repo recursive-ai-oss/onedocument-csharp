@@ -2,9 +2,9 @@
 # Drives desktop Office on a Windows machine and brings the answers back.
 #
 #   office-oracle.sh install
-#   office-oracle.sh run --run NAME [--instance ID] [--out DIR] [--probe|--grid|--cells] [--pdf] [--saveas]
+#   office-oracle.sh run --run NAME [--instance ID] [--out DIR] [--probe|--grid|--cells|--formulas] [--pdf] [--saveas]
 #                        [--lock-path WINPATH] [--lock-retry SECONDS] [--lock-wait MINUTES] [--timeout SECONDS]
-#                        [--trace] [--no-watcher] [--keep] FILE|DIR...
+#                        [--trace] [--no-watcher] [--item-seconds N] [--keep] FILE|DIR...
 #
 # Environment:
 #   OFFICE_ORACLE_SSH       ssh destination of the Windows machine, e.g. user@host (required)
@@ -37,13 +37,13 @@ install)
   ;;
 run)
   run=""; instance="${ONEOFFICE_INSTANCE:-oneoffice}"; out=""; mode=open; pdf=false; saveas=false
-  lock=""; retry=60; wait_min=20; timeout=1800; keep=false; trace=false; nowatch=false; walerts=-1; pdfvia=export; inputs=()
+  lock=""; retry=60; wait_min=20; timeout=1800; keep=false; trace=false; nowatch=false; walerts=-1; pdfvia=export; itemsec=0; inputs=()
   while [ $# -gt 0 ]; do
     case "$1" in
       --run) run=$2; shift 2;; --instance) instance=$2; shift 2;; --out) out=$2; shift 2;;
-      --probe) mode=probe; shift;; --grid) mode=grid; shift;; --cells) mode=cells; shift;; --pdf) pdf=true; shift;; --saveas) saveas=true; shift;;
+      --probe) mode=probe; shift;; --grid) mode=grid; shift;; --cells) mode=cells; shift;; --formulas) mode=formulas; shift;; --pdf) pdf=true; shift;; --saveas) saveas=true; shift;;
       --lock-path) lock=$2; shift 2;; --lock-retry) retry=$2; shift 2;; --lock-wait) wait_min=$2; shift 2;;
-      --timeout) timeout=$2; shift 2;; --keep) keep=true; shift;; --trace) trace=true; shift;; --pdf-via) pdfvia=$2; shift 2;; --word-alerts) walerts=$2; shift 2;; --no-watcher) nowatch=true; shift;;
+      --timeout) timeout=$2; shift 2;; --keep) keep=true; shift;; --trace) trace=true; shift;; --pdf-via) pdfvia=$2; shift 2;; --word-alerts) walerts=$2; shift 2;; --no-watcher) nowatch=true; shift;; --item-seconds) itemsec=$2; shift 2;;
       *) inputs+=("$1"); shift;;
     esac
   done
@@ -56,9 +56,9 @@ run)
   for i in "${inputs[@]}"; do
     if [ -d "$i" ]; then cp -r "$i"/. "$stage/in/"; else cp "$i" "$stage/in/"; fi
   done
-  python3 - "$stage" "$run" "$instance" "$mode" "$pdf" "$saveas" "$lock" "$retry" "$wait_min" "$trace" "$nowatch" "$walerts" "$pdfvia" <<'EOF'
+  python3 - "$stage" "$run" "$instance" "$mode" "$pdf" "$saveas" "$lock" "$retry" "$wait_min" "$trace" "$nowatch" "$walerts" "$pdfvia" "$itemsec" <<'EOF'
 import json, os, sys
-stage, run, instance, mode, pdf, saveas, lock, retry, wait_min, trace, nowatch, walerts, pdfvia = sys.argv[1:]
+stage, run, instance, mode, pdf, saveas, lock, retry, wait_min, trace, nowatch, walerts, pdfvia, itemsec = sys.argv[1:]
 items = []
 for n in sorted(os.listdir(stage + "/in")):
     if not os.path.isfile(stage + "/in/" + n) or n.endswith(".actions.txt"):
@@ -72,6 +72,8 @@ job = {"run": run, "instance": instance, "maxMinutes": 25, "lockRetrySeconds": i
        "lockWaitMinutes": int(wait_min), "items": items}
 job["wordAlerts"] = int(walerts)
 job["pdfVia"] = pdfvia
+if int(itemsec) > 0:
+    job["itemSeconds"] = int(itemsec)
 job["trace"] = trace == "true"
 job["noWatcher"] = nowatch == "true"
 if lock:

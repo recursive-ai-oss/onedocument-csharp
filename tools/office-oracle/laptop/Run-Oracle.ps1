@@ -289,7 +289,71 @@ function Get-StoryRevisionCount($doc) {
     return $n
 }
 
+function Invoke-ExcelFormulas($app, $item, $path, $outDir, $res) {
+    # Formulas mode: the input is <name>.fgrid, one line per test, id<TAB>how<TAB>text (a1, r1c1 or local; tabs, newlines and
+    # backslashes escaped). Each text is entered with Formula2 / Formula2R1C1 / Formula2Local (dynamic-array semantics) into
+    # its own block of 60 rows of a new workbook, which is recalculated in full. The answer file <name>.fgrid.tsv has
+    # id<TAB>entered-or-error<TAB>Formula2<TAB>Formula2R1C1<TAB>Formula2Local<TAB>rows<TAB>cols<TAB>cells, where cells are
+    # t:value items (t = z blank, n number, s text, b boolean, e error code) separated by U+001F, row-major over the spill range.
+    $un = { param($x) [regex]::Replace([string]$x, '\\(.)', { param($m) switch ($m.Groups[1].Value) { 't' { "`t" } 'n' { "`n" } 'r' { "`r" } default { $m.Groups[1].Value } } }) }
+    $esc = { param($x) ([string]$x).Replace('\', '\\').Replace("`t", '\t').Replace("`n", '\n').Replace("`r", '\r') }
+    $inv = [Globalization.CultureInfo]::InvariantCulture
+    $sep = [string][char]31
+    $wb = $app.Workbooks.Add()
+    try {
+        $ws = $wb.Worksheets.Item(1)
+        $tests = New-Object System.Collections.Generic.List[object]
+        foreach ($line in [IO.File]::ReadAllLines($path, $utf8)) {
+            if ($line.Length -eq 0) { continue }
+            $p = $line.Split("`t")
+            $tests.Add(@{ id = $p[0]; how = $p[1]; text = (& $un $p[2]) })
+        }
+        $entered = @{}
+        for ($i = 0; $i -lt $tests.Count; $i++) {
+            $t = $tests[$i]
+            $cell = $ws.Cells.Item(1 + 60 * $i, 2)
+            try {
+                if ($t.how -eq 'r1c1') { $cell.Formula2R1C1 = [string]$t.text }
+                elseif ($t.how -eq 'local') { $cell.Formula2Local = [string]$t.text }
+                else { $cell.Formula2 = [string]$t.text }
+                $entered[$i] = 'ok'
+            } catch { $entered[$i] = 'rejected: ' + $_.Exception.Message }
+        }
+        $app.CalculateFull()
+        $lines = New-Object System.Collections.Generic.List[string]
+        for ($i = 0; $i -lt $tests.Count; $i++) {
+            $t = $tests[$i]
+            $cell = $ws.Cells.Item(1 + 60 * $i, 2)
+            if ($entered[$i] -ne 'ok') { $lines.Add($t.id + "`t" + (& $esc $entered[$i])); continue }
+            $rng = $cell
+            try { if ($cell.HasSpill) { $rng = $cell.SpillingToRange } } catch { }
+            $v = $rng.Value2
+            $items = New-Object System.Collections.Generic.List[string]
+            $rows = 1; $cols = 1
+            if ($v -is [System.Array]) {
+                $r0 = $v.GetLowerBound(0); $c0 = $v.GetLowerBound(1)
+                $rows = $v.GetLength(0); $cols = $v.GetLength(1)
+                for ($r = 0; $r -lt $rows; $r++) { for ($c = 0; $c -lt $cols; $c++) { $items.Add((Format-Cell ($v.GetValue($r0 + $r, $c0 + $c)) $inv $esc)) } }
+            } else { $items.Add((Format-Cell $v $inv $esc)) }
+            $lines.Add($t.id + "`tok`t" + (& $esc $cell.Formula2) + "`t" + (& $esc $cell.Formula2R1C1) + "`t" + (& $esc $cell.Formula2Local) + "`t" + $rows + "`t" + $cols + "`t" + ($items -join $sep))
+        }
+        [IO.File]::WriteAllLines((Join-Path $outDir ([IO.Path]::GetFileName($path) + '.tsv')), $lines, $utf8)
+        $res.formulas = @{ tests = $tests.Count; decimal = [string]$app.International(3); list = [string]$app.International(5); country = [string]$app.International(1); excelVersion = [string]$app.Version; build = [string]$app.Build }
+    } finally {
+        try { $wb.Close($false) } catch { }
+    }
+}
+
+function Format-Cell($v, $inv, $esc) {
+    if ($v -eq $null) { return 'z:' }
+    if ($v -is [string]) { return 's:' + (& $esc $v) }
+    if ($v -is [bool]) { return 'b:' + [string]$v }
+    if ($v -is [double]) { return 'n:' + $v.ToString('R', $inv) }
+    return 'e:' + [string][int]$v
+}
+
 function Invoke-Excel($app, $item, $path, $outDir, $res) {
+    if ($item.mode -eq 'formulas') { Invoke-ExcelFormulas $app $item $path $outDir $res; return }
     $wb = $null
     try {
         try {
@@ -556,7 +620,7 @@ public class DialogWatcher
         }
         $path = Join-Path $jobRoot $item.file
         $ext = [IO.Path]::GetExtension($path).ToLowerInvariant()
-        $kind = switch -regex ($ext) { '^\.(docx|docm|dotx|dotm|doc|rtf|xml)$' { 'word' } '^\.(xlsx|xlsm|xltx|xltm|xlsb|xls|csv)$' { 'excel' } '^\.(pptx|pptm|potx|ppsx|ppt)$' { 'powerpoint' } default { $null } }
+        $kind = switch -regex ($ext) { '^\.(docx|docm|dotx|dotm|doc|rtf|xml)$' { 'word' } '^\.(xlsx|xlsm|xltx|xltm|xlsb|xls|csv|fgrid)$' { 'excel' } '^\.(pptx|pptm|potx|ppsx|ppt)$' { 'powerpoint' } default { $null } }
         $res = @{ kind = 'file'; file = $item.file; app = $kind; mode = $item.mode }
         if (-not $kind) { $res.outcome = 'error'; $res.error = 'unknown extension'; Write-Line $res; continue }
         $watch = [Diagnostics.Stopwatch]::StartNew()

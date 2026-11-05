@@ -108,7 +108,7 @@ public sealed class Evaluator
         try
         {
             CalcValue v = Eval(formula);
-            return v.Kind == ValueKind.Reference && _options.LegacyImplicitIntersection ? ImplicitIntersect(v) : Dereference(v);
+            return NoBlanks(v.Kind == ValueKind.Reference && _options.LegacyImplicitIntersection ? ImplicitIntersect(v) : Dereference(v));
         }
         finally
         {
@@ -116,6 +116,36 @@ public sealed class Evaluator
             _scope = null;
             _snapRoot = null;
         }
+    }
+
+    // A formula cell cannot hold "empty": a result that is blank shows and stores as 0 (=A1 with A1 empty is 0).
+    private static CalcValue NoBlanks(CalcValue v)
+    {
+        if (v.Kind == ValueKind.Blank)
+        {
+            return CalcValue.FromNumber(0);
+        }
+
+        if (v.Kind != ValueKind.Array)
+        {
+            return v;
+        }
+
+        CalcArray a = v.Array!;
+        CalcValue[]? cells = null;
+        for (int r = 0; r < a.Rows; r++)
+        {
+            for (int c = 0; c < a.Columns; c++)
+            {
+                if (a[r, c].IsBlank)
+                {
+                    cells ??= a.ToArray();
+                    cells[(r * a.Columns) + c] = CalcValue.FromNumber(0);
+                }
+            }
+        }
+
+        return cells is null ? v : CalcValue.FromArray(new CalcArray(a.Rows, a.Columns, cells));
     }
 
     /// <summary>Evaluates an argument expression inside a <see cref="LazyFunction"/>. References stay references.</summary>
