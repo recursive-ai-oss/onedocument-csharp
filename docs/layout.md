@@ -34,8 +34,9 @@ from several threads.
 - Later stages add blocks beside `LayoutParagraph` (tables, floating objects, notes) under the page, and fields re-run layout; the
   node classes are open for that through `LayoutNodeKind`. Every node knows its parent and children.
 - `LayoutDocument.FontNotes` has one `FontSubstitutionNote` per replaced family and `Notes` has `layout.*` notes for what was skipped.
-  Codes so far: `layout.font-missing`, `layout.drawing-skipped`, `layout.table-skipped`, `layout.block-skipped`, `layout.blank-page`,
-  `layout.page-limit`.
+  Codes so far: `layout.font-missing`, `layout.drawing-skipped`, `layout.block-skipped`, `layout.blank-page`,
+  `layout.page-limit`, and for tables `layout.table-floating`, `layout.table-text-direction`, `layout.table-depth` (see
+  `layout-tables.md`).
 
 ## Paint contract
 
@@ -150,4 +151,5 @@ stages that lay out those features and are added to this table with them.
 | Justification in lines with tabs or bidi | spreads over spaces only | |
 | Bidi mirrored punctuation, trailing spaces in right-to-left lines | not handled specially | |
 | Hyphenation, kashida, East Asian grid and `w:eastAsianLayout` | not implemented | later |
-| Inline pictures, shapes, fields, tables, headers/footers, columns, notes | not laid out (reported) | later stages |
+| Inline pictures, shapes, fields, headers/footers, columns, notes | not laid out (reported) | later stages |
+| Tables | laid out; see `layout-tables.md` | |
