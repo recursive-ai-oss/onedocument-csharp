@@ -696,8 +696,8 @@ internal static class DistributionFunctions
             return Bad;
         }
 
-        // The cumulative sum adds one term per possible outcome; refuse populations whose sum would not finish.
-        if (cumulative && s - Math.Max(0, n - nPop + kPop) > MaxTerms)
+        // The cumulative sum adds one term per possible outcome; refuse populations whose sum would not finish or whose counts a double cannot step through.
+        if (nPop > MaxTrials || (cumulative && s - Math.Max(0, n - nPop + kPop) > MaxTerms))
         {
             return Bad;
         }

@@ -73,6 +73,10 @@ internal static class StatFuncsTarget
         }
 
         sb.Append(')');
+        if (Environment.GetEnvironmentVariable("ONEDOCUMENT_FUZZ_TRACE") is not null)
+        {
+            Console.Error.WriteLine(sb.ToString());
+        }
         if (!FormulaParser.TryParse(sb.ToString(), out FormulaNode? n, out _, new FormulaParserOptions { FileForm = false }) || n is null)
         {
             return;

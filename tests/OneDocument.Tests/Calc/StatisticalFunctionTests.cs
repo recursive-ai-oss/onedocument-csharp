@@ -224,6 +224,8 @@ public class StatisticalFunctionTests
     [InlineData("SLOPE({1,2,3},{4,4,4})", "#DIV/0!")]
     [InlineData("FORECAST.ETS(1,{1,2,3},{1,2,3})", "#N/A")]
     [InlineData("NORM.DIST(\"a\",0,1,TRUE)", "#VALUE!")]
+    [InlineData("HYPGEOM.DIST(1E+300,1E+300,1E+300,1E+300,1E+300)", "#NUM!")]
+    [InlineData("BINOM.INV(1E+300,0.5,0.5)", "#NUM!")]
     public void Errors(string formula, string expected) => Assert.Equal(expected, Show(Eval(formula)));
 
     [Fact]
