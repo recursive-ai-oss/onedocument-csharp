@@ -57,6 +57,19 @@ public class EvaluatorTests
     [InlineData("CHOOSE({1,2},\"a\",\"b\")", "{\"a\",\"b\"}")]
     [InlineData("@{1,2,3}", "1")]
     [InlineData("TEXT(1,\"\")", "\"\"")]
+    // Snap: below 8 units in the last place of the larger operand's binade a sum or difference is zero; at 8 it is kept (Excel 16 grid).
+    [InlineData("1+1.55431223447521E-15-1", "0")]
+    [InlineData("1+1.77635683940025E-15-1", "1.7763568394002505E-15")]
+    [InlineData("100+9.9475983006414E-14-100", "0")]
+    [InlineData("1000+9.09494701772928E-13-1000", "9.094947017729282E-13")]
+    [InlineData("SUM(0.1,0.2,-0.3)", "0")]
+    [InlineData("SUM(1,1.99840144432528E-15,-1)", "1.9984014443252818E-15")]
+    [InlineData("(-1)^2147483649", "-1")]
+    [InlineData("(-1)^4294967296", "#NUM!")]
+    [InlineData("1E-18&\"\"", "\"0.000000000000000001\"")]
+    [InlineData("1E-19&\"\"", "\"1E-19\"")]
+    [InlineData("1.23456789012345E-5&\"\"", "\"1.23456789012345E-05\"")]
+    [InlineData("1.2345678901234E-5&\"\"", "\"0.000012345678901234\"")]
     public void BehavioursSettledAgainstExcel(string formula, string expected) => Assert.Equal(expected, Show(Eval(formula)));
 
     [Fact]

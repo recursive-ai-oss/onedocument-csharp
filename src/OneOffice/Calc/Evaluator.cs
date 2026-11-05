@@ -858,13 +858,34 @@ public sealed class Evaluator
 
     private static CalcValue Snap(in CalcValue a, in CalcValue b, CalcValue r)
     {
-        double x = r.Number;
-        if (x != 0 && Math.Abs(x) < Math.Max(Math.Abs(a.Number), Math.Abs(b.Number)) * 8.881784197001252E-16 && a.Kind == ValueKind.Number && b.Kind == ValueKind.Number)
+        if (a.Kind == ValueKind.Number && b.Kind == ValueKind.Number && IsNearZeroResult(a.Number, b.Number, r.Number))
         {
             return CalcValue.FromNumber(0);
         }
 
         return r;
+    }
+
+    /// <summary>
+    /// Excel replaces the result of an addition or subtraction by zero when it is smaller than 2^-49 of the binade of the larger operand
+    /// (fewer than 8 units in the last place of that operand), measured against Excel 16: <c>1+7ulp-1</c> is 0, <c>1+8ulp-1</c> is not.
+    /// </summary>
+    internal static bool IsNearZeroResult(double a, double b, double result)
+    {
+        if (result == 0 || !double.IsFinite(result))
+        {
+            return false;
+        }
+
+        double big = Math.Max(Math.Abs(a), Math.Abs(b));
+        return big > 0 && Math.Abs(result) < Math.ScaleB(1.0, Math.ILogB(big) - 49);
+    }
+
+    /// <summary>Adds as the final step of a sum does: a result that cancels to almost nothing becomes zero (see <see cref="IsNearZeroResult"/>).</summary>
+    internal static double AddSnapped(double a, double b)
+    {
+        double r = a + b;
+        return IsNearZeroResult(a, b, r) ? 0 : r;
     }
 
     private CalcValue LiftBinary(BinaryOperator op, CalcValue a, CalcValue b)
@@ -1000,9 +1021,9 @@ public sealed class Evaluator
                     return CalcValue.FromError(CalcError.Num);
                 }
 
-                if (x < 0 && Math.Abs(y) >= 9007199254740992.0)
+                if (x < 0 && Math.Abs(y) >= 4294967296.0)
                 {
-                    return CalcValue.FromError(CalcError.Num); // The parity of such an exponent is unknown.
+                    return CalcValue.FromError(CalcError.Num); // Excel gives #NUM! for a negative base once the integer exponent reaches 2^32.
                 }
 
                 r = Math.Pow(x, y);

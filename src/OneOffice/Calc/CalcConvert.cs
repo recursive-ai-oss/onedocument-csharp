@@ -75,7 +75,7 @@ public static class CalcConvert
         _ => string.Empty,
     };
 
-    /// <summary>Formats a number as the General format does without a width limit: up to 15 significant digits, no trailing zeros, scientific notation from 1E+20 and below 1E-10 (measured against Excel for 1E+19, 1E+20 and 1E-10; the small side is still being probed).</summary>
+    /// <summary>Formats a number as the General format does without a width limit: up to 15 significant digits, no trailing zeros, scientific notation from 1E+20, and below 1 when the plain form would need more than 18 decimals (measured against Excel 16: 1E-18 and 1.5E-17 are plain, 1E-19 and 1.23456789012345E-5 are scientific).</summary>
     /// <param name="d">A finite number.</param>
     /// <returns>The text.</returns>
     public static string NumberToText(double d)
@@ -96,7 +96,7 @@ public static class CalcConvert
         }
 
         string sign = d < 0 ? "-" : string.Empty;
-        if (exp >= 20 || exp < -10)
+        if (exp >= 20 || (exp < 0 && -exp - 1 + digits.Length > 18))
         {
             string mant = digits.Length > 1 ? digits[0] + "." + digits[1..] : digits;
             int a = Math.Abs(exp);

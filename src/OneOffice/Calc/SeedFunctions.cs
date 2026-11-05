@@ -80,7 +80,7 @@ internal static class SeedFunctions
                         return Err(e);
                     }
 
-                    sum += d;
+                    sum = Evaluator.AddSnapped(sum, d);
                     break;
             }
         }
@@ -102,7 +102,7 @@ internal static class SeedFunctions
 
                 if (x.Kind == ValueKind.Number)
                 {
-                    sum += x.Number;
+                    sum = Evaluator.AddSnapped(sum, x.Number);
                 }
             }
         }
