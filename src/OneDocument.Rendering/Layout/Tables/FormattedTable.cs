@@ -98,4 +98,8 @@ internal sealed class FormattedTable
     public string VerticalAnchor = "margin";
     public string? HorizontalSpec;
     public string? VerticalSpec;
+    public double DistanceLeft; // tblpPr leftFromText etc.: how close text comes to a floating table
+    public double DistanceRight;
+    public double DistanceTop;
+    public double DistanceBottom;
 }

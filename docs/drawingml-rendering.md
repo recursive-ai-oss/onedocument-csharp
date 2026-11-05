@@ -113,8 +113,7 @@ text at the rectangle's width (at its height for vertical text); paragraph spaci
 `anchor` (`t`, `ctr`, `b`). Vertical text: `vert`, `eaVert` turn the lines 90° clockwise (the first line at the right); `vert270`
 turns them 90° counter-clockwise (the first line at the left); `wordArtVert`, `mongolianVert` and `wordArtVertRtl` are treated the same
 way and noted (`drawing.text-vertical-approximated`). Text taller than the box is painted past its edge, where Word clips it
-(`drawing.text-overflow`). `wrap="none"` wraps at the box width (`drawing.text-wrap-none-approximated`). Tables and content controls
-inside a text box are skipped (`drawing.text-block-skipped`). Shape text takes its colour from the runs; the style's `fontRef`
+(`drawing.text-overflow`). `wrap="none"` wraps at the box width (`drawing.text-wrap-none-approximated`). A table in a text box is laid out at the box's width; a content control inside one is skipped (`drawing.text-block-skipped`). Shape text takes its colour from the runs; the style's `fontRef`
 colour is not applied.
 
 Presentation text bodies (`a:txBody`) are painted by the slide renderer, which supplies its own `TextPainter`; without one the
@@ -124,9 +123,9 @@ painter notes `drawing.text-body-not-painted`.
 
 - An inline drawing (`wp:inline`) is an atom of the paragraph: U+FFFC in the text, as wide as `wp:extent`, standing on the baseline
   and raising the line to hold it (`LayoutRunKind.Drawing`).
-- An anchored drawing (`wp:anchor`) is painted at its own position (offset or alignment relative to the page, margins, paragraph or
-  line, §20.4.2.10 and §20.4.2.11); `behindDoc` ones before the paragraph. Text does not wrap around it
-  (`layout.anchored-drawing-unwrapped`).
+- An anchored drawing (`wp:anchor`) is positioned and wrapped by the page layout (`layout-floats.md`) and painted from the page's floating
+  objects: those behind the text first, the text, then those in front, each in `relativeHeight` order. An object anchored in a table
+  cell is placed from the cell (`layoutInCell`, the default) or the page, and text does not wrap around it.
 - A drawing with no extent is skipped with `layout.drawing-skipped`; layout continues.
 - `docPr/@descr` (else `title`) is the figure's alt text; `adec:decorative` makes it an artifact. A shape's own text is tagged as
   paragraphs inside the figure.
