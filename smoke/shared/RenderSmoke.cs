@@ -76,9 +76,7 @@ internal static class RenderSmoke
         using Presentation deck = Presentation.Create();
         Slide slide = deck.AddSlide(deck.Masters[0].Layouts[1]);
         slide.Shapes[0].TextBody!.SetText("Slide rendering smoke");
-        slide.Shapes[1].TextBody!.SetText("one
-two
-three");
+        slide.Shapes[1].TextBody!.SetText("one\ntwo\nthree");
         using var pdf = new MemoryStream();
         PresentationRenderReport report = PresentationRenderer.WritePdf(deck, pdf, new PresentationRenderOptions { Output = PresentationOutput.Slides | PresentationOutput.NotesPages });
         byte[] bytes = pdf.ToArray();
