@@ -384,6 +384,13 @@ public sealed class NoteCollection : IReadOnlyList<Note>
         return true;
     }
 
+    /// <summary>Creates the part when missing and returns its root; used by operations that move notes between documents.</summary>
+    internal MarkupRef EnsureRootForMerge()
+    {
+        EnsurePart();
+        return _root;
+    }
+
     private void EnsurePart()
     {
         if (_root.IsValid)

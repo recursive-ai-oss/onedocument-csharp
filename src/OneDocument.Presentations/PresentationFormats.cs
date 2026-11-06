@@ -46,6 +46,7 @@ public static class PresentationFormats
         registry.RegisterReader(
             static (source, _, context, filePath, cancellationToken) => Presentation.OpenSource(source, context, filePath, cancellationToken),
             OfficeFormat.Ppt);
+        registry.RegisterVba(PptVba.Read, PptVba.Remove, OfficeFormat.Ppt);
 
         // Markdown is written by every kind; this entry takes its own kind and passes the rest on to whichever package registered before.
         registry.TryGetWriter(OfficeFormat.Markdown, out WriteHandler? previousMarkdown);

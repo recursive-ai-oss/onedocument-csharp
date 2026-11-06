@@ -711,6 +711,13 @@ public sealed class CommentCollection : IReadOnlyList<Comment>
         return "<" + p + ":commentRangeEnd" + (declare ? decl : string.Empty) + " " + p + ":id=\"" + idText + "\"/><" + p + ":r><" + p + ":commentReference " + p + ":id=\"" + idText + "\"/></" + p + ":r>";
     }
 
+    /// <summary>Creates the part when missing and returns its root; used by operations that move comments between documents.</summary>
+    internal MarkupRef EnsureRootForMerge()
+    {
+        EnsureCommentsPart();
+        return _root;
+    }
+
     private void EnsureCommentsPart()
     {
         _ = Items;

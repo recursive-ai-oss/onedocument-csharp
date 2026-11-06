@@ -91,6 +91,19 @@ public static class PackageEncryption
     public static byte[] Decrypt(ReadOnlySpan<byte> encryptionInfo, ReadOnlySpan<byte> encryptedPackage, OpenContext context)
     {
         ArgumentNullException.ThrowIfNull(context);
+        try
+        {
+            return DecryptCore(encryptionInfo, encryptedPackage, context);
+        }
+        catch (PlatformNotSupportedException ex)
+        {
+            // Browser WebAssembly has no AES in the runtime; say so rather than leak the runtime's exception.
+            throw new OfficeUnsupportedException("AES decryption on this platform (the runtime has no AES implementation, as in browser WebAssembly)", DefectLocation.InRecord(InfoPath, 0), ex);
+        }
+    }
+
+    private static byte[] DecryptCore(ReadOnlySpan<byte> encryptionInfo, ReadOnlySpan<byte> encryptedPackage, OpenContext context)
+    {
         Parsed p = ParseInfo(encryptionInfo, context);
         DefectLocation where = DefectLocation.InRecord(PackagePath, 0);
         if (encryptedPackage.Length < 8)
@@ -614,7 +627,7 @@ public static class PackageEncryption
             int hashLen = HashLength(a.DataHash);
             byte[] hmacKey = AesDecrypt(dataKey, keyIv, a.HmacKey, a.Chaining);
             byte[] hmacValue = AesDecrypt(dataKey, valueIv, a.HmacValue, a.Chaining);
-            using IncrementalHash hmac = IncrementalHash.CreateHMAC(OfficeHash.Name(a.DataHash), hmacKey.AsSpan(0, Math.Min(hashLen, hmacKey.Length)));
+            using IncrementalHash hmac = OfficeHash.CreateHmac(a.DataHash, hmacKey.AsSpan(0, Math.Min(hashLen, hmacKey.Length)));
             hmac.AppendData(wholeStream);
             byte[] actual = hmac.GetHashAndReset();
             if (hmacValue.Length < hashLen || !CryptographicOperations.FixedTimeEquals(actual, hmacValue.AsSpan(0, hashLen)))

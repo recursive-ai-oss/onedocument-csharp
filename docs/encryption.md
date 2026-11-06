@@ -38,7 +38,7 @@ In the binary schemes the `SummaryInformation` and `DocumentSummaryInformation` 
 
 ## API notes: AOT and browser
 
-The code uses `Aes` (ECB, CBC, and CFB where an agile descriptor asks), `IncrementalHash`/`HashData` for SHA-1/256/384/512 and MD5, and `HMAC`. On NativeAOT these call the platform crypto (OpenSSL on Linux); no reflection is involved. In browser WASM the BCL's cryptography support is partial: hashing works, but `Aes` and MD5 are not guaranteed there. The gap is stated rather than worked around; it ends when the family's cryptography library ships.
+The code uses `Aes` (ECB, CBC, and CFB where an agile descriptor asks), `IncrementalHash`/`HashData` for SHA-1/256/384/512 and MD5, and `HMAC`. On NativeAOT these call the platform crypto (OpenSSL on Linux); no reflection is involved. In browser WASM the BCL has the SHA family and HMAC, but no MD5 and no `Aes`: a file that needs one of them raises `OfficeUnsupportedException` naming it (`docs/platforms.md`). The library does not carry its own AES or MD5; the gap ends when the family's cryptography library ships.
 
 SHA-1 and MD5 are broken for new designs but the formats fix them. Calls are confined to `OfficeHash`, the one file that switches off the analyzer rules CA5350 and CA5351. RC4 is weak: the legacy schemes protect against casual access only.
 

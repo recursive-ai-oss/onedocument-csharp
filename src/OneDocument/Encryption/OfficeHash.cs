@@ -54,8 +54,31 @@ internal static class OfficeHash
                 SHA512.HashData(source, destination);
                 break;
             default:
-                MD5.HashData(source, destination);
+                try
+                {
+                    MD5.HashData(source, destination);
+                }
+                catch (CryptographicException ex)
+                {
+                    // Browser WebAssembly has no MD5: the runtime throws a CryptographicException there. The legacy RC4 schemes need it,
+                    // so a file that uses one says what is missing instead of failing with a bare runtime exception.
+                    throw new OfficeUnsupportedException("MD5 on this platform (the runtime has no MD5 implementation, as in browser WebAssembly)", default, ex);
+                }
+
                 break;
+        }
+    }
+
+    /// <summary>Creates an HMAC over <paramref name="kind"/>; a platform without it raises <see cref="OfficeUnsupportedException"/>.</summary>
+    internal static IncrementalHash CreateHmac(HashKind kind, ReadOnlySpan<byte> key)
+    {
+        try
+        {
+            return IncrementalHash.CreateHMAC(Name(kind), key);
+        }
+        catch (Exception ex) when (ex is CryptographicException or PlatformNotSupportedException)
+        {
+            throw new OfficeUnsupportedException("HMAC over " + Name(kind).Name + " on this platform", default, ex);
         }
     }
 

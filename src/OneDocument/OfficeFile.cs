@@ -48,6 +48,15 @@ public abstract class OfficeFile : IDisposable
     /// </summary>
     public IReadOnlyList<Defect> Defects => _context.Defects as DefectCollection ?? (IReadOnlyList<Defect>)[];
 
+    /// <summary>
+    /// Checks the file against Office's accessibility rules. The kinds override it; nothing is edited. See <c>docs/accessibility.md</c> for the rules.
+    /// </summary>
+    /// <param name="cancellationToken">Cancels the check.</param>
+    /// <returns>The findings and the checks that could not be made.</returns>
+    /// <exception cref="OfficeUnsupportedException">This kind of file has no accessibility check.</exception>
+    public virtual Accessibility.AccessibilityReport CheckAccessibility(CancellationToken cancellationToken = default) =>
+        throw new OfficeUnsupportedException("accessibility checking of a " + Kind);
+
     /// <summary>Gets the context, for derived types to pass to the layers below.</summary>
     protected OpenContext Context => _context;
 

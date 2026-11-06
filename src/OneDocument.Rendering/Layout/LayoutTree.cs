@@ -435,6 +435,12 @@ public sealed class LayoutOptions
     /// </summary>
     public int MaxFieldPasses { get; set; } = 6;
 
+    // Where laid-out field results are collected for a document operation that writes them back (Fields/FieldResultSink.cs).
+    internal FieldResultSink? ResultSink { get; set; }
+
+    // True when a table of contents, index or authorities is already built in the document and must not be rebuilt in a copy.
+    internal bool SkipFieldBuild { get; set; }
+
     // The same options with every field updated: what a document that asks Word to update its fields on open gets.
     internal LayoutOptions WithUpdateFields()
     {

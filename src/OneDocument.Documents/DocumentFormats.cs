@@ -13,9 +13,9 @@ namespace RecursiveAI.OneDocument.Documents;
 /// </remarks>
 public static class DocumentFormats
 {
-    /// <summary>The formats this package reads and writes: DOCX, DOCM, DOTX, DOTM, Flat OPC, RTF and HTML.</summary>
+    /// <summary>The formats this package reads and writes: DOCX, DOCM, DOTX, DOTM, Flat OPC, RTF, HTML and OpenDocument text (ODT, OTT, FODT).</summary>
     public static IReadOnlyList<OfficeFormat> Formats { get; } =
-        [OfficeFormat.Docx, OfficeFormat.Docm, OfficeFormat.Dotx, OfficeFormat.Dotm, OfficeFormat.FlatOpcDocument, OfficeFormat.Rtf, OfficeFormat.Html];
+        [OfficeFormat.Docx, OfficeFormat.Docm, OfficeFormat.Dotx, OfficeFormat.Dotm, OfficeFormat.FlatOpcDocument, OfficeFormat.Rtf, OfficeFormat.Html, OfficeFormat.Odt, OfficeFormat.Ott, OfficeFormat.Fodt];
 
     /// <summary>
     /// Markdown (CommonMark with the GitHub extensions): read and written, but never recognised from content, so it is chosen by the caller or by a file
@@ -50,6 +50,10 @@ public static class DocumentFormats
                 if (format == OfficeFormat.Rtf)
                 {
                     document.WriteRtf(destination, cancellationToken);
+                }
+                else if (Document.IsOdfTextFormat(format))
+                {
+                    document.WriteOdf(format, destination, cancellationToken);
                 }
                 else if (format == OfficeFormat.Html)
                 {

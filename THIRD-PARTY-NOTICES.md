@@ -83,9 +83,13 @@ Source: https://learn.microsoft.com/en-us/openspecs/office_standards/ms-docx/ an
 
 ## Test files written by other programs
 
+The files `testdata/vba/lo-roundtrip.docm`, `.xlsm`, `.pptm` and `.xls` are the output of LibreOffice 26.2.6.3 (`soffice --headless --convert-to`, run as a black box, MPL-2.0) on packages carrying a VBA project this project generated (`testdata/vba/generated-project.bin`). They contain no text from the program beyond its own rewriting of that project. See `testdata/vba/README.md` to regenerate them.
+
 The small legacy workbooks in `testdata/xls/` (`*.xls`) are the output of LibreOffice 26.8.2.2 (`soffice --headless --convert-to 'xls:MS Excel 97'`, run as a black box, MPL-2.0) on the generated inputs `testdata/xls/*.xlsx`, which `tools/Biff/make_xls_inputs.py` writes with openpyxl 3.1.5 (MIT) from fixed values. They contain no text from either program. Regenerate them with `tools/Biff/make_xls_oracle.sh`.
 
 The Word 97-2003 files in `testdata/doc/` (`*.doc`) are the output of LibreOffice 26.8.2.2 (filter `MS Word 97`, run as a black box, MPL-2.0) on DOCX inputs that `tools/DocFixtures/make_docx.py` writes from fixed, hand-written WordprocessingML. They contain no text from the program. Regenerate them with `tools/DocFixtures/make_doc.sh`.
+
+The OpenDocument text files in `testdata/odf/` (`lo-rich.odt`, `lo-rich.fodt`) are the output of LibreOffice 26.8.2.2 (filters `writer8` and `OpenDocument Text Flat XML`, run as a black box, MPL-2.0) on `testdata/odf/rich.docx`, which the `OdfTests` sample writes. They contain no text from the program.
 
 The files in `testdata/ole/` (`ole-props.doc`, `.xls`, `.ppt`) are the output of LibreOffice 26.8.2.2 (filters `MS Word 97`, `MS Excel 97` and `MS PowerPoint 97`, run as a black box, MPL-2.0) on OpenDocument inputs that `tools/Ole/make_ole_inputs.py` writes from fixed values. They contain no text from the program. Regenerate them with `tools/Ole/make_ole_fixtures.sh`.
 
