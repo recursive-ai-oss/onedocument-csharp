@@ -40,6 +40,20 @@ public static class DocumentFormats
                 document.Write(format, destination, cancellationToken);
             },
             formats);
+        registry.RegisterReader(
+            static (source, _, context, filePath, cancellationToken) => Document.OpenRtf(source, context, filePath, cancellationToken),
+            OfficeFormat.Rtf);
+        registry.RegisterWriter(
+            static (file, format, destination, cancellationToken) =>
+            {
+                if (file is not Document document)
+                {
+                    throw new FormatNotAvailableException(format, "write a " + file.Kind + " as");
+                }
+
+                document.WriteRtf(destination, cancellationToken);
+            },
+            OfficeFormat.Rtf);
         registry.RegisterTemplateBinder(Templating.DocxTemplateBinder.Instance, formats);
     }
 }
