@@ -8,7 +8,7 @@ using RecursiveAI.OneDocument.Packaging;
 namespace RecursiveAI.OneDocument.Ppt.Binary;
 
 /// <summary>State shared by every page while a PowerPoint file is converted to PresentationML: the package being built, pictures already written and the loss report.</summary>
-internal sealed class PptConversion
+internal sealed partial class PptConversion
 {
     private readonly Dictionary<int, string?> _images = [];
     private int _imageCount;

@@ -26,6 +26,8 @@ internal static class Program
                 return XlsxStreamBench.Run(args.Skip(1).ToArray());
             case "poco":
                 return PocoBench.Run(args.Skip(1).ToArray());
+            case "encfixtures":
+                return EncryptionFixtures.Run(args.Skip(1).ToArray());
             case "report":
                 return Report.Run(args.Skip(1).ToArray());
             case "versions":

@@ -3,6 +3,7 @@ using System.Text;
 using RecursiveAI.OneDocument.Calc;
 using RecursiveAI.OneDocument.Diagnostics;
 using RecursiveAI.OneDocument.IO;
+using RecursiveAI.OneDocument.Ole;
 using RecursiveAI.OneDocument.Packaging;
 
 namespace RecursiveAI.OneDocument.Spreadsheets.Biff;
@@ -100,7 +101,9 @@ internal sealed partial class XlsImporter
     private Workbook _wb = null!;
     private readonly Dictionary<string, long> _lossCounts = [];
     private bool _hasVba;
-    private bool _hasProperties;
+    private byte[] _summaryInformation = [];
+    private byte[] _documentSummaryInformation = [];
+    private OleStorageSet _objects = OleStorageSet.Empty;
     private long _richStrings;
 
     public XlsImporter(OpenContext context, ILossSink loss, CancellationToken token)
@@ -127,11 +130,19 @@ internal sealed partial class XlsImporter
     }
 
     /// <summary>Converts the workbook stream to a hub workbook.</summary>
-    public Workbook Import(ReadOnlyMemory<byte> workbookStream, string path, bool hasVba, bool hasProperties = false)
+    public Workbook Import(ReadOnlyMemory<byte> workbookStream, string path, bool hasVba, byte[]? summaryInformation = null, byte[]? documentSummaryInformation = null, OleStorageSet? objects = null)
     {
-        _hasProperties = hasProperties;
+        _summaryInformation = summaryInformation ?? [];
+        _documentSummaryInformation = documentSummaryInformation ?? [];
+        _objects = objects ?? OleStorageSet.Empty;
         _path = path;
         _hasVba = hasVba;
+        if (XlsEncryption.TryFindFilePass(workbookStream.Span, out int filePass))
+        {
+            // A password-protected workbook is decrypted record by record into a copy; every offset stays where it was.
+            workbookStream = XlsEncryption.Decrypt(workbookStream.Span, filePass, _context, path);
+        }
+
         _rs = BiffRecordSet.Parse(workbookStream, _context, path);
         IReadOnlyList<BiffRecord> recs = _rs.Records;
         if (recs.Count == 0 || !IsBof(recs[0].Type))
@@ -158,6 +169,7 @@ internal sealed partial class XlsImporter
         }
 
         ApplyWorkbookParts();
+        ApplyProperties();
         ReportFinalLosses();
         return _wb;
     }
@@ -294,8 +306,8 @@ internal sealed partial class XlsImporter
     {
         switch (r.Type)
         {
-            case 0x002F: // FilePass
-                throw new OfficeEncryptedException(EncryptionProblem.PasswordRequired, DefectLocation.InRecord(_path, r.Offset));
+            case 0x002F: // FilePass: the stream was decrypted before it was read.
+                return true;
             case 0x0042: // CodePage
                 SetCodePage(U16(r, 0));
                 return true;
@@ -695,12 +707,6 @@ internal sealed partial class XlsImporter
         {
             string feature = code["loss.".Length..].Replace('-', ' ');
             Lose(code, feature, n, "Not carried into the workbook (" + feature + ").");
-        }
-
-        // The property streams (title, author, …) are a separate format that is not read; they stay in the source file only.
-        if (_hasProperties)
-        {
-            Lose("loss.document-properties", "document properties", 1, "The summary-information property streams are not converted.");
         }
 
         if (_hasVba)

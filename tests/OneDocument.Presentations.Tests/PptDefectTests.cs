@@ -234,7 +234,7 @@ public class PptDefectTests
         using Presentation p = Open(SlideWith([Plain()], [list], extraStreams: [("/_VBA_PROJECT_CUR/VBA/Module1", [1, 2, 3])]));
         AssertLoss(p, "ppt.ole-object-flattened");
         AssertLoss(p, "ppt.vba-not-carried");
-        using Presentation props = Open(SlideWith([Plain()], extraStreams: [("/SummaryInformation", [1])]));
+        using Presentation props = Open(SlideWith([Plain()], extraStreams: [("/\u0005SummaryInformation", [1])]));
         AssertLoss(props, "ppt.document-properties-not-carried");
     }
 

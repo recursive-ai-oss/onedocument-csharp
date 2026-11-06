@@ -19,7 +19,7 @@ internal enum PageKind
 }
 
 /// <summary>Writes the shapes of one drawing as PresentationML <c>p:sp</c>, <c>p:pic</c>, <c>p:cxnSp</c>, <c>p:grpSp</c> and table graphic frames.</summary>
-internal sealed class PptShapeWriter
+internal sealed partial class PptShapeWriter
 {
     private readonly PptConversion _conv;
     private readonly PageOut _page;
@@ -254,7 +254,11 @@ internal sealed class PptShapeWriter
         bool picture = s.ShapeType == 75 && s.Properties.GetInt(ArtPropertyId.Pib, 0) > 0;
         if (picture)
         {
-            WritePicture(s, ph);
+            if (!TryWriteOle(s, ph))
+            {
+                WritePicture(s, ph);
+            }
+
             return;
         }
 

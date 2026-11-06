@@ -196,8 +196,11 @@ internal sealed partial class XlsImporter
         }
 
         byte[] stream = f.Drawing.SelectMany(x => x).ToArray();
-        var pictures = new List<(int Blip, int[] Anchor)>();
-        CollectPictures(stream, 0, stream.Length, pictures, 0);
+        var pictures = new List<(int Blip, int[] Anchor, int Obj)>();
+        int clientShapes = 0;
+        CollectPictures(stream, 0, stream.Length, pictures, 0, ref clientShapes);
+        PrepareOle();
+        pictures.RemoveAll(x => x.Obj >= 0 && f.OleTaken.Contains(x.Obj));
         if (pictures.Count == 0)
         {
             return;
@@ -208,7 +211,7 @@ internal sealed partial class XlsImporter
         var drawingRels = new List<Relationship>();
         int id = 1;
         long skipped = 0;
-        foreach ((int blipIndex, int[] a) in pictures)
+        foreach ((int blipIndex, int[] a, int _) in pictures)
         {
             if (blipIndex < 1 || blipIndex > blips.Count || blips[blipIndex - 1] is not { } blip)
             {
@@ -261,7 +264,7 @@ internal sealed partial class XlsImporter
     }
 
     // Finds the shapes that name a picture (the pib property, [MS-ODRAW] §2.3.23.1) and take their cell anchor.
-    private static void CollectPictures(byte[] d, int start, int end, List<(int, int[])> into, int depth)
+    private static void CollectPictures(byte[] d, int start, int end, List<(int, int[], int)> into, int depth, ref int clientShapes)
     {
         if (depth > 16)
         {
@@ -274,9 +277,14 @@ internal sealed partial class XlsImporter
             {
                 int pib = 0;
                 int[]? anchor = null;
+                bool clientData = false;
                 foreach (EscherRecord c in EscherReader.Children(d, r.DataOffset, r.End))
                 {
-                    if (c.Type == EscherReader.Opt)
+                    if (c.Type == 0xF011)
+                    {
+                        clientData = true; // OfficeArtClientData: the shape has an Obj record
+                    }
+                    else if (c.Type == EscherReader.Opt)
                     {
                         for (int k = 0; k < c.Instance && c.DataOffset + (k + 1) * 6 <= c.End; k++)
                         {
@@ -296,14 +304,16 @@ internal sealed partial class XlsImporter
                     }
                 }
 
+                // The shapes with client data and the Obj records that follow the drawing are in the same order ([MS-XLS] 2.4.181).
+                int obj = clientData ? clientShapes++ : -1;
                 if (pib > 0 && anchor is not null)
                 {
-                    into.Add((pib, anchor));
+                    into.Add((pib, anchor, obj));
                 }
             }
             else if (r.IsContainer)
             {
-                CollectPictures(d, r.DataOffset, r.End, into, depth + 1);
+                CollectPictures(d, r.DataOffset, r.End, into, depth + 1, ref clientShapes);
             }
         }
     }
