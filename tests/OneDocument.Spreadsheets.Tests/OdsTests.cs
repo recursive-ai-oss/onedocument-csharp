@@ -448,4 +448,43 @@ public class OdsTests
         Assert.True(loss.CountOf("loss.shapes") > 0);
         Assert.True(loss.CountOf("loss.data-pilot-tables") > 0);
     }
+
+    [Fact]
+    public void Damaged_counts_names_limits_and_validations_are_located_defects()
+    {
+        var ctx = new OpenContext();
+        using Workbook wb = Fods(
+            "<table:table table:name=\"S\"><table:table-row>" +
+            "<table:table-cell office:value-type=\"time\" office:time-value=\"later\"><text:p>t</text:p></table:table-cell>" +
+            "<table:table-cell table:number-columns-repeated=\"minus\" office:value-type=\"float\" office:value=\"1\"/>" +
+            "<table:table-cell table:content-validation-name=\"ghost\" office:value-type=\"float\" office:value=\"2\"/>" +
+            "<table:table-cell table:number-columns-repeated=\"16384\"/><table:table-cell office:value-type=\"float\" office:value=\"3\"/>" +
+            "</table:table-row>" +
+            "<table:table-row table:number-rows-repeated=\"1048576\"><table:table-cell office:value-type=\"float\" office:value=\"4\"/></table:table-row>" +
+            "</table:table>" +
+            "<table:named-expressions><table:named-range table:name=\"NoRange\"/><table:named-expression table:name=\"1 bad name\" table:expression=\"of:=1\"/></table:named-expressions>",
+            context: ctx);
+        Assert.True(wb.Sheets.Count >= 1);
+        string[] codes = Codes(ctx);
+        foreach (string code in new[] { "ods.bad-time", "ods.bad-repeat", "ods.validation-missing", "ods.column-limit", "ods.row-limit", "ods.bad-name", "ods.name" })
+        {
+            Assert.Contains(code, codes);
+        }
+    }
+
+    [Fact]
+    public void A_spreadsheet_body_without_tables_gets_an_empty_sheet_and_a_text_body_is_refused()
+    {
+        var ctx = new OpenContext();
+        using Workbook wb = Fods(string.Empty, context: ctx);
+        Assert.Single(wb.Sheets);
+        Assert.Contains("ods.no-sheets", Codes(ctx));
+
+        string text = Header.Replace("application/vnd.oasis.opendocument.spreadsheet", "application/vnd.oasis.opendocument.text", StringComparison.Ordinal) +
+            "<office:body><office:text><text:p>hello</text:p></office:text></office:body></office:document>";
+        var loss = new LossReport();
+        OfficeFormatException e = Assert.Throws<OfficeFormatException>(() =>
+            OpenDocumentSheet.ToPackage(RecursiveAI.OneDocument.IO.ByteSource.FromMemory(Encoding.UTF8.GetBytes(text)), null, loss));
+        Assert.Equal("ods.not-spreadsheet", e.Defect.Code);
+    }
 }
