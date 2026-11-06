@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" office:version="1.3" office:mimetype="application/vnd.oasis.opendocument.text">
+ <office:meta><dc:title>Oracle sample</dc:title><meta:initial-creator>Tester</meta:initial-creator><dc:creator>Tester</dc:creator></office:meta>
+ <office:font-face-decls><style:font-face style:name="Liberation Serif" svg:font-family="'Liberation Serif'"/></office:font-face-decls>
+ <office:automatic-styles>
+  <style:style style:name="B" style:family="text"><style:text-properties fo:font-weight="bold" fo:color="#ff0000"/></style:style>
+  <style:style style:name="C" style:family="paragraph"><style:paragraph-properties fo:text-align="center" fo:margin-top="0.1in" fo:margin-bottom="0.2in"/></style:style>
+  <style:style style:name="T" style:family="table"><style:table-properties style:width="6in" table:align="left"/></style:style>
+  <style:style style:name="T.A" style:family="table-column"><style:table-column-properties style:column-width="3in"/></style:style>
+  <style:style style:name="T.A1" style:family="table-cell"><style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.04in"/></style:style>
+  <text:list-style style:name="L1"><text:list-level-style-number text:level="1" style:num-format="1"><style:list-level-properties text:list-level-position-and-space-mode="label-alignment"><style:list-level-label-alignment text:label-followed-by="listtab" fo:margin-left="0.5in" fo:text-indent="-0.25in"/></style:list-level-properties></text:list-level-style-number></text:list-style>
+  <style:page-layout style:name="pm1"><style:page-layout-properties fo:page-width="8.5in" fo:page-height="11in" fo:margin-top="1in" fo:margin-bottom="1in" fo:margin-left="1in" fo:margin-right="1in"/><style:header-style/><style:footer-style/></style:page-layout>
+ </office:automatic-styles>
+ <office:master-styles><style:master-page style:name="Standard" style:page-layout-name="pm1"><style:header><text:p>Page header text</text:p></style:header><style:footer><text:p>Page footer text</text:p></style:footer></style:master-page></office:master-styles>
+ <office:body><office:text>
+  <text:tracked-changes><text:changed-region text:id="ct1"><text:insertion><office:change-info><dc:creator>Rev</dc:creator><dc:date>2024-02-03T04:05:06</dc:date></office:change-info></text:insertion></text:changed-region><text:changed-region text:id="ct2"><text:deletion><office:change-info><dc:creator>Rev</dc:creator><dc:date>2024-02-03T04:06:06</dc:date></office:change-info><text:p>removed text</text:p></text:deletion></text:changed-region></text:tracked-changes>
+  <text:h text:outline-level="1">Heading one</text:h>
+  <text:p text:style-name="C">Plain, <text:span text:style-name="B">bold red</text:span> and <text:a xlink:href="https://example.com/">a link</text:a>.<text:bookmark text:name="mark1"/></text:p>
+  <text:p>Note here<text:note text:id="ftn1" text:note-class="footnote"><text:note-citation>1</text:note-citation><text:note-body><text:p>The footnote text.</text:p></text:note-body></text:note> and a comment<office:annotation office:name="c1"><dc:creator>Reviewer</dc:creator><dc:date>2024-01-02T03:04:05</dc:date><text:p>Comment body</text:p></office:annotation>.</text:p>
+  <text:p>Some <text:change-start text:change-id="ct1"/>inserted<text:change-end text:change-id="ct1"/> and <text:change text:change-id="ct2"/>kept words.</text:p>
+  <text:list text:style-name="L1"><text:list-item><text:p>first item</text:p></text:list-item><text:list-item><text:p>second item</text:p></text:list-item></text:list>
+  <table:table table:name="Table1" table:style-name="T"><table:table-column table:style-name="T.A" table:number-columns-repeated="2"/><table:table-row><table:table-cell table:style-name="T.A1" office:value-type="string" table:number-columns-spanned="2"><text:p>spanning</text:p></table:table-cell><table:covered-table-cell/></table:table-row><table:table-row><table:table-cell table:style-name="T.A1" office:value-type="string"><text:p>r2c1</text:p></table:table-cell><table:table-cell table:style-name="T.A1" office:value-type="string"><text:p>r2c2</text:p></table:table-cell></table:table-row></table:table>
+  <text:p>Picture: <draw:frame draw:name="pic" svg:width="1in" svg:height="1in" text:anchor-type="as-char"><draw:image><office:binary-data>iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==</office:binary-data></draw:image></draw:frame></text:p>
+ </office:text></office:body>
+</office:document>

@@ -17,8 +17,11 @@ public static class DocumentFormats
     public static IReadOnlyList<OfficeFormat> Formats { get; } =
         [OfficeFormat.Docx, OfficeFormat.Docm, OfficeFormat.Dotx, OfficeFormat.Dotm, OfficeFormat.FlatOpcDocument, OfficeFormat.Rtf];
 
+    /// <summary>The formats this package reads but does not write: Word 2003 XML and Word 97-2003 (incl. Word 6/95) binary files, which open as a document that saves as DOCX.</summary>
+    public static IReadOnlyList<OfficeFormat> ReadOnlyFormats { get; } = [OfficeFormat.Word2003Xml, OfficeFormat.Doc];
+
     /// <summary>
-    /// Registers the readers and writers of <see cref="Formats"/>. Text extraction for them is already in the core package's default
+    /// Registers the readers and writers of <see cref="Formats"/> and the readers of <see cref="ReadOnlyFormats"/>. Text extraction for them is already in the core package's default
     /// registry, and is left as it is.
     /// </summary>
     /// <param name="registry">The registry to fill.</param>
@@ -49,11 +52,13 @@ public static class DocumentFormats
             },
             [.. Formats]);
         registry.RegisterTemplateBinder(Templating.DocxTemplateBinder.Instance, ooxml);
+
+        // Word 2003 XML and Word 97-2003 (and Word 6/95) files are read only: they open as a document that saves as DOCX.
         registry.RegisterReader(
             static (source, _, context, filePath, cancellationToken) => Document.OpenSource(source, context, filePath, cancellationToken),
-            OfficeFormat.Doc);
+            [.. ReadOnlyFormats]);
 
-        // Word 97-2003 files (and Word 6/95) are read only: text without building the model, or the model through the hub.
+        // Word binary files also extract text without building the model.
         registry.RegisterTextExtractor(
             static (source, _, context, output, cancellationToken) =>
                 Doc.DocGuard.Run(() =>

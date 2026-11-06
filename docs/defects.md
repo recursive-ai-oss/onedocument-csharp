@@ -20,6 +20,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `csv.` | delimited text (CSV, TSV) | `Structure`, `Markup`, `Encoding`, `Value` |
 | `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
 | `pptx.` | the PresentationML hub | `Structure`, `Reference`, `Packaging` |
+| `wml2003.`, `sml2003.` | the Office 2003 XML readers (Word, Excel) | `Structure`, `Reference`, `Value`, `Encoding`, `Formula` |
 | `calc.` | workbook calculation | `Formula`, `Limit`, `Reference` |
 | `binding.` | reading and writing rows of plain objects (`Spreadsheet.Read<T>`, `Write<T>`) | `Structure`, `Reference`, `Value` |
 | `template.` | the template engine: reading, checking and rendering templates | `Markup`, `Structure`, `Formula`, `Reference`, `Value` |
@@ -426,3 +427,28 @@ stream (the `Current User` stream for `ppt.current-user-missing`). The conversio
 | `ppt.shape-approximated`, `ppt.shape-adjust-dropped`, `ppt.fill-approximated`, `ppt.path-escape`, `ppt.geometry-guides`, `ppt.wordart-flattened`, `ppt.picture-pict`, `ppt.picture-missing`, `ppt.table-as-group`, `ppt.table-borders-approximated`, `ppt.transition-dropped`, `ppt.animations-dropped`, `ppt.ole-object-flattened`, `ppt.vba-not-carried`, `ppt.document-properties-not-carried`, `ppt.header-footer-field`, `ppt.placeholder-unknown` | dropped | Conversion losses; meanings in `ppt.md`. |
 
 Encrypted files raise `encryption.password-required`; PowerPoint 4.0/95 files raise `unsupported.feature`.
+
+### Office 2003 XML (`wml2003.`, `sml2003.`)
+
+Reported by the readers of Word 2003 XML and Excel 2003 XML while they convert (see `xml-2003.md`). Locations are the part `/` (the file itself) with a byte offset, or a cell address for cell problems.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `wml2003.not-wordml` | fatal | The root is not a `w:wordDocument` in the 2003 namespace. |
+| `wml2003.missing-picture` | dropped | A picture's `v:imagedata` names data (`wordml://...`) that the file does not hold. |
+| `wml2003.bad-base64` | dropped | The `w:binData` of a picture is not valid base64. |
+| `wml2003.number-format` | repaired | A list level's `w:nfc` code has no known name; decimal was used. |
+| `wml2003.table-grid` | repaired | A table has no `w:tblGrid`; one was made from its widest row. |
+| `wml2003.style-id` | repaired | A style has no `w:styleId`; one was made from its name. |
+| `wml2003.bad-value` | repaired or dropped | A fractional number where a whole one is needed (rounded), an empty attribute (left out), or a bad date or count in the document properties (left out). |
+| `wml2003.duplicate-property` | repaired | One property list names a property twice; the last was kept. |
+| `sml2003.not-spreadsheet` | fatal | The root is not a `Workbook` in the SpreadsheetML 2003 namespace. |
+| `sml2003.no-sheets` | repaired | The workbook has no worksheet; an empty one was added. |
+| `sml2003.sheet-name` | repaired | A sheet name is empty, too long, has a forbidden character or repeats another (ignoring case); it was changed. |
+| `sml2003.duplicate-style` | repaired | A style ID is defined twice; the first definition is used. |
+| `sml2003.bad-style-ref` | repaired | A cell, row or style names a style that does not exist, or styles inherit from each other in a loop; the default style was used. |
+| `sml2003.bad-index` | repaired or dropped | A row, column or cell index goes backwards (the item follows the previous one) or lies beyond the last row or column (dropped). |
+| `sml2003.bad-number` | repaired | A `Number` cell does not hold a number; its text was kept as a string. |
+| `sml2003.bad-date` | repaired | A `DateTime` cell does not hold an ISO 8601 date or is outside the date range; its text was kept as a string. |
+| `sml2003.bad-formula` | dropped | A cell's `ss:Formula` is not an R1C1 formula the parser reads (files written by other programs may hold OpenFormula text); the cached value stays as a constant. |
+| `sml2003.bad-value` | dropped | A bad date in the document properties. |
