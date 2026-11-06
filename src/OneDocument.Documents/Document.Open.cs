@@ -185,7 +185,9 @@ public sealed partial class Document
         // The text of the document as it is now, edits included: write it out and read it back through the streaming extractor, so
         // the model and Office.ExtractText agree on every file.
         CommitChanges();
-        if (!FormatRegistry.Default.TryGetTextExtractor(Format, out TextExtractionHandler? extractor))
+        // A document read from RTF is a word-processing package in memory, so its text comes from the same extractor.
+        OfficeFormat textFormat = Format == OfficeFormat.Rtf ? OfficeFormat.Docx : Format;
+        if (!FormatRegistry.Default.TryGetTextExtractor(textFormat, out TextExtractionHandler? extractor))
         {
             foreach (Paragraph paragraph in Paragraphs)
             {
@@ -198,7 +200,7 @@ public sealed partial class Document
         using var buffer = new MemoryStream();
         Package.WriteTo(buffer, cancellationToken);
         using IByteSource source = ByteSource.FromMemory(buffer.GetBuffer().AsMemory(0, (int)buffer.Length));
-        extractor(source, Format, Context, output, cancellationToken);
+        extractor(source, textFormat, Context, output, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -207,6 +209,10 @@ public sealed partial class Document
         if (IsWordFormat(format))
         {
             Write(format, destination, cancellationToken);
+        }
+        else if (format == OfficeFormat.Rtf)
+        {
+            WriteRtf(destination, cancellationToken);
         }
         else
         {
@@ -316,6 +322,11 @@ public sealed partial class Document
             if (sniffed == OfficeFormat.Doc)
             {
                 return OpenBinary(source, context);
+            }
+
+            if (sniffed == OfficeFormat.Rtf)
+            {
+                return OpenRtf(source, context, filePath, cancellationToken);
             }
 
             if (!IsWordFormat(sniffed))
