@@ -1,3 +1,4 @@
+using System.Linq;
 using RecursiveAI.OneDocument.Documents;
 using RecursiveAI.OneDocument.Documents.Revisions;
 using RecursiveAI.OneDocument.Operations;
