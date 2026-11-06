@@ -38,6 +38,7 @@ internal sealed class PowerPointInspectionProvider : IInspectionProvider
 
         List<SlideEntry> slides = ReadSlides(s, main, pres);
         Comments(s, z);
+        Tags(s, z);
         RevisionData(s, z);
         SpeakerNotes(s, z, slides);
         OffSlide(s, z, main, pres, slides);
@@ -184,10 +185,28 @@ internal sealed class PowerPointInspectionProvider : IInspectionProvider
         }
     }
 
-    // Co-authoring keeps who edited what and when in a part of its own (the inspector calls it revision tracking data).
+    // ECMA-376 Part 1 §19.3.3 tagLst and §19.3.3.x custDataLst: free-form name/value pairs that add-ins store on the presentation, slides
+    // and shapes. They are custom data, so they are reported with the custom XML parts.
+    private static void Tags(InspectionSession s, SanitizeSession? z)
+    {
+        foreach (IPackagePart p in s.PartsWhere(ct => ct.EndsWith("presentationml.tags+xml", StringComparison.OrdinalIgnoreCase)).ToList())
+        {
+            int n = s.Markup(p) is { } d ? Math.Max(1, InspectionXml.Children(d.Root).Count) : 1;
+            string name = p.Name;
+            s.Add(InspectionCategory.CustomXml, name, "tags (name and value pairs stored by add-ins)", n);
+            if (Doing(z, InspectionCategory.CustomXml))
+            {
+                z!.RemoveEverywhere(name);
+                z.Removed(InspectionCategory.CustomXml, name, "tags", n);
+            }
+        }
+    }
+
+    // Co-authoring keeps who edited what and when in parts of their own: the revision list and, since PowerPoint 2016, the change log
+    // ([MS-PPTX] changesInfo). The inspector calls them revision tracking data.
     private static void RevisionData(InspectionSession s, SanitizeSession? z)
     {
-        foreach (string name in s.PartsWhere(ct => ct.Contains("revisioninfo", StringComparison.OrdinalIgnoreCase)).Select(p => p.Name).ToList())
+        foreach (string name in s.PartsWhere(ct => ct.Contains("revisioninfo", StringComparison.OrdinalIgnoreCase) || ct.Contains("changesinfo", StringComparison.OrdinalIgnoreCase)).Select(p => p.Name).ToList())
         {
             s.Add(InspectionCategory.Revisions, name, "co-authoring revision data (who edited the file and when)");
             if (Doing(z, InspectionCategory.Revisions))

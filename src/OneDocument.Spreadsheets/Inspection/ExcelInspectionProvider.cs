@@ -55,12 +55,88 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
         PersonalInformation(s, z, main, wb);
         WorkbookProperties(s, z, main, wb, sheets);
         HeadersFooters(s, z, sheets);
-        HiddenRowsColumns(s, z, sheets);
+        bool changed = HiddenRowsColumns(s, z, sheets);
         DataConnections(s, z);
-        ExternalLinks(s, z, main, wb, sheets);
+        changed |= ExternalLinks(s, z, main, wb, sheets);
 
         // Sheet and name removal comes last: it needs the other edits flushed so that the reference check sees the final formulas.
-        HiddenSheetsAndNames(s, z, main, sheets);
+        changed |= HiddenSheetsAndNames(s, z, main, sheets);
+        if (z is not null && changed)
+        {
+            TidyAfterRemoval(z);
+        }
+    }
+
+    // Removing cells, formulas or sheets leaves two things behind that still describe them: the calculation chain lists cells that no
+    // longer hold a formula (Excel repairs that on open and rebuilds the chain when it is absent), and the shared string table keeps
+    // every string it ever held. Strings no cell uses any more are emptied in place, so that the indexes of the others stay valid.
+    private static void TidyAfterRemoval(SanitizeSession z)
+    {
+        z.Flush();
+        foreach (IPackagePart chain in z.PartsWhere(ct => ct.EndsWith("calcChain+xml", StringComparison.OrdinalIgnoreCase)).ToList())
+        {
+            z.RemoveEverywhere(chain.Name);
+        }
+
+        var used = new HashSet<int>();
+        foreach (IPackagePart p in z.Package.Parts.ToList())
+        {
+            if (!(p.ContentType.Contains("worksheet+xml", StringComparison.OrdinalIgnoreCase) || p.ContentType.Contains("macrosheet", StringComparison.OrdinalIgnoreCase)
+                || p.ContentType.Contains("dialogsheet", StringComparison.OrdinalIgnoreCase)))
+            {
+                continue;
+            }
+
+            if (z.Markup(p) is not { } doc)
+            {
+                return; // a sheet that cannot be read may use any string, so none is emptied
+            }
+
+            foreach (MarkupNode c in InspectionXml.Descendants(doc.DocumentNode))
+            {
+                if (c.LocalName.SequenceEqual("c"u8) && InspectionXml.Attr(c, "t"u8) == "s")
+                {
+                    foreach (MarkupNode v in InspectionXml.Children(c))
+                    {
+                        if (v.LocalName.SequenceEqual("v"u8) && int.TryParse(v.InnerText, NumberStyles.None, CultureInfo.InvariantCulture, out int index))
+                        {
+                            used.Add(index);
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach (IPackagePart sst in z.PartsWhere(ct => ct.EndsWith("spreadsheetml.sharedStrings+xml", StringComparison.OrdinalIgnoreCase)).ToList())
+        {
+            if (z.Edit(sst) is not { } doc)
+            {
+                continue;
+            }
+
+            int i = 0;
+            int emptied = 0;
+            foreach (MarkupNode si in InspectionXml.Children(doc.Root))
+            {
+                if (si.LocalName.SequenceEqual("si"u8))
+                {
+                    if (!used.Contains(i) && (InspectionXml.HasChildElements(si) || si.InnerText.Length > 0))
+                    {
+                        si.SetText(string.Empty);
+                        emptied++;
+                    }
+
+                    i++;
+                }
+            }
+
+            if (emptied > 0)
+            {
+                z.Removed(InspectionCategory.HiddenRowsColumns, sst.Name, "strings that no cell uses any more emptied in the shared string table", emptied);
+            }
+        }
+
+        z.Flush();
     }
 
     private static List<SheetEntry> ReadSheets(InspectionSession s, IPackagePart main, MarkupDocument wb)
@@ -423,9 +499,10 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
         return sb.ToString();
     }
 
-    private static void HiddenRowsColumns(InspectionSession s, SanitizeSession? z, List<SheetEntry> sheets)
+    private static bool HiddenRowsColumns(InspectionSession s, SanitizeSession? z, List<SheetEntry> sheets)
     {
         bool doing = Doing(z, InspectionCategory.HiddenRowsColumns);
+        bool changed = false;
         foreach (SheetEntry sh in sheets)
         {
             if (!IsWorksheet(sh.Part))
@@ -532,6 +609,8 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
                 continue;
             }
 
+            ClearCompanions(z!, sh.Part!, doc, clearRows, clearCols);
+
             if (!data.IsNull)
             {
                 foreach (MarkupNode r in InspectionXml.Children(data))
@@ -565,6 +644,7 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
 
             int cleared = clearRows.Count + clearCols.Sum(c => c.Max - c.Min + 1);
             int shown = showOnlyRows.Count + showOnlyCols.Count;
+            changed |= cleared > 0;
             if (cleared > 0)
             {
                 z!.Removed(InspectionCategory.HiddenRowsColumns, sh.Name, "hidden rows and columns cleared and shown (contents removed; rows and columns keep their positions so references stay valid)", cleared);
@@ -573,6 +653,77 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
             if (shown > 0)
             {
                 z!.Removed(InspectionCategory.HiddenRowsColumns, sh.Name, "hidden rows and columns of a table or PivotTable shown (contents kept)", shown);
+            }
+        }
+
+        return changed;
+    }
+
+    // The text of a cleared cell can also be stored beside the cell: in a hyperlink, a data-validation list or a conditional format that
+    // applies only to cleared cells. Those go with the cell.
+    private static void ClearCompanions(SanitizeSession z, IPackagePart sheet, MarkupDocument doc, HashSet<int> clearRows, List<(int Min, int Max)> clearCols)
+    {
+        bool allCleared(string? sqref)
+        {
+            if (string.IsNullOrWhiteSpace(sqref))
+            {
+                return false;
+            }
+
+            foreach (string token in sqref.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+            {
+                if (!TryRange(token, out (int C1, int R1, int C2, int R2) r))
+                {
+                    return false;
+                }
+
+                bool inCols = clearCols.Any(c => r.C1 >= c.Min && r.C2 <= c.Max);
+                bool inRows = r.R2 - r.R1 < 100000;
+                for (int row = r.R1; inRows && row <= r.R2; row++)
+                {
+                    inRows = clearRows.Contains(row);
+                }
+
+                if (!inCols && !inRows)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        foreach (MarkupNode group in InspectionXml.Children(doc.Root))
+        {
+            ReadOnlySpan<byte> n = group.LocalName;
+            if (n.SequenceEqual("hyperlinks"u8) || n.SequenceEqual("dataValidations"u8))
+            {
+                bool links = n.SequenceEqual("hyperlinks"u8);
+                foreach (MarkupNode item in InspectionXml.Children(group))
+                {
+                    if (allCleared(InspectionXml.Attr(item, links ? "ref"u8 : "sqref"u8)))
+                    {
+                        z.RemoveSubtree(sheet.Name, item);
+                    }
+                }
+
+                int left = InspectionXml.Children(group).Count;
+                if (left == 0)
+                {
+                    group.Remove();
+                }
+                else if (!links)
+                {
+                    group.SetAttribute("count", left.ToString(CultureInfo.InvariantCulture));
+                }
+            }
+        }
+
+        foreach (MarkupNode cf in InspectionXml.Children(doc.Root))
+        {
+            if (cf.LocalName.SequenceEqual("conditionalFormatting"u8) && allCleared(InspectionXml.Attr(cf, "sqref"u8)))
+            {
+                cf.Remove();
             }
         }
     }
@@ -767,7 +918,7 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
         }
     }
 
-    private static void ExternalLinks(InspectionSession s, SanitizeSession? z, IPackagePart main, MarkupDocument wb, List<SheetEntry> sheets)
+    private static bool ExternalLinks(InspectionSession s, SanitizeSession? z, IPackagePart main, MarkupDocument wb, List<SheetEntry> sheets)
     {
         bool doing = Doing(z, InspectionCategory.ExternalLinks);
         List<IPackagePart> links = s.PartsWhere(ct => ct.Contains("spreadsheetml.externalLink", StringComparison.OrdinalIgnoreCase));
@@ -779,7 +930,7 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
 
         if (!doing || links.Count == 0)
         {
-            return;
+            return false;
         }
 
         // Breaking links keeps the values Excel last cached and drops the formulas that read the other workbook. If any other place
@@ -820,7 +971,7 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
                 z!.NotRemoved(InspectionCategory.ExternalLinks, "sanitize.referenced", p.Name, "Validation, conditional formatting or a chart still reads the other workbook (" + string.Join(", ", blockers.Distinct().Take(3)) + ").");
             }
 
-            return;
+            return false;
         }
 
         int formulas = 0;
@@ -891,6 +1042,8 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
         {
             z.Removed(InspectionCategory.ExternalLinks, main.Name, "formulas replaced by their last values", formulas);
         }
+
+        return true;
     }
 
     // ---- hidden sheets, macro sheets and hidden names ----
@@ -981,7 +1134,7 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
         return false;
     }
 
-    private static void HiddenSheetsAndNames(InspectionSession s, SanitizeSession? z, IPackagePart main, List<SheetEntry> sheets)
+    private static bool HiddenSheetsAndNames(InspectionSession s, SanitizeSession? z, IPackagePart main, List<SheetEntry> sheets)
     {
         bool doingSheets = Doing(z, InspectionCategory.HiddenSheets);
         bool doingMacros = Doing(z, InspectionCategory.Macros);
@@ -1019,7 +1172,7 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
 
         if (z is null)
         {
-            return;
+            return false;
         }
 
         var toRemove = new List<SheetEntry>();
@@ -1087,6 +1240,7 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
             RemoveEmptyDefinedNames(wb);
         }
 
+        bool changed = false;
         foreach (SheetEntry sh in toRemove)
         {
             InspectionCategory cat = sh.IsMacro && !(sh.State is "hidden" or "veryHidden" && doingSheets) ? InspectionCategory.Macros : InspectionCategory.HiddenSheets;
@@ -1095,8 +1249,10 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
                 cat = InspectionCategory.Macros;
             }
 
-            RemoveSheet(z, main, sh, cat);
+            changed |= RemoveSheet(z, main, sh, cat);
         }
+
+        return changed;
     }
 
     private static void RemoveEmptyDefinedNames(MarkupDocument wb)
@@ -1110,13 +1266,13 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
         }
     }
 
-    private static void RemoveSheet(SanitizeSession z, IPackagePart main, SheetEntry sh, InspectionCategory cat)
+    private static bool RemoveSheet(SanitizeSession z, IPackagePart main, SheetEntry sh, InspectionCategory cat)
     {
         string where = "workbook!" + sh.Name;
         if (sh.Part is null)
         {
             z.NotRemoved(cat, "sanitize.unsupported-construct", where, "The sheet's part is missing.");
-            return;
+            return false;
         }
 
         MarkupDocument wb = z.Edit(main)!;
@@ -1145,7 +1301,7 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
 
         if (current.IsNull)
         {
-            return;
+            return false;
         }
 
         var scoped = new HashSet<MarkupNode>();
@@ -1190,7 +1346,7 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
         if (blocker is not null)
         {
             z.NotRemoved(cat, "sanitize.referenced", where, blocker);
-            return;
+            return false;
         }
 
         // ECMA-376 Part 1 §18.2.5 definedName: localSheetId is the position of the sheet in the sheets list, so names after the removed
@@ -1271,5 +1427,6 @@ internal sealed partial class ExcelInspectionProvider : IInspectionProvider
         }
 
         z.Removed(cat, where, (sh.IsMacro ? "macro sheet" : "hidden sheet") + " '" + sh.Name + "' removed with its drawings, comments and tables");
+        return true;
     }
 }

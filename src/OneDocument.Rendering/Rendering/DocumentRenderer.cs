@@ -145,9 +145,7 @@ public static class DocumentRenderer
             return true;
         }
 
-        LayoutDocument layout = LayoutEngine.Layout(document, null, cancellationToken);
-        destination.Write(RenderPng(layout.Pages[0], DefaultLanguage(document)));
-        return true;
+        return false;
     }
 
     internal static string DefaultLanguage(Document document)
@@ -195,11 +193,13 @@ public static class RenderingFormats
     ];
 
     /// <summary>Gets the output formats this package writes.</summary>
-    public static IReadOnlyList<OfficeFormat> Formats { get; } = [OfficeFormat.Pdf, OfficeFormat.Png];
+    public static IReadOnlyList<OfficeFormat> Formats { get; } =
+        [OfficeFormat.Pdf, OfficeFormat.Png, OfficeFormat.Jpeg, OfficeFormat.Tiff, OfficeFormat.WebP, OfficeFormat.Svg];
 
     /// <summary>
-    /// Registers PDF and PNG writers, so <c>Office.Convert("in.docx", "out.pdf")</c> and <c>document.SaveAs("out.pdf")</c> work, for documents,
-    /// workbooks and presentations. A PNG holds the first page. Calling it again is harmless.
+    /// Registers PDF and page-image writers (PNG, JPEG, TIFF, WebP, SVG), so <c>Office.Convert("in.docx", "out.pdf")</c> and
+    /// <c>document.SaveAs("out.png")</c> work, for documents, workbooks and presentations. An image holds the first page and a TIFF every page;
+    /// <see cref="PageExporter"/> chooses pages, size and encoder settings. Calling it again is harmless.
     /// </summary>
     /// <param name="registry">The registry to fill.</param>
     public static void Register(FormatRegistry registry)
@@ -208,6 +208,12 @@ public static class RenderingFormats
         registry.RegisterWriter(
             static (file, format, destination, cancellationToken) =>
             {
+                if (format != OfficeFormat.Pdf)
+                {
+                    PageExporter.Write(file, format, destination, cancellationToken);
+                    return;
+                }
+
                 foreach (KindWriter kind in Kinds)
                 {
                     if (kind(file, format, destination, cancellationToken))

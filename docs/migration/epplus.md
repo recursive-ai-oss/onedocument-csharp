@@ -52,11 +52,11 @@ ws.Cells["B2"].Style.Numberformat.Format = "#,##0.00";
 
 ```csharp
 // OneDocument
-ws["A1"].UpdateStyle(s => s with { Font = (s.Font ?? new CellFont()) with { Bold = true } });
-ws["B2"].UpdateStyle(s => s with { NumberFormatCode = "#,##0.00" });
+ws.Range("A1").UpdateStyle(s => s with { Font = (s.Font ?? new CellFont()) with { Bold = true } });
+ws.Range("B2").NumberFormat = "#,##0.00";
 ```
 
-Styles are immutable records (`CellStyleSpec`); `UpdateStyle` returns a new one. There is no `ExcelRange` for a block: loop over the cells. `ws["A1"].FormattedText` gives the text as Excel displays it.
+Styles are immutable records (`CellStyleSpec`); `UpdateStyle` returns a new one, for a cell (`ws["A1"].UpdateStyle`) or a block (`ws.Range("A1:C3").UpdateStyle`). `ws["A1"].FormattedText` gives the text as Excel displays it.
 
 ## Tables, names, merges, dates
 
@@ -70,7 +70,7 @@ ws.Cells["C2"].Value = new DateTime(2026, 3, 1);
 ```csharp
 // OneDocument
 ws.Tables.Add("Orders", CellRange.Parse("A1:D10"));
-ws.Merge(CellRange.Parse("A1:C1"));
+ws.Range("A1:C1").Merge();
 ws["C2"].SetDate(new DateTime(2026, 3, 1));
 wb.Names.Add("Rate", "Sales!$B$1");
 ```
@@ -102,8 +102,8 @@ EPPlus 4.x does not render. `wb.SaveAs("report.pdf")` or `Office.Convert("in.xls
 
 ## Not supported or different
 
-- No `ExcelRange` bulk operations (`Style` on a block, `Value` on a block, `Copy`, `AutoFitColumns`): loop over cells.
-- No pictures or charts created through a high-level call. Existing ones are kept and rendered; creating one is done in the template engine (`{% image %}`) or the typed views and markup.
+- `ws.Range("A1:C3")` is a handle with `Values` (a two-dimensional array), `UpdateStyle`, `NumberFormat`, `Clear` and `Merge`; there is no `Copy`, `AutoFitColumns` or `LoadFromCollection` on it (use `Spreadsheet.Write` for rows of objects).
+- `ws.AddPicture(bytes, "E1", ...)` adds a picture. Charts are not created through a high-level call; existing ones are kept and rendered.
 - No sparkline, form control or shape creation API.
 - Password protection: sheet and workbook protection are supported (`docs/protection.md`); encrypted files are written only as XLS (RC4) for now.
 - Cell values are `CellValue` (kind plus payload), not `object`; strings are handles into the workbook's string table, hence `SetString`.

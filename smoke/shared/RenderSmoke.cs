@@ -41,6 +41,23 @@ internal static class RenderSmoke
             failures.Add("render png");
         }
 
+        // One page as SVG (text as text, outlines for the rest) and as WebP, through the page exporter: the SVG writer and OneImage's encoder.
+        using var svgOut = new MemoryStream();
+        PageExporter.Export(document, svgOut, PageImageFormat.Svg);
+        string svg = Encoding.UTF8.GetString(svgOut.ToArray());
+        if (!svg.StartsWith("<svg ", StringComparison.Ordinal) || !svg.Contains("<text ", StringComparison.Ordinal) || !svg.EndsWith("</svg>\n", StringComparison.Ordinal))
+        {
+            failures.Add("render svg");
+        }
+
+        using var webpOut = new MemoryStream();
+        PageExporter.Export(document, webpOut, PageImageFormat.WebP, new PageExportOptions { Dpi = 48 });
+        byte[] webp = webpOut.ToArray();
+        if (webp.Length < 100 || webp[0] != (byte)'R' || webp[8] != (byte)'W')
+        {
+            failures.Add("render webp");
+        }
+
         using Workbook workbook = Workbook.Create();
         Worksheet sheet = workbook.Sheets[0];
         sheet["A1"].SetString("Item");

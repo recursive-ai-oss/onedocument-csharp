@@ -84,6 +84,12 @@ public static class Inspector
             Guard(session, kind.ToString(), () => provider.Inspect(session));
         }
 
+        List<string> unreachable = session.UnreachableParts();
+        if (unreachable.Count > 0)
+        {
+            session.Note(unreachable.Count + " part(s) are not reachable through any relationship and are never read by Office: " + string.Join(", ", unreachable.Take(5)) + (unreachable.Count > 5 ? ", ..." : string.Empty) + ". Sanitising removes them.");
+        }
+
         if (legacyMacros is not null)
         {
             session.Add(InspectionCategory.Macros, legacyMacros.Container, "VBA project in the original file (not carried into the converted document)", Math.Max(1, legacyMacros.Modules.Count), legacyMacros.Name);
@@ -171,6 +177,7 @@ public static class Sanitizer
         cancellationToken.ThrowIfCancellationRequested();
 
         var z = new SanitizeSession(package, format, kind, context, main, options.Categories);
+        List<string> unreachable;
         try
         {
             foreach (IInspectionProvider provider in FormatRegistry.Default.GetInspectionProviders(kind))
@@ -180,12 +187,17 @@ public static class Sanitizer
             }
 
             PackageInspection.Run(z, z);
-            z.Finish();
+            unreachable = z.Finish();
         }
         catch (Exception ex) when (ex is InvalidOperationException or ArgumentException or IndexOutOfRangeException or KeyNotFoundException or FormatException or OverflowException)
         {
             // Half-edited markup is never written: the file stays as it was.
             throw new OfficeFormatException(DefectKind.Structure, "sanitize.failed", "Sanitising stopped on markup it could not edit (" + ex.GetType().Name + ": " + ex.Message + "); nothing was written.", DefectLocation.None, ex);
+        }
+
+        if (unreachable.Count > 0)
+        {
+            notes.Add(unreachable.Count + " part(s) that no relationship reached were removed: " + string.Join(", ", unreachable.Take(10)) + (unreachable.Count > 10 ? ", ..." : string.Empty) + ".");
         }
 
         OfficeFormat outputFormat = format;
@@ -255,6 +267,17 @@ public static class Sanitizer
             else if (z.NotRemovedItems.Any(n => n.Category == c))
             {
                 status[c] = SanitizeStatus.PartlyRemoved;
+
+                // A category with kept items is still verified: whatever the written file still holds in it must be one of the kept items.
+                // Macros are left out because the VBA remover reports its own locations.
+                if (c != InspectionCategory.Macros)
+                {
+                    List<InspectionFinding> unexplained = [.. after.FindingsOf(c).Where(f => !z.NotRemovedItems.Any(n => n.Category == c && Explains(n.Location, f.Location)))];
+                    if (unexplained.Count > 0)
+                    {
+                        throw new SanitizeVerificationException(c, unexplained);
+                    }
+                }
             }
             else
             {
@@ -270,6 +293,12 @@ public static class Sanitizer
         written.CopyTo(output);
         return new SanitizeReport(prepared.SourceFormat, outputFormat, before, after, [.. z.RemovedItems], [.. z.NotRemovedItems], notes, status);
     }
+
+    // A kept item explains a finding when one location names the other (a part name inside "slide 2 (/ppt/slides/slide2.xml)", a sheet
+    // inside "Sheet1!rows").
+    private static bool Explains(string kept, string found) =>
+        kept.Length > 0 && found.Length > 0
+        && (found.Contains(kept, StringComparison.OrdinalIgnoreCase) || kept.Contains(found, StringComparison.OrdinalIgnoreCase));
 }
 
 /// <summary>An OOXML package ready to inspect: opened as it is, or produced by converting a legacy file through the hub.</summary>
