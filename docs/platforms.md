@@ -6,7 +6,7 @@ browser app (`smoke/wasm`), the iOS app (`smoke/ios`) and the Android app (`smok
 
 ## What the smoke checks cover
 
-25 groups: core contracts (sniffing, limits, registry, defects, packages), schema views, workbooks and recalculation, pivots, streaming,
+31 groups: core contracts (sniffing, limits, registry, defects, packages), schema views, workbooks and recalculation, pivots, streaming,
 XLSB, CSV, XLS, Word binary, 2003 XML, POCO binding, templating, Markdown, VBA read and removal, accessibility, documents, presentations,
 rendering (layout, drawing, SmartArt, floats) to PDF and PNG with the bundled substitute fonts, number formats, calc, text extraction,
 and a `platform` group for what differs between hosts:

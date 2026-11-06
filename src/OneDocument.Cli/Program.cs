@@ -15,7 +15,8 @@ namespace RecursiveAI.OneDocument.Cli;
 internal static class Program
 {
     private const string Usage =
-        "usage: onedocument detect <file> [--json]\n" +
+        "usage: onedocument --version\n" +
+        "       onedocument detect <file> [--json]\n" +
         "       onedocument extract <file> [-o <out.txt>] [--json]\n" +
         "       onedocument recalc <workbook> [-o <out.xlsx>] [--full] [--threads <n>] [--json]\n" +
         TemplateCommand.Usage +
@@ -24,6 +25,14 @@ internal static class Program
 
     private static int Main(string[] args)
     {
+        if (args is ["--version"] or ["-v"])
+        {
+            // The assembly version is the package version without any pre-release suffix.
+            Version? version = typeof(Program).Assembly.GetName().Version;
+            Console.Out.WriteLine("onedocument " + (version is null ? "unknown" : version.ToString(3)));
+            return 0;
+        }
+
         if (args.Length >= 2 && args[0] == "detect")
         {
             return Run(args, "detect", Detect);
