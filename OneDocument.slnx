@@ -38,6 +38,7 @@
     <Project Path="tools/LayoutProbe/LayoutProbe.csproj" />
     <Project Path="tools/PackageSweep/PackageSweep.csproj" />
     <Project Path="tools/RedactProbe/RedactProbe.csproj" />
+    <Project Path="tools/AuthoringProbe/AuthoringProbe.csproj" />
     <Project Path="tools/XlsProbe/XlsProbe.csproj" />
     <Project Path="tools/PackageTiming/PackageTiming.csproj" />
     <Project Path="tools/MarkupProbe/MarkupProbe.csproj" />

@@ -87,6 +87,20 @@ public class AuthoringTests
     }
 
     [Fact]
+    public void AddBuiltIn_ReusesAStyleThatHoldsTheIdUnderAnotherName_AndAvoidsIdsOfOtherTypes()
+    {
+        using Document d = TestDocs.Open(
+            "<w:p/>",
+            "<w:style w:type=\"paragraph\" w:default=\"1\" w:styleId=\"Normal\"><w:name w:val=\"Normal\"/></w:style>" +
+            "<w:style w:type=\"table\" w:styleId=\"TableGrid\"><w:name w:val=\"Raster\"/></w:style>" +
+            "<w:style w:type=\"paragraph\" w:styleId=\"Hyperlink\"><w:name w:val=\"Hyperlink\"/></w:style>");
+        Assert.Equal("Raster", d.Styles.AddBuiltIn("Table Grid").Name);                      // the file's own style under that id
+        StyleDefinition link = d.Styles.AddBuiltIn("Hyperlink");                              // the name belongs to a paragraph style
+        Assert.Equal(StyleType.Character, link.Type);
+        Assert.NotEqual("Hyperlink", link.Id);
+    }
+
+    [Fact]
     public void RunFormatting_ThroughSimpleProperties()
     {
         using Document d = Document.Create();

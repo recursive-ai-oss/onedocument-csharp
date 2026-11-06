@@ -60,9 +60,27 @@ public sealed partial class StyleSheet
     public StyleDefinition AddBuiltIn(string name)
     {
         ArgumentNullException.ThrowIfNull(name);
-        if (FindByName(name) is { } existing)
+        // A file may already define the style under this id with another display name (a localised or renamed one): that one is used.
+        (string wantId, StyleType wantType) = name.ToLowerInvariant() switch
         {
-            return existing;
+            "title" => ("Title", StyleType.Paragraph),
+            "heading 1" => ("Heading1", StyleType.Paragraph),
+            "heading 2" => ("Heading2", StyleType.Paragraph),
+            "heading 3" => ("Heading3", StyleType.Paragraph),
+            "caption" => ("Caption", StyleType.Paragraph),
+            "list paragraph" => ("ListParagraph", StyleType.Paragraph),
+            "hyperlink" => ("Hyperlink", StyleType.Character),
+            "table grid" => ("TableGrid", StyleType.Table),
+            _ => (string.Empty, StyleType.Paragraph),
+        };
+        if (FindByName(name) is { } named && (wantId.Length == 0 || named.Type == wantType))
+        {
+            return named;
+        }
+
+        if (wantId.Length > 0 && Find(wantId) is { } byId && byId.Type == wantType)
+        {
+            return byId;
         }
 
         // ECMA-376 Part 1 §17.7.4.17 (style): the element order is name, basedOn, next, uiPriority, qFormat, then pPr and rPr. The
@@ -126,7 +144,14 @@ public sealed partial class StyleSheet
 
     private StyleDefinition Create(string id, string name, StyleType type, string basedOn, string next, int priority, bool quick)
     {
-        StyleDefinition style = AddStyle(id, name, type, basedOn.Length > 0 ? basedOn : null);
+        // The id may be taken by a style of another type: take a free one.
+        string free = id;
+        for (int i = 2; Find(free) is not null; i++)
+        {
+            free = id + i.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        StyleDefinition style = AddStyle(free, name, type, basedOn.Length > 0 ? basedOn : null);
         W.Style view = style.View;
         if (next.Length > 0)
         {

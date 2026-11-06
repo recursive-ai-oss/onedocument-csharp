@@ -30,7 +30,7 @@ internal static class AuthoringSmoke
             Run r = doc.Body.AddParagraph(string.Empty).AddRun("bold");
             r.Bold = true;
             r.FontSize = 14;
-            Table t = doc.Body.AddTable([["a", "b"], ["c", "d"]]);
+            RecursiveAI.OneDocument.Documents.Table t = doc.Body.AddTable([["a", "b"], ["c", "d"]]);
             doc.Body.AddPicture(s_png, 50);
             doc.Body.Paragraphs().Last().AddHyperlink("link", "https://example.com");
             Check("doc style", h.Style == "Heading 1");

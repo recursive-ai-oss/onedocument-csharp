@@ -151,14 +151,14 @@ public class AuthoringTests
         package.SetRelationships(null, [.. package.GetRelationships(), new Relationship("rId9", "http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties", "docProps/core.xml")]);
         using Workbook wb = Workbook.FromPackage(package, ownsPackage: true);
         wb.Sheets["Data"]["A9"].SetNumber(42);
-        byte[] sheet2 = package.FindPart("/xl/worksheets/sheet2.xml")!.GetBytes().ToArray();
+        byte[] styles = package.FindPart("/xl/styles.xml")!.GetBytes().ToArray();
 
         SanitizeReport report = wb.Sanitize();
 
         Assert.Contains(report.Removed, r => r.Category == InspectionCategory.Properties);
         Assert.Equal(42, wb.Sheets["Data"]["A9"].Number);                                       // the pending edit is in the sanitised workbook
         Assert.Equal("First", wb.Sheets["Data"]["A1"].Text);
-        Assert.True(package.FindPart("/xl/worksheets/sheet2.xml")!.GetBytes().Span.SequenceEqual(sheet2));
+        Assert.True(package.FindPart("/xl/styles.xml")!.GetBytes().Span.SequenceEqual(styles));          // untouched parts keep their bytes
         wb.Sheets["Data"]["A10"].SetNumber(1);
         byte[] saved = Save(wb);
         Assert.Equal(0, Inspector.Inspect(new MemoryStream(saved)).CountOf(InspectionCategory.Properties));
