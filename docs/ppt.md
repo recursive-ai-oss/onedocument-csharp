@@ -3,7 +3,7 @@
 `Presentation.Open`, `Office.Open`, `Office.ExtractText` and `Office.Convert` read PowerPoint binary presentations. The file is read at record level
 (`RecursiveAI.OneDocument.Ppt.Binary`, on the shared OfficeArt reader in `officeart.md`), converted to PresentationML in memory, and the presentation hub
 opens that package as typed views. Everything the hub does with a `.pptx` it does with the converted file: edit, render, template, save as `.pptx`.
-`Presentation.ConversionLoss` lists what did not map; `Presentation.ConvertedFrom` is `OfficeFormat.Ppt`. Writing `.ppt` is not offered.
+`Presentation.ImportLoss` lists what did not map; `Presentation.SourceFormat` is `OfficeFormat.Ppt`. Writing `.ppt` is not offered.
 
 The result has no file path, so `Save()` never writes over the binary original; `SaveAs` writes PresentationML.
 
@@ -76,7 +76,7 @@ line, a negative value is master units. Master units are 1/576 inch (1,587.5 EMU
 
 ## Loss report
 
-`Presentation.ConversionLoss` items (code, feature, count, message); each is also a defect with the record offset in the source stream.
+`Presentation.ImportLoss` items (code, feature, count, message); each is also a defect with the record offset in the source stream.
 
 | Code | What did not carry |
 |---|---|

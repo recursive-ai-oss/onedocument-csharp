@@ -25,7 +25,7 @@ public class PptDefectTests
 
     private static void AssertLoss(Presentation p, string code)
     {
-        Assert.True(p.ConversionLoss!.CountOf(code) >= 1, "missing loss item " + code + ": " + p.ConversionLoss);
+        Assert.True(p.ImportLoss!.CountOf(code) >= 1, "missing loss item " + code + ": " + p.ImportLoss);
         AssertDefect(p, code);
     }
 

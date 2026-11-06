@@ -5,10 +5,10 @@
 // </auto-generated>
 #nullable enable
 
-namespace RecursiveAI.OneDocument.Schema.Word2015Symex;
+namespace RecursiveAI.OneDocument.Schema.Wordprocessing2015Symex;
 
 /// <summary>View of the schema type <c>CT_SymEx</c>, the type of <c>w16se:symEx</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct SymEx : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2015Symex.SymEx>
+public readonly struct SymEx : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2015Symex.SymEx>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -20,15 +20,15 @@ public readonly struct SymEx : global::RecursiveAI.OneDocument.Schema.IElementVi
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2015Symex.SymEx Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2015Symex.SymEx Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2015SymexSymEx;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2015SymexSymEx;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2015Symex) return local.SequenceEqual("symEx"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2015Symex) return local.SequenceEqual("symEx"u8);
         return false;
     }
 
@@ -42,20 +42,20 @@ public readonly struct SymEx : global::RecursiveAI.OneDocument.Schema.IElementVi
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2015Symex) return local.SequenceEqual("char"u8) || local.SequenceEqual("font"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2015Symex) return local.SequenceEqual("char"u8) || local.SequenceEqual("font"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w16se:font</c> (w:ST_String). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
-    public string? Font { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2015Symex, "font"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2015Symex, "font"u8, value); }
+    public string? Font { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2015Symex, "font"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2015Symex, "font"u8, value); }
 
     /// <summary>Attribute <c>w16se:char</c> (w:ST_LongHexNumber). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
-    public string? Char { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2015Symex, "char"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2015Symex, "char"u8, value); }
+    public string? Char { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2015Symex, "char"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2015Symex, "char"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2015Symex.SymEx> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2015Symex.SymEx> UnknownChildren => new(_markup);
 }
 

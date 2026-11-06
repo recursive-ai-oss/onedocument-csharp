@@ -11,7 +11,7 @@ public sealed partial class Workbook
     public LossReport? ImportLoss { get; internal set; }
 
     /// <summary>
-    /// Gets what the last save as a legacy binary workbook (<see cref="OfficeFormat.Xls"/>) could not carry: charts, pictures, tables, formulas BIFF8
+    /// Gets what the last export or save as another format (legacy binary <see cref="OfficeFormat.Xls"/>, OpenDocument, HTML or Markdown) could not carry: charts, pictures, tables, formulas BIFF8
     /// cannot express, cells beyond 65,536 rows or 256 columns, and the like, one entry per kind with a count. Null until such a save has run.
     /// </summary>
     public LossReport? ExportLoss { get; private set; }

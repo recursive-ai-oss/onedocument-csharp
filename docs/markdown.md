@@ -81,9 +81,9 @@ Round trip: every one of the 652 CommonMark examples goes through Markdown → d
 
 ## Workbooks and presentations
 
-`Workbook.ToMarkdown()` writes, per worksheet, a second-level heading with the sheet name and a pipe table of the used range. Cells appear the way the number format displays them (the same text as CSV with `Formatted`); formulas write their cached results; the first non-empty row is the header; columns whose body cells are all numbers are right-aligned; rows with no cell are left out, since a blank line would end the table. Losses: formulas, cell styles, merged cells, hidden sheets, chart and macro sheets, drawings and pivot tables (`Workbook.MarkdownExportLoss`).
+`Workbook.ToMarkdown()` writes, per worksheet, a second-level heading with the sheet name and a pipe table of the used range. Cells appear the way the number format displays them (the same text as CSV with `Formatted`); formulas write their cached results; the first non-empty row is the header; columns whose body cells are all numbers are right-aligned; rows with no cell are left out, since a blank line would end the table. Losses: formulas, cell styles, merged cells, hidden sheets, chart and macro sheets, drawings and pivot tables (`Workbook.ExportLoss`).
 
-`Presentation.ToMarkdown()` writes a second-level heading per slide (`Slide 3: Title`), the slide's text in reading order (body placeholders as bullet lists by outline level, other text as paragraphs, tables as pipe tables), and speaker notes under `### Notes`. Bold and italic runs keep their emphasis. Pictures, shapes without text, charts, links, layout and animations are reported in `Presentation.MarkdownExportLoss`.
+`Presentation.ToMarkdown()` writes a second-level heading per slide (`Slide 3: Title`), the slide's text in reading order (body placeholders as bullet lists by outline level, other text as paragraphs, tables as pipe tables), and speaker notes under `### Notes`. Bold and italic runs keep their emphasis. Pictures, shapes without text, charts, links, layout and animations are reported in `Presentation.ExportLoss`.
 
 ## Defects
 

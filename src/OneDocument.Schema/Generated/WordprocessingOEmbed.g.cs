@@ -5,10 +5,10 @@
 // </auto-generated>
 #nullable enable
 
-namespace RecursiveAI.OneDocument.Schema.WordOEmbed;
+namespace RecursiveAI.OneDocument.Schema.WordprocessingOEmbed;
 
 /// <summary>View of the schema type <c>CT_OEmbed</c>, the type of <c>woe:oembed</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct OEmbed : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.WordOEmbed.OEmbed>
+public readonly struct OEmbed : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.WordprocessingOEmbed.OEmbed>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -20,15 +20,15 @@ public readonly struct OEmbed : global::RecursiveAI.OneDocument.Schema.IElementV
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.WordOEmbed.OEmbed Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.WordprocessingOEmbed.OEmbed Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.WordOEmbedOEmbed;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.WordprocessingOEmbedOEmbed;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordOEmbed) return local.SequenceEqual("oembed"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingOEmbed) return local.SequenceEqual("oembed"u8);
         return false;
     }
 
@@ -59,6 +59,6 @@ public readonly struct OEmbed : global::RecursiveAI.OneDocument.Schema.IElementV
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.WordOEmbed.OEmbed> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.WordprocessingOEmbed.OEmbed> UnknownChildren => new(_markup);
 }
 

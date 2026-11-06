@@ -5,10 +5,10 @@
 // </auto-generated>
 #nullable enable
 
-namespace RecursiveAI.OneDocument.Schema.Word2018;
+namespace RecursiveAI.OneDocument.Schema.Wordprocessing2018;
 
 /// <summary>View of the schema type <c>CT_Extension</c>, the type of <c>w16:ext</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Extension : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2018.Extension>
+public readonly struct Extension : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.Extension>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -20,15 +20,15 @@ public readonly struct Extension : global::RecursiveAI.OneDocument.Schema.IEleme
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2018.Extension Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.Extension Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2018Extension;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2018Extension;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2018) return local.SequenceEqual("ext"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2018) return local.SequenceEqual("ext"u8);
         return false;
     }
 
@@ -49,22 +49,22 @@ public readonly struct Extension : global::RecursiveAI.OneDocument.Schema.IEleme
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2018) return local.SequenceEqual("uri"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2018) return local.SequenceEqual("uri"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w16:uri</c> (xsd:token). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
-    public string? Uri { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2018, "uri"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2018, "uri"u8, value); }
+    public string? Uri { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2018, "uri"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2018, "uri"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2018.Extension> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.Extension> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_ExtensionList</c>, the type of <c>w16cex:extLst</c>, <c>w16cei:extLst</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct ExtensionList : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2018.ExtensionList>
+public readonly struct ExtensionList : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.ExtensionList>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -76,25 +76,25 @@ public readonly struct ExtensionList : global::RecursiveAI.OneDocument.Schema.IE
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2018.ExtensionList Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.ExtensionList Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2018ExtensionList;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2018ExtensionList;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2018Cex) return local.SequenceEqual("extLst"u8);
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2026Cei) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2018Cex) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2026Cei) return local.SequenceEqual("extLst"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2018)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2018)
         {
-            if (local.SequenceEqual("ext"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2018Extension; }
+            if (local.SequenceEqual("ext"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2018Extension; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -114,20 +114,20 @@ public readonly struct ExtensionList : global::RecursiveAI.OneDocument.Schema.IE
     }
 
     /// <summary>The <c>w16:ext</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2018.Extension> Exts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2018, "ext"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.Extension> Exts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2018, "ext"u8);
 
     /// <summary>Adds a <c>w16:ext</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2018.Extension AddExt() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2018.Extension, global::RecursiveAI.OneDocument.Schema.Word2018.ExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2018, "ext"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.Extension AddExt() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.Extension, global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.ExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2018, "ext"u8);
 
     /// <summary>Removes every <c>w16:ext</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExt() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2018, "ext"u8);
+    public bool RemoveExt() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2018, "ext"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2018.ExtensionList> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.ExtensionList> UnknownChildren => new(_markup);
 }
 

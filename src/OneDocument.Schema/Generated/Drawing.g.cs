@@ -16330,7 +16330,7 @@ public readonly struct NonVisualDrawingProps : global::RecursiveAI.OneDocument.S
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing2010) return local.SequenceEqual("cNvPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing2010) return local.SequenceEqual("cNvPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2010) return local.SequenceEqual("cNvPr"u8);
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("cNvPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("cNvPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingGroup) return local.SequenceEqual("cNvPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingShape) return local.SequenceEqual("cNvPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing) return local.SequenceEqual("cNvPr"u8);
@@ -16965,7 +16965,7 @@ public readonly struct OfficeArtExtensionList : global::RecursiveAI.OneDocument.
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ScriptLink) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing2010) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ThemeMl2012) return local.SequenceEqual("extLst"u8);
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingCanvas) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingGroup) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingShape) return local.SequenceEqual("extLst"u8);
@@ -27700,7 +27700,7 @@ public readonly struct Transform2D : global::RecursiveAI.OneDocument.Schema.IEle
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing2010) return local.SequenceEqual("xfrm"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing2010) return local.SequenceEqual("xfrm"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2010) return local.SequenceEqual("xfrm"u8);
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("xfrm"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("xfrm"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingGroup) return local.SequenceEqual("xfrm"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing) return local.SequenceEqual("xfrm"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("xfrm"u8);

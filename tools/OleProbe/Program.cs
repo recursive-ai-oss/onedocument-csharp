@@ -70,7 +70,7 @@ internal static class Program
         else
         {
             using var p = RecursiveAI.OneDocument.Presentations.Presentation.Open(input, ctx);
-            loss = p.ConversionLoss;
+            loss = p.ImportLoss;
             p.SaveAs(output);
         }
 
@@ -227,7 +227,7 @@ internal static class Program
             else
             {
                 var p = RecursiveAI.OneDocument.Presentations.Presentation.Open(path, ctx);
-                (owner, package, loss) = (p, p.Package, p.ConversionLoss);
+                (owner, package, loss) = (p, p.Package, p.ImportLoss);
             }
 
             using (owner)

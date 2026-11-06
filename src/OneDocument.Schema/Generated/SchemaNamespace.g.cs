@@ -37,11 +37,11 @@ public enum SchemaNamespace
     /// <summary>urn:schemas-microsoft-com:office:office (o:).</summary>
     VmlOffice = 13,
     /// <summary>urn:schemas-microsoft-com:office:word (w10:).</summary>
-    VmlWord = 14,
+    VmlWordprocessing = 14,
     /// <summary>urn:schemas-microsoft-com:office:excel (x:).</summary>
-    VmlExcel = 15,
+    VmlSpreadsheet = 15,
     /// <summary>urn:schemas-microsoft-com:office:powerpoint (pvml:).</summary>
-    VmlPowerPoint = 16,
+    VmlPresentation = 16,
     /// <summary>http://schemas.openxmlformats.org/officeDocument/2006/extended-properties (ep:).</summary>
     ExtendedProperties = 17,
     /// <summary>http://schemas.openxmlformats.org/officeDocument/2006/custom-properties (op:).</summary>
@@ -57,25 +57,25 @@ public enum SchemaNamespace
     /// <summary>http://schemas.openxmlformats.org/package/2006/digital-signature (ds:).</summary>
     DigitalSignature = 23,
     /// <summary>http://schemas.microsoft.com/office/word/2010/wordml (w14:).</summary>
-    Word2010 = 24,
+    Wordprocessing2010 = 24,
     /// <summary>http://schemas.microsoft.com/office/word/2012/wordml (w15:).</summary>
-    Word2012 = 25,
+    Wordprocessing2012 = 25,
     /// <summary>http://schemas.microsoft.com/office/word/2015/wordml/symex (w16se:).</summary>
-    Word2015Symex = 26,
+    Wordprocessing2015Symex = 26,
     /// <summary>http://schemas.microsoft.com/office/word/2016/wordml/cid (w16cid:).</summary>
-    Word2016Cid = 27,
+    Wordprocessing2016Cid = 27,
     /// <summary>http://schemas.microsoft.com/office/word/2018/wordml (w16:).</summary>
-    Word2018 = 28,
+    Wordprocessing2018 = 28,
     /// <summary>http://schemas.microsoft.com/office/word/2018/wordml/cex (w16cex:).</summary>
-    Word2018Cex = 29,
+    Wordprocessing2018Cex = 29,
     /// <summary>http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash (w16sdtdh:).</summary>
-    Word2020SdtDataHash = 30,
+    Wordprocessing2020SdtDataHash = 30,
     /// <summary>http://schemas.microsoft.com/office/word/2023/wordml/word16du (w16du:).</summary>
-    Word2023Du = 31,
+    Wordprocessing2023Du = 31,
     /// <summary>http://schemas.microsoft.com/office/word/2024/wordml/sdtformatlock (w16sdtfl:).</summary>
-    Word2024SdtFormatLock = 32,
+    Wordprocessing2024SdtFormatLock = 32,
     /// <summary>http://schemas.microsoft.com/office/word/2026/wordml/cei (w16cei:).</summary>
-    Word2026Cei = 33,
+    Wordprocessing2026Cei = 33,
     /// <summary>http://schemas.microsoft.com/office/word/2010/wordprocessingShape (wps:).</summary>
     WordprocessingShape = 34,
     /// <summary>http://schemas.microsoft.com/office/word/2010/wordprocessingGroup (wpg:).</summary>
@@ -87,7 +87,7 @@ public enum SchemaNamespace
     /// <summary>http://schemas.microsoft.com/office/word/2012/wordprocessingDrawing (wp15:).</summary>
     WordprocessingDrawing2012 = 38,
     /// <summary>http://schemas.microsoft.com/office/word/2020/oembed (woe:).</summary>
-    WordOEmbed = 39,
+    WordprocessingOEmbed = 39,
     /// <summary>http://schemas.microsoft.com/office/drawing/2010/main (a14:).</summary>
     Drawing2010 = 40,
     /// <summary>http://schemas.microsoft.com/office/drawing/2010/picture (pic14:).</summary>
@@ -223,11 +223,11 @@ public enum SchemaNamespace
     /// <summary>http://schemas.microsoft.com/office/drawing/2012/timeslicer (tsle:).</summary>
     TimeSlicer2012 = 106,
     /// <summary>http://schemas.microsoft.com/office/excel/2006/main (xm:).</summary>
-    ExcelMacro2006 = 107,
+    SpreadsheetMacro2006 = 107,
     /// <summary>http://schemas.microsoft.com/office/excel/2008/2/main (xm2:).</summary>
-    ExcelMacro2008 = 108,
+    SpreadsheetMacro2008 = 108,
     /// <summary>http://schemas.microsoft.com/office/word/2006/wordml (wne:).</summary>
-    WordMacro2006 = 109,
+    WordprocessingMacro2006 = 109,
     /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2009/9/main (x14:).</summary>
     Spreadsheet2009 = 110,
     /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac (x14ac:).</summary>
@@ -339,9 +339,9 @@ public static class SchemaNamespaces
         if (uri.SequenceEqual("http://purl.oclc.org/ooxml/drawingml/picture"u8)) return SchemaNamespace.Picture;
         if (uri.SequenceEqual("urn:schemas-microsoft-com:vml"u8)) return SchemaNamespace.Vml;
         if (uri.SequenceEqual("urn:schemas-microsoft-com:office:office"u8)) return SchemaNamespace.VmlOffice;
-        if (uri.SequenceEqual("urn:schemas-microsoft-com:office:word"u8)) return SchemaNamespace.VmlWord;
-        if (uri.SequenceEqual("urn:schemas-microsoft-com:office:excel"u8)) return SchemaNamespace.VmlExcel;
-        if (uri.SequenceEqual("urn:schemas-microsoft-com:office:powerpoint"u8)) return SchemaNamespace.VmlPowerPoint;
+        if (uri.SequenceEqual("urn:schemas-microsoft-com:office:word"u8)) return SchemaNamespace.VmlWordprocessing;
+        if (uri.SequenceEqual("urn:schemas-microsoft-com:office:excel"u8)) return SchemaNamespace.VmlSpreadsheet;
+        if (uri.SequenceEqual("urn:schemas-microsoft-com:office:powerpoint"u8)) return SchemaNamespace.VmlPresentation;
         if (uri.SequenceEqual("http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"u8)) return SchemaNamespace.ExtendedProperties;
         if (uri.SequenceEqual("http://purl.oclc.org/ooxml/officeDocument/extendedProperties"u8)) return SchemaNamespace.ExtendedProperties;
         if (uri.SequenceEqual("http://schemas.openxmlformats.org/officeDocument/2006/custom-properties"u8)) return SchemaNamespace.CustomProperties;
@@ -352,22 +352,22 @@ public static class SchemaNamespaces
         if (uri.SequenceEqual("http://schemas.openxmlformats.org/package/2006/relationships"u8)) return SchemaNamespace.PackageRelationships;
         if (uri.SequenceEqual("http://schemas.openxmlformats.org/package/2006/metadata/core-properties"u8)) return SchemaNamespace.CoreProperties;
         if (uri.SequenceEqual("http://schemas.openxmlformats.org/package/2006/digital-signature"u8)) return SchemaNamespace.DigitalSignature;
-        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2010/wordml"u8)) return SchemaNamespace.Word2010;
-        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2012/wordml"u8)) return SchemaNamespace.Word2012;
-        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2015/wordml/symex"u8)) return SchemaNamespace.Word2015Symex;
-        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2016/wordml/cid"u8)) return SchemaNamespace.Word2016Cid;
-        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2018/wordml"u8)) return SchemaNamespace.Word2018;
-        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2018/wordml/cex"u8)) return SchemaNamespace.Word2018Cex;
-        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"u8)) return SchemaNamespace.Word2020SdtDataHash;
-        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2023/wordml/word16du"u8)) return SchemaNamespace.Word2023Du;
-        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2024/wordml/sdtformatlock"u8)) return SchemaNamespace.Word2024SdtFormatLock;
-        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2026/wordml/cei"u8)) return SchemaNamespace.Word2026Cei;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2010/wordml"u8)) return SchemaNamespace.Wordprocessing2010;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2012/wordml"u8)) return SchemaNamespace.Wordprocessing2012;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2015/wordml/symex"u8)) return SchemaNamespace.Wordprocessing2015Symex;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2016/wordml/cid"u8)) return SchemaNamespace.Wordprocessing2016Cid;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2018/wordml"u8)) return SchemaNamespace.Wordprocessing2018;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2018/wordml/cex"u8)) return SchemaNamespace.Wordprocessing2018Cex;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"u8)) return SchemaNamespace.Wordprocessing2020SdtDataHash;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2023/wordml/word16du"u8)) return SchemaNamespace.Wordprocessing2023Du;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2024/wordml/sdtformatlock"u8)) return SchemaNamespace.Wordprocessing2024SdtFormatLock;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2026/wordml/cei"u8)) return SchemaNamespace.Wordprocessing2026Cei;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2010/wordprocessingShape"u8)) return SchemaNamespace.WordprocessingShape;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2010/wordprocessingGroup"u8)) return SchemaNamespace.WordprocessingGroup;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"u8)) return SchemaNamespace.WordprocessingCanvas;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing"u8)) return SchemaNamespace.WordprocessingDrawing2010;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2012/wordprocessingDrawing"u8)) return SchemaNamespace.WordprocessingDrawing2012;
-        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2020/oembed"u8)) return SchemaNamespace.WordOEmbed;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2020/oembed"u8)) return SchemaNamespace.WordprocessingOEmbed;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2010/main"u8)) return SchemaNamespace.Drawing2010;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2010/picture"u8)) return SchemaNamespace.Picture2010;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2012/main"u8)) return SchemaNamespace.Drawing2012;
@@ -445,9 +445,9 @@ public static class SchemaNamespaces
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/thememl/2012/main"u8)) return SchemaNamespace.ThemeMl2012;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2010/slicer"u8)) return SchemaNamespace.Slicer2010;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2012/timeslicer"u8)) return SchemaNamespace.TimeSlicer2012;
-        if (uri.SequenceEqual("http://schemas.microsoft.com/office/excel/2006/main"u8)) return SchemaNamespace.ExcelMacro2006;
-        if (uri.SequenceEqual("http://schemas.microsoft.com/office/excel/2008/2/main"u8)) return SchemaNamespace.ExcelMacro2008;
-        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2006/wordml"u8)) return SchemaNamespace.WordMacro2006;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/excel/2006/main"u8)) return SchemaNamespace.SpreadsheetMacro2006;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/excel/2008/2/main"u8)) return SchemaNamespace.SpreadsheetMacro2008;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2006/wordml"u8)) return SchemaNamespace.WordprocessingMacro2006;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2009/9/main"u8)) return SchemaNamespace.Spreadsheet2009;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac"u8)) return SchemaNamespace.Spreadsheet2009Ac;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2010/11/main"u8)) return SchemaNamespace.Spreadsheet2010;
@@ -518,9 +518,9 @@ public static class SchemaNamespaces
         if (uri == "http://purl.oclc.org/ooxml/drawingml/picture") return SchemaNamespace.Picture;
         if (uri == "urn:schemas-microsoft-com:vml") return SchemaNamespace.Vml;
         if (uri == "urn:schemas-microsoft-com:office:office") return SchemaNamespace.VmlOffice;
-        if (uri == "urn:schemas-microsoft-com:office:word") return SchemaNamespace.VmlWord;
-        if (uri == "urn:schemas-microsoft-com:office:excel") return SchemaNamespace.VmlExcel;
-        if (uri == "urn:schemas-microsoft-com:office:powerpoint") return SchemaNamespace.VmlPowerPoint;
+        if (uri == "urn:schemas-microsoft-com:office:word") return SchemaNamespace.VmlWordprocessing;
+        if (uri == "urn:schemas-microsoft-com:office:excel") return SchemaNamespace.VmlSpreadsheet;
+        if (uri == "urn:schemas-microsoft-com:office:powerpoint") return SchemaNamespace.VmlPresentation;
         if (uri == "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties") return SchemaNamespace.ExtendedProperties;
         if (uri == "http://purl.oclc.org/ooxml/officeDocument/extendedProperties") return SchemaNamespace.ExtendedProperties;
         if (uri == "http://schemas.openxmlformats.org/officeDocument/2006/custom-properties") return SchemaNamespace.CustomProperties;
@@ -531,22 +531,22 @@ public static class SchemaNamespaces
         if (uri == "http://schemas.openxmlformats.org/package/2006/relationships") return SchemaNamespace.PackageRelationships;
         if (uri == "http://schemas.openxmlformats.org/package/2006/metadata/core-properties") return SchemaNamespace.CoreProperties;
         if (uri == "http://schemas.openxmlformats.org/package/2006/digital-signature") return SchemaNamespace.DigitalSignature;
-        if (uri == "http://schemas.microsoft.com/office/word/2010/wordml") return SchemaNamespace.Word2010;
-        if (uri == "http://schemas.microsoft.com/office/word/2012/wordml") return SchemaNamespace.Word2012;
-        if (uri == "http://schemas.microsoft.com/office/word/2015/wordml/symex") return SchemaNamespace.Word2015Symex;
-        if (uri == "http://schemas.microsoft.com/office/word/2016/wordml/cid") return SchemaNamespace.Word2016Cid;
-        if (uri == "http://schemas.microsoft.com/office/word/2018/wordml") return SchemaNamespace.Word2018;
-        if (uri == "http://schemas.microsoft.com/office/word/2018/wordml/cex") return SchemaNamespace.Word2018Cex;
-        if (uri == "http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash") return SchemaNamespace.Word2020SdtDataHash;
-        if (uri == "http://schemas.microsoft.com/office/word/2023/wordml/word16du") return SchemaNamespace.Word2023Du;
-        if (uri == "http://schemas.microsoft.com/office/word/2024/wordml/sdtformatlock") return SchemaNamespace.Word2024SdtFormatLock;
-        if (uri == "http://schemas.microsoft.com/office/word/2026/wordml/cei") return SchemaNamespace.Word2026Cei;
+        if (uri == "http://schemas.microsoft.com/office/word/2010/wordml") return SchemaNamespace.Wordprocessing2010;
+        if (uri == "http://schemas.microsoft.com/office/word/2012/wordml") return SchemaNamespace.Wordprocessing2012;
+        if (uri == "http://schemas.microsoft.com/office/word/2015/wordml/symex") return SchemaNamespace.Wordprocessing2015Symex;
+        if (uri == "http://schemas.microsoft.com/office/word/2016/wordml/cid") return SchemaNamespace.Wordprocessing2016Cid;
+        if (uri == "http://schemas.microsoft.com/office/word/2018/wordml") return SchemaNamespace.Wordprocessing2018;
+        if (uri == "http://schemas.microsoft.com/office/word/2018/wordml/cex") return SchemaNamespace.Wordprocessing2018Cex;
+        if (uri == "http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash") return SchemaNamespace.Wordprocessing2020SdtDataHash;
+        if (uri == "http://schemas.microsoft.com/office/word/2023/wordml/word16du") return SchemaNamespace.Wordprocessing2023Du;
+        if (uri == "http://schemas.microsoft.com/office/word/2024/wordml/sdtformatlock") return SchemaNamespace.Wordprocessing2024SdtFormatLock;
+        if (uri == "http://schemas.microsoft.com/office/word/2026/wordml/cei") return SchemaNamespace.Wordprocessing2026Cei;
         if (uri == "http://schemas.microsoft.com/office/word/2010/wordprocessingShape") return SchemaNamespace.WordprocessingShape;
         if (uri == "http://schemas.microsoft.com/office/word/2010/wordprocessingGroup") return SchemaNamespace.WordprocessingGroup;
         if (uri == "http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas") return SchemaNamespace.WordprocessingCanvas;
         if (uri == "http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing") return SchemaNamespace.WordprocessingDrawing2010;
         if (uri == "http://schemas.microsoft.com/office/word/2012/wordprocessingDrawing") return SchemaNamespace.WordprocessingDrawing2012;
-        if (uri == "http://schemas.microsoft.com/office/word/2020/oembed") return SchemaNamespace.WordOEmbed;
+        if (uri == "http://schemas.microsoft.com/office/word/2020/oembed") return SchemaNamespace.WordprocessingOEmbed;
         if (uri == "http://schemas.microsoft.com/office/drawing/2010/main") return SchemaNamespace.Drawing2010;
         if (uri == "http://schemas.microsoft.com/office/drawing/2010/picture") return SchemaNamespace.Picture2010;
         if (uri == "http://schemas.microsoft.com/office/drawing/2012/main") return SchemaNamespace.Drawing2012;
@@ -624,9 +624,9 @@ public static class SchemaNamespaces
         if (uri == "http://schemas.microsoft.com/office/thememl/2012/main") return SchemaNamespace.ThemeMl2012;
         if (uri == "http://schemas.microsoft.com/office/drawing/2010/slicer") return SchemaNamespace.Slicer2010;
         if (uri == "http://schemas.microsoft.com/office/drawing/2012/timeslicer") return SchemaNamespace.TimeSlicer2012;
-        if (uri == "http://schemas.microsoft.com/office/excel/2006/main") return SchemaNamespace.ExcelMacro2006;
-        if (uri == "http://schemas.microsoft.com/office/excel/2008/2/main") return SchemaNamespace.ExcelMacro2008;
-        if (uri == "http://schemas.microsoft.com/office/word/2006/wordml") return SchemaNamespace.WordMacro2006;
+        if (uri == "http://schemas.microsoft.com/office/excel/2006/main") return SchemaNamespace.SpreadsheetMacro2006;
+        if (uri == "http://schemas.microsoft.com/office/excel/2008/2/main") return SchemaNamespace.SpreadsheetMacro2008;
+        if (uri == "http://schemas.microsoft.com/office/word/2006/wordml") return SchemaNamespace.WordprocessingMacro2006;
         if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2009/9/main") return SchemaNamespace.Spreadsheet2009;
         if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac") return SchemaNamespace.Spreadsheet2009Ac;
         if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main") return SchemaNamespace.Spreadsheet2010;
@@ -693,9 +693,9 @@ public static class SchemaNamespaces
             case SchemaNamespace.Picture: return strict ? "http://purl.oclc.org/ooxml/drawingml/picture"u8 : "http://schemas.openxmlformats.org/drawingml/2006/picture"u8;
             case SchemaNamespace.Vml: return "urn:schemas-microsoft-com:vml"u8;
             case SchemaNamespace.VmlOffice: return "urn:schemas-microsoft-com:office:office"u8;
-            case SchemaNamespace.VmlWord: return "urn:schemas-microsoft-com:office:word"u8;
-            case SchemaNamespace.VmlExcel: return "urn:schemas-microsoft-com:office:excel"u8;
-            case SchemaNamespace.VmlPowerPoint: return "urn:schemas-microsoft-com:office:powerpoint"u8;
+            case SchemaNamespace.VmlWordprocessing: return "urn:schemas-microsoft-com:office:word"u8;
+            case SchemaNamespace.VmlSpreadsheet: return "urn:schemas-microsoft-com:office:excel"u8;
+            case SchemaNamespace.VmlPresentation: return "urn:schemas-microsoft-com:office:powerpoint"u8;
             case SchemaNamespace.ExtendedProperties: return strict ? "http://purl.oclc.org/ooxml/officeDocument/extendedProperties"u8 : "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"u8;
             case SchemaNamespace.CustomProperties: return strict ? "http://purl.oclc.org/ooxml/officeDocument/customProperties"u8 : "http://schemas.openxmlformats.org/officeDocument/2006/custom-properties"u8;
             case SchemaNamespace.VariantTypes: return strict ? "http://purl.oclc.org/ooxml/officeDocument/docPropsVTypes"u8 : "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"u8;
@@ -703,22 +703,22 @@ public static class SchemaNamespaces
             case SchemaNamespace.PackageRelationships: return "http://schemas.openxmlformats.org/package/2006/relationships"u8;
             case SchemaNamespace.CoreProperties: return "http://schemas.openxmlformats.org/package/2006/metadata/core-properties"u8;
             case SchemaNamespace.DigitalSignature: return "http://schemas.openxmlformats.org/package/2006/digital-signature"u8;
-            case SchemaNamespace.Word2010: return "http://schemas.microsoft.com/office/word/2010/wordml"u8;
-            case SchemaNamespace.Word2012: return "http://schemas.microsoft.com/office/word/2012/wordml"u8;
-            case SchemaNamespace.Word2015Symex: return "http://schemas.microsoft.com/office/word/2015/wordml/symex"u8;
-            case SchemaNamespace.Word2016Cid: return "http://schemas.microsoft.com/office/word/2016/wordml/cid"u8;
-            case SchemaNamespace.Word2018: return "http://schemas.microsoft.com/office/word/2018/wordml"u8;
-            case SchemaNamespace.Word2018Cex: return "http://schemas.microsoft.com/office/word/2018/wordml/cex"u8;
-            case SchemaNamespace.Word2020SdtDataHash: return "http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"u8;
-            case SchemaNamespace.Word2023Du: return "http://schemas.microsoft.com/office/word/2023/wordml/word16du"u8;
-            case SchemaNamespace.Word2024SdtFormatLock: return "http://schemas.microsoft.com/office/word/2024/wordml/sdtformatlock"u8;
-            case SchemaNamespace.Word2026Cei: return "http://schemas.microsoft.com/office/word/2026/wordml/cei"u8;
+            case SchemaNamespace.Wordprocessing2010: return "http://schemas.microsoft.com/office/word/2010/wordml"u8;
+            case SchemaNamespace.Wordprocessing2012: return "http://schemas.microsoft.com/office/word/2012/wordml"u8;
+            case SchemaNamespace.Wordprocessing2015Symex: return "http://schemas.microsoft.com/office/word/2015/wordml/symex"u8;
+            case SchemaNamespace.Wordprocessing2016Cid: return "http://schemas.microsoft.com/office/word/2016/wordml/cid"u8;
+            case SchemaNamespace.Wordprocessing2018: return "http://schemas.microsoft.com/office/word/2018/wordml"u8;
+            case SchemaNamespace.Wordprocessing2018Cex: return "http://schemas.microsoft.com/office/word/2018/wordml/cex"u8;
+            case SchemaNamespace.Wordprocessing2020SdtDataHash: return "http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash"u8;
+            case SchemaNamespace.Wordprocessing2023Du: return "http://schemas.microsoft.com/office/word/2023/wordml/word16du"u8;
+            case SchemaNamespace.Wordprocessing2024SdtFormatLock: return "http://schemas.microsoft.com/office/word/2024/wordml/sdtformatlock"u8;
+            case SchemaNamespace.Wordprocessing2026Cei: return "http://schemas.microsoft.com/office/word/2026/wordml/cei"u8;
             case SchemaNamespace.WordprocessingShape: return "http://schemas.microsoft.com/office/word/2010/wordprocessingShape"u8;
             case SchemaNamespace.WordprocessingGroup: return "http://schemas.microsoft.com/office/word/2010/wordprocessingGroup"u8;
             case SchemaNamespace.WordprocessingCanvas: return "http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"u8;
             case SchemaNamespace.WordprocessingDrawing2010: return "http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing"u8;
             case SchemaNamespace.WordprocessingDrawing2012: return "http://schemas.microsoft.com/office/word/2012/wordprocessingDrawing"u8;
-            case SchemaNamespace.WordOEmbed: return "http://schemas.microsoft.com/office/word/2020/oembed"u8;
+            case SchemaNamespace.WordprocessingOEmbed: return "http://schemas.microsoft.com/office/word/2020/oembed"u8;
             case SchemaNamespace.Drawing2010: return "http://schemas.microsoft.com/office/drawing/2010/main"u8;
             case SchemaNamespace.Picture2010: return "http://schemas.microsoft.com/office/drawing/2010/picture"u8;
             case SchemaNamespace.Drawing2012: return "http://schemas.microsoft.com/office/drawing/2012/main"u8;
@@ -786,9 +786,9 @@ public static class SchemaNamespaces
             case SchemaNamespace.ThemeMl2012: return "http://schemas.microsoft.com/office/thememl/2012/main"u8;
             case SchemaNamespace.Slicer2010: return "http://schemas.microsoft.com/office/drawing/2010/slicer"u8;
             case SchemaNamespace.TimeSlicer2012: return "http://schemas.microsoft.com/office/drawing/2012/timeslicer"u8;
-            case SchemaNamespace.ExcelMacro2006: return "http://schemas.microsoft.com/office/excel/2006/main"u8;
-            case SchemaNamespace.ExcelMacro2008: return "http://schemas.microsoft.com/office/excel/2008/2/main"u8;
-            case SchemaNamespace.WordMacro2006: return "http://schemas.microsoft.com/office/word/2006/wordml"u8;
+            case SchemaNamespace.SpreadsheetMacro2006: return "http://schemas.microsoft.com/office/excel/2006/main"u8;
+            case SchemaNamespace.SpreadsheetMacro2008: return "http://schemas.microsoft.com/office/excel/2008/2/main"u8;
+            case SchemaNamespace.WordprocessingMacro2006: return "http://schemas.microsoft.com/office/word/2006/wordml"u8;
             case SchemaNamespace.Spreadsheet2009: return "http://schemas.microsoft.com/office/spreadsheetml/2009/9/main"u8;
             case SchemaNamespace.Spreadsheet2009Ac: return "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac"u8;
             case SchemaNamespace.Spreadsheet2010: return "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main"u8;
@@ -853,9 +853,9 @@ public static class SchemaNamespaces
             case SchemaNamespace.Picture: return "pic"u8;
             case SchemaNamespace.Vml: return "v"u8;
             case SchemaNamespace.VmlOffice: return "o"u8;
-            case SchemaNamespace.VmlWord: return "w10"u8;
-            case SchemaNamespace.VmlExcel: return "x"u8;
-            case SchemaNamespace.VmlPowerPoint: return "pvml"u8;
+            case SchemaNamespace.VmlWordprocessing: return "w10"u8;
+            case SchemaNamespace.VmlSpreadsheet: return "x"u8;
+            case SchemaNamespace.VmlPresentation: return "pvml"u8;
             case SchemaNamespace.ExtendedProperties: return "ep"u8;
             case SchemaNamespace.CustomProperties: return "op"u8;
             case SchemaNamespace.VariantTypes: return "vt"u8;
@@ -863,22 +863,22 @@ public static class SchemaNamespaces
             case SchemaNamespace.PackageRelationships: return "rel"u8;
             case SchemaNamespace.CoreProperties: return "cp"u8;
             case SchemaNamespace.DigitalSignature: return "ds"u8;
-            case SchemaNamespace.Word2010: return "w14"u8;
-            case SchemaNamespace.Word2012: return "w15"u8;
-            case SchemaNamespace.Word2015Symex: return "w16se"u8;
-            case SchemaNamespace.Word2016Cid: return "w16cid"u8;
-            case SchemaNamespace.Word2018: return "w16"u8;
-            case SchemaNamespace.Word2018Cex: return "w16cex"u8;
-            case SchemaNamespace.Word2020SdtDataHash: return "w16sdtdh"u8;
-            case SchemaNamespace.Word2023Du: return "w16du"u8;
-            case SchemaNamespace.Word2024SdtFormatLock: return "w16sdtfl"u8;
-            case SchemaNamespace.Word2026Cei: return "w16cei"u8;
+            case SchemaNamespace.Wordprocessing2010: return "w14"u8;
+            case SchemaNamespace.Wordprocessing2012: return "w15"u8;
+            case SchemaNamespace.Wordprocessing2015Symex: return "w16se"u8;
+            case SchemaNamespace.Wordprocessing2016Cid: return "w16cid"u8;
+            case SchemaNamespace.Wordprocessing2018: return "w16"u8;
+            case SchemaNamespace.Wordprocessing2018Cex: return "w16cex"u8;
+            case SchemaNamespace.Wordprocessing2020SdtDataHash: return "w16sdtdh"u8;
+            case SchemaNamespace.Wordprocessing2023Du: return "w16du"u8;
+            case SchemaNamespace.Wordprocessing2024SdtFormatLock: return "w16sdtfl"u8;
+            case SchemaNamespace.Wordprocessing2026Cei: return "w16cei"u8;
             case SchemaNamespace.WordprocessingShape: return "wps"u8;
             case SchemaNamespace.WordprocessingGroup: return "wpg"u8;
             case SchemaNamespace.WordprocessingCanvas: return "wpc"u8;
             case SchemaNamespace.WordprocessingDrawing2010: return "wp14"u8;
             case SchemaNamespace.WordprocessingDrawing2012: return "wp15"u8;
-            case SchemaNamespace.WordOEmbed: return "woe"u8;
+            case SchemaNamespace.WordprocessingOEmbed: return "woe"u8;
             case SchemaNamespace.Drawing2010: return "a14"u8;
             case SchemaNamespace.Picture2010: return "pic14"u8;
             case SchemaNamespace.Drawing2012: return "a15"u8;
@@ -946,9 +946,9 @@ public static class SchemaNamespaces
             case SchemaNamespace.ThemeMl2012: return "thm15"u8;
             case SchemaNamespace.Slicer2010: return "sle"u8;
             case SchemaNamespace.TimeSlicer2012: return "tsle"u8;
-            case SchemaNamespace.ExcelMacro2006: return "xm"u8;
-            case SchemaNamespace.ExcelMacro2008: return "xm2"u8;
-            case SchemaNamespace.WordMacro2006: return "wne"u8;
+            case SchemaNamespace.SpreadsheetMacro2006: return "xm"u8;
+            case SchemaNamespace.SpreadsheetMacro2008: return "xm2"u8;
+            case SchemaNamespace.WordprocessingMacro2006: return "wne"u8;
             case SchemaNamespace.Spreadsheet2009: return "x14"u8;
             case SchemaNamespace.Spreadsheet2009Ac: return "x14ac"u8;
             case SchemaNamespace.Spreadsheet2010: return "x15"u8;

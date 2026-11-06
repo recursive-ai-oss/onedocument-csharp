@@ -26,8 +26,8 @@ public sealed class PptOleTests
         Assert.Equal(42.0, props.Custom.Find("Count")!.Value.AsDouble);
 
         // What stays out is named: the thumbnail, a picture the package keeps as a part of its own.
-        Assert.Equal(1, p.ConversionLoss!.CountOf("ppt.document-properties-not-carried"));
-        Assert.Contains("thumbnail", p.ConversionLoss.Items.Single(i => i.Code == "ppt.document-properties-not-carried").Message, StringComparison.Ordinal);
+        Assert.Equal(1, p.ImportLoss!.CountOf("ppt.document-properties-not-carried"));
+        Assert.Contains("thumbnail", p.ImportLoss.Items.Single(i => i.Code == "ppt.document-properties-not-carried").Message, StringComparison.Ordinal);
     }
 
     // The fixture with the object's storage record (ExOleObjStg, compressed) changed by a callback that gets the document stream and the offset of the record.
@@ -67,7 +67,7 @@ public sealed class PptOleTests
         });
         using Presentation p = Presentation.Open(new MemoryStream(file));
         Assert.Contains(p.Defects, d => d.Code == "ppt.ole-storage-unreadable" && d.Severity == Diagnostics.DefectSeverity.Dropped);
-        Assert.Equal(1, p.ConversionLoss!.CountOf("ppt.ole-object-flattened"));
+        Assert.Equal(1, p.ImportLoss!.CountOf("ppt.ole-object-flattened"));
         Assert.Null(p.Package.FindPart("/ppt/embeddings/oleObject1.bin"));
         Assert.NotNull(p.Package.FindPart("/ppt/media/image1.png"));
     }
@@ -78,14 +78,14 @@ public sealed class PptOleTests
         byte[] file = WithStorageRecord((bytes, at) => System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(bytes.AsSpan(at + 8), 0x7FFFFFF0));
         using Presentation p = Presentation.Open(new MemoryStream(file));
         Assert.Contains(p.Defects, d => d.Code == "ppt.ole-storage-too-large" && d.Kind == Diagnostics.DefectKind.Limit);
-        Assert.Equal(1, p.ConversionLoss!.CountOf("ppt.ole-object-flattened"));
+        Assert.Equal(1, p.ImportLoss!.CountOf("ppt.ole-object-flattened"));
     }
 
     [Fact]
     public void TheEmbeddedObjectIsCarriedAsAnObjectShape()
     {
         using Presentation p = Presentation.Open(Fixture());
-        Assert.Equal(0, p.ConversionLoss!.CountOf("ppt.ole-object-flattened"));
+        Assert.Equal(0, p.ImportLoss!.CountOf("ppt.ole-object-flattened"));
         string slide = System.Text.Encoding.UTF8.GetString(p.Package.FindPart("/ppt/slides/slide1.xml")!.GetBytes().Span);
         Assert.Contains("<a:graphicData uri=\"http://schemas.openxmlformats.org/presentationml/2006/ole\"><p:oleObj", slide, StringComparison.Ordinal);
         Assert.Contains("<p:embed/>", slide, StringComparison.Ordinal);

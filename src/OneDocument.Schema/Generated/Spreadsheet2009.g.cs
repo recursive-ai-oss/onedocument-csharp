@@ -1400,7 +1400,7 @@ public readonly struct CfRule : global::RecursiveAI.OneDocument.Schema.IElementV
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006)
         {
             if (local.SequenceEqual("f"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
         }
@@ -1494,15 +1494,15 @@ public readonly struct CfRule : global::RecursiveAI.OneDocument.Schema.IElementV
     public string? Id { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "id"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "id"u8, value); }
 
     /// <summary>The first <c>xm:f</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? F => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? F => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>Adds a <c>xm:f</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddF() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CfRule>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddF() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CfRule>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>Removes every <c>xm:f</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveF() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public bool RemoveF() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>The <c>x14:colorScale</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ColorScale? ColorScale => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ColorScale>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet2009, "colorScale"u8);
@@ -1594,7 +1594,7 @@ public readonly struct Cfvo : global::RecursiveAI.OneDocument.Schema.IElementVie
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006)
         {
             if (local.SequenceEqual("f"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
         }
@@ -1634,15 +1634,15 @@ public readonly struct Cfvo : global::RecursiveAI.OneDocument.Schema.IElementVie
     public bool? Gte { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "gte"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "gte"u8, value); }
 
     /// <summary>The first <c>xm:f</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? F => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? F => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>Adds a <c>xm:f</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddF() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Cfvo>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddF() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Cfvo>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>Removes every <c>xm:f</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveF() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public bool RemoveF() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>The <c>x14:extLst</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet2009, "extLst"u8);
@@ -1946,9 +1946,9 @@ public readonly struct ConditionalFormatting : global::RecursiveAI.OneDocument.S
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006)
         {
-            if (local.SequenceEqual("sqref"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.ExcelMacro2006Sqref; }
+            if (local.SequenceEqual("sqref"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.SpreadsheetMacro2006Sqref; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet2009)
         {
@@ -1988,15 +1988,15 @@ public readonly struct ConditionalFormatting : global::RecursiveAI.OneDocument.S
     public bool RemoveCfRule() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet2009, "cfRule"u8);
 
     /// <summary>The <c>xm:sqref</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref? Sqref => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "sqref"u8);
+    public global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref? Sqref => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "sqref"u8);
 
     /// <summary>Returns the <c>xm:sqref</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref GetOrAddSqref() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref, global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ConditionalFormatting>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "sqref"u8);
+    public global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref GetOrAddSqref() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref, global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ConditionalFormatting>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "sqref"u8);
 
     /// <summary>Removes every <c>xm:sqref</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSqref() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "sqref"u8);
+    public bool RemoveSqref() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "sqref"u8);
 
     /// <summary>The <c>x14:extLst</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet2009, "extLst"u8);
@@ -2546,9 +2546,9 @@ public readonly struct DataValidation : global::RecursiveAI.OneDocument.Schema.I
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006)
         {
-            if (local.SequenceEqual("sqref"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.ExcelMacro2006Sqref; }
+            if (local.SequenceEqual("sqref"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.SpreadsheetMacro2006Sqref; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet2009)
         {
@@ -2664,15 +2664,15 @@ public readonly struct DataValidation : global::RecursiveAI.OneDocument.Schema.I
     public bool RemoveFormula2() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet2009, "formula2"u8);
 
     /// <summary>The <c>xm:sqref</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref? Sqref => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "sqref"u8);
+    public global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref? Sqref => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "sqref"u8);
 
     /// <summary>Returns the <c>xm:sqref</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref GetOrAddSqref() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref, global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.DataValidation>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "sqref"u8);
+    public global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref GetOrAddSqref() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref, global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.DataValidation>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "sqref"u8);
 
     /// <summary>Removes every <c>xm:sqref</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSqref() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "sqref"u8);
+    public bool RemoveSqref() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "sqref"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -2709,7 +2709,7 @@ public readonly struct DataValidationFormula : global::RecursiveAI.OneDocument.S
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006)
         {
             if (local.SequenceEqual("f"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
         }
@@ -2731,15 +2731,15 @@ public readonly struct DataValidationFormula : global::RecursiveAI.OneDocument.S
     }
 
     /// <summary>The first <c>xm:f</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? F => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? F => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>Adds a <c>xm:f</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddF() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.DataValidationFormula>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddF() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.DataValidationFormula>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>Removes every <c>xm:f</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveF() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public bool RemoveF() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -3359,9 +3359,9 @@ public readonly struct IgnoredError : global::RecursiveAI.OneDocument.Schema.IEl
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006)
         {
-            if (local.SequenceEqual("sqref"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.ExcelMacro2006Sqref; }
+            if (local.SequenceEqual("sqref"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.SpreadsheetMacro2006Sqref; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -3409,15 +3409,15 @@ public readonly struct IgnoredError : global::RecursiveAI.OneDocument.Schema.IEl
     public bool? CalculatedColumn { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "calculatedColumn"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "calculatedColumn"u8, value); }
 
     /// <summary>The <c>xm:sqref</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref? Sqref => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "sqref"u8);
+    public global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref? Sqref => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "sqref"u8);
 
     /// <summary>Returns the <c>xm:sqref</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref GetOrAddSqref() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref, global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.IgnoredError>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "sqref"u8);
+    public global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref GetOrAddSqref() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref, global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.IgnoredError>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "sqref"u8);
 
     /// <summary>Removes every <c>xm:sqref</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSqref() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "sqref"u8);
+    public bool RemoveSqref() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "sqref"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -5102,7 +5102,7 @@ public readonly struct PivotUserEdit : global::RecursiveAI.OneDocument.Schema.IE
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006)
         {
             if (local.SequenceEqual("f"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
         }
@@ -5128,15 +5128,15 @@ public readonly struct PivotUserEdit : global::RecursiveAI.OneDocument.Schema.IE
     }
 
     /// <summary>The first <c>xm:f</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? F => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? F => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>Adds a <c>xm:f</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddF() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotUserEdit>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddF() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotUserEdit>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>Removes every <c>xm:f</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveF() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public bool RemoveF() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>The <c>x14:editValue</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotEditValue? EditValue => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotEditValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet2009, "editValue"u8);
@@ -5184,9 +5184,9 @@ public readonly struct ProtectedRange : global::RecursiveAI.OneDocument.Schema.I
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006)
         {
-            if (local.SequenceEqual("sqref"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.ExcelMacro2006Sqref; }
+            if (local.SequenceEqual("sqref"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.SpreadsheetMacro2006Sqref; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -5228,15 +5228,15 @@ public readonly struct ProtectedRange : global::RecursiveAI.OneDocument.Schema.I
     public string? SecurityDescriptor { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "securityDescriptor"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "securityDescriptor"u8, value); }
 
     /// <summary>The <c>xm:sqref</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref? Sqref => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "sqref"u8);
+    public global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref? Sqref => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "sqref"u8);
 
     /// <summary>Returns the <c>xm:sqref</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref GetOrAddSqref() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref, global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ProtectedRange>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "sqref"u8);
+    public global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref GetOrAddSqref() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref, global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ProtectedRange>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "sqref"u8);
 
     /// <summary>Removes every <c>xm:sqref</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSqref() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "sqref"u8);
+    public bool RemoveSqref() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "sqref"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -6562,10 +6562,10 @@ public readonly struct Sparkline : global::RecursiveAI.OneDocument.Schema.IEleme
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006)
         {
             if (local.SequenceEqual("f"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
-            if (local.SequenceEqual("sqref"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.ExcelMacro2006Sqref; }
+            if (local.SequenceEqual("sqref"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.SpreadsheetMacro2006Sqref; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -6585,26 +6585,26 @@ public readonly struct Sparkline : global::RecursiveAI.OneDocument.Schema.IEleme
     }
 
     /// <summary>The first <c>xm:f</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? F => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? F => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>Adds a <c>xm:f</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddF() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Sparkline>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddF() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Sparkline>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>Removes every <c>xm:f</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveF() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public bool RemoveF() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>The <c>xm:sqref</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref? Sqref => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "sqref"u8);
+    public global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref? Sqref => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "sqref"u8);
 
     /// <summary>Returns the <c>xm:sqref</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref GetOrAddSqref() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref, global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Sparkline>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "sqref"u8);
+    public global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref GetOrAddSqref() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref, global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Sparkline>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "sqref"u8);
 
     /// <summary>Removes every <c>xm:sqref</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSqref() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "sqref"u8);
+    public bool RemoveSqref() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "sqref"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -6641,7 +6641,7 @@ public readonly struct SparklineGroup : global::RecursiveAI.OneDocument.Schema.I
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006)
         {
             if (local.SequenceEqual("f"u8)) { rank = 8; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
         }
@@ -6847,15 +6847,15 @@ public readonly struct SparklineGroup : global::RecursiveAI.OneDocument.Schema.I
     public bool RemoveColorLow() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet2009, "colorLow"u8);
 
     /// <summary>The first <c>xm:f</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? F => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? F => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>Adds a <c>xm:f</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddF() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SparklineGroup>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddF() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SparklineGroup>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>Removes every <c>xm:f</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveF() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public bool RemoveF() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>The <c>x14:sparklines</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Sparklines? Sparklines => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Sparklines>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet2009, "sparklines"u8);

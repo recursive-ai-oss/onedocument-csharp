@@ -326,14 +326,13 @@ public sealed partial class Presentation
         }
     }
 
-    /// <summary>
-    /// What did not carry over when the presentation was converted from a legacy binary file (<c>.ppt</c>): every dropped or approximated feature with a count.
-    /// Null for presentations opened from PresentationML. The same items are in <see cref="OfficeFile.Defects"/> with the record offset in the source.
-    /// </summary>
-    public LossReport? ConversionLoss { get; private set; }
+    private OfficeFormat? _sourceFormat;
 
-    /// <summary>The binary format the presentation was converted from (<see cref="OfficeFormat.Ppt"/>), or null when it was opened as PresentationML.</summary>
-    public OfficeFormat? ConvertedFrom { get; private set; }
+    /// <summary>
+    /// Gets the format the presentation was read from. It is <see cref="OfficeFile.Format"/> for PPTX and the other package formats, and
+    /// <see cref="OfficeFormat.Ppt"/> for a PowerPoint 97-2003 file, which is converted into the same model when it is opened.
+    /// </summary>
+    public OfficeFormat SourceFormat => _sourceFormat ?? Format;
 
     // PowerPoint 97-2003 files are read at record level and converted to PresentationML, which the hub then holds as typed views. The result
     // has no file path: saving writes a new PresentationML file, never over the binary original.
@@ -347,8 +346,8 @@ public sealed partial class Presentation
             try
             {
                 Presentation presentation = FromPackage(package, context, ownsPackage: true);
-                presentation.ConversionLoss = loss;
-                presentation.ConvertedFrom = OfficeFormat.Ppt;
+                presentation.ImportLoss = loss;
+                presentation._sourceFormat = OfficeFormat.Ppt;
                 return presentation;
             }
             catch

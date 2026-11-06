@@ -207,10 +207,10 @@ public class PptReaderTests
     public void A_minimal_file_opens_and_its_text_is_read()
     {
         using Presentation p = Open(PptBuilder.OneSlide("Hello legacy"));
-        Assert.Equal(OfficeFormat.Ppt, p.ConvertedFrom);
+        Assert.Equal(OfficeFormat.Ppt, p.SourceFormat);
         Assert.Single(p.Slides);
         Assert.Contains("Hello legacy", p.Slides[0].Text);
-        Assert.NotNull(p.ConversionLoss);
+        Assert.NotNull(p.ImportLoss);
     }
 
     [Fact]
@@ -401,7 +401,7 @@ public class PptReaderTests
             Office.Convert(ppt, pptx);
             using Presentation back = Presentation.Open(pptx);
             Assert.Contains("Via the statics", back.Slides[0].Text);
-            Assert.Null(back.ConvertedFrom);
+            Assert.Equal(OfficeFormat.Pptx, back.SourceFormat);
         }
         finally
         {

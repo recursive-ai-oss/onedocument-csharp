@@ -127,7 +127,7 @@ internal static class PresentationSmoke
         package.WriteTo(file);
         file.Position = 0;
         using Presentation legacy = Presentation.Open(file);
-        if (legacy.ConvertedFrom != OfficeFormat.Ppt || legacy.Slides.Count != 1 || !legacy.Slides[0].Text.Contains("binary smoke", StringComparison.Ordinal))
+        if (legacy.SourceFormat != OfficeFormat.Ppt || legacy.Slides.Count != 1 || !legacy.Slides[0].Text.Contains("binary smoke", StringComparison.Ordinal))
         {
             failures.Add("presentation binary");
         }

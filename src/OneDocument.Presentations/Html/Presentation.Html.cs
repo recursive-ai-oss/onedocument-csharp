@@ -7,8 +7,8 @@ namespace RecursiveAI.OneDocument.Presentations;
 public sealed partial class Presentation
 {
     /// <summary>
-    /// Gets what the last export to HTML could not carry (pictures, charts, shape geometry and positions, animations, transitions, master graphics,
-    /// speaker-note layout and the like), or null until an HTML export has run.
+    /// Gets what the last export to HTML, Markdown or OpenDocument could not carry (pictures, charts, shape geometry and positions, animations, transitions, master graphics,
+    /// speaker-note layout and the like), or null until such an export has run.
     /// </summary>
     public LossReport? ExportLoss { get; private set; }
 

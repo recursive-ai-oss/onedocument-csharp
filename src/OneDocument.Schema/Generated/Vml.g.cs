@@ -575,9 +575,9 @@ public readonly struct Arc : global::RecursiveAI.OneDocument.Schema.IElementView
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet)
         {
-            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlExcelClientData; }
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlSpreadsheetClientData; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice)
         {
@@ -588,18 +588,18 @@ public readonly struct Arc : global::RecursiveAI.OneDocument.Schema.IElementView
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSkew; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation)
         {
-            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPowerPointRel; }
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPresentationRel; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing)
         {
-            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordAnchorLock; }
-            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordWrap; }
+            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingAnchorLock; }
+            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingWrap; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Vml)
         {
@@ -1152,92 +1152,92 @@ public readonly struct Arc : global::RecursiveAI.OneDocument.Schema.IElementView
     public bool RemoveSignatureline() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice, "signatureline"u8);
 
     /// <summary>The <c>w10:wrap</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Adds a <c>w10:wrap</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Arc>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Arc>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Removes every <c>w10:wrap</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>The <c>w10:anchorlock</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Adds a <c>w10:anchorlock</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Arc>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Arc>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Removes every <c>w10:anchorlock</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>The <c>w10:bordertop</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Adds a <c>w10:bordertop</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Arc>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Arc>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Removes every <c>w10:bordertop</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>The <c>w10:borderbottom</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Adds a <c>w10:borderbottom</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Arc>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Arc>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Removes every <c>w10:borderbottom</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>The <c>w10:borderleft</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Adds a <c>w10:borderleft</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Arc>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Arc>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Removes every <c>w10:borderleft</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>The <c>w10:borderright</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Adds a <c>w10:borderright</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Arc>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Arc>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Removes every <c>w10:borderright</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Arc>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Arc>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Removes every <c>x:ClientData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Arc>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Arc>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -1399,9 +1399,9 @@ public readonly struct Curve : global::RecursiveAI.OneDocument.Schema.IElementVi
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet)
         {
-            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlExcelClientData; }
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlSpreadsheetClientData; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice)
         {
@@ -1412,18 +1412,18 @@ public readonly struct Curve : global::RecursiveAI.OneDocument.Schema.IElementVi
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSkew; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation)
         {
-            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPowerPointRel; }
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPresentationRel; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing)
         {
-            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordAnchorLock; }
-            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordWrap; }
+            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingAnchorLock; }
+            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingWrap; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Vml)
         {
@@ -1982,92 +1982,92 @@ public readonly struct Curve : global::RecursiveAI.OneDocument.Schema.IElementVi
     public bool RemoveSignatureline() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice, "signatureline"u8);
 
     /// <summary>The <c>w10:wrap</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Adds a <c>w10:wrap</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Curve>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Curve>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Removes every <c>w10:wrap</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>The <c>w10:anchorlock</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Adds a <c>w10:anchorlock</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Curve>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Curve>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Removes every <c>w10:anchorlock</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>The <c>w10:bordertop</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Adds a <c>w10:bordertop</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Curve>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Curve>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Removes every <c>w10:bordertop</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>The <c>w10:borderbottom</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Adds a <c>w10:borderbottom</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Curve>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Curve>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Removes every <c>w10:borderbottom</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>The <c>w10:borderleft</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Adds a <c>w10:borderleft</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Curve>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Curve>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Removes every <c>w10:borderleft</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>The <c>w10:borderright</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Adds a <c>w10:borderright</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Curve>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Curve>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Removes every <c>w10:borderright</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Curve>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Curve>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Removes every <c>x:ClientData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Curve>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Curve>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -2427,9 +2427,9 @@ public readonly struct Group : global::RecursiveAI.OneDocument.Schema.IElementVi
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet)
         {
-            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlExcelClientData; }
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlSpreadsheetClientData; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice)
         {
@@ -2441,18 +2441,18 @@ public readonly struct Group : global::RecursiveAI.OneDocument.Schema.IElementVi
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSkew; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation)
         {
-            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPowerPointRel; }
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPresentationRel; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing)
         {
-            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordAnchorLock; }
-            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordWrap; }
+            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingAnchorLock; }
+            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingWrap; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Vml)
         {
@@ -2891,92 +2891,92 @@ public readonly struct Group : global::RecursiveAI.OneDocument.Schema.IElementVi
     public bool RemoveSignatureline() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice, "signatureline"u8);
 
     /// <summary>The <c>w10:wrap</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Adds a <c>w10:wrap</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Group>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Group>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Removes every <c>w10:wrap</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>The <c>w10:anchorlock</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Adds a <c>w10:anchorlock</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Group>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Group>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Removes every <c>w10:anchorlock</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>The <c>w10:bordertop</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Adds a <c>w10:bordertop</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Group>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Group>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Removes every <c>w10:bordertop</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>The <c>w10:borderbottom</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Adds a <c>w10:borderbottom</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Group>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Group>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Removes every <c>w10:borderbottom</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>The <c>w10:borderleft</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Adds a <c>w10:borderleft</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Group>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Group>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Removes every <c>w10:borderleft</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>The <c>w10:borderright</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Adds a <c>w10:borderright</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Group>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Group>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Removes every <c>w10:borderright</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Group>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Group>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Removes every <c>x:ClientData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Group>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Group>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>The <c>v:group</c> children, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Vml.Group> Groups => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Vml, "group"u8);
@@ -3306,9 +3306,9 @@ public readonly struct Image : global::RecursiveAI.OneDocument.Schema.IElementVi
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet)
         {
-            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlExcelClientData; }
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlSpreadsheetClientData; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice)
         {
@@ -3319,18 +3319,18 @@ public readonly struct Image : global::RecursiveAI.OneDocument.Schema.IElementVi
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSkew; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation)
         {
-            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPowerPointRel; }
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPresentationRel; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing)
         {
-            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordAnchorLock; }
-            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordWrap; }
+            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingAnchorLock; }
+            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingWrap; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Vml)
         {
@@ -3921,92 +3921,92 @@ public readonly struct Image : global::RecursiveAI.OneDocument.Schema.IElementVi
     public bool RemoveSignatureline() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice, "signatureline"u8);
 
     /// <summary>The <c>w10:wrap</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Adds a <c>w10:wrap</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Image>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Image>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Removes every <c>w10:wrap</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>The <c>w10:anchorlock</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Adds a <c>w10:anchorlock</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Image>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Image>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Removes every <c>w10:anchorlock</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>The <c>w10:bordertop</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Adds a <c>w10:bordertop</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Image>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Image>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Removes every <c>w10:bordertop</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>The <c>w10:borderbottom</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Adds a <c>w10:borderbottom</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Image>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Image>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Removes every <c>w10:borderbottom</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>The <c>w10:borderleft</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Adds a <c>w10:borderleft</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Image>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Image>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Removes every <c>w10:borderleft</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>The <c>w10:borderright</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Adds a <c>w10:borderright</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Image>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Image>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Removes every <c>w10:borderright</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Image>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Image>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Removes every <c>x:ClientData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Image>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Image>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -4184,9 +4184,9 @@ public readonly struct Line : global::RecursiveAI.OneDocument.Schema.IElementVie
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet)
         {
-            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlExcelClientData; }
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlSpreadsheetClientData; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice)
         {
@@ -4197,18 +4197,18 @@ public readonly struct Line : global::RecursiveAI.OneDocument.Schema.IElementVie
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSkew; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation)
         {
-            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPowerPointRel; }
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPresentationRel; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing)
         {
-            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordAnchorLock; }
-            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordWrap; }
+            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingAnchorLock; }
+            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingWrap; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Vml)
         {
@@ -4761,92 +4761,92 @@ public readonly struct Line : global::RecursiveAI.OneDocument.Schema.IElementVie
     public bool RemoveSignatureline() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice, "signatureline"u8);
 
     /// <summary>The <c>w10:wrap</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Adds a <c>w10:wrap</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Line>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Line>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Removes every <c>w10:wrap</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>The <c>w10:anchorlock</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Adds a <c>w10:anchorlock</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Line>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Line>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Removes every <c>w10:anchorlock</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>The <c>w10:bordertop</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Adds a <c>w10:bordertop</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Line>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Line>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Removes every <c>w10:bordertop</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>The <c>w10:borderbottom</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Adds a <c>w10:borderbottom</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Line>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Line>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Removes every <c>w10:borderbottom</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>The <c>w10:borderleft</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Adds a <c>w10:borderleft</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Line>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Line>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Removes every <c>w10:borderleft</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>The <c>w10:borderright</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Adds a <c>w10:borderright</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Line>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Line>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Removes every <c>w10:borderright</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Line>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Line>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Removes every <c>x:ClientData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Line>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Line>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -4883,9 +4883,9 @@ public readonly struct Oval : global::RecursiveAI.OneDocument.Schema.IElementVie
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet)
         {
-            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlExcelClientData; }
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlSpreadsheetClientData; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice)
         {
@@ -4896,18 +4896,18 @@ public readonly struct Oval : global::RecursiveAI.OneDocument.Schema.IElementVie
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSkew; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation)
         {
-            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPowerPointRel; }
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPresentationRel; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing)
         {
-            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordAnchorLock; }
-            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordWrap; }
+            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingAnchorLock; }
+            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingWrap; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Vml)
         {
@@ -5454,92 +5454,92 @@ public readonly struct Oval : global::RecursiveAI.OneDocument.Schema.IElementVie
     public bool RemoveSignatureline() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice, "signatureline"u8);
 
     /// <summary>The <c>w10:wrap</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Adds a <c>w10:wrap</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Oval>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Oval>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Removes every <c>w10:wrap</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>The <c>w10:anchorlock</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Adds a <c>w10:anchorlock</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Oval>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Oval>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Removes every <c>w10:anchorlock</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>The <c>w10:bordertop</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Adds a <c>w10:bordertop</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Oval>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Oval>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Removes every <c>w10:bordertop</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>The <c>w10:borderbottom</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Adds a <c>w10:borderbottom</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Oval>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Oval>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Removes every <c>w10:borderbottom</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>The <c>w10:borderleft</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Adds a <c>w10:borderleft</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Oval>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Oval>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Removes every <c>w10:borderleft</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>The <c>w10:borderright</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Adds a <c>w10:borderright</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Oval>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Oval>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Removes every <c>w10:borderright</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Oval>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Oval>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Removes every <c>x:ClientData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Oval>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Oval>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -5731,9 +5731,9 @@ public readonly struct PolyLine : global::RecursiveAI.OneDocument.Schema.IElemen
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet)
         {
-            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlExcelClientData; }
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlSpreadsheetClientData; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice)
         {
@@ -5745,18 +5745,18 @@ public readonly struct PolyLine : global::RecursiveAI.OneDocument.Schema.IElemen
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSkew; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation)
         {
-            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPowerPointRel; }
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPresentationRel; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing)
         {
-            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordAnchorLock; }
-            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordWrap; }
+            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingAnchorLock; }
+            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingWrap; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Vml)
         {
@@ -6306,92 +6306,92 @@ public readonly struct PolyLine : global::RecursiveAI.OneDocument.Schema.IElemen
     public bool RemoveSignatureline() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice, "signatureline"u8);
 
     /// <summary>The <c>w10:wrap</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Adds a <c>w10:wrap</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.PolyLine>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.PolyLine>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Removes every <c>w10:wrap</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>The <c>w10:anchorlock</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Adds a <c>w10:anchorlock</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.PolyLine>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.PolyLine>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Removes every <c>w10:anchorlock</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>The <c>w10:bordertop</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Adds a <c>w10:bordertop</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.PolyLine>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.PolyLine>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Removes every <c>w10:bordertop</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>The <c>w10:borderbottom</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Adds a <c>w10:borderbottom</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.PolyLine>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.PolyLine>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Removes every <c>w10:borderbottom</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>The <c>w10:borderleft</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Adds a <c>w10:borderleft</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.PolyLine>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.PolyLine>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Removes every <c>w10:borderleft</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>The <c>w10:borderright</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Adds a <c>w10:borderright</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.PolyLine>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.PolyLine>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Removes every <c>w10:borderright</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.PolyLine>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.PolyLine>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Removes every <c>x:ClientData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneDocument.Schema.Vml.PolyLine>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel, global::RecursiveAI.OneDocument.Schema.Vml.PolyLine>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>The <c>o:ink</c> children, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlOffice.Ink> Inks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice, "ink"u8);
@@ -6439,9 +6439,9 @@ public readonly struct Rect : global::RecursiveAI.OneDocument.Schema.IElementVie
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet)
         {
-            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlExcelClientData; }
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlSpreadsheetClientData; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice)
         {
@@ -6452,18 +6452,18 @@ public readonly struct Rect : global::RecursiveAI.OneDocument.Schema.IElementVie
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSkew; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation)
         {
-            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPowerPointRel; }
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPresentationRel; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing)
         {
-            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordAnchorLock; }
-            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordWrap; }
+            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingAnchorLock; }
+            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingWrap; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Vml)
         {
@@ -7010,92 +7010,92 @@ public readonly struct Rect : global::RecursiveAI.OneDocument.Schema.IElementVie
     public bool RemoveSignatureline() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice, "signatureline"u8);
 
     /// <summary>The <c>w10:wrap</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Adds a <c>w10:wrap</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Rect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Rect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Removes every <c>w10:wrap</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>The <c>w10:anchorlock</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Adds a <c>w10:anchorlock</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Rect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Rect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Removes every <c>w10:anchorlock</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>The <c>w10:bordertop</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Adds a <c>w10:bordertop</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Rect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Rect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Removes every <c>w10:bordertop</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>The <c>w10:borderbottom</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Adds a <c>w10:borderbottom</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Rect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Rect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Removes every <c>w10:borderbottom</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>The <c>w10:borderleft</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Adds a <c>w10:borderleft</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Rect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Rect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Removes every <c>w10:borderleft</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>The <c>w10:borderright</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Adds a <c>w10:borderright</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Rect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Rect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Removes every <c>w10:borderright</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Rect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Rect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Removes every <c>x:ClientData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Rect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Rect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -7132,9 +7132,9 @@ public readonly struct RoundRect : global::RecursiveAI.OneDocument.Schema.IEleme
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet)
         {
-            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlExcelClientData; }
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlSpreadsheetClientData; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice)
         {
@@ -7145,18 +7145,18 @@ public readonly struct RoundRect : global::RecursiveAI.OneDocument.Schema.IEleme
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSkew; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation)
         {
-            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPowerPointRel; }
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPresentationRel; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing)
         {
-            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordAnchorLock; }
-            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordWrap; }
+            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingAnchorLock; }
+            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingWrap; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Vml)
         {
@@ -7706,92 +7706,92 @@ public readonly struct RoundRect : global::RecursiveAI.OneDocument.Schema.IEleme
     public bool RemoveSignatureline() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice, "signatureline"u8);
 
     /// <summary>The <c>w10:wrap</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Adds a <c>w10:wrap</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.RoundRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.RoundRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Removes every <c>w10:wrap</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>The <c>w10:anchorlock</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Adds a <c>w10:anchorlock</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.RoundRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.RoundRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Removes every <c>w10:anchorlock</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>The <c>w10:bordertop</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Adds a <c>w10:bordertop</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.RoundRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.RoundRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Removes every <c>w10:bordertop</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>The <c>w10:borderbottom</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Adds a <c>w10:borderbottom</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.RoundRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.RoundRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Removes every <c>w10:borderbottom</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>The <c>w10:borderleft</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Adds a <c>w10:borderleft</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.RoundRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.RoundRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Removes every <c>w10:borderleft</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>The <c>w10:borderright</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Adds a <c>w10:borderright</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.RoundRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.RoundRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Removes every <c>w10:borderright</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.RoundRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.RoundRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Removes every <c>x:ClientData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneDocument.Schema.Vml.RoundRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel, global::RecursiveAI.OneDocument.Schema.Vml.RoundRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -7928,9 +7928,9 @@ public readonly struct Shape : global::RecursiveAI.OneDocument.Schema.IElementVi
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet)
         {
-            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlExcelClientData; }
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlSpreadsheetClientData; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice)
         {
@@ -7943,19 +7943,19 @@ public readonly struct Shape : global::RecursiveAI.OneDocument.Schema.IElementVi
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSkew; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation)
         {
-            if (local.SequenceEqual("iscomment"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPowerPointEmpty; }
-            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPowerPointRel; }
+            if (local.SequenceEqual("iscomment"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPresentationEmpty; }
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPresentationRel; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing)
         {
-            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordAnchorLock; }
-            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordWrap; }
+            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingAnchorLock; }
+            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingWrap; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Vml)
         {
@@ -8517,92 +8517,92 @@ public readonly struct Shape : global::RecursiveAI.OneDocument.Schema.IElementVi
     public bool RemoveSignatureline() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice, "signatureline"u8);
 
     /// <summary>The <c>w10:wrap</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Adds a <c>w10:wrap</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Removes every <c>w10:wrap</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>The <c>w10:anchorlock</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Adds a <c>w10:anchorlock</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Removes every <c>w10:anchorlock</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>The <c>w10:bordertop</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Adds a <c>w10:bordertop</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Removes every <c>w10:bordertop</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>The <c>w10:borderbottom</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Adds a <c>w10:borderbottom</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Removes every <c>w10:borderbottom</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>The <c>w10:borderleft</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Adds a <c>w10:borderleft</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Removes every <c>w10:borderleft</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>The <c>w10:borderright</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Adds a <c>w10:borderright</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Removes every <c>w10:borderright</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Removes every <c>x:ClientData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>The <c>o:ink</c> children, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlOffice.Ink> Inks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice, "ink"u8);
@@ -8616,15 +8616,15 @@ public readonly struct Shape : global::RecursiveAI.OneDocument.Schema.IElementVi
     public bool RemoveInk() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice, "ink"u8);
 
     /// <summary>The <c>pvml:iscomment</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Empty> Iscomments => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "iscomment"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Empty> Iscomments => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "iscomment"u8);
 
     /// <summary>Adds a <c>pvml:iscomment</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Empty AddIscomment() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Empty, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "iscomment"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlPresentation.Empty AddIscomment() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Empty, global::RecursiveAI.OneDocument.Schema.Vml.Shape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "iscomment"u8);
 
     /// <summary>Removes every <c>pvml:iscomment</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveIscomment() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "iscomment"u8);
+    public bool RemoveIscomment() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "iscomment"u8);
 
     /// <summary>The <c>o:equationxml</c> children, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlOffice.EquationXml> Equationxmls => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice, "equationxml"u8);
@@ -8672,9 +8672,9 @@ public readonly struct Shapetype : global::RecursiveAI.OneDocument.Schema.IEleme
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet)
         {
-            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlExcelClientData; }
+            if (local.SequenceEqual("ClientData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlSpreadsheetClientData; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice)
         {
@@ -8686,18 +8686,18 @@ public readonly struct Shapetype : global::RecursiveAI.OneDocument.Schema.IEleme
             if (local.SequenceEqual("signatureline"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSignatureLine; }
             if (local.SequenceEqual("skew"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlOfficeSkew; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation)
         {
-            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPowerPointRel; }
+            if (local.SequenceEqual("textdata"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPresentationRel; }
         }
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing)
         {
-            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordAnchorLock; }
-            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder; }
-            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordWrap; }
+            if (local.SequenceEqual("anchorlock"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingAnchorLock; }
+            if (local.SequenceEqual("borderbottom"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderleft"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("borderright"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("bordertop"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder; }
+            if (local.SequenceEqual("wrap"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingWrap; }
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Vml)
         {
@@ -9253,92 +9253,92 @@ public readonly struct Shapetype : global::RecursiveAI.OneDocument.Schema.IEleme
     public bool RemoveSignatureline() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice, "signatureline"u8);
 
     /// <summary>The <c>w10:wrap</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap> Wraps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Adds a <c>w10:wrap</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Shapetype>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap AddWrap() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap, global::RecursiveAI.OneDocument.Schema.Vml.Shapetype>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>Removes every <c>w10:wrap</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "wrap"u8);
+    public bool RemoveWrap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "wrap"u8);
 
     /// <summary>The <c>w10:anchorlock</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock> Anchorlocks => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Adds a <c>w10:anchorlock</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Shapetype>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock AddAnchorlock() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock, global::RecursiveAI.OneDocument.Schema.Vml.Shapetype>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>Removes every <c>w10:anchorlock</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "anchorlock"u8);
+    public bool RemoveAnchorlock() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "anchorlock"u8);
 
     /// <summary>The <c>w10:bordertop</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Bordertops => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Adds a <c>w10:bordertop</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Shapetype>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBordertop() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Shapetype>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>Removes every <c>w10:bordertop</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "bordertop"u8);
+    public bool RemoveBordertop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "bordertop"u8);
 
     /// <summary>The <c>w10:borderbottom</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderbottoms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Adds a <c>w10:borderbottom</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Shapetype>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderbottom() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Shapetype>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>Removes every <c>w10:borderbottom</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderbottom"u8);
+    public bool RemoveBorderbottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderbottom"u8);
 
     /// <summary>The <c>w10:borderleft</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderlefts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Adds a <c>w10:borderleft</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Shapetype>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderleft() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Shapetype>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>Removes every <c>w10:borderleft</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderleft"u8);
+    public bool RemoveBorderleft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderleft"u8);
 
     /// <summary>The <c>w10:borderright</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> Borderrights => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Adds a <c>w10:borderright</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWord.Border, global::RecursiveAI.OneDocument.Schema.Vml.Shapetype>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border AddBorderright() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border, global::RecursiveAI.OneDocument.Schema.Vml.Shapetype>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>Removes every <c>w10:borderright</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord, "borderright"u8);
+    public bool RemoveBorderright() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing, "borderright"u8);
 
     /// <summary>The <c>x:ClientData</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData> ClientDatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Adds a <c>x:ClientData</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Shapetype>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData AddClientData() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData, global::RecursiveAI.OneDocument.Schema.Vml.Shapetype>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>Removes every <c>x:ClientData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ClientData"u8);
+    public bool RemoveClientData() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ClientData"u8);
 
     /// <summary>The <c>pvml:textdata</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel> Textdatas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Adds a <c>pvml:textdata</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Shapetype>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel AddTextdata() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel, global::RecursiveAI.OneDocument.Schema.Vml.Shapetype>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>Removes every <c>pvml:textdata</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint, "textdata"u8);
+    public bool RemoveTextdata() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation, "textdata"u8);
 
     /// <summary>The <c>o:complex</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.VmlOffice.Complex? Complex => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.VmlOffice.Complex>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlOffice, "complex"u8);

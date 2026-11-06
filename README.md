@@ -9,9 +9,9 @@ OneDocument is a clean-room document processor for `net10.0` that depends only o
 - **Tolerant reading, typed defects.** Damage is repaired where Office repairs it and reported as a located defect (`docs/defects.md`); resource limits are on by default; nothing touches the network or runs code.
 - **Conversions say what they lose.** Every conversion between formats can return a loss report.
 
-## Status: preview, not released
+## Status: 1.0
 
-Nothing is published to nuget.org yet. Read the tables below as "what the code does today and what has been checked". A cell that says **pending (1.0 gate)** has not been measured yet; nothing in it should be read as passed.
+The tables below say what the code does and what has been checked, with the note or test that holds each number. A check that could not be run says so and is listed under [Gaps](#gaps); nothing here claims what was not measured. Measurements were taken on the code at the 1.0 freeze.
 
 ## Samples
 
@@ -82,14 +82,15 @@ Numbers come from the committed note or test named in the last column. Office-or
 | Number formats against Excel (`TEXT` and cell display) | 7,602 of 7,602 agree on a grid; exceptions are listed | `docs/number-formats.md`, `NumberFormatExcelGridTests` |
 | Calculation: cached values reproduced over a corpus | recalculation reproduces the cached values of 99.52% of the testable formulas in 354 Common Crawl workbooks, 93.02% in 702 bug-tracker workbooks, 93.79% in 453 LibreOffice-converted workbooks, 95.14% in 450 XLS files, 99.54% in 18 XLSB files; every mismatch class is explained in the note. | `docs/gates-1.0.md` §5, `docs/calc.md`, `docs/spreadsheets-calc.md` |
 | Calculation: per-function grids against Excel 16.0.20527 | functions 22,700 rows 93.3 % agree, financial 84.5 %, engineering 88.0 %, lookup and reference 99.5 % (9,707 rows), database 100 % (324 rows); every disagreement is listed. | `docs/office-oracle-1.0.md`, `docs/calc.md`, `docs/spreadsheets-calc.md` |
-| Layout: page count, line breaks and object geometry against Office's PDF export | Word: page count 196/196 and PowerPoint 24/24 on the generated cases; line and geometry floors per set in `docs/office-oracle-1.0.md` | `docs/office-oracle-1.0.md`, `docs/layout.md` |
-| Tagged PDF against veraPDF 1.30.3 (PDF/UA-1, PDF/A-2a) | PDF/UA-1: every PDF written passes (DOCX 11, XLSX 11, PPTX 16); a document the profile cannot make conformant is refused with the rule. PDF/A-2a: 19 of 20 DOCX and 15 of 16 PPTX pass; the failures are one rule, a private-use character without `ActualText` (a PDF-writer item) | `docs/gates-1.0.md` §6 |
+| Layout: page count, line breaks and object geometry against Office's PDF export (generated cases; rows where both sides had the same fonts) | Page count agrees on 196 of 196 documents and workbooks and 24 of 24 decks. Mean text-line agreement and, for Word, word positions within 2 pt: business documents 76 rows 0.951 and 0.872; long documents 15 rows 0.966 and 0.941; edge features (floats, drawings, diagrams, math) 29 rows 0.834 and 0.588; worksheets 26 rows 0.934 (geometry is information: Excel's default row height differs by display scaling); CJK and right-to-left 1 row 1.000 and 0.000 (8 more rows are font-substitution rows and do not gate); presentations 0.748 (geometry not run). These are floors: they only rise | `docs/office-oracle-1.0.md` §3, `docs/layout.md` |
+| Tagged PDF against veraPDF 1.30.3 (PDF/UA-1, PDF/A-2a) | PDF/UA-1: every PDF written passes (DOCX 11, XLSX 11, PPTX 16); a document the profile cannot make conformant is refused with the rule. PDF/A-2a: 19 of 20 DOCX and 15 of 16 PPTX pass; the failures are one rule, a private-use character without `ActualText` (a PDF-writer item). Generated layout set (224 cases, OnePdf 1.19.0; `tools/gate/pdf-sets.sh`): every file written passes both profiles. PDF/UA-1 wrote 200 (business 73 of 93, long 6 of 6, edge 59 of 63, CJK/RTL 7 of 7, decks 26 of 26, sheets 29 of 29); the other 24 are refused by our profile check with the rule (table headers, alt text). PDF/A-2a wrote 223 of 224 (one edge case refused). The set has no private-use characters. Footnotes are tagged `Div` in PDF/UA output until the PDF writer writes `/ID` on `Note` | `docs/gates-1.0.md` §6 |
 | Text extraction against Apache Tika 3.3.3 | 150 files per format: precision of our words in Tika's at least 0.985 for every format; the differences are what Tika emits and we leave out by policy | `docs/gates-1.0.md` §4 |
 | CommonMark and GFM conformance | 652 of 652 and 28 of 28 examples | `docs/markdown.md`, `MarkdownSpecTests` |
 | Metafiles against Windows' own pictures | 64 Windows-written metafiles compared (25 EMF, 24 EMF+, 15 WMF); per-case agreement in the note | `docs/metafiles.md`, `MetafileTests` |
-| Fuzzing, 600 s per parser | pending (1.0 gate) | `fuzz/` |
+| Fuzzing, 600 s per parser | 70 targets, 600 s each under libFuzzer with SharpFuzz instrumentation, all clean on the final code. the campaign found and fixed crashes, hangs and limit failures (calculation loops and overflow, a template range clip, shared-string surrogates, R1C1 quoting, chart, drawing, layout and metafile clamps), each with a regression test | `docs/fuzzing.md`, `fuzz/` |
 | NativeAOT and trimming | the smoke app publishes with warnings as errors and runs | `smoke/aot`, `build/ci.sh aot` |
-| Browser WebAssembly | 25 smoke groups run in headless Chromium | `docs/platforms.md`, `build/ci.sh wasm-run` |
+| Browser WebAssembly | 31 smoke groups run in headless Chromium (Agile, Standard and RC4-MD5 decryption excepted, see Gaps) | `docs/platforms.md`, `build/ci.sh wasm-run` |
+| iOS and Android | the smoke checks pass in an iOS simulator and an Android emulator (Mono ahead-of-time release builds; NativeAOT on those hosts is not available for simulators) | `docs/platforms.md` |
 | Memory | 37 retained bytes per cell on a 20M-cell styled workbook (ClosedXML 79, NPOI 360); streaming read allocates 0.08 bytes per cell at 1M rows; streaming working set 47 to 49 MB from 10k to 1M rows (x64) | `bench/README.md` |
 | Speed (1.0 gate rows) | against the fastest like-for-like managed comparator over 49 rows, single thread: geomean 0.30 (x64) and 0.32 (arm64), worst row 1.08 (x64) and 1.07 (arm64); the save rows gate on the save-to-stream variants, and the save-to-file rows are published beside them (our `Save()` flushes the temp file to disk and renames it atomically, and the Open XML SDK edits the file in place without a flush); `.xls` and `.xlsb` reads go through forward cursors and are 0.55 to 0.64 times (xls) and 0.93 to 1.01 times (xlsb) the time of Sylvan.Data.Excel, the fastest forward reader | `bench/README.md`, `bench/published/` |
 
@@ -99,9 +100,9 @@ Numbers come from the committed note or test named in the last column. Office-or
 |---|---|
 | Find and replace, merge, append, split, protection | implemented (`docs/operations-find-replace.md`, `docs/operations-merge.md`, `docs/protection.md`) |
 | Redaction (`Office.Redact`) | implemented, writes a new file and re-reads it to verify; an independent completeness review passed (`docs/redaction-review.md`), with its open items listed there. Office opens the redacted outputs: not run (see `docs/office-oracle-1.0.md`) |
-| Inspect and sanitise (`Office.Inspect`, `Office.Sanitize`, `onedocument inspect`, `sanitize`) | implemented (`docs/sanitize.md`); the Document Inspectors that automation can run (Word 5, Excel 5, PowerPoint 4) find nothing in 36 sanitised files that open, and Office opens them without repair (`docs/office-oracle-1.0.md`); coverage review pending |
+| Inspect and sanitise (`Office.Inspect`, `Office.Sanitize`, `onedocument inspect`, `sanitize`) | implemented (`docs/sanitize.md`); the Document Inspectors that automation can run (Word 5, Excel 5, PowerPoint 4) find nothing in 36 sanitised files that open, and Office opens them without repair (`docs/office-oracle-1.0.md`); an independent coverage review passed (`docs/sanitize-review.md`) |
 | VBA read, extract, remove | implemented, never executed (`docs/vba.md`) |
-| Accessibility checking | implemented (`docs/accessibility.md`); agreement with Office's checker not run: the checker has no automation interface (`docs/office-oracle-1.0.md`) |
+| Accessibility checking | implemented (`docs/accessibility.md`); agreement with Office's checker is **pending**: the checker has no automation interface, so it was not measured (`docs/office-oracle-1.0.md`) |
 
 ## Gaps
 
@@ -110,6 +111,13 @@ Stated here so they are not found by surprise.
 - **Encrypted output.** Encrypted files are written only for XLS (RC4 CryptoAPI). Agile OOXML and ODF encryption on write wait for the Cryptography package.
 - **Cryptography package.** `RecursiveAI.OneDocument.Cryptography` (signatures, encryption on write) has no content yet and is not part of the `All` metapackage.
 - **Browser.** WebAssembly has no `Aes` or MD5, so opening Agile or Standard encrypted OOXML and RC4-MD5 files there raises `OfficeUnsupportedException`. RC4 CryptoAPI and XOR files read normally (`docs/platforms.md`). The XOR reader's array-index rule rests on LibreOffice alone: Excel does not open our XOR test file, so that scheme is unconfirmed against Office (`docs/office-oracle-1.0.md`).
+- **Document Inspector agreement.** Office's object model exposes only some inspectors (Word 5, Excel 5, PowerPoint 4). Comments, revisions, document properties and personal information, embedded documents, macros and links cannot be asked, so agreement for those categories was not measured; our own re-inspection finds nothing left in sanitised output (`docs/office-oracle-1.0.md`, `docs/sanitize.md`).
+- **Accessibility Checker.** Pending: Office has no automation for it, so our results are checked against the published rule set only (`docs/accessibility.md`).
+- **PDF/A-2a.** In the veraPDF run, 19 of 20 DOCX and 15 of 16 PPTX pass; the failures are one rule (6.2.11.7.3, a private-use character without `ActualText`) in the PDF writer (`docs/gates-1.0.md` §6).
+- **Calculation.** Recalculation reproduces cached values over each corpus at the floors in the Checks table; the mismatches fall in named classes (precision beyond 9 digits, volatile functions and what depends on them, references into other workbooks, legacy references the converter leaves as `#REF!`, XLM macro functions, and unexplained cases), listed per set in `docs/gates-1.0.md` §5. ODS-sourced workbooks reproduce 65.3% and were not rerun after the fixes. The per-function grids against Excel disagree on 6.7% of function rows, 15.5% of financial and 12.0% of engineering rows (distribution inverses on boundary arguments, text conversions, coupon-date functions, iteration limits, error kinds on out-of-range arguments); `GETPIVOTDATA` over some cached pivots, `SUBTOTAL` with an autofilter and external references in BIFF are open.
+- **Schema validation.** On four already-invalid worksheets in the public corpus, the validator counts one more `xr:uid` error after our rewrite than before; the attribute is on the original too and its cause was not established (`docs/gates-1.0.md` §2).
+- **ODS.** No forward cursor: ODS reads through the model.
+- **Office opens ODS.** Excel does not open the ODS files we write (they validate against the ODF 1.3 schema and LibreOffice opens them); information, not bisected.
 - **Formula text** is en-US and invariant only; localized function names are not supported.
 - **DOC and PPT** are read-only. **Word 6/95 and BIFF2 to BIFF5** layouts come from observed files, not a specification.
 - **Metafiles.** Drawn as vector content where the interpreter supports the records; custom pen caps, line-end anchors, colour matrices and text clipping to a string's rectangle are not drawn, and some raster-operation cases fall back to a bitmap (`docs/metafiles.md`).
@@ -138,6 +146,8 @@ dotnet build OneDocument.slnx
 dotnet test --solution OneDocument.slnx
 build/ci.sh            # restore, build, test, samples, NativeAOT smoke, WebAssembly smoke, pack
 ```
+
+The public surface of every library assembly is frozen in `src/<Project>/PublicAPI.Shipped.txt`, checked on each build by the public-API analyzer (build-only, nothing flows into the packages): a public type or member added, removed or changed without a listing edit fails the build. List an intended change in `PublicAPI.Unshipped.txt` (`tools/api/update-public-api.py --unshipped` does it); a release moves those lines into `Shipped`.
 
 The .NET SDK version is pinned in `global.json`. Build output goes to `artifacts/` (ignored by git); set `ONEDOCUMENT_ARTIFACTS` to put it elsewhere.
 

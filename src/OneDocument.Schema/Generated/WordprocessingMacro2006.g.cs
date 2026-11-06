@@ -5,10 +5,10 @@
 // </auto-generated>
 #nullable enable
 
-namespace RecursiveAI.OneDocument.Schema.WordMacro2006;
+namespace RecursiveAI.OneDocument.Schema.WordprocessingMacro2006;
 
 /// <summary>View of the schema type <c>CT_DocEvents</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct DocEvents : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents>
+public readonly struct DocEvents : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -20,10 +20,10 @@ public readonly struct DocEvents : global::RecursiveAI.OneDocument.Schema.IEleme
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.WordMacro2006DocEvents;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.WordprocessingMacro2006DocEvents;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
@@ -34,7 +34,7 @@ public readonly struct DocEvents : global::RecursiveAI.OneDocument.Schema.IEleme
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006)
         {
             if (local.SequenceEqual("eventDocBuildingBlockAfterInsert"u8)) { rank = 12; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
             if (local.SequenceEqual("eventDocClose"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
@@ -68,157 +68,157 @@ public readonly struct DocEvents : global::RecursiveAI.OneDocument.Schema.IEleme
     }
 
     /// <summary>The first <c>wne:eventDocNew</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocNew => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocNew"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocNew => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocNew"u8);
 
     /// <summary>Adds a <c>wne:eventDocNew</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocNew() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocNew"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocNew() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocNew"u8);
 
     /// <summary>Removes every <c>wne:eventDocNew</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveEventDocNew() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocNew"u8);
+    public bool RemoveEventDocNew() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocNew"u8);
 
     /// <summary>The first <c>wne:eventDocOpen</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocOpen => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocOpen"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocOpen => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocOpen"u8);
 
     /// <summary>Adds a <c>wne:eventDocOpen</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocOpen() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocOpen"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocOpen() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocOpen"u8);
 
     /// <summary>Removes every <c>wne:eventDocOpen</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveEventDocOpen() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocOpen"u8);
+    public bool RemoveEventDocOpen() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocOpen"u8);
 
     /// <summary>The first <c>wne:eventDocClose</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocClose => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocClose"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocClose => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocClose"u8);
 
     /// <summary>Adds a <c>wne:eventDocClose</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocClose() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocClose"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocClose() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocClose"u8);
 
     /// <summary>Removes every <c>wne:eventDocClose</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveEventDocClose() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocClose"u8);
+    public bool RemoveEventDocClose() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocClose"u8);
 
     /// <summary>The first <c>wne:eventDocSync</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocSync => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocSync"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocSync => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocSync"u8);
 
     /// <summary>Adds a <c>wne:eventDocSync</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocSync() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocSync"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocSync() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocSync"u8);
 
     /// <summary>Removes every <c>wne:eventDocSync</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveEventDocSync() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocSync"u8);
+    public bool RemoveEventDocSync() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocSync"u8);
 
     /// <summary>The first <c>wne:eventDocXmlAfterInsert</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocXmlAfterInsert => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocXmlAfterInsert"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocXmlAfterInsert => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocXmlAfterInsert"u8);
 
     /// <summary>Adds a <c>wne:eventDocXmlAfterInsert</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocXmlAfterInsert() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocXmlAfterInsert"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocXmlAfterInsert() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocXmlAfterInsert"u8);
 
     /// <summary>Removes every <c>wne:eventDocXmlAfterInsert</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveEventDocXmlAfterInsert() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocXmlAfterInsert"u8);
+    public bool RemoveEventDocXmlAfterInsert() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocXmlAfterInsert"u8);
 
     /// <summary>The first <c>wne:eventDocXmlBeforeDelete</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocXmlBeforeDelete => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocXmlBeforeDelete"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocXmlBeforeDelete => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocXmlBeforeDelete"u8);
 
     /// <summary>Adds a <c>wne:eventDocXmlBeforeDelete</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocXmlBeforeDelete() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocXmlBeforeDelete"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocXmlBeforeDelete() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocXmlBeforeDelete"u8);
 
     /// <summary>Removes every <c>wne:eventDocXmlBeforeDelete</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveEventDocXmlBeforeDelete() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocXmlBeforeDelete"u8);
+    public bool RemoveEventDocXmlBeforeDelete() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocXmlBeforeDelete"u8);
 
     /// <summary>The first <c>wne:eventDocContentControlAfterInsert</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocContentControlAfterInsert => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocContentControlAfterInsert"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocContentControlAfterInsert => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocContentControlAfterInsert"u8);
 
     /// <summary>Adds a <c>wne:eventDocContentControlAfterInsert</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocContentControlAfterInsert() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocContentControlAfterInsert"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocContentControlAfterInsert() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocContentControlAfterInsert"u8);
 
     /// <summary>Removes every <c>wne:eventDocContentControlAfterInsert</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveEventDocContentControlAfterInsert() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocContentControlAfterInsert"u8);
+    public bool RemoveEventDocContentControlAfterInsert() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocContentControlAfterInsert"u8);
 
     /// <summary>The first <c>wne:eventDocContentControlBeforeDelete</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocContentControlBeforeDelete => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocContentControlBeforeDelete"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocContentControlBeforeDelete => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocContentControlBeforeDelete"u8);
 
     /// <summary>Adds a <c>wne:eventDocContentControlBeforeDelete</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocContentControlBeforeDelete() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocContentControlBeforeDelete"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocContentControlBeforeDelete() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocContentControlBeforeDelete"u8);
 
     /// <summary>Removes every <c>wne:eventDocContentControlBeforeDelete</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveEventDocContentControlBeforeDelete() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocContentControlBeforeDelete"u8);
+    public bool RemoveEventDocContentControlBeforeDelete() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocContentControlBeforeDelete"u8);
 
     /// <summary>The first <c>wne:eventDocContentControlOnExit</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocContentControlOnExit => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocContentControlOnExit"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocContentControlOnExit => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocContentControlOnExit"u8);
 
     /// <summary>Adds a <c>wne:eventDocContentControlOnExit</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocContentControlOnExit() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocContentControlOnExit"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocContentControlOnExit() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocContentControlOnExit"u8);
 
     /// <summary>Removes every <c>wne:eventDocContentControlOnExit</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveEventDocContentControlOnExit() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocContentControlOnExit"u8);
+    public bool RemoveEventDocContentControlOnExit() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocContentControlOnExit"u8);
 
     /// <summary>The first <c>wne:eventDocContentControlOnEnter</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocContentControlOnEnter => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocContentControlOnEnter"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocContentControlOnEnter => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocContentControlOnEnter"u8);
 
     /// <summary>Adds a <c>wne:eventDocContentControlOnEnter</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocContentControlOnEnter() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocContentControlOnEnter"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocContentControlOnEnter() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocContentControlOnEnter"u8);
 
     /// <summary>Removes every <c>wne:eventDocContentControlOnEnter</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveEventDocContentControlOnEnter() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocContentControlOnEnter"u8);
+    public bool RemoveEventDocContentControlOnEnter() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocContentControlOnEnter"u8);
 
     /// <summary>The first <c>wne:eventDocStoreUpdate</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocStoreUpdate => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocStoreUpdate"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocStoreUpdate => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocStoreUpdate"u8);
 
     /// <summary>Adds a <c>wne:eventDocStoreUpdate</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocStoreUpdate() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocStoreUpdate"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocStoreUpdate() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocStoreUpdate"u8);
 
     /// <summary>Removes every <c>wne:eventDocStoreUpdate</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveEventDocStoreUpdate() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocStoreUpdate"u8);
+    public bool RemoveEventDocStoreUpdate() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocStoreUpdate"u8);
 
     /// <summary>The first <c>wne:eventDocContentControlContentUpdate</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocContentControlContentUpdate => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocContentControlContentUpdate"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocContentControlContentUpdate => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocContentControlContentUpdate"u8);
 
     /// <summary>Adds a <c>wne:eventDocContentControlContentUpdate</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocContentControlContentUpdate() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocContentControlContentUpdate"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocContentControlContentUpdate() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocContentControlContentUpdate"u8);
 
     /// <summary>Removes every <c>wne:eventDocContentControlContentUpdate</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveEventDocContentControlContentUpdate() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocContentControlContentUpdate"u8);
+    public bool RemoveEventDocContentControlContentUpdate() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocContentControlContentUpdate"u8);
 
     /// <summary>The first <c>wne:eventDocBuildingBlockAfterInsert</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocBuildingBlockAfterInsert => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocBuildingBlockAfterInsert"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? EventDocBuildingBlockAfterInsert => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocBuildingBlockAfterInsert"u8);
 
     /// <summary>Adds a <c>wne:eventDocBuildingBlockAfterInsert</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocBuildingBlockAfterInsert() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocBuildingBlockAfterInsert"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddEventDocBuildingBlockAfterInsert() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocBuildingBlockAfterInsert"u8);
 
     /// <summary>Removes every <c>wne:eventDocBuildingBlockAfterInsert</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveEventDocBuildingBlockAfterInsert() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "eventDocBuildingBlockAfterInsert"u8);
+    public bool RemoveEventDocBuildingBlockAfterInsert() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "eventDocBuildingBlockAfterInsert"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_Mcd</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Mcd : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.WordMacro2006.Mcd>
+public readonly struct Mcd : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.Mcd>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -230,10 +230,10 @@ public readonly struct Mcd : global::RecursiveAI.OneDocument.Schema.IElementView
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.WordMacro2006.Mcd Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.Mcd Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.WordMacro2006Mcd;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.WordprocessingMacro2006Mcd;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
@@ -274,11 +274,11 @@ public readonly struct Mcd : global::RecursiveAI.OneDocument.Schema.IElementView
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.WordMacro2006.Mcd> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.Mcd> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_Mcds</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Mcds : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.WordMacro2006.Mcds>
+public readonly struct Mcds : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.Mcds>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -290,10 +290,10 @@ public readonly struct Mcds : global::RecursiveAI.OneDocument.Schema.IElementVie
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.WordMacro2006.Mcds Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.Mcds Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.WordMacro2006Mcds;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.WordprocessingMacro2006Mcds;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
@@ -304,7 +304,7 @@ public readonly struct Mcds : global::RecursiveAI.OneDocument.Schema.IElementVie
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006)
         {
             if (local.SequenceEqual("mcd"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
         }
@@ -326,25 +326,25 @@ public readonly struct Mcds : global::RecursiveAI.OneDocument.Schema.IElementVie
     }
 
     /// <summary>The first <c>wne:mcd</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Mcd => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "mcd"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Mcd => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "mcd"u8);
 
     /// <summary>Adds a <c>wne:mcd</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddMcd() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordMacro2006.Mcds>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "mcd"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddMcd() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.Mcds>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "mcd"u8);
 
     /// <summary>Removes every <c>wne:mcd</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveMcd() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "mcd"u8);
+    public bool RemoveMcd() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "mcd"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.WordMacro2006.Mcds> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.Mcds> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_VbaSuppData</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct VbaSuppData : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.WordMacro2006.VbaSuppData>
+public readonly struct VbaSuppData : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.VbaSuppData>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -356,10 +356,10 @@ public readonly struct VbaSuppData : global::RecursiveAI.OneDocument.Schema.IEle
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.WordMacro2006.VbaSuppData Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.VbaSuppData Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.WordMacro2006VbaSuppData;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.WordprocessingMacro2006VbaSuppData;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
@@ -370,7 +370,7 @@ public readonly struct VbaSuppData : global::RecursiveAI.OneDocument.Schema.IEle
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006)
         {
             if (local.SequenceEqual("docEvents"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
             if (local.SequenceEqual("mcds"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
@@ -393,31 +393,31 @@ public readonly struct VbaSuppData : global::RecursiveAI.OneDocument.Schema.IEle
     }
 
     /// <summary>The first <c>wne:docEvents</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? DocEvents => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "docEvents"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? DocEvents => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "docEvents"u8);
 
     /// <summary>Adds a <c>wne:docEvents</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDocEvents() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordMacro2006.VbaSuppData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "docEvents"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDocEvents() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.VbaSuppData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "docEvents"u8);
 
     /// <summary>Removes every <c>wne:docEvents</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveDocEvents() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "docEvents"u8);
+    public bool RemoveDocEvents() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "docEvents"u8);
 
     /// <summary>The first <c>wne:mcds</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Mcds => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "mcds"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Mcds => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "mcds"u8);
 
     /// <summary>Adds a <c>wne:mcds</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddMcds() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordMacro2006.VbaSuppData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "mcds"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddMcds() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.VbaSuppData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "mcds"u8);
 
     /// <summary>Removes every <c>wne:mcds</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveMcds() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordMacro2006, "mcds"u8);
+    public bool RemoveMcds() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingMacro2006, "mcds"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.WordMacro2006.VbaSuppData> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.VbaSuppData> UnknownChildren => new(_markup);
 }
 

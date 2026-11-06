@@ -5,7 +5,7 @@
 // </auto-generated>
 #nullable enable
 
-namespace RecursiveAI.OneDocument.Schema.VmlWord;
+namespace RecursiveAI.OneDocument.Schema.VmlWordprocessing;
 
 /// <summary>Values of the schema simple type <c>ST_BorderShadow</c>. A value the schema does not list reads as <see cref="Unrecognized"/>; the attribute's <c>Text</c> property still has it.</summary>
 public enum BorderShadowValue
@@ -368,7 +368,7 @@ public static class WrapTypeValueText
 }
 
 /// <summary>View of the schema type <c>CT_AnchorLock</c>, the type of <c>w10:anchorlock</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct AnchorLock : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock>
+public readonly struct AnchorLock : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -380,15 +380,15 @@ public readonly struct AnchorLock : global::RecursiveAI.OneDocument.Schema.IElem
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordAnchorLock;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingAnchorLock;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord) return local.SequenceEqual("anchorlock"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing) return local.SequenceEqual("anchorlock"u8);
         return false;
     }
 
@@ -409,11 +409,11 @@ public readonly struct AnchorLock : global::RecursiveAI.OneDocument.Schema.IElem
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_Border</c>, the type of <c>w10:borderbottom</c>, <c>w10:borderleft</c>, <c>w10:borderright</c>, <c>w10:bordertop</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Border : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.VmlWord.Border>
+public readonly struct Border : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -425,15 +425,15 @@ public readonly struct Border : global::RecursiveAI.OneDocument.Schema.IElementV
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.VmlWord.Border Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordBorder;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingBorder;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord) return local.SequenceEqual("borderbottom"u8) || local.SequenceEqual("borderleft"u8) || local.SequenceEqual("borderright"u8) || local.SequenceEqual("bordertop"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing) return local.SequenceEqual("borderbottom"u8) || local.SequenceEqual("borderleft"u8) || local.SequenceEqual("borderright"u8) || local.SequenceEqual("bordertop"u8);
         return false;
     }
 
@@ -452,10 +452,10 @@ public readonly struct Border : global::RecursiveAI.OneDocument.Schema.IElementV
     }
 
     /// <summary>Attribute <c>type</c> (w10:ST_BorderType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="TypeText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.BorderTypeValue? Type
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.BorderTypeValue? Type
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.VmlWord.BorderTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "type"u8, global::RecursiveAI.OneDocument.Schema.VmlWord.BorderTypeValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "type"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.VmlWord.BorderTypeValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.BorderTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "type"u8, global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.BorderTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "type"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.BorderTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>type</c>, whatever it is.</summary>
@@ -465,10 +465,10 @@ public readonly struct Border : global::RecursiveAI.OneDocument.Schema.IElementV
     public long? Width { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "width"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "width"u8, value); }
 
     /// <summary>Attribute <c>shadow</c> (w10:ST_BorderShadow). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ShadowText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.BorderShadowValue? Shadow
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.BorderShadowValue? Shadow
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.VmlWord.BorderShadowValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "shadow"u8, global::RecursiveAI.OneDocument.Schema.VmlWord.BorderShadowValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "shadow"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.VmlWord.BorderShadowValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.BorderShadowValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "shadow"u8, global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.BorderShadowValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "shadow"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.BorderShadowValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>shadow</c>, whatever it is.</summary>
@@ -478,11 +478,11 @@ public readonly struct Border : global::RecursiveAI.OneDocument.Schema.IElementV
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.VmlWord.Border> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_Wrap</c>, the type of <c>w10:wrap</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Wrap : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap>
+public readonly struct Wrap : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -494,15 +494,15 @@ public readonly struct Wrap : global::RecursiveAI.OneDocument.Schema.IElementVie
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordWrap;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.VmlWordprocessingWrap;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWord) return local.SequenceEqual("wrap"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlWordprocessing) return local.SequenceEqual("wrap"u8);
         return false;
     }
 
@@ -521,40 +521,40 @@ public readonly struct Wrap : global::RecursiveAI.OneDocument.Schema.IElementVie
     }
 
     /// <summary>Attribute <c>type</c> (w10:ST_WrapType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="TypeText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.WrapTypeValue? Type
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.WrapTypeValue? Type
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.VmlWord.WrapTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "type"u8, global::RecursiveAI.OneDocument.Schema.VmlWord.WrapTypeValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "type"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.VmlWord.WrapTypeValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.WrapTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "type"u8, global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.WrapTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "type"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.WrapTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>type</c>, whatever it is.</summary>
     public string? TypeText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "type"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "type"u8, value); }
 
     /// <summary>Attribute <c>side</c> (w10:ST_WrapSide). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="SideText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.WrapSideValue? Side
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.WrapSideValue? Side
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.VmlWord.WrapSideValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "side"u8, global::RecursiveAI.OneDocument.Schema.VmlWord.WrapSideValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "side"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.VmlWord.WrapSideValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.WrapSideValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "side"u8, global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.WrapSideValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "side"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.WrapSideValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>side</c>, whatever it is.</summary>
     public string? SideText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "side"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "side"u8, value); }
 
     /// <summary>Attribute <c>anchorx</c> (w10:ST_HorizontalAnchor). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AnchorxText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.HorizontalAnchorValue? Anchorx
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.HorizontalAnchorValue? Anchorx
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.VmlWord.HorizontalAnchorValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "anchorx"u8, global::RecursiveAI.OneDocument.Schema.VmlWord.HorizontalAnchorValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "anchorx"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.VmlWord.HorizontalAnchorValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.HorizontalAnchorValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "anchorx"u8, global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.HorizontalAnchorValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "anchorx"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.HorizontalAnchorValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>anchorx</c>, whatever it is.</summary>
     public string? AnchorxText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "anchorx"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "anchorx"u8, value); }
 
     /// <summary>Attribute <c>anchory</c> (w10:ST_VerticalAnchor). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AnchoryText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.VmlWord.VerticalAnchorValue? Anchory
+    public global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.VerticalAnchorValue? Anchory
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.VmlWord.VerticalAnchorValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "anchory"u8, global::RecursiveAI.OneDocument.Schema.VmlWord.VerticalAnchorValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "anchory"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.VmlWord.VerticalAnchorValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.VerticalAnchorValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "anchory"u8, global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.VerticalAnchorValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "anchory"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.VerticalAnchorValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>anchory</c>, whatever it is.</summary>
@@ -564,6 +564,6 @@ public readonly struct Wrap : global::RecursiveAI.OneDocument.Schema.IElementVie
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap> UnknownChildren => new(_markup);
 }
 

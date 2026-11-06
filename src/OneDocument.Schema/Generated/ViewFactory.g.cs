@@ -1626,18 +1626,18 @@ public enum ViewKind
     VmlOfficeSkew = 807,
     /// <summary>VmlOffice.StrokeChild.</summary>
     VmlOfficeStrokeChild = 808,
-    /// <summary>VmlWord.AnchorLock.</summary>
-    VmlWordAnchorLock = 809,
-    /// <summary>VmlWord.Border.</summary>
-    VmlWordBorder = 810,
-    /// <summary>VmlWord.Wrap.</summary>
-    VmlWordWrap = 811,
-    /// <summary>VmlExcel.ClientData.</summary>
-    VmlExcelClientData = 812,
-    /// <summary>VmlPowerPoint.Empty.</summary>
-    VmlPowerPointEmpty = 813,
-    /// <summary>VmlPowerPoint.Rel.</summary>
-    VmlPowerPointRel = 814,
+    /// <summary>VmlWordprocessing.AnchorLock.</summary>
+    VmlWordprocessingAnchorLock = 809,
+    /// <summary>VmlWordprocessing.Border.</summary>
+    VmlWordprocessingBorder = 810,
+    /// <summary>VmlWordprocessing.Wrap.</summary>
+    VmlWordprocessingWrap = 811,
+    /// <summary>VmlSpreadsheet.ClientData.</summary>
+    VmlSpreadsheetClientData = 812,
+    /// <summary>VmlPresentation.Empty.</summary>
+    VmlPresentationEmpty = 813,
+    /// <summary>VmlPresentation.Rel.</summary>
+    VmlPresentationRel = 814,
     /// <summary>ExtendedProperties.DigSigBlob.</summary>
     ExtendedPropertiesDigSigBlob = 815,
     /// <summary>ExtendedProperties.Properties.</summary>
@@ -1684,114 +1684,114 @@ public enum ViewKind
     DigitalSignatureRelationshipsGroupReference = 836,
     /// <summary>DigitalSignature.SignatureTime.</summary>
     DigitalSignatureSignatureTime = 837,
-    /// <summary>Word2010.Bevel.</summary>
-    Word2010Bevel = 838,
-    /// <summary>Word2010.Camera.</summary>
-    Word2010Camera = 839,
-    /// <summary>Word2010.Color.</summary>
-    Word2010Color = 840,
-    /// <summary>Word2010.DefaultImageDpi.</summary>
-    Word2010DefaultImageDpi = 841,
-    /// <summary>Word2010.FillTextEffect.</summary>
-    Word2010FillTextEffect = 842,
-    /// <summary>Word2010.Glow.</summary>
-    Word2010Glow = 843,
-    /// <summary>Word2010.GradientFillProperties.</summary>
-    Word2010GradientFillProperties = 844,
-    /// <summary>Word2010.GradientStop.</summary>
-    Word2010GradientStop = 845,
-    /// <summary>Word2010.GradientStopList.</summary>
-    Word2010GradientStopList = 846,
-    /// <summary>Word2010.Ligatures.</summary>
-    Word2010Ligatures = 847,
-    /// <summary>Word2010.LightRig.</summary>
-    Word2010LightRig = 848,
-    /// <summary>Word2010.LineJoinMiterProperties.</summary>
-    Word2010LineJoinMiterProperties = 849,
-    /// <summary>Word2010.LinearShadeProperties.</summary>
-    Word2010LinearShadeProperties = 850,
-    /// <summary>Word2010.LongHexNumber.</summary>
-    Word2010LongHexNumber = 851,
-    /// <summary>Word2010.NumForm.</summary>
-    Word2010NumForm = 852,
-    /// <summary>Word2010.NumSpacing.</summary>
-    Word2010NumSpacing = 853,
-    /// <summary>Word2010.OnOff.</summary>
-    Word2010OnOff = 854,
-    /// <summary>Word2010.PathShadeProperties.</summary>
-    Word2010PathShadeProperties = 855,
-    /// <summary>Word2010.Percentage.</summary>
-    Word2010Percentage = 856,
-    /// <summary>Word2010.PositiveFixedPercentage.</summary>
-    Word2010PositiveFixedPercentage = 857,
-    /// <summary>Word2010.PositivePercentage.</summary>
-    Word2010PositivePercentage = 858,
-    /// <summary>Word2010.PresetLineDashProperties.</summary>
-    Word2010PresetLineDashProperties = 859,
-    /// <summary>Word2010.Props3D.</summary>
-    Word2010Props3D = 860,
-    /// <summary>Word2010.Reflection.</summary>
-    Word2010Reflection = 861,
-    /// <summary>Word2010.RelativeRect.</summary>
-    Word2010RelativeRect = 862,
-    /// <summary>Word2010.SRgbColor.</summary>
-    Word2010SRgbColor = 863,
-    /// <summary>Word2010.Scene3D.</summary>
-    Word2010Scene3D = 864,
-    /// <summary>Word2010.SchemeColor.</summary>
-    Word2010SchemeColor = 865,
-    /// <summary>Word2010.SdtCheckbox.</summary>
-    Word2010SdtCheckbox = 866,
-    /// <summary>Word2010.SdtCheckboxSymbol.</summary>
-    Word2010SdtCheckboxSymbol = 867,
-    /// <summary>Word2010.Shadow.</summary>
-    Word2010Shadow = 868,
-    /// <summary>Word2010.SolidColorFillProperties.</summary>
-    Word2010SolidColorFillProperties = 869,
-    /// <summary>Word2010.SphereCoords.</summary>
-    Word2010SphereCoords = 870,
-    /// <summary>Word2010.StyleSet.</summary>
-    Word2010StyleSet = 871,
-    /// <summary>Word2010.StylisticSets.</summary>
-    Word2010StylisticSets = 872,
-    /// <summary>Word2010.TextOutlineEffect.</summary>
-    Word2010TextOutlineEffect = 873,
-    /// <summary>Word2010.WordContentPart.</summary>
-    Word2010WordContentPart = 874,
-    /// <summary>Word2010.WordContentPartNonVisual.</summary>
-    Word2010WordContentPartNonVisual = 875,
-    /// <summary>Word2012.CommentEx.</summary>
-    Word2012CommentEx = 876,
-    /// <summary>Word2012.CommentsEx.</summary>
-    Word2012CommentsEx = 877,
-    /// <summary>Word2012.Guid.</summary>
-    Word2012Guid = 878,
-    /// <summary>Word2012.People.</summary>
-    Word2012People = 879,
-    /// <summary>Word2012.Person.</summary>
-    Word2012Person = 880,
-    /// <summary>Word2012.PresenceInfo.</summary>
-    Word2012PresenceInfo = 881,
-    /// <summary>Word2012.SdtAppearance.</summary>
-    Word2012SdtAppearance = 882,
-    /// <summary>Word2012.SdtRepeatedSection.</summary>
-    Word2012SdtRepeatedSection = 883,
-    /// <summary>Word2015Symex.SymEx.</summary>
-    Word2015SymexSymEx = 884,
-    /// <summary>Word2016Cid.CommentId.</summary>
-    Word2016CidCommentId = 885,
-    /// <summary>Word2016Cid.CommentsIds.</summary>
-    Word2016CidCommentsIds = 886,
-    /// <summary>Word2018.Extension.</summary>
-    Word2018Extension = 887,
-    /// <summary>Word2018.ExtensionList.</summary>
-    Word2018ExtensionList = 888,
-    /// <summary>Word2018Cex.CommentExtensible.</summary>
-    Word2018CexCommentExtensible = 889,
-    /// <summary>Word2018Cex.CommentsExtensible.</summary>
-    Word2018CexCommentsExtensible = 890,
-    /// <summary>Word2026Cei.CommentEntityInfo.</summary>
-    Word2026CeiCommentEntityInfo = 891,
+    /// <summary>Wordprocessing2010.Bevel.</summary>
+    Wordprocessing2010Bevel = 838,
+    /// <summary>Wordprocessing2010.Camera.</summary>
+    Wordprocessing2010Camera = 839,
+    /// <summary>Wordprocessing2010.Color.</summary>
+    Wordprocessing2010Color = 840,
+    /// <summary>Wordprocessing2010.DefaultImageDpi.</summary>
+    Wordprocessing2010DefaultImageDpi = 841,
+    /// <summary>Wordprocessing2010.FillTextEffect.</summary>
+    Wordprocessing2010FillTextEffect = 842,
+    /// <summary>Wordprocessing2010.Glow.</summary>
+    Wordprocessing2010Glow = 843,
+    /// <summary>Wordprocessing2010.GradientFillProperties.</summary>
+    Wordprocessing2010GradientFillProperties = 844,
+    /// <summary>Wordprocessing2010.GradientStop.</summary>
+    Wordprocessing2010GradientStop = 845,
+    /// <summary>Wordprocessing2010.GradientStopList.</summary>
+    Wordprocessing2010GradientStopList = 846,
+    /// <summary>Wordprocessing2010.Ligatures.</summary>
+    Wordprocessing2010Ligatures = 847,
+    /// <summary>Wordprocessing2010.LightRig.</summary>
+    Wordprocessing2010LightRig = 848,
+    /// <summary>Wordprocessing2010.LineJoinMiterProperties.</summary>
+    Wordprocessing2010LineJoinMiterProperties = 849,
+    /// <summary>Wordprocessing2010.LinearShadeProperties.</summary>
+    Wordprocessing2010LinearShadeProperties = 850,
+    /// <summary>Wordprocessing2010.LongHexNumber.</summary>
+    Wordprocessing2010LongHexNumber = 851,
+    /// <summary>Wordprocessing2010.NumForm.</summary>
+    Wordprocessing2010NumForm = 852,
+    /// <summary>Wordprocessing2010.NumSpacing.</summary>
+    Wordprocessing2010NumSpacing = 853,
+    /// <summary>Wordprocessing2010.OnOff.</summary>
+    Wordprocessing2010OnOff = 854,
+    /// <summary>Wordprocessing2010.PathShadeProperties.</summary>
+    Wordprocessing2010PathShadeProperties = 855,
+    /// <summary>Wordprocessing2010.Percentage.</summary>
+    Wordprocessing2010Percentage = 856,
+    /// <summary>Wordprocessing2010.PositiveFixedPercentage.</summary>
+    Wordprocessing2010PositiveFixedPercentage = 857,
+    /// <summary>Wordprocessing2010.PositivePercentage.</summary>
+    Wordprocessing2010PositivePercentage = 858,
+    /// <summary>Wordprocessing2010.PresetLineDashProperties.</summary>
+    Wordprocessing2010PresetLineDashProperties = 859,
+    /// <summary>Wordprocessing2010.Props3D.</summary>
+    Wordprocessing2010Props3D = 860,
+    /// <summary>Wordprocessing2010.Reflection.</summary>
+    Wordprocessing2010Reflection = 861,
+    /// <summary>Wordprocessing2010.RelativeRect.</summary>
+    Wordprocessing2010RelativeRect = 862,
+    /// <summary>Wordprocessing2010.SRgbColor.</summary>
+    Wordprocessing2010SRgbColor = 863,
+    /// <summary>Wordprocessing2010.Scene3D.</summary>
+    Wordprocessing2010Scene3D = 864,
+    /// <summary>Wordprocessing2010.SchemeColor.</summary>
+    Wordprocessing2010SchemeColor = 865,
+    /// <summary>Wordprocessing2010.SdtCheckbox.</summary>
+    Wordprocessing2010SdtCheckbox = 866,
+    /// <summary>Wordprocessing2010.SdtCheckboxSymbol.</summary>
+    Wordprocessing2010SdtCheckboxSymbol = 867,
+    /// <summary>Wordprocessing2010.Shadow.</summary>
+    Wordprocessing2010Shadow = 868,
+    /// <summary>Wordprocessing2010.SolidColorFillProperties.</summary>
+    Wordprocessing2010SolidColorFillProperties = 869,
+    /// <summary>Wordprocessing2010.SphereCoords.</summary>
+    Wordprocessing2010SphereCoords = 870,
+    /// <summary>Wordprocessing2010.StyleSet.</summary>
+    Wordprocessing2010StyleSet = 871,
+    /// <summary>Wordprocessing2010.StylisticSets.</summary>
+    Wordprocessing2010StylisticSets = 872,
+    /// <summary>Wordprocessing2010.TextOutlineEffect.</summary>
+    Wordprocessing2010TextOutlineEffect = 873,
+    /// <summary>Wordprocessing2010.WordContentPart.</summary>
+    Wordprocessing2010WordContentPart = 874,
+    /// <summary>Wordprocessing2010.WordContentPartNonVisual.</summary>
+    Wordprocessing2010WordContentPartNonVisual = 875,
+    /// <summary>Wordprocessing2012.CommentEx.</summary>
+    Wordprocessing2012CommentEx = 876,
+    /// <summary>Wordprocessing2012.CommentsEx.</summary>
+    Wordprocessing2012CommentsEx = 877,
+    /// <summary>Wordprocessing2012.Guid.</summary>
+    Wordprocessing2012Guid = 878,
+    /// <summary>Wordprocessing2012.People.</summary>
+    Wordprocessing2012People = 879,
+    /// <summary>Wordprocessing2012.Person.</summary>
+    Wordprocessing2012Person = 880,
+    /// <summary>Wordprocessing2012.PresenceInfo.</summary>
+    Wordprocessing2012PresenceInfo = 881,
+    /// <summary>Wordprocessing2012.SdtAppearance.</summary>
+    Wordprocessing2012SdtAppearance = 882,
+    /// <summary>Wordprocessing2012.SdtRepeatedSection.</summary>
+    Wordprocessing2012SdtRepeatedSection = 883,
+    /// <summary>Wordprocessing2015Symex.SymEx.</summary>
+    Wordprocessing2015SymexSymEx = 884,
+    /// <summary>Wordprocessing2016Cid.CommentId.</summary>
+    Wordprocessing2016CidCommentId = 885,
+    /// <summary>Wordprocessing2016Cid.CommentsIds.</summary>
+    Wordprocessing2016CidCommentsIds = 886,
+    /// <summary>Wordprocessing2018.Extension.</summary>
+    Wordprocessing2018Extension = 887,
+    /// <summary>Wordprocessing2018.ExtensionList.</summary>
+    Wordprocessing2018ExtensionList = 888,
+    /// <summary>Wordprocessing2018Cex.CommentExtensible.</summary>
+    Wordprocessing2018CexCommentExtensible = 889,
+    /// <summary>Wordprocessing2018Cex.CommentsExtensible.</summary>
+    Wordprocessing2018CexCommentsExtensible = 890,
+    /// <summary>Wordprocessing2026Cei.CommentEntityInfo.</summary>
+    Wordprocessing2026CeiCommentEntityInfo = 891,
     /// <summary>WordprocessingShape.LinkedTextboxInformation.</summary>
     WordprocessingShapeLinkedTextboxInformation = 892,
     /// <summary>WordprocessingShape.TextboxInfo.</summary>
@@ -1810,8 +1810,8 @@ public enum ViewKind
     WordprocessingDrawing2010SizeRelV = 899,
     /// <summary>WordprocessingDrawing2012.WebVideoPr.</summary>
     WordprocessingDrawing2012WebVideoPr = 900,
-    /// <summary>WordOEmbed.OEmbed.</summary>
-    WordOEmbedOEmbed = 901,
+    /// <summary>WordprocessingOEmbed.OEmbed.</summary>
+    WordprocessingOEmbedOEmbed = 901,
     /// <summary>Drawing2010.CameraTool.</summary>
     Drawing2010CameraTool = 902,
     /// <summary>Drawing2010.CompatExt.</summary>
@@ -3796,28 +3796,28 @@ public enum ViewKind
     Slicer2010Slicer = 1892,
     /// <summary>TimeSlicer2012.Timeline.</summary>
     TimeSlicer2012Timeline = 1893,
-    /// <summary>ExcelMacro2006.Ref.</summary>
-    ExcelMacro2006Ref = 1894,
-    /// <summary>ExcelMacro2006.Sqref.</summary>
-    ExcelMacro2006Sqref = 1895,
-    /// <summary>ExcelMacro2006.Worksheet.</summary>
-    ExcelMacro2006Worksheet = 1896,
-    /// <summary>ExcelMacro2008.DefinedName.</summary>
-    ExcelMacro2008DefinedName = 1897,
-    /// <summary>ExcelMacro2008.DefinedNameArgumentDescription.</summary>
-    ExcelMacro2008DefinedNameArgumentDescription = 1898,
-    /// <summary>ExcelMacro2008.DefinedNameArgumentDescriptions.</summary>
-    ExcelMacro2008DefinedNameArgumentDescriptions = 1899,
-    /// <summary>ExcelMacro2008.DefinedNames.</summary>
-    ExcelMacro2008DefinedNames = 1900,
-    /// <summary>WordMacro2006.DocEvents.</summary>
-    WordMacro2006DocEvents = 1901,
-    /// <summary>WordMacro2006.Mcd.</summary>
-    WordMacro2006Mcd = 1902,
-    /// <summary>WordMacro2006.Mcds.</summary>
-    WordMacro2006Mcds = 1903,
-    /// <summary>WordMacro2006.VbaSuppData.</summary>
-    WordMacro2006VbaSuppData = 1904,
+    /// <summary>SpreadsheetMacro2006.Ref.</summary>
+    SpreadsheetMacro2006Ref = 1894,
+    /// <summary>SpreadsheetMacro2006.Sqref.</summary>
+    SpreadsheetMacro2006Sqref = 1895,
+    /// <summary>SpreadsheetMacro2006.Worksheet.</summary>
+    SpreadsheetMacro2006Worksheet = 1896,
+    /// <summary>SpreadsheetMacro2008.DefinedName.</summary>
+    SpreadsheetMacro2008DefinedName = 1897,
+    /// <summary>SpreadsheetMacro2008.DefinedNameArgumentDescription.</summary>
+    SpreadsheetMacro2008DefinedNameArgumentDescription = 1898,
+    /// <summary>SpreadsheetMacro2008.DefinedNameArgumentDescriptions.</summary>
+    SpreadsheetMacro2008DefinedNameArgumentDescriptions = 1899,
+    /// <summary>SpreadsheetMacro2008.DefinedNames.</summary>
+    SpreadsheetMacro2008DefinedNames = 1900,
+    /// <summary>WordprocessingMacro2006.DocEvents.</summary>
+    WordprocessingMacro2006DocEvents = 1901,
+    /// <summary>WordprocessingMacro2006.Mcd.</summary>
+    WordprocessingMacro2006Mcd = 1902,
+    /// <summary>WordprocessingMacro2006.Mcds.</summary>
+    WordprocessingMacro2006Mcds = 1903,
+    /// <summary>WordprocessingMacro2006.VbaSuppData.</summary>
+    WordprocessingMacro2006VbaSuppData = 1904,
     /// <summary>Spreadsheet2009.CacheField.</summary>
     Spreadsheet2009CacheField = 1905,
     /// <summary>Spreadsheet2009.CacheHierarchy.</summary>
@@ -4354,7 +4354,7 @@ public static class ViewFactory
     /// <summary>True for the namespaces of the Microsoft extension schemas, whose elements may appear inside base-schema types.</summary>
     /// <param name="ns">The namespace.</param>
     /// <returns>True for an extension namespace.</returns>
-    public static bool IsExtensionNamespace(SchemaNamespace ns) => ns == SchemaNamespace.Word2010 || ns == SchemaNamespace.Word2012 || ns == SchemaNamespace.Word2015Symex || ns == SchemaNamespace.Word2016Cid || ns == SchemaNamespace.Word2018 || ns == SchemaNamespace.Word2018Cex || ns == SchemaNamespace.Word2020SdtDataHash || ns == SchemaNamespace.Word2023Du || ns == SchemaNamespace.Word2024SdtFormatLock || ns == SchemaNamespace.Word2026Cei || ns == SchemaNamespace.WordprocessingShape || ns == SchemaNamespace.WordprocessingGroup || ns == SchemaNamespace.WordprocessingCanvas || ns == SchemaNamespace.WordprocessingDrawing2010 || ns == SchemaNamespace.WordprocessingDrawing2012 || ns == SchemaNamespace.WordOEmbed || ns == SchemaNamespace.Drawing2010 || ns == SchemaNamespace.Picture2010 || ns == SchemaNamespace.Drawing2012 || ns == SchemaNamespace.Drawing2014 || ns == SchemaNamespace.DrawingSvg || ns == SchemaNamespace.DrawingDecorative || ns == SchemaNamespace.DrawingClassification || ns == SchemaNamespace.DrawingHyperlinkColor || ns == SchemaNamespace.Presentation2010 || ns == SchemaNamespace.Presentation2012 || ns == SchemaNamespace.Presentation2013Command || ns == SchemaNamespace.Presentation201509 || ns == SchemaNamespace.Presentation201510 || ns == SchemaNamespace.Presentation2015 || ns == SchemaNamespace.Presentation2016Six || ns == SchemaNamespace.PresentationSectionZoom || ns == SchemaNamespace.PresentationSlideZoom || ns == SchemaNamespace.PresentationSummaryZoom || ns == SchemaNamespace.Presentation201710 || ns == SchemaNamespace.Presentation201703 || ns == SchemaNamespace.Presentation201804 || ns == SchemaNamespace.Presentation201808 || ns == SchemaNamespace.Presentation2019Command || ns == SchemaNamespace.Presentation202002 || ns == SchemaNamespace.Presentation202203 || ns == SchemaNamespace.Presentation2022Command || ns == SchemaNamespace.Presentation202208 || ns == SchemaNamespace.Presentation202302 || ns == SchemaNamespace.Chart2007 || ns == SchemaNamespace.Chart2012 || ns == SchemaNamespace.ChartStyle2012 || ns == SchemaNamespace.Chart2014 || ns == SchemaNamespace.Chart2014Ac || ns == SchemaNamespace.ChartEx || ns == SchemaNamespace.Chart201506 || ns == SchemaNamespace.Chart201703 || ns == SchemaNamespace.ChartDrawing2010 || ns == SchemaNamespace.DiagramDrawing || ns == SchemaNamespace.Diagram2010 || ns == SchemaNamespace.Diagram201611 || ns == SchemaNamespace.Diagram201612 || ns == SchemaNamespace.DrawingCommand2013 || ns == SchemaNamespace.Drawing201611 || ns == SchemaNamespace.DrawingInk2016 || ns == SchemaNamespace.Model3D || ns == SchemaNamespace.DrawingAnimation || ns == SchemaNamespace.DrawingAnimationModel3D || ns == SchemaNamespace.SketchyShapes || ns == SchemaNamespace.LiveFeed || ns == SchemaNamespace.ScriptLink || ns == SchemaNamespace.ImageFormula || ns == SchemaNamespace.SpreadsheetDrawing2010 || ns == SchemaNamespace.InkAction || ns == SchemaNamespace.Ink2010 || ns == SchemaNamespace.ThemeMl2012 || ns == SchemaNamespace.Slicer2010 || ns == SchemaNamespace.TimeSlicer2012 || ns == SchemaNamespace.ExcelMacro2006 || ns == SchemaNamespace.ExcelMacro2008 || ns == SchemaNamespace.WordMacro2006 || ns == SchemaNamespace.Spreadsheet2009 || ns == SchemaNamespace.Spreadsheet2009Ac || ns == SchemaNamespace.Spreadsheet2010 || ns == SchemaNamespace.Spreadsheet2010Ac || ns == SchemaNamespace.Spreadsheet2011Ac || ns == SchemaNamespace.Spreadsheet2014 || ns == SchemaNamespace.SpreadsheetRevision2014 || ns == SchemaNamespace.Spreadsheet2015 || ns == SchemaNamespace.SpreadsheetRevision2 || ns == SchemaNamespace.SpreadsheetRevision3 || ns == SchemaNamespace.SpreadsheetRevision5 || ns == SchemaNamespace.SpreadsheetRevision6 || ns == SchemaNamespace.SpreadsheetRevision9 || ns == SchemaNamespace.SpreadsheetRevision10 || ns == SchemaNamespace.PivotDefaultLayout || ns == SchemaNamespace.DynamicArray || ns == SchemaNamespace.RichData || ns == SchemaNamespace.RichData2 || ns == SchemaNamespace.Spreadsheet201808 || ns == SchemaNamespace.CalcFeatures || ns == SchemaNamespace.ThreadedComments || ns == SchemaNamespace.ExternalLinkProperties || ns == SchemaNamespace.NamedSheetViews || ns == SchemaNamespace.Pivot2020 || ns == SchemaNamespace.RichDataWebImage || ns == SchemaNamespace.RichValueRefresh || ns == SchemaNamespace.ThreadedComments2 || ns == SchemaNamespace.ExternalLinks2021 || ns == SchemaNamespace.FeaturePropertyBag || ns == SchemaNamespace.PivotRichData || ns == SchemaNamespace.PivotVersionInfo || ns == SchemaNamespace.RichValueRel || ns == SchemaNamespace.ExternalCodeService || ns == SchemaNamespace.MsForms || ns == SchemaNamespace.Pivot2023Calculation || ns == SchemaNamespace.Python || ns == SchemaNamespace.ShowDataTypeIcons || ns == SchemaNamespace.PivotAutoRefresh || ns == SchemaNamespace.WorkbookCompatibilityVersion || ns == SchemaNamespace.ExternalCodeService2 || ns == SchemaNamespace.PivotDataSource;
+    public static bool IsExtensionNamespace(SchemaNamespace ns) => ns == SchemaNamespace.Wordprocessing2010 || ns == SchemaNamespace.Wordprocessing2012 || ns == SchemaNamespace.Wordprocessing2015Symex || ns == SchemaNamespace.Wordprocessing2016Cid || ns == SchemaNamespace.Wordprocessing2018 || ns == SchemaNamespace.Wordprocessing2018Cex || ns == SchemaNamespace.Wordprocessing2020SdtDataHash || ns == SchemaNamespace.Wordprocessing2023Du || ns == SchemaNamespace.Wordprocessing2024SdtFormatLock || ns == SchemaNamespace.Wordprocessing2026Cei || ns == SchemaNamespace.WordprocessingShape || ns == SchemaNamespace.WordprocessingGroup || ns == SchemaNamespace.WordprocessingCanvas || ns == SchemaNamespace.WordprocessingDrawing2010 || ns == SchemaNamespace.WordprocessingDrawing2012 || ns == SchemaNamespace.WordprocessingOEmbed || ns == SchemaNamespace.Drawing2010 || ns == SchemaNamespace.Picture2010 || ns == SchemaNamespace.Drawing2012 || ns == SchemaNamespace.Drawing2014 || ns == SchemaNamespace.DrawingSvg || ns == SchemaNamespace.DrawingDecorative || ns == SchemaNamespace.DrawingClassification || ns == SchemaNamespace.DrawingHyperlinkColor || ns == SchemaNamespace.Presentation2010 || ns == SchemaNamespace.Presentation2012 || ns == SchemaNamespace.Presentation2013Command || ns == SchemaNamespace.Presentation201509 || ns == SchemaNamespace.Presentation201510 || ns == SchemaNamespace.Presentation2015 || ns == SchemaNamespace.Presentation2016Six || ns == SchemaNamespace.PresentationSectionZoom || ns == SchemaNamespace.PresentationSlideZoom || ns == SchemaNamespace.PresentationSummaryZoom || ns == SchemaNamespace.Presentation201710 || ns == SchemaNamespace.Presentation201703 || ns == SchemaNamespace.Presentation201804 || ns == SchemaNamespace.Presentation201808 || ns == SchemaNamespace.Presentation2019Command || ns == SchemaNamespace.Presentation202002 || ns == SchemaNamespace.Presentation202203 || ns == SchemaNamespace.Presentation2022Command || ns == SchemaNamespace.Presentation202208 || ns == SchemaNamespace.Presentation202302 || ns == SchemaNamespace.Chart2007 || ns == SchemaNamespace.Chart2012 || ns == SchemaNamespace.ChartStyle2012 || ns == SchemaNamespace.Chart2014 || ns == SchemaNamespace.Chart2014Ac || ns == SchemaNamespace.ChartEx || ns == SchemaNamespace.Chart201506 || ns == SchemaNamespace.Chart201703 || ns == SchemaNamespace.ChartDrawing2010 || ns == SchemaNamespace.DiagramDrawing || ns == SchemaNamespace.Diagram2010 || ns == SchemaNamespace.Diagram201611 || ns == SchemaNamespace.Diagram201612 || ns == SchemaNamespace.DrawingCommand2013 || ns == SchemaNamespace.Drawing201611 || ns == SchemaNamespace.DrawingInk2016 || ns == SchemaNamespace.Model3D || ns == SchemaNamespace.DrawingAnimation || ns == SchemaNamespace.DrawingAnimationModel3D || ns == SchemaNamespace.SketchyShapes || ns == SchemaNamespace.LiveFeed || ns == SchemaNamespace.ScriptLink || ns == SchemaNamespace.ImageFormula || ns == SchemaNamespace.SpreadsheetDrawing2010 || ns == SchemaNamespace.InkAction || ns == SchemaNamespace.Ink2010 || ns == SchemaNamespace.ThemeMl2012 || ns == SchemaNamespace.Slicer2010 || ns == SchemaNamespace.TimeSlicer2012 || ns == SchemaNamespace.SpreadsheetMacro2006 || ns == SchemaNamespace.SpreadsheetMacro2008 || ns == SchemaNamespace.WordprocessingMacro2006 || ns == SchemaNamespace.Spreadsheet2009 || ns == SchemaNamespace.Spreadsheet2009Ac || ns == SchemaNamespace.Spreadsheet2010 || ns == SchemaNamespace.Spreadsheet2010Ac || ns == SchemaNamespace.Spreadsheet2011Ac || ns == SchemaNamespace.Spreadsheet2014 || ns == SchemaNamespace.SpreadsheetRevision2014 || ns == SchemaNamespace.Spreadsheet2015 || ns == SchemaNamespace.SpreadsheetRevision2 || ns == SchemaNamespace.SpreadsheetRevision3 || ns == SchemaNamespace.SpreadsheetRevision5 || ns == SchemaNamespace.SpreadsheetRevision6 || ns == SchemaNamespace.SpreadsheetRevision9 || ns == SchemaNamespace.SpreadsheetRevision10 || ns == SchemaNamespace.PivotDefaultLayout || ns == SchemaNamespace.DynamicArray || ns == SchemaNamespace.RichData || ns == SchemaNamespace.RichData2 || ns == SchemaNamespace.Spreadsheet201808 || ns == SchemaNamespace.CalcFeatures || ns == SchemaNamespace.ThreadedComments || ns == SchemaNamespace.ExternalLinkProperties || ns == SchemaNamespace.NamedSheetViews || ns == SchemaNamespace.Pivot2020 || ns == SchemaNamespace.RichDataWebImage || ns == SchemaNamespace.RichValueRefresh || ns == SchemaNamespace.ThreadedComments2 || ns == SchemaNamespace.ExternalLinks2021 || ns == SchemaNamespace.FeaturePropertyBag || ns == SchemaNamespace.PivotRichData || ns == SchemaNamespace.PivotVersionInfo || ns == SchemaNamespace.RichValueRel || ns == SchemaNamespace.ExternalCodeService || ns == SchemaNamespace.MsForms || ns == SchemaNamespace.Pivot2023Calculation || ns == SchemaNamespace.Python || ns == SchemaNamespace.ShowDataTypeIcons || ns == SchemaNamespace.PivotAutoRefresh || ns == SchemaNamespace.WorkbookCompatibilityVersion || ns == SchemaNamespace.ExternalCodeService2 || ns == SchemaNamespace.PivotDataSource;
 
     /// <summary>The view for a global element declared by a root schema (the element a part starts with, or one that can appear anywhere).</summary>
     /// <param name="ns">The element's namespace.</param>
@@ -4572,16 +4572,16 @@ public static class ViewFactory
         {
             if (local.SequenceEqual("imageFormula"u8)) return ViewKind.ImageFormulaImageFormula;
         }
-        if (ns == SchemaNamespace.ExcelMacro2006)
+        if (ns == SchemaNamespace.SpreadsheetMacro2006)
         {
             if (local.SequenceEqual("f"u8)) return ViewKind.Simple;
-            if (local.SequenceEqual("macrosheet"u8)) return ViewKind.ExcelMacro2006Worksheet;
-            if (local.SequenceEqual("ref"u8)) return ViewKind.ExcelMacro2006Ref;
-            if (local.SequenceEqual("sqref"u8)) return ViewKind.ExcelMacro2006Sqref;
+            if (local.SequenceEqual("macrosheet"u8)) return ViewKind.SpreadsheetMacro2006Worksheet;
+            if (local.SequenceEqual("ref"u8)) return ViewKind.SpreadsheetMacro2006Ref;
+            if (local.SequenceEqual("sqref"u8)) return ViewKind.SpreadsheetMacro2006Sqref;
         }
-        if (ns == SchemaNamespace.ExcelMacro2008)
+        if (ns == SchemaNamespace.SpreadsheetMacro2008)
         {
-            if (local.SequenceEqual("definedNames"u8)) return ViewKind.ExcelMacro2008DefinedNames;
+            if (local.SequenceEqual("definedNames"u8)) return ViewKind.SpreadsheetMacro2008DefinedNames;
             if (local.SequenceEqual("macrosheet"u8)) return ViewKind.Simple;
         }
         if (ns == SchemaNamespace.SpreadsheetDrawing2010)
@@ -4922,58 +4922,58 @@ public static class ViewFactory
         {
             if (local.SequenceEqual("themeFamily"u8)) return ViewKind.ThemeMl2012ThemeFamily;
         }
-        if (ns == SchemaNamespace.WordMacro2006)
+        if (ns == SchemaNamespace.WordprocessingMacro2006)
         {
             if (local.SequenceEqual("vbaSuppData"u8)) return ViewKind.Simple;
         }
-        if (ns == SchemaNamespace.Word2010)
+        if (ns == SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("alpha"u8)) return ViewKind.Word2010PositiveFixedPercentage;
+            if (local.SequenceEqual("alpha"u8)) return ViewKind.Wordprocessing2010PositiveFixedPercentage;
             if (local.SequenceEqual("bevel"u8)) return ViewKind.WordprocessingEmpty;
-            if (local.SequenceEqual("checkbox"u8)) return ViewKind.Word2010SdtCheckbox;
-            if (local.SequenceEqual("cntxtAlts"u8)) return ViewKind.Word2010OnOff;
+            if (local.SequenceEqual("checkbox"u8)) return ViewKind.Wordprocessing2010SdtCheckbox;
+            if (local.SequenceEqual("cntxtAlts"u8)) return ViewKind.Wordprocessing2010OnOff;
             if (local.SequenceEqual("conflictDel"u8)) return ViewKind.WordprocessingTrackChange;
             if (local.SequenceEqual("conflictIns"u8)) return ViewKind.WordprocessingTrackChange;
-            if (local.SequenceEqual("conflictMode"u8)) return ViewKind.Word2010OnOff;
-            if (local.SequenceEqual("contentPart"u8)) return ViewKind.Word2010WordContentPart;
+            if (local.SequenceEqual("conflictMode"u8)) return ViewKind.Wordprocessing2010OnOff;
+            if (local.SequenceEqual("contentPart"u8)) return ViewKind.Wordprocessing2010WordContentPart;
             if (local.SequenceEqual("customXmlConflictDelRangeEnd"u8)) return ViewKind.WordprocessingMarkupBase;
             if (local.SequenceEqual("customXmlConflictDelRangeStart"u8)) return ViewKind.WordprocessingTrackChange;
             if (local.SequenceEqual("customXmlConflictInsRangeEnd"u8)) return ViewKind.WordprocessingMarkupBase;
             if (local.SequenceEqual("customXmlConflictInsRangeStart"u8)) return ViewKind.WordprocessingTrackChange;
-            if (local.SequenceEqual("defaultImageDpi"u8)) return ViewKind.Word2010DefaultImageDpi;
-            if (local.SequenceEqual("discardImageEditingData"u8)) return ViewKind.Word2010OnOff;
-            if (local.SequenceEqual("docId"u8)) return ViewKind.Word2010LongHexNumber;
+            if (local.SequenceEqual("defaultImageDpi"u8)) return ViewKind.Wordprocessing2010DefaultImageDpi;
+            if (local.SequenceEqual("discardImageEditingData"u8)) return ViewKind.Wordprocessing2010OnOff;
+            if (local.SequenceEqual("docId"u8)) return ViewKind.Wordprocessing2010LongHexNumber;
             if (local.SequenceEqual("entityPicker"u8)) return ViewKind.WordprocessingEmpty;
-            if (local.SequenceEqual("glow"u8)) return ViewKind.Word2010Glow;
-            if (local.SequenceEqual("gradFill"u8)) return ViewKind.Word2010GradientFillProperties;
-            if (local.SequenceEqual("hueMod"u8)) return ViewKind.Word2010PositivePercentage;
-            if (local.SequenceEqual("ligatures"u8)) return ViewKind.Word2010Ligatures;
-            if (local.SequenceEqual("lin"u8)) return ViewKind.Word2010LinearShadeProperties;
-            if (local.SequenceEqual("lum"u8)) return ViewKind.Word2010Percentage;
-            if (local.SequenceEqual("lumMod"u8)) return ViewKind.Word2010Percentage;
-            if (local.SequenceEqual("lumOff"u8)) return ViewKind.Word2010Percentage;
-            if (local.SequenceEqual("miter"u8)) return ViewKind.Word2010LineJoinMiterProperties;
+            if (local.SequenceEqual("glow"u8)) return ViewKind.Wordprocessing2010Glow;
+            if (local.SequenceEqual("gradFill"u8)) return ViewKind.Wordprocessing2010GradientFillProperties;
+            if (local.SequenceEqual("hueMod"u8)) return ViewKind.Wordprocessing2010PositivePercentage;
+            if (local.SequenceEqual("ligatures"u8)) return ViewKind.Wordprocessing2010Ligatures;
+            if (local.SequenceEqual("lin"u8)) return ViewKind.Wordprocessing2010LinearShadeProperties;
+            if (local.SequenceEqual("lum"u8)) return ViewKind.Wordprocessing2010Percentage;
+            if (local.SequenceEqual("lumMod"u8)) return ViewKind.Wordprocessing2010Percentage;
+            if (local.SequenceEqual("lumOff"u8)) return ViewKind.Wordprocessing2010Percentage;
+            if (local.SequenceEqual("miter"u8)) return ViewKind.Wordprocessing2010LineJoinMiterProperties;
             if (local.SequenceEqual("noFill"u8)) return ViewKind.WordprocessingEmpty;
-            if (local.SequenceEqual("numForm"u8)) return ViewKind.Word2010NumForm;
-            if (local.SequenceEqual("numSpacing"u8)) return ViewKind.Word2010NumSpacing;
-            if (local.SequenceEqual("path"u8)) return ViewKind.Word2010PathShadeProperties;
-            if (local.SequenceEqual("props3d"u8)) return ViewKind.Word2010Props3D;
-            if (local.SequenceEqual("prstDash"u8)) return ViewKind.Word2010PresetLineDashProperties;
-            if (local.SequenceEqual("reflection"u8)) return ViewKind.Word2010Reflection;
+            if (local.SequenceEqual("numForm"u8)) return ViewKind.Wordprocessing2010NumForm;
+            if (local.SequenceEqual("numSpacing"u8)) return ViewKind.Wordprocessing2010NumSpacing;
+            if (local.SequenceEqual("path"u8)) return ViewKind.Wordprocessing2010PathShadeProperties;
+            if (local.SequenceEqual("props3d"u8)) return ViewKind.Wordprocessing2010Props3D;
+            if (local.SequenceEqual("prstDash"u8)) return ViewKind.Wordprocessing2010PresetLineDashProperties;
+            if (local.SequenceEqual("reflection"u8)) return ViewKind.Wordprocessing2010Reflection;
             if (local.SequenceEqual("round"u8)) return ViewKind.WordprocessingEmpty;
-            if (local.SequenceEqual("sat"u8)) return ViewKind.Word2010Percentage;
-            if (local.SequenceEqual("satMod"u8)) return ViewKind.Word2010Percentage;
-            if (local.SequenceEqual("satOff"u8)) return ViewKind.Word2010Percentage;
-            if (local.SequenceEqual("scene3d"u8)) return ViewKind.Word2010Scene3D;
-            if (local.SequenceEqual("schemeClr"u8)) return ViewKind.Word2010SchemeColor;
-            if (local.SequenceEqual("shade"u8)) return ViewKind.Word2010PositiveFixedPercentage;
-            if (local.SequenceEqual("shadow"u8)) return ViewKind.Word2010Shadow;
-            if (local.SequenceEqual("solidFill"u8)) return ViewKind.Word2010SolidColorFillProperties;
-            if (local.SequenceEqual("srgbClr"u8)) return ViewKind.Word2010SRgbColor;
-            if (local.SequenceEqual("stylisticSets"u8)) return ViewKind.Word2010StylisticSets;
-            if (local.SequenceEqual("textFill"u8)) return ViewKind.Word2010FillTextEffect;
-            if (local.SequenceEqual("textOutline"u8)) return ViewKind.Word2010TextOutlineEffect;
-            if (local.SequenceEqual("tint"u8)) return ViewKind.Word2010PositiveFixedPercentage;
+            if (local.SequenceEqual("sat"u8)) return ViewKind.Wordprocessing2010Percentage;
+            if (local.SequenceEqual("satMod"u8)) return ViewKind.Wordprocessing2010Percentage;
+            if (local.SequenceEqual("satOff"u8)) return ViewKind.Wordprocessing2010Percentage;
+            if (local.SequenceEqual("scene3d"u8)) return ViewKind.Wordprocessing2010Scene3D;
+            if (local.SequenceEqual("schemeClr"u8)) return ViewKind.Wordprocessing2010SchemeColor;
+            if (local.SequenceEqual("shade"u8)) return ViewKind.Wordprocessing2010PositiveFixedPercentage;
+            if (local.SequenceEqual("shadow"u8)) return ViewKind.Wordprocessing2010Shadow;
+            if (local.SequenceEqual("solidFill"u8)) return ViewKind.Wordprocessing2010SolidColorFillProperties;
+            if (local.SequenceEqual("srgbClr"u8)) return ViewKind.Wordprocessing2010SRgbColor;
+            if (local.SequenceEqual("stylisticSets"u8)) return ViewKind.Wordprocessing2010StylisticSets;
+            if (local.SequenceEqual("textFill"u8)) return ViewKind.Wordprocessing2010FillTextEffect;
+            if (local.SequenceEqual("textOutline"u8)) return ViewKind.Wordprocessing2010TextOutlineEffect;
+            if (local.SequenceEqual("tint"u8)) return ViewKind.Wordprocessing2010PositiveFixedPercentage;
         }
         if (ns == SchemaNamespace.WordprocessingCanvas)
         {
@@ -4994,18 +4994,18 @@ public static class ViewFactory
         {
             if (local.SequenceEqual("wsp"u8)) return ViewKind.WordprocessingShapeWordprocessingShape;
         }
-        if (ns == SchemaNamespace.Word2012)
+        if (ns == SchemaNamespace.Wordprocessing2012)
         {
-            if (local.SequenceEqual("appearance"u8)) return ViewKind.Word2012SdtAppearance;
+            if (local.SequenceEqual("appearance"u8)) return ViewKind.Wordprocessing2012SdtAppearance;
             if (local.SequenceEqual("chartTrackingRefBased"u8)) return ViewKind.WordprocessingOnOff;
             if (local.SequenceEqual("collapsed"u8)) return ViewKind.WordprocessingOnOff;
             if (local.SequenceEqual("color"u8)) return ViewKind.WordprocessingColor;
-            if (local.SequenceEqual("commentsEx"u8)) return ViewKind.Word2012CommentsEx;
+            if (local.SequenceEqual("commentsEx"u8)) return ViewKind.Wordprocessing2012CommentsEx;
             if (local.SequenceEqual("dataBinding"u8)) return ViewKind.WordprocessingDataBinding;
-            if (local.SequenceEqual("docId"u8)) return ViewKind.Word2012Guid;
+            if (local.SequenceEqual("docId"u8)) return ViewKind.Wordprocessing2012Guid;
             if (local.SequenceEqual("footnoteColumns"u8)) return ViewKind.WordprocessingDecimalNumber;
-            if (local.SequenceEqual("people"u8)) return ViewKind.Word2012People;
-            if (local.SequenceEqual("repeatingSection"u8)) return ViewKind.Word2012SdtRepeatedSection;
+            if (local.SequenceEqual("people"u8)) return ViewKind.Wordprocessing2012People;
+            if (local.SequenceEqual("repeatingSection"u8)) return ViewKind.Wordprocessing2012SdtRepeatedSection;
             if (local.SequenceEqual("repeatingSectionItem"u8)) return ViewKind.WordprocessingEmpty;
             if (local.SequenceEqual("webExtensionCreated"u8)) return ViewKind.WordprocessingOnOff;
             if (local.SequenceEqual("webExtensionLinked"u8)) return ViewKind.WordprocessingOnOff;
@@ -5014,25 +5014,25 @@ public static class ViewFactory
         {
             if (local.SequenceEqual("webVideoPr"u8)) return ViewKind.WordprocessingDrawing2012WebVideoPr;
         }
-        if (ns == SchemaNamespace.Word2015Symex)
+        if (ns == SchemaNamespace.Wordprocessing2015Symex)
         {
-            if (local.SequenceEqual("symEx"u8)) return ViewKind.Word2015SymexSymEx;
+            if (local.SequenceEqual("symEx"u8)) return ViewKind.Wordprocessing2015SymexSymEx;
         }
-        if (ns == SchemaNamespace.Word2016Cid)
+        if (ns == SchemaNamespace.Wordprocessing2016Cid)
         {
-            if (local.SequenceEqual("commentsIds"u8)) return ViewKind.Word2016CidCommentsIds;
+            if (local.SequenceEqual("commentsIds"u8)) return ViewKind.Wordprocessing2016CidCommentsIds;
         }
-        if (ns == SchemaNamespace.Word2018Cex)
+        if (ns == SchemaNamespace.Wordprocessing2018Cex)
         {
-            if (local.SequenceEqual("commentsExtensible"u8)) return ViewKind.Word2018CexCommentsExtensible;
+            if (local.SequenceEqual("commentsExtensible"u8)) return ViewKind.Wordprocessing2018CexCommentsExtensible;
         }
-        if (ns == SchemaNamespace.WordOEmbed)
+        if (ns == SchemaNamespace.WordprocessingOEmbed)
         {
-            if (local.SequenceEqual("oembed"u8)) return ViewKind.WordOEmbedOEmbed;
+            if (local.SequenceEqual("oembed"u8)) return ViewKind.WordprocessingOEmbedOEmbed;
         }
-        if (ns == SchemaNamespace.Word2026Cei)
+        if (ns == SchemaNamespace.Wordprocessing2026Cei)
         {
-            if (local.SequenceEqual("commentEntityInfo"u8)) return ViewKind.Word2026CeiCommentEntityInfo;
+            if (local.SequenceEqual("commentEntityInfo"u8)) return ViewKind.Wordprocessing2026CeiCommentEntityInfo;
         }
         if (ns == SchemaNamespace.Chart)
         {
@@ -5197,9 +5197,9 @@ public static class ViewFactory
             if (local.SequenceEqual("txbxContent"u8)) return ViewKind.WordprocessingTxbxContent;
             if (local.SequenceEqual("webSettings"u8)) return ViewKind.WordprocessingWebSettings;
         }
-        if (ns == SchemaNamespace.VmlExcel)
+        if (ns == SchemaNamespace.VmlSpreadsheet)
         {
-            if (local.SequenceEqual("ClientData"u8)) return ViewKind.VmlExcelClientData;
+            if (local.SequenceEqual("ClientData"u8)) return ViewKind.VmlSpreadsheetClientData;
         }
         if (ns == SchemaNamespace.VmlOffice)
         {
@@ -5223,19 +5223,19 @@ public static class ViewFactory
             if (local.SequenceEqual("skew"u8)) return ViewKind.VmlOfficeSkew;
             if (local.SequenceEqual("top"u8)) return ViewKind.VmlOfficeStrokeChild;
         }
-        if (ns == SchemaNamespace.VmlPowerPoint)
+        if (ns == SchemaNamespace.VmlPresentation)
         {
-            if (local.SequenceEqual("iscomment"u8)) return ViewKind.VmlPowerPointEmpty;
-            if (local.SequenceEqual("textdata"u8)) return ViewKind.VmlPowerPointRel;
+            if (local.SequenceEqual("iscomment"u8)) return ViewKind.VmlPresentationEmpty;
+            if (local.SequenceEqual("textdata"u8)) return ViewKind.VmlPresentationRel;
         }
-        if (ns == SchemaNamespace.VmlWord)
+        if (ns == SchemaNamespace.VmlWordprocessing)
         {
-            if (local.SequenceEqual("anchorlock"u8)) return ViewKind.VmlWordAnchorLock;
-            if (local.SequenceEqual("borderbottom"u8)) return ViewKind.VmlWordBorder;
-            if (local.SequenceEqual("borderleft"u8)) return ViewKind.VmlWordBorder;
-            if (local.SequenceEqual("borderright"u8)) return ViewKind.VmlWordBorder;
-            if (local.SequenceEqual("bordertop"u8)) return ViewKind.VmlWordBorder;
-            if (local.SequenceEqual("wrap"u8)) return ViewKind.VmlWordWrap;
+            if (local.SequenceEqual("anchorlock"u8)) return ViewKind.VmlWordprocessingAnchorLock;
+            if (local.SequenceEqual("borderbottom"u8)) return ViewKind.VmlWordprocessingBorder;
+            if (local.SequenceEqual("borderleft"u8)) return ViewKind.VmlWordprocessingBorder;
+            if (local.SequenceEqual("borderright"u8)) return ViewKind.VmlWordprocessingBorder;
+            if (local.SequenceEqual("bordertop"u8)) return ViewKind.VmlWordprocessingBorder;
+            if (local.SequenceEqual("wrap"u8)) return ViewKind.VmlWordprocessingWrap;
         }
         if (ns == SchemaNamespace.Vml)
         {
@@ -5772,7 +5772,7 @@ public static class ViewFactory
             case ViewKind.VmlOfficeRules: return global::RecursiveAI.OneDocument.Schema.VmlOffice.Rules.ChildKind(ns, local, out rank);
             case ViewKind.VmlOfficeShapeDefaults: return global::RecursiveAI.OneDocument.Schema.VmlOffice.ShapeDefaults.ChildKind(ns, local, out rank);
             case ViewKind.VmlOfficeShapeLayout: return global::RecursiveAI.OneDocument.Schema.VmlOffice.ShapeLayout.ChildKind(ns, local, out rank);
-            case ViewKind.VmlExcelClientData: return global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData.ChildKind(ns, local, out rank);
+            case ViewKind.VmlSpreadsheetClientData: return global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData.ChildKind(ns, local, out rank);
             case ViewKind.ExtendedPropertiesDigSigBlob: return global::RecursiveAI.OneDocument.Schema.ExtendedProperties.DigSigBlob.ChildKind(ns, local, out rank);
             case ViewKind.ExtendedPropertiesProperties: return global::RecursiveAI.OneDocument.Schema.ExtendedProperties.Properties.ChildKind(ns, local, out rank);
             case ViewKind.ExtendedPropertiesVectorLpstr: return global::RecursiveAI.OneDocument.Schema.ExtendedProperties.VectorLpstr.ChildKind(ns, local, out rank);
@@ -5787,35 +5787,35 @@ public static class ViewFactory
             case ViewKind.CorePropertiesCoreProperties: return global::RecursiveAI.OneDocument.Schema.CoreProperties.CoreProperties.ChildKind(ns, local, out rank);
             case ViewKind.CorePropertiesKeywords: return global::RecursiveAI.OneDocument.Schema.CoreProperties.Keywords.ChildKind(ns, local, out rank);
             case ViewKind.DigitalSignatureSignatureTime: return global::RecursiveAI.OneDocument.Schema.DigitalSignature.SignatureTime.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010Color: return global::RecursiveAI.OneDocument.Schema.Word2010.Color.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010FillTextEffect: return global::RecursiveAI.OneDocument.Schema.Word2010.FillTextEffect.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010Glow: return global::RecursiveAI.OneDocument.Schema.Word2010.Glow.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010GradientFillProperties: return global::RecursiveAI.OneDocument.Schema.Word2010.GradientFillProperties.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010GradientStop: return global::RecursiveAI.OneDocument.Schema.Word2010.GradientStop.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010GradientStopList: return global::RecursiveAI.OneDocument.Schema.Word2010.GradientStopList.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010LightRig: return global::RecursiveAI.OneDocument.Schema.Word2010.LightRig.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010PathShadeProperties: return global::RecursiveAI.OneDocument.Schema.Word2010.PathShadeProperties.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010Props3D: return global::RecursiveAI.OneDocument.Schema.Word2010.Props3D.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010SRgbColor: return global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010Scene3D: return global::RecursiveAI.OneDocument.Schema.Word2010.Scene3D.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010SchemeColor: return global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010SdtCheckbox: return global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckbox.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010Shadow: return global::RecursiveAI.OneDocument.Schema.Word2010.Shadow.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010SolidColorFillProperties: return global::RecursiveAI.OneDocument.Schema.Word2010.SolidColorFillProperties.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010StylisticSets: return global::RecursiveAI.OneDocument.Schema.Word2010.StylisticSets.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010TextOutlineEffect: return global::RecursiveAI.OneDocument.Schema.Word2010.TextOutlineEffect.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010WordContentPart: return global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPart.ChildKind(ns, local, out rank);
-            case ViewKind.Word2010WordContentPartNonVisual: return global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPartNonVisual.ChildKind(ns, local, out rank);
-            case ViewKind.Word2012CommentsEx: return global::RecursiveAI.OneDocument.Schema.Word2012.CommentsEx.ChildKind(ns, local, out rank);
-            case ViewKind.Word2012People: return global::RecursiveAI.OneDocument.Schema.Word2012.People.ChildKind(ns, local, out rank);
-            case ViewKind.Word2012Person: return global::RecursiveAI.OneDocument.Schema.Word2012.Person.ChildKind(ns, local, out rank);
-            case ViewKind.Word2012SdtRepeatedSection: return global::RecursiveAI.OneDocument.Schema.Word2012.SdtRepeatedSection.ChildKind(ns, local, out rank);
-            case ViewKind.Word2016CidCommentsIds: return global::RecursiveAI.OneDocument.Schema.Word2016Cid.CommentsIds.ChildKind(ns, local, out rank);
-            case ViewKind.Word2018Extension: return global::RecursiveAI.OneDocument.Schema.Word2018.Extension.ChildKind(ns, local, out rank);
-            case ViewKind.Word2018ExtensionList: return global::RecursiveAI.OneDocument.Schema.Word2018.ExtensionList.ChildKind(ns, local, out rank);
-            case ViewKind.Word2018CexCommentExtensible: return global::RecursiveAI.OneDocument.Schema.Word2018Cex.CommentExtensible.ChildKind(ns, local, out rank);
-            case ViewKind.Word2018CexCommentsExtensible: return global::RecursiveAI.OneDocument.Schema.Word2018Cex.CommentsExtensible.ChildKind(ns, local, out rank);
-            case ViewKind.Word2026CeiCommentEntityInfo: return global::RecursiveAI.OneDocument.Schema.Word2026Cei.CommentEntityInfo.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010Color: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Color.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010FillTextEffect: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.FillTextEffect.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010Glow: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Glow.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010GradientFillProperties: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientFillProperties.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010GradientStop: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStop.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010GradientStopList: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStopList.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010LightRig: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRig.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010PathShadeProperties: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PathShadeProperties.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010Props3D: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Props3D.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010SRgbColor: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010Scene3D: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Scene3D.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010SchemeColor: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010SdtCheckbox: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckbox.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010Shadow: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Shadow.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010SolidColorFillProperties: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SolidColorFillProperties.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010StylisticSets: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.StylisticSets.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010TextOutlineEffect: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.TextOutlineEffect.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010WordContentPart: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPart.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2010WordContentPartNonVisual: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPartNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2012CommentsEx: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2012.CommentsEx.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2012People: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2012.People.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2012Person: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2012.Person.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2012SdtRepeatedSection: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2012.SdtRepeatedSection.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2016CidCommentsIds: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2016Cid.CommentsIds.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2018Extension: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.Extension.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2018ExtensionList: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.ExtensionList.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2018CexCommentExtensible: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2018Cex.CommentExtensible.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2018CexCommentsExtensible: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2018Cex.CommentsExtensible.ChildKind(ns, local, out rank);
+            case ViewKind.Wordprocessing2026CeiCommentEntityInfo: return global::RecursiveAI.OneDocument.Schema.Wordprocessing2026Cei.CommentEntityInfo.ChildKind(ns, local, out rank);
             case ViewKind.WordprocessingShapeLinkedTextboxInformation: return global::RecursiveAI.OneDocument.Schema.WordprocessingShape.LinkedTextboxInformation.ChildKind(ns, local, out rank);
             case ViewKind.WordprocessingShapeTextboxInfo: return global::RecursiveAI.OneDocument.Schema.WordprocessingShape.TextboxInfo.ChildKind(ns, local, out rank);
             case ViewKind.WordprocessingShapeWordprocessingShape: return global::RecursiveAI.OneDocument.Schema.WordprocessingShape.WordprocessingShape.ChildKind(ns, local, out rank);
@@ -6454,13 +6454,13 @@ public static class ViewFactory
             case ViewKind.ThemeMl2012ThemeFamily: return global::RecursiveAI.OneDocument.Schema.ThemeMl2012.ThemeFamily.ChildKind(ns, local, out rank);
             case ViewKind.Slicer2010Slicer: return global::RecursiveAI.OneDocument.Schema.Slicer2010.Slicer.ChildKind(ns, local, out rank);
             case ViewKind.TimeSlicer2012Timeline: return global::RecursiveAI.OneDocument.Schema.TimeSlicer2012.Timeline.ChildKind(ns, local, out rank);
-            case ViewKind.ExcelMacro2006Worksheet: return global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Worksheet.ChildKind(ns, local, out rank);
-            case ViewKind.ExcelMacro2008DefinedName: return global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedName.ChildKind(ns, local, out rank);
-            case ViewKind.ExcelMacro2008DefinedNameArgumentDescriptions: return global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescriptions.ChildKind(ns, local, out rank);
-            case ViewKind.ExcelMacro2008DefinedNames: return global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNames.ChildKind(ns, local, out rank);
-            case ViewKind.WordMacro2006DocEvents: return global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents.ChildKind(ns, local, out rank);
-            case ViewKind.WordMacro2006Mcds: return global::RecursiveAI.OneDocument.Schema.WordMacro2006.Mcds.ChildKind(ns, local, out rank);
-            case ViewKind.WordMacro2006VbaSuppData: return global::RecursiveAI.OneDocument.Schema.WordMacro2006.VbaSuppData.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMacro2006Worksheet: return global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Worksheet.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMacro2008DefinedName: return global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedName.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMacro2008DefinedNameArgumentDescriptions: return global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescriptions.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMacro2008DefinedNames: return global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNames.ChildKind(ns, local, out rank);
+            case ViewKind.WordprocessingMacro2006DocEvents: return global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents.ChildKind(ns, local, out rank);
+            case ViewKind.WordprocessingMacro2006Mcds: return global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.Mcds.ChildKind(ns, local, out rank);
+            case ViewKind.WordprocessingMacro2006VbaSuppData: return global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.VbaSuppData.ChildKind(ns, local, out rank);
             case ViewKind.Spreadsheet2009CacheHierarchy: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CacheHierarchy.ChildKind(ns, local, out rank);
             case ViewKind.Spreadsheet2009CacheSourceExt: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CacheSourceExt.ChildKind(ns, local, out rank);
             case ViewKind.Spreadsheet2009CalculatedMember: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CalculatedMember.ChildKind(ns, local, out rank);
@@ -7452,12 +7452,12 @@ public static class ViewFactory
             case ViewKind.VmlOfficeSignatureLine: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.VmlOffice.SignatureLine(markup)); break;
             case ViewKind.VmlOfficeSkew: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.VmlOffice.Skew(markup)); break;
             case ViewKind.VmlOfficeStrokeChild: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.VmlOffice.StrokeChild(markup)); break;
-            case ViewKind.VmlWordAnchorLock: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.VmlWord.AnchorLock(markup)); break;
-            case ViewKind.VmlWordBorder: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.VmlWord.Border(markup)); break;
-            case ViewKind.VmlWordWrap: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.VmlWord.Wrap(markup)); break;
-            case ViewKind.VmlExcelClientData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData(markup)); break;
-            case ViewKind.VmlPowerPointEmpty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Empty(markup)); break;
-            case ViewKind.VmlPowerPointRel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel(markup)); break;
+            case ViewKind.VmlWordprocessingAnchorLock: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.AnchorLock(markup)); break;
+            case ViewKind.VmlWordprocessingBorder: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Border(markup)); break;
+            case ViewKind.VmlWordprocessingWrap: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.VmlWordprocessing.Wrap(markup)); break;
+            case ViewKind.VmlSpreadsheetClientData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData(markup)); break;
+            case ViewKind.VmlPresentationEmpty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.VmlPresentation.Empty(markup)); break;
+            case ViewKind.VmlPresentationRel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel(markup)); break;
             case ViewKind.ExtendedPropertiesDigSigBlob: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExtendedProperties.DigSigBlob(markup)); break;
             case ViewKind.ExtendedPropertiesProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExtendedProperties.Properties(markup)); break;
             case ViewKind.ExtendedPropertiesVectorLpstr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExtendedProperties.VectorLpstr(markup)); break;
@@ -7481,60 +7481,60 @@ public static class ViewFactory
             case ViewKind.DigitalSignatureRelationshipReference: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DigitalSignature.RelationshipReference(markup)); break;
             case ViewKind.DigitalSignatureRelationshipsGroupReference: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DigitalSignature.RelationshipsGroupReference(markup)); break;
             case ViewKind.DigitalSignatureSignatureTime: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DigitalSignature.SignatureTime(markup)); break;
-            case ViewKind.Word2010Bevel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.Bevel(markup)); break;
-            case ViewKind.Word2010Camera: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.Camera(markup)); break;
-            case ViewKind.Word2010Color: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.Color(markup)); break;
-            case ViewKind.Word2010DefaultImageDpi: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.DefaultImageDpi(markup)); break;
-            case ViewKind.Word2010FillTextEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.FillTextEffect(markup)); break;
-            case ViewKind.Word2010Glow: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.Glow(markup)); break;
-            case ViewKind.Word2010GradientFillProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.GradientFillProperties(markup)); break;
-            case ViewKind.Word2010GradientStop: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.GradientStop(markup)); break;
-            case ViewKind.Word2010GradientStopList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.GradientStopList(markup)); break;
-            case ViewKind.Word2010Ligatures: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.Ligatures(markup)); break;
-            case ViewKind.Word2010LightRig: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.LightRig(markup)); break;
-            case ViewKind.Word2010LineJoinMiterProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.LineJoinMiterProperties(markup)); break;
-            case ViewKind.Word2010LinearShadeProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.LinearShadeProperties(markup)); break;
-            case ViewKind.Word2010LongHexNumber: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.LongHexNumber(markup)); break;
-            case ViewKind.Word2010NumForm: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.NumForm(markup)); break;
-            case ViewKind.Word2010NumSpacing: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.NumSpacing(markup)); break;
-            case ViewKind.Word2010OnOff: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.OnOff(markup)); break;
-            case ViewKind.Word2010PathShadeProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.PathShadeProperties(markup)); break;
-            case ViewKind.Word2010Percentage: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.Percentage(markup)); break;
-            case ViewKind.Word2010PositiveFixedPercentage: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage(markup)); break;
-            case ViewKind.Word2010PositivePercentage: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.PositivePercentage(markup)); break;
-            case ViewKind.Word2010PresetLineDashProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.PresetLineDashProperties(markup)); break;
-            case ViewKind.Word2010Props3D: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.Props3D(markup)); break;
-            case ViewKind.Word2010Reflection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.Reflection(markup)); break;
-            case ViewKind.Word2010RelativeRect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.RelativeRect(markup)); break;
-            case ViewKind.Word2010SRgbColor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor(markup)); break;
-            case ViewKind.Word2010Scene3D: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.Scene3D(markup)); break;
-            case ViewKind.Word2010SchemeColor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor(markup)); break;
-            case ViewKind.Word2010SdtCheckbox: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckbox(markup)); break;
-            case ViewKind.Word2010SdtCheckboxSymbol: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckboxSymbol(markup)); break;
-            case ViewKind.Word2010Shadow: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.Shadow(markup)); break;
-            case ViewKind.Word2010SolidColorFillProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.SolidColorFillProperties(markup)); break;
-            case ViewKind.Word2010SphereCoords: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.SphereCoords(markup)); break;
-            case ViewKind.Word2010StyleSet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.StyleSet(markup)); break;
-            case ViewKind.Word2010StylisticSets: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.StylisticSets(markup)); break;
-            case ViewKind.Word2010TextOutlineEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.TextOutlineEffect(markup)); break;
-            case ViewKind.Word2010WordContentPart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPart(markup)); break;
-            case ViewKind.Word2010WordContentPartNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPartNonVisual(markup)); break;
-            case ViewKind.Word2012CommentEx: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2012.CommentEx(markup)); break;
-            case ViewKind.Word2012CommentsEx: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2012.CommentsEx(markup)); break;
-            case ViewKind.Word2012Guid: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2012.Guid(markup)); break;
-            case ViewKind.Word2012People: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2012.People(markup)); break;
-            case ViewKind.Word2012Person: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2012.Person(markup)); break;
-            case ViewKind.Word2012PresenceInfo: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2012.PresenceInfo(markup)); break;
-            case ViewKind.Word2012SdtAppearance: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2012.SdtAppearance(markup)); break;
-            case ViewKind.Word2012SdtRepeatedSection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2012.SdtRepeatedSection(markup)); break;
-            case ViewKind.Word2015SymexSymEx: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2015Symex.SymEx(markup)); break;
-            case ViewKind.Word2016CidCommentId: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2016Cid.CommentId(markup)); break;
-            case ViewKind.Word2016CidCommentsIds: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2016Cid.CommentsIds(markup)); break;
-            case ViewKind.Word2018Extension: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2018.Extension(markup)); break;
-            case ViewKind.Word2018ExtensionList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2018.ExtensionList(markup)); break;
-            case ViewKind.Word2018CexCommentExtensible: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2018Cex.CommentExtensible(markup)); break;
-            case ViewKind.Word2018CexCommentsExtensible: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2018Cex.CommentsExtensible(markup)); break;
-            case ViewKind.Word2026CeiCommentEntityInfo: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Word2026Cei.CommentEntityInfo(markup)); break;
+            case ViewKind.Wordprocessing2010Bevel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Bevel(markup)); break;
+            case ViewKind.Wordprocessing2010Camera: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Camera(markup)); break;
+            case ViewKind.Wordprocessing2010Color: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Color(markup)); break;
+            case ViewKind.Wordprocessing2010DefaultImageDpi: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.DefaultImageDpi(markup)); break;
+            case ViewKind.Wordprocessing2010FillTextEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.FillTextEffect(markup)); break;
+            case ViewKind.Wordprocessing2010Glow: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Glow(markup)); break;
+            case ViewKind.Wordprocessing2010GradientFillProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientFillProperties(markup)); break;
+            case ViewKind.Wordprocessing2010GradientStop: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStop(markup)); break;
+            case ViewKind.Wordprocessing2010GradientStopList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStopList(markup)); break;
+            case ViewKind.Wordprocessing2010Ligatures: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Ligatures(markup)); break;
+            case ViewKind.Wordprocessing2010LightRig: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRig(markup)); break;
+            case ViewKind.Wordprocessing2010LineJoinMiterProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LineJoinMiterProperties(markup)); break;
+            case ViewKind.Wordprocessing2010LinearShadeProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LinearShadeProperties(markup)); break;
+            case ViewKind.Wordprocessing2010LongHexNumber: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LongHexNumber(markup)); break;
+            case ViewKind.Wordprocessing2010NumForm: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.NumForm(markup)); break;
+            case ViewKind.Wordprocessing2010NumSpacing: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.NumSpacing(markup)); break;
+            case ViewKind.Wordprocessing2010OnOff: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOff(markup)); break;
+            case ViewKind.Wordprocessing2010PathShadeProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PathShadeProperties(markup)); break;
+            case ViewKind.Wordprocessing2010Percentage: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage(markup)); break;
+            case ViewKind.Wordprocessing2010PositiveFixedPercentage: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage(markup)); break;
+            case ViewKind.Wordprocessing2010PositivePercentage: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositivePercentage(markup)); break;
+            case ViewKind.Wordprocessing2010PresetLineDashProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetLineDashProperties(markup)); break;
+            case ViewKind.Wordprocessing2010Props3D: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Props3D(markup)); break;
+            case ViewKind.Wordprocessing2010Reflection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Reflection(markup)); break;
+            case ViewKind.Wordprocessing2010RelativeRect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.RelativeRect(markup)); break;
+            case ViewKind.Wordprocessing2010SRgbColor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor(markup)); break;
+            case ViewKind.Wordprocessing2010Scene3D: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Scene3D(markup)); break;
+            case ViewKind.Wordprocessing2010SchemeColor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor(markup)); break;
+            case ViewKind.Wordprocessing2010SdtCheckbox: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckbox(markup)); break;
+            case ViewKind.Wordprocessing2010SdtCheckboxSymbol: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckboxSymbol(markup)); break;
+            case ViewKind.Wordprocessing2010Shadow: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Shadow(markup)); break;
+            case ViewKind.Wordprocessing2010SolidColorFillProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SolidColorFillProperties(markup)); break;
+            case ViewKind.Wordprocessing2010SphereCoords: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SphereCoords(markup)); break;
+            case ViewKind.Wordprocessing2010StyleSet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.StyleSet(markup)); break;
+            case ViewKind.Wordprocessing2010StylisticSets: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.StylisticSets(markup)); break;
+            case ViewKind.Wordprocessing2010TextOutlineEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.TextOutlineEffect(markup)); break;
+            case ViewKind.Wordprocessing2010WordContentPart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPart(markup)); break;
+            case ViewKind.Wordprocessing2010WordContentPartNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPartNonVisual(markup)); break;
+            case ViewKind.Wordprocessing2012CommentEx: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2012.CommentEx(markup)); break;
+            case ViewKind.Wordprocessing2012CommentsEx: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2012.CommentsEx(markup)); break;
+            case ViewKind.Wordprocessing2012Guid: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2012.Guid(markup)); break;
+            case ViewKind.Wordprocessing2012People: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2012.People(markup)); break;
+            case ViewKind.Wordprocessing2012Person: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2012.Person(markup)); break;
+            case ViewKind.Wordprocessing2012PresenceInfo: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2012.PresenceInfo(markup)); break;
+            case ViewKind.Wordprocessing2012SdtAppearance: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2012.SdtAppearance(markup)); break;
+            case ViewKind.Wordprocessing2012SdtRepeatedSection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2012.SdtRepeatedSection(markup)); break;
+            case ViewKind.Wordprocessing2015SymexSymEx: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2015Symex.SymEx(markup)); break;
+            case ViewKind.Wordprocessing2016CidCommentId: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2016Cid.CommentId(markup)); break;
+            case ViewKind.Wordprocessing2016CidCommentsIds: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2016Cid.CommentsIds(markup)); break;
+            case ViewKind.Wordprocessing2018Extension: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.Extension(markup)); break;
+            case ViewKind.Wordprocessing2018ExtensionList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.ExtensionList(markup)); break;
+            case ViewKind.Wordprocessing2018CexCommentExtensible: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2018Cex.CommentExtensible(markup)); break;
+            case ViewKind.Wordprocessing2018CexCommentsExtensible: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2018Cex.CommentsExtensible(markup)); break;
+            case ViewKind.Wordprocessing2026CeiCommentEntityInfo: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Wordprocessing2026Cei.CommentEntityInfo(markup)); break;
             case ViewKind.WordprocessingShapeLinkedTextboxInformation: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordprocessingShape.LinkedTextboxInformation(markup)); break;
             case ViewKind.WordprocessingShapeTextboxInfo: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordprocessingShape.TextboxInfo(markup)); break;
             case ViewKind.WordprocessingShapeWordprocessingShape: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordprocessingShape.WordprocessingShape(markup)); break;
@@ -7544,7 +7544,7 @@ public static class ViewFactory
             case ViewKind.WordprocessingDrawing2010SizeRelH: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordprocessingDrawing2010.SizeRelH(markup)); break;
             case ViewKind.WordprocessingDrawing2010SizeRelV: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordprocessingDrawing2010.SizeRelV(markup)); break;
             case ViewKind.WordprocessingDrawing2012WebVideoPr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordprocessingDrawing2012.WebVideoPr(markup)); break;
-            case ViewKind.WordOEmbedOEmbed: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordOEmbed.OEmbed(markup)); break;
+            case ViewKind.WordprocessingOEmbedOEmbed: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordprocessingOEmbed.OEmbed(markup)); break;
             case ViewKind.Drawing2010CameraTool: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing2010.CameraTool(markup)); break;
             case ViewKind.Drawing2010CompatExt: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing2010.CompatExt(markup)); break;
             case ViewKind.Drawing2010ContentPartLocking: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing2010.ContentPartLocking(markup)); break;
@@ -8537,17 +8537,17 @@ public static class ViewFactory
             case ViewKind.ThemeMl2012ThemeFamily: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ThemeMl2012.ThemeFamily(markup)); break;
             case ViewKind.Slicer2010Slicer: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Slicer2010.Slicer(markup)); break;
             case ViewKind.TimeSlicer2012Timeline: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.TimeSlicer2012.Timeline(markup)); break;
-            case ViewKind.ExcelMacro2006Ref: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Ref(markup)); break;
-            case ViewKind.ExcelMacro2006Sqref: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref(markup)); break;
-            case ViewKind.ExcelMacro2006Worksheet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Worksheet(markup)); break;
-            case ViewKind.ExcelMacro2008DefinedName: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedName(markup)); break;
-            case ViewKind.ExcelMacro2008DefinedNameArgumentDescription: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescription(markup)); break;
-            case ViewKind.ExcelMacro2008DefinedNameArgumentDescriptions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescriptions(markup)); break;
-            case ViewKind.ExcelMacro2008DefinedNames: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNames(markup)); break;
-            case ViewKind.WordMacro2006DocEvents: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents(markup)); break;
-            case ViewKind.WordMacro2006Mcd: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordMacro2006.Mcd(markup)); break;
-            case ViewKind.WordMacro2006Mcds: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordMacro2006.Mcds(markup)); break;
-            case ViewKind.WordMacro2006VbaSuppData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordMacro2006.VbaSuppData(markup)); break;
+            case ViewKind.SpreadsheetMacro2006Ref: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Ref(markup)); break;
+            case ViewKind.SpreadsheetMacro2006Sqref: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Sqref(markup)); break;
+            case ViewKind.SpreadsheetMacro2006Worksheet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2006.Worksheet(markup)); break;
+            case ViewKind.SpreadsheetMacro2008DefinedName: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedName(markup)); break;
+            case ViewKind.SpreadsheetMacro2008DefinedNameArgumentDescription: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescription(markup)); break;
+            case ViewKind.SpreadsheetMacro2008DefinedNameArgumentDescriptions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescriptions(markup)); break;
+            case ViewKind.SpreadsheetMacro2008DefinedNames: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNames(markup)); break;
+            case ViewKind.WordprocessingMacro2006DocEvents: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.DocEvents(markup)); break;
+            case ViewKind.WordprocessingMacro2006Mcd: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.Mcd(markup)); break;
+            case ViewKind.WordprocessingMacro2006Mcds: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.Mcds(markup)); break;
+            case ViewKind.WordprocessingMacro2006VbaSuppData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordprocessingMacro2006.VbaSuppData(markup)); break;
             case ViewKind.Spreadsheet2009CacheField: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CacheField(markup)); break;
             case ViewKind.Spreadsheet2009CacheHierarchy: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CacheHierarchy(markup)); break;
             case ViewKind.Spreadsheet2009CacheSourceExt: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CacheSourceExt(markup)); break;

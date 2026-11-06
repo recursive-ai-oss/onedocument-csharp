@@ -17,7 +17,7 @@ public class MarkdownPresentationTests
         first.SetNotesText("Say this.");
         string md = deck.ToMarkdown();
         Assert.True(md.StartsWith("## Slide 1: Plan \\*2027\\*\n\n- First point\n- Second point\n\n### Notes\n\nSay this.\n\n## Slide 2: Second", StringComparison.Ordinal), md);
-        Assert.NotNull(deck.MarkdownExportLoss);
+        Assert.NotNull(deck.ExportLoss);
     }
 
     [Fact]

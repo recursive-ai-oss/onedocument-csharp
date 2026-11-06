@@ -5,7 +5,7 @@
 // </auto-generated>
 #nullable enable
 
-namespace RecursiveAI.OneDocument.Schema.VmlExcel;
+namespace RecursiveAI.OneDocument.Schema.VmlSpreadsheet;
 
 /// <summary>Values of the schema simple type <c>ST_ObjectType</c>. A value the schema does not list reads as <see cref="Unrecognized"/>; the attribute's <c>Text</c> property still has it.</summary>
 public enum ObjectTypeValue
@@ -112,7 +112,7 @@ public static class ObjectTypeValueText
 }
 
 /// <summary>View of the schema type <c>CT_ClientData</c>, the type of <c>x:ClientData</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct ClientData : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>
+public readonly struct ClientData : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -124,22 +124,22 @@ public readonly struct ClientData : global::RecursiveAI.OneDocument.Schema.IElem
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.VmlExcelClientData;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.VmlSpreadsheetClientData;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel) return local.SequenceEqual("ClientData"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet) return local.SequenceEqual("ClientData"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet)
         {
             if (local.SequenceEqual("Accel"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
             if (local.SequenceEqual("Accel2"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
@@ -228,756 +228,756 @@ public readonly struct ClientData : global::RecursiveAI.OneDocument.Schema.IElem
     }
 
     /// <summary>Attribute <c>ObjectType</c> (x:ST_ObjectType, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ObjectTypeText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.VmlExcel.ObjectTypeValue? ObjectType
+    public global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ObjectTypeValue? ObjectType
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.VmlExcel.ObjectTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "ObjectType"u8, global::RecursiveAI.OneDocument.Schema.VmlExcel.ObjectTypeValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "ObjectType"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.VmlExcel.ObjectTypeValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ObjectTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "ObjectType"u8, global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ObjectTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "ObjectType"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ObjectTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>ObjectType</c>, whatever it is.</summary>
     public string? ObjectTypeText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "ObjectType"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "ObjectType"u8, value); }
 
     /// <summary>The first <c>x:MoveWithCells</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? MoveWithCells => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "MoveWithCells"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? MoveWithCells => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "MoveWithCells"u8);
 
     /// <summary>Adds a <c>x:MoveWithCells</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddMoveWithCells() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "MoveWithCells"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddMoveWithCells() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "MoveWithCells"u8);
 
     /// <summary>Removes every <c>x:MoveWithCells</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveMoveWithCells() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "MoveWithCells"u8);
+    public bool RemoveMoveWithCells() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "MoveWithCells"u8);
 
     /// <summary>The first <c>x:SizeWithCells</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? SizeWithCells => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "SizeWithCells"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? SizeWithCells => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "SizeWithCells"u8);
 
     /// <summary>Adds a <c>x:SizeWithCells</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddSizeWithCells() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "SizeWithCells"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddSizeWithCells() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "SizeWithCells"u8);
 
     /// <summary>Removes every <c>x:SizeWithCells</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSizeWithCells() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "SizeWithCells"u8);
+    public bool RemoveSizeWithCells() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "SizeWithCells"u8);
 
     /// <summary>The first <c>x:Anchor</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Anchor => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Anchor"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Anchor => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Anchor"u8);
 
     /// <summary>Adds a <c>x:Anchor</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddAnchor() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Anchor"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddAnchor() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Anchor"u8);
 
     /// <summary>Removes every <c>x:Anchor</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAnchor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Anchor"u8);
+    public bool RemoveAnchor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Anchor"u8);
 
     /// <summary>The first <c>x:Locked</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Locked => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Locked"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Locked => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Locked"u8);
 
     /// <summary>Adds a <c>x:Locked</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddLocked() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Locked"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddLocked() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Locked"u8);
 
     /// <summary>Removes every <c>x:Locked</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveLocked() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Locked"u8);
+    public bool RemoveLocked() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Locked"u8);
 
     /// <summary>The first <c>x:DefaultSize</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? DefaultSize => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "DefaultSize"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? DefaultSize => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "DefaultSize"u8);
 
     /// <summary>Adds a <c>x:DefaultSize</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDefaultSize() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "DefaultSize"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDefaultSize() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "DefaultSize"u8);
 
     /// <summary>Removes every <c>x:DefaultSize</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveDefaultSize() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "DefaultSize"u8);
+    public bool RemoveDefaultSize() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "DefaultSize"u8);
 
     /// <summary>The first <c>x:PrintObject</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? PrintObject => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "PrintObject"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? PrintObject => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "PrintObject"u8);
 
     /// <summary>Adds a <c>x:PrintObject</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddPrintObject() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "PrintObject"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddPrintObject() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "PrintObject"u8);
 
     /// <summary>Removes every <c>x:PrintObject</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemovePrintObject() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "PrintObject"u8);
+    public bool RemovePrintObject() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "PrintObject"u8);
 
     /// <summary>The first <c>x:Disabled</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Disabled => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Disabled"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Disabled => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Disabled"u8);
 
     /// <summary>Adds a <c>x:Disabled</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDisabled() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Disabled"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDisabled() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Disabled"u8);
 
     /// <summary>Removes every <c>x:Disabled</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveDisabled() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Disabled"u8);
+    public bool RemoveDisabled() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Disabled"u8);
 
     /// <summary>The first <c>x:AutoFill</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? AutoFill => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "AutoFill"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? AutoFill => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "AutoFill"u8);
 
     /// <summary>Adds a <c>x:AutoFill</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddAutoFill() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "AutoFill"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddAutoFill() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "AutoFill"u8);
 
     /// <summary>Removes every <c>x:AutoFill</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAutoFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "AutoFill"u8);
+    public bool RemoveAutoFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "AutoFill"u8);
 
     /// <summary>The first <c>x:AutoLine</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? AutoLine => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "AutoLine"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? AutoLine => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "AutoLine"u8);
 
     /// <summary>Adds a <c>x:AutoLine</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddAutoLine() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "AutoLine"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddAutoLine() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "AutoLine"u8);
 
     /// <summary>Removes every <c>x:AutoLine</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAutoLine() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "AutoLine"u8);
+    public bool RemoveAutoLine() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "AutoLine"u8);
 
     /// <summary>The first <c>x:AutoPict</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? AutoPict => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "AutoPict"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? AutoPict => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "AutoPict"u8);
 
     /// <summary>Adds a <c>x:AutoPict</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddAutoPict() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "AutoPict"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddAutoPict() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "AutoPict"u8);
 
     /// <summary>Removes every <c>x:AutoPict</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAutoPict() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "AutoPict"u8);
+    public bool RemoveAutoPict() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "AutoPict"u8);
 
     /// <summary>The first <c>x:FmlaMacro</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? FmlaMacro => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaMacro"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? FmlaMacro => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaMacro"u8);
 
     /// <summary>Adds a <c>x:FmlaMacro</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddFmlaMacro() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaMacro"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddFmlaMacro() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaMacro"u8);
 
     /// <summary>Removes every <c>x:FmlaMacro</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveFmlaMacro() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaMacro"u8);
+    public bool RemoveFmlaMacro() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaMacro"u8);
 
     /// <summary>The first <c>x:TextHAlign</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? TextHAlign => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "TextHAlign"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? TextHAlign => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "TextHAlign"u8);
 
     /// <summary>Adds a <c>x:TextHAlign</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddTextHAlign() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "TextHAlign"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddTextHAlign() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "TextHAlign"u8);
 
     /// <summary>Removes every <c>x:TextHAlign</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveTextHAlign() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "TextHAlign"u8);
+    public bool RemoveTextHAlign() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "TextHAlign"u8);
 
     /// <summary>The first <c>x:TextVAlign</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? TextVAlign => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "TextVAlign"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? TextVAlign => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "TextVAlign"u8);
 
     /// <summary>Adds a <c>x:TextVAlign</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddTextVAlign() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "TextVAlign"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddTextVAlign() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "TextVAlign"u8);
 
     /// <summary>Removes every <c>x:TextVAlign</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveTextVAlign() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "TextVAlign"u8);
+    public bool RemoveTextVAlign() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "TextVAlign"u8);
 
     /// <summary>The first <c>x:LockText</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? LockText => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "LockText"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? LockText => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "LockText"u8);
 
     /// <summary>Adds a <c>x:LockText</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddLockText() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "LockText"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddLockText() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "LockText"u8);
 
     /// <summary>Removes every <c>x:LockText</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveLockText() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "LockText"u8);
+    public bool RemoveLockText() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "LockText"u8);
 
     /// <summary>The first <c>x:JustLastX</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? JustLastX => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "JustLastX"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? JustLastX => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "JustLastX"u8);
 
     /// <summary>Adds a <c>x:JustLastX</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddJustLastX() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "JustLastX"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddJustLastX() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "JustLastX"u8);
 
     /// <summary>Removes every <c>x:JustLastX</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveJustLastX() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "JustLastX"u8);
+    public bool RemoveJustLastX() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "JustLastX"u8);
 
     /// <summary>The first <c>x:SecretEdit</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? SecretEdit => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "SecretEdit"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? SecretEdit => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "SecretEdit"u8);
 
     /// <summary>Adds a <c>x:SecretEdit</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddSecretEdit() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "SecretEdit"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddSecretEdit() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "SecretEdit"u8);
 
     /// <summary>Removes every <c>x:SecretEdit</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSecretEdit() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "SecretEdit"u8);
+    public bool RemoveSecretEdit() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "SecretEdit"u8);
 
     /// <summary>The first <c>x:Default</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Default => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Default"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Default => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Default"u8);
 
     /// <summary>Adds a <c>x:Default</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDefault() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Default"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDefault() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Default"u8);
 
     /// <summary>Removes every <c>x:Default</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveDefault() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Default"u8);
+    public bool RemoveDefault() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Default"u8);
 
     /// <summary>The first <c>x:Help</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Help => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Help"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Help => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Help"u8);
 
     /// <summary>Adds a <c>x:Help</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddHelp() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Help"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddHelp() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Help"u8);
 
     /// <summary>Removes every <c>x:Help</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveHelp() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Help"u8);
+    public bool RemoveHelp() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Help"u8);
 
     /// <summary>The first <c>x:Cancel</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Cancel => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Cancel"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Cancel => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Cancel"u8);
 
     /// <summary>Adds a <c>x:Cancel</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddCancel() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Cancel"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddCancel() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Cancel"u8);
 
     /// <summary>Removes every <c>x:Cancel</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveCancel() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Cancel"u8);
+    public bool RemoveCancel() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Cancel"u8);
 
     /// <summary>The first <c>x:Dismiss</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Dismiss => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Dismiss"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Dismiss => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Dismiss"u8);
 
     /// <summary>Adds a <c>x:Dismiss</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDismiss() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Dismiss"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDismiss() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Dismiss"u8);
 
     /// <summary>Removes every <c>x:Dismiss</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveDismiss() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Dismiss"u8);
+    public bool RemoveDismiss() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Dismiss"u8);
 
     /// <summary>The first <c>x:Accel</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Accel => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Accel"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Accel => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Accel"u8);
 
     /// <summary>Adds a <c>x:Accel</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddAccel() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Accel"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddAccel() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Accel"u8);
 
     /// <summary>Removes every <c>x:Accel</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAccel() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Accel"u8);
+    public bool RemoveAccel() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Accel"u8);
 
     /// <summary>The first <c>x:Accel2</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Accel2 => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Accel2"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Accel2 => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Accel2"u8);
 
     /// <summary>Adds a <c>x:Accel2</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddAccel2() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Accel2"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddAccel2() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Accel2"u8);
 
     /// <summary>Removes every <c>x:Accel2</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAccel2() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Accel2"u8);
+    public bool RemoveAccel2() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Accel2"u8);
 
     /// <summary>The first <c>x:Row</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Row => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Row"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Row => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Row"u8);
 
     /// <summary>Adds a <c>x:Row</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddRow() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Row"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddRow() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Row"u8);
 
     /// <summary>Removes every <c>x:Row</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveRow() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Row"u8);
+    public bool RemoveRow() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Row"u8);
 
     /// <summary>The first <c>x:Column</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Column => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Column"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Column => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Column"u8);
 
     /// <summary>Adds a <c>x:Column</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddColumn() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Column"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddColumn() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Column"u8);
 
     /// <summary>Removes every <c>x:Column</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveColumn() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Column"u8);
+    public bool RemoveColumn() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Column"u8);
 
     /// <summary>The first <c>x:Visible</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Visible => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Visible"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Visible => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Visible"u8);
 
     /// <summary>Adds a <c>x:Visible</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddVisible() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Visible"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddVisible() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Visible"u8);
 
     /// <summary>Removes every <c>x:Visible</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveVisible() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Visible"u8);
+    public bool RemoveVisible() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Visible"u8);
 
     /// <summary>The first <c>x:RowHidden</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? RowHidden => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "RowHidden"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? RowHidden => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "RowHidden"u8);
 
     /// <summary>Adds a <c>x:RowHidden</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddRowHidden() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "RowHidden"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddRowHidden() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "RowHidden"u8);
 
     /// <summary>Removes every <c>x:RowHidden</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveRowHidden() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "RowHidden"u8);
+    public bool RemoveRowHidden() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "RowHidden"u8);
 
     /// <summary>The first <c>x:ColHidden</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ColHidden => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ColHidden"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ColHidden => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ColHidden"u8);
 
     /// <summary>Adds a <c>x:ColHidden</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddColHidden() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ColHidden"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddColHidden() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ColHidden"u8);
 
     /// <summary>Removes every <c>x:ColHidden</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveColHidden() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ColHidden"u8);
+    public bool RemoveColHidden() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ColHidden"u8);
 
     /// <summary>The first <c>x:VTEdit</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? VTEdit => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "VTEdit"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? VTEdit => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "VTEdit"u8);
 
     /// <summary>Adds a <c>x:VTEdit</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddVTEdit() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "VTEdit"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddVTEdit() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "VTEdit"u8);
 
     /// <summary>Removes every <c>x:VTEdit</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveVTEdit() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "VTEdit"u8);
+    public bool RemoveVTEdit() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "VTEdit"u8);
 
     /// <summary>The first <c>x:MultiLine</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? MultiLine => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "MultiLine"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? MultiLine => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "MultiLine"u8);
 
     /// <summary>Adds a <c>x:MultiLine</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddMultiLine() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "MultiLine"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddMultiLine() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "MultiLine"u8);
 
     /// <summary>Removes every <c>x:MultiLine</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveMultiLine() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "MultiLine"u8);
+    public bool RemoveMultiLine() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "MultiLine"u8);
 
     /// <summary>The first <c>x:VScroll</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? VScroll => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "VScroll"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? VScroll => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "VScroll"u8);
 
     /// <summary>Adds a <c>x:VScroll</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddVScroll() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "VScroll"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddVScroll() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "VScroll"u8);
 
     /// <summary>Removes every <c>x:VScroll</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveVScroll() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "VScroll"u8);
+    public bool RemoveVScroll() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "VScroll"u8);
 
     /// <summary>The first <c>x:ValidIds</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ValidIds => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ValidIds"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ValidIds => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ValidIds"u8);
 
     /// <summary>Adds a <c>x:ValidIds</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddValidIds() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ValidIds"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddValidIds() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ValidIds"u8);
 
     /// <summary>Removes every <c>x:ValidIds</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveValidIds() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ValidIds"u8);
+    public bool RemoveValidIds() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ValidIds"u8);
 
     /// <summary>The first <c>x:FmlaRange</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? FmlaRange => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaRange"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? FmlaRange => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaRange"u8);
 
     /// <summary>Adds a <c>x:FmlaRange</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddFmlaRange() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaRange"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddFmlaRange() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaRange"u8);
 
     /// <summary>Removes every <c>x:FmlaRange</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveFmlaRange() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaRange"u8);
+    public bool RemoveFmlaRange() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaRange"u8);
 
     /// <summary>The first <c>x:WidthMin</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? WidthMin => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "WidthMin"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? WidthMin => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "WidthMin"u8);
 
     /// <summary>Adds a <c>x:WidthMin</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddWidthMin() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "WidthMin"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddWidthMin() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "WidthMin"u8);
 
     /// <summary>Removes every <c>x:WidthMin</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveWidthMin() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "WidthMin"u8);
+    public bool RemoveWidthMin() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "WidthMin"u8);
 
     /// <summary>The first <c>x:Sel</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Sel => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Sel"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Sel => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Sel"u8);
 
     /// <summary>Adds a <c>x:Sel</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddSel() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Sel"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddSel() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Sel"u8);
 
     /// <summary>Removes every <c>x:Sel</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSel() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Sel"u8);
+    public bool RemoveSel() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Sel"u8);
 
     /// <summary>The first <c>x:NoThreeD2</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? NoThreeD2 => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "NoThreeD2"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? NoThreeD2 => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "NoThreeD2"u8);
 
     /// <summary>Adds a <c>x:NoThreeD2</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddNoThreeD2() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "NoThreeD2"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddNoThreeD2() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "NoThreeD2"u8);
 
     /// <summary>Removes every <c>x:NoThreeD2</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveNoThreeD2() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "NoThreeD2"u8);
+    public bool RemoveNoThreeD2() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "NoThreeD2"u8);
 
     /// <summary>The first <c>x:SelType</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? SelType => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "SelType"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? SelType => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "SelType"u8);
 
     /// <summary>Adds a <c>x:SelType</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddSelType() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "SelType"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddSelType() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "SelType"u8);
 
     /// <summary>Removes every <c>x:SelType</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSelType() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "SelType"u8);
+    public bool RemoveSelType() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "SelType"u8);
 
     /// <summary>The first <c>x:MultiSel</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? MultiSel => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "MultiSel"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? MultiSel => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "MultiSel"u8);
 
     /// <summary>Adds a <c>x:MultiSel</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddMultiSel() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "MultiSel"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddMultiSel() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "MultiSel"u8);
 
     /// <summary>Removes every <c>x:MultiSel</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveMultiSel() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "MultiSel"u8);
+    public bool RemoveMultiSel() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "MultiSel"u8);
 
     /// <summary>The first <c>x:LCT</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? LCT => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "LCT"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? LCT => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "LCT"u8);
 
     /// <summary>Adds a <c>x:LCT</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddLCT() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "LCT"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddLCT() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "LCT"u8);
 
     /// <summary>Removes every <c>x:LCT</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveLCT() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "LCT"u8);
+    public bool RemoveLCT() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "LCT"u8);
 
     /// <summary>The first <c>x:ListItem</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ListItem => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ListItem"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ListItem => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ListItem"u8);
 
     /// <summary>Adds a <c>x:ListItem</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddListItem() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ListItem"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddListItem() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ListItem"u8);
 
     /// <summary>Removes every <c>x:ListItem</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveListItem() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ListItem"u8);
+    public bool RemoveListItem() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ListItem"u8);
 
     /// <summary>The first <c>x:DropStyle</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? DropStyle => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "DropStyle"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? DropStyle => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "DropStyle"u8);
 
     /// <summary>Adds a <c>x:DropStyle</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDropStyle() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "DropStyle"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDropStyle() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "DropStyle"u8);
 
     /// <summary>Removes every <c>x:DropStyle</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveDropStyle() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "DropStyle"u8);
+    public bool RemoveDropStyle() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "DropStyle"u8);
 
     /// <summary>The first <c>x:Colored</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Colored => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Colored"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Colored => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Colored"u8);
 
     /// <summary>Adds a <c>x:Colored</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddColored() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Colored"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddColored() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Colored"u8);
 
     /// <summary>Removes every <c>x:Colored</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveColored() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Colored"u8);
+    public bool RemoveColored() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Colored"u8);
 
     /// <summary>The first <c>x:DropLines</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? DropLines => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "DropLines"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? DropLines => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "DropLines"u8);
 
     /// <summary>Adds a <c>x:DropLines</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDropLines() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "DropLines"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDropLines() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "DropLines"u8);
 
     /// <summary>Removes every <c>x:DropLines</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveDropLines() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "DropLines"u8);
+    public bool RemoveDropLines() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "DropLines"u8);
 
     /// <summary>The first <c>x:Checked</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Checked => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Checked"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Checked => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Checked"u8);
 
     /// <summary>Adds a <c>x:Checked</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddChecked() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Checked"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddChecked() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Checked"u8);
 
     /// <summary>Removes every <c>x:Checked</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveChecked() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Checked"u8);
+    public bool RemoveChecked() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Checked"u8);
 
     /// <summary>The first <c>x:FmlaLink</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? FmlaLink => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaLink"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? FmlaLink => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaLink"u8);
 
     /// <summary>Adds a <c>x:FmlaLink</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddFmlaLink() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaLink"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddFmlaLink() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaLink"u8);
 
     /// <summary>Removes every <c>x:FmlaLink</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveFmlaLink() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaLink"u8);
+    public bool RemoveFmlaLink() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaLink"u8);
 
     /// <summary>The first <c>x:FmlaPict</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? FmlaPict => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaPict"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? FmlaPict => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaPict"u8);
 
     /// <summary>Adds a <c>x:FmlaPict</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddFmlaPict() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaPict"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddFmlaPict() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaPict"u8);
 
     /// <summary>Removes every <c>x:FmlaPict</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveFmlaPict() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaPict"u8);
+    public bool RemoveFmlaPict() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaPict"u8);
 
     /// <summary>The first <c>x:NoThreeD</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? NoThreeD => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "NoThreeD"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? NoThreeD => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "NoThreeD"u8);
 
     /// <summary>Adds a <c>x:NoThreeD</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddNoThreeD() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "NoThreeD"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddNoThreeD() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "NoThreeD"u8);
 
     /// <summary>Removes every <c>x:NoThreeD</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveNoThreeD() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "NoThreeD"u8);
+    public bool RemoveNoThreeD() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "NoThreeD"u8);
 
     /// <summary>The first <c>x:FirstButton</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? FirstButton => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FirstButton"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? FirstButton => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FirstButton"u8);
 
     /// <summary>Adds a <c>x:FirstButton</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddFirstButton() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FirstButton"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddFirstButton() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FirstButton"u8);
 
     /// <summary>Removes every <c>x:FirstButton</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveFirstButton() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FirstButton"u8);
+    public bool RemoveFirstButton() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FirstButton"u8);
 
     /// <summary>The first <c>x:FmlaGroup</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? FmlaGroup => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaGroup"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? FmlaGroup => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaGroup"u8);
 
     /// <summary>Adds a <c>x:FmlaGroup</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddFmlaGroup() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaGroup"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddFmlaGroup() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaGroup"u8);
 
     /// <summary>Removes every <c>x:FmlaGroup</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveFmlaGroup() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaGroup"u8);
+    public bool RemoveFmlaGroup() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaGroup"u8);
 
     /// <summary>The first <c>x:Val</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Val => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Val"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Val => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Val"u8);
 
     /// <summary>Adds a <c>x:Val</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddVal() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Val"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddVal() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Val"u8);
 
     /// <summary>Removes every <c>x:Val</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveVal() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Val"u8);
+    public bool RemoveVal() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Val"u8);
 
     /// <summary>The first <c>x:Min</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Min => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Min"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Min => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Min"u8);
 
     /// <summary>Adds a <c>x:Min</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddMin() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Min"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddMin() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Min"u8);
 
     /// <summary>Removes every <c>x:Min</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveMin() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Min"u8);
+    public bool RemoveMin() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Min"u8);
 
     /// <summary>The first <c>x:Max</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Max => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Max"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Max => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Max"u8);
 
     /// <summary>Adds a <c>x:Max</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddMax() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Max"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddMax() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Max"u8);
 
     /// <summary>Removes every <c>x:Max</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveMax() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Max"u8);
+    public bool RemoveMax() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Max"u8);
 
     /// <summary>The first <c>x:Inc</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Inc => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Inc"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Inc => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Inc"u8);
 
     /// <summary>Adds a <c>x:Inc</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddInc() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Inc"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddInc() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Inc"u8);
 
     /// <summary>Removes every <c>x:Inc</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveInc() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Inc"u8);
+    public bool RemoveInc() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Inc"u8);
 
     /// <summary>The first <c>x:Page</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Page => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Page"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Page => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Page"u8);
 
     /// <summary>Adds a <c>x:Page</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddPage() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Page"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddPage() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Page"u8);
 
     /// <summary>Removes every <c>x:Page</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemovePage() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Page"u8);
+    public bool RemovePage() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Page"u8);
 
     /// <summary>The first <c>x:Horiz</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Horiz => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Horiz"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Horiz => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Horiz"u8);
 
     /// <summary>Adds a <c>x:Horiz</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddHoriz() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Horiz"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddHoriz() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Horiz"u8);
 
     /// <summary>Removes every <c>x:Horiz</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveHoriz() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Horiz"u8);
+    public bool RemoveHoriz() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Horiz"u8);
 
     /// <summary>The first <c>x:Dx</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Dx => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Dx"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Dx => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Dx"u8);
 
     /// <summary>Adds a <c>x:Dx</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDx() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Dx"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDx() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Dx"u8);
 
     /// <summary>Removes every <c>x:Dx</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveDx() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Dx"u8);
+    public bool RemoveDx() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Dx"u8);
 
     /// <summary>The first <c>x:MapOCX</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? MapOCX => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "MapOCX"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? MapOCX => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "MapOCX"u8);
 
     /// <summary>Adds a <c>x:MapOCX</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddMapOCX() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "MapOCX"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddMapOCX() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "MapOCX"u8);
 
     /// <summary>Removes every <c>x:MapOCX</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveMapOCX() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "MapOCX"u8);
+    public bool RemoveMapOCX() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "MapOCX"u8);
 
     /// <summary>The first <c>x:CF</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? CF => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "CF"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? CF => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "CF"u8);
 
     /// <summary>Adds a <c>x:CF</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddCF() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "CF"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddCF() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "CF"u8);
 
     /// <summary>Removes every <c>x:CF</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveCF() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "CF"u8);
+    public bool RemoveCF() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "CF"u8);
 
     /// <summary>The first <c>x:Camera</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Camera => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Camera"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Camera => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Camera"u8);
 
     /// <summary>Adds a <c>x:Camera</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddCamera() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Camera"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddCamera() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Camera"u8);
 
     /// <summary>Removes every <c>x:Camera</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveCamera() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "Camera"u8);
+    public bool RemoveCamera() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "Camera"u8);
 
     /// <summary>The first <c>x:RecalcAlways</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? RecalcAlways => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "RecalcAlways"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? RecalcAlways => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "RecalcAlways"u8);
 
     /// <summary>Adds a <c>x:RecalcAlways</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddRecalcAlways() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "RecalcAlways"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddRecalcAlways() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "RecalcAlways"u8);
 
     /// <summary>Removes every <c>x:RecalcAlways</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveRecalcAlways() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "RecalcAlways"u8);
+    public bool RemoveRecalcAlways() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "RecalcAlways"u8);
 
     /// <summary>The first <c>x:AutoScale</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? AutoScale => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "AutoScale"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? AutoScale => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "AutoScale"u8);
 
     /// <summary>Adds a <c>x:AutoScale</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddAutoScale() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "AutoScale"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddAutoScale() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "AutoScale"u8);
 
     /// <summary>Removes every <c>x:AutoScale</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAutoScale() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "AutoScale"u8);
+    public bool RemoveAutoScale() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "AutoScale"u8);
 
     /// <summary>The first <c>x:DDE</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? DDE => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "DDE"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? DDE => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "DDE"u8);
 
     /// <summary>Adds a <c>x:DDE</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDDE() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "DDE"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddDDE() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "DDE"u8);
 
     /// <summary>Removes every <c>x:DDE</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveDDE() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "DDE"u8);
+    public bool RemoveDDE() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "DDE"u8);
 
     /// <summary>The first <c>x:UIObj</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? UIObj => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "UIObj"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? UIObj => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "UIObj"u8);
 
     /// <summary>Adds a <c>x:UIObj</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddUIObj() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "UIObj"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddUIObj() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "UIObj"u8);
 
     /// <summary>Removes every <c>x:UIObj</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveUIObj() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "UIObj"u8);
+    public bool RemoveUIObj() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "UIObj"u8);
 
     /// <summary>The first <c>x:ScriptText</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ScriptText => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ScriptText"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ScriptText => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ScriptText"u8);
 
     /// <summary>Adds a <c>x:ScriptText</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddScriptText() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ScriptText"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddScriptText() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ScriptText"u8);
 
     /// <summary>Removes every <c>x:ScriptText</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveScriptText() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ScriptText"u8);
+    public bool RemoveScriptText() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ScriptText"u8);
 
     /// <summary>The first <c>x:ScriptExtended</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ScriptExtended => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ScriptExtended"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ScriptExtended => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ScriptExtended"u8);
 
     /// <summary>Adds a <c>x:ScriptExtended</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddScriptExtended() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ScriptExtended"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddScriptExtended() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ScriptExtended"u8);
 
     /// <summary>Removes every <c>x:ScriptExtended</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveScriptExtended() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ScriptExtended"u8);
+    public bool RemoveScriptExtended() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ScriptExtended"u8);
 
     /// <summary>The first <c>x:ScriptLanguage</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ScriptLanguage => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ScriptLanguage"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ScriptLanguage => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ScriptLanguage"u8);
 
     /// <summary>Adds a <c>x:ScriptLanguage</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddScriptLanguage() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ScriptLanguage"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddScriptLanguage() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ScriptLanguage"u8);
 
     /// <summary>Removes every <c>x:ScriptLanguage</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveScriptLanguage() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ScriptLanguage"u8);
+    public bool RemoveScriptLanguage() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ScriptLanguage"u8);
 
     /// <summary>The first <c>x:ScriptLocation</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ScriptLocation => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ScriptLocation"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ScriptLocation => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ScriptLocation"u8);
 
     /// <summary>Adds a <c>x:ScriptLocation</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddScriptLocation() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ScriptLocation"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddScriptLocation() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ScriptLocation"u8);
 
     /// <summary>Removes every <c>x:ScriptLocation</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveScriptLocation() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "ScriptLocation"u8);
+    public bool RemoveScriptLocation() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "ScriptLocation"u8);
 
     /// <summary>The first <c>x:FmlaTxbx</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? FmlaTxbx => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaTxbx"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? FmlaTxbx => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaTxbx"u8);
 
     /// <summary>Adds a <c>x:FmlaTxbx</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddFmlaTxbx() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaTxbx"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddFmlaTxbx() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaTxbx"u8);
 
     /// <summary>Removes every <c>x:FmlaTxbx</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveFmlaTxbx() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlExcel, "FmlaTxbx"u8);
+    public bool RemoveFmlaTxbx() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlSpreadsheet, "FmlaTxbx"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.VmlExcel.ClientData> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.VmlSpreadsheet.ClientData> UnknownChildren => new(_markup);
 }
 

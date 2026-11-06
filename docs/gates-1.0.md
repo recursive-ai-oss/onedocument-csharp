@@ -2,8 +2,8 @@
 
 What was run over the public corpus before 1.0, with the numbers and an explanation for every difference. The runs are one pass each,
 driven by `tools/gate/gate.sh` (stages), the probes under `tools/`, and the pinned oracles (LibreOffice 26.8.2.2, Jing 20241231 with the
-ODF 1.3 RelaxNG schema, lxml/libxml2 for XSD, Apache Tika 3.3.3, veraPDF 1.30.3), on the build worker. Corpus files stay on the worker; only
-counts are written here. The fixes the gate found are in the last section. Job ids are the worker's remote-run ids.
+ODF 1.3 RelaxNG schema, lxml/libxml2 for XSD, Apache Tika 3.3.3, veraPDF 1.30.3), on the build machine. Corpus files stay on it; only
+counts are written here. The fixes the gate found are in the last section.
 
 **Corpus** (all fetched by `tools/corpus` and `tools/setup`, none committed): Common Crawl Office samples (2,000 DOCX, 365 XLSX), public bug-tracker
 attachments (800 DOCX, 702 XLSX, 300 PPTX, 18 XLSB), LibreOffice-converted sets made from govdocs1 (453 XLSX, 237 PPTX), govdocs1 itself (810 DOC, 453 XLS,
@@ -35,7 +35,7 @@ Edits (the hub changes only the part it edits; unknown markup stays because the 
 Differences explained: the 36 DOCX and 11 XLSX that first raised `format.unrecognised` are truncated downloads (they stop at the 5 MiB crawl cap and have no end-of-central-directory record).
 The format sniffer still answers Unknown for a zip without a readable directory (a test pins that), but `Document.Open`, `Workbook.Open` and `Presentation.Open` now hand a file that starts with a zip
 header and has no end-of-directory record to the package reader, which scans the local headers and reports each repair as a located defect: 33 of the 36 DOCX and all 11 XLSX open and save now; the other 3 raise the typed
-`packaging.missing-content-types` because no content types entry survived the cut. Jobs: package layer `hg8w12ad`, DOCX `8p25lr6h`, XLSX/PPTX `qf11890d`, XLSB `qe8wdagk`.
+`packaging.missing-content-types` because no content types entry survived the cut.
 
 ## 2. Write validity
 
@@ -69,7 +69,7 @@ Loss codes by count of files (items): DOC `loss.doc-properties` 43 (45), `loss.d
 `ppt.document-properties-not-carried` 91 (118), `ppt.shape-adjust-dropped` 22 (228), `ppt.ole-object-flattened` 18 (43), `ppt.shape-approximated` 15 (65), `ppt.table-borders-approximated` 13 (37), `ppt.fill-approximated` 4 (10),
 `ppt.picture-pict` 4 (35), `ppt.wordart-flattened` 3 (3), `ppt.table-as-group` 2 (5), `ppt.path-escape` 1 (6), `ppt.transition-dropped` 1 (13). RTF `loss.rtf-text-box` 5 (36), `loss.rtf-shape` 5 (52), `loss.rtf-frames` 2 (11).
 Every conversion that lost something carried a report; a conversion with an empty report was lossless (DOC 28, XLS 38, PPT 2, RTF 16).
-Job `glkafoz7` (after the TotalTime fix below; the first pass found 1 invalid PPT-derived `app.xml`).
+The numbers are after the TotalTime fix below; the first pass found 1 invalid PPT-derived `app.xml`.
 
 OOXML → other formats we write, sample of 60 per format (Common Crawl, bug tracker), loss reports counted, LibreOffice opening the output:
 
@@ -82,7 +82,6 @@ OOXML → other formats we write, sample of 60 per format (Common Crawl, bug tra
 | XLSX → XLS (BIFF8) | 51 + 59 (two sets) | 2 (truncated inputs) | 0 after the fix below (2 before) | 51 / 51, 59 / 59 | reports on formulas, defined names, charts, pictures |
 | XLSX → XLSB | 51 | 2 (truncated inputs) | 0 | 49 / 51; 2 LibreOffice timeouts at 120 s | lossless |
 
-Jobs `7jok1n7c`, `f4su074s`.
 
 ## 3. OpenDocument
 
@@ -100,7 +99,7 @@ manifest against the ODF 1.3 RelaxNG schema; foreign-namespace attributes and el
 The entry round trip is entry content (the package's zip container is rewritten; entries are copied raw). The first pass failed 3 ODT and 1 ODS file: `text:soft-hyphen` inside a `text:span`
 (6 elements; the schema has no such element, a soft hyphen is the character U+00AD), a `table:table-row` with no cell (3; the source row had no cells), `style:header-first` without a `style:header` before it (1; the schema nests
 the left and first variants inside the default one), and number styles with more than one `number:number` or with two `number:text` after it (a phone-number code such as `(0) 0-0`; the first digit group is kept, the rest are reported
-as `multiple-digit-groups`). All four are fixed in the exporters and the same 59 and 51 files, rewritten, now validate. Earlier, before the first fixes, the run failed 5 ODT, 10 ODS and 8 ODP files. Jobs `c70lg8py` (after), `4kmf5dhy` (before), `58k8vaks` (read side).
+as `multiple-digit-groups`). All four are fixed in the exporters and the same 59 and 51 files, rewritten, now validate. Earlier, before the first fixes, the run failed 5 ODT, 10 ODS and 8 ODP files.
 
 ## 4. Text extraction against Apache Tika 3.3.3
 
@@ -124,7 +123,7 @@ Nothing of ours is invented (precision ≥ 0.985 everywhere). The differences ar
 - the file names of embedded pictures and objects (`image1.png`, `image2.svg`, `oleObject1.bin`): 22 of 100 PPTX and 8 of 134 bug-tracker DOCX are exactly the files where Tika lists only such names and we have no text;
 - master and layout text of presentations (footer placeholders such as a copyright line, the title-layout "PowerPoint Presentation") and the slide-number field `‹#›`;
 - text inside embedded OLE objects (a bug-tracker DOCX carries 105,027 characters of Lorem ipsum in embedded documents) and chart parts of DOCX: Tika recurses, we extract the document's own text.
-The weakest DOCX, XLSX and PPT rows are each a handful of files of this kind. No extraction raised an untyped error (typed errors: 2 truncated XLSX, 1 PPT). Job `q3rhicta`.
+The weakest DOCX, XLSX and PPT rows are each a handful of files of this kind. No extraction raised an untyped error (typed errors: 2 truncated XLSX, 1 PPT).
 
 ## 5. Calc: cached values reproduced
 
@@ -157,7 +156,7 @@ What the *bug* column is made of, after the fixes below (the biggest first, from
 - Cells whose formula is literally `#REF!` and whose result is an error are not compared (`error-literal-formula`: 2,457 / 4,543 / 3,018 / 1,854 / 1,499 cells in the Common Crawl, LibreOffice-converted, XLS, ODS and XLSB sets): another implementation's cached error (`#NAME?`) for a formula that spells `#REF!` says nothing about the engine.
 
 Recalculation was run with one thread per shard. One workbook (a 114 KB bug-tracker file, 11,876 formulas: `MAXIFS` over ranges of different sizes, `A2:ZW9960` against `C2:C9960`, 700 times) needed about 31 GB of resident memory
-before the fix in section 8; it now recalculates in 1.1 s at a 113 MB peak under a 4 GB heap limit. Jobs: `ihenmbih` (others, first pass), `bthshk19` (bug-tracker XLSX, first pass), the reruns after the fixes: queue jobs 005420–005423 (bug-tracker XLSX in four parts), 005424 (LibreOffice-converted XLSX, XLS, XLSB, Common Crawl), 005439 and the Common Crawl split.
+before the fix in section 8; it now recalculates in 1.1 s at a 113 MB peak under a 4 GB heap limit.
 The LibreOffice-converted XLSX, govdocs1 XLS and XLSB rows reran with identical numbers; the ODS row was not rerun (its inputs were deleted with the other outputs).
 
 ## 6. Rendering: veraPDF 1.30.3
@@ -176,7 +175,7 @@ When the profile cannot be met the writer raises `render.failed` with the violat
 
 So the profile either refuses a document it cannot make conformant (10 of 24 readable Word documents are refused for PDF/UA because a table has no header row; this is the known table-header item),
 or produces a PDF veraPDF passes, except for the Private Use Area `ActualText` case in PDF/A. Cause: a symbol-font bullet or label (U+F0xx) that `SymbolMap` has no Unicode twin for stays a private-use code point in the run text we hand to the display list (`DrawGlyphRun` takes the source text and the cluster map for exactly this purpose); the PDF writer then maps the glyph to that private-use code point in `/ToUnicode` and writes no `/ActualText`, which PDF/A-2 §6.2.11.7.3 requires. The change is in the PDF backend (write `/ActualText` for a text run whose text holds private-use characters, or map them to U+FFFD in `/ToUnicode`), not in the layout; widening `SymbolMap` would only hide the two files. The first run of this stage
-refused 22 of 23 DOCX because the probe set no title; that was the probe, fixed (`Title = name`). Jobs `mz13cypl` (final), `j1axptck` (first).
+refused 22 of 23 DOCX because the probe set no title; that was the probe, fixed (`Title = name`).
 
 ## 7. Memory
 
@@ -188,7 +187,7 @@ refused 22 of 23 DOCX because the probe set no title; that was the probe, fixed 
 | Streaming write | 1,000,000 × 20, 194 MB written | 2.27 s; 717 KB allocated in all (0.036 B/cell); working set 38 / 41 / 41 MB at 10k / 100k / 1M rows |
 | Full model, bytes retained per cell | the same 20,000,020-cell workbook | OneDocument **37.2**, ClosedXML 78.8, NPOI 360.4 (743,967,768 / 1,575,651,240 / 7,208,587,912 bytes) |
 
-The timings printed by the probes are indicative only. Jobs `pdljjal5`, `xc4dfc5v`, `eglftr6s`.
+The timings printed by the probes are indicative only.
 
 ## 8. What the gate found and what was fixed
 

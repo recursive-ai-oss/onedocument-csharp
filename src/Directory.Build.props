@@ -15,10 +15,20 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <!-- No baseline yet: the first published version is the baseline for the next. -->
+    <!-- 1.0.0 is the first release, so there is nothing to compare against yet. From 1.0.1 on, set PackageValidationBaselineVersion to the
+         last published version (1.0.0 first) so a pack fails on an unintended breaking change. -->
     <EnablePackageValidation>true</EnablePackageValidation>
     <PackageId>$(PackagePrefix)$(MSBuildProjectName)</PackageId>
   </PropertyGroup>
+
+  <!-- The public surface is frozen by a committed listing per assembly (PublicAPI.Shipped.txt; PublicAPI.Unshipped.txt for changes since the
+       last release). The analyzer is build-only (PrivateAssets=all, nothing flows into the package) and any public type or member that is
+       added, removed or changed without a listing edit fails the build. tools/api/update-public-api.py rewrites the listings. -->
+  <ItemGroup Condition="Exists('$(MSBuildProjectDirectory)/PublicAPI.Shipped.txt')">
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" PrivateAssets="all" />
+    <AdditionalFiles Include="PublicAPI.Shipped.txt" />
+    <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
+  </ItemGroup>
 
   <ItemGroup>
     <Using Include="System" />
