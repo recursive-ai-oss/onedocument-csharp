@@ -340,9 +340,14 @@ internal sealed partial class XlsImporter
             case 0x0218:
                 ReadName(r);
                 return true;
-            case 0x00EB: // MsoDrawingGroup
-                _drawingGroupRecord = i;
-                return true;
+            case 0x00EB: // MsoDrawingGroup: the picture store, spread over CONTINUE records
+                {
+                    RecordReader rd = RecordReader.Open(_rs, i, withContinues: true, out int last);
+                    i = last;
+                    _groupData = rd.RestJoined();
+                    return true;
+                }
+
             case 0x00D3: // ObProj: the workbook has a VBA project
                 _hasVba = true;
                 return true;
@@ -350,8 +355,6 @@ internal sealed partial class XlsImporter
                 return false;
         }
     }
-
-    private int _drawingGroupRecord = -1;
 
     private int U8(BiffRecord r, int at) => at < r.Length ? _rs.Bytes.Span[r.DataOffset + at] : 0;
 

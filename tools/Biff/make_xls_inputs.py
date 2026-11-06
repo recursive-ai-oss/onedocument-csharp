@@ -241,6 +241,24 @@ def features(path):
     wb.save(path)
 
 
+def pictures(path):
+    from PIL import Image as PImage
+    from openpyxl.drawing.image import Image
+    import io
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Pics"
+    ws["A1"] = "pictures below"
+    for i, (mode, color, fmt) in enumerate([("RGB", (200, 30, 30), "PNG"), ("RGB", (30, 200, 30), "JPEG")]):
+        buf = io.BytesIO()
+        PImage.new(mode, (40 + 10 * i, 30), color).save(buf, fmt)
+        buf.seek(0)
+        img = Image(buf)
+        img.width, img.height = 80, 60
+        ws.add_image(img, "B%d" % (3 + i * 6))
+    wb.save(path)
+
+
 def main():
     out = sys.argv[1]
     os.makedirs(out, exist_ok=True)
@@ -248,6 +266,7 @@ def main():
     formulas(os.path.join(out, "formulas.xlsx"))
     styles(os.path.join(out, "styles.xlsx"))
     features(os.path.join(out, "features.xlsx"))
+    pictures(os.path.join(out, "pictures.xlsx"))
 
 
 main()

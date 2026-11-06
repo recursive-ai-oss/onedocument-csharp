@@ -281,14 +281,7 @@ internal sealed partial class XlsImporter
             }
 
             OfficeLimitException.ThrowIfExceeded(nameof(OfficeLimits.MaxRecordCount), cellLimit, ++sc.Cells, DefectLocation.InRecord(_path, r.Offset));
-            try
-            {
-                HandleSheetRecord(sc, r, ref i);
-            }
-            catch (FormatException ex)
-            {
-                Defect("biff.record-malformed", DefectSeverity.Dropped, "A record of type 0x" + r.Type.ToString("X4", CultureInfo.InvariantCulture) + " is malformed: " + ex.Message, r.Offset);
-            }
+            HandleSheetRecord(sc, r, ref i);
         }
 
         FinishSheet(sc);
@@ -808,6 +801,30 @@ internal sealed partial class XlsImporter
 
     private static string RangeText(int r1, int c1, int r2, int c2) => r1 == r2 && c1 == c2 ? A1(r1, c1) : A1(r1, c1) + ":" + A1(r2, c2);
 
+    // XML 1.0 cannot hold most control characters, lone surrogates or U+FFFE/U+FFFF.
+    internal static bool IsXmlSafe(string s)
+    {
+        for (int i = 0; i < s.Length; i++)
+        {
+            char c = s[i];
+            if ((c < 0x20 && c != 9 && c != 10 && c != 13) || c == 0xFFFE || c == 0xFFFF)
+            {
+                return false;
+            }
+
+            if (char.IsHighSurrogate(c) && i + 1 < s.Length && char.IsLowSurrogate(s[i + 1]))
+            {
+                i++;
+            }
+            else if (char.IsSurrogate(c))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private string? DecodeToText(ReadOnlyMemory<byte> rgce, ReadOnlyMemory<byte> rgcb, int row, int col, int offset)
     {
         var dec = new PtgDecoder(_fctx, _enc8);
@@ -818,6 +835,12 @@ internal sealed partial class XlsImporter
             if (dec.TryDecode(rgce, rgcb, row, col, out FormulaNode node))
             {
                 string text = FormulaPrinter.Print(node);
+                if (!IsXmlSafe(text))
+                {
+                    Defect("biff.formula-text-invalid", DefectSeverity.Dropped, "A formula holds a character that XML cannot carry (a control character in a text constant).", offset, DefectKind.Formula);
+                    return null;
+                }
+
                 if (text.Length > _context.Limits.MaxFormulaLength)
                 {
                     Defect("biff.formula-too-long", DefectSeverity.Dropped, "A formula is longer than the formula limit.", offset, DefectKind.Formula);

@@ -130,6 +130,23 @@ public class XlsOracleTests
     private static RecursiveAI.OneDocument.IO.IByteSource ByteSourceFromFile(string path) => RecursiveAI.OneDocument.IO.ByteSource.FromMemory(File.ReadAllBytes(path));
 
     [Fact]
+    public void PicturesAreCarriedWithTheirAnchors()
+    {
+        using Workbook wb = XlsConverter.ToWorkbook(ByteSourceFromFile(Path.Combine(Dir, "pictures.xls")), new OpenContext());
+        byte[] png = wb.Package.FindPart("/xl/media/image1.png")!.GetBytes().ToArray();
+        byte[] jpg = wb.Package.FindPart("/xl/media/image2.jpeg")!.GetBytes().ToArray();
+        Assert.Equal(new byte[] { 0x89, 0x50, 0x4E, 0x47 }, png[..4]);
+        Assert.Equal(new byte[] { 0xFF, 0xD8 }, jpg[..2]);
+        string drawing = System.Text.Encoding.UTF8.GetString(wb.Package.FindPart("/xl/drawings/drawing1.xml")!.GetBytes().ToArray());
+        Assert.Contains("<xdr:from><xdr:col>1</xdr:col>", drawing, StringComparison.Ordinal);
+        Assert.Contains("<xdr:row>8</xdr:row>", drawing, StringComparison.Ordinal);
+        Assert.Contains(wb.Package.GetRelationships(wb.Sheets[0].PartName!), r => r.Type.EndsWith("/drawing", StringComparison.Ordinal));
+        using var saved = new MemoryStream();
+        wb.SaveAs(saved, OfficeFormat.Xlsx);
+        Assert.True(saved.Length > 2000);
+    }
+
+    [Fact]
     public void EveryFormulaOfTheOracleFilesSurvivesAnEncodeAndDecode()
     {
         // Parse the formula text, encode it as BIFF8 tokens, decode the tokens: the text must come back the same.

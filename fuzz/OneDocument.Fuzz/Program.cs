@@ -59,6 +59,8 @@ internal static class Program
         ["richtext"] = RichTextTarget.Run,
         ["math"] = MathTarget.Run,
         ["sheetrender"] = SheetRenderTarget.Run,
+        ["xls"] = XlsTarget.Run,
+        ["ptg"] = XlsTarget.RunPtg,
     };
 
     private static int Main(string[] args)
@@ -98,6 +100,7 @@ internal static class Program
                 "richtext" => RichTextTarget.WriteSeeds(args[2]),
                 "math" => MathTarget.WriteSeeds(args[2]),
                 "sheetrender" => SheetRenderTarget.WriteSeeds(args[2]),
+                "xls" or "ptg" => XlsTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }
