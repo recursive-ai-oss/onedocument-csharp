@@ -391,6 +391,21 @@ public class XlsReaderTests
     }
 
     [Fact]
+    public void CompoundFileWithAStreamNameLackingItsNullIsStillFoundAndRead()
+    {
+        // Some writers (Excel on the Mac among them) end a directory name with something other than a null; the strict container reader refuses them.
+        byte[] cfb = XlsBuilder.InCompoundFile(OneSheet(XlsBuilder.Number(0, 0, 15, 7)));
+        byte[] name = Encoding.Unicode.GetBytes("Workbook");
+        int at = cfb.AsSpan().IndexOf(name);
+        Assert.True(at >= 0);
+        Assert.Equal(18, cfb[at + 64]);
+        cfb[at + 16] = 0x20;
+        Assert.Equal(OfficeFormat.Xls, RecursiveAI.OneDocument.Formats.FormatSniffer.Detect(cfb));
+        using Workbook wb = Convert(cfb, out _, out _);
+        Assert.Equal(7, wb.Sheets[0]["A1"].Number);
+    }
+
+    [Fact]
     public void OfficeOpensAnXlsAndConvertsItToXlsx()
     {
         SpreadsheetFormats.Register(RecursiveAI.OneDocument.Formats.FormatRegistry.Default);

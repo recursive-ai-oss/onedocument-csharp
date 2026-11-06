@@ -80,3 +80,7 @@ Licence: the Intellectual Property Rights Notice for Open Specifications Documen
 Source: https://learn.microsoft.com/en-us/openspecs/office_standards/ms-docx/ and https://learn.microsoft.com/en-us/openspecs/office_standards/ms-odrawxml/
 
     Copyright (c) Microsoft Corporation. The names of companies and products in the documentation might be covered by trademarks; the notice grants no licence under those rights.
+
+## Test files written by other programs
+
+The small legacy workbooks in `testdata/xls/` (`*.xls`) are the output of LibreOffice 26.8.2.2 (`soffice --headless --convert-to 'xls:MS Excel 97'`, run as a black box, MPL-2.0) on the generated inputs `testdata/xls/*.xlsx`, which `tools/Biff/make_xls_inputs.py` writes with openpyxl 3.1.5 (MIT) from fixed values. They contain no text from either program. Regenerate them with `tools/Biff/make_xls_oracle.sh`.
