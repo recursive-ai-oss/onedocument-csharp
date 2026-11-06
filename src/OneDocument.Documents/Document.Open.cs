@@ -313,6 +313,11 @@ public sealed partial class Document
                 throw new OfficeFormatException(DefectKind.Structure, "format.unrecognised", "The content is not a format OneDocument knows.");
             }
 
+            if (sniffed == OfficeFormat.Doc)
+            {
+                return OpenBinary(source, context);
+            }
+
             if (!IsWordFormat(sniffed))
             {
                 throw new FormatNotAvailableException(sniffed, "open as a word-processing document:");

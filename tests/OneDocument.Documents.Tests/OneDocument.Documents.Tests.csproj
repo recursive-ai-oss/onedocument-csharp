@@ -24,6 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- The generator of small Word binary files is shared with the fuzz seeds. -->
+    <Compile Include="../Shared/DocBuilder.cs" Link="DocBuilder.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="../../src/OneDocument.Documents/OneDocument.Documents.csproj" />
   </ItemGroup>
 

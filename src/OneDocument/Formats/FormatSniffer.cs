@@ -383,33 +383,11 @@ public static class FormatSniffer
     // with an EncryptionInfo and an EncryptedPackage stream. [MS-DOC] WordDocument, [MS-XLS] Workbook, [MS-PPT] PowerPoint Document.
     private static OfficeFormat ClassifyCompoundFile(IByteSource source, OfficeLimits limits)
     {
+        // Word, Excel and PowerPoint open files whose allocation tables are damaged, so a file the strict reader refuses is
+        // classified again from what recovery can read; the format's own reader then reports the damage.
         try
         {
-            var options = new CompoundFileReaderOptions { Limits = limits.ToArchiveLimits() };
-            using CompoundFileReader cfb = source.TryGetMemory(out ReadOnlyMemory<byte> memory)
-                ? new CompoundFileReader(memory, options)
-                : new CompoundFileReader(ByteSource.AsStream(source), options);
-            if (HasStream(cfb, "EncryptedPackage") && HasStream(cfb, "EncryptionInfo"))
-            {
-                return OfficeFormat.EncryptedPackage;
-            }
-
-            if (HasStream(cfb, "WordDocument"))
-            {
-                return OfficeFormat.Doc;
-            }
-
-            if (HasStream(cfb, "Workbook"))
-            {
-                return OfficeFormat.Xls;
-            }
-
-            if (HasStream(cfb, "PowerPoint Document"))
-            {
-                return OfficeFormat.Ppt;
-            }
-
-            return HasStream(cfb, "Book") ? OfficeFormat.XlsLegacy : OfficeFormat.Unknown;
+            return ClassifyCompoundFile(source, limits, recovery: false);
         }
         catch (CompressionLimitException ex)
         {
@@ -417,8 +395,48 @@ public static class FormatSniffer
         }
         catch (CompressionException)
         {
-            return OfficeFormat.Unknown;
+            try
+            {
+                return ClassifyCompoundFile(source, limits, recovery: true);
+            }
+            catch (CompressionLimitException ex)
+            {
+                throw ArchiveErrors.Translate(ex);
+            }
+            catch (CompressionException)
+            {
+                return OfficeFormat.Unknown;
+            }
         }
+    }
+
+    private static OfficeFormat ClassifyCompoundFile(IByteSource source, OfficeLimits limits, bool recovery)
+    {
+        var options = new CompoundFileReaderOptions { Limits = limits.ToArchiveLimits(), Recovery = recovery };
+        using CompoundFileReader cfb = source.TryGetMemory(out ReadOnlyMemory<byte> memory)
+            ? new CompoundFileReader(memory, options)
+            : new CompoundFileReader(ByteSource.AsStream(source), options);
+        if (HasStream(cfb, "EncryptedPackage") && HasStream(cfb, "EncryptionInfo"))
+        {
+            return OfficeFormat.EncryptedPackage;
+        }
+
+        if (HasStream(cfb, "WordDocument"))
+        {
+            return OfficeFormat.Doc;
+        }
+
+        if (HasStream(cfb, "Workbook"))
+        {
+            return OfficeFormat.Xls;
+        }
+
+        if (HasStream(cfb, "PowerPoint Document"))
+        {
+            return OfficeFormat.Ppt;
+        }
+
+        return HasStream(cfb, "Book") ? OfficeFormat.XlsLegacy : OfficeFormat.Unknown;
     }
 
     private static bool HasStream(CompoundFileReader cfb, string name) =>
