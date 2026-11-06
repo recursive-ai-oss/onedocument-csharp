@@ -18,6 +18,15 @@ internal sealed class WordInspectionProvider : IInspectionProvider
     [
         "ins", "del", "moveFrom", "moveTo", "rPrChange", "pPrChange", "sectPrChange", "tblPrChange", "tblPrExChange", "tblGridChange",
         "trPrChange", "tcPrChange", "cellIns", "cellDel", "cellMerge", "numberingChange",
+        "moveFromRangeStart", "moveToRangeStart", "customXmlInsRangeStart", "customXmlDelRangeStart", "customXmlMoveFromRangeStart", "customXmlMoveToRangeStart",
+    ];
+
+    // Range markers of custom-XML changes and the property-change records of styles and numbering have no counterpart in the document
+    // model, so accepting them is dropping them.
+    private static readonly string[] s_leftoverMarkers =
+    [
+        "customXmlInsRangeStart", "customXmlInsRangeEnd", "customXmlDelRangeStart", "customXmlDelRangeEnd",
+        "customXmlMoveFromRangeStart", "customXmlMoveFromRangeEnd", "customXmlMoveToRangeStart", "customXmlMoveToRangeEnd",
     ];
 
     private static readonly string[] s_linkedFields = ["INCLUDEPICTURE", "INCLUDETEXT", "LINK", "DDE", "DDEAUTO", "IMPORT"];
@@ -35,6 +44,12 @@ internal sealed class WordInspectionProvider : IInspectionProvider
             || ct.EndsWith("endnotes+xml", StringComparison.OrdinalIgnoreCase) || ct.EndsWith("comments+xml", StringComparison.OrdinalIgnoreCase)
             || ct.EndsWith("glossary+xml", StringComparison.OrdinalIgnoreCase));
 
+    // Parts that can hold a tracked change: the content parts, and the styles and numbering definitions, whose formatting can carry
+    // property-change records (ECMA-376 Part 1 §17.7.4.11 rPrChange in a style, §17.9.x pPrChange in a numbering level).
+    private static bool HoldsRevisions(string ct) =>
+        IsContent(ct)
+        || (InspectionXml.IsWordMarkupType(ct) && (ct.EndsWith("styles+xml", StringComparison.OrdinalIgnoreCase) || ct.EndsWith("numbering+xml", StringComparison.OrdinalIgnoreCase)));
+
     private static void Run(InspectionSession s, SanitizeSession? z)
     {
         if (s.MainPartName is null)
@@ -50,6 +65,9 @@ internal sealed class WordInspectionProvider : IInspectionProvider
         Bindings(s, z);
         DocumentVariables(s, z);
         LinkedFields(s);
+        MailMerge(s, z);
+        InlineCustomXml(s, z);
+        RangePermissions(s, z);
     }
 
     private static void Comments(InspectionSession s, SanitizeSession? z)
@@ -168,7 +186,7 @@ internal sealed class WordInspectionProvider : IInspectionProvider
     private static Dictionary<string, (int Count, SortedSet<string> Authors)> CountRevisions(InspectionSession s)
     {
         var result = new Dictionary<string, (int, SortedSet<string>)>(StringComparer.OrdinalIgnoreCase);
-        foreach (IPackagePart p in s.PartsWhere(IsContent))
+        foreach (IPackagePart p in s.PartsWhere(HoldsRevisions))
         {
             MarkupDocument? doc = s.Markup(p);
             if (doc is null)
@@ -244,11 +262,54 @@ internal sealed class WordInspectionProvider : IInspectionProvider
         }
 
         _ = accepted;
+        DropLeftoverRecords(z);
         var left = CountRevisions(z);
         foreach (KeyValuePair<string, (int Count, SortedSet<string> Authors)> kv in left)
         {
             z.NotRemoved(InspectionCategory.Revisions, "sanitize.unsupported-construct", kv.Key, kv.Value.Count + " tracked changes could not be accepted (their markup is not what the schema allows).");
         }
+    }
+
+    private static void DropLeftoverRecords(SanitizeSession z)
+    {
+        foreach (IPackagePart p in z.PartsWhere(HoldsRevisions))
+        {
+            bool definitions = p.ContentType.EndsWith("styles+xml", StringComparison.OrdinalIgnoreCase) || p.ContentType.EndsWith("numbering+xml", StringComparison.OrdinalIgnoreCase);
+            MarkupDocument? doc = z.Markup(p);
+            if (doc is null)
+            {
+                continue;
+            }
+
+            var hits = new List<MarkupNode>();
+            foreach (MarkupNode e in InspectionXml.Descendants(doc.DocumentNode))
+            {
+                if (e.NamespaceUriBytes.IndexOf("wordprocessingml"u8) < 0)
+                {
+                    continue;
+                }
+
+                string n = e.LocalNameString;
+                if (Array.IndexOf(s_leftoverMarkers, n) >= 0 || (definitions && IsRevisionName(e)))
+                {
+                    hits.Add(e);
+                }
+            }
+
+            if (hits.Count > 0)
+            {
+                z.Edit(p);
+                foreach (MarkupNode h in hits)
+                {
+                    if (InspectionXml.IsAttached(h))
+                    {
+                        h.Remove();
+                    }
+                }
+            }
+        }
+
+        z.Flush();
     }
 
     private static bool HasContent(MarkupDocument doc)
@@ -327,7 +388,7 @@ internal sealed class WordInspectionProvider : IInspectionProvider
         // A header or footer that another content part refers to (rare) is removed everywhere, with its references.
         foreach (IPackagePart p in parts)
         {
-            if (s.Package.FindPart(p.Name) is not null && z.OwnersOf(p.Name).Count > 0)
+            if (s.Package.FindPart(p.Name) is not null)
             {
                 z.RemoveEverywhere(p.Name);
             }
@@ -343,6 +404,7 @@ internal sealed class WordInspectionProvider : IInspectionProvider
     private static void HiddenText(InspectionSession s, SanitizeSession? z)
     {
         bool doing = Doing(z, InspectionCategory.HiddenText);
+        Dictionary<string, StyleHiding>? styles = null;
         foreach (IPackagePart p in s.PartsWhere(IsContent))
         {
             if (p.ContentType.EndsWith("comments+xml", StringComparison.OrdinalIgnoreCase))
@@ -393,6 +455,8 @@ internal sealed class WordInspectionProvider : IInspectionProvider
                     marks.Add(e);
                 }
             }
+
+            HiddenByStyle(doc, styles ??= ReadHidingStyles(s), runs);
 
             if (white > 0)
             {
@@ -452,6 +516,135 @@ internal sealed class WordInspectionProvider : IInspectionProvider
             if (removed > 0)
             {
                 z!.Removed(InspectionCategory.HiddenText, p.Name, "hidden text", removed);
+            }
+        }
+    }
+
+    private sealed record StyleHiding(string? BasedOn, bool? Vanish);
+
+    // ECMA-376 Part 1 §17.7.2 (style hierarchy) and §17.3.2.41 vanish: a style's run properties can hide the text that uses it; a style
+    // without its own setting inherits from the style it is based on. Keys are style ids.
+    private static Dictionary<string, StyleHiding> ReadHidingStyles(InspectionSession s)
+    {
+        var map = new Dictionary<string, StyleHiding>(StringComparer.Ordinal);
+        foreach (IPackagePart p in s.PartsWhere(ct => InspectionXml.IsWordMarkupType(ct) && ct.EndsWith("styles+xml", StringComparison.OrdinalIgnoreCase)))
+        {
+            if (s.Markup(p) is not { } doc)
+            {
+                continue;
+            }
+
+            foreach (MarkupNode st in InspectionXml.Children(doc.Root))
+            {
+                if (!st.LocalName.SequenceEqual("style"u8) || InspectionXml.Attr(st, "styleId"u8) is not { } id)
+                {
+                    continue;
+                }
+
+                string? basedOn = null;
+                bool? vanish = null;
+                foreach (MarkupNode c in InspectionXml.Children(st))
+                {
+                    if (c.LocalName.SequenceEqual("basedOn"u8))
+                    {
+                        basedOn = InspectionXml.Attr(c, "val"u8);
+                    }
+                    else if (c.LocalName.SequenceEqual("rPr"u8))
+                    {
+                        foreach (MarkupNode f in InspectionXml.Children(c))
+                        {
+                            if (f.LocalName.SequenceEqual("vanish"u8))
+                            {
+                                vanish = IsActive(f);
+                            }
+                        }
+                    }
+                }
+
+                map[id] = new StyleHiding(basedOn, vanish);
+            }
+        }
+
+        return map;
+    }
+
+    // The first setting found on the style or the styles it is based on; null when none sets it. The depth cap stops a basedOn cycle.
+    private static bool? ResolveHiding(Dictionary<string, StyleHiding> styles, string? id)
+    {
+        for (int depth = 0; id is not null && depth < 64 && styles.TryGetValue(id, out StyleHiding? st); depth++)
+        {
+            if (st.Vanish is { } v)
+            {
+                return v;
+            }
+
+            id = st.BasedOn;
+        }
+
+        return null;
+    }
+
+    private static string? StyleOf(MarkupNode properties, ReadOnlySpan<byte> name)
+    {
+        foreach (MarkupNode c in InspectionXml.Children(properties))
+        {
+            if (c.LocalName.SequenceEqual(name))
+            {
+                return InspectionXml.Attr(c, "val"u8);
+            }
+        }
+
+        return null;
+    }
+
+    // A run is hidden by style when it sets no vanish of its own and its character style, or else its paragraph's style, hides it.
+    private static void HiddenByStyle(MarkupDocument doc, Dictionary<string, StyleHiding> styles, List<MarkupNode> runs)
+    {
+        if (!styles.Values.Any(v => v.Vanish == true))
+        {
+            return;
+        }
+
+        foreach (MarkupNode r in InspectionXml.Descendants(doc.DocumentNode))
+        {
+            if (!InspectionXml.Is(r, "wordprocessingml"u8, "r"u8) || runs.Contains(r) || IsInChange(r) || !InspectionXml.Ancestor(r, "styles"u8).IsNull)
+            {
+                continue;
+            }
+
+            MarkupNode rPr = default;
+            foreach (MarkupNode c in InspectionXml.Children(r))
+            {
+                if (c.LocalName.SequenceEqual("rPr"u8))
+                {
+                    rPr = c;
+                }
+            }
+
+            if (!rPr.IsNull && InspectionXml.Children(rPr).Any(c => c.LocalName.SequenceEqual("vanish"u8)))
+            {
+                continue; // the run decides for itself
+            }
+
+            bool? hidden = rPr.IsNull ? null : ResolveHiding(styles, StyleOf(rPr, "rStyle"u8));
+            if (hidden is null)
+            {
+                MarkupNode para = InspectionXml.Ancestor(r, "p"u8);
+                if (!para.IsNull)
+                {
+                    foreach (MarkupNode c in InspectionXml.Children(para))
+                    {
+                        if (c.LocalName.SequenceEqual("pPr"u8))
+                        {
+                            hidden = ResolveHiding(styles, StyleOf(c, "pStyle"u8));
+                        }
+                    }
+                }
+            }
+
+            if (hidden == true && !r.InnerText.AsSpan().IsWhiteSpace())
+            {
+                runs.Add(r);
             }
         }
     }
@@ -579,6 +772,8 @@ internal sealed class WordInspectionProvider : IInspectionProvider
         }
     }
 
+    // ECMA-376 Part 1 §17.16.18 fldChar: a complex field's instruction can be split over several instrText elements and runs, so the
+    // text between begin and separate (or end) is joined before the field name is read.
     private static void LinkedFields(InspectionSession s)
     {
         foreach (IPackagePart p in s.PartsWhere(IsContent))
@@ -589,30 +784,268 @@ internal sealed class WordInspectionProvider : IInspectionProvider
                 continue;
             }
 
+            var open = new Stack<System.Text.StringBuilder?>();
             foreach (MarkupNode e in InspectionXml.Descendants(doc.DocumentNode))
             {
-                string? instr = null;
-                if (e.LocalName.SequenceEqual("instrText"u8))
-                {
-                    instr = e.InnerText;
-                }
-                else if (e.LocalName.SequenceEqual("fldSimple"u8))
-                {
-                    instr = InspectionXml.Attr(e, "instr"u8);
-                }
-
-                if (instr is null)
+                if (e.NamespaceUriBytes.IndexOf("wordprocessingml"u8) < 0)
                 {
                     continue;
                 }
 
-                string word = instr.AsSpan().Trim().ToString();
-                int space = word.IndexOf(' ', StringComparison.Ordinal);
-                string name = (space < 0 ? word : word[..space]).ToUpperInvariant();
-                if (Array.IndexOf(s_linkedFields, name) >= 0)
+                ReadOnlySpan<byte> name = e.LocalName;
+                if (name.SequenceEqual("fldChar"u8))
                 {
-                    s.Add(InspectionCategory.LinkedContent, p.Name, name + " field", 1, InspectionXml.Brief(instr, 120));
+                    switch (InspectionXml.Attr(e, "fldCharType"u8))
+                    {
+                        case "begin":
+                            open.Push(new System.Text.StringBuilder());
+                            break;
+                        case "separate":
+                            if (open.Count > 0 && open.Peek() is { } sb)
+                            {
+                                ReportLinkedField(s, p, sb.ToString());
+                                open.Pop();
+                                open.Push(null);
+                            }
+
+                            break;
+                        case "end":
+                            if (open.Count > 0)
+                            {
+                                if (open.Pop() is { } pending)
+                                {
+                                    ReportLinkedField(s, p, pending.ToString());
+                                }
+                            }
+
+                            break;
+                    }
                 }
+                else if (name.SequenceEqual("instrText"u8))
+                {
+                    if (open.Count > 0 && open.Peek() is { } sb)
+                    {
+                        sb.Append(e.InnerText);
+                    }
+                    else if (open.Count == 0)
+                    {
+                        ReportLinkedField(s, p, e.InnerText);
+                    }
+                }
+                else if (name.SequenceEqual("fldSimple"u8) && InspectionXml.Attr(e, "instr"u8) is { } instr)
+                {
+                    ReportLinkedField(s, p, instr);
+                }
+            }
+        }
+    }
+
+    private static void ReportLinkedField(InspectionSession s, IPackagePart p, string instr)
+    {
+        string word = instr.AsSpan().Trim().ToString();
+        int space = word.IndexOf(' ', StringComparison.Ordinal);
+        string name = (space < 0 ? word : word[..space]).ToUpperInvariant();
+        if (Array.IndexOf(s_linkedFields, name) >= 0)
+        {
+            s.Add(InspectionCategory.LinkedContent, p.Name, name + " field", 1, InspectionXml.Brief(instr, 120));
+        }
+    }
+
+    // ECMA-376 Part 1 §17.14.20 mailMerge: the settings keep how the data source is reached (connection string, query, the source file,
+    // the header source and the ODSO settings), which names servers and files and can hold a login. Removing them leaves a document
+    // that is no longer bound to a data source.
+    private static void MailMerge(InspectionSession s, SanitizeSession? z)
+    {
+        bool doing = Doing(z, InspectionCategory.ExternalLinks);
+        foreach (IPackagePart p in s.PartsWhere(ct => ct.EndsWith("settings+xml", StringComparison.OrdinalIgnoreCase) && ct.Contains("wordprocessingml", StringComparison.OrdinalIgnoreCase)))
+        {
+            MarkupDocument? doc = doing ? z!.Edit(p) : s.Markup(p);
+            if (doc is null)
+            {
+                continue;
+            }
+
+            foreach (MarkupNode merge in InspectionXml.Children(doc.Root))
+            {
+                if (!merge.LocalName.SequenceEqual("mailMerge"u8))
+                {
+                    continue;
+                }
+
+                var sources = new List<MarkupNode>();
+                bool inline = false;
+                foreach (MarkupNode c in InspectionXml.Children(merge))
+                {
+                    ReadOnlySpan<byte> n = c.LocalName;
+                    if (n.SequenceEqual("connectString"u8) || n.SequenceEqual("query"u8) || n.SequenceEqual("odso"u8))
+                    {
+                        sources.Add(c);
+                        inline = true;
+                    }
+                    else if (n.SequenceEqual("dataSource"u8) || n.SequenceEqual("headerSource"u8))
+                    {
+                        sources.Add(c);
+                    }
+                }
+
+                if (inline)
+                {
+                    s.Add(InspectionCategory.ExternalLinks, p.Name + "!mailMerge", "mail-merge data source (connection string or query stored in the settings)", sources.Count);
+                }
+
+                if (!doing || sources.Count == 0)
+                {
+                    continue;
+                }
+
+                var ids = new List<string>();
+                foreach (MarkupNode c in sources)
+                {
+                    foreach (MarkupNode e in InspectionXml.Descendants(c).Prepend(c))
+                    {
+                        foreach (MarkupAttributeRef a in e.Attributes)
+                        {
+                            if (!a.IsNamespaceDeclaration && a.Prefix.Length > 0 && InspectionSession.IsRelationshipNamespace(a.NamespaceUri))
+                            {
+                                ids.Add(a.Value);
+                            }
+                        }
+                    }
+
+                    c.Remove();
+                }
+
+                z!.Unlink(p.Name, ids);
+                z.Removed(InspectionCategory.ExternalLinks, p.Name + "!mailMerge", "mail-merge data source settings (the document is no longer bound to its data)", sources.Count);
+            }
+        }
+    }
+
+    private static bool IsInlineWrapper(MarkupNode e) =>
+        InspectionXml.Is(e, "wordprocessingml"u8, "customXml"u8) || InspectionXml.Is(e, "wordprocessingml"u8, "smartTag"u8);
+
+    // ECMA-376 Part 1 §17.5.1 customXml and §17.5.1.9 smartTag: inline markup that names a custom XML element or smart tag, and its
+    // attribute values, around ordinary content. Taking the wrapper out leaves the content.
+    private static void InlineCustomXml(InspectionSession s, SanitizeSession? z)
+    {
+        bool doing = Doing(z, InspectionCategory.CustomXml);
+        foreach (IPackagePart p in s.PartsWhere(IsContent))
+        {
+            MarkupDocument? doc = doing ? z!.Edit(p) : s.Markup(p);
+            if (doc is null)
+            {
+                continue;
+            }
+
+            List<MarkupNode> wrappers = [.. InspectionXml.Descendants(doc.DocumentNode).Where(IsInlineWrapper)];
+            if (wrappers.Count == 0)
+            {
+                continue;
+            }
+
+            if (!doing)
+            {
+                s.Add(InspectionCategory.CustomXml, p.Name, "inline custom XML or smart-tag markup", wrappers.Count, InspectionXml.Brief(InspectionXml.Attr(wrappers[0], "element"u8) ?? string.Empty));
+                continue;
+            }
+
+            int removed = 0;
+            while (removed < 100000)
+            {
+                MarkupNode next = InspectionXml.Descendants(doc.DocumentNode).FirstOrDefault(IsInlineWrapper);
+                if (next.IsNull || !Unwrap(next))
+                {
+                    break;
+                }
+
+                removed++;
+            }
+
+            if (removed > 0)
+            {
+                z!.Removed(InspectionCategory.CustomXml, p.Name, "inline custom XML or smart-tag markup (content kept)", removed);
+            }
+
+            if (InspectionXml.Descendants(doc.DocumentNode).Any(IsInlineWrapper))
+            {
+                z!.NotRemoved(InspectionCategory.CustomXml, "sanitize.unsupported-construct", p.Name, "Inline custom XML or smart-tag markup declares its own namespaces, so it cannot be taken out without rewriting its content.");
+            }
+        }
+    }
+
+    // Replaces a wrapper by its content, without its properties element. False when the wrapper declares namespaces its content may use.
+    private static bool Unwrap(MarkupNode wrapper)
+    {
+        foreach (MarkupAttributeRef a in wrapper.Attributes)
+        {
+            if (a.IsNamespaceDeclaration)
+            {
+                return false;
+            }
+        }
+
+        var sb = new System.Text.StringBuilder();
+        foreach (MarkupNode c in wrapper.Children)
+        {
+            if (c.Kind == MarkupNodeKind.Element)
+            {
+                ReadOnlySpan<byte> n = c.LocalName;
+                if (!(n.SequenceEqual("customXmlPr"u8) || n.SequenceEqual("smartTagPr"u8)))
+                {
+                    sb.Append(c.OuterXml);
+                }
+            }
+            else
+            {
+                sb.Append(System.Text.Encoding.UTF8.GetString(c.RawContent));
+            }
+        }
+
+        if (sb.Length == 0)
+        {
+            wrapper.Remove();
+        }
+        else
+        {
+            wrapper.ReplaceWithXml(System.Text.Encoding.UTF8.GetBytes(sb.ToString()));
+        }
+
+        return true;
+    }
+
+    // ECMA-376 Part 1 §17.13.7.2 permStart: a range that one user (ed) or a group (edGrp) may edit in a protected document. The user
+    // is named by sign-in or mail address.
+    private static void RangePermissions(InspectionSession s, SanitizeSession? z)
+    {
+        bool doing = Doing(z, InspectionCategory.PersonalInformation);
+        foreach (IPackagePart p in s.PartsWhere(IsContent))
+        {
+            MarkupDocument? doc = s.Markup(p);
+            if (doc is null)
+            {
+                continue;
+            }
+
+            var editors = new SortedSet<string>(StringComparer.Ordinal);
+            int n = 0;
+            foreach (MarkupNode e in InspectionXml.Descendants(doc.DocumentNode))
+            {
+                if (InspectionXml.Is(e, "wordprocessingml"u8, "permStart"u8) && InspectionXml.Attr(e, "ed"u8) is { Length: > 0 } ed)
+                {
+                    n++;
+                    editors.Add(ed);
+                }
+            }
+
+            if (n == 0)
+            {
+                continue;
+            }
+
+            s.Add(InspectionCategory.PersonalInformation, p.Name, "range permission that names a user", n, InspectionXml.Brief(string.Join(", ", editors)));
+            if (doing)
+            {
+                z!.NotRemoved(InspectionCategory.PersonalInformation, "sanitize.unsupported-construct", p.Name, "A permission range names the user who may edit it; removing the range would lock that text for everyone, so it is reported and kept.");
             }
         }
     }
