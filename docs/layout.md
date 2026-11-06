@@ -109,8 +109,8 @@ Run segmentation, shaping, line breaking and placement, in order:
    paragraph `left` and `right` read as start and end.
 9. **Line height:** per line, the tallest ascent (ascender plus line gap) and deepest descent from the font's metrics, scaled by
    size; the paragraph mark's font takes part in the last line and decides an empty paragraph. Spacing rule `auto` multiplies by
-   `line/240` (extra above the text), `exact` fixes the height (descent scaled), `atLeast` is a floor.
-10. **Paragraph spacing:** space before and after add (they do not collapse); `contextualSpacing` removes the gap between paragraphs
+   `line/240` (a multiple above 1 adds its room below the text, observed in Word; a multiple below 1 cuts from above), `exact` fixes the height (descent scaled), `atLeast` is a floor.
+10. **Paragraph spacing:** the gap between two paragraphs is the larger of space after and space before, not their sum (observed in Word 16.0.20527 in every compatibility mode); `contextualSpacing` removes the gap between paragraphs
     of one style; auto-spacing attributes mean 14 pt.
 11. **List labels:** the label sits at the first-line position with the suffix `tab` (next tab stop), `space` or nothing; the label
     uses the paragraph mark's character formatting with the level's run properties on top. Symbol and Wingdings bullets are mapped to
@@ -195,7 +195,7 @@ the last pass is kept and `layout.note-numbering-unsettled` is noted. Documents 
 
 **Footnote placement.** A footnote reference in a body line (also in a table cell, see below) asks its page for room at the bottom
 of the column holding the reference (page bottom, `pos` `pageBottom`) or directly under the last text of the column (`beneathText`,
-chosen by the reference's section). The note area of a column is the separator, the notes in reference order, and, when its last note
+chosen by the reference's section). *Observed in Word:* only a section's own `pos` counts; a `pos` in the document settings is not applied to footnotes. The note area of a column is the separator, the notes in reference order, and, when its last note
 goes on, the continuation notice; `LayoutPage.NotesReservation` is the height of the tallest column's area and
 `LayoutPage.ContentArea` ends above it. The body flow lowers its limit as references are placed, so notes take space from the body.
 
@@ -250,10 +250,10 @@ stages that lay out those features and are added to this table with them.
 | Point | What is done | Why open |
 |---|---|---|
 | Line height source | `hhea` ascender + line gap above, descender below | Word's choice between `hhea` and OS/2 win metrics matters only for fonts where they differ |
-| Where leading goes | all of it above the baseline | needs Word's baseline positions |
+| Where leading goes | below the text for a multiple above 1; above it for atLeast, exact and multiples below 1 | Word agrees (observed, 16.0.20527) |
 | `exact` spacing baseline | descent scaled by height / natural | needs Word output |
-| Space before at page top | dropped after a natural break | Word's rule has compatibility variants |
-| Paragraph spacing | adds, does not collapse | needs Word output |
+| Space before at page top | dropped after a natural break; kept after a hard page break and at a section that starts a page (observed in Word) | Word's rule has compatibility variants |
+| Paragraph spacing | the larger of space after and space before (observed in Word, every compat mode) | Word agrees |
 | Superscript/subscript | 65 % size; raised half the size / lowered a quarter | Word uses font data (OS/2 offsets) |
 | Small caps | 80 % size | Word's factor |
 | Justification in lines with tabs or bidi | spreads over spaces only | |

@@ -18,7 +18,7 @@ internal sealed class FormattedNote
     public double Height(int from, int to) => Cum[to] - Cum[from];
 
     // The space above the first line of paragraph p: its space before, plus the previous paragraph's space after.
-    public double GapBefore(int p) => p == 0 ? Paragraphs[0].SpaceBefore : Paragraphs[p - 1].SpaceAfter + Paragraphs[p].SpaceBefore;
+    public double GapBefore(int p) => p == 0 ? Paragraphs[0].SpaceBefore : Math.Max(Paragraphs[p - 1].SpaceAfter, Paragraphs[p].SpaceBefore);
 
     public void Measure()
     {

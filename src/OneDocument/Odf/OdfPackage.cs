@@ -792,6 +792,9 @@ public sealed class OdfPackage : IDisposable
         {
             RawName = Encoding.ASCII.GetBytes(name),
             Method = ZipMethod.Store,
+            // Word's OpenDocument reader treats a mimetype entry whose "version needed to extract" is 0 as damaged (observed in Word
+            // 16.0.20527); an entry that needs no more than the base format says 20.
+            VersionNeeded = 20,
             Crc32 = Crc32(bytes),
             CompressedSize = bytes.Length,
             UncompressedSize = bytes.Length,

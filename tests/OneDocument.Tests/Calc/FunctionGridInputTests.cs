@@ -18,7 +18,7 @@ public class FunctionGridInputTests
     private static FakeResolver DatabaseCells()
     {
         var r = new FakeResolver();
-        foreach (string line in File.ReadAllLines(Path.Combine(GridDir(), "db-data.tsv")))
+        foreach (string line in File.ReadAllLines(Path.Combine(GridDir(), "database.cells.tsv")))
         {
             string[] p = line.Split('\t');
             if (p.Length < 2)

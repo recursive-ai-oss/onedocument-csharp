@@ -63,3 +63,7 @@ Rule to file:
 | `watermark.image` | `watermark.image.positive.docx` |
 
 sha256 of the committed bytes: `SHA256SUMS`.
+
+## Office run (Word, Excel and PowerPoint 16.0.20527)
+
+Answered as far as the oracle can drive the applications: see the row for this request in [`docs/office-oracle-1.0.md`](../../docs/office-oracle-1.0.md#the-other-requests). Questions not listed there as run are still open.

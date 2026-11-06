@@ -69,8 +69,8 @@ internal static class TableFormatter
         return v <= 0 ? PreferredWidth.Auto : new PreferredWidth(WidthKind.Points, v / 20.0);
     }
 
-    // ECMA-376 Part 1 §17.4.43 (tcMar) and §17.4.42 (tblCellMar): the cell's own margin beats the table's; defaults 108 twips left and
-    // right, 0 top and bottom.
+    // ECMA-376 Part 1 §17.4.43 (tcMar) and §17.4.42 (tblCellMar): the cell's own margin beats the table's; the default table style
+    // normally sets 108 twips left and right.
     private static double Margin(ResolvedProperties bag, string side)
     {
         string[] names = side switch
@@ -90,7 +90,9 @@ internal static class TableFormatter
             }
         }
 
-        return side is "left" or "right" ? 5.4 : 0;
+        // The 108 twips come from the default table style ("Normal Table"), which the cascade already supplied. Observed in Word 16.0.20527:
+        // a document with no default table style gets no cell margin at all.
+        return 0;
     }
 
     private static Prepared Prepare(Table table, LayoutContext ctx, int depth)
@@ -472,7 +474,7 @@ internal static class TableFormatter
                 }
 
                 double ext = y;
-                y += i == 0 ? before : after + before;
+                y += i == 0 ? before : Math.Max(after, before);
                 for (int k = 0; k < fp.Lines.Count; k++)
                 {
                     double top = y;
