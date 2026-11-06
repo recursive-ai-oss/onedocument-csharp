@@ -7,9 +7,9 @@ For each file: open it with the password given, record whether Office prompts fo
 | File | Password | Question |
 |---|---|---|
 | written-secret.xls | `p@ss word` | Written by `Workbook.SaveAs(..., OfficeFormat.Xls, password)` (RC4 CryptoAPI, 128-bit). Opens in Excel without repair? Same cells as the unencrypted save? |
-| cryptoapi-plain-basic.xls | `secret` | Our RC4 CryptoAPI encryption of a plain workbook (test encryptor). Opens? |
-| cryptoapi-features.xls | `secret` | As above with comments, validation, conditional formats, names. Opens? |
-| xor-v0-basic.xls | `secret` | XOR obfuscation (method 1). The specification does not say what array index a record's first byte takes; we use the stream offset of the byte plus the record length, which LibreOffice accepts both ways. Does Excel open it with the right text? |
+| cryptoapi-plain-basic.xls | `p@ss word` | Our RC4 CryptoAPI encryption of a plain workbook (test encryptor). Opens? |
+| cryptoapi-features.xls | `p@ss word` | As above with comments, validation, conditional formats, names. Opens? |
+| xor-v0-basic.xls | `pw12` | XOR obfuscation (method 1). The specification does not say what array index a record's first byte takes; we use the stream offset of the byte plus the record length, which LibreOffice accepts both ways. Does Excel open it with the right text? |
 | secret-basic.xls, secret-basic.doc | `secret` | Written by LibreOffice (RC4 1.1). Open in Excel and Word, same content as the plain twin? |
 | secret-basic.docx, secret-basic.xlsx, secret-runs.pptx | `secret` | Written by LibreOffice (agile). Information only. |
 | secret-epplus.xlsx | `Epp lus-1` | Agile written by EPPlus 4.5.3.3. Information only. |
