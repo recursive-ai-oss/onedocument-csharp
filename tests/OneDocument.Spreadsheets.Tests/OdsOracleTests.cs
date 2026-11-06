@@ -396,4 +396,50 @@ public class OdsOracleTests
             }
         }
     }
+
+    /// <summary>Information only: opens every ODS and FODS under <c>ONEDOCUMENT_ODS_READ</c> and writes the outcome and the defects of each to <c>read.tsv</c> in the work directory.</summary>
+    [Fact]
+    public void ReadForeign()
+    {
+        string? dir = Environment.GetEnvironmentVariable("ONEDOCUMENT_ODS_READ");
+        if (dir is null || Work is null)
+        {
+            return;
+        }
+
+        Directory.CreateDirectory(Work);
+        var lines = new List<string>();
+        int untyped = 0;
+        foreach (string f in Directory.EnumerateFiles(dir, "*.*", SearchOption.AllDirectories).Where(static f => f.EndsWith(".ods", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".fods", StringComparison.OrdinalIgnoreCase)).OrderBy(static x => x, StringComparer.Ordinal))
+        {
+            var ctx = new OpenContext();
+            string outcome;
+            long cells = 0;
+            try
+            {
+                using Workbook wb = Workbook.Open(f, ctx);
+                foreach (Worksheet sheet in wb.Sheets)
+                {
+                    cells += sheet.UsedRange().IsValid ? (long)sheet.UsedRange().RowCount * sheet.UsedRange().ColumnCount : 0;
+                }
+
+                outcome = "ok";
+            }
+            catch (OfficeException e)
+            {
+                outcome = "typed:" + e.Defect.Code;
+            }
+            catch (Exception e)
+            {
+                outcome = "UNTYPED:" + e.GetType().Name;
+                untyped++;
+            }
+
+            string codes = string.Join(',', ((DefectCollection)ctx.Defects).GroupBy(static d => d.Code).OrderBy(static g => g.Key, StringComparer.Ordinal).Select(static g => g.Key + "=" + g.Count()));
+            lines.Add(Path.GetFileName(f) + "\t" + outcome + "\t" + cells.ToString(CultureInfo.InvariantCulture) + "\t" + codes);
+        }
+
+        File.WriteAllLines(Path.Combine(Work, "read.tsv"), lines);
+        Assert.Equal(0, untyped);
+    }
 }
