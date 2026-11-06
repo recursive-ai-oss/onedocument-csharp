@@ -4,7 +4,7 @@
 
 ```text
 run: x64-xlsx-bpc
-filter: *Bench.Docx*
+group: xlsx bpc
 threads: 1
 load override: none
 cpu: AMD Ryzen 9 7950X3D 16-Core Processor
@@ -14,38 +14,39 @@ memory: 125 GB
 storage (inputs): /dev/nvme0n1p4 1.2T
 os: Linux 7.0.0-38-generic x86_64
 sdk: 10.0.403
-[before] 2026-11-05T04:08:22Z load1/5/15: 1.67 4.25 7.08
-[after] 2026-11-05T04:12:30Z load1/5/15: 1.44 2.60 5.71
+[before] 2026-11-06T08:11:38Z load1/5/15: 1.56 5.36 9.16
+[after] 2026-11-06T08:15:51Z load1/5/15: 1.20 2.97 7.23
 ```
 
 ## Load while running (sampled)
 
 ```text
-[during] 2026-11-05T04:08:23Z load1/5/15: 1.67 4.25 7.08
-[during] 2026-11-05T04:08:33Z load1/5/15: 1.57 4.15 7.02
-[during] 2026-11-05T04:08:43Z load1/5/15: 1.48 4.04 6.95
-[during] 2026-11-05T04:08:53Z load1/5/15: 1.41 3.94 6.89
-[during] 2026-11-05T04:09:03Z load1/5/15: 1.34 3.84 6.82
-[during] 2026-11-05T04:09:13Z load1/5/15: 1.77 3.85 6.79
-[during] 2026-11-05T04:09:23Z load1/5/15: 1.65 3.76 6.73
-[during] 2026-11-05T04:09:33Z load1/5/15: 1.62 3.68 6.67
-[during] 2026-11-05T04:09:43Z load1/5/15: 1.53 3.59 6.61
-[during] 2026-11-05T04:09:53Z load1/5/15: 1.45 3.51 6.55
-[during] 2026-11-05T04:10:03Z load1/5/15: 1.38 3.42 6.49
-[during] 2026-11-05T04:10:13Z load1/5/15: 1.32 3.34 6.43
-[during] 2026-11-05T04:10:23Z load1/5/15: 1.34 3.28 6.38
-[during] 2026-11-05T04:10:33Z load1/5/15: 1.29 3.21 6.32
-[during] 2026-11-05T04:10:43Z load1/5/15: 1.32 3.15 6.27
-[during] 2026-11-05T04:10:53Z load1/5/15: 1.27 3.08 6.21
-[during] 2026-11-05T04:11:03Z load1/5/15: 1.23 3.01 6.15
-[during] 2026-11-05T04:11:13Z load1/5/15: 1.19 2.94 6.10
-[during] 2026-11-05T04:11:23Z load1/5/15: 1.31 2.91 6.05
-[during] 2026-11-05T04:11:33Z load1/5/15: 1.34 2.86 6.00
-[during] 2026-11-05T04:11:43Z load1/5/15: 1.28 2.80 5.95
-[during] 2026-11-05T04:11:53Z load1/5/15: 1.32 2.76 5.90
-[during] 2026-11-05T04:12:03Z load1/5/15: 1.27 2.70 5.85
-[during] 2026-11-05T04:12:13Z load1/5/15: 1.30 2.66 5.80
-[during] 2026-11-05T04:12:23Z load1/5/15: 1.26 2.60 5.75
+[during] 2026-11-06T08:11:38Z load1/5/15: 1.56 5.36 9.16
+[during] 2026-11-06T08:11:48Z load1/5/15: 1.55 5.24 9.07
+[during] 2026-11-06T08:11:58Z load1/5/15: 1.47 5.10 8.99
+[during] 2026-11-06T08:12:08Z load1/5/15: 1.39 4.96 8.90
+[during] 2026-11-06T08:12:18Z load1/5/15: 1.41 4.85 8.82
+[during] 2026-11-06T08:12:28Z load1/5/15: 1.34 4.72 8.74
+[during] 2026-11-06T08:12:38Z load1/5/15: 1.29 4.60 8.65
+[during] 2026-11-06T08:12:48Z load1/5/15: 1.25 4.48 8.57
+[during] 2026-11-06T08:12:58Z load1/5/15: 1.21 4.36 8.49
+[during] 2026-11-06T08:13:08Z load1/5/15: 1.17 4.25 8.41
+[during] 2026-11-06T08:13:18Z load1/5/15: 1.15 4.14 8.33
+[during] 2026-11-06T08:13:28Z load1/5/15: 1.12 4.04 8.25
+[during] 2026-11-06T08:13:38Z load1/5/15: 1.18 3.95 8.18
+[during] 2026-11-06T08:13:48Z load1/5/15: 1.22 3.87 8.11
+[during] 2026-11-06T08:13:58Z load1/5/15: 1.19 3.78 8.03
+[during] 2026-11-06T08:14:08Z load1/5/15: 1.16 3.69 7.95
+[during] 2026-11-06T08:14:18Z load1/5/15: 1.28 3.63 7.89
+[during] 2026-11-06T08:14:28Z load1/5/15: 1.31 3.56 7.82
+[during] 2026-11-06T08:14:38Z load1/5/15: 1.26 3.47 7.75
+[during] 2026-11-06T08:14:48Z load1/5/15: 1.30 3.41 7.68
+[during] 2026-11-06T08:14:58Z load1/5/15: 1.25 3.33 7.61
+[during] 2026-11-06T08:15:08Z load1/5/15: 1.29 3.27 7.54
+[during] 2026-11-06T08:15:18Z load1/5/15: 1.25 3.19 7.47
+[during] 2026-11-06T08:15:28Z load1/5/15: 1.21 3.12 7.40
+[during] 2026-11-06T08:15:38Z load1/5/15: 1.18 3.05 7.33
+[during] 2026-11-06T08:15:48Z load1/5/15: 1.22 3.00 7.27
 ```
 
 ## Versions
@@ -60,6 +61,7 @@ MiniExcel	1.46.0
 Sylvan.Data.Excel	0.5.8
 ExcelDataReader	3.9.0
 EPPlus	4.5.3.3
+ClosedXML.Report	1.0.0
 BenchmarkDotNet	0.15.8
 ```
 
@@ -69,19 +71,22 @@ Retained is the managed heap still reachable after the file is loaded, every cel
 
 | Input | Cells | Library | Retained bytes/cell | Allocated bytes/cell | Load | Peak working set |
 |---|---:|---|---:|---:|---:|---:|
-| stress-100000.xlsx | 2,000,020 | onedocument | 37.7 | 51 | 3.34 s | 139 MB |
-| stress-100000.xlsx | 2,000,020 | closedxml | 81.2 | 1315 | 12.34 s | 306 MB |
-| stress-100000.xlsx | 2,000,020 | npoi | 359.1 | 1047 | 7.74 s | 1628 MB |
-| stress-1000000.xlsx | 20,000,020 | onedocument | 37.2 | 50 | 12.45 s | 908 MB |
-| stress-1000000.xlsx | 20,000,020 | closedxml | 78.8 | 1286 | 46.40 s | 1736 MB |
-| stress-1000000.xlsx | 20,000,020 | npoi | 360.4 | 1050 | 50.29 s | 15549 MB |
-| values-10000.xlsx | 100,000 | onedocument | 71.2 | 75 | 208.0 ms | 50 MB |
-| values-10000.xlsx | 100,000 | closedxml | 107.9 | 1645 | 868.0 ms | 133 MB |
-| values-10000.xlsx | 100,000 | npoi | 363.2 | 1035 | 324.0 ms | 156 MB |
-| values-100000.xlsx | 1,000,000 | onedocument | 36.4 | 38 | 1.48 s | 78 MB |
-| values-100000.xlsx | 1,000,000 | closedxml | 82.8 | 1604 | 6.91 s | 215 MB |
-| values-100000.xlsx | 1,000,000 | npoi | 361.6 | 1033 | 3.20 s | 831 MB |
-| values-1000000.xlsx | 10,000,000 | onedocument | 36.1 | 37 | 6.83 s | 405 MB |
-| values-1000000.xlsx | 10,000,000 | closedxml | 79.7 | 1573 | 27.08 s | 984 MB |
-| values-1000000.xlsx | 10,000,000 | npoi | 363.2 | 1036 | 26.63 s | 7678 MB |
+| stress-100000.xlsx | 2,000,020 | onedocument | 37.7 | 51 | 3.33 s | 148 MB |
+| stress-100000.xlsx | 2,000,020 | closedxml | 81.2 | 1317 | 12.39 s | 314 MB |
+| stress-100000.xlsx | 2,000,020 | npoi | 359.1 | 1047 | 7.84 s | 1633 MB |
+| stress-1000000.xlsx | 20,000,020 | onedocument | 37.2 | 50 | 12.34 s | 952 MB |
+| stress-1000000.xlsx | 20,000,020 | closedxml | 78.8 | 1286 | 46.19 s | 1740 MB |
+| stress-1000000.xlsx | 20,000,020 | npoi | 360.4 | 1050 | 50.24 s | 15576 MB |
+| values-10000.xlsx | 100,000 | onedocument | 71.2 | 75 | 224.0 ms | 55 MB |
+| values-10000.xlsx | 100,000 | closedxml | 107.6 | 1645 | 850.0 ms | 138 MB |
+| values-10000.xlsx | 100,000 | npoi | 363.2 | 1035 | 328.0 ms | 161 MB |
+| values-100000.xlsx | 1,000,000 | onedocument | 36.4 | 38 | 1.48 s | 84 MB |
+| values-100000.xlsx | 1,000,000 | closedxml | 82.8 | 1604 | 6.74 s | 220 MB |
+| values-100000.xlsx | 1,000,000 | npoi | 361.6 | 1033 | 3.14 s | 835 MB |
+| values-1000000.xlsx | 10,000,000 | onedocument | 36.1 | 37 | 7.82 s | 404 MB |
+| values-1000000.xlsx | 10,000,000 | closedxml | 79.7 | 1572 | 26.39 s | 990 MB |
+| values-1000000.xlsx | 10,000,000 | npoi | 363.2 | 1036 | 26.08 s | 7685 MB |
+| values-50000.xlsx | 500,000 | onedocument | 36.5 | 38 | 781.0 ms | 66 MB |
+| values-50000.xlsx | 500,000 | closedxml | 85.4 | 1607 | 3.24 s | 171 MB |
+| values-50000.xlsx | 500,000 | npoi | 361.7 | 1033 | 1.59 s | 464 MB |
 

@@ -1,0 +1,7 @@
+row	size	reps	min_ms	median_ms	alloc_bytes_per_rep	peak_ws_mb	checksum	file_bytes
+onedocument.render.docx	medium.docx	3	1583.7	1739.2	1014695168	142	1070743	1070743
+onedocument.render.docx	small.docx	15	38.3	38.4	11267320	91	27329	27329
+onedocument.doc.extract	medium.doc	15	10.5	10.5	10187352	70	501926	0
+onedocument.rtf.extract	medium.rtf	3	248.5	249.5	117606504	130	501926	0
+onedocument.odt.extract	medium.odt	3	391.4	391.8	64463640	91	501926	0
+onedocument.ods.model	values-10000.ods	3	985.4	991.6	368179736	166	537015189	0

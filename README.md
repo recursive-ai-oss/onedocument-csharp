@@ -89,7 +89,7 @@ Numbers come from the committed note or test named in the last column. Office-or
 | NativeAOT and trimming | the smoke app publishes with warnings as errors and runs | `smoke/aot`, `build/ci.sh aot` |
 | Browser WebAssembly | 25 smoke groups run in headless Chromium | `docs/platforms.md`, `build/ci.sh wasm-run` |
 | Memory | 37 retained bytes per cell on a 20M-cell styled workbook (ClosedXML 79, NPOI 360); streaming read allocates 0.08 bytes per cell at 1M rows; streaming working set 47 to 49 MB from 10k to 1M rows (x64) | `bench/README.md` |
-| Speed (preview rows, re-run at the 1.0 gate) | against the fastest managed comparator: documents geomean 0.19 (x64) and 0.18 (arm64) over 15 rows, worst 0.65 and 0.63; workbooks geomean 0.53 and 0.59 over 10 rows, worst 1.01 and 1.05 | `bench/README.md`, `bench/published/` |
+| Speed (1.0 gate rows) | against the fastest like-for-like managed comparator over 45 rows, single thread: geomean 0.29 (x64) and 0.32 (arm64), worst row 2.35 and 1.63 (a 50-slide PPTX edit saved to a file, which pays the durable flush the Open XML SDK does not; 0.89 and 0.83 saved to a stream); binary workbook reads have no like-for-like comparator and are 2 to 43 times slower than forward value readers | `bench/README.md`, `bench/published/` |
 
 ## Operations
 

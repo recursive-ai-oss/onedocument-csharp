@@ -1,0 +1,9 @@
+row	size	reps	min_ms	median_ms	alloc_bytes_per_rep	peak_ws_mb	checksum	file_bytes
+onedocument.calc.incr	calc-10000.xlsx	15	0.4	0.4	496016	111	66031877	0
+closedxml.calc.incr	calc-10000.xlsx	15	7.0	7.7	7280	211	66031877	0
+npoi.calc.incr	calc-10000.xlsx	15	4.6	16.3	3694984	203	66031877	0
+epplus.calc.incr	calc-10000.xlsx	3	733.8	924.3	421829176	164	66031878	0
+onedocument.calc.incr	calc-50000.xlsx	15	3.6	4.5	2416064	187	329961877	0
+closedxml.calc.incr	calc-50000.xlsx	15	44.7	45.0	7296	517	329961877	0
+npoi.calc.incr	calc-50000.xlsx	15	79.4	81.0	16989264	811	329961877	0
+epplus.calc.incr	calc-50000.xlsx	3	1710.1	1717.7	1992372568	431	329961878	0

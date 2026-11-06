@@ -24,6 +24,8 @@ internal static class Program
                 return CellFootprint.RunAll(args.Skip(1).ToArray());
             case "xlsxstream":
                 return XlsxStreamBench.Run(args.Skip(1).ToArray());
+            case "fmtbench":
+                return FormatsBench.Run(args.Skip(1).ToArray());
             case "poco":
                 return PocoBench.Run(args.Skip(1).ToArray());
             case "encfixtures":

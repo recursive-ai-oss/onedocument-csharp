@@ -1,0 +1,5 @@
+row	input	reps	median_ms	version
+libreoffice.render.docx	small.docx	3	627	LibreOffice 26.8.2.2 9dea406ab7695df6325b11b0e19fdca8db4b7276
+libreoffice.render.docx	medium.docx	3	1428	LibreOffice 26.8.2.2 9dea406ab7695df6325b11b0e19fdca8db4b7276
+libreoffice.doc.extract	medium.doc	3	666	LibreOffice 26.8.2.2 9dea406ab7695df6325b11b0e19fdca8db4b7276
+libreoffice.ods.model	values-10000.ods	3	682	LibreOffice 26.8.2.2 9dea406ab7695df6325b11b0e19fdca8db4b7276
