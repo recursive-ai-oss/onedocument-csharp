@@ -6,7 +6,7 @@ usage: validate_odf.py [--version 1.3|1.2] [--ignore-extensions] FILE_OR_DIR...
 Zip packages (.odt .ott .ods .ots .odp .otp) are unpacked: content.xml, styles.xml, meta.xml and settings.xml are checked against the
 document schema and META-INF/manifest.xml against the manifest schema. Flat files (.fodt .fods .fodp) are checked whole.
 ID/IDREF checking is switched off (jing -i): the schema pairs IDREF values with attributes in ways Jing rejects as a schema error.
-Locations come from the environment: ONEDOCUMENT_HOME (default ~/oneoffice) holds oracles/jing.sh and schemas/odf/<version>/.
+Locations come from the environment: ONEDOCUMENT_HOME (default ~/.onedocument) holds oracles/jing.sh and schemas/odf/<version>/.
 --ignore-extensions drops the attributes and elements of the producers' extension namespaces (loext, calcext, tableooo, css3t, ooo, ooow, ...) before checking,
 because the OASIS schema allows no foreign attributes: a file that holds some then fails only on those.
 Prints one line per failing file part and a count line; exit status is 1 when anything failed.
@@ -17,7 +17,7 @@ import sys
 import tempfile
 import zipfile
 
-HOME = os.environ.get("ONEDOCUMENT_HOME", os.path.expanduser("~/oneoffice"))
+HOME = os.environ.get("ONEDOCUMENT_HOME", os.path.expanduser("~/.onedocument"))
 ZIP_KINDS = (".odt", ".ott", ".ods", ".ots", ".odp", ".otp")
 FLAT_KINDS = (".fodt", ".fods", ".fodp")
 

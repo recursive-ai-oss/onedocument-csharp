@@ -69,14 +69,31 @@ public static class XlsEncryption
     /// </summary>
     /// <param name="stream">The workbook stream.</param>
     /// <param name="filePassOffset">The offset found by <see cref="TryFindFilePass"/>.</param>
-    /// <param name="context">Limits, defect sink and password. When no password is given, or it does not match, the default for workbooks that are protected against editing only (<see cref="PackageEncryption.DefaultPassword"/>) is tried.</param>
+    /// <param name="context">Limits, defect sink and password. When no password is given, the default for workbooks that are protected against editing only (<see cref="PackageEncryption.DefaultPassword"/>) is tried; a given password that does not match is not retried with it.</param>
     /// <param name="path">The stream path for locations.</param>
     /// <returns>The plain stream.</returns>
     /// <exception cref="OfficeEncryptedException">The password is missing or wrong.</exception>
     /// <exception cref="OfficeFormatException">The <c>FilePass</c> record is damaged (<c>encryption.malformed-header</c>).</exception>
     /// <exception cref="OfficeUnsupportedException">The scheme is not handled; the exception names it.</exception>
-    public static byte[] Decrypt(ReadOnlySpan<byte> stream, int filePassOffset, OpenContext context, string path)
+    public static byte[] Decrypt(ReadOnlySpan<byte> stream, int filePassOffset, OpenContext context, string path) =>
+        Decrypt(stream, filePassOffset, context, path, out _);
+
+    /// <summary>
+    /// Decrypts the workbook stream like <see cref="Decrypt(ReadOnlySpan{byte}, int, OpenContext, string)"/> and also returns the unlocked RC4 header, which
+    /// reads the encrypted summary stream of a file whose header has <c>fDocProps</c> cleared.
+    /// </summary>
+    /// <param name="stream">The workbook stream.</param>
+    /// <param name="filePassOffset">The offset found by <see cref="TryFindFilePass"/>.</param>
+    /// <param name="context">Limits, defect sink and password.</param>
+    /// <param name="path">The stream path for locations.</param>
+    /// <param name="unlocked">The unlocked RC4 header; null for XOR obfuscation.</param>
+    /// <returns>The plain stream.</returns>
+    /// <exception cref="OfficeEncryptedException">The password is missing or wrong.</exception>
+    /// <exception cref="OfficeFormatException">The <c>FilePass</c> record is damaged.</exception>
+    /// <exception cref="OfficeUnsupportedException">The scheme is not handled.</exception>
+    public static byte[] Decrypt(ReadOnlySpan<byte> stream, int filePassOffset, OpenContext context, string path, out BinaryRc4Encryption? unlocked)
     {
+        unlocked = null;
         ArgumentNullException.ThrowIfNull(context);
         DefectLocation at = DefectLocation.InRecord(path, filePassOffset);
         int type0 = BinaryPrimitives.ReadUInt16LittleEndian(stream);
@@ -93,7 +110,7 @@ public static class XlsEncryption
         }
 
         int scheme = BinaryPrimitives.ReadUInt16LittleEndian(data);
-        string?[] candidates = context.Password is null ? [PackageEncryption.DefaultPassword] : [context.Password, PackageEncryption.DefaultPassword];
+        string?[] candidates = context.Password is null ? [PackageEncryption.DefaultPassword] : [context.Password];
         byte[] copy = stream.ToArray();
         if (scheme == 0)
         {
@@ -123,6 +140,7 @@ public static class XlsEncryption
                 if (enc.TryUnlock(candidate!))
                 {
                     ApplyRc4(copy, filePassOffset, enc);
+                    unlocked = enc;
                     return copy;
                 }
             }

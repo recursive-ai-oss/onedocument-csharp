@@ -164,11 +164,15 @@ public class PackageEncryptionTests
     [Fact]
     public void ADefaultPasswordOpensAFileProtectedAgainstEditingOnly()
     {
-        // [MS-OFFCRYPTO] §2.4.1: Excel protects such a workbook with a fixed password, so it opens with none, and with a wrong one.
-        foreach (OpenContext context in new[] { new OpenContext(), new OpenContext(password: "not it") })
+        // [MS-OFFCRYPTO] §2.4.1: Excel protects such a workbook with a fixed password, so it opens with none; a wrong password the caller gave is refused.
+        using (var source = ByteSource.FromFile(Fixture("velvet-epplus.xlsx")))
         {
-            using var source = ByteSource.FromFile(Fixture("velvet-epplus.xlsx"));
-            Assert.Equal((byte)'P', PackageEncryption.DecryptCompoundFile(source, context)[0]);
+            Assert.Equal((byte)'P', PackageEncryption.DecryptCompoundFile(source, new OpenContext())[0]);
+        }
+
+        using (var wrong = ByteSource.FromFile(Fixture("velvet-epplus.xlsx")))
+        {
+            Assert.Equal(EncryptionProblem.PasswordIncorrect, Assert.Throws<OfficeEncryptedException>(() => PackageEncryption.DecryptCompoundFile(wrong, new OpenContext(password: "not it"))).Problem);
         }
 
         using var other = ByteSource.FromFile(Fixture("secret-epplus.xlsx"));

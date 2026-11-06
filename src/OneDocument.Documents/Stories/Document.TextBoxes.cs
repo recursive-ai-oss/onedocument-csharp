@@ -94,7 +94,9 @@ public sealed partial class Document
     {
         lock (Parts.Gate)
         {
-            if (!_textBoxes.TryGetValue(content, out TextBox? box))
+            // A cached box is only good while its content element is still in its tree; an edit that replaced the element (accepting a
+            // change can) leaves a stale entry whose node index may since have been given to something else.
+            if (!_textBoxes.TryGetValue(content, out TextBox? box) || !TextBoxScanner.IsAttached(box.Container.Node) || !TextBoxScanner.IsContent(box.Container.Node))
             {
                 box = new TextBox(this, content, alternate);
                 _textBoxes[content] = box;

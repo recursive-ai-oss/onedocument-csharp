@@ -57,7 +57,7 @@ internal static class DocEncryption
     /// <exception cref="OfficeEncryptedException">The password is missing or wrong.</exception>
     /// <exception cref="OfficeFormatException">The encryption header is damaged.</exception>
     /// <exception cref="OfficeUnsupportedException">The scheme is not handled.</exception>
-    internal static void Decrypt(byte[] word, byte[] table, byte[] data, DocEncryptionInfo info, OpenContext context, string tablePath)
+    internal static BinaryRc4Encryption? Decrypt(byte[] word, byte[] table, byte[] data, DocEncryptionInfo info, OpenContext context, string tablePath)
     {
         DefectLocation at = DefectLocation.InRecord(DocFile.WordPath, 14);
         if (!info.IsWord97)
@@ -86,7 +86,7 @@ internal static class DocEncryption
 
             xor.TransformMethod2(table, 0);
             xor.TransformMethod2(data, 0);
-            return;
+            return null;
         }
 
         // [MS-DOC] §2.2.6.2 and §2.2.6.3: the encryption header fills the first lKey bytes of the table stream.
@@ -118,6 +118,7 @@ internal static class DocEncryption
         t.Skip((int)info.Key);
         t.Process(table.AsSpan((int)info.Key));
         new Rc4BlockCipher(enc, BlockSize).Process(data);
+        return enc;
     }
 }
 

@@ -292,11 +292,19 @@ public sealed class MarkdownConversionTests
     [InlineData("www.a.b(", "")]
     public void PathologicalInputsParseInLinearTime(string unit, string tail)
     {
+        // The fastest of three runs: a collection or a busy neighbour in a parallel test run slows single runs, but not the best of them,
+        // while a quadratic parser is slow in every run.
         static long Time(string text)
         {
-            var sw = System.Diagnostics.Stopwatch.StartNew();
-            MarkdownParser.Parse(text, MarkdownParserOptions.Gfm);
-            return sw.ElapsedTicks;
+            long best = long.MaxValue;
+            for (int run = 0; run < 3; run++)
+            {
+                var sw = System.Diagnostics.Stopwatch.StartNew();
+                MarkdownParser.Parse(text, MarkdownParserOptions.Gfm);
+                best = Math.Min(best, sw.ElapsedTicks);
+            }
+
+            return best;
         }
 
         string Build(int n) => string.Concat(Enumerable.Repeat(unit, n)) + string.Concat(Enumerable.Repeat(tail, n)) + "\n";

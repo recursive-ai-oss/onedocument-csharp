@@ -236,7 +236,7 @@ internal static class Program
     {
         foreach (Defect d in defects)
         {
-            Console.Error.WriteLine($"{d.Severity.ToString().ToLowerInvariant()} {d.Code} at {d.Location}: {d.Message}");
+            Console.Error.WriteLine($"{d.Severity.ToString().ToLowerInvariant()} {d.Code}{CliText.At(d.Location)}: {d.Message}");
         }
 
         if (defects.Overflow > 0)
@@ -266,7 +266,7 @@ internal static class Program
         }
         else if (ex is OfficeException oe)
         {
-            Console.Error.WriteLine($"error {oe.Defect.Code} at {oe.Location}: {ex.Message}");
+            Console.Error.WriteLine($"error {oe.Defect.Code}{CliText.At(oe.Location)}: {ex.Message}");
         }
         else
         {

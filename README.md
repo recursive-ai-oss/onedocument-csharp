@@ -36,7 +36,7 @@ doc.Save();                                       // atomic; only word/document.
 Office.Convert("contract.docx", "contract.pdf");  // needs the Rendering package (or the All metapackage)
 ```
 
-The `Office` statics find the readers and writers of every kind package the application references; no registration call is needed (each package registers itself into the referencing C# project at build time, with no reflection). A format whose package is not referenced raises `FormatNotAvailableException` naming it. Coming from another library? See [`docs/migration/`](docs/migration).
+The `Office` statics find the readers and writers of every kind package the application references; no registration call is needed (each package registers itself into the referencing C# project at build time, with no reflection). A format whose package is not referenced raises `FormatNotAvailableException` naming it. Referencing one kind package (say `.Spreadsheets`) is enough for that kind and pulls in no other. In a project that is not C# or that sets `<OneDocumentAutoRegister>false</OneDocumentAutoRegister>`, call `DocumentFormats.Register(FormatRegistry.Default)` (and `SpreadsheetFormats`, `PresentationFormats`, `RenderingFormats`) once at start-up; [`docs/contracts.md`](docs/contracts.md#formats-registry-and-sniffing-recursiveaionedocumentformats) has the table. Coming from another library? See [`docs/migration/`](docs/migration).
 
 ## Formats
 

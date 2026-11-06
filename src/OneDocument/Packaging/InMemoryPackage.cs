@@ -1,12 +1,9 @@
-using System.Buffers.Binary;
-using System.Text;
-
 namespace RecursiveAI.OneDocument.Packaging;
 
 /// <summary>
 /// A minimal <see cref="IOpcPackage"/> held in memory. It exists to pin down the contract (lazy loading, the untouched state, the
 /// atomic save, limits on part size) for tests and for code that builds a package before any real container exists. It is
-/// not a file format: <see cref="WriteTo"/> writes a plain length-prefixed listing of the parts (relationships are not written).
+/// not a file container itself: <see cref="WriteTo"/> writes the parts and relationships as an Open Packaging Conventions zip.
 /// The zip-based and compound-file packages implement the same interfaces over real containers.
 /// </summary>
 public sealed class InMemoryPackage : IOpcPackage
@@ -119,22 +116,31 @@ public sealed class InMemoryPackage : IOpcPackage
     }
 
     /// <inheritdoc />
+    /// <remarks>
+    /// Writes an Open Packaging Conventions zip with the parts, their content types and the relationships, so the result can be
+    /// opened again with <see cref="OpcPackage.Open(Stream, OpenContext?, bool)"/> or sniffed like any other package file. A part
+    /// without a content type is written as <c>application/octet-stream</c>.
+    /// </remarks>
     public void WriteTo(Stream destination, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(destination);
         ObjectDisposedException.ThrowIf(_disposed, this);
-        destination.Write("ONEDOCUMENT-MEM1\n"u8);
-        byte[] number = new byte[4];
+        using OpcPackage zip = OpcPackage.Create(Limits);
         foreach (Part p in _parts)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            ReadOnlyMemory<byte> content = p.GetBytes();
-            WriteString(destination, p.Name, number);
-            WriteString(destination, p.ContentType, number);
-            BinaryPrimitives.WriteInt32LittleEndian(number, content.Length);
-            destination.Write(number);
-            destination.Write(content.Span);
+            zip.AddPart(p.Name, p.ContentType.Length == 0 ? "application/octet-stream" : p.ContentType, p.GetBytes());
         }
+
+        foreach (KeyValuePair<string, List<Relationship>> r in _relationships)
+        {
+            if (r.Value.Count > 0)
+            {
+                zip.SetRelationships(r.Key.Length == 0 ? null : r.Key, r.Value);
+            }
+        }
+
+        zip.WriteTo(destination, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -154,14 +160,6 @@ public sealed class InMemoryPackage : IOpcPackage
 
     /// <inheritdoc />
     public void Dispose() => _disposed = true;
-
-    private static void WriteString(Stream destination, string value, byte[] number)
-    {
-        byte[] bytes = Encoding.UTF8.GetBytes(value);
-        BinaryPrimitives.WriteInt32LittleEndian(number, bytes.Length);
-        destination.Write(number);
-        destination.Write(bytes);
-    }
 
     private Part Add(Part part)
     {

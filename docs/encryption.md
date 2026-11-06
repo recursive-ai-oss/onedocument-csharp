@@ -18,7 +18,7 @@ The decrypted inner package is opened through the normal sniff and registry path
 
 ## Default passwords
 
-When no password is given, or the given one fails, the reader also tries the passwords Office itself uses for files protected against editing only: `VelvetSweatshop` for XLS and OOXML, and `/01Hannes Ruescher/01` for PowerPoint (the value PowerPoint uses for read-only protection). A file that opens that way opens silently.
+When no password is given, the reader tries the passwords Office itself uses for files protected against editing only: `VelvetSweatshop` for XLS and OOXML, and `/01Hannes Ruescher/01` for PowerPoint (the value PowerPoint uses for read-only protection). A file that opens that way opens silently. A password the caller gives that does not match is an error (`PasswordIncorrect`); the defaults are not tried after it.
 
 ## Legacy specifics
 
@@ -30,7 +30,7 @@ When no password is given, or the given one fails, the reader also tries the pas
 
 ## Document properties
 
-In the binary schemes the `SummaryInformation` and `DocumentSummaryInformation` streams are stored in the clear (they are separate compound-file streams outside the encrypted ones, and Office writes them that way), so title, author and the other properties of an encrypted XLS, DOC or PPT are readable without the password and are read after decryption like any other file; the XLS writer with a password writes them clear too. The flag that encrypts them (`fDocProps` of the OOXML encryption header, [MS-OFFCRYPTO] §2.3.4.1) belongs to the package schemes, where the whole package including `docProps` is inside `EncryptedPackage`; a Standard-encrypted file with `fDocProps` cleared stores its properties in additional clear streams that are not read (a known gap).
+In the binary schemes the `SummaryInformation` and `DocumentSummaryInformation` streams are stored in the clear (they are separate compound-file streams outside the encrypted ones, and Office writes them that way), so title, author and the other properties of an encrypted XLS, DOC or PPT are readable without the password and are read after decryption like any other file; the XLS writer with a password writes them clear too. When the RC4 CryptoAPI header has `fDocProps` cleared ([MS-OFFCRYPTO] §2.3.1), Office moves them into an encrypted summary stream ([MS-OFFCRYPTO] §2.3.5.4): a compound-file stream named `EncryptedSummary` that holds the property streams encrypted, each under its own block key, with an index of descriptors. The XLS, DOC and PPT readers decrypt it after the password has been checked and use the properties inside in place of any clear ones. [MS-PPT] §2.1.6 names the stream for PowerPoint; the other two documents leave the name to the application, and `EncryptedSummary` is assumed for Word and Excel until the Office oracle run (`BinaryRc4Encryption.TryReadEncryptedSummary` takes the stream bytes, so a different name is a one-line change). A damaged summary stream is ignored (the clear property streams, if the file has any, are used). The OOXML schemes have no such stream: the whole package including `docProps` is inside `EncryptedPackage`.
 
 ## Limits and safety
 
@@ -44,4 +44,4 @@ SHA-1 and MD5 are broken for new designs but the formats fix them. Calls are con
 
 ## Known gaps
 
-Word 6/95 and BIFF2–4 encryption; certificate, extensible and rights-managed protection; encrypted document properties (`fDocProps` cleared) are not read; no OOXML or ODF encryption on write.
+Word 6/95 and BIFF2–4 encryption; certificate, extensible and rights-managed protection; no OOXML or ODF encryption on write.

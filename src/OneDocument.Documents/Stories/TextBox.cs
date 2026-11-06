@@ -220,7 +220,7 @@ internal static class TextBoxScanner
         }
     }
 
-    private static bool IsContent(MarkupNode n) => HubXml.IsWordNamespace(n.NamespaceUri) && n.LocalName.SequenceEqual("txbxContent"u8);
+    internal static bool IsContent(MarkupNode n) => HubXml.IsWordNamespace(n.NamespaceUri) && n.LocalName.SequenceEqual("txbxContent"u8);
 
     // The namespaces Word 2010 and later read: the standard's, VML and Microsoft's Office extensions. Same rule as text extraction.
     internal static bool IsUnderstood(string uri) =>
@@ -418,7 +418,9 @@ internal static class TextBoxScanner
                 }
             }
 
-            TextBox? story = content.IsNull ? null : box.Owner.TextBoxFor(new MarkupRef(content), default);
+            // The alternate is looked up here too: a box first met through a chain is cached, and a later listing must find the same box with its copy.
+            MarkupNode copy = content.IsNull ? default : AlternateOf(content);
+            TextBox? story = content.IsNull ? null : box.Owner.TextBoxFor(new MarkupRef(content), copy.IsNull ? default : new MarkupRef(copy));
             MarkupNode shape = cur.Parent;
             frames.Add(new TextBoxFrame(new MarkupRef(shape), AnchorOf(box.Owner, cur), story));
             cur = next.TryGetValue(cur, out string? target) && byShapeId.TryGetValue(target, out MarkupNode nxt) ? nxt.FirstChild.IsNull ? default : TextboxOf(nxt) : default;

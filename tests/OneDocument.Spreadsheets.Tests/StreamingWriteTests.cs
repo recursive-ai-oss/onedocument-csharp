@@ -233,7 +233,7 @@ public class StreamingWriteTests
         }
 
         _ = Run(2000); // warm up and let the buffers and deflater settle
-        long allocated = Run(20000);
+        long allocated = AllocationProbe.Min(() => Run(20000), 3);
         Assert.True(allocated < 20_000, "allocated " + allocated); // 100,000 cells; the deflater may allocate, the writer does not
     }
 

@@ -1,3 +1,4 @@
+using RecursiveAI.OneDocument.Formats;
 using RecursiveAI.OneDocument.IO;
 using RecursiveAI.OneDocument.Packaging;
 
@@ -142,7 +143,13 @@ public class PackageTests
             using var pkg = new InMemoryPackage(filePath: path);
             pkg.AddPart("/a.xml", "application/xml", new byte[] { 1, 2, 3 });
             pkg.Save();
-            Assert.StartsWith("ONEDOCUMENT-MEM1", File.ReadAllText(path), StringComparison.Ordinal);
+            // What it writes is a real package: it sniffs as one and reopens with its part and relationship.
+            pkg.SetRelationships(null, [new Relationship("rId1", "http://example.com/t", "a.xml")]);
+            pkg.Save();
+            using var reopened = OpcPackage.Open(path);
+            Assert.Equal(new byte[] { 1, 2, 3 }, reopened.FindPart("/a.xml")!.GetBytes().ToArray());
+            Assert.Equal("application/xml", reopened.FindPart("/a.xml")!.ContentType);
+            Assert.Equal("rId1", reopened.GetRelationships()[0].Id);
             Assert.Single(Directory.GetFiles(dir)); // no temp file left
 
             using var noPath = new InMemoryPackage();
@@ -152,6 +159,18 @@ public class PackageTests
         {
             Directory.Delete(dir, recursive: true);
         }
+    }
+
+    [Fact]
+    public void An_in_memory_package_with_a_main_part_is_recognised_when_written()
+    {
+        using var pkg = new InMemoryPackage();
+        pkg.AddPart("/word/document.xml", "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml",
+            "<w:document xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:body/></w:document>"u8.ToArray());
+        pkg.SetRelationships(null, [new Relationship("rId1", "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument", "word/document.xml")]);
+        using var ms = new MemoryStream();
+        pkg.WriteTo(ms);
+        Assert.Equal(OfficeFormat.Docx, FormatSniffer.Detect(ms.ToArray()));
     }
 
     [Fact]
@@ -178,6 +197,76 @@ public class PackageTests
             Assert.ThrowsAny<OperationCanceledException>(() => pkg.Save(cts.Token));
             Assert.Equal("original", File.ReadAllText(path));
             Assert.Equal([path], Directory.GetFiles(dir));
+        }
+        finally
+        {
+            Directory.Delete(dir, recursive: true);
+        }
+    }
+
+    [Fact]
+    public void A_process_killed_in_the_middle_of_Save_leaves_the_original_whole()
+    {
+        string root = Environment.GetEnvironmentVariable("TMPDIR") ?? Path.GetTempPath();
+        string dir = Path.Combine(root, "onedocument-kill-" + Environment.ProcessId);
+        Directory.CreateDirectory(dir);
+        try
+        {
+            string path = Path.Combine(dir, "doc.docx");
+            using (OpcPackage original = OpcPackage.Create())
+            {
+                original.SetRelationships(null, [new Relationship("rId1", "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument", "word/document.xml")]);
+                original.AddPart("/word/document.xml", "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml",
+                    "<w:document xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:body><w:p><w:r><w:t>original</w:t></w:r></w:p></w:body></w:document>"u8.ToArray());
+                original.SaveAs(path);
+            }
+
+            byte[] before = File.ReadAllBytes(path);
+
+            // The child saves 400 MB of incompressible parts over the file; it is killed once its temporary file has grown.
+            string childDll = Path.Combine(AppContext.BaseDirectory, "RecursiveAI.OneDocument.SaveChild.dll");
+            Assert.True(File.Exists(childDll), "the save child was not built next to the tests");
+            var start = new System.Diagnostics.ProcessStartInfo(Environment.GetEnvironmentVariable("DOTNET_HOST_PATH") ?? "dotnet")
+            {
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+            };
+            start.ArgumentList.Add(childDll);
+            start.ArgumentList.Add(path);
+            start.ArgumentList.Add("400");
+            using System.Diagnostics.Process child = System.Diagnostics.Process.Start(start)!;
+            try
+            {
+                Assert.Equal("saving", child.StandardOutput.ReadLine());
+                var deadline = DateTime.UtcNow.AddSeconds(120);
+                bool growing = false;
+                while (!growing && !child.HasExited && DateTime.UtcNow < deadline)
+                {
+                    foreach (string f in Directory.GetFiles(dir, ".doc.docx.*.tmp"))
+                    {
+                        growing |= new FileInfo(f).Length > (1 << 20);
+                    }
+
+                    Thread.Sleep(2);
+                }
+
+                Assert.True(growing, "the child finished or stalled before its temporary file grew");
+            }
+            finally
+            {
+                child.Kill(entireProcessTree: true);
+                child.WaitForExit();
+            }
+
+            Assert.NotEqual(0, child.ExitCode);
+            Assert.Equal(before, File.ReadAllBytes(path));
+            using (OpcPackage still = OpcPackage.Open(path))
+            {
+                Assert.Contains("original", System.Text.Encoding.UTF8.GetString(still.FindPart("/word/document.xml")!.GetBytes().Span), StringComparison.Ordinal);
+            }
+
+            // Nothing but the original and, at most, the dot-named temporary file a killed process cannot remove.
+            Assert.All(Directory.GetFiles(dir).Where(f => f != path), f => Assert.Matches(@"[/\\]\.doc\.docx\.\d+\.\d+\.tmp$", f));
         }
         finally
         {

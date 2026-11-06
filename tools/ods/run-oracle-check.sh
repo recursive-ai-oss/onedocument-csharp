@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Round trips the workbooks in testdata through OpenDocument with the reference reader in between (see OdsOracleTests).
-# Usage: ONEDOCUMENT_HOME=$HOME/oneoffice tools/ods/run-oracle-check.sh WORK [extra-input-dir[:dir...]]
+# Usage: ONEDOCUMENT_HOME=$HOME/.onedocument tools/ods/run-oracle-check.sh WORK [extra-input-dir[:dir...]]
 # Needs the .NET SDK on PATH. Writes WORK/export.tsv, WORK/validate-*.txt, WORK/compare.tsv.
 set -euo pipefail
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"

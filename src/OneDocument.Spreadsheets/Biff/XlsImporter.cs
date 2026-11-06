@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Text;
 using RecursiveAI.OneDocument.Calc;
 using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.Encryption;
 using RecursiveAI.OneDocument.IO;
 using RecursiveAI.OneDocument.Ole;
 using RecursiveAI.OneDocument.Packaging;
@@ -130,7 +131,7 @@ internal sealed partial class XlsImporter
     }
 
     /// <summary>Converts the workbook stream to a hub workbook.</summary>
-    public Workbook Import(ReadOnlyMemory<byte> workbookStream, string path, bool hasVba, byte[]? summaryInformation = null, byte[]? documentSummaryInformation = null, OleStorageSet? objects = null)
+    public Workbook Import(ReadOnlyMemory<byte> workbookStream, string path, bool hasVba, byte[]? summaryInformation = null, byte[]? documentSummaryInformation = null, OleStorageSet? objects = null, byte[]? encryptedSummary = null)
     {
         _summaryInformation = summaryInformation ?? [];
         _documentSummaryInformation = documentSummaryInformation ?? [];
@@ -140,7 +141,23 @@ internal sealed partial class XlsImporter
         if (XlsEncryption.TryFindFilePass(workbookStream.Span, out int filePass))
         {
             // A password-protected workbook is decrypted record by record into a copy; every offset stays where it was.
-            workbookStream = XlsEncryption.Decrypt(workbookStream.Span, filePass, _context, path);
+            workbookStream = XlsEncryption.Decrypt(workbookStream.Span, filePass, _context, path, out BinaryRc4Encryption? unlocked);
+            if (unlocked is { DocumentPropertiesClear: false } && encryptedSummary is not null
+                && unlocked.TryReadEncryptedSummary(encryptedSummary, out IReadOnlyList<KeyValuePair<string, byte[]>> inner))
+            {
+                // [MS-OFFCRYPTO] §2.3.5.4: with fDocProps cleared the property streams live encrypted inside the summary stream.
+                foreach (KeyValuePair<string, byte[]> s in inner)
+                {
+                    if (s.Key == OlePropertySets.SummaryInformationStreamName)
+                    {
+                        _summaryInformation = s.Value;
+                    }
+                    else if (s.Key == OlePropertySets.DocumentSummaryInformationStreamName)
+                    {
+                        _documentSummaryInformation = s.Value;
+                    }
+                }
+            }
         }
 
         _rs = BiffRecordSet.Parse(workbookStream, _context, path);

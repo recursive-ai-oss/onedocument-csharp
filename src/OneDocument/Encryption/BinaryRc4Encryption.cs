@@ -225,6 +225,80 @@ public sealed class BinaryRc4Encryption
     public Rc4Cipher CreateCipher(uint block) =>
         CipherFor(_baseHash ?? throw new InvalidOperationException("Call TryUnlock with the right password first."), block);
 
+    /// <summary>The name Office gives the encrypted summary stream in a compound file ([MS-PPT] §2.1.6 names it; Word and Excel use the same name).</summary>
+    public const string EncryptedSummaryStreamName = "EncryptedSummary";
+
+    /// <summary>
+    /// Reads an RC4 CryptoAPI encrypted summary stream ([MS-OFFCRYPTO] §2.3.5.4), where a file whose header has <c>fDocProps</c> cleared keeps
+    /// its document property streams (and any other streams or storages the application put there) encrypted.
+    /// </summary>
+    /// <param name="summary">The bytes of the encrypted summary stream.</param>
+    /// <param name="streams">On success, the decrypted streams by name (for example <c>U+0005 SummaryInformation</c>), in descriptor order.</param>
+    /// <returns>True when the stream is well formed and every descriptor lies inside it; false (with no streams) otherwise.</returns>
+    /// <exception cref="InvalidOperationException"><see cref="TryUnlock"/> has not succeeded.</exception>
+    public bool TryReadEncryptedSummary(ReadOnlySpan<byte> summary, out IReadOnlyList<KeyValuePair<string, byte[]>> streams)
+    {
+        const int MaxDescriptors = 256;
+        const int FixedDescriptor = 16;
+        streams = [];
+        if (_baseHash is null)
+        {
+            throw new InvalidOperationException("Call TryUnlock with the right password first.");
+        }
+
+        if (summary.Length < 8)
+        {
+            return false;
+        }
+
+        // The two leading fields and the descriptor array are each encrypted from the start of the block-0 key stream.
+        byte[] head = summary[..8].ToArray();
+        CipherFor(_baseHash, 0).Process(head);
+        uint arrayOffset = BinaryPrimitives.ReadUInt32LittleEndian(head);
+        uint arraySize = BinaryPrimitives.ReadUInt32LittleEndian(head.AsSpan(4));
+        if (arrayOffset < 8 || arraySize < 4 || (ulong)arrayOffset + arraySize > (ulong)summary.Length)
+        {
+            return false;
+        }
+
+        byte[] array = summary.Slice((int)arrayOffset, (int)arraySize).ToArray();
+        CipherFor(_baseHash, 0).Process(array);
+        uint count = BinaryPrimitives.ReadUInt32LittleEndian(array);
+        if (count > MaxDescriptors)
+        {
+            return false;
+        }
+
+        var result = new List<KeyValuePair<string, byte[]>>((int)count);
+        int at = 4;
+        for (uint i = 0; i < count; i++)
+        {
+            if (array.Length - at < FixedDescriptor)
+            {
+                return false;
+            }
+
+            uint offset = BinaryPrimitives.ReadUInt32LittleEndian(array.AsSpan(at));
+            uint size = BinaryPrimitives.ReadUInt32LittleEndian(array.AsSpan(at + 4));
+            ushort block = BinaryPrimitives.ReadUInt16LittleEndian(array.AsSpan(at + 8));
+            int nameChars = array[at + 10];
+            int nameBytes = (nameChars + 1) * 2;
+            if (array.Length - at - FixedDescriptor < nameBytes || offset < 8 || (ulong)offset + size > arrayOffset)
+            {
+                return false;
+            }
+
+            string name = Encoding.Unicode.GetString(array, at + FixedDescriptor, nameChars * 2);
+            byte[] data = summary.Slice((int)offset, (int)size).ToArray();
+            CipherFor(_baseHash, block).Process(data);
+            result.Add(new KeyValuePair<string, byte[]>(name, data));
+            at += FixedDescriptor + nameBytes;
+        }
+
+        streams = result;
+        return true;
+    }
+
     private Rc4Cipher CipherFor(byte[] baseHash, uint block)
     {
         byte[] input = new byte[baseHash.Length + 4];

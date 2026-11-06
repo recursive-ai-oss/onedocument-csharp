@@ -19,7 +19,7 @@ internal static class PptEncryption
     // [MS-PPT] §2.3.1: a record header is 8 bytes, ending with the 4-byte length.
     private const int HeaderSize = 8;
 
-    internal static (byte[] Document, byte[] Pictures) Decrypt(
+    internal static (byte[] Document, byte[] Pictures, BinaryRc4Encryption Header) Decrypt(
         ReadOnlySpan<byte> document,
         ReadOnlySpan<byte> pictures,
         IReadOnlyDictionary<uint, long> persistOffsets,
@@ -39,7 +39,7 @@ internal static class PptEncryption
         }
 
         BinaryRc4Encryption enc = BinaryRc4Encryption.Parse(document.Slice((int)(cryptOffset + HeaderSize), (int)length), at);
-        string?[] candidates = context.Password is null ? [DefaultPassword] : [context.Password, DefaultPassword];
+        string?[] candidates = context.Password is null ? [DefaultPassword] : [context.Password];
         bool unlocked = false;
         foreach (string? candidate in candidates)
         {
@@ -83,7 +83,7 @@ internal static class PptEncryption
             cipher.Process(plain.AsSpan((int)(offset + HeaderSize), (int)recLen));
         }
 
-        return (plain, DecryptPictures(pictures, enc));
+        return (plain, DecryptPictures(pictures, enc), enc);
     }
 
     // [MS-PPT] §2.3.7: every field of each blip record in the Pictures stream is decrypted with the block 0 key started afresh at the field.

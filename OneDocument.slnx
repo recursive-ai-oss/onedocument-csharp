@@ -21,6 +21,7 @@
     <Project Path="tests/OneDocument.Spreadsheets.Tests/OneDocument.Spreadsheets.Tests.csproj" />
     <Project Path="tests/OneDocument.Schema.Tests/OneDocument.Schema.Tests.csproj" />
     <Project Path="tests/OneDocument.Generators.Tests/OneDocument.Generators.Tests.csproj" />
+    <Project Path="tests/OneDocument.SaveChild/OneDocument.SaveChild.csproj" />
   </Folder>
   <Folder Name="/samples/">
     <Project Path="samples/ConvertToPdf/ConvertToPdf.csproj" />

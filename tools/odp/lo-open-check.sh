@@ -3,11 +3,11 @@
 # with the one LibreOffice gives the PresentationML deck of the same name found under testdata/ (hidden slides are left out of both).
 #
 # usage: tools/odp/lo-open-check.sh <dir-with-odp-files> <work-dir>
-# env:   ONEDOCUMENT_HOME  oracle install root (default ~/oneoffice); LO_PROFILE  private profile directory
+# env:   ONEDOCUMENT_HOME  oracle install root (default ~/.onedocument); LO_PROFILE  private profile directory
 set -euo pipefail
 dir=${1:?usage: lo-open-check.sh <dir> <work-dir>}
 work=${2:?usage: lo-open-check.sh <dir> <work-dir>}
-home=${ONEDOCUMENT_HOME:-$HOME/oneoffice}
+home=${ONEDOCUMENT_HOME:-$HOME/.onedocument}
 export LO_PROFILE=${LO_PROFILE:-$work/.lo-profile}
 root=$(cd "$(dirname "$0")/../.." && pwd)
 mkdir -p "$work/ours" "$work/source"

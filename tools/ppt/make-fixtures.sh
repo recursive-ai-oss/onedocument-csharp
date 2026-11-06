@@ -3,10 +3,10 @@
 # has files that a different writer produced from inputs we know. The converter is run as a black box.
 #
 # usage: tools/ppt/make-fixtures.sh <output-dir>
-# env:   ONEDOCUMENT_HOME  oracle install root (default ~/oneoffice); LO_PROFILE  private profile directory
+# env:   ONEDOCUMENT_HOME  oracle install root (default ~/.onedocument); LO_PROFILE  private profile directory
 set -euo pipefail
 out=${1:?usage: make-fixtures.sh <output-dir>}
-home=${ONEDOCUMENT_HOME:-$HOME/oneoffice}
+home=${ONEDOCUMENT_HOME:-$HOME/.onedocument}
 export LO_PROFILE=${LO_PROFILE:-$out/.lo-profile}
 mkdir -p "$out"
 root=$(cd "$(dirname "$0")/../.." && pwd)

@@ -63,7 +63,10 @@ public class BindingAllocationTests
     // The size of a string object on 64-bit .NET: header + length + chars + terminator, rounded up to 8 bytes.
     private static long StringBytes(string s) => (22 + 2L * s.Length + 7) & ~7L;
 
-    private static long ReadBytes(byte[] file, int rows)
+    // The smallest of three reads: a collection triggered by a parallel test can charge one read, a per-row allocation shows in all of them.
+    private static long ReadBytes(byte[] file, int rows) => AllocationProbe.Min(() => ReadOnce(file, rows), 3);
+
+    private static long ReadOnce(byte[] file, int rows)
     {
         long before = GC.GetAllocatedBytesForCurrentThread();
         int n = 0;
@@ -121,12 +124,12 @@ public class BindingAllocationTests
     {
         List<Wide> data = Rows(40_000, 200); // repeated strings: the shared string table holds each once
         Spreadsheet.Write(Stream.Null, data.Take(100), format); // warm up
-        long Measure(int rows)
+        long Measure(int rows) => AllocationProbe.Min(() =>
         {
             long before = GC.GetAllocatedBytesForCurrentThread();
             Spreadsheet.Write(Stream.Null, data.Take(rows), format);
             return GC.GetAllocatedBytesForCurrentThread() - before;
-        }
+        }, 3);
 
         long small = Measure(5_000);
         long large = Measure(40_000);

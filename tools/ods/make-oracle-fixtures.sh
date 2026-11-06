@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Writes the spreadsheet inputs (make_inputs.py, openpyxl) and converts them to ODS and flat ODS with the pinned LibreOffice.
-# Usage: ONEDOCUMENT_HOME=$HOME/oneoffice tools/ods/make-oracle-fixtures.sh OUTDIR
+# Usage: ONEDOCUMENT_HOME=$HOME/.onedocument tools/ods/make-oracle-fixtures.sh OUTDIR
 set -euo pipefail
 home=${ONEDOCUMENT_HOME:?set ONEDOCUMENT_HOME}
 out=${1:?output directory}
