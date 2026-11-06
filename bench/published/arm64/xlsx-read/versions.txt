@@ -7,4 +7,5 @@ MiniExcel	1.46.0
 Sylvan.Data.Excel	0.5.8
 ExcelDataReader	3.9.0
 EPPlus	4.5.3.3
+ClosedXML.Report	1.0.0
 BenchmarkDotNet	0.15.8

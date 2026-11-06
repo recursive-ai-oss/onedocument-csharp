@@ -1,0 +1,11 @@
+row	size	reps	min_ms	median_ms	alloc_bytes_per_rep	peak_ws_mb	checksum	file_bytes
+onedocument.pptx.extract	deck-50.pptx	15	6.0	6.1	2076032	59	9896	0
+onedocument.pptx.extract	deck-500.pptx	15	55.1	55.9	18787616	81	107163	0
+openxml.pptx.extract	deck-50.pptx	15	8.9	9.0	4585008	76	9647	0
+openxml.pptx.extract	deck-500.pptx	15	86.6	88.3	44658824	115	104664	0
+onedocument.xlsx.extract	values-10000.xlsx	5	35.4	35.8	4111656	65	485800	0
+onedocument.xlsx.extract	values-50000.xlsx	5	102.6	104.1	767512	62	2429000	0
+openxml.xlsx.extract	values-10000.xlsx	5	256.7	534.7	73424256	127	802780	0
+openxml.xlsx.extract	values-50000.xlsx	5	1085.3	1105.6	364004240	127	4097658	0
+npoi.xlsx.extract	values-10000.xlsx	5	443.1	759.5	260545184	189	884098	0
+npoi.xlsx.extract	values-50000.xlsx	5	1566.5	2138.8	1305985208	517	4504118	0

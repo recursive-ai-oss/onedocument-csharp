@@ -94,14 +94,15 @@ public static class XlsxStreamBench
 
     // ------------------------------------------------------------------ inputs
 
-    private static string InputName(int rows) => "values-" + rows.ToString(CultureInfo.InvariantCulture) + ".xlsx";
+    internal static string InputName(int rows) => "values-" + rows.ToString(CultureInfo.InvariantCulture) + ".xlsx";
 
     /// <summary>Writes the read inputs with the BCL zip classes and plain string building, so no library under test makes its own input.</summary>
-    private static void Generate(string dir)
+    internal static void Generate(string dir)
     {
         Directory.CreateDirectory(dir);
         string? only = Environment.GetEnvironmentVariable("XLSXBENCH_SIZES");
-        foreach (int rows in Sizes)
+        // XLSXBENCH_SIZES may name sizes beyond the timed ones (the legacy-format inputs are made from a 50,000-row workbook).
+        foreach (int rows in Sizes.Concat(only?.Split(',').Select(x => int.Parse(x, CultureInfo.InvariantCulture)) ?? []).Distinct())
         {
             string path = Path.Combine(dir, InputName(rows));
             if (File.Exists(path) || (only is not null && !only.Split(',').Contains(rows.ToString(CultureInfo.InvariantCulture))))
@@ -179,7 +180,7 @@ public static class XlsxStreamBench
         w.Write(content);
     }
 
-    private static double Number(int r, int c) => c switch
+    internal static double Number(int r, int c) => c switch
     {
         0 => r,
         1 => r * 0.5,
@@ -260,7 +261,7 @@ public static class XlsxStreamBench
         return 0;
     }
 
-    private static long ReadRow(string row, string path)
+    internal static long ReadRow(string row, string path)
     {
         long sum = 0;
         switch (row)
@@ -484,7 +485,7 @@ public static class XlsxStreamBench
         return sum;
     }
 
-    private static long VisitSheet(OoWorksheet s)
+    internal static long VisitSheet(OoWorksheet s)
     {
         long sum = 0;
         if (s.Kind != OoSheetKind.Worksheet)
@@ -526,7 +527,7 @@ public static class XlsxStreamBench
         }
     }
 
-    private static long Tally(object? v) => v switch
+    internal static long Tally(object? v) => v switch
     {
         double n => (long)n,
         string s => s.Length,

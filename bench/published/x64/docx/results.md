@@ -14,66 +14,69 @@ memory: 125 GB
 storage (inputs): /dev/nvme0n1p4 1.2T
 os: Linux 7.0.0-38-generic x86_64
 sdk: 10.0.403
-[before] 2026-11-05T04:12:38Z load1/5/15: 1.33 2.56 5.68
-[after] 2026-11-05T04:21:26Z load1/5/15: 1.04 1.41 3.73
+[before] 2026-11-06T09:28:21Z load1/5/15: 4.62 5.00 5.72
+[after] 2026-11-06T09:37:35Z load1/5/15: 1.12 1.75 3.69
 ```
 
 ## Load while running (sampled)
 
 ```text
-[during] 2026-11-05T04:12:38Z load1/5/15: 1.33 2.56 5.68
-[during] 2026-11-05T04:12:48Z load1/5/15: 1.28 2.51 5.63
-[during] 2026-11-05T04:12:58Z load1/5/15: 1.53 2.52 5.60
-[during] 2026-11-05T04:13:08Z load1/5/15: 1.45 2.47 5.56
-[during] 2026-11-05T04:13:18Z load1/5/15: 1.53 2.46 5.52
-[during] 2026-11-05T04:13:28Z load1/5/15: 1.52 2.42 5.47
-[during] 2026-11-05T04:13:38Z load1/5/15: 1.59 2.41 5.43
-[during] 2026-11-05T04:13:48Z load1/5/15: 1.50 2.36 5.39
-[during] 2026-11-05T04:13:58Z load1/5/15: 1.42 2.32 5.34
-[during] 2026-11-05T04:14:08Z load1/5/15: 1.43 2.29 5.30
-[during] 2026-11-05T04:14:18Z load1/5/15: 1.44 2.26 5.26
-[during] 2026-11-05T04:14:28Z load1/5/15: 1.37 2.22 5.21
-[during] 2026-11-05T04:14:38Z load1/5/15: 1.40 2.20 5.17
-[during] 2026-11-05T04:14:48Z load1/5/15: 1.34 2.16 5.13
-[during] 2026-11-05T04:14:58Z load1/5/15: 1.28 2.12 5.08
-[during] 2026-11-05T04:15:08Z load1/5/15: 1.32 2.10 5.04
-[during] 2026-11-05T04:15:18Z load1/5/15: 1.27 2.06 5.00
-[during] 2026-11-05T04:15:28Z load1/5/15: 1.23 2.03 4.95
-[during] 2026-11-05T04:15:38Z load1/5/15: 1.19 1.99 4.91
-[during] 2026-11-05T04:15:48Z load1/5/15: 1.16 1.96 4.87
-[during] 2026-11-05T04:15:58Z load1/5/15: 1.22 1.94 4.83
-[during] 2026-11-05T04:16:08Z load1/5/15: 1.18 1.91 4.79
-[during] 2026-11-05T04:16:18Z load1/5/15: 1.23 1.90 4.76
-[during] 2026-11-05T04:16:28Z load1/5/15: 1.27 1.88 4.72
-[during] 2026-11-05T04:16:38Z load1/5/15: 1.23 1.85 4.68
-[during] 2026-11-05T04:16:48Z load1/5/15: 1.42 1.88 4.66
-[during] 2026-11-05T04:16:58Z load1/5/15: 1.35 1.85 4.62
-[during] 2026-11-05T04:17:08Z load1/5/15: 1.30 1.82 4.58
-[during] 2026-11-05T04:17:18Z load1/5/15: 1.40 1.82 4.55
-[during] 2026-11-05T04:17:28Z load1/5/15: 1.34 1.80 4.51
-[during] 2026-11-05T04:17:38Z load1/5/15: 1.29 1.77 4.47
-[during] 2026-11-05T04:17:48Z load1/5/15: 1.24 1.74 4.43
-[during] 2026-11-05T04:17:58Z load1/5/15: 1.28 1.74 4.40
-[during] 2026-11-05T04:18:08Z load1/5/15: 1.24 1.71 4.37
-[during] 2026-11-05T04:18:18Z load1/5/15: 1.28 1.70 4.33
-[during] 2026-11-05T04:18:28Z load1/5/15: 1.39 1.71 4.31
-[during] 2026-11-05T04:18:38Z load1/5/15: 1.33 1.69 4.27
-[during] 2026-11-05T04:18:48Z load1/5/15: 1.28 1.67 4.24
-[during] 2026-11-05T04:18:58Z load1/5/15: 1.24 1.64 4.20
-[during] 2026-11-05T04:19:08Z load1/5/15: 1.20 1.62 4.17
-[during] 2026-11-05T04:19:18Z load1/5/15: 1.17 1.60 4.13
-[during] 2026-11-05T04:19:28Z load1/5/15: 1.22 1.60 4.10
-[during] 2026-11-05T04:19:38Z load1/5/15: 1.18 1.58 4.07
-[during] 2026-11-05T04:19:48Z load1/5/15: 1.23 1.58 4.04
-[during] 2026-11-05T04:19:58Z load1/5/15: 1.19 1.56 4.01
-[during] 2026-11-05T04:20:08Z load1/5/15: 1.16 1.54 3.98
-[during] 2026-11-05T04:20:18Z load1/5/15: 1.13 1.52 3.94
-[during] 2026-11-05T04:20:28Z load1/5/15: 1.11 1.50 3.91
-[during] 2026-11-05T04:20:38Z load1/5/15: 1.09 1.48 3.88
-[during] 2026-11-05T04:20:48Z load1/5/15: 1.08 1.47 3.85
-[during] 2026-11-05T04:20:58Z load1/5/15: 1.07 1.45 3.82
-[during] 2026-11-05T04:21:08Z load1/5/15: 1.06 1.44 3.79
-[during] 2026-11-05T04:21:18Z load1/5/15: 1.05 1.42 3.76
+[during] 2026-11-06T09:28:22Z load1/5/15: 4.62 5.00 5.72
+[during] 2026-11-06T09:28:32Z load1/5/15: 4.22 4.90 5.68
+[during] 2026-11-06T09:28:42Z load1/5/15: 3.88 4.80 5.64
+[during] 2026-11-06T09:28:52Z load1/5/15: 4.39 4.87 5.65
+[during] 2026-11-06T09:29:02Z load1/5/15: 4.10 4.80 5.62
+[during] 2026-11-06T09:29:12Z load1/5/15: 3.93 4.74 5.59
+[during] 2026-11-06T09:29:22Z load1/5/15: 3.48 4.61 5.54
+[during] 2026-11-06T09:29:32Z load1/5/15: 3.18 4.51 5.50
+[during] 2026-11-06T09:29:42Z load1/5/15: 2.84 4.39 5.45
+[during] 2026-11-06T09:29:52Z load1/5/15: 2.56 4.28 5.40
+[during] 2026-11-06T09:30:02Z load1/5/15: 2.32 4.17 5.35
+[during] 2026-11-06T09:30:12Z load1/5/15: 2.12 4.07 5.31
+[during] 2026-11-06T09:30:22Z load1/5/15: 1.94 3.97 5.26
+[during] 2026-11-06T09:30:32Z load1/5/15: 1.80 3.87 5.21
+[during] 2026-11-06T09:30:42Z load1/5/15: 1.75 3.79 5.17
+[during] 2026-11-06T09:30:52Z load1/5/15: 1.63 3.70 5.13
+[during] 2026-11-06T09:31:02Z load1/5/15: 1.54 3.61 5.08
+[during] 2026-11-06T09:31:12Z load1/5/15: 1.45 3.52 5.04
+[during] 2026-11-06T09:31:22Z load1/5/15: 1.38 3.44 4.99
+[during] 2026-11-06T09:31:32Z load1/5/15: 1.40 3.37 4.96
+[during] 2026-11-06T09:31:42Z load1/5/15: 1.34 3.29 4.91
+[during] 2026-11-06T09:31:52Z load1/5/15: 1.29 3.22 4.87
+[during] 2026-11-06T09:32:02Z load1/5/15: 1.24 3.14 4.83
+[during] 2026-11-06T09:32:12Z load1/5/15: 1.21 3.07 4.79
+[during] 2026-11-06T09:32:22Z load1/5/15: 1.17 3.01 4.75
+[during] 2026-11-06T09:32:32Z load1/5/15: 1.15 2.94 4.71
+[during] 2026-11-06T09:32:42Z load1/5/15: 1.12 2.87 4.67
+[during] 2026-11-06T09:32:52Z load1/5/15: 1.10 2.81 4.63
+[during] 2026-11-06T09:33:02Z load1/5/15: 1.09 2.75 4.59
+[during] 2026-11-06T09:33:12Z load1/5/15: 1.07 2.69 4.55
+[during] 2026-11-06T09:33:22Z load1/5/15: 1.06 2.64 4.51
+[during] 2026-11-06T09:33:32Z load1/5/15: 1.05 2.58 4.47
+[during] 2026-11-06T09:33:42Z load1/5/15: 1.04 2.53 4.43
+[during] 2026-11-06T09:33:52Z load1/5/15: 1.04 2.48 4.40
+[during] 2026-11-06T09:34:02Z load1/5/15: 1.03 2.43 4.36
+[during] 2026-11-06T09:34:12Z load1/5/15: 1.02 2.38 4.32
+[during] 2026-11-06T09:34:22Z load1/5/15: 1.02 2.34 4.29
+[during] 2026-11-06T09:34:32Z load1/5/15: 1.02 2.29 4.25
+[during] 2026-11-06T09:34:42Z load1/5/15: 1.01 2.25 4.22
+[during] 2026-11-06T09:34:52Z load1/5/15: 1.01 2.21 4.18
+[during] 2026-11-06T09:35:02Z load1/5/15: 1.01 2.17 4.15
+[during] 2026-11-06T09:35:12Z load1/5/15: 1.01 2.13 4.11
+[during] 2026-11-06T09:35:22Z load1/5/15: 1.01 2.09 4.08
+[during] 2026-11-06T09:35:32Z load1/5/15: 1.08 2.07 4.05
+[during] 2026-11-06T09:35:42Z load1/5/15: 1.15 2.05 4.02
+[during] 2026-11-06T09:35:52Z load1/5/15: 1.12 2.02 3.99
+[during] 2026-11-06T09:36:02Z load1/5/15: 1.10 1.98 3.96
+[during] 2026-11-06T09:36:12Z load1/5/15: 1.09 1.95 3.93
+[during] 2026-11-06T09:36:22Z load1/5/15: 1.07 1.92 3.89
+[during] 2026-11-06T09:36:32Z load1/5/15: 1.06 1.89 3.86
+[during] 2026-11-06T09:36:42Z load1/5/15: 1.05 1.86 3.83
+[during] 2026-11-06T09:36:52Z load1/5/15: 1.04 1.83 3.80
+[during] 2026-11-06T09:37:02Z load1/5/15: 1.11 1.82 3.78
+[during] 2026-11-06T09:37:12Z load1/5/15: 1.17 1.81 3.75
+[during] 2026-11-06T09:37:22Z load1/5/15: 1.15 1.78 3.72
+[during] 2026-11-06T09:37:32Z load1/5/15: 1.12 1.75 3.69
 ```
 
 ## Versions
@@ -88,6 +91,7 @@ MiniExcel	1.46.0
 Sylvan.Data.Excel	0.5.8
 ExcelDataReader	3.9.0
 EPPlus	4.5.3.3
+ClosedXML.Report	1.0.0
 BenchmarkDotNet	0.15.8
 ```
 
@@ -95,86 +99,86 @@ BenchmarkDotNet	0.15.8
 
 | Input | Method | Median | Ratio | Allocated/op |
 |---|---|---:|---:|---:|
-| medium | RawZip | 17.92 ms | 1.00x | 6.2 MB |
-| medium | OpenXml | 99.87 ms | 5.57x | 13.2 MB |
-| medium | Npoi | 113.73 ms | 6.35x | 32.8 MB |
-| medium | OneDocument | 19.79 ms | 1.10x | 12.0 MB |
-| pages1000 | RawZip | 121.01 ms | 1.00x | 57.7 MB |
-| pages1000 | OpenXml | 792.04 ms | 6.55x | 124.5 MB |
-| pages1000 | Npoi | 1.45 s | 12.01x | 344.5 MB |
-| pages1000 | OneDocument | 364.00 ms | 3.01x | 78.2 MB |
-| small | RawZip | 120.54 us | 1.00x | 72.3 KB |
-| small | OpenXml | 1.13 ms | 9.37x | 297.0 KB |
-| small | Npoi | 2.79 ms | 23.13x | 1.3 MB |
-| small | OneDocument | 729.06 us | 6.05x | 1.6 MB |
+| medium | RawZip | 18.07 ms | 1.00x | 6.2 MB |
+| medium | OpenXml | 100.67 ms | 5.57x | 13.2 MB |
+| medium | Npoi | 109.96 ms | 6.08x | 32.8 MB |
+| medium | OneDocument | 19.26 ms | 1.07x | 12.0 MB |
+| pages1000 | RawZip | 119.82 ms | 1.00x | 57.7 MB |
+| pages1000 | OpenXml | 812.00 ms | 6.78x | 124.5 MB |
+| pages1000 | Npoi | 1.42 s | 11.89x | 344.5 MB |
+| pages1000 | OneDocument | 373.67 ms | 3.12x | 78.2 MB |
+| small | RawZip | 120.75 us | 1.00x | 72.3 KB |
+| small | OpenXml | 1.13 ms | 9.33x | 297.0 KB |
+| small | Npoi | 2.75 ms | 22.81x | 1.3 MB |
+| small | OneDocument | 766.55 us | 6.35x | 1.6 MB |
 
 ## DocxExtract
 
 | Input | Method | Median | Ratio | Allocated/op |
 |---|---|---:|---:|---:|
-| medium | OpenXmlDom | 75.56 ms | 1.00x | 7.0 MB |
-| medium | OpenXmlReader | 59.40 ms | 0.79x | 8.2 MB |
-| medium | Npoi | 76.37 ms | 1.01x | 33.8 MB |
-| medium | OneDocument | 9.09 ms | 0.12x | 1.3 MB |
-| pages1000 | OpenXmlDom | 663.62 ms | 1.00x | 78.4 MB |
-| pages1000 | OpenXmlReader | 434.43 ms | 0.65x | 93.5 MB |
-| pages1000 | Npoi | 1.16 s | 1.75x | 375.3 MB |
-| pages1000 | OneDocument | 209.81 ms | 0.32x | 420.1 KB |
-| small | OpenXmlDom | 1.02 ms | 1.00x | 306.1 KB |
-| small | OpenXmlReader | 1.50 ms | 1.47x | 293.4 KB |
-| small | Npoi | 1.53 ms | 1.51x | 791.8 KB |
-| small | OneDocument | 565.99 us | 0.56x | 250.1 KB |
+| medium | OpenXmlDom | 82.22 ms | 1.00x | 7.0 MB |
+| medium | OpenXmlReader | 60.47 ms | 0.74x | 8.2 MB |
+| medium | Npoi | 77.86 ms | 0.95x | 33.8 MB |
+| medium | OneDocument | 4.39 ms | 0.05x | 1.3 MB |
+| pages1000 | OpenXmlDom | 512.24 ms | 1.00x | 78.4 MB |
+| pages1000 | OpenXmlReader | 430.17 ms | 0.84x | 93.5 MB |
+| pages1000 | Npoi | 1.15 s | 2.25x | 375.3 MB |
+| pages1000 | OneDocument | 230.17 ms | 0.45x | 420.3 KB |
+| small | OpenXmlDom | 992.68 us | 1.00x | 306.1 KB |
+| small | OpenXmlReader | 1.47 ms | 1.48x | 293.4 KB |
+| small | Npoi | 1.32 ms | 1.33x | 791.8 KB |
+| small | OneDocument | 566.58 us | 0.57x | 250.3 KB |
 
 ## DocxLazyOpen
 
 | Input | Method | Median | Ratio | Allocated/op |
 |---|---|---:|---:|---:|
-| medium | RawZip | 7.05 us | 1.00x | 26.1 KB |
-| medium | OpenXml | 772.57 us | 109.59x | 228.8 KB |
-| medium | Npoi | 51.92 ms | 7365.82x | 26.1 MB |
-| medium | OneDocument | 285.30 us | 40.47x | 343.6 KB |
-| pages1000 | RawZip | 6.72 us | 1.00x | 25.0 KB |
-| pages1000 | OpenXml | 1.02 ms | 151.54x | 212.7 KB |
-| pages1000 | Npoi | 1.09 s | 162211.86x | 287.6 MB |
-| pages1000 | OneDocument | 261.57 us | 38.93x | 338.2 KB |
-| small | RawZip | 7.18 us | 1.00x | 25.0 KB |
-| small | OpenXml | 467.20 us | 65.05x | 212.7 KB |
-| small | Npoi | 1.23 ms | 171.22x | 683.8 KB |
-| small | OneDocument | 255.50 us | 35.58x | 219.6 KB |
+| medium | RawZip | 6.60 us | 1.00x | 26.1 KB |
+| medium | OpenXml | 774.36 us | 117.27x | 228.8 KB |
+| medium | Npoi | 51.32 ms | 7772.31x | 26.1 MB |
+| medium | OneDocument | 271.82 us | 41.17x | 344.0 KB |
+| pages1000 | RawZip | 6.33 us | 1.00x | 25.0 KB |
+| pages1000 | OpenXml | 1.05 ms | 165.80x | 212.7 KB |
+| pages1000 | Npoi | 1.10 s | 174546.75x | 287.6 MB |
+| pages1000 | OneDocument | 270.78 us | 42.80x | 338.5 KB |
+| small | RawZip | 6.24 us | 1.00x | 25.0 KB |
+| small | OpenXml | 485.01 us | 77.70x | 212.7 KB |
+| small | Npoi | 1.19 ms | 190.75x | 683.8 KB |
+| small | OneDocument | 254.50 us | 40.77x | 219.9 KB |
 
 ## DocxLoad
 
 | Input | Method | Median | Ratio | Allocated/op |
 |---|---|---:|---:|---:|
-| medium | RawZip | 518.37 us | 1.00x | 26.1 KB |
-| medium | OpenXml | 67.89 ms | 130.96x | 7.0 MB |
-| medium | Npoi | 66.54 ms | 128.36x | 26.1 MB |
-| medium | OneDocument | 9.34 ms | 18.02x | 6.3 MB |
-| pages1000 | RawZip | 6.12 ms | 1.00x | 25.0 KB |
-| pages1000 | OpenXml | 650.02 ms | 106.23x | 78.4 MB |
-| pages1000 | Npoi | 1.12 s | 182.93x | 287.6 MB |
-| pages1000 | OneDocument | 107.02 ms | 17.49x | 50.8 MB |
-| small | RawZip | 11.18 us | 1.00x | 25.0 KB |
-| small | OpenXml | 1.55 ms | 138.42x | 306.7 KB |
-| small | Npoi | 1.18 ms | 105.63x | 672.6 KB |
-| small | OneDocument | 389.05 us | 34.80x | 242.3 KB |
+| medium | RawZip | 516.85 us | 1.00x | 26.1 KB |
+| medium | OpenXml | 73.61 ms | 142.42x | 7.0 MB |
+| medium | Npoi | 66.88 ms | 129.39x | 26.1 MB |
+| medium | OneDocument | 9.03 ms | 17.47x | 6.3 MB |
+| pages1000 | RawZip | 6.09 ms | 1.00x | 25.0 KB |
+| pages1000 | OpenXml | 621.84 ms | 102.10x | 78.4 MB |
+| pages1000 | Npoi | 1.10 s | 180.30x | 287.6 MB |
+| pages1000 | OneDocument | 105.67 ms | 17.35x | 50.8 MB |
+| small | RawZip | 11.28 us | 1.00x | 25.0 KB |
+| small | OpenXml | 962.15 us | 85.28x | 306.7 KB |
+| small | Npoi | 1.18 ms | 104.77x | 672.6 KB |
+| small | OneDocument | 385.48 us | 34.17x | 242.6 KB |
 
 ## DocxLoadSave
 
 | Input | Method | Median | Ratio | Allocated/op |
 |---|---|---:|---:|---:|
-| medium | RawZip | 16.54 ms | 1.00x | 2.5 MB |
-| medium | OpenXml | 18.26 ms | 1.10x | 7.5 MB |
-| medium | Npoi | 106.63 ms | 6.45x | 32.8 MB |
-| medium | OneDocument | 436.65 us | 0.03x | 2.3 MB |
-| pages1000 | RawZip | 109.67 ms | 1.00x | 4.9 MB |
-| pages1000 | OpenXml | 124.81 ms | 1.14x | 30.8 MB |
-| pages1000 | Npoi | 1.47 s | 13.39x | 344.5 MB |
-| pages1000 | OneDocument | 540.73 us | 0.00x | 4.3 MB |
-| small | RawZip | 118.43 us | 1.00x | 33.9 KB |
-| small | OpenXml | 817.15 us | 6.90x | 331.9 KB |
-| small | Npoi | 2.87 ms | 24.22x | 1.3 MB |
-| small | OneDocument | 170.43 us | 1.44x | 181.8 KB |
+| medium | RawZip | 16.39 ms | 1.00x | 2.5 MB |
+| medium | OpenXml | 18.16 ms | 1.11x | 7.5 MB |
+| medium | Npoi | 128.76 ms | 7.86x | 32.8 MB |
+| medium | OneDocument | 418.99 us | 0.03x | 2.3 MB |
+| pages1000 | RawZip | 107.57 ms | 1.00x | 4.9 MB |
+| pages1000 | OpenXml | 124.27 ms | 1.16x | 30.8 MB |
+| pages1000 | Npoi | 1.38 s | 12.81x | 344.5 MB |
+| pages1000 | OneDocument | 560.61 us | 0.01x | 4.3 MB |
+| small | RawZip | 118.10 us | 1.00x | 33.9 KB |
+| small | OpenXml | 779.93 us | 6.60x | 331.9 KB |
+| small | Npoi | 2.84 ms | 24.05x | 1.3 MB |
+| small | OneDocument | 180.61 us | 1.53x | 182.3 KB |
 
 ## Bar: OneDocument against the fastest comparator
 
@@ -182,23 +186,23 @@ Ratio is OneDocument median / the fastest comparator's median in the same class 
 
 | Class | Input | OneDocument | Fastest comparator | Comparator median | Ratio |
 |---|---|---:|---|---:|---:|
-| DocxEdit | medium | 19.79 ms | OpenXml | 99.87 ms | 0.20x |
-| DocxEdit | pages1000 | 364.00 ms | OpenXml | 792.04 ms | 0.46x |
-| DocxEdit | small | 729.06 us | OpenXml | 1.13 ms | 0.65x |
-| DocxExtract | medium | 9.09 ms | OpenXmlReader | 59.40 ms | 0.15x |
-| DocxExtract | pages1000 | 209.81 ms | OpenXmlReader | 434.43 ms | 0.48x |
-| DocxExtract | small | 565.99 us | OpenXmlDom | 1.02 ms | 0.56x |
-| DocxLazyOpen | medium | 285.30 us | OpenXml | 772.57 us | 0.37x |
-| DocxLazyOpen | pages1000 | 261.57 us | OpenXml | 1.02 ms | 0.26x |
-| DocxLazyOpen | small | 255.50 us | OpenXml | 467.20 us | 0.55x |
-| DocxLoad | medium | 9.34 ms | Npoi | 66.54 ms | 0.14x |
-| DocxLoad | pages1000 | 107.02 ms | OpenXml | 650.02 ms | 0.16x |
-| DocxLoad | small | 389.05 us | Npoi | 1.18 ms | 0.33x |
-| DocxLoadSave | medium | 436.65 us | OpenXml | 18.26 ms | 0.02x |
-| DocxLoadSave | pages1000 | 540.73 us | OpenXml | 124.81 ms | 0.00x |
-| DocxLoadSave | small | 170.43 us | OpenXml | 817.15 us | 0.21x |
+| DocxEdit | medium | 19.26 ms | OpenXml | 100.67 ms | 0.19x |
+| DocxEdit | pages1000 | 373.67 ms | OpenXml | 812.00 ms | 0.46x |
+| DocxEdit | small | 766.55 us | OpenXml | 1.13 ms | 0.68x |
+| DocxExtract | medium | 4.39 ms | OpenXmlReader | 60.47 ms | 0.07x |
+| DocxExtract | pages1000 | 230.17 ms | OpenXmlReader | 430.17 ms | 0.54x |
+| DocxExtract | small | 566.58 us | OpenXmlDom | 992.68 us | 0.57x |
+| DocxLazyOpen | medium | 271.82 us | OpenXml | 774.36 us | 0.35x |
+| DocxLazyOpen | pages1000 | 270.78 us | OpenXml | 1.05 ms | 0.26x |
+| DocxLazyOpen | small | 254.50 us | OpenXml | 485.01 us | 0.52x |
+| DocxLoad | medium | 9.03 ms | Npoi | 66.88 ms | 0.14x |
+| DocxLoad | pages1000 | 105.67 ms | OpenXml | 621.84 ms | 0.17x |
+| DocxLoad | small | 385.48 us | OpenXml | 962.15 us | 0.40x |
+| DocxLoadSave | medium | 418.99 us | OpenXml | 18.16 ms | 0.02x |
+| DocxLoadSave | pages1000 | 560.61 us | OpenXml | 124.27 ms | 0.00x |
+| DocxLoadSave | small | 180.61 us | OpenXml | 779.93 us | 0.23x |
 
-Geometric mean of the ratios: 0.194x over 15 rows. Worst row: DocxEdit small at 0.65x.
+Geometric mean of the ratios: 0.189x over 15 rows. Worst row: DocxEdit small at 0.68x.
 
 ## Peak memory (one run in a fresh process)
 
@@ -206,83 +210,83 @@ Baseline is the working set after the input bytes are loaded; peak is the proces
 
 | Row | Input | Baseline | Peak | Allocated |
 |---|---|---:|---:|---:|
-| npoi.edit | large | 74.5 MB | 706.8 MB | 834.5 MB |
-| npoi.edit | medium | 29.8 MB | 96.6 MB | 36.6 MB |
-| npoi.edit | pages1000 | 30.6 MB | 329.1 MB | 348.2 MB |
-| npoi.edit | small | 29.2 MB | 62.8 MB | 5.0 MB |
-| npoi.extract | large | 74.5 MB | 594.8 MB | 729.9 MB |
-| npoi.extract | medium | 29.8 MB | 85.5 MB | 34.1 MB |
-| npoi.extract | pages1000 | 30.6 MB | 337.0 MB | 377.7 MB |
-| npoi.extract | small | 29.2 MB | 51.5 MB | 1.1 MB |
-| npoi.lazyopen | large | 74.6 MB | 574.6 MB | 577.2 MB |
-| npoi.lazyopen | medium | 30.0 MB | 85.3 MB | 27.8 MB |
-| npoi.lazyopen | pages1000 | 30.6 MB | 281.0 MB | 289.4 MB |
-| npoi.lazyopen | small | 29.1 MB | 58.9 MB | 2.4 MB |
-| npoi.load | large | 74.6 MB | 569.1 MB | 575.8 MB |
-| npoi.load | medium | 29.9 MB | 77.7 MB | 26.4 MB |
-| npoi.load | pages1000 | 30.7 MB | 291.7 MB | 287.9 MB |
-| npoi.load | small | 29.3 MB | 51.5 MB | 974.6 KB |
-| npoi.loadsave | large | 74.5 MB | 688.6 MB | 834.5 MB |
-| npoi.loadsave | medium | 29.9 MB | 96.8 MB | 36.6 MB |
-| npoi.loadsave | pages1000 | 30.6 MB | 329.0 MB | 348.2 MB |
-| npoi.loadsave | small | 29.2 MB | 62.9 MB | 5.0 MB |
-| onedocument.edit | large | 74.5 MB | 288.2 MB | 302.4 MB |
-| onedocument.edit | medium | 29.8 MB | 51.3 MB | 12.2 MB |
-| onedocument.edit | pages1000 | 30.6 MB | 97.5 MB | 78.4 MB |
-| onedocument.edit | small | 29.2 MB | 41.5 MB | 1.8 MB |
-| onedocument.extract | large | 74.6 MB | 85.8 MB | 622.3 KB |
-| onedocument.extract | medium | 29.9 MB | 41.9 MB | 1.5 MB |
-| onedocument.extract | pages1000 | 30.7 MB | 41.7 MB | 575.4 KB |
-| onedocument.extract | small | 29.3 MB | 39.6 MB | 395.4 KB |
-| onedocument.lazyopen | large | 74.6 MB | 85.6 MB | 464.4 KB |
-| onedocument.lazyopen | medium | 29.9 MB | 40.8 MB | 423.0 KB |
-| onedocument.lazyopen | pages1000 | 30.6 MB | 41.6 MB | 423.6 KB |
-| onedocument.lazyopen | small | 29.2 MB | 40.0 MB | 305.0 KB |
-| onedocument.load | large | 74.6 MB | 169.1 MB | 98.4 MB |
-| onedocument.load | medium | 29.9 MB | 46.2 MB | 6.4 MB |
-| onedocument.load | pages1000 | 30.7 MB | 87.4 MB | 50.9 MB |
-| onedocument.load | small | 29.1 MB | 39.9 MB | 344.2 KB |
-| onedocument.loadsave | large | 74.6 MB | 195.3 MB | 132.1 MB |
-| onedocument.loadsave | medium | 29.8 MB | 41.3 MB | 2.4 MB |
-| onedocument.loadsave | pages1000 | 30.5 MB | 43.6 MB | 4.5 MB |
-| onedocument.loadsave | small | 29.0 MB | 38.5 MB | 331.7 KB |
-| openxml.edit | large | 74.5 MB | 412.8 MB | 385.8 MB |
-| openxml.edit | medium | 29.9 MB | 66.9 MB | 14.1 MB |
-| openxml.edit | pages1000 | 30.7 MB | 161.8 MB | 125.4 MB |
-| openxml.edit | small | 29.2 MB | 53.7 MB | 1.2 MB |
-| openxml.extract.dom | large | 74.7 MB | 234.3 MB | 134.8 MB |
-| openxml.extract.dom | medium | 30.0 MB | 60.6 MB | 7.6 MB |
-| openxml.extract.dom | pages1000 | 30.6 MB | 134.1 MB | 79.1 MB |
-| openxml.extract.dom | small | 29.2 MB | 53.1 MB | 978.6 KB |
-| openxml.extract.reader | large | 74.6 MB | 146.9 MB | 160.7 MB |
-| openxml.extract.reader | medium | 30.0 MB | 62.4 MB | 8.9 MB |
-| openxml.extract.reader | pages1000 | 30.7 MB | 102.5 MB | 94.2 MB |
-| openxml.extract.reader | small | 29.1 MB | 52.8 MB | 965.9 KB |
-| openxml.lazyopen | large | 74.6 MB | 98.4 MB | 809.2 KB |
-| openxml.lazyopen | medium | 29.9 MB | 53.5 MB | 705.5 KB |
-| openxml.lazyopen | pages1000 | 30.6 MB | 54.0 MB | 689.4 KB |
-| openxml.lazyopen | small | 29.2 MB | 52.9 MB | 689.4 KB |
-| openxml.load | large | 74.5 MB | 234.3 MB | 134.8 MB |
-| openxml.load | medium | 29.8 MB | 60.6 MB | 7.6 MB |
-| openxml.load | pages1000 | 30.6 MB | 125.6 MB | 79.1 MB |
-| openxml.load | small | 29.1 MB | 52.9 MB | 979.1 KB |
-| openxml.loadsave | large | 74.6 MB | 282.7 MB | 326.2 MB |
-| openxml.loadsave | medium | 29.9 MB | 53.1 MB | 7.9 MB |
-| openxml.loadsave | pages1000 | 30.6 MB | 74.1 MB | 31.2 MB |
-| openxml.loadsave | small | 29.1 MB | 47.6 MB | 749.8 KB |
-| rawzip.edit | large | 74.5 MB | 243.2 MB | 258.5 MB |
-| rawzip.edit | medium | 29.9 MB | 40.1 MB | 6.5 MB |
-| rawzip.edit | pages1000 | 30.6 MB | 84.5 MB | 58.0 MB |
-| rawzip.edit | small | 29.2 MB | 34.0 MB | 382.9 KB |
-| rawzip.lazyopen | large | 74.6 MB | 78.7 MB | 84.5 KB |
-| rawzip.lazyopen | medium | 29.8 MB | 34.0 MB | 79.6 KB |
-| rawzip.lazyopen | pages1000 | 30.6 MB | 34.8 MB | 78.4 KB |
-| rawzip.lazyopen | small | 29.2 MB | 33.4 MB | 78.4 KB |
-| rawzip.load | large | 74.5 MB | 78.7 MB | 84.5 KB |
-| rawzip.load | medium | 30.0 MB | 34.1 MB | 79.6 KB |
-| rawzip.load | pages1000 | 30.5 MB | 34.7 MB | 78.4 KB |
-| rawzip.load | small | 29.0 MB | 33.2 MB | 78.4 KB |
-| rawzip.loadsave | large | 74.6 MB | 204.4 MB | 158.7 MB |
-| rawzip.loadsave | medium | 29.8 MB | 36.9 MB | 2.8 MB |
-| rawzip.loadsave | pages1000 | 30.6 MB | 39.7 MB | 5.2 MB |
-| rawzip.loadsave | small | 29.1 MB | 34.0 MB | 344.4 KB |
+| npoi.edit | large | 80.4 MB | 694.1 MB | 834.5 MB |
+| npoi.edit | medium | 35.5 MB | 101.7 MB | 36.6 MB |
+| npoi.edit | pages1000 | 36.5 MB | 334.6 MB | 348.2 MB |
+| npoi.edit | small | 35.0 MB | 68.5 MB | 5.0 MB |
+| npoi.extract | large | 80.5 MB | 607.5 MB | 729.9 MB |
+| npoi.extract | medium | 35.8 MB | 91.1 MB | 34.1 MB |
+| npoi.extract | pages1000 | 36.3 MB | 320.1 MB | 377.7 MB |
+| npoi.extract | small | 35.0 MB | 57.1 MB | 1.1 MB |
+| npoi.lazyopen | large | 80.2 MB | 579.7 MB | 577.2 MB |
+| npoi.lazyopen | medium | 35.7 MB | 90.6 MB | 27.8 MB |
+| npoi.lazyopen | pages1000 | 36.5 MB | 287.8 MB | 289.4 MB |
+| npoi.lazyopen | small | 34.9 MB | 64.3 MB | 2.4 MB |
+| npoi.load | large | 80.3 MB | 574.5 MB | 575.8 MB |
+| npoi.load | medium | 35.3 MB | 82.8 MB | 26.4 MB |
+| npoi.load | pages1000 | 36.6 MB | 297.4 MB | 287.9 MB |
+| npoi.load | small | 35.1 MB | 56.9 MB | 990.6 KB |
+| npoi.loadsave | large | 80.4 MB | 712.4 MB | 834.5 MB |
+| npoi.loadsave | medium | 35.5 MB | 101.8 MB | 36.6 MB |
+| npoi.loadsave | pages1000 | 36.4 MB | 333.4 MB | 348.2 MB |
+| npoi.loadsave | small | 35.1 MB | 68.5 MB | 5.0 MB |
+| onedocument.edit | large | 80.3 MB | 294.8 MB | 302.4 MB |
+| onedocument.edit | medium | 35.6 MB | 57.8 MB | 12.2 MB |
+| onedocument.edit | pages1000 | 36.5 MB | 103.0 MB | 78.4 MB |
+| onedocument.edit | small | 34.9 MB | 48.2 MB | 1.8 MB |
+| onedocument.extract | large | 80.6 MB | 91.0 MB | 616.4 KB |
+| onedocument.extract | medium | 35.6 MB | 47.0 MB | 1.5 MB |
+| onedocument.extract | pages1000 | 36.5 MB | 46.9 MB | 575.5 KB |
+| onedocument.extract | small | 34.8 MB | 44.4 MB | 395.5 KB |
+| onedocument.lazyopen | large | 80.5 MB | 92.1 MB | 464.8 KB |
+| onedocument.lazyopen | medium | 35.7 MB | 47.2 MB | 429.4 KB |
+| onedocument.lazyopen | pages1000 | 36.5 MB | 47.8 MB | 424.0 KB |
+| onedocument.lazyopen | small | 34.9 MB | 46.1 MB | 305.4 KB |
+| onedocument.load | large | 80.4 MB | 175.5 MB | 98.4 MB |
+| onedocument.load | medium | 35.6 MB | 52.2 MB | 6.4 MB |
+| onedocument.load | pages1000 | 36.5 MB | 93.6 MB | 50.9 MB |
+| onedocument.load | small | 34.8 MB | 46.2 MB | 350.7 KB |
+| onedocument.loadsave | large | 80.4 MB | 202.7 MB | 132.1 MB |
+| onedocument.loadsave | medium | 35.6 MB | 48.5 MB | 2.4 MB |
+| onedocument.loadsave | pages1000 | 36.3 MB | 51.0 MB | 4.5 MB |
+| onedocument.loadsave | small | 35.0 MB | 46.0 MB | 332.3 KB |
+| openxml.edit | large | 80.4 MB | 418.3 MB | 385.8 MB |
+| openxml.edit | medium | 35.6 MB | 72.1 MB | 14.1 MB |
+| openxml.edit | pages1000 | 36.4 MB | 166.8 MB | 125.5 MB |
+| openxml.edit | small | 35.0 MB | 59.4 MB | 1.2 MB |
+| openxml.extract.dom | large | 80.3 MB | 239.8 MB | 134.8 MB |
+| openxml.extract.dom | medium | 35.7 MB | 65.9 MB | 7.6 MB |
+| openxml.extract.dom | pages1000 | 36.4 MB | 131.5 MB | 79.1 MB |
+| openxml.extract.dom | small | 35.0 MB | 58.5 MB | 978.6 KB |
+| openxml.extract.reader | large | 80.4 MB | 152.6 MB | 160.7 MB |
+| openxml.extract.reader | medium | 35.5 MB | 67.6 MB | 8.9 MB |
+| openxml.extract.reader | pages1000 | 36.4 MB | 107.9 MB | 94.2 MB |
+| openxml.extract.reader | small | 34.9 MB | 58.4 MB | 965.9 KB |
+| openxml.lazyopen | large | 80.3 MB | 103.5 MB | 809.1 KB |
+| openxml.lazyopen | medium | 35.6 MB | 58.5 MB | 705.4 KB |
+| openxml.lazyopen | pages1000 | 36.4 MB | 59.6 MB | 689.4 KB |
+| openxml.lazyopen | small | 34.9 MB | 58.0 MB | 689.4 KB |
+| openxml.load | large | 80.2 MB | 231.5 MB | 134.8 MB |
+| openxml.load | medium | 35.7 MB | 66.1 MB | 7.6 MB |
+| openxml.load | pages1000 | 36.4 MB | 139.4 MB | 79.1 MB |
+| openxml.load | small | 34.9 MB | 58.6 MB | 979.1 KB |
+| openxml.loadsave | large | 80.4 MB | 289.7 MB | 326.2 MB |
+| openxml.loadsave | medium | 35.6 MB | 58.3 MB | 7.9 MB |
+| openxml.loadsave | pages1000 | 36.3 MB | 79.6 MB | 31.2 MB |
+| openxml.loadsave | small | 34.8 MB | 52.9 MB | 737.8 KB |
+| rawzip.edit | large | 80.5 MB | 249.1 MB | 258.4 MB |
+| rawzip.edit | medium | 35.8 MB | 45.8 MB | 6.5 MB |
+| rawzip.edit | pages1000 | 36.3 MB | 89.9 MB | 58.0 MB |
+| rawzip.edit | small | 35.1 MB | 39.6 MB | 382.9 KB |
+| rawzip.lazyopen | large | 80.4 MB | 84.4 MB | 84.5 KB |
+| rawzip.lazyopen | medium | 35.7 MB | 39.7 MB | 79.6 KB |
+| rawzip.lazyopen | pages1000 | 36.6 MB | 40.6 MB | 78.4 KB |
+| rawzip.lazyopen | small | 35.1 MB | 39.1 MB | 78.4 KB |
+| rawzip.load | large | 80.3 MB | 84.3 MB | 84.5 KB |
+| rawzip.load | medium | 35.7 MB | 39.7 MB | 79.6 KB |
+| rawzip.load | pages1000 | 36.4 MB | 40.4 MB | 78.4 KB |
+| rawzip.load | small | 34.9 MB | 38.9 MB | 78.4 KB |
+| rawzip.loadsave | large | 80.4 MB | 209.8 MB | 158.6 MB |
+| rawzip.loadsave | medium | 35.6 MB | 42.4 MB | 2.8 MB |
+| rawzip.loadsave | pages1000 | 36.3 MB | 45.0 MB | 5.2 MB |
+| rawzip.loadsave | small | 35.0 MB | 39.6 MB | 344.4 KB |
