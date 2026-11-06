@@ -321,6 +321,7 @@ public sealed class SharedStringTable
     private readonly int[] _ends;
     private readonly List<string> _added = [];
     private readonly Dictionary<string, int> _addedIndex = new(StringComparer.Ordinal);
+    private readonly Dictionary<int, byte[]> _addedRaw = [];
     private readonly int _rootStart;
     private readonly int _rootEnd;
     private readonly int _closeStart;
@@ -463,7 +464,12 @@ public sealed class SharedStringTable
             throw new ArgumentOutOfRangeException(nameof(index));
         }
 
-        return index >= _starts.Length ? default : _bytes[_starts[index].._ends[index]];
+        if (index >= _starts.Length)
+        {
+            return _addedRaw.TryGetValue(index, out byte[]? raw) ? raw : default;
+        }
+
+        return _bytes[_starts[index].._ends[index]];
     }
 
     /// <summary>Tells whether an entry is more than one plain text element (rich-text runs or phonetic runs).</summary>
@@ -478,7 +484,7 @@ public sealed class SharedStringTable
 
         if (index >= _starts.Length)
         {
-            return false;
+            return _addedRaw.ContainsKey(index);
         }
 
         return XString.HasRuns(_bytes.Span[_starts[index].._ends[index]]);
@@ -498,6 +504,18 @@ public sealed class SharedStringTable
         int index = _starts.Length + _added.Count;
         _added.Add(text);
         _addedIndex[text] = index;
+        return index;
+    }
+
+    /// <summary>Adds an entry whose <c>si</c> element is given as it should be written (rich-text runs kept); never shared with an earlier entry.</summary>
+    /// <param name="plainText">The entry's plain text, as <see cref="GetText"/> returns it.</param>
+    /// <param name="itemXml">The complete <c>si</c> element, with the prefix this table's root uses.</param>
+    /// <returns>The index.</returns>
+    internal int AddItem(string plainText, byte[] itemXml)
+    {
+        int index = _starts.Length + _added.Count;
+        _added.Add(plainText);
+        _addedRaw[index] = itemXml;
         return index;
     }
 
@@ -630,8 +648,15 @@ public sealed class SharedStringTable
 
     private void WriteAdded(IBufferWriter<byte> w, ReadOnlySpan<byte> prefixColon)
     {
-        foreach (string s in _added)
+        for (int i = 0; i < _added.Count; i++)
         {
+            if (_addedRaw.TryGetValue(_starts.Length + i, out byte[]? raw))
+            {
+                XString.Raw(w, raw);
+                continue;
+            }
+
+            string s = _added[i];
             XString.Raw(w, "<"u8);
             XString.Raw(w, prefixColon);
             XString.Raw(w, "si>"u8);

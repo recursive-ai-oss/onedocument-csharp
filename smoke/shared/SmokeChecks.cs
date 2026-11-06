@@ -51,6 +51,7 @@ internal static class SmokeChecks
         ("float", FloatSmoke.Run),
         ("presentation", PresentationSmoke.Run),
         ("operations", OperationsSmoke.Run),
+        ("find-replace", FindReplaceSmoke.Run),
         ("numfmt", NumFmtSmoke.Run),
         ("calc", CalcSmoke.Run),
         ("extract-docx", ExtractDocx),
