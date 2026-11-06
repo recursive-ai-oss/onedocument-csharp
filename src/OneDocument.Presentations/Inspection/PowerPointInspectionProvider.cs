@@ -184,10 +184,11 @@ internal sealed class PowerPointInspectionProvider : IInspectionProvider
         }
     }
 
-    // Co-authoring keeps who edited what and when in a part of its own (the inspector calls it revision tracking data).
+    // Co-authoring keeps who edited what and when in parts of their own: the revision list and, since PowerPoint 2016, the change log
+    // ([MS-PPTX] changesInfo). The inspector calls them revision tracking data.
     private static void RevisionData(InspectionSession s, SanitizeSession? z)
     {
-        foreach (string name in s.PartsWhere(ct => ct.Contains("revisioninfo", StringComparison.OrdinalIgnoreCase)).Select(p => p.Name).ToList())
+        foreach (string name in s.PartsWhere(ct => ct.Contains("revisioninfo", StringComparison.OrdinalIgnoreCase) || ct.Contains("changesinfo", StringComparison.OrdinalIgnoreCase)).Select(p => p.Name).ToList())
         {
             s.Add(InspectionCategory.Revisions, name, "co-authoring revision data (who edited the file and when)");
             if (Doing(z, InspectionCategory.Revisions))

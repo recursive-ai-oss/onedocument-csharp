@@ -307,6 +307,15 @@ internal static class PackageInspection
             }
         }
 
+        // ECMA-376 Part 1 §17.17.2 altChunk: another document (HTML, RTF, Word) stored as a part and merged into the text on open.
+        if (s.MainPartName is not null)
+        {
+            foreach (Relationship r in s.RelationshipsOf(s.MainPartName, "/aFChunk"))
+            {
+                s.Add(InspectionCategory.EmbeddedObjects, s.MainPartName + "!" + r.Id, "imported document part (altChunk)", 1, InspectionXml.Brief(r.Target, 120));
+            }
+        }
+
         foreach (Relationship r in s.RelationshipsOf(s.MainPartName, "/powerPivotData"))
         {
             s.Add(InspectionCategory.DataModel, r.Target, "data model (Power Pivot)");
@@ -422,7 +431,10 @@ internal static class PackageInspection
         foreach (IPackagePart p in s.Package.Parts)
         {
             string ct = p.ContentType;
-            bool slide = ct.EndsWith("presentationml.slide+xml", StringComparison.OrdinalIgnoreCase);
+            bool slide = ct.EndsWith("presentationml.slide+xml", StringComparison.OrdinalIgnoreCase)
+                || ct.EndsWith("presentationml.slideLayout+xml", StringComparison.OrdinalIgnoreCase) || ct.EndsWith("presentationml.slideMaster+xml", StringComparison.OrdinalIgnoreCase)
+                || ct.EndsWith("presentationml.notesSlide+xml", StringComparison.OrdinalIgnoreCase) || ct.EndsWith("presentationml.notesMaster+xml", StringComparison.OrdinalIgnoreCase)
+                || ct.EndsWith("presentationml.handoutMaster+xml", StringComparison.OrdinalIgnoreCase);
             bool excelDrawing = s.Kind == OfficeKind.Workbook && ct.EndsWith("officedocument.drawing+xml", StringComparison.OrdinalIgnoreCase);
             bool word = s.Kind == OfficeKind.Document && InspectionXml.IsWordMarkupType(ct);
             if (!slide && !excelDrawing && !word)
