@@ -150,6 +150,10 @@ public sealed partial class Presentation
         {
             Write(format, destination, cancellationToken);
         }
+        else if (format == OfficeFormat.Html)
+        {
+            WriteHtml(destination, null, cancellationToken);
+        }
         else
         {
             base.WriteCore(format, destination, cancellationToken);

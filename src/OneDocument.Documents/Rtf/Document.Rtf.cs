@@ -13,8 +13,8 @@ public sealed partial class Document
     private IReadOnlyList<byte[]> _rtfPreserved = [];
 
     /// <summary>
-    /// Gets what the last write to RTF could not carry (drawing shapes, text boxes, charts, equations, content controls and the like), or
-    /// null when nothing has been written as RTF yet.
+    /// Gets what the last write to RTF or HTML could not carry (drawing shapes, text boxes, charts, equations, headers and footers and the like), or
+    /// null when nothing has been written as either yet.
     /// </summary>
     public LossReport? ExportLoss { get; private set; }
 
