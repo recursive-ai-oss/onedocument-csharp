@@ -29,6 +29,7 @@ public static class PresentationFormats
     {
         ArgumentNullException.ThrowIfNull(registry);
         OfficeFormat[] formats = [.. Formats];
+        registry.RegisterInspectionProvider(Inspection.PowerPointInspectionProvider.Instance, OfficeKind.Presentation);
         registry.RegisterReader(
             static (source, _, context, filePath, cancellationToken) => Presentation.OpenSource(source, context, filePath, cancellationToken),
             formats);

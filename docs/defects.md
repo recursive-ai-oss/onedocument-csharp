@@ -13,6 +13,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `biff.`, `doc.`, `ppt.`, `xlsb.` | binary record layers | `Record` |
 | `ole.` | OLE property sets and object storages | `Record`, `Value`, `Structure`, `Encoding`, `Packaging`, `Limit` |
 | `vba.` | VBA projects (reading, extraction, removal) | `Record`, `Reference`, `Packaging` |
+| `sanitize.` | inspection and sanitising (`docs/sanitize.md`) | `Structure` |
 | `sheet.` | the workbook model | `Reference`, `Value` |
 | `formula.` | formula text and tokens | `Formula` |
 | `numfmt.` | number-format codes | `Value` |
@@ -532,3 +533,12 @@ Reported by the readers of Word 2003 XML and Excel 2003 XML while they convert (
 | `sml2003.bad-date` | repaired | A `DateTime` cell does not hold an ISO 8601 date or is outside the date range; its text was kept as a string. |
 | `sml2003.bad-formula` | dropped | A cell's `ss:Formula` is not an R1C1 formula the parser reads (files written by other programs may hold OpenFormula text); the cached value stays as a constant. |
 | `sml2003.bad-value` | dropped | A bad date in the document properties. |
+
+### Inspection and sanitising (`sanitize.`)
+
+Behaviour is in `docs/sanitize.md`. Items that sanitising leaves in place are not defects: they are `NotRemovedItem`s of the report, with the codes `sanitize.referenced`, `sanitize.unsupported-construct` and `sanitize.report-only`.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `sanitize.verification-failed` | fatal | The sanitised file, inspected again, still holds something in a category that was reported as removed (`SanitizeVerificationException`). Nothing was written; the location is the part that still holds it. |
+| `sanitize.failed` | fatal | Sanitising met markup it could not edit and stopped; nothing was written. |
