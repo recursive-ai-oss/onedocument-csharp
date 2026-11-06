@@ -12,11 +12,13 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `xml.` | the XML tokenizer and markup tree | `Markup` |
 | `biff.`, `doc.`, `ppt.`, `xlsb.` | binary record layers | `Record` |
 | `ole.` | OLE property sets and object storages | `Record`, `Value`, `Structure`, `Encoding`, `Packaging`, `Limit` |
+| `vba.` | VBA projects (reading, extraction, removal) | `Record`, `Reference`, `Packaging` |
 | `sheet.` | the workbook model | `Reference`, `Value` |
 | `formula.` | formula text and tokens | `Formula` |
 | `numfmt.` | number-format codes | `Value` |
 | `text.` | text extraction | `Structure`, `Reference`, `Markup`, `Packaging` |
 | `rtf.` | RTF (tokenizer, group tree, hub conversion, mail layer) | `Record`, `Limit`, `Structure`, `Reference` |
+| `markdown.` | Markdown (parser, hub conversion) | `Limit`, `Encoding`, `Structure` |
 | `docx.` | the word-processing hub | `Structure`, `Reference`, `Value`, `Packaging` |
 | `csv.` | delimited text (CSV, TSV) | `Structure`, `Markup`, `Encoding`, `Value` |
 | `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
@@ -351,6 +353,10 @@ Reported in `ContentBindingReport.Warnings`. See `docx-content-controls.md`.
 | `rtf.not-rtf` | fatal | The content does not start with `{\rtf`. |
 | `rtf.damaged` | fatal | The RTF could not be converted (an unexpected failure while reading, wrapped in a typed exception; the inner exception has the cause). |
 | `rtf.export-failed` | fatal | The document could not be written as RTF (wrapped unexpected failure). |
+| `markdown.too-deep` | repaired | Block containers (quotes, list items) nested deeper than `OfficeLimits.MaxRecursionDepth`; the markers beyond the limit are read as text. Located by character offset of the first line over the limit. |
+| `markdown.encoding-replaced` | repaired | The Markdown is not valid UTF-8 and has no UTF-16 byte-order mark; invalid bytes were replaced by U+FFFD. Located by byte offset of the first. |
+| `markdown.damaged` | fatal | The Markdown could not be converted (an unexpected failure while importing, wrapped in a typed exception). |
+| `markdown.export-failed` | fatal | The document could not be written as Markdown (wrapped unexpected failure). |
 | `rtf.parameter-overflow` | repaired | A control word parameter does not fit in 32 bits; it was clamped. |
 | `rtf.invalid-hex-escape` | repaired | `\'` was not followed by two hexadecimal digits; it was dropped. |
 | `rtf.binary-data-truncated` | repaired | A `\bin` length is negative or runs past the end of the input; it was clamped. |
@@ -469,6 +475,38 @@ stream (the `Current User` stream for `ppt.current-user-missing`). The conversio
 | `ppt.shape-approximated`, `ppt.shape-adjust-dropped`, `ppt.fill-approximated`, `ppt.path-escape`, `ppt.geometry-guides`, `ppt.wordart-flattened`, `ppt.picture-pict`, `ppt.picture-missing`, `ppt.table-as-group`, `ppt.table-borders-approximated`, `ppt.transition-dropped`, `ppt.animations-dropped`, `ppt.ole-object-flattened`, `ppt.vba-not-carried`, `ppt.document-properties-not-carried`, `ppt.header-footer-field`, `ppt.placeholder-unknown` | dropped | Conversion losses; meanings in `ppt.md`. |
 
 Encrypted files are decrypted or raise `encryption.password-required`; PowerPoint 4.0/95 files raise `unsupported.feature`.
+
+### VBA projects (`vba.`)
+
+Reading is in `docs/vba.md`. Locations are `<container>!<stream path>@<offset>`: the container is the project part (`/word/vbaProject.bin`), the storage (`/Macros`, `/_VBA_PROJECT_CUR`) or `PowerPoint Document@<offset>`; the offset is into the decompressed `dir` stream or the module stream. Every code is exercised by a crafted input in `VbaDefectTests`.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `vba.project-stream-missing` | repaired | The `PROJECT` stream is missing; module kinds come from the module type records and protection is reported as none. |
+| `vba.protection-unreadable` | repaired | `CMG`, `DPB` or `GC` is present but cannot be undone; the project is reported as locked. |
+| `vba.dir-missing` | dropped | The `VBA` storage has no `dir` stream, so no module can be listed. |
+| `vba.dir-damaged` | repaired | The `dir` stream's compressed container is damaged; the records decoded before the damage are used. |
+| `vba.dir-record` | repaired | A `dir` record is cut short or has a size field the specification does not allow; reading stops there and keeps what it has. |
+| `vba.dir-record-unknown` | repaired | A `dir` record has an identifier the specification does not define; it is skipped by its size. |
+| `vba.codepage-unsupported` | repaired | The project code page is not available; Latin-1 decodes byte strings and source. |
+| `vba.module-list-short` | repaired | The module count announces more modules than the `dir` stream holds. |
+| `vba.module-stream-missing` | dropped | A module is listed but its stream is not in the `VBA` storage; the module has no source. Kind `Reference`. |
+| `vba.module-offset-invalid` | dropped | A module's source offset is past the end of its stream; the module has no source. Kind `Reference`. |
+| `vba.module-source-damaged` | repaired | A module's compressed source is damaged; the text decoded before the damage is kept. |
+| `vba.version-stream-missing` | repaired | The `_VBA_PROJECT` stream is missing; the p-code version is unknown. |
+| `vba.version-stream-short` | repaired | The `_VBA_PROJECT` stream is shorter than its seven fixed bytes. |
+| `vba.project-not-compound` | dropped | The project part is not a compound file; the project has no modules. Kind `Packaging`. |
+| `vba.workbook-stream-missing` | fatal | An Excel 97-2003 file has no `Workbook` or `Book` stream, so a removal cannot correct its record positions. |
+
+Removal reports (`VbaRemovalReport.NotDone`) carry the same style of code for what a removal left or could not do; they are notes, not defects:
+
+| Code | Meaning |
+|---|---|
+| `vba.no-macro-free-type` | The format (add-in, binary workbook) has no macro-free counterpart; the file keeps its format without a project. |
+| `vba.project-unreadable` | The project could not be read before it was removed (a limit, for example), so its modules are not counted. It is removed all the same. |
+| `vba.output-not-encrypted` | The input was encrypted; the output is written without encryption. |
+| `vba.doc-customizations-kept` | A Word file's toolbar, menu and key customizations, and a signature kept in its user variables, are not interpreted and stay. |
+| `vba.ppt-signature-kept` | A PowerPoint file's signature kept in the property sets is not looked for and stays. |
 
 ### Office 2003 XML (`wml2003.`, `sml2003.`)
 

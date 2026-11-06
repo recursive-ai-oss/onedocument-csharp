@@ -27,8 +27,14 @@
 | `richtext` | 1 byte (bit 0: html or markdown), the value | the document template's `html`/`markdown` converters: the rendered document saves and opens again; only a typed `OfficeException` may escape |
 | `math` | 1 option byte (bit 0: display style, bit 1: a 120 pt measure), OMML as XML | the equation reader, linear text and layout: nothing may throw, and the box extents are finite |
 | `smartart` | 1 option byte (bits 0-1: the frame size), then the data model, layout definition, colour transform, quick style and stored drawing of a diagram, separated by zero bytes | the diagram layout engine and painter: nothing may throw, every shape has finite coordinates, and the display lists validate with the stored drawing and with the layout forced |
+| `vbacompress` | raw bytes | the VBA compression decoder: it never throws, its answer and its problem agree, and a literal container of the input decodes back to the input |
+| `vbadir` | the decompressed `dir` stream | the VBA project reader: the bytes serve as the `dir` stream, as module sources and as the `PROJECT` stream; typed rejections only, and every module can be decoded and exported |
+| `vbaproject` | raw bytes (a compound file) | the VBA project reader over any compound file |
+| `vbaremove` | 1 layout byte + a stream | the project removers for Word, Excel and PowerPoint compound files: typed rejections only, and the output is a readable compound file |
 | `sheetrender` | a worksheet part (the workbook around it is fixed) | print rendering: the sheet is paged (page setup, breaks, titles, headers and footers, merges, conditional formats) and the first three pages painted; typed rejections only |
 | `rtftree` | RTF bytes | the RTF group tree (tokenizer included): nothing may throw, and every group lies inside the input |
+| `markdownparse` | Markdown text | the CommonMark and GFM parser with both option sets and a small nesting limit: nothing may throw |
+| `markdown` | Markdown text | Markdown opened as a document with small limits, written back as Markdown and DOCX and read again: only a typed `OfficeException` may escape |
 | `rtf` | RTF bytes | RTF opened as a document with small limits, its text extracted, written as DOCX and RTF and read again (the written RTF comes from the exporter): only a typed `OfficeException` may escape |
 | `doc` | a 24-bit length, the `WordDocument` stream, then the table stream (repeated as the `Data` stream) | Word binary files: the streams go into a compound file and through text extraction and the conversion into the model and out as DOCX; typed rejections only, and a `doc.malformed` fallback counts as a finding |
 | `sprm` | a property modifier list | the modifier splitter and name lookup accept any bytes |

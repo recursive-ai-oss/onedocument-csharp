@@ -30,6 +30,7 @@
     <Project Path="tools/PackageTiming/PackageTiming.csproj" />
     <Project Path="tools/MarkupProbe/MarkupProbe.csproj" />
     <Project Path="tools/PptProbe/PptProbe.csproj" />
+    <Project Path="tools/VbaProbe/VbaProbe.csproj" />
     <Project Path="tools/AccessibilityProbe/AccessibilityProbe.csproj" />
     <Project Path="tools/TextCompare/TextCompare.csproj" />
     <Project Path="tools/RevisionProbe/RevisionProbe.csproj" />

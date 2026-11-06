@@ -154,6 +154,10 @@ public sealed partial class Presentation
         {
             WriteHtml(destination, null, cancellationToken);
         }
+        else if (format == OfficeFormat.Markdown)
+        {
+            WriteMarkdown(destination, cancellationToken);
+        }
         else
         {
             base.WriteCore(format, destination, cancellationToken);

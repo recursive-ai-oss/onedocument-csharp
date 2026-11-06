@@ -73,7 +73,13 @@ internal static class Program
         ["olepropset"] = OleTarget.RunPropertySet,
         ["oleobject"] = OleTarget.RunObject,
         ["xml2003"] = Xml2003Target.Run,
+        ["markdown"] = MarkdownTarget.Run,
+        ["markdownparse"] = MarkdownTarget.RunParse,
         ["xlsb"] = XlsbTarget.Run,
+        ["vbacompress"] = VbaTarget.RunDecompress,
+        ["vbadir"] = VbaTarget.RunDir,
+        ["vbaproject"] = VbaTarget.RunProject,
+        ["vbaremove"] = VbaTarget.RunRemove,
     };
 
     private static int Main(string[] args)
@@ -123,7 +129,9 @@ internal static class Program
                 "encinfo" or "filepass" => EncryptionTarget.WriteSeeds(args[2]),
                 "olepropset" or "oleobject" => OleTarget.WriteSeeds(args[2]),
                 "xml2003" => Xml2003Target.WriteSeeds(args[2]),
+                "markdown" or "markdownparse" => MarkdownTarget.WriteSeeds(args[2]),
                 "xlsb" => XlsbTarget.WriteSeeds(args[2]),
+                "vbacompress" or "vbadir" or "vbaproject" or "vbaremove" => VbaTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }

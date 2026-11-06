@@ -70,6 +70,26 @@ public static class SpreadsheetFormats
                 workbook.WriteXls(destination, cancellationToken);
             },
             OfficeFormat.Xls);
+
+        // Markdown is written by every kind; this entry takes its own kind and passes the rest on to whichever package registered before.
+        registry.TryGetWriter(OfficeFormat.Markdown, out WriteHandler? previousMarkdown);
+        registry.RegisterWriter(
+            (file, format, destination, cancellationToken) =>
+            {
+                if (file is Workbook workbook)
+                {
+                    workbook.WriteMarkdown(destination, cancellationToken);
+                }
+                else if (previousMarkdown is not null)
+                {
+                    previousMarkdown(file, format, destination, cancellationToken);
+                }
+                else
+                {
+                    throw new FormatNotAvailableException(format, "write a " + file.Kind + " as");
+                }
+            },
+            OfficeFormat.Markdown);
         registry.RegisterTemplateBinder(Templating.XlsxTemplateBinderAdapter.Instance, formats);
     }
 }
