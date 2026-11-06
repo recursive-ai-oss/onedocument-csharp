@@ -64,7 +64,7 @@ Word 1.0 and 2.0 files (a flat file starting `FE 37 00 23`, no compound file) an
 
 ## Encryption
 
-A file with `fEncrypted` set raises `OfficeEncryptedException` (`encryption.password-required`); with a password supplied, `OfficeUnsupportedException`. Decryption is a separate piece of work.
+A file with `fEncrypted` set is decrypted with `OpenContext.Password` (XOR, RC4, RC4 CryptoAPI), or raises `OfficeEncryptedException`; see `encryption.md`. Password-protected Word 6/95 files raise `OfficeUnsupportedException`.
 
 ## Questions Office decides
 

@@ -49,7 +49,7 @@ string text = Office.ExtractText("old.xls");
 
 ## Defects
 
-Every repair is a `Record` defect located by stream path and record offset, except where noted. See `defects.md` for the table. An encrypted workbook (`FILEPASS`) raises `OfficeEncryptedException`; decryption is a separate piece of work. Any exception that is not an `OfficeException` raised while reading is turned into `biff.malformed`.
+Every repair is a `Record` defect located by stream path and record offset, except where noted. See `defects.md` for the table. An encrypted workbook (`FILEPASS`) is decrypted with `OpenContext.Password`, or raises `OfficeEncryptedException`; see `encryption.md`. Any exception that is not an `OfficeException` raised while reading is turned into `biff.malformed`.
 
 ## Code pages
 
@@ -83,4 +83,5 @@ LossReport loss = workbook.ExportLoss!;        // what the last .xls save could 
 - **Conditional formats.** A group of up to three "cell value"/"formula" rules is written as `CONDFMT` + `CF`; any other group as `CONDFMT12` + `CF12` ([MS-XLS] §2.4.43, §2.4.57) with colour scales, data bars, icon sets, top/bottom, text, blank, error and date rules. Unique, duplicate and average rules, and the Excel 2010 extension kinds, are `loss.conditional-formats-extended`.
 - **Limits.** 65,536 rows and 256 columns: cells, column settings, merges, comments and references outside are not written (`loss.cells-outside-grid`, `loss.formulas`). Strings are cut at 32,767 characters, sheet names at 31.
 - **Not written, reported:** charts and chart sheets (`loss.charts`), pictures (`loss.pictures`; the shared OfficeArt layer has no writer yet), drawing shapes, tables (`loss.tables`), sparklines, pivot tables, external links, macro projects, rich-text runs (`loss.rich-text`), first/even headers and footers, tab colours, sheet protection permissions beyond the three flags, modern password hashes, hyperlink screen tips, autofilter criteria, extended data validation. Document properties are written: the core, extended and custom properties become the `\u0005SummaryInformation` and `\u0005DocumentSummaryInformation` streams (`ole.md`).
+- **Password.** `Workbook.SaveAs(..., OfficeFormat.Xls, password)` encrypts the stream with RC4 CryptoAPI (`encryption.md`).
 - **Left for the Excel check:** whether Excel opens the output without repair (the cases are in `testdata/xls/excel-cases.md`).

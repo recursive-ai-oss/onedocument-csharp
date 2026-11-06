@@ -34,6 +34,10 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `limit.<property>` | fatal | The named `OfficeLimits` property (in kebab case, for example `limit.max-xml-depth`) was exceeded. `OfficeLimitException.LimitName` has the property name. |
 | `encryption.password-required` | fatal | The input is encrypted and no password was given. |
 | `encryption.password-incorrect` | fatal | The password does not open the input. |
+| `encryption.malformed-header` | fatal | An encryption header or descriptor (`EncryptionInfo`, `FILEPASS`, `CryptSession10Container`) is cut short or inconsistent. |
+| `encryption.malformed-data` | fatal | The encrypted data is shorter than its declared size, ends inside a cipher block, or cannot be decrypted. |
+| `encryption.integrity-mismatch` | repaired | The agile data integrity HMAC does not match; the decrypted data is returned anyway. |
+| `encryption.inner-format` | fatal | The decrypted package is not a format the readers open. |
 | `unsupported.feature` | fatal | The input uses something this library does not handle; `OfficeUnsupportedException.Feature` names it. |
 | `unsupported.format-not-available` | fatal | No reader or writer is registered for the format (its package is not referenced or does not implement it). |
 | `format.unrecognised` | fatal | The content is not a format OneDocument knows. |
@@ -444,6 +448,7 @@ stream (the `Current User` stream for `ppt.current-user-missing`). The conversio
 | `ppt.no-user-edit` | fatal | The stream holds no readable user edit, so the persist directory cannot be built. |
 | `ppt.persist-directory-missing` | dropped | A user edit points at a persist directory that is not there; the objects it defines are ignored. |
 | `ppt.persist-directory-truncated` | repaired | A directory entry lists more offsets than the record holds. |
+| `ppt.persist-object-range` | dropped | An encrypted persist object lies outside the stream and is not decrypted. |
 | `ppt.persist-object-missing` | dropped | A persist identifier is not in the directory, or its offset is outside the stream. |
 | `ppt.document-container-recovered` | repaired | The document container was found by scanning, not through the directory. |
 | `ppt.no-document-container` | fatal | Neither the directory nor a scan leads to a document container. |
@@ -459,7 +464,7 @@ stream (the `Current User` stream for `ppt.current-user-missing`). The conversio
 | `ppt.malformed` | fatal | A defensive wrapper: an unexpected exception while reading is reported as a format error (a bug if it is ever seen). |
 | `ppt.shape-approximated`, `ppt.shape-adjust-dropped`, `ppt.fill-approximated`, `ppt.path-escape`, `ppt.geometry-guides`, `ppt.wordart-flattened`, `ppt.picture-pict`, `ppt.picture-missing`, `ppt.table-as-group`, `ppt.table-borders-approximated`, `ppt.transition-dropped`, `ppt.animations-dropped`, `ppt.ole-object-flattened`, `ppt.vba-not-carried`, `ppt.document-properties-not-carried`, `ppt.header-footer-field`, `ppt.placeholder-unknown` | dropped | Conversion losses; meanings in `ppt.md`. |
 
-Encrypted files raise `encryption.password-required`; PowerPoint 4.0/95 files raise `unsupported.feature`.
+Encrypted files are decrypted or raise `encryption.password-required`; PowerPoint 4.0/95 files raise `unsupported.feature`.
 
 ### Office 2003 XML (`wml2003.`, `sml2003.`)
 

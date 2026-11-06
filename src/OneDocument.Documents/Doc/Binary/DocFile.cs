@@ -108,7 +108,7 @@ public sealed class DocFile
     /// <param name="context">Limits and the defect sink.</param>
     /// <returns>The file.</returns>
     /// <exception cref="OfficeFormatException">The file is not a Word binary file or is damaged beyond repair.</exception>
-    /// <exception cref="OfficeEncryptedException">The file is encrypted.</exception>
+    /// <exception cref="OfficeEncryptedException">The file is encrypted and the password of <paramref name="context"/> is missing or wrong.</exception>
     /// <exception cref="OfficeLimitException">A limit was exceeded.</exception>
     public static DocFile Open(IByteSource source, OpenContext context)
     {
@@ -122,16 +122,23 @@ public sealed class DocFile
         }
 
         byte[] word = ReadPart(wordPart, context);
-        DocFib fib = DocFib.Read(word, context.Defects, WordPath);
-        if (fib.IsEncrypted)
+        // An encrypted file cannot be parsed until it is decrypted, so its protected streams are loaded and decrypted first.
+        byte[]? plainTable = null;
+        byte[]? plainData = null;
+        if (DocEncryption.TryPeek(word, out DocEncryptionInfo encryption))
         {
-            if (context.Password is not null)
+            string encTablePath = encryption.OneTable ? "/1Table" : "/0Table";
+            if (encryption.IsWord97)
             {
-                throw new OfficeUnsupportedException("decrypting a password-protected Word binary file", DefectLocation.InRecord(WordPath, 10));
+                IPackagePart tablePart0 = cfb.FindPart(encTablePath) ?? throw new OfficeFormatException(DefectKind.Packaging, "doc.no-table-stream", $"The compound file has no {encTablePath[1..]} stream, which the FIB names as the table stream.", DefectLocation.InRecord(encTablePath));
+                plainTable = ReadPart(tablePart0, context);
             }
 
-            throw new OfficeEncryptedException(EncryptionProblem.PasswordRequired, DefectLocation.InRecord(WordPath, 10));
+            plainData = cfb.FindPart("/Data") is { } dataPart0 ? ReadPart(dataPart0, context) : [];
+            DocEncryption.Decrypt(word, plainTable ?? [], plainData, encryption, context, encTablePath);
         }
+
+        DocFib fib = DocFib.Read(word, context.Defects, WordPath);
 
         string tablePath;
         byte[] table;
@@ -149,10 +156,10 @@ public sealed class DocFile
                 throw new OfficeFormatException(DefectKind.Packaging, "doc.no-table-stream", $"The compound file has no {tablePath[1..]} stream, which the FIB names as the table stream.", DefectLocation.InRecord(tablePath));
             }
 
-            table = ReadPart(tablePart, context);
+            table = plainTable ?? ReadPart(tablePart, context);
         }
 
-        byte[] data = cfb.FindPart("/Data") is { } dp ? ReadPart(dp, context) : [];
+        byte[] data = plainData ?? (cfb.FindPart("/Data") is { } dp ? ReadPart(dp, context) : []);
         byte[] summary = cfb.FindPart("/" + OlePropertySets.SummaryInformationStreamName) is { } sp ? ReadPart(sp, context) : [];
         byte[] documentSummary = cfb.FindPart("/" + OlePropertySets.DocumentSummaryInformationStreamName) is { } dsp ? ReadPart(dsp, context) : [];
         OleStorageSet objects = OleStorageSet.Capture(cfb, "/ObjectPool", context);

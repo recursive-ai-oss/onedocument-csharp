@@ -49,11 +49,11 @@ public sealed class PptFile
     /// <summary>The open context (limits and defect sink).</summary>
     public OpenContext Context { get; }
 
-    /// <summary>The bytes of the <c>PowerPoint Document</c> stream.</summary>
-    public ReadOnlyMemory<byte> DocumentStream { get; }
+    /// <summary>The bytes of the <c>PowerPoint Document</c> stream; for a password-protected file, the decrypted copy.</summary>
+    public ReadOnlyMemory<byte> DocumentStream { get; private set; }
 
-    /// <summary>The bytes of the <c>Pictures</c> stream, or empty when the file has none.</summary>
-    public ReadOnlyMemory<byte> PicturesStream { get; }
+    /// <summary>The bytes of the <c>Pictures</c> stream, or empty when the file has none; for a password-protected file, the decrypted copy.</summary>
+    public ReadOnlyMemory<byte> PicturesStream { get; private set; }
 
     /// <summary>The user edits, newest first.</summary>
     public IReadOnlyList<PptUserEdit> UserEdits { get; private set; } = [];
@@ -86,7 +86,7 @@ public sealed class PptFile
     /// <param name="context">Limits and defect sink.</param>
     /// <param name="cancellationToken">Cancels the read.</param>
     /// <returns>The file.</returns>
-    /// <exception cref="OfficeEncryptedException">The file is encrypted (header token 0xF3D1C4DF or a CryptSession10Container); decryption is not supported.</exception>
+    /// <exception cref="OfficeEncryptedException">The file is encrypted (header token 0xF3D1C4DF or a CryptSession10Container) and the password of <paramref name="context"/> is missing or wrong.</exception>
     /// <exception cref="OfficeFormatException">The compound file is damaged beyond reading, has no <c>PowerPoint Document</c> stream, or the document container cannot be found.</exception>
     /// <exception cref="OfficeLimitException">A limit was exceeded.</exception>
     public static PptFile Open(IByteSource source, OpenContext context, CancellationToken cancellationToken = default)
@@ -124,14 +124,13 @@ public sealed class PptFile
     private void ReadStructure(ReadOnlyMemory<byte> currentUser, CancellationToken cancellationToken)
     {
         long editOffset = -1;
+        bool encryptedToken = false;
         if (currentUser.Length >= ArtRecordHeader.Size + 12 && ArtRecordHeader.TryRead(currentUser.Span, out ArtRecordHeader cuHeader) && cuHeader.Type == PptRecordType.CurrentUserAtom)
         {
             // [MS-PPT] §2.3.2: size (0x14), headerToken, offsetToCurrentEdit follow the record header.
             uint token = BinaryPrimitives.ReadUInt32LittleEndian(currentUser.Span[12..]);
-            if (token == EncryptedHeaderToken)
-            {
-                throw new OfficeEncryptedException(EncryptionProblem.PasswordRequired, DefectLocation.InRecord(CurrentUserStreamName, 12));
-            }
+            // [MS-PPT] §2.3.7: an encrypted file's Current User stream is not encrypted and carries this header token.
+            encryptedToken = token == EncryptedHeaderToken;
 
             editOffset = BinaryPrimitives.ReadUInt32LittleEndian(currentUser.Span[16..]);
         }
@@ -158,15 +157,16 @@ public sealed class PptFile
         }
 
         UserEdits = edits;
-        if (edits.Exists(e => e.EncryptSessionPersistId != 0))
-        {
-            throw new OfficeEncryptedException(EncryptionProblem.PasswordRequired, DefectLocation.InRecord(DocumentStreamName, edits[0].Offset));
-        }
 
-        // Newest first: the first definition of a persist identifier wins.
+        // Newest first: the first definition of a persist identifier wins. The user edits and the persist directories are never encrypted.
         foreach (PptUserEdit edit in edits)
         {
             ReadPersistDirectory(edit);
+        }
+
+        if (encryptedToken || edits.Exists(e => e.EncryptSessionPersistId != 0))
+        {
+            DecryptStreams(edits);
         }
 
         DocumentContainer = GetPersistObject(edits[0].DocumentPersistId);
@@ -182,6 +182,20 @@ public sealed class PptFile
             Context.Defects.Report(new Defect(DefectKind.Record, "ppt.document-container-recovered", DefectSeverity.Repaired, "The document container was found by scanning, not through the persist object directory.", DefectLocation.InRecord(DocumentStreamName, found.Offset)));
             DocumentContainer = found;
         }
+    }
+
+    // [MS-PPT] §2.3.7: the CryptSession10Container found through the newest edit that names one holds the encryption header.
+    private void DecryptStreams(List<PptUserEdit> edits)
+    {
+        PptUserEdit? cryptEdit = edits.Find(e => e.EncryptSessionPersistId != 0);
+        if (cryptEdit is null || !_offsets.TryGetValue(cryptEdit.EncryptSessionPersistId, out long cryptOffset))
+        {
+            throw new OfficeFormatException(DefectKind.Encryption, "encryption.malformed-header", "The file is marked encrypted but no persist object holds its CryptSession10Container.", DefectLocation.InRecord(DocumentStreamName, edits[0].Offset));
+        }
+
+        (byte[] document, byte[] pictures) = PptEncryption.Decrypt(DocumentStream.Span, PicturesStream.Span, _offsets, cryptOffset, Context);
+        DocumentStream = document;
+        PicturesStream = pictures;
     }
 
     // [MS-PPT] §2.1.2: UserEditAtom.offsetLastEdit must be smaller than the atom's own offset; a chain that does not strictly decrease ends.
