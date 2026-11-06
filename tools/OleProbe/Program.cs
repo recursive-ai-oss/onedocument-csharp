@@ -37,11 +37,54 @@ internal static class Program
             case "streams": return Streams(args[1]);
             case "props": return Props(args[1]);
             case "objects": return Objects(args[1]);
+            case "convert" when args.Length >= 3: return ConvertFile(args[1], args[2]);
             case "scan" when args.Length >= 3: return Scan(args[1], args[2], args.Skip(3).ToArray());
             default:
                 Console.Error.WriteLine("unknown command");
                 return 2;
         }
+    }
+
+    // Converts one legacy file to its package format and lists the loss report and the defects.
+    private static int ConvertFile(string input, string output)
+    {
+        RecursiveAI.OneDocument.Documents.DocumentFormats.Register(RecursiveAI.OneDocument.Formats.FormatRegistry.Default);
+        RecursiveAI.OneDocument.Spreadsheets.SpreadsheetFormats.Register(RecursiveAI.OneDocument.Formats.FormatRegistry.Default);
+        RecursiveAI.OneDocument.Presentations.PresentationFormats.Register(RecursiveAI.OneDocument.Formats.FormatRegistry.Default);
+        var defects = new DefectCollection();
+        var ctx = new OpenContext(defects: defects);
+        LossReport? loss;
+        string ext = Path.GetExtension(input).ToLowerInvariant();
+        if (ext == ".doc")
+        {
+            using var d = RecursiveAI.OneDocument.Documents.Document.Open(input, ctx);
+            loss = d.ImportLoss;
+            d.SaveAs(output);
+        }
+        else if (ext == ".xls")
+        {
+            using var w = RecursiveAI.OneDocument.Spreadsheets.Workbook.Open(input, ctx);
+            loss = w.ImportLoss;
+            w.SaveAs(output);
+        }
+        else
+        {
+            using var p = RecursiveAI.OneDocument.Presentations.Presentation.Open(input, ctx);
+            loss = p.ConversionLoss;
+            p.SaveAs(output);
+        }
+
+        foreach (LossItem i in loss?.Items ?? [])
+        {
+            Console.WriteLine($"loss {i.Code} x{i.Count}: {i.Message}");
+        }
+
+        foreach (Defect x in defects)
+        {
+            Console.WriteLine(x);
+        }
+
+        return 0;
     }
 
     private static CfbPackage Open(string path, DefectCollection defects) =>

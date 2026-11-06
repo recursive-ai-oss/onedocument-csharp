@@ -31,6 +31,22 @@ internal sealed partial class DocConverter
         internal string OpenRevisionKey { get; set; } = string.Empty;
 
         internal bool InInstruction => Fields.Count > 0 && Fields[^1].Instruction;
+
+        /// <summary>Per open field: where its XML starts in the paragraph being written, and the object it stands for.</summary>
+        internal List<FieldMark> Marks { get; } = [];
+
+        /// <summary>True once the picture-frame shape type that object shapes refer to is in this part.</summary>
+        internal bool ShapeTypeWritten { get; set; }
+    }
+
+    private sealed class FieldMark(int begin)
+    {
+        internal int Begin { get; } = begin;
+
+        /// <summary>The number the object storage in the <c>ObjectPool</c> is named after ([MS-DOC] sprmCPicLocation with sprmCFOle2), when the field's separator is an object placeholder.</summary>
+        internal uint? ObjectId { get; set; }
+
+        internal (string Rid, long Cx, long Cy)? Preview { get; set; }
     }
 
     // Renders [start, start+length) of a story to block-level XML.
@@ -475,6 +491,8 @@ internal sealed partial class DocConverter
                 switch (c)
                 {
                     case '\u0013':
+                        FlushText();
+                        st.Marks.Add(new FieldMark(sb.Length));
                         Run("<w:fldChar w:fldCharType=\"begin\"/>");
                         st.Fields.Add((true, new StringBuilder()));
                         break;
@@ -484,6 +502,11 @@ internal sealed partial class DocConverter
                         {
                             (bool _, StringBuilder t) = st.Fields[^1];
                             st.Fields[^1] = (false, t);
+                            if (rf.IsOle && rf.PicLocation >= 0 && st.Marks.Count == st.Fields.Count)
+                            {
+                                // [MS-DOC] sprmCPicLocation: with sprmCFOle2 the separator stands for an OLE object, named by the number.
+                                st.Marks[^1].ObjectId = unchecked((uint)rf.PicLocation);
+                            }
                         }
 
                         break;
@@ -494,6 +517,15 @@ internal sealed partial class DocConverter
                             string instr = st.Fields[^1].Text.ToString();
                             ClassifyField(instr);
                             st.Fields.RemoveAt(st.Fields.Count - 1);
+                            if (st.Marks.Count > st.Fields.Count)
+                            {
+                                FieldMark mark = st.Marks[^1];
+                                st.Marks.RemoveAt(st.Marks.Count - 1);
+                                if (mark.ObjectId is { } objectId)
+                                {
+                                    WriteObject(sb, st, mark, instr, rprXml, objectId);
+                                }
+                            }
                         }
 
                         break;

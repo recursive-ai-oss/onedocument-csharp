@@ -69,6 +69,9 @@ internal sealed partial class XlsImporter
         public bool AutoFilter;
         public int AutoFilterCriteria;
         public readonly List<byte[]> Drawing = [];
+        public readonly List<ObjInfo> Objects = [];
+        public List<OleOut>? Ole;
+        public readonly HashSet<int> OleTaken = [];
         public long Shapes;
         public long Controls;
     }
@@ -407,25 +410,37 @@ internal sealed partial class XlsImporter
     {
         SheetFeatureData f = _sheetFeatures;
         int p = 0;
+        int type = -1;
+        int id = -1;
+        int pictFlags = -1;
+        int pictFmla = -1;
         while (p + 4 <= r.Length)
         {
             int ft = U16(r, p);
             int cb = U16(r, p + 2);
-            if (ft == 0x15 && cb >= 6)
+            if (ft == 0x15 && cb >= 6 && type < 0)
             {
-                f.LastObjectType = U16(r, p + 4);
-                f.LastObjectId = U16(r, p + 6);
+                type = U16(r, p + 4);
+                id = U16(r, p + 6);
+                f.LastObjectType = type;
+                f.LastObjectId = id;
                 // ot: 0x08 picture, 0x19 note, 0x14 drop-down (filter and validation arrows), 0x06 chart; the rest are drawn shapes or controls.
-                if (f.LastObjectType is 0x01 or 0x02 or 0x03 or 0x04 or 0x05 or 0x09 or 0x0E or 0x1E or 0x00)
+                if (type is 0x01 or 0x02 or 0x03 or 0x04 or 0x05 or 0x09 or 0x0E or 0x1E or 0x00)
                 {
                     f.Shapes++;
                 }
-                else if (f.LastObjectType is not (0x08 or 0x19 or 0x14 or 0x06))
+                else if (type is not (0x08 or 0x19 or 0x14 or 0x06))
                 {
                     f.Controls++;
                 }
-
-                return;
+            }
+            else if (ft == 0x08 && cb >= 2)
+            {
+                pictFlags = U16(r, p + 4); // FtPioGrbit
+            }
+            else if (ft == 0x09 && cb >= 2)
+            {
+                pictFmla = p; // FtPictFmla
             }
 
             if (ft == 0)
@@ -435,6 +450,28 @@ internal sealed partial class XlsImporter
 
             p += 4 + cb;
         }
+
+        f.Objects.Add(new ObjInfo(type, id, EmbeddingStorage(r, type, pictFlags, pictFmla)));
+    }
+
+    // [MS-XLS] §2.5.150 FtPictFmla: an embedded OLE object (ot 8, fDde and fPrstm clear) names its embedding storage "MBD" and the eight hex
+    // digits of lPosInCtlStm, which follows the ObjFmla (a two-byte byte count and the formula, whose bytes are skipped by that count).
+    private string? EmbeddingStorage(BiffRecord r, int type, int pictFlags, int pictFmla)
+    {
+        if (type != 0x08 || pictFlags < 0 || pictFmla < 0 || (pictFlags & 0x0002) != 0 || (pictFlags & 0x0020) != 0)
+        {
+            return null;
+        }
+
+        int end = pictFmla + 4 + U16(r, pictFmla + 2);
+        int cbFmla = U16(r, pictFmla + 4);
+        int pos = pictFmla + 6 + cbFmla;
+        if (cbFmla == 0 || pos + 4 > end || pos + 4 > r.Length)
+        {
+            return null;
+        }
+
+        return "MBD" + U32(r, pos).ToString("X8", CultureInfo.InvariantCulture);
     }
 
     // [MS-XLS] §2.4.329 TxO: the text of a text box or note is in the CONTINUE records after it, led by a flag byte.
@@ -1122,12 +1159,19 @@ internal sealed partial class XlsImporter
     {
         SheetFeatureData f = _sheetFeatures;
         var notes = f.Notes.Where(n => n.Row != 0xFFFF).ToList();
-        if (notes.Count == 0)
+        List<OleOut> objects = PrepareOle();
+        if (notes.Count == 0 && objects.Count == 0)
         {
             return;
         }
 
         int n = ++_commentPartCounter;
+        if (notes.Count == 0)
+        {
+            WriteLegacyDrawing(sc, rels, relId, n, notes, objects);
+            return;
+        }
+
         var authors = new List<string>();
         var xml = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<comments xmlns=\"" + MainNs + "\"><authors>");
         var comments = new StringBuilder("<commentList>");
@@ -1156,11 +1200,21 @@ internal sealed partial class XlsImporter
         string cid = relId();
         rels.Add(new Relationship(cid, RelBase + "comments", "../comments" + I(n) + ".xml"));
 
-        // Excel draws a note from its legacy drawing; a plain box per note is enough for it to show them.
+        WriteLegacyDrawing(sc, rels, relId, n, notes, objects);
+    }
+
+    // Excel draws a note and an embedded object from the sheet's legacy drawing; a plain box per note is enough for it to show them, and
+    // an object is a picture shape that shows its preview and carries the object's anchor.
+    private void WriteLegacyDrawing(SheetCtx sc, List<Relationship> rels, Func<string> relId, int n, List<Note> notes, List<OleOut> objects)
+    {
         var vml = new StringBuilder();
         vml.Append("<xml xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:x=\"urn:schemas-microsoft-com:office:excel\">")
-            .Append("<o:shapelayout v:ext=\"edit\"><o:idmap v:ext=\"edit\" data=\"").Append(I(n)).Append("\"/></o:shapelayout>")
-            .Append("<v:shapetype id=\"_x0000_t202\" coordsize=\"21600,21600\" o:spt=\"202\" path=\"m,l,21600r21600,l21600,xe\"><v:stroke joinstyle=\"miter\"/><v:path gradientshapeok=\"t\" o:connecttype=\"rect\"/></v:shapetype>");
+            .Append("<o:shapelayout v:ext=\"edit\"><o:idmap v:ext=\"edit\" data=\"").Append(I(n)).Append("\"/></o:shapelayout>");
+        if (notes.Count > 0)
+        {
+            vml.Append("<v:shapetype id=\"_x0000_t202\" coordsize=\"21600,21600\" o:spt=\"202\" path=\"m,l,21600r21600,l21600,xe\"><v:stroke joinstyle=\"miter\"/><v:path gradientshapeok=\"t\" o:connecttype=\"rect\"/></v:shapetype>");
+        }
+
         for (int k = 0; k < notes.Count; k++)
         {
             Note note = notes[k];
@@ -1171,12 +1225,23 @@ internal sealed partial class XlsImporter
                 .Append(", 4</x:Anchor><x:AutoFill>False</x:AutoFill><x:Row>").Append(I(note.Row)).Append("</x:Row><x:Column>").Append(I(note.Col)).Append("</x:Column></x:ClientData></v:shape>");
         }
 
+        var vmlRels = new List<Relationship>();
+        string oleObjects = WriteOleObjectShapes(vml, vmlRels, rels, relId, n, notes.Count, objects);
         vml.Append("</xml>");
         string vmlName = "/xl/drawings/vmlDrawing" + I(n) + ".vml";
         _wb.Package.AddPart(vmlName, "application/vnd.openxmlformats-officedocument.vmlDrawing", Encoding.UTF8.GetBytes(vml.ToString()));
+        if (vmlRels.Count > 0)
+        {
+            _wb.Package.SetRelationships(vmlName, vmlRels);
+        }
+
         string vid = relId();
         rels.Add(new Relationship(vid, RelBase + "vmlDrawing", "../drawings/vmlDrawing" + I(n) + ".vml"));
         sc.Sheet.InsertFrameElement("legacyDrawing", "<legacyDrawing xmlns:r=\"" + RelNs + "\" r:id=\"" + vid + "\"/>");
+        if (oleObjects.Length > 0)
+        {
+            sc.Sheet.InsertFrameElement("oleObjects", oleObjects);
+        }
     }
 
     // ---- names ----
