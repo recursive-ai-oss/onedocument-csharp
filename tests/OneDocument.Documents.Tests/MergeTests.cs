@@ -13,17 +13,17 @@ public class MergeTests
     private static readonly byte[] Png1 = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 1, 2, 3];
     private static readonly byte[] Png2 = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 9, 9, 9];
 
-    private static string P(string text, string? style = null, string extra = "") =>
+    internal static string P(string text, string? style = null, string extra = "") =>
         "<w:p>" + (style is null && extra.Length == 0 ? string.Empty : "<w:pPr>" + (style is null ? string.Empty : $"<w:pStyle w:val=\"{style}\"/>") + extra + "</w:pPr>")
         + $"<w:r><w:t>{text}</w:t></w:r></w:p>";
 
-    private static string Style(string id, string name, string rpr, string? based = null) =>
+    internal static string Style(string id, string name, string rpr, string? based = null) =>
         $"<w:style w:type=\"paragraph\" w:styleId=\"{id}\"><w:name w:val=\"{name}\"/>" + (based is null ? string.Empty : $"<w:basedOn w:val=\"{based}\"/>") + $"<w:rPr>{rpr}</w:rPr></w:style>";
 
-    private static string Abstract(int id, string fmt, string text) =>
+    internal static string Abstract(int id, string fmt, string text) =>
         $"<w:abstractNum w:abstractNumId=\"{id}\"><w:nsid w:val=\"0000000{id}\"/><w:multiLevelType w:val=\"hybridMultilevel\"/><w:lvl w:ilvl=\"0\"><w:start w:val=\"1\"/><w:numFmt w:val=\"{fmt}\"/><w:lvlText w:val=\"{text}\"/></w:lvl></w:abstractNum>";
 
-    private static void AddImage(InMemoryPackage p, string partName, string relId, byte[] bytes)
+    internal static void AddImage(InMemoryPackage p, string partName, string relId, byte[] bytes)
     {
         p.AddPart(partName, "image/png", bytes);
         var rels = new List<Relationship>(p.GetRelationships("/word/document.xml"))
@@ -33,12 +33,12 @@ public class MergeTests
         p.SetRelationships("/word/document.xml", rels);
     }
 
-    private static string Pic(string relId, int docPrId) =>
+    internal static string Pic(string relId, int docPrId) =>
         $"<w:p><w:r><w:drawing><wp:inline xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"><wp:extent cx=\"10\" cy=\"10\"/><wp:docPr id=\"{docPrId}\" name=\"Picture\"/>" +
         $"<a:graphic><a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\"><a:blip r:embed=\"{relId}\"/></a:graphicData></a:graphic></wp:inline></w:drawing></w:r></w:p>";
 
     // A real zip-backed package with the parts of an in-memory one, so that it can be saved and opened again.
-    private static Document Doc(InMemoryPackage m)
+    internal static Document Doc(InMemoryPackage m)
     {
         OpcPackage p = OpcPackage.Create();
         foreach (IPackagePart part in m.Parts)
@@ -58,7 +58,7 @@ public class MergeTests
         return Document.FromPackage(p);
     }
 
-    private static Document Reopen(Document d)
+    internal static Document Reopen(Document d)
     {
         d.CommitChanges();
         var ms = new MemoryStream();
@@ -67,7 +67,7 @@ public class MergeTests
         return Document.Open(ms);
     }
 
-    private static string[] Texts(Document d) => [.. d.Body.Paragraphs().Select(p => p.Text)];
+    internal static string[] Texts(Document d) => [.. d.Body.Paragraphs().Select(p => p.Text)];
 
     [Fact]
     public void Append_AddsTheSourceBodyAfterTheDestinationsAndKeepsUntouchedPartsIdentical()
