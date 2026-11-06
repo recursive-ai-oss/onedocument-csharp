@@ -151,4 +151,36 @@ public sealed partial class RevisionAuthor
 
         return w.Wrap("rPr", string.Empty, keep + format);
     }
+
+    // An object anchored just before the first character of a range (a drawing, a picture, a note reference) is not part of the text that
+    // goes: deleting the words after a picture must not delete the picture. Objects inside the range go with it, as in Word.
+    private static bool IsObjectLike(MarkupNode child) =>
+        WordXml.IsAny(child, "drawing", "pict", "object", "footnoteReference", "endnoteReference", "commentReference");
+
+    private static void SkipLeadingObjects(List<MarkupNode> runs)
+    {
+        while (runs.Count > 0)
+        {
+            (_, _, List<MarkupNode> kids) = RunParts(runs[0]);
+            int i = 0;
+            while (i < kids.Count && IsObjectLike(kids[i]))
+            {
+                i++;
+            }
+
+            if (i == 0)
+            {
+                return;
+            }
+
+            if (i == kids.Count)
+            {
+                runs.RemoveAt(0);
+                continue;
+            }
+
+            runs[0] = SplitBefore(runs[0], kids[i]);
+            return;
+        }
+    }
 }

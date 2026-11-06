@@ -255,6 +255,42 @@ public class DocumentFindReplaceTests
     }
 
     [Fact]
+    public void TrackedReplacementInTextBoxesAcceptsAndRejects()
+    {
+        Document d = Document.FromPackage(BuildPackage());
+        Assert.Equal(5, d.Replace("needle", "thread", new DocumentReplaceOptions { TrackedAuthor = "Bob" }).Count);
+        Assert.Equal(5, d.Find("thread").Count);
+        d.Revisions.AcceptAll();
+        Assert.Equal(5, d.Find("thread").Count);
+        Assert.Empty(d.Find("needle"));
+        Document r = Document.FromPackage(BuildPackage());
+        r.Replace("needle", "thread", new DocumentReplaceOptions { TrackedAuthor = "Bob" });
+        r.Revisions.RejectAll();
+        Assert.Equal(5, r.Find("needle").Count);
+        Assert.Empty(r.Find("thread"));
+    }
+
+    [Fact]
+    public void TrackedReplacementRightAfterAnAnchoredObjectKeepsTheObject()
+    {
+        // Found in a corpus run: the replaced words came right after a drawing, and accepting the change removed the drawing too.
+        string drawing = "<w:r><w:drawing><wp:inline xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\"/></w:drawing></w:r>";
+        Document d = TestDocs.Open("<w:p>" + drawing + Run("the end") + "</w:p>");
+        Assert.Equal(1, d.Replace("the", "THE", new DocumentReplaceOptions { TrackedAuthor = "Bob" }).Count);
+        d.Revisions.AcceptAll();
+        Assert.Contains("<w:drawing>", Xml(d));
+        Assert.Equal("THE end", AllText(d));
+        Document u = TestDocs.Open("<w:p>" + drawing + Run("the end") + "</w:p>");
+        Assert.Equal(1, u.Replace("the", "THE").Count);
+        Assert.Contains("<w:drawing>", Xml(u));
+        // a drawing inside the matched text still goes with it when the change is tracked and accepted
+        Document m = TestDocs.Open("<w:p>" + Run("ab") + drawing + Run("cd") + "</w:p>");
+        Assert.Equal(1, m.Replace("abcd", "X", new DocumentReplaceOptions { TrackedAuthor = "Bob" }).Count);
+        m.Revisions.AcceptAll();
+        Assert.Equal("X", AllText(m));
+    }
+
+    [Fact]
     public void ReplacedDocumentSavesAndReopens()
     {
         using Document d = Document.Create();

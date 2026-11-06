@@ -91,27 +91,48 @@ internal static class Program
     private static bool Verbose;
 
     // The markup of the first paragraph whose text differs, with letters and digits masked: the structure without the content.
-    private static void ShowShape(Func<Document> open, string[] actual, string[] expected, string pattern)
+    private static void ShowShape(Func<Document> open, int k)
     {
-        int k = 0;
-        while (k < actual.Length && k < expected.Length && actual[k] == expected[k])
-        {
-            k++;
-        }
 
         using Document d = open();
         TextHit? hit = d.Find(@"[\s\S]+", new DocumentFindOptions { Search = new SearchOptions { UseRegex = true } }).ElementAtOrDefault(k);
+        if (hit is not null && hit.Location.Story == "textbox" && hit.Location.Container == d.MainPartName)
+        {
+            var flat = new List<(Paragraph P, TextBox Box)>();
+            void Walk(IReadOnlyList<TextBox> boxes)
+            {
+                foreach (TextBox box in boxes)
+                {
+                    foreach (Paragraph q in box.Paragraphs())
+                    {
+                        flat.Add((q, box));
+                    }
+
+                    Walk(box.TextBoxes());
+                }
+            }
+
+            Walk(d.Body.TextBoxes());
+            if (hit.Location.Index < flat.Count)
+            {
+                (Paragraph tp, TextBox tb) = flat[hit.Location.Index];
+                Console.Error.WriteLine("SHAPE textbox kind " + tb.Kind + " alternate " + tb.Alternate.IsValid + " boxes in body " + d.Body.TextBoxes().Count + " flat " + flat.Count + " " + Mask(tp.Markup.Node.OuterXml));
+            }
+
+            return;
+        }
+
         if (hit is null || hit.Location.Story != "body")
         {
-            Console.Error.WriteLine("SHAPE paragraph " + k + " story " + hit?.Location.Story);
+            Console.Error.WriteLine("SHAPE paragraph " + k + " story " + hit?.Location.Story + " part " + hit?.Location.Container);
             return;
         }
 
         Paragraph p = d.Body.Paragraphs().ElementAt(hit.Location.Index);
-        string xml = new string([.. p.Markup.Node.OuterXml.Select(c => char.IsLetter(c) && !char.IsAscii(c) ? 'a' : c)]);
-        string masked = Regex.Replace(xml, @"(?<=>)[^<]+(?=<)", m => Regex.Replace(m.Value, @"[A-Za-z]", "a"));
-        Console.Error.WriteLine("SHAPE paragraph " + k + " text " + Regex.Replace(hit.Text.Length > 0 ? new string('.', 0) : string.Empty, ".", string.Empty) + masked);
+        Console.Error.WriteLine("SHAPE paragraph " + k + " " + Mask(p.Markup.Node.OuterXml));
     }
+
+    private static string Mask(string xml) => Regex.Replace(xml, @"(?<=>)[^<]+(?=<)", m => Regex.Replace(m.Value, @"\p{L}", "a"));
 
     private static string Check(string path, string root, string pattern)
     {
@@ -142,7 +163,14 @@ internal static class Program
                 Compare("replace", snapNow(d0), expected, failed);
                 if (Verbose && !snapNow(d0).SequenceEqual(expected, StringComparer.Ordinal))
                 {
-                    ShowShape(open, snapNow(d0), expected, pattern);
+                    int at = 0;
+                    string[] now = snapNow(d0);
+                    while (at < now.Length && at < expected.Length && now[at] == expected[at])
+                    {
+                        at++;
+                    }
+
+                    ShowShape(open, at);
                 }
 
                 using var ms = new MemoryStream();
@@ -171,7 +199,28 @@ internal static class Program
                     }
 
                     t1.Revisions.AcceptAll();
-                    Compare("accept", snapNow(t1), acceptedExpected, failed, joined: true);
+                    string[] gotAccepted = snapNow(t1);
+                    Compare("accept", gotAccepted, acceptedExpected, failed, joined: true);
+                    if (Verbose && string.Concat(gotAccepted) != string.Concat(acceptedExpected))
+                    {
+                        string a = string.Concat(gotAccepted);
+                        string e = string.Concat(acceptedExpected);
+                        int pos = 0;
+                        while (pos < a.Length && pos < e.Length && a[pos] == e[pos])
+                        {
+                            pos++;
+                        }
+
+                        int para = 0;
+                        for (int sum = 0; para < acceptedExpected.Length && sum + acceptedExpected[para].Length <= pos; para++)
+                        {
+                            sum += acceptedExpected[para].Length;
+                        }
+
+                        Console.Error.WriteLine("ACCEPT textboxes in body now " + t1.Body.TextBoxes().Count + ", hits " + t1.Find("[\\s\\S]+", new DocumentFindOptions { Search = options, Stories = DocumentStories.TextBoxes }).Count);
+                        Console.Error.WriteLine("ACCEPT diverges in paragraph " + para + " of " + acceptedExpected.Length + " (actual has " + gotAccepted.Length + ")");
+                        ShowShape(open, para);
+                    }
                 }
 
                 // A document that already had tracked changes loses them on reject-all too, so the baseline is the same
