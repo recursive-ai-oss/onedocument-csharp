@@ -112,7 +112,7 @@ Stated here so they are not found by surprise.
 | `RecursiveAI.OneDocument.Rendering` | Layout, charts, SmartArt, equations, drawing; PDF and PNG output for all three kinds |
 | `RecursiveAI.OneDocument.All` | Metapackage of every package above |
 | `RecursiveAI.OneDocument.Cryptography` | Signatures and encryption on write (no content yet; not in `All`) |
-| `onedocument` | Command-line tool: `detect`, `extract`, `recalc`, `template`, `render`, `convert` |
+| `onedocument` | Command-line tool: `detect`, `extract`, `recalc`, `template`, `render`, `convert`, `inspect`, `sanitize` |
 
 ## Building
 

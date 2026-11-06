@@ -35,6 +35,7 @@ public static class DocumentFormats
     {
         ArgumentNullException.ThrowIfNull(registry);
         OfficeFormat[] ooxml = [OfficeFormat.Docx, OfficeFormat.Docm, OfficeFormat.Dotx, OfficeFormat.Dotm, OfficeFormat.FlatOpcDocument];
+        registry.RegisterInspectionProvider(Inspection.WordInspectionProvider.Instance, OfficeKind.Document);
         // One reader opens every format of the package: it sniffs the content and takes the RTF path when the bytes are RTF.
         registry.RegisterReader(
             static (source, _, context, filePath, cancellationToken) => Document.OpenSource(source, context, filePath, cancellationToken),

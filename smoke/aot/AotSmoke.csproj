@@ -47,6 +47,7 @@
     <Compile Include="../../tests/Shared/DocBuilder.cs" Link="DocBuilder.cs" />
     <Compile Include="../shared/XlsSmoke.cs" Link="XlsSmoke.cs" />
     <Compile Include="../shared/VbaSmoke.cs" Link="VbaSmoke.cs" />
+    <Compile Include="../shared/InspectSmoke.cs" Link="InspectSmoke.cs" />
     <Compile Include="../shared/Xml2003Smoke.cs" Link="Xml2003Smoke.cs" />
     <Compile Include="../shared/PocoSmoke.cs" Link="PocoSmoke.cs" />
     <Compile Include="../shared/TemplateSmoke.cs" Link="TemplateSmoke.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="../shared/FloatSmoke.cs" Link="FloatSmoke.cs" />
     <Compile Include="../shared/OperationsSmoke.cs" Link="OperationsSmoke.cs" />
     <Compile Include="../shared/FindReplaceSmoke.cs" Link="FindReplaceSmoke.cs" />
+    <Compile Include="../shared/RedactionSmoke.cs" Link="RedactionSmoke.cs" />
     <Compile Include="../../tests/OneDocument.Schema.Tests/TextTree.cs" Link="TextTree.cs" />
     <ProjectReference Include="../../src/OneDocument/OneDocument.csproj" />
     <ProjectReference Include="../../src/OneDocument.Schema/OneDocument.Schema.csproj" />

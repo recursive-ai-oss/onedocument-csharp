@@ -41,6 +41,9 @@ internal static class NewPresentation
         }
     }
 
+    /// <summary>The default theme part, which converters reuse for the masters they build.</summary>
+    internal static string ThemeXmlText => ThemeXml;
+
     private static byte[] Bytes(string xml) => Encoding.UTF8.GetBytes(Prolog + xml);
 
     // ECMA-376 Part 1 §19.2.1.26 (sldSz) and §19.2.1.20 (notesSz): EMU; 12,192,000 x 6,858,000 is 16:9 at 13.333 x 7.5 in.
