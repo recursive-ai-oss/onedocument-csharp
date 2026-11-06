@@ -31,7 +31,7 @@ internal static class OperationsSmoke
             Check("doc find", doc.Find("quick").Count == 2);
             Check("doc replace", doc.Replace("QUICK", "slow").Count == 2 && doc.Body.Paragraphs().Any(p => p.Text == "The slow brown fox, slow again."));
             // a back-reference needs the backtracking engine; the linear one refuses it
-            Check("doc regex", doc.Replace("(o)\\1?w", "X", new DocumentReplaceOptions { Search = regex }).Count == 1);
+            Check("doc regex", doc.Replace("(o)\\1?w", "X", new DocumentReplaceOptions { Search = regex }).Count == 3);
             Check("doc tracked", doc.Replace("fox", "cat", new DocumentReplaceOptions { TrackedAuthor = "smoke" }).Count == 1 && doc.Revisions.Revisions.Count == 2);
             doc.Revisions.RejectAll();
             Check("doc reject", doc.Body.Paragraphs().Any(p => p.GetText(RevisionView.Accepted).Contains("fox", StringComparison.Ordinal)));
