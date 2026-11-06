@@ -36,7 +36,8 @@ The `Office` statics (`Office.Open`, `Office.ExtractText`, `Office.Convert`) fin
 | PPTX/PPTM/POTX/PPSX, Flat OPC | yes (`Presentation`) | yes |
 | XLSB | planned | planned |
 | XLS (BIFF8) | planned | planned |
-| XLS (BIFF2–5), DOC, PPT, Word and Excel 2003 XML | planned | not planned |
+| XLS (BIFF2–8), DOC (incl. Word 6/95), PPT | yes (converted into `Workbook` / `Document` / `Presentation` with a loss report) | not planned (XLS BIFF8: planned) |
+| Word 2003 XML, Excel 2003 XML | yes (converted into `Document` / `Workbook` with a loss report) | not planned |
 | RTF | yes (`Document`; loss report; `docs/rtf.md`) | yes |
 | ODT/ODS/ODP and flat ODF | planned | planned |
 | CSV/TSV | yes | yes |

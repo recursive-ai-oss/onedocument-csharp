@@ -2,6 +2,8 @@
 
 `RecursiveAI.OneDocument.Spreadsheets` holds the SpreadsheetML hub: `Workbook`, `Worksheet`, `Cell`, the cell store and the shared string table. This note states what they do; the XML documentation on each type gives the details. Defect codes are in `defects.md` (prefix `xlsx.`).
 
+A binary workbook (XLSB) is shown through the same model; `xlsb.md` says how, and what it keeps.
+
 ## What is read, when
 
 `Workbook.Open` (path, stream or `IByteSource`) identifies the content (never the extension), opens the package, and reads the content types, the package relationships, the workbook part and its relationships. Nothing else.
