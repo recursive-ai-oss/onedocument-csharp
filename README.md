@@ -51,9 +51,9 @@ The `Office` statics find the readers and writers of every kind package the appl
 | DOCX, DOCM, DOTX, DOTM, Flat OPC | yes | yes | parts byte-identical (`docs/contracts.md`, `DocumentOpenTests`) | n/a (native) | `docs/docx-*.md`, `docs/revisions.md` |
 | XLSX, XLSM, XLTX, XLTM, XLAM, Flat OPC | yes (model and streaming) | yes (model and streaming) | parts byte-identical (`docs/spreadsheets.md`) | n/a (native) | `docs/spreadsheets*.md` |
 | PPTX, PPTM, POTX, PPSX, Flat OPC | yes | yes | parts byte-identical (`docs/presentations.md`, `OpenAndSaveTests`) | n/a (native) | `docs/presentations.md` |
-| XLSB | yes | yes | unedited parts copied byte for byte (`docs/xlsb.md`) | n/a (native) | `docs/xlsb.md` |
-| XLS (BIFF8) | yes | yes (one clean BIFF8 dialect; RC4 CryptoAPI password optional) | rebuilt, not carried through | yes, on conversion | `docs/xls.md` |
-| XLS (BIFF2 to BIFF5) | yes | no | n/a | yes | `docs/xls.md` (layouts written from observed files) |
+| XLSB | yes (model and streaming) | yes | unedited parts copied byte for byte (`docs/xlsb.md`) | n/a (native) | `docs/xlsb.md` |
+| XLS (BIFF8) | yes (model and streaming) | yes (one clean BIFF8 dialect; RC4 CryptoAPI password optional) | rebuilt, not carried through | yes, on conversion | `docs/xls.md` |
+| XLS (BIFF2 to BIFF5) | yes (model and streaming) | no | n/a | yes | `docs/xls.md` (layouts written from observed files) |
 | DOC (Word 97 to 2013, Word 6/95, fast-saved) | yes | no (post-1.0 on demand) | n/a | yes | `docs/doc.md` |
 | PPT (97 to 2003) | yes | no (post-1.0 on demand) | n/a | yes | `docs/ppt.md` |
 | Word 2003 XML, Excel 2003 XML | yes | no | n/a | yes | `docs/xml-2003.md` |

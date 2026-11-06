@@ -39,6 +39,8 @@
 | `doc` | a 24-bit length, the `WordDocument` stream, then the table stream (repeated as the `Data` stream) | Word binary files: the streams go into a compound file and through text extraction and the conversion into the model and out as DOCX; typed rejections only, and a `doc.malformed` fallback counts as a finding |
 | `sprm` | a property modifier list | the modifier splitter and name lookup accept any bytes |
 | `xls` | a legacy workbook (compound file or bare BIFF stream) | the BIFF2-8 converter: records, cells, formulas, styles, drawings, then the converted workbook is walked and written as XLSX; typed rejections only |
+| `xlscursor` | the same inputs as `xls` | the forward cursor over a legacy workbook: sheet list, shared strings, every cell with every accessor; typed rejections only |
+| `xlsbcursor` | the same inputs as `xlsb` | the forward cursor over a binary workbook from a whole file; typed rejections only |
 | `olepropset` | a property set stream (`\u0005SummaryInformation`, the document summary and user-defined sets) | the property set reader, a write and re-read of what it read, and the mapping to and from the package properties; typed rejections only |
 | `oleobject` | a compound file taken as one embedded-object storage | the storage copy, the object description (embedded, linked or package, moniker) and the compound file written back; typed rejections only |
 | `ptg` | formula tokens: a version byte, a split byte, then tokens and extra data | the Ptg decoder in every BIFF layout, and for BIFF8 an encode and decode of what it read; typed rejections only |

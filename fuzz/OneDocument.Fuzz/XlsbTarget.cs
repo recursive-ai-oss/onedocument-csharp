@@ -63,6 +63,54 @@ internal static class XlsbTarget
         return s_base;
     }
 
+    /// <summary>The forward cursor over a binary workbook, from a whole file: every worksheet, every row and cell, every accessor.</summary>
+    public static void RunCursor(ReadOnlySpan<byte> data)
+    {
+        try
+        {
+            using XlsbStreamReader book = XlsbStreamReader.Open(new MemoryStream(data.ToArray()), new OpenContext(Limits));
+            long sum = book.SharedStringCount;
+            Span<char> buffer = stackalloc char[32];
+            for (int i = 0; i < book.Sheets.Count; i++)
+            {
+                if (book.Sheets[i].Kind != SheetKind.Worksheet)
+                {
+                    continue;
+                }
+
+                using XlsbSheetCursor c = book.OpenSheet(i);
+                sum += c.Columns.Count;
+                while (c.ReadRow())
+                {
+                    sum += c.RowNumber + (long)c.RowHeight + c.RowOutlineLevel + c.RowStyle;
+                    while (c.ReadCell())
+                    {
+                        sum += c.Column + c.Style + (long)c.Kind + (long)c.Number + c.Address.Row;
+                        if (c.Kind == CellValueKind.Text)
+                        {
+                            sum += c.GetText().Length + c.TextUtf8.Length + (c.TryCopyText(buffer, out int n) ? n : -n);
+                        }
+
+                        if (c.IsDate && c.TryGetDateTime(out DateTime when))
+                        {
+                            sum += when.Ticks & 1;
+                        }
+
+                        sum += c.HasFormula ? c.GetFormula().Length : 0;
+                    }
+                }
+            }
+
+            if (sum == long.MinValue)
+            {
+                throw new InvalidOperationException();
+            }
+        }
+        catch (OfficeException)
+        {
+        }
+    }
+
     private static string? PartFor(int mode, OpcPackage p)
     {
         string? type = mode switch

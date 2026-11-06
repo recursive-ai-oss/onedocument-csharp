@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using RecursiveAI.OneDocument.Diagnostics;
 
 namespace RecursiveAI.OneDocument.Xlsb;
@@ -79,6 +80,7 @@ public sealed class XlsbRecordReader
     /// <summary>Reads the next record.</summary>
     /// <returns>True when a record is available; false at the end of the part, including a part cut inside a record.</returns>
     /// <exception cref="OfficeLimitException">The record is larger than <see cref="OfficeLimits.MaxRecordSize"/> or the part has more than <see cref="OfficeLimits.MaxRecordCount"/> records.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     public bool Read()
     {
         if (_ended)
@@ -124,8 +126,16 @@ public sealed class XlsbRecordReader
             }
         }
 
-        OfficeLimitException.ThrowIfExceeded(nameof(OfficeLimits.MaxRecordSize), _context.Limits.MaxRecordSize, size, DefectLocation.InRecord(_partName, start));
-        OfficeLimitException.ThrowIfExceeded(nameof(OfficeLimits.MaxRecordCount), _context.Limits.MaxRecordCount, _count + 1, DefectLocation.InRecord(_partName, start));
+        // The location is built only when a limit is exceeded: building it for every record would cost more than reading the record.
+        if (size > _context.Limits.MaxRecordSize)
+        {
+            OfficeLimitException.ThrowIfExceeded(nameof(OfficeLimits.MaxRecordSize), _context.Limits.MaxRecordSize, size, DefectLocation.InRecord(_partName, start));
+        }
+
+        if (_count + 1 > _context.Limits.MaxRecordCount)
+        {
+            OfficeLimitException.ThrowIfExceeded(nameof(OfficeLimits.MaxRecordCount), _context.Limits.MaxRecordCount, _count + 1, DefectLocation.InRecord(_partName, start));
+        }
         if (!Fill(size))
         {
             return Truncate(start);

@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Buffers.Binary;
 using System.Text;
 using RecursiveAI.OneDocument.Calc;
@@ -197,7 +198,7 @@ public sealed class XlsbStreamReader : IDisposable
     /// <summary>Gets one shared string as text (an allocation).</summary>
     /// <param name="index">The zero-based entry.</param>
     /// <returns>The text, with rich-text runs joined and phonetic runs left out; empty for an index out of range.</returns>
-    public string GetSharedString(int index) => new(Strings().Get(index));
+    public string GetSharedString(int index) => Strings().GetString(index);
 
     /// <summary>Gets whether a style's number format shows dates or times (reads the style sheet on first use).</summary>
     /// <param name="styleIndex">The cell format index.</param>
@@ -362,6 +363,37 @@ internal sealed class XlsbStrings
 
     public ReadOnlySpan<char> Get(int index) => (uint)index < (uint)Count ? _pool.AsSpan(_starts[index], _starts[index + 1] - _starts[index]) : default;
 
+    // Strings built by GetString are kept up to this many characters in all; past it they are built per call.
+    private const long CacheBudget = 8_000_000;
+    private string?[]? _cache;
+    private long _cached;
+
+    /// <summary>Builds one entry as a string, once: later calls return the same string, within a budget of characters.</summary>
+    public string GetString(int index)
+    {
+        if ((uint)index >= (uint)Count)
+        {
+            return string.Empty;
+        }
+
+        string?[] cache = _cache ??= new string?[Count];
+        string? s = cache[index];
+        if (s is not null)
+        {
+            return s;
+        }
+
+        ReadOnlySpan<char> text = Get(index);
+        s = text.Length == 0 ? string.Empty : new string(text);
+        if (_cached + s.Length <= CacheBudget)
+        {
+            cache[index] = s;
+            _cached += s.Length;
+        }
+
+        return s;
+    }
+
     public static XlsbStrings Read(Stream stream, OpenContext context, string partName)
     {
         using (stream)
@@ -425,7 +457,7 @@ internal sealed class XlsbStrings
 /// text spans come from the record buffer; only <see cref="GetText"/>, <see cref="GetFormula"/> and the other string-returning
 /// members allocate.
 /// </summary>
-public sealed class XlsbSheetCursor : IDisposable
+public sealed class XlsbSheetCursor : ICellCursor
 {
     private readonly XlsbStreamReader _owner;
     private readonly XlsbRecordReader? _reader;
@@ -562,6 +594,7 @@ public sealed class XlsbSheetCursor : IDisposable
         }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     private bool ReadRowCore()
     {
         _cancellation.ThrowIfCancellationRequested();
@@ -698,6 +731,7 @@ public sealed class XlsbSheetCursor : IDisposable
         ReadOnlySpan<char> s = _sharedIndex >= 0 ? _owner.Strings().Get(_sharedIndex) : _chars.AsSpan(0, _charsLength);
         if (s.Length > destination.Length)
         {
+            written = s.Length;
             return false;
         }
 
@@ -708,7 +742,7 @@ public sealed class XlsbSheetCursor : IDisposable
 
     /// <summary>Gets the text of a text cell as a string (an allocation).</summary>
     /// <returns>The text; empty for other kinds.</returns>
-    public string GetText() => _kind != CellValueKind.Text ? string.Empty : _sharedIndex >= 0 ? new string(_owner.Strings().Get(_sharedIndex)) : new string(_chars, 0, _charsLength);
+    public string GetText() => _kind != CellValueKind.Text ? string.Empty : _sharedIndex >= 0 ? _owner.Strings().GetString(_sharedIndex) : new string(_chars, 0, _charsLength);
 
     /// <summary>Gets a value indicating whether the current cell holds a formula.</summary>
     public bool HasFormula => _hasFormula;
@@ -774,6 +808,7 @@ public sealed class XlsbSheetCursor : IDisposable
         }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     private bool ReadCellCore()
     {
         if (!_inRow || _reader is null)
@@ -846,6 +881,7 @@ public sealed class XlsbSheetCursor : IDisposable
     private bool _lookahead;
 
     // A cell record: decode it into the current-cell fields. Returns false for a record that is not a cell.
+    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     private bool Dispatch()
     {
         int type = _reader!.Type;

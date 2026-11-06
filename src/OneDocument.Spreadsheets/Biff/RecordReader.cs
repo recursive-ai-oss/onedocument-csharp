@@ -24,6 +24,9 @@ internal sealed class RecordReader
         _parts = parts;
     }
 
+    /// <summary>Reads a sequence that is already split into parts (a record and its CONTINUE records).</summary>
+    public static RecordReader FromParts(ReadOnlyMemory<byte>[] parts) => new(parts);
+
     /// <summary>Reads record <paramref name="index"/> and, when <paramref name="withContinues"/>, the CONTINUE records that follow it.</summary>
     public static RecordReader Open(BiffRecordSet stream, int index, bool withContinues, out int lastIndex)
     {
@@ -166,6 +169,18 @@ internal sealed class RecordReader
         }
 
         var sb = new StringBuilder(Math.Min(cch, 1 << 16));
+        AppendChars(sb, cch, wide, enc);
+        return sb.ToString();
+    }
+
+    /// <summary>Appends a string like <see cref="Chars"/> to a builder, so a caller can reuse one builder for many strings.</summary>
+    public void AppendChars(StringBuilder sb, int cch, bool wide, Encoding enc)
+    {
+        if (cch <= 0)
+        {
+            return;
+        }
+
         int left = cch;
         while (left > 0)
         {
@@ -230,8 +245,6 @@ internal sealed class RecordReader
                 wide = (flag & 1) != 0;
             }
         }
-
-        return sb.ToString();
     }
 
     /// <summary>

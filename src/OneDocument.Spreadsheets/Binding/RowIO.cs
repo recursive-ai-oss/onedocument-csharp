@@ -142,57 +142,90 @@ internal abstract class RowSource : IDisposable
     public abstract void Dispose();
 }
 
-/// <summary>Reads rows from an XLSX worksheet through the streaming cursor.</summary>
-internal sealed class XlsxRowSource : RowSource
+/// <summary>Reads rows from a worksheet of any workbook format through its streaming cursor.</summary>
+internal sealed class CursorRowSource : RowSource
 {
-    private readonly XlsxStreamReader _book;
-    private readonly SheetCursor _cursor;
+    private readonly IDisposable _book;
+    private readonly ICellCursor _cursor;
+    private readonly DateSystem _dateSystem;
     private readonly ColumnMap _map;
     private readonly string _sheetName;
 
-    public XlsxRowSource(Stream stream, RowSchema schema, OpenContext context, CancellationToken cancellationToken)
+    private CursorRowSource(IDisposable book, ICellCursor cursor, DateSystem dateSystem, RowSchema schema, OpenContext context)
     {
-        _book = XlsxStreamReader.Open(stream, context, leaveOpen: true, cancellationToken);
+        _book = book;
+        _cursor = cursor;
+        _dateSystem = dateSystem;
+        _sheetName = cursor.SheetName;
+        _map = new ColumnMap(schema);
+        if (schema.HasHeader)
+        {
+            ReadHeader(schema, context);
+        }
+    }
+
+    public static CursorRowSource Xlsx(Stream stream, RowSchema schema, OpenContext context, CancellationToken cancellationToken)
+    {
+        XlsxStreamReader book = XlsxStreamReader.Open(stream, context, leaveOpen: true, cancellationToken);
+        return Create(book, book.Sheets, book.DateSystem, book.OpenSheet, schema, context);
+    }
+
+    public static CursorRowSource Xlsb(Stream stream, RowSchema schema, OpenContext context, CancellationToken cancellationToken)
+    {
+        XlsbStreamReader book = XlsbStreamReader.Open(stream, context, leaveOpen: true, cancellationToken);
+        return Create(book, book.Sheets, book.DateSystem, book.OpenSheet, schema, context);
+    }
+
+    public static CursorRowSource Xls(Stream stream, RowSchema schema, OpenContext context, CancellationToken cancellationToken)
+    {
+        XlsStreamReader book = XlsStreamReader.Open(stream, context, leaveOpen: true, cancellationToken);
+        return Create(book, book.Sheets, book.DateSystem, book.OpenSheet, schema, context);
+    }
+
+    // The first visible worksheet, or the sheet the schema names.
+    internal static int FindSheet(IReadOnlyList<StreamSheetInfo> sheets, string? wanted)
+    {
+        for (int i = 0; i < sheets.Count; i++)
+        {
+            StreamSheetInfo s = sheets[i];
+            if (wanted is not null ? string.Equals(s.Name, wanted, StringComparison.OrdinalIgnoreCase) : s.Kind == SheetKind.Worksheet && s.State == SheetState.Visible)
+            {
+                return i;
+            }
+        }
+
+        throw new OfficeFormatException(DefectKind.Reference, "binding.sheet-not-found",
+            wanted is null ? "The workbook has no visible worksheet." : "The workbook has no sheet named '" + wanted + "'.");
+    }
+
+    private static CursorRowSource CreateCore(IDisposable book, IReadOnlyList<StreamSheetInfo> sheets, DateSystem dateSystem, Func<int, ICellCursor> open, RowSchema schema, OpenContext context)
+    {
+        ICellCursor? cursor = null;
         try
         {
-            int index = -1;
-            for (int i = 0; i < _book.Sheets.Count; i++)
-            {
-                StreamSheetInfo s = _book.Sheets[i];
-                if (schema.Sheet is { } wanted
-                    ? string.Equals(s.Name, wanted, StringComparison.OrdinalIgnoreCase)
-                    : s.Kind == SheetKind.Worksheet && s.State == SheetState.Visible)
-                {
-                    index = i;
-                    break;
-                }
-            }
-
-            if (index < 0)
-            {
-                throw new OfficeFormatException(DefectKind.Reference, "binding.sheet-not-found",
-                    schema.Sheet is null ? "The workbook has no visible worksheet." : "The workbook has no sheet named '" + schema.Sheet + "'.");
-            }
-
-            _sheetName = _book.Sheets[index].Name;
-            _cursor = _book.OpenSheet(index);
-            _map = new ColumnMap(schema);
-            if (schema.HasHeader)
-            {
-                ReadHeader(schema, context);
-            }
+            cursor = open(FindSheet(sheets, schema.Sheet));
+            return new CursorRowSource(book, cursor, dateSystem, schema, context);
         }
         catch
         {
-            _cursor?.Dispose();
-            _book.Dispose();
+            cursor?.Dispose();
+            book.Dispose();
             throw;
         }
     }
 
+    private static CursorRowSource Create(XlsxStreamReader book, IReadOnlyList<StreamSheetInfo> sheets, DateSystem dateSystem, Func<int, SheetCursor> open, RowSchema schema, OpenContext context) =>
+        CreateCore(book, sheets, dateSystem, i => open(i), schema, context);
+
+    private static CursorRowSource Create(XlsbStreamReader book, IReadOnlyList<StreamSheetInfo> sheets, DateSystem dateSystem, Func<int, XlsbSheetCursor> open, RowSchema schema, OpenContext context) =>
+        CreateCore(book, sheets, dateSystem, i => open(i), schema, context);
+
+    private static CursorRowSource Create(XlsStreamReader book, IReadOnlyList<StreamSheetInfo> sheets, DateSystem dateSystem, Func<int, XlsSheetCursor> open, RowSchema schema, OpenContext context) =>
+        CreateCore(book, sheets, dateSystem, i => open(i), schema, context);
+
     public override string SheetName => _sheetName;
 
-    public override DateSystem DateSystem => _book.DateSystem;
+    public override DateSystem DateSystem => _dateSystem;
 
     private void ReadHeader(RowSchema schema, OpenContext context)
     {
@@ -266,14 +299,19 @@ internal sealed class XlsxRowSource : RowSource
                         }
                         else
                         {
-                            int need = _cursor.TextUtf8.Length;
-                            if (need == 0)
+                            char[] buffer = reader.TextBuffer(slot, 64);
+                            if (!_cursor.TryCopyText(buffer, out int written) && written > buffer.Length)
+                            {
+                                buffer = reader.TextBuffer(slot, written);
+                                _ = _cursor.TryCopyText(buffer, out written);
+                            }
+
+                            if (written == 0)
                             {
                                 break;
                             }
 
-                            char[] buffer = reader.TextBuffer(slot, need);
-                            if (_cursor.TryCopyText(buffer, out int written))
+                            if (written <= buffer.Length)
                             {
                                 reader.CommitText(slot, written, col);
                                 any |= !buffer.AsSpan(0, written).IsWhiteSpace();

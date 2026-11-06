@@ -46,7 +46,7 @@ The round trip is AST → tokens → AST; tokens → AST → tokens gives the sa
 
 ## Streaming
 
-`XlsbStreamReader.Open(path | stream)` and `OpenSheet` give an `XlsbSheetCursor` with the members of the XLSX cursor (`ReadRow`, `ReadCell`, address, style, kind, number, text as UTF-8 or into a caller's span, formula flags, dates). It holds one record at a time; shared strings are loaded once as one pool of UTF-16 text. Reading allocates nothing per cell (checked by `XlsbStreamingTests` against the allocation probe: 4,000 rows of five cells, no bytes beyond the fixed opening cost).
+`XlsbStreamReader.Open(path | stream)` and `OpenSheet` give an `XlsbSheetCursor` with the members of the XLSX cursor (`ReadRow`, `ReadCell`, address, style, kind, number, text as UTF-8 or into a caller's span, formula flags, dates). It holds one record at a time; shared strings are loaded once as one pool of UTF-16 text, and `GetText` builds each string once. `Spreadsheet.Read<T>`, `Spreadsheet.ReadRows` and `Office.ExtractText` read `.xlsb` through it (see `spreadsheets-streaming.md`). `Workbook.Open` still converts the records to SpreadsheetML in memory and loads that: a direct record-to-model loader would have to rebuild styles, formulas and every sheet feature a second time, so the cursor is the fast path for values. Reading allocates nothing per cell (checked by `XlsbStreamingTests` against the allocation probe: 4,000 rows of five cells, no bytes beyond the fixed opening cost).
 
 ## Defects
 

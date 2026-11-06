@@ -7,6 +7,7 @@ using RecursiveAI.OneDocument.Cfb;
 using RecursiveAI.OneDocument.IO;
 using RecursiveAI.OneDocument.Spreadsheets;
 using RecursiveAI.OneDocument.Spreadsheets.Biff;
+using RecursiveAI.OneDocument.Spreadsheets.Streaming;
 
 namespace RecursiveAI.OneDocument.Fuzz;
 
@@ -19,6 +20,54 @@ internal static class XlsTarget
 {
     // Small limits keep each execution fast.
     private static readonly OfficeLimits Limits = new() { MaxAllocationBytes = 1 << 24, MaxRecordCount = 200_000, MaxPartSize = 8 << 20, MaxDefects = 100 };
+
+    /// <summary>The forward cursor over a legacy workbook: every worksheet, every row and cell, every accessor.</summary>
+    public static void RunCursor(ReadOnlySpan<byte> data)
+    {
+        try
+        {
+            using XlsStreamReader book = XlsStreamReader.Open(ByteSource.FromMemory(data.ToArray()), new OpenContext(Limits));
+            long sum = book.SharedStringCount;
+            Span<char> buffer = stackalloc char[32];
+            for (int i = 0; i < book.Sheets.Count; i++)
+            {
+                if (book.Sheets[i].Kind != SheetKind.Worksheet)
+                {
+                    continue;
+                }
+
+                using XlsSheetCursor c = book.OpenSheet(i);
+                sum += c.Columns.Count + (c.DeclaredDimension?.GetHashCode() ?? 0);
+                while (c.ReadRow())
+                {
+                    sum += c.RowNumber + (long)c.RowHeight + c.RowOutlineLevel + c.RowStyle;
+                    while (c.ReadCell())
+                    {
+                        sum += c.Column + c.Style + (long)c.Kind + (long)c.Number + c.Address.Row;
+                        if (c.Kind is CellValueKind.Text or CellValueKind.Error)
+                        {
+                            sum += c.GetText().Length + c.TextUtf8.Length + (c.TryCopyText(buffer, out int n) ? n : -n);
+                        }
+
+                        if (c.IsDate && c.TryGetDateTime(out DateTime when))
+                        {
+                            sum += when.Ticks & 1;
+                        }
+
+                        sum += c.HasFormula ? (long)c.FormulaKind : 0;
+                    }
+                }
+            }
+
+            if (sum == long.MinValue)
+            {
+                throw new InvalidOperationException();
+            }
+        }
+        catch (OfficeException)
+        {
+        }
+    }
 
     public static void Run(ReadOnlySpan<byte> data)
     {
