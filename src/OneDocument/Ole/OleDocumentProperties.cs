@@ -251,6 +251,12 @@ public static class OleDocumentProperties
             }
 
             name = Clean(name);
+            if (name.Length == 0)
+            {
+                Lose(lost, Stream + " user-defined", prop, null, "its name holds only characters XML cannot carry");
+                continue;
+            }
+
             OlePropertyValue v = prop.Value;
             if (name == LinkBaseName)
             {

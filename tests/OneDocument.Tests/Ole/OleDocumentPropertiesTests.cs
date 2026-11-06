@@ -178,4 +178,27 @@ public class OleDocumentPropertiesTests
             Assert.Equal("/\u0005SummaryInformation", d.Location.Container);
         }
     }
+
+    [Fact]
+    public void NamesAndTextWithCharactersXmlCannotCarryAreCleanedOrReported()
+    {
+        var user = new OlePropertySet(OlePropertySets.UserDefinedPropertiesFormatId);
+        user.SetNamed("", OlePropertyValue.FromString("x"));
+        user.SetNamed("Name", OlePropertyValue.FromString("value"));
+        var summary = new OlePropertySet(OlePropertySets.SummaryInformationFormatId);
+        summary.Set(2, OlePropertyValue.FromString("Ti tle"));
+        var s = new OlePropertySets();
+        s.Add(summary);
+        var d = new OlePropertySets();
+        d.Add(new OlePropertySet(OlePropertySets.DocumentSummaryInformationFormatId));
+        d.Add(user);
+        DocumentProperties target = Fresh(out InMemoryPackage pkg);
+        using (pkg)
+        {
+            IReadOnlyList<string> lost = OleDocumentProperties.Read(s.ToArray(), d.ToArray(), target);
+            Assert.Equal("Title", target.Core.Title);
+            Assert.Equal("value", target.Custom.Find("Name")!.Value.AsString);
+            Assert.Contains(lost, x => x.Contains("only characters XML cannot carry", StringComparison.Ordinal));
+        }
+    }
 }
