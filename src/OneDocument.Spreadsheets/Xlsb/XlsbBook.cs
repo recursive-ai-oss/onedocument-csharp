@@ -17,6 +17,10 @@ internal sealed class XlsbBook : IDisposable
     internal const string StylesBinType = "application/vnd.ms-excel.styles";
     internal const string SharedStringsBinType = "application/vnd.ms-excel.sharedStrings";
     internal const string ChartSheetBinType = "application/vnd.ms-excel.chartsheet";
+    internal const string CommentsBinType = "application/vnd.ms-excel.comments";
+    internal const string TableBinType = "application/vnd.ms-excel.table";
+    internal const string CommentsXmlType = "application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml";
+    internal const string TableXmlType = "application/vnd.openxmlformats-officedocument.spreadsheetml.table+xml";
     internal const string ChartSheetXmlType = "application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml";
 
     internal const string WorkbookXmlType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml";
@@ -41,6 +45,8 @@ internal sealed class XlsbBook : IDisposable
         Styles,
         SharedStrings,
         ChartSheet,
+        Comments,
+        Table,
         Plain,
     }
 
@@ -135,6 +141,14 @@ internal sealed class XlsbBook : IDisposable
             {
                 kind = Kind.ChartSheet;
             }
+            else if (string.Equals(p.ContentType, CommentsBinType, StringComparison.OrdinalIgnoreCase))
+            {
+                kind = Kind.Comments;
+            }
+            else if (string.Equals(p.ContentType, TableBinType, StringComparison.OrdinalIgnoreCase))
+            {
+                kind = Kind.Table;
+            }
             else if (IsBinarySheet(p.ContentType))
             {
                 kind = Kind.Plain;
@@ -171,6 +185,8 @@ internal sealed class XlsbBook : IDisposable
                 Kind.Styles => StylesXmlType,
                 Kind.SharedStrings => SharedStringsXmlType,
                 Kind.ChartSheet => ChartSheetXmlType,
+                Kind.Comments => CommentsXmlType,
+                Kind.Table => TableXmlType,
                 _ => p.ContentType,
             };
             IPackagePart src = p;
@@ -193,6 +209,16 @@ internal sealed class XlsbBook : IDisposable
                     });
                 },
                 Kind.ChartSheet => () => Guarded(src.Name, () => XlsbChartSheetPart.ToXml(src.GetBytes(), _context, src.Name)),
+                Kind.Comments => () => Guarded(src.Name, () =>
+                {
+                    Guarded(src.Name, EnsureStyles);
+                    return XlsbCommentsPart.ToXml(src.GetBytes(), _context, src.Name, Fonts);
+                }),
+                Kind.Table => () => Guarded(src.Name, () =>
+                {
+                    _ = workbookBytes.Value;
+                    return XlsbTablePart.ToXml(src.GetBytes(), _context, src.Name, Formulas);
+                }),
                 _ => () => src.GetBytes(),
             };
             Hub.AddLoadedPart(info.HubName, type, p.Length, load);
@@ -274,7 +300,46 @@ internal sealed class XlsbBook : IDisposable
         return xml;
     }
 
-    private XlsbTableInfo? TableById(int id) => null;
+    private Dictionary<int, XlsbTableInfo>? _tablesById;
+
+    private XlsbTableInfo? TableById(int id)
+    {
+        if (_tablesById is null)
+        {
+            var map = new Dictionary<int, XlsbTableInfo>();
+            foreach (PartInfo info in _byHub.Values.Where(i => i.Kind == Kind.Table))
+            {
+                IPackagePart? part = Source.FindPart(info.SourceName);
+                if (part is not null && XlsbTablePart.ReadInfo(part.GetBytes(), _context, part.Name) is { } t)
+                {
+                    map[t.Id] = t.Info;
+                }
+            }
+
+            _tablesById = map;
+        }
+
+        return _tablesById.GetValueOrDefault(id);
+    }
+
+    /// <summary>The table identifiers by name, from the SpreadsheetML tables of the hub (formulas that are written use them).</summary>
+    internal static void TablesFromHub(IEnumerable<IPackagePart> parts, OpenContext context, XlsbFormulaContext cx)
+    {
+        var byId = new Dictionary<int, XlsbTableInfo>();
+        var byName = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        foreach (IPackagePart part in parts.Where(p => string.Equals(p.ContentType, TableXmlType, StringComparison.OrdinalIgnoreCase)))
+        {
+            MarkupDocument doc = MarkupDocument.Parse(part.GetBytes(), context, part.Name);
+            if (XlsbTablePart.InfoFromXml(doc.Root) is { } t)
+            {
+                byId[t.Id] = t.Info;
+                byName[t.Info.Name] = t.Id;
+            }
+        }
+
+        cx.TableById = id => byId.GetValueOrDefault(id);
+        cx.TableIdByName = name => byName.GetValueOrDefault(name);
+    }
 
     // ------------------------------------------------------------ relationships
 
@@ -378,6 +443,8 @@ internal sealed class XlsbBook : IDisposable
                     break;
                 case Kind.Styles:
                 case Kind.SharedStrings:
+                case Kind.Comments:
+                case Kind.Table:
                     if (HubChanged(info.HubName))
                     {
                         regenerate.Add((info.HubName, info.Kind));
@@ -409,9 +476,8 @@ internal sealed class XlsbBook : IDisposable
         // Styles and strings are written last: writing sheets and strings can add fonts, and sheets can add names and extern-sheet entries.
         Formulas.Grew = false;
         XlsbFormulaContext cx = now;
-        cx.TableById = TableById;
+        TablesFromHub(Hub.Parts, _context, cx);
         var fonts = new XlsbFontTable();
-        bool wroteStyles = false;
         string? stylesHub = _byHub.Values.FirstOrDefault(i => i.Kind == Kind.Styles)?.HubName;
         if (stylesHub is not null && Hub.FindPart(stylesHub) is { } sp)
         {
@@ -432,13 +498,10 @@ internal sealed class XlsbBook : IDisposable
             {
                 Kind.Worksheet => XlsbSheetWriter.FromXml(hp.GetBytes(), _context, hubName, cx, fonts, loss),
                 Kind.SharedStrings => XlsbSharedStringsPart.FromXml(hp.GetBytes(), _context, hubName, fonts),
+                Kind.Comments => XlsbCommentsPart.FromXml(hp.GetBytes(), _context, hubName, fonts),
+                Kind.Table => XlsbTablePart.FromXml(hp.GetBytes(), _context, hubName, cx, loss),
                 _ => XlsbStylesPart.FromXml(hp.GetBytes(), _context, hubName, fonts, loss),
             };
-            if (kind == Kind.Styles)
-            {
-                wroteStyles = true;
-            }
-
             Source.FindPart(info.SourceName)!.SetBytes(bin);
             if (kind == Kind.Worksheet)
             {
@@ -452,10 +515,11 @@ internal sealed class XlsbBook : IDisposable
             AddToSource(hubName, type, cx, fonts, loss);
         }
 
-        if (fonts.Grew && !wroteStyles && stylesHub is not null)
+        if (fonts.Grew && stylesHub is not null)
         {
-            // Rich-text runs introduced fonts the style sheet does not list yet; the sheet is written again with them.
-            _ = stylesHub;
+            // Rich-text runs introduced fonts the style sheet does not list yet; the sheet is written again with them after its own fonts.
+            byte[] styles = XlsbStylesPart.FromXml(Hub.FindPart(stylesHub)!.GetBytes(), _context, stylesHub, fonts, loss);
+            Source.FindPart(_byHub[stylesHub].SourceName)!.SetBytes(styles);
         }
 
         if (regenerate.Count > 0 || added.Count > 0)
@@ -544,6 +608,20 @@ internal sealed class XlsbBook : IDisposable
             sourceName = SourceNameOf(hubName);
             sourceType = kind == Kind.Styles ? StylesBinType : SharedStringsBinType;
             bytes = kind == Kind.Styles ? XlsbStylesPart.FromXml(hp.GetBytes(), _context, hubName, fonts, loss) : XlsbSharedStringsPart.FromXml(hp.GetBytes(), _context, hubName, fonts);
+        }
+        else if (string.Equals(type, CommentsXmlType, StringComparison.OrdinalIgnoreCase))
+        {
+            kind = Kind.Comments;
+            sourceName = SourceNameOf(hubName);
+            sourceType = CommentsBinType;
+            bytes = XlsbCommentsPart.FromXml(hp.GetBytes(), _context, hubName, fonts);
+        }
+        else if (string.Equals(type, TableXmlType, StringComparison.OrdinalIgnoreCase))
+        {
+            kind = Kind.Table;
+            sourceName = SourceNameOf(hubName);
+            sourceType = TableBinType;
+            bytes = XlsbTablePart.FromXml(hp.GetBytes(), _context, hubName, cx, loss);
         }
         else
         {

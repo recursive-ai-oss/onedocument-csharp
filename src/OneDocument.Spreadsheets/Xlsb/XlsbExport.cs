@@ -13,8 +13,6 @@ internal static class XlsbExport
     private static readonly string[] DroppedTypes =
     [
         "application/vnd.openxmlformats-officedocument.spreadsheetml.calcChain+xml",
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml",
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.table+xml",
         "application/vnd.openxmlformats-officedocument.spreadsheetml.pivotTable+xml",
         "application/vnd.openxmlformats-officedocument.spreadsheetml.pivotCacheDefinition+xml",
         "application/vnd.openxmlformats-officedocument.spreadsheetml.pivotCacheRecords+xml",
@@ -159,13 +157,14 @@ internal static class XlsbExport
             {
                 dropped.Add(p.Name);
                 loss.Report("xlsb.part-not-written", "part type " + p.ContentType.Replace("application/vnd.openxmlformats-officedocument.spreadsheetml.", string.Empty, StringComparison.Ordinal), 1,
-                    "A part of this type (comments, tables, pivot tables, connections, external links) has no binary form written yet and is left out.");
+                    "A part of this type (pivot tables, connections, external links, the calculation chain) has no binary form written yet and is left out.");
             }
         }
 
         Func<string, List<string>?> noExternal = _ => null;
         MarkupDocument wbDoc = MarkupDocument.Parse(src.FindPart(main)!.GetBytes(), context, main);
         XlsbFormulaContext cx = XlsbWorkbookPart.ContextFromXml(wbDoc.Root, noExternal, out _);
+        XlsbBook.TablesFromHub(src.Parts, context, cx);
         var fonts = new XlsbFontTable();
         string? stylesName = src.Parts.FirstOrDefault(p => string.Equals(p.ContentType, XlsbBook.StylesXmlType, StringComparison.OrdinalIgnoreCase))?.Name;
         if (stylesName is not null)
@@ -207,11 +206,21 @@ internal static class XlsbExport
                 rename[p.Name] = BinName(p.Name);
                 kinds[p.Name] = "strings";
             }
+            else if (string.Equals(p.ContentType, XlsbBook.CommentsXmlType, StringComparison.OrdinalIgnoreCase))
+            {
+                rename[p.Name] = BinName(p.Name);
+                kinds[p.Name] = "comments";
+            }
+            else if (string.Equals(p.ContentType, XlsbBook.TableXmlType, StringComparison.OrdinalIgnoreCase))
+            {
+                rename[p.Name] = BinName(p.Name);
+                kinds[p.Name] = "table";
+            }
         }
 
         OpcPackage opc = OpcPackage.Create(wb.Limits);
         var done = new Dictionary<string, byte[]>(StringComparer.OrdinalIgnoreCase);
-        foreach (string order in new[] { "sheet", "strings", "styles", "workbook" })
+        foreach (string order in new[] { "sheet", "strings", "comments", "table", "styles", "workbook" })
         {
             foreach (IPackagePart p in src.Parts)
             {
@@ -226,6 +235,8 @@ internal static class XlsbExport
                 {
                     "sheet" => XlsbSheetWriter.FromXml(bytes, context, p.Name, cx, fonts, loss),
                     "strings" => XlsbSharedStringsPart.FromXml(bytes, context, p.Name, fonts),
+                    "comments" => XlsbCommentsPart.FromXml(bytes, context, p.Name, fonts),
+                    "table" => XlsbTablePart.FromXml(bytes, context, p.Name, cx, loss),
                     "styles" => XlsbStylesPart.FromXml(bytes, context, p.Name, fonts, loss),
                     _ => XlsbWorkbookPart.FromXml(bytes, context, p.Name, cx, loss),
                 };
@@ -246,6 +257,8 @@ internal static class XlsbExport
                     "workbook" => XlsbBook.WorkbookBinType,
                     "sheet" => XlsbBook.SheetBinType,
                     "styles" => XlsbBook.StylesBinType,
+                    "comments" => XlsbBook.CommentsBinType,
+                    "table" => XlsbBook.TableBinType,
                     _ => XlsbBook.SharedStringsBinType,
                 };
                 opc.AddPart(rename[p.Name], type, done[p.Name]);

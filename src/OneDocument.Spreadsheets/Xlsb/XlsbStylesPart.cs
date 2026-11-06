@@ -1172,15 +1172,24 @@ internal static class XlsbStylesPart
         }
 
         MarkupNode fontsNode = root.Element("fonts");
-        if (!fontsNode.IsNull)
+        var list0 = fontsNode.IsNull ? [] : fontsNode.Elements("font").ToList();
+        // Fonts that rich-text runs added after the style sheet's own list follow it, so the cell formats keep their indexes.
+        List<XlsbFont> extras = fonts.Fonts.Skip(list0.Count).ToList();
+        if (!fontsNode.IsNull || extras.Count > 0)
         {
-            var list = fontsNode.Elements("font").ToList();
-            d.U32((uint)list.Count);
+            d.U32((uint)(list0.Count + extras.Count));
             w.Write(XlsbRecordType.BeginFonts, d);
             fonts.Fonts.Clear();
-            foreach (MarkupNode n in list)
+            foreach (MarkupNode n in list0)
             {
                 XlsbFont font = XlsbFont.FromXml(n);
+                fonts.Fonts.Add(font);
+                font.Write(d);
+                w.Write(XlsbRecordType.Font, d);
+            }
+
+            foreach (XlsbFont font in extras)
+            {
                 fonts.Fonts.Add(font);
                 font.Write(d);
                 w.Write(XlsbRecordType.Font, d);

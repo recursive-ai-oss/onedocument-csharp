@@ -178,6 +178,8 @@ internal static class XlsbSheetPart
         }
 
         private const int GroupDataValidations = 1;
+        private const int GroupAutoFilter = 2;
+        private const int GroupTableParts = 3;
 
         private void StartGroup(int kind, int endType)
         {
@@ -196,6 +198,8 @@ internal static class XlsbSheetPart
             bool ok = _groupKind switch
             {
                 GroupDataValidations => _features.DataValidations(group, tmp),
+                GroupAutoFilter => XlsbFilters.ToXml(group, tmp),
+                GroupTableParts => TableParts(group, tmp),
                 _ => false,
             };
             if (ok)
@@ -395,6 +399,12 @@ internal static class XlsbSheetPart
                     return;
                 }
 
+                case XlsbRecordType.BeginListParts:
+                    StartGroup(GroupTableParts, XlsbRecordType.EndListParts);
+                    return;
+                case XlsbRecordType.BeginAFilter:
+                    StartGroup(GroupAutoFilter, XlsbRecordType.EndAFilter);
+                    return;
                 case XlsbRecordType.BeginDVals:
                     StartGroup(GroupDataValidations, XlsbRecordType.EndDVals);
                     return;
@@ -486,6 +496,27 @@ internal static class XlsbSheetPart
                     Raw();
                     return;
             }
+        }
+
+        private static bool TableParts(List<XlsbGroupRecord> group, XmlSink x)
+        {
+            var body = new XmlSink();
+            int count = 0;
+            foreach (XlsbGroupRecord g in group)
+            {
+                if (g.Type == XlsbRecordType.ListPart)
+                {
+                    body.Raw("<tablePart").Attr("r:id", new XlsbRecordFields(g.Data).NullableWideString() ?? string.Empty).Raw("/>");
+                    count++;
+                }
+                else if (g.Type is not (XlsbRecordType.BeginListParts or XlsbRecordType.EndListParts))
+                {
+                    return false;
+                }
+            }
+
+            x.Raw("<tableParts").Attr("count", count).Raw(">").Raw(body.Memory.Span).Raw("</tableParts>");
+            return true;
         }
 
         private void RelElement(string name, ReadOnlySpan<byte> d)

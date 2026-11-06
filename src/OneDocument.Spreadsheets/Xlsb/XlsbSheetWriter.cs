@@ -114,6 +114,28 @@ internal static class XlsbSheetWriter
                         break;
                     }
 
+                    case "tableParts":
+                    {
+                        var parts = c.Elements("tablePart").ToList();
+                        if (parts.Count > 0)
+                        {
+                            _d.U32((uint)parts.Count);
+                            _w.Write(XlsbRecordType.BeginListParts, _d);
+                            foreach (MarkupNode tp in parts)
+                            {
+                                _d.NullableWideString(tp.GetAttribute(XlsbMarkup.RelationshipNamespace, "id"));
+                                _w.Write(XlsbRecordType.ListPart, _d);
+                            }
+
+                            _w.Write(XlsbRecordType.EndListParts);
+                        }
+
+                        break;
+                    }
+
+                    case "autoFilter":
+                        XlsbFilters.FromXml(c, _w, _d, loss);
+                        break;
                     case "dataValidations":
                         Features().DataValidations(c);
                         break;

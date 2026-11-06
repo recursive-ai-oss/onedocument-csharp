@@ -160,82 +160,87 @@ internal static class XlsbSharedStringsPart
         w.Write(XlsbRecordType.BeginSst, d);
         foreach (MarkupNode si in items)
         {
-            var text = new StringBuilder();
-            var runs = new List<(int Start, int Font)>();
-            var phRuns = new List<(int First, int Mom, int Count)>();
-            var phonetic = new StringBuilder();
-            foreach (MarkupNode c in si.ChildElements)
-            {
-                if (c.Is("t"))
-                {
-                    text.Append(Decode(c.InnerText));
-                }
-                else if (c.Is("r"))
-                {
-                    MarkupNode rpr = c.Element("rPr");
-                    int font = 0;
-                    if (rpr.IsNull && runs.Count == 0)
-                    {
-                        text.Append(Decode(c.Element("t").InnerText));
-                        continue;
-                    }
-
-                    if (!rpr.IsNull)
-                    {
-                        XlsbFont f = XlsbFont.FromXml(rpr);
-                        font = fonts.Find(f);
-                        if (font < 0)
-                        {
-                            fonts.Fonts.Add(f);
-                            fonts.Grew = true;
-                            font = fonts.Fonts.Count - 1;
-                        }
-                    }
-
-                    runs.Add((text.Length, font));
-                    text.Append(Decode(c.Element("t").InnerText));
-                }
-                else if (c.Is("rPh"))
-                {
-                    string p = Decode(c.Element("t").InnerText);
-                    phRuns.Add((phonetic.Length, c.Int("sb"), Math.Max(0, c.Int("eb") - c.Int("sb"))));
-                    phonetic.Append(p);
-                }
-            }
-
-            bool rich = runs.Count > 0;
-            bool ext = phRuns.Count > 0;
-            d.U8((rich ? 1 : 0) | (ext ? 2 : 0));
-            d.WideString(text.ToString());
-            if (rich)
-            {
-                d.U32((uint)runs.Count);
-                foreach ((int s, int fnt) in runs)
-                {
-                    d.U16(s);
-                    d.U16(fnt);
-                }
-            }
-
-            if (ext)
-            {
-                d.WideString(phonetic.ToString());
-                d.U32((uint)phRuns.Count);
-                foreach ((int first, int mom, int count) in phRuns)
-                {
-                    d.U16(first);
-                    d.U16(mom);
-                    d.U16(count);
-                    d.U16(0);
-                    d.U16(0);
-                }
-            }
-
+            WriteRich(si, d, fonts);
             w.Write(XlsbRecordType.SSTItem, d);
         }
 
         w.Write(XlsbRecordType.EndSst);
         return ms.ToArray();
+    }
+
+    /// <summary>Composes a RichStr structure ([MS-XLSB] §2.5.122) from the <c>t</c>, <c>r</c> and <c>rPh</c> children of a string item.</summary>
+    internal static void WriteRich(MarkupNode si, XlsbRecordData d, XlsbFontTable fonts)
+    {
+        var text = new StringBuilder();
+        var runs = new List<(int Start, int Font)>();
+        var phRuns = new List<(int First, int Mom, int Count)>();
+        var phonetic = new StringBuilder();
+        foreach (MarkupNode c in si.ChildElements)
+        {
+            if (c.Is("t"))
+            {
+                text.Append(Decode(c.InnerText));
+            }
+            else if (c.Is("r"))
+            {
+                MarkupNode rpr = c.Element("rPr");
+                int font = 0;
+                if (rpr.IsNull && runs.Count == 0)
+                {
+                    text.Append(Decode(c.Element("t").InnerText));
+                    continue;
+                }
+
+                if (!rpr.IsNull)
+                {
+                    XlsbFont f = XlsbFont.FromXml(rpr);
+                    font = fonts.Find(f);
+                    if (font < 0)
+                    {
+                        fonts.Fonts.Add(f);
+                        fonts.Grew = true;
+                        font = fonts.Fonts.Count - 1;
+                    }
+                }
+
+                runs.Add((text.Length, font));
+                text.Append(Decode(c.Element("t").InnerText));
+            }
+            else if (c.Is("rPh"))
+            {
+                string p = Decode(c.Element("t").InnerText);
+                phRuns.Add((phonetic.Length, c.Int("sb"), Math.Max(0, c.Int("eb") - c.Int("sb"))));
+                phonetic.Append(p);
+            }
+        }
+
+        bool rich = runs.Count > 0;
+        bool ext = phRuns.Count > 0;
+        d.U8((rich ? 1 : 0) | (ext ? 2 : 0));
+        d.WideString(text.ToString());
+        if (rich)
+        {
+            d.U32((uint)runs.Count);
+            foreach ((int s, int fnt) in runs)
+            {
+                d.U16(s);
+                d.U16(fnt);
+            }
+        }
+
+        if (ext)
+        {
+            d.WideString(phonetic.ToString());
+            d.U32((uint)phRuns.Count);
+            foreach ((int first, int mom, int count) in phRuns)
+            {
+                d.U16(first);
+                d.U16(mom);
+                d.U16(count);
+                d.U16(0);
+                d.U16(0);
+            }
+        }
     }
 
     /// <summary>Resolves the _xHHHH_ escapes of ECMA-376 Part 1 §22.4.2.4.</summary>
