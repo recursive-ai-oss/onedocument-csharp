@@ -31,8 +31,8 @@ paragraph.StyleName = "Heading1";
 
 ```csharp
 // OneDocument
-paragraph.StyleId = "Heading1";
-doc.Body.AddParagraph("Title", "Heading1");
+paragraph.Style = "Heading 1";                       // by name; an unknown name throws, nothing is created
+doc.Body.AddParagraph("Title").Style = "Heading 1";
 ```
 
 Style definitions, inheritance and numbering are resolved by the hub (`docs/docx-styles-numbering.md`).
@@ -76,16 +76,16 @@ doc.InsertTable(t);
 
 ```csharp
 // OneDocument
-Table t = doc.Tables.First();
+Table t = doc.Body.AddTable(2, 3);                 // or AddTable(rows) from strings
 t.SetCellText(0, 0, "A1");
 t.InsertRow(1);
 ```
 
-There is no `AddTable` call: tables are created by the template engine (repeating rows) or the typed views. Existing tables are fully editable (rows, columns, merged cells through the logical cell model).
+`AddTable` adds the table at the end of the body in the Table Grid style, at the page's text width. Existing tables are fully editable (rows, columns, merged cells through the logical cell model).
 
 ## Images, headers, footers, properties
 
-Pictures: no `AddImage` call on the hub; the template engine inserts pictures (`{% image %}`), and existing pictures are kept and rendered. Headers and footers: `doc.Sections[0]` exposes them (`docs/docx-tables-sections.md`). Core properties (`Title`, `Creator`, ...) are on the document's properties object (`docs/docx-stories-properties.md`).
+Pictures: `paragraph.AddPicture(bytes, widthPoints, heightPoints, altText)` (or `body.AddPicture`) adds an inline picture; the template engine inserts pictures too (`{% image %}`), and existing pictures are kept and rendered. Links: `paragraph.AddHyperlink("text", "https://...")`. Headers and footers: `doc.Sections[0]` exposes them (`docs/docx-tables-sections.md`). Core properties (`Title`, `Creator`, ...) are on the document's properties object (`docs/docx-stories-properties.md`).
 
 ## Output formats
 
@@ -93,7 +93,7 @@ Pictures: no `AddImage` call on the hub; the template engine inserts pictures (`
 
 ## Not supported or different
 
-- No fluent chaining of formatting (`Bold().Color(...)` on appended text). Run formatting is edited through the typed view of the run (`run.View`).
-- No `AddTable`, `AddImage`, `InsertHyperlink` or `AddHeaders` helpers on the hub.
-- No `DocX.Create` + `InsertParagraph` of formatted text in one call; the paragraph is added, then formatted.
+- No fluent chaining of formatting (`Bold().Color(...)` on appended text). Formatting is set through properties of the run returned by `paragraph.AddRun("text")`: `run.Bold = true; run.Color = "C00000";`.
+- No `AddHeaders` helper on the hub; headers and footers are reached through `doc.Sections`.
+- No `DocX.Create` + `InsertParagraph` of formatted text in one call; the paragraph is added, then its runs are added and formatted.
 - Revisions are a full model (`doc.Revisions`: read, author, accept, reject), which DocX does not have.

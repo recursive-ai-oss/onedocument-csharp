@@ -29,6 +29,8 @@
     <Project Path="samples/LegacyDocText/LegacyDocText.csproj" />
     <Project Path="samples/WorkbookRecalcPdf/WorkbookRecalcPdf.csproj" />
     <Project Path="samples/DocumentRevisions/DocumentRevisions.csproj" />
+    <Project Path="samples/HappyPath/HappyPath.csproj" />
+    <Project Path="samples/Authoring/Authoring.csproj" />
   </Folder>
   <Folder Name="/tools/">
     <Project Path="tools/ViewGenerator/ViewGenerator.csproj" />
