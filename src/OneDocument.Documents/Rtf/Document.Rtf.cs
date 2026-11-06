@@ -13,13 +13,6 @@ public sealed partial class Document
     private IReadOnlyList<byte[]> _rtfPreserved = [];
 
     /// <summary>
-    /// Gets what reading the file as RTF could not carry into the document, or null when the document was not read from RTF. The
-    /// codes are <c>loss.rtf-*</c> (see <c>docs/rtf.md</c>). Reading and writing RTF share one conversion path through the DOCX model, so a
-    /// document opened from RTF is a WordprocessingML package in memory.
-    /// </summary>
-    public LossReport? ImportLoss { get; private set; }
-
-    /// <summary>
     /// Gets what the last write to RTF could not carry (drawing shapes, text boxes, charts, equations, content controls and the like), or
     /// null when nothing has been written as RTF yet.
     /// </summary>
