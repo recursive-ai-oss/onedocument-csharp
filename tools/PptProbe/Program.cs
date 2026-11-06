@@ -56,6 +56,20 @@ static int Run(string[] args)
             }
 
             return 0;
+        case "slim":
+            // slim <in.ppt> <out.ppt>: keeps the Current User, PowerPoint Document and Pictures streams byte for byte and drops the rest
+            // (thumbnails and summary information), so converter output can be committed as a small fixture
+            using (RecursiveAI.OneDocument.Cfb.CfbPackage cfb = RecursiveAI.OneDocument.Cfb.CfbPackage.Open(args[1]))
+            {
+                foreach (string name in cfb.Streams.Select(x => x.Name).Where(n => n is not ("/Current User" or "/PowerPoint Document" or "/Pictures")).ToList())
+                {
+                    cfb.RemovePart(name);
+                }
+
+                cfb.SaveAs(args[2]);
+            }
+
+            return 0;
         case "convert":
             // convert <dir|file>... <outdir>: writes each file as PresentationML into outdir; one status line per file
             return Convert(Expand(args[1..^1]), args[^1]);
