@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text;
 using RecursiveAI.OneDocument.Documents;
 using RecursiveAI.OneDocument.Documents.Tests;
