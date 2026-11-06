@@ -197,6 +197,8 @@ public class FormatSnifferTests
     {
         Assert.Equal(OfficeFormat.Html, FormatSniffer.Detect(Samples.Text("<!DOCTYPE html>\n<html><body>x</body></html>")));
         Assert.Equal(OfficeFormat.Html, FormatSniffer.Detect(Samples.Text("\uFEFF  <HTML>\n<HEAD></HEAD>")));
+        Assert.Equal(OfficeFormat.Html, FormatSniffer.Detect(Samples.Text("<p>a fragment</p>")));
+        Assert.Equal(OfficeFormat.Html, FormatSniffer.Detect(Samples.Text("<h1 class=x>Title</h1>\n<table><tr><td>1")));
         Assert.Equal(OfficeFormat.Svg, FormatSniffer.Detect(Samples.Text("<?xml version=\"1.0\"?><svg xmlns=\"http://www.w3.org/2000/svg\"/>")));
     }
 

@@ -20,6 +20,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `csv.` | delimited text (CSV, TSV) | `Structure`, `Markup`, `Encoding`, `Value` |
 | `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
 | `pptx.` | the PresentationML hub | `Structure`, `Reference`, `Packaging` |
+| `html.` | HTML import and export | `Unsupported`, `Structure` |
 | `wml2003.`, `sml2003.` | the Office 2003 XML readers (Word, Excel) | `Structure`, `Reference`, `Value`, `Encoding`, `Formula` |
 | `calc.` | workbook calculation | `Formula`, `Limit`, `Reference` |
 | `binding.` | reading and writing rows of plain objects (`Spreadsheet.Read<T>`, `Write<T>`) | `Structure`, `Reference`, `Value` |
@@ -336,6 +337,9 @@ Reported in `ContentBindingReport.Warnings`. See `docx-content-controls.md`.
 | `binding.unsupported-control` | dropped | The control type cannot show a bound value (group, picture, building block …). |
 | `binding.value-not-in-list` | repaired | A drop-down value is not one of its items; the control keeps its selection. |
 | `binding.no-template-item` | dropped | A repeating section has no item to copy as its pattern. |
+| `html.damaged` | fatal | The HTML could not be imported (an unexpected failure, wrapped in a typed exception; the inner exception has the cause). Any text parses as HTML, so this means a bug worth reporting with the input. |
+| `html.export-failed` | fatal | The document could not be written as HTML (wrapped unexpected failure). |
+| `html.dropped` | dropped | An element, attribute or value was left out of the import (a script, an event handler, an unsafe link, a form, a frame, an external image, hidden content, and so on); the location is the text position of the element in the decoded HTML. The loss report of the import counts the same things by kind (`loss.html-*`, see `html.md`). |
 | `rtf.not-rtf` | fatal | The content does not start with `{\rtf`. |
 | `rtf.damaged` | fatal | The RTF could not be converted (an unexpected failure while reading, wrapped in a typed exception; the inner exception has the cause). |
 | `rtf.export-failed` | fatal | The document could not be written as RTF (wrapped unexpected failure). |
