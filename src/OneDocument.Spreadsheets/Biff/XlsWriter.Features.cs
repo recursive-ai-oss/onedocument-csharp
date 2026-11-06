@@ -498,7 +498,7 @@ internal sealed partial class XlsWriter
             }
             else
             {
-                if (f1 is null || !TryEncodeText(f1, first.TopLeft.Row - 1, first.TopLeft.Column - 1, out Encoded? e1, out _))
+                if (f1 is null || !TryEncodeText(f1, first.TopLeft.Row - 1, first.TopLeft.Column - 1, out Encoded? e1, out _, relative: true))
                 {
                     _loss.Report("loss.data-validation", "data validation", 1, "A validation formula BIFF8 cannot express was dropped with its rule.");
                     return;
@@ -507,7 +507,7 @@ internal sealed partial class XlsWriter
                 g1 = e1!.Rgce;
                 if (f2 is not null && type is not (3 or 7))
                 {
-                    if (!TryEncodeText(f2, first.TopLeft.Row - 1, first.TopLeft.Column - 1, out Encoded? e2, out _))
+                    if (!TryEncodeText(f2, first.TopLeft.Row - 1, first.TopLeft.Column - 1, out Encoded? e2, out _, relative: true))
                     {
                         _loss.Report("loss.data-validation", "data validation", 1, "A validation formula BIFF8 cannot express was dropped with its rule.");
                         return;

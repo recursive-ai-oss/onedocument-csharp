@@ -39,6 +39,16 @@ internal static class XlsTarget
 
             using var ms = new MemoryStream();
             wb.SaveAs(ms, OfficeFormat.Xlsx);
+
+            // What was read is written as BIFF8 and read again: the writer meets whatever the hub holds, and what it wrote must open.
+            using var xls = new MemoryStream();
+            wb.SaveAs(xls, OfficeFormat.Xls);
+            using Workbook again = XlsConverter.ToWorkbook(ByteSource.FromMemory(xls.ToArray()), new OpenContext(Limits));
+            if (again.Sheets.Count > wb.Sheets.Count)
+            {
+                throw new InvalidOperationException("The written workbook has more sheets than the one written.");
+            }
+
             if (sum < 0)
             {
                 throw new InvalidOperationException();

@@ -106,7 +106,7 @@ internal sealed partial class XlsWriter
 
     private bool Encode(string text, int row, int col, out byte[] rgce)
     {
-        if (TryEncodeText(text, row, col, out Encoded? e, out _) && e!.Rgcb.Length == 0)
+        if (TryEncodeText(text, row, col, out Encoded? e, out _, relative: true) && e!.Rgcb.Length == 0)
         {
             rgce = e.Rgce;
             return true;

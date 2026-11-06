@@ -1,8 +1,11 @@
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using RecursiveAI.OneDocument.Calc;
 using RecursiveAI.OneDocument.Diagnostics;
 using RecursiveAI.OneDocument.IO;
+using RecursiveAI.OneDocument.Markup;
+using RecursiveAI.OneDocument.Packaging;
 using RecursiveAI.OneDocument.Spreadsheets.Biff;
 
 namespace RecursiveAI.OneDocument.Spreadsheets.Tests.Biff;
@@ -153,6 +156,20 @@ public class XlsWriterTests
                 d.Add("validation " + va2 + " vs " + vb2);
             }
 
+            string la = LinksKey(a, x);
+            string lb = LinksKey(b, y);
+            if (la != lb)
+            {
+                d.Add("hyperlinks " + la + " vs " + lb);
+            }
+
+            string ka = CommentsKey(a, x);
+            string kb = CommentsKey(b, y);
+            if (ka != kb)
+            {
+                d.Add("comments " + ka + " vs " + kb);
+            }
+
             string cfa = CfKey(a, x);
             string cfb = CfKey(b, y);
             if (cfa != cfb)
@@ -161,11 +178,11 @@ public class XlsWriterTests
             }
         }
 
-        string na = string.Join(";", a.Names.Select(n => n.Name + "@" + n.LocalSheetId + "=" + n.Formula).Order());
-        string nb = string.Join(";", b.Names.Select(n => n.Name + "@" + n.LocalSheetId + "=" + n.Formula).Order());
-        if (na != nb)
+        var na = a.Names.Select(n => n.Name + "@" + n.LocalSheetId + "=" + n.Formula).ToHashSet();
+        var nb = b.Names.Select(n => n.Name + "@" + n.LocalSheetId + "=" + n.Formula).ToHashSet();
+        if (!na.SetEquals(nb))
         {
-            d.Add("names " + na + " vs " + nb);
+            d.Add("names only before: " + string.Join(";", na.Except(nb).Order()) + " only after: " + string.Join(";", nb.Except(na).Order()));
         }
 
         return d;
@@ -187,6 +204,63 @@ public class XlsWriterTests
         }
 
         return f.Pattern + Color(wb, f.Foreground);
+    }
+
+    private static string LinksKey(Workbook wb, Worksheet ws)
+    {
+        var sb = new StringBuilder();
+        var rels = ws.PartName is null ? [] : wb.Package.GetRelationships(ws.PartName);
+        foreach (MarkupNode root in ws.LayoutMarkup.ChildElements)
+        {
+            if (root.LocalNameString != "hyperlinks")
+            {
+                continue;
+            }
+
+            foreach (MarkupNode h in root.ChildElements)
+            {
+                string? rid = h.GetAttribute(wb.RelationshipNamespace, "id");
+                sb.Append(h.GetAttribute("ref")).Append('|').Append(h.GetAttribute("location")).Append('|').Append(rid is null ? null : rels.FirstOrDefault(r => r.Id == rid)?.Target).Append('|').Append(h.GetAttribute("display")).Append(';');
+            }
+        }
+
+        return sb.ToString();
+    }
+
+    private static string CommentsKey(Workbook wb, Worksheet ws)
+    {
+        var sb = new StringBuilder();
+        if (ws.PartName is null)
+        {
+            return string.Empty;
+        }
+
+        foreach (Relationship rel in wb.Package.GetRelationships(ws.PartName))
+        {
+            if (!rel.Type.EndsWith("/comments", StringComparison.Ordinal) || !OpcPackage.TryResolveTarget(ws.PartName, rel, out PartUri target) || wb.Package.FindPart(target.ToString()) is not { } part)
+            {
+                continue;
+            }
+
+            MarkupDocument doc = MarkupDocument.Parse(part.GetBytes(), new OpenContext(), part.Name);
+            var authors = new List<string>();
+            foreach (MarkupNode n in doc.Root.ChildElements)
+            {
+                if (n.LocalNameString == "authors")
+                {
+                    authors.AddRange(n.ChildElements.Select(c => c.InnerText));
+                }
+                else if (n.LocalNameString == "commentList")
+                {
+                    foreach (MarkupNode c in n.ChildElements)
+                    {
+                        sb.Append(c.GetAttribute("ref")).Append(':').Append(authors[int.Parse(c.GetAttribute("authorId") ?? "0", CultureInfo.InvariantCulture)]).Append(':').Append(c.InnerText).Append(';');
+                    }
+                }
+            }
+        }
+
+        return sb.ToString();
     }
 
     private static string FormulaText(CellFormula f) => f.Kind + ":" + f.Text + ":" + f.Reference;
@@ -245,7 +319,7 @@ public class XlsWriterTests
         return sb.ToString();
     }
 
-    private static Workbook Sample()
+    internal static Workbook Sample()
     {
         Workbook wb = Workbook.Create();
         Worksheet ws = wb.Sheets[0];
@@ -312,6 +386,35 @@ public class XlsWriterTests
         Assert.True(diff.Count == 0, string.Join("\n", diff) + "\nloss: " + string.Join(", ", loss.Items.Select(i => i.Code + "=" + i.Count)));
     }
 
+    [Fact]
+    public void HyperlinksAndNotesSurviveAWriteAndRead()
+    {
+        using Workbook wb = Workbook.Create();
+        Worksheet ws = wb.Sheets[0];
+        ws["A1"].SetString("site");
+        ws["A2"].SetString("file");
+        ws["A3"].SetString("here");
+        ws["B2"].SetString("noted");
+        const string rel = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+        var rels = new List<Relationship>(wb.Package.GetRelationships(ws.PartName!))
+        {
+            new("rIdL1", rel + "/hyperlink", "https://example.com/a?b=1&c=2", RelationshipTargetMode.External),
+            new("rIdL2", rel + "/hyperlink", "l/file.xlsx", RelationshipTargetMode.External),
+            new("rIdC", rel + "/comments", "../comments1.xml"),
+        };
+        wb.Package.AddPart("/xl/comments1.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml", Encoding.UTF8.GetBytes(
+            "<comments xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"><authors><author>Ann</author><author>Bo é</author></authors><commentList>"
+            + "<comment ref=\"B2\" authorId=\"1\"><text><t>first line&#10;second 中</t></text></comment><comment ref=\"A1\" authorId=\"0\"><text><r><t>rich </t></r><r><t>note</t></r></text></comment></commentList></comments>"));
+        wb.Package.SetRelationships(ws.PartName!, rels);
+        ws.InsertFrameElement("hyperlinks", "<hyperlinks xmlns:r=\"" + rel + "\"><hyperlink ref=\"A1\" r:id=\"rIdL1\" display=\"Example\"/><hyperlink ref=\"A2:B2\" r:id=\"rIdL2\"/><hyperlink ref=\"A3\" location=\"'Sheet1'!C3\" display=\"go\"/></hyperlinks>");
+        byte[] xls = Save(wb, out LossReport loss);
+        using Workbook back = Reopen(xls);
+        List<string> diff = Differences(wb, back);
+        Assert.True(diff.Count == 0, string.Join("\n", diff) + "\nloss: " + string.Join(", ", loss.Items.Select(i => i.Code + "=" + i.Count)));
+        Assert.Contains("Bo é:first line", CommentsKey(back, back.Sheets[0]));
+        Assert.Contains("https://example.com/a?b=1&c=2", LinksKey(back, back.Sheets[0]));
+    }
+
     [Theory]
     [InlineData("basic")]
     [InlineData("formulas")]
@@ -324,5 +427,133 @@ public class XlsWriterTests
         using Workbook back = Reopen(xls);
         List<string> diff = Differences(original, back);
         Assert.True(diff.Count == 0, string.Join("\n", diff.Take(30)) + "\nloss: " + string.Join(", ", loss.Items.Select(i => i.Code + "=" + i.Count)));
+    }
+}
+
+/// <summary>
+/// Reads every workbook of a folder, writes it as BIFF8 and reads that back (information, not a gate). Set <c>ONEDOCUMENT_XLS_CORPUS</c> to the
+/// folder and <c>ONEDOCUMENT_XLS_OUT</c> to where the written files and <c>summary.txt</c> go; without them the test does nothing.
+/// </summary>
+public class XlsWriterCorpusTests
+{
+    [Fact]
+    public void ACorpusFolderIsWrittenAndReadBack()
+    {
+        string? corpus = Environment.GetEnvironmentVariable("ONEDOCUMENT_XLS_CORPUS");
+        string? output = Environment.GetEnvironmentVariable("ONEDOCUMENT_XLS_OUT");
+        if (string.IsNullOrEmpty(corpus) || string.IsNullOrEmpty(output))
+        {
+            return;
+        }
+
+        Directory.CreateDirectory(output);
+        int limit = int.TryParse(Environment.GetEnvironmentVariable("ONEDOCUMENT_XLS_LIMIT"), out int l) ? l : int.MaxValue;
+        int read = 0;
+        int unreadable = 0;
+        int written = 0;
+        int writeFailed = 0;
+        int equal = 0;
+        int different = 0;
+        var summary = new StringBuilder();
+        var codes = new Dictionary<string, long>();
+        var messages = new Dictionary<string, string>();
+        var importLoss = new Dictionary<string, long>();
+        var ruleTypes = new Dictionary<string, long>();
+        string[] only = (Environment.GetEnvironmentVariable("ONEDOCUMENT_XLS_ONLY") ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries);
+        foreach (string path in Directory.EnumerateFiles(corpus, "*.xls").Order().Where(p => only.Length == 0 || only.Contains(Path.GetFileNameWithoutExtension(p))).Take(limit))
+        {
+            Workbook? wb = null;
+            try
+            {
+                wb = XlsConverter.ToWorkbook(ByteSource.FromMemory(File.ReadAllBytes(path)), new OpenContext());
+                read++;
+            }
+            catch (OfficeException)
+            {
+                unreadable++;
+                continue;
+            }
+
+            using (wb)
+            {
+                foreach (LossItem i in wb.ImportLoss!.Items)
+                {
+                    importLoss[i.Code] = importLoss.GetValueOrDefault(i.Code) + i.Count;
+                }
+
+                foreach (Worksheet ws in wb.Sheets)
+                {
+                    foreach (ConditionalFormat g in ws.ConditionalFormats)
+                    {
+                        foreach (ConditionalFormatRule r in g.Rules)
+                        {
+                            ruleTypes[r.Type.ToString()] = ruleTypes.GetValueOrDefault(r.Type.ToString()) + 1;
+                        }
+                    }
+                }
+
+                try
+                {
+                    byte[] xls = XlsWriterTests.Save(wb, out LossReport loss);
+                    foreach (LossItem i in loss.Items)
+                    {
+                        codes[i.Code] = codes.GetValueOrDefault(i.Code) + i.Count;
+                        messages.TryAdd(i.Code + " / " + Path.GetFileName(path), i.Message);
+                    }
+
+                    written++;
+                    File.WriteAllBytes(Path.Combine(output, Path.GetFileName(path)), xls);
+                    using Workbook back = XlsWriterTests.Reopen(xls);
+                    List<string> diff = XlsWriterTests.Differences(wb, back);
+                    if (diff.Count == 0)
+                    {
+                        equal++;
+                    }
+                    else
+                    {
+                        different++;
+                        summary.Append(Path.GetFileName(path)).Append(": ").Append(diff.Count).Append(" differences, first: ").AppendLine(diff[0].Length > 900 ? diff[0][..900] : diff[0]);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    writeFailed++;
+                    summary.Append(Path.GetFileName(path)).Append(": write failed ").Append(ex.GetType().Name).Append(' ').AppendLine(ex.Message.Length > 200 ? ex.Message[..200] : ex.Message);
+                }
+            }
+        }
+
+        summary.Insert(0, $"read {read}, unreadable {unreadable}, written {written}, write failed {writeFailed}, read back equal {equal}, different {different}\nloss: {string.Join(", ", codes.Select(c => c.Key + "=" + c.Value))}\n");
+        summary.AppendLine("import loss: " + string.Join(", ", importLoss.Select(c => c.Key + "=" + c.Value)));
+        summary.AppendLine("rule types read: " + string.Join(", ", ruleTypes.Select(c => c.Key + "=" + c.Value)));
+        foreach (var group in messages.GroupBy(m => m.Key[..m.Key.IndexOf(" / ", StringComparison.Ordinal)]))
+        {
+            summary.Append("loss message ").Append(group.Key).Append(": ").AppendLine(group.First().Value);
+        }
+
+        File.WriteAllText(Path.Combine(output, "summary.txt"), summary.ToString());
+    }
+
+    /// <summary>Writes the files that go to Excel unanswered: set <c>ONEDOCUMENT_XLS_CASES</c> to the folder (see <c>testdata/xls/excel-cases.md</c>).</summary>
+    [Fact]
+    public void TheExcelCasesAreWrittenWhenAskedFor()
+    {
+        string? dir = Environment.GetEnvironmentVariable("ONEDOCUMENT_XLS_CASES");
+        if (string.IsNullOrEmpty(dir))
+        {
+            return;
+        }
+
+        Directory.CreateDirectory(dir);
+        using (Workbook wb = XlsWriterTests.Sample())
+        {
+            File.WriteAllBytes(Path.Combine(dir, "generated.xls"), XlsWriterTests.Save(wb, out _));
+        }
+
+        foreach (string name in new[] { "basic", "formulas", "styles", "features" })
+        {
+            using Workbook wb = XlsConverter.ToWorkbook(ByteSource.FromMemory(File.ReadAllBytes(Path.Combine(XlsOracleTests.Dir, name + ".xls"))), new OpenContext());
+            File.WriteAllBytes(Path.Combine(dir, name + "-rewritten.xls"), XlsWriterTests.Save(wb, out _));
+        }
     }
 }

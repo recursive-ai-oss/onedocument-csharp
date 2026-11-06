@@ -172,10 +172,11 @@ internal sealed partial class XlsWriter
 
     // ---- defined names ----
 
+    // [MS-XLS] §2.4.150 Lbl built-in names: the code stored in place of the name.
     private static readonly (string Text, int Code)[] BuiltInCodes =
     [
         ("Consolidate_Area", 0), ("Auto_Open", 1), ("Auto_Close", 2), ("Extract", 3), ("Database", 4), ("Criteria", 5), ("Print_Area", 6), ("Print_Titles", 7),
-        ("Sheet_Title", 0x0C), ("_FilterDatabase", 0x0D),
+        ("Recorder", 8), ("Data_Form", 9), ("Auto_Activate", 0x0A), ("Auto_Deactivate", 0x0B), ("Sheet_Title", 0x0C), ("_FilterDatabase", 0x0D),
     ];
 
     private readonly List<(DefinedNameInfo Info, string Text)> _nameTexts = [];
@@ -206,7 +207,7 @@ internal sealed partial class XlsWriter
             {
                 string tail = n.Name["_xlnm.".Length..];
                 int idx = Array.FindIndex(BuiltInCodes, b => string.Equals(b.Text, tail, StringComparison.OrdinalIgnoreCase));
-                if (idx < 0 || scope < 0)
+                if (idx < 0 || (scope < 0 && BuiltInCodes[idx].Code is 6 or 7 or 0x0C or 0x0D))
                 {
                     _loss.Report("loss.defined-names", "defined names", 1, "A built-in name that BIFF8 does not know was dropped.");
                     continue;
@@ -247,8 +248,9 @@ internal sealed partial class XlsWriter
             if (!TryEncodeText(text, 0, 0, out Encoded? e, out string why))
             {
                 _loss.Report("loss.defined-names", "defined names", 1, "The name '" + info.Name + "' was dropped: " + why);
-                info.Rgce = [];
-                info.Formula = null;
+                // The name keeps its place (formulas count names by position) and refers to nothing.
+                info.Rgce = [0x1C, 0x17];
+                info.Formula = "#REF!";
                 continue;
             }
 
@@ -269,14 +271,27 @@ internal sealed partial class XlsWriter
 
     // ---- formulas ----
 
-    private bool TryEncodeText(string text, int row, int col, out Encoded? encoded, out string why)
+    private bool TryEncodeText(string text, int row, int col, out Encoded? encoded, out string why, bool relative = false)
     {
         encoded = null;
         why = string.Empty;
         FormulaNode tree;
         try
         {
-            tree = FormulaParser.Parse(text.StartsWith('=') ? text[1..] : text);
+            string body = text.StartsWith('=') ? text[1..] : text;
+            if (FormulaParser.TryParse(body, out FormulaNode? plain, out _))
+            {
+                tree = plain!;
+            }
+            else
+            {
+                // A union of areas as a whole formula (print titles: $A:$F,$1:$1) parses only inside parentheses.
+                tree = FormulaParser.Parse("(" + body + ")");
+                if (tree is ParenNode p)
+                {
+                    tree = p.Inner;
+                }
+            }
         }
         catch (OfficeException ex)
         {
@@ -294,12 +309,12 @@ internal sealed partial class XlsWriter
             return false;
         }
 
-        return TryEncodeTree(tree, out encoded, out why);
+        return TryEncodeTree(tree, out encoded, out why, relative ? (row, col) : null);
     }
 
-    private bool TryEncodeTree(FormulaNode tree, out Encoded? encoded, out string why)
+    private bool TryEncodeTree(FormulaNode tree, out Encoded? encoded, out string why, (int Row, int Column)? relativeTo = null)
     {
-        var enc = new PtgEncoder(_fctx);
+        var enc = new PtgEncoder(_fctx) { RelativeTo = relativeTo };
         if (!enc.TryEncode(tree, out byte[] rgce, out byte[] rgcb))
         {
             encoded = null;

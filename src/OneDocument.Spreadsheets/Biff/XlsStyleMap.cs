@@ -253,7 +253,7 @@ internal sealed class XlsStyleMap
         b.U8(f.Family);
         b.U8(f.Charset < 0 ? 0 : f.Charset & 0xFF);
         b.U8(0);
-        string name = string.IsNullOrEmpty(f.Name) ? "Arial" : f.Name;
+        string name = f.Name ?? "Arial";
         if (name.Length > 255)
         {
             name = name[..255];
