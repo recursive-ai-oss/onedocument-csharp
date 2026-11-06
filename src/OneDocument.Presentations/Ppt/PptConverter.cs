@@ -575,7 +575,9 @@ public static class PptConverter
         sb.Append("<p:spTree>").Append(GroupHead);
         if (drawing is not null)
         {
-            new PptShapeWriter(conv, page, sb, PageKind.Slide, slide.ListTexts).WriteShapes(drawing.Shapes);
+            var shapes = new PptShapeWriter(conv, page, sb, PageKind.Slide, slide.ListTexts);
+            shapes.WriteShapes(drawing.Shapes);
+            shapes.WriteHeaderFooterPlaceholders(slide, drawing.Shapes);
         }
 
         sb.Append("</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr>");

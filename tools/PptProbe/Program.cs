@@ -56,6 +56,21 @@ static int Run(string[] args)
             }
 
             return 0;
+        case "textdir":
+            // textdir <dir|file>... <outdir>: the extracted text of each file into outdir/<name>.txt
+            Directory.CreateDirectory(args[^1]);
+            foreach (string f in Expand(args[1..^1]))
+            {
+                try
+                {
+                    File.WriteAllText(Path.Combine(args[^1], Path.GetFileNameWithoutExtension(f) + ".txt"), Office.ExtractText(f));
+                }
+                catch (OfficeException)
+                {
+                }
+            }
+
+            return 0;
         case "slim":
             // slim <in.ppt> <out.ppt>: keeps the Current User, PowerPoint Document and Pictures streams byte for byte and drops the rest
             // (thumbnails and summary information), so converter output can be committed as a small fixture

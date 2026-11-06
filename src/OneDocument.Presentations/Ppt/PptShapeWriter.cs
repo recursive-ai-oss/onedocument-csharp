@@ -60,6 +60,63 @@ internal sealed class PptShapeWriter
         return position == 0xFFFFFFFF ? null : new Placeholder(p[4], p[5], position);
     }
 
+    /// <summary>
+    /// Writes the date, footer and slide number placeholders that the page's header and footer settings turn on. PowerPoint 97-2003 keeps no
+    /// such shapes on a slide: the master's placeholders are shown with the text of the <c>HeadersFooters</c> record, so the converter makes the
+    /// slide's own placeholders (positions come from the master through the layout). Types the drawing already has are left alone.
+    /// </summary>
+    public void WriteHeaderFooterPlaceholders(PptPage page, IReadOnlyList<ArtShape> existing)
+    {
+        ArtRecord? hf = _conv.HeadersFooters(page);
+        ArtRecord? atom = hf?.Find(PptRecordType.HeadersFootersAtom);
+        if (hf is null || atom is null || atom.Payload.Length < 4)
+        {
+            return;
+        }
+
+        // [MS-PPT] §2.4.15.2 HeadersFootersAtom: formatId (2), then flags: 0 date, 1 today's date, 2 user date, 3 slide number, 4 header, 5 footer.
+        int formatId = atom.UInt16At(0);
+        int flags = atom.UInt16At(2);
+        var have = new HashSet<int>();
+        foreach (ArtShape s in existing)
+        {
+            if (ReadPlaceholder(s) is { } ph)
+            {
+                have.Add(ph.Id);
+            }
+        }
+
+        string? footer = _conv.HeaderFooterString(page, 2);
+        string? userDate = _conv.HeaderFooterString(page, 0);
+        if ((flags & 1) != 0 && !have.Contains(7))
+        {
+            string body = (flags & 4) != 0 && userDate is not null
+                ? "<a:r><a:rPr lang=\"en-US\"/><a:t>" + Escape(userDate) + "</a:t></a:r>"
+                : "<a:fld id=\"{" + FieldId(_page.NextField()) + "}\" type=\"datetime" + Math.Clamp(formatId + 1, 1, 13) + "\"><a:rPr lang=\"en-US\"/><a:t>‹date›</a:t></a:fld>";
+            WriteHeaderFooter("Date Placeholder", "dt", 10, body);
+        }
+
+        if ((flags & 0x20) != 0 && !have.Contains(9) && footer is not null)
+        {
+            WriteHeaderFooter("Footer Placeholder", "ftr", 11, "<a:r><a:rPr lang=\"en-US\"/><a:t>" + Escape(footer) + "</a:t></a:r>");
+        }
+
+        if ((flags & 8) != 0 && !have.Contains(8))
+        {
+            WriteHeaderFooter("Slide Number Placeholder", "sldNum", 12, "<a:fld id=\"{" + FieldId(_page.NextField()) + "}\" type=\"slidenum\"><a:rPr lang=\"en-US\"/><a:t>‹#›</a:t></a:fld>");
+        }
+    }
+
+    private static string FieldId(int n) => "00000000-0000-4000-8000-" + n.ToString("X12", CultureInfo.InvariantCulture);
+
+    private void WriteHeaderFooter(string name, string type, int idx, string paragraphContent)
+    {
+        int id = _page.NextShapeId++;
+        _sb.Append("<p:sp><p:nvSpPr><p:cNvPr id=\"").Append(id.ToString(CultureInfo.InvariantCulture)).Append("\" name=\"").Append(name).Append("\"/><p:cNvSpPr><a:spLocks noGrp=\"1\"/></p:cNvSpPr><p:nvPr><p:ph type=\"")
+            .Append(type).Append("\" sz=\"quarter\" idx=\"").Append(idx.ToString(CultureInfo.InvariantCulture)).Append("\"/></p:nvPr></p:nvSpPr><p:spPr/><p:txBody><a:bodyPr/><a:lstStyle/><a:p>")
+            .Append(paragraphContent).Append("</a:p></p:txBody></p:sp>");
+    }
+
     /// <summary>The fill of a page's background shape as DrawingML, or empty when the shape sets none.</summary>
     public string BackgroundFill(ArtShape background) => FillXml(background);
 

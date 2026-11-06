@@ -39,10 +39,26 @@ internal sealed class PptConversion
     /// The text a header or footer metacharacter stands for ([MS-PPT] §2.4.15): the page's own <c>HeadersFooters</c> container first, then the
     /// document's default. Null when neither has a string for it.
     /// </summary>
-    public string? HeaderFooterText(PptPage? page, PptMetaCharKind kind)
+    public string? HeaderFooterText(PptPage? page, PptMetaCharKind kind) => HeaderFooterString(page, kind == PptMetaCharKind.Header ? 1 : 2);
+
+    /// <summary>The slide or notes <c>HeadersFooters</c> container in force for a page: its own, else the document's default (instance 3 for slides, 4 for notes pages).</summary>
+    public ArtRecord? HeadersFooters(PptPage? page)
     {
-        int instance = kind == PptMetaCharKind.Header ? 1 : 2;
-        foreach (ArtRecord? container in new[] { page?.Container.Find(PptRecordType.HeadersFooters), P.File.DocumentContainer?.Find(PptRecordType.HeadersFooters) })
+        int docInstance = page is PptNotes ? 4 : 3;
+        ArtRecord? own = page?.Container.Find(PptRecordType.HeadersFooters);
+        if (own is not null)
+        {
+            return own;
+        }
+
+        ArtRecord? doc = P.File.DocumentContainer;
+        return doc?.FindAll(PptRecordType.HeadersFooters).FirstOrDefault(c => c.Header.Instance == docInstance) ?? doc?.Find(PptRecordType.HeadersFooters);
+    }
+
+    /// <summary>A string of the header and footer record: instance 0 is the user date, 1 the header, 2 the footer.</summary>
+    public string? HeaderFooterString(PptPage? page, int instance)
+    {
+        foreach (ArtRecord? container in new[] { HeadersFooters(page) })
         {
             ArtRecord? text = container?.FindAll(PptRecordType.CString).FirstOrDefault(c => c.Header.Instance == instance);
             if (text is not null)
