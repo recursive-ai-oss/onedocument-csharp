@@ -139,6 +139,14 @@ public sealed partial class Workbook : OfficeFile
                 return Csv.CsvDocument.FromSource(source, sniffed, context, cancellationToken);
             }
 
+            if (sniffed == OfficeFormat.Excel2003Xml)
+            {
+                // Converted at once into an in-memory XLSX package, so the file itself is not needed afterwards.
+                Workbook converted = Xml2003.SpreadsheetMl2003.Open(source, context, cancellationToken);
+                source.Dispose();
+                return converted;
+            }
+
             if (sniffed is OfficeFormat.Xls or OfficeFormat.XlsLegacy)
             {
                 return Biff.XlsConverter.FromSource(source, context, cancellationToken);

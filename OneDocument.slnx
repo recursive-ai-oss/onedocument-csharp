@@ -44,6 +44,7 @@
     <Project Path="tools/CalcSweep/CalcSweep.csproj" />
     <Project Path="tools/XlsbProbe/XlsbProbe.csproj" />
     <Project Path="tools/XlsxProbe/XlsxProbe.csproj" />
+    <Project Path="tools/Xml2003Probe/Xml2003Probe.csproj" />
     <Project Path="tools/OracleCases/OracleCases.csproj" />
     <Project Path="tools/ChartProbe/ChartProbe.csproj" />
     <Project Path="tools/PptxProbe/PptxProbe.csproj" />
