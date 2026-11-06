@@ -19,7 +19,7 @@ import argparse, hashlib, json, os, sys, time, urllib.parse, urllib.request
 TRACKERS = {"documentfoundation": "https://bugs.documentfoundation.org",
             "apache": "https://bz.apache.org/bugzilla"}
 UA = "onedocument-corpus-fetch/1.0 (test documents)"
-MAGIC = {"docx": b"PK", "xlsx": b"PK", "pptx": b"PK", "dotx": b"PK", "xlsm": b"PK", "docm": b"PK",
+MAGIC = {"docx": b"PK", "xlsx": b"PK", "pptx": b"PK", "dotx": b"PK", "xlsm": b"PK", "xlsb": b"PK", "docm": b"PK",
          "doc": b"\xd0\xcf\x11\xe0", "xls": b"\xd0\xcf\x11\xe0", "ppt": b"\xd0\xcf\x11\xe0"}
 
 

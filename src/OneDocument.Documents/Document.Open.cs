@@ -328,6 +328,14 @@ public sealed partial class Document
                 return OpenSource(plain, context, null, cancellationToken);
             }
 
+            if (sniffed == OfficeFormat.Word2003Xml)
+            {
+                // Converted at once into an in-memory DOCX package, so the file itself is not needed afterwards.
+                Document converted = Xml2003.WordMl2003.Open(source, context, cancellationToken);
+                source.Dispose();
+                return converted;
+            }
+
             if (sniffed == OfficeFormat.Doc)
             {
                 return OpenBinary(source, context);

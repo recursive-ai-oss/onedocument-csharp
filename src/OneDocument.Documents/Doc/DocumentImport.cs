@@ -17,12 +17,12 @@ public sealed partial class Document
     public OfficeFormat SourceFormat => _sourceFormat ?? Format;
 
     /// <summary>
-    /// Gets what the conversion from a binary Word file or RTF could not carry over, or <c>null</c> for a document that was not converted.
-    /// Entries have <c>loss.doc-*</c> codes for Word binary files and <c>loss.rtf-*</c> codes for RTF (see <c>docs/doc.md</c> and
-    /// <c>docs/rtf.md</c>); the located detail of each repair is in <see cref="OfficeFile.Defects"/>. Reading RTF goes through the DOCX
+    /// Gets what the conversion from a binary Word file, RTF or Word 2003 XML could not carry over, or <c>null</c> for a document that was not converted.
+    /// Entries have <c>loss.doc-*</c> codes for Word binary files and <c>loss.rtf-*</c> codes for RTF (see <c>docs/doc.md</c>,
+    /// <c>docs/rtf.md</c> and <c>docs/xml-2003.md</c>); the located detail of each repair is in <see cref="OfficeFile.Defects"/>. Reading RTF goes through the DOCX
     /// model, so a document opened from RTF is a WordprocessingML package in memory.
     /// </summary>
-    public LossReport? ImportLoss { get; private set; }
+    public LossReport? ImportLoss { get; internal set; }
 
     // Reads a Word binary file and converts it into the model. The file is read in full and the source released: the result is
     // an ordinary document that saves as DOCX (it has no path of its own, so Save() asks for SaveAs).
