@@ -17,6 +17,47 @@ internal static class SmokeChecks
     /// <summary>Runs every check and returns the names of the ones that failed.</summary>
     public static List<string> Run()
     {
+        var all = new List<string>();
+        foreach ((_, Func<List<string>> run) in Groups)
+        {
+            all.AddRange(run());
+        }
+
+        return all;
+    }
+
+    /// <summary>The checks in named groups, one per format family or service, so a host can report and time each on its own.</summary>
+    public static IReadOnlyList<(string Name, Func<List<string>> Run)> Groups { get; } =
+    [
+        ("core", Core),
+        ("schema", SchemaSmoke.Run),
+        ("sheet", SheetSmoke.Run),
+        ("pivot", PivotSmoke.Run),
+        ("stream", StreamSmoke.Run),
+        ("xlsb", XlsbSmoke.Run),
+        ("csv", CsvSmoke.Run),
+        ("markdown", MarkdownSmoke.Run),
+        ("xls", XlsSmoke.Run),
+        ("vba", VbaSmoke.Run),
+        ("xml2003", Xml2003Smoke.Run),
+        ("poco", PocoSmoke.Run),
+        ("template", TemplateSmoke.Run),
+        ("accessibility", AccessibilitySmoke.Run),
+        ("document", DocumentSmoke.Run),
+        ("doc", DocSmoke.Run),
+        ("render", RenderSmoke.Run),
+        ("drawing", DrawingSmoke.Run),
+        ("smartart", SmartArtSmoke.Run),
+        ("float", FloatSmoke.Run),
+        ("presentation", PresentationSmoke.Run),
+        ("numfmt", NumFmtSmoke.Run),
+        ("calc", CalcSmoke.Run),
+        ("extract-docx", ExtractDocx),
+        ("platform", PlatformSmoke.Run),
+    ];
+
+    private static List<string> Core()
+    {
         var failures = new List<string>();
         void Check(string name, bool ok)
         {
@@ -62,28 +103,21 @@ internal static class SmokeChecks
         using IByteSource source = ByteSource.FromMemory(new byte[] { 1, 2, 3 });
         using Stream stream = ByteSource.AsStream(source);
         Check("source stream", stream.ReadByte() == 1 && stream.Length == 3);
-        failures.AddRange(SchemaSmoke.Run());
-        failures.AddRange(SheetSmoke.Run());
-        failures.AddRange(PivotSmoke.Run());
-        failures.AddRange(StreamSmoke.Run());
-        failures.AddRange(XlsbSmoke.Run());
-        failures.AddRange(CsvSmoke.Run());
-        failures.AddRange(MarkdownSmoke.Run());
-        failures.AddRange(XlsSmoke.Run());
-        failures.AddRange(VbaSmoke.Run());
-        failures.AddRange(Xml2003Smoke.Run());
-        failures.AddRange(PocoSmoke.Run());
-        failures.AddRange(TemplateSmoke.Run());
-        failures.AddRange(AccessibilitySmoke.Run());
-        failures.AddRange(DocumentSmoke.Run());
-        failures.AddRange(DocSmoke.Run());
-        failures.AddRange(RenderSmoke.Run());
-        failures.AddRange(DrawingSmoke.Run());
-        failures.AddRange(SmartArtSmoke.Run());
-        failures.AddRange(FloatSmoke.Run());
-        failures.AddRange(PresentationSmoke.Run());
-        failures.AddRange(NumFmtSmoke.Run());
-        failures.AddRange(CalcSmoke.Run());
+        return failures;
+    }
+
+    private static List<string> ExtractDocx()
+    {
+        var failures = new List<string>();
+        void Check(string name, bool ok)
+        {
+            if (!ok)
+            {
+                failures.Add(name);
+            }
+        }
+
+        const string Wml = "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml";
         // Text extraction streams the main part through the package layer and the XML reader, and is registered statically.
         byte[] docx = Zip(
             ("[Content_Types].xml", "<Types xmlns=\"x\"><Override PartName=\"/word/document.xml\" ContentType=\"" + Wml + "\"/></Types>"),

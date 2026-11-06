@@ -14,7 +14,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="../../testdata/encryption/secret-basic.docx" LogicalName="fixtures.secret-basic.docx" />
+    <EmbeddedResource Include="../../testdata/encryption/plain-basic.docx" LogicalName="fixtures.plain-basic.docx" />
+    <EmbeddedResource Include="../../testdata/encryption/secret-basic.xlsx" LogicalName="fixtures.secret-basic.xlsx" />
+    <EmbeddedResource Include="../../testdata/encryption/plain-basic.xlsx" LogicalName="fixtures.plain-basic.xlsx" />
+    <EmbeddedResource Include="../../testdata/encryption/secret-basic.doc" LogicalName="fixtures.secret-basic.doc" />
+    <EmbeddedResource Include="../../testdata/encryption/secret-basic.xls" LogicalName="fixtures.secret-basic.xls" />
+    <EmbeddedResource Include="../../testdata/encryption/plain-basic.xls" LogicalName="fixtures.plain-basic.xls" />
+    <EmbeddedResource Include="../../testdata/encryption/xor-v0-basic.xls" LogicalName="fixtures.xor-v0-basic.xls" />
+    <EmbeddedResource Include="../../testdata/encryption/cryptoapi-plain-basic.xls" LogicalName="fixtures.cryptoapi-plain-basic.xls" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="../shared/SmokeChecks.cs" Link="SmokeChecks.cs" />
+    <Compile Include="../shared/PlatformSmoke.cs" Link="PlatformSmoke.cs" />
     <Compile Include="../shared/SchemaSmoke.cs" Link="SchemaSmoke.cs" />
     <Compile Include="../shared/DocumentSmoke.cs" Link="DocumentSmoke.cs" />
     <Compile Include="../shared/PresentationSmoke.cs" Link="PresentationSmoke.cs" />

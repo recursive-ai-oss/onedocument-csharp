@@ -59,8 +59,17 @@ jobs:
           global-json-file: global.json
       - name: Browser WebAssembly workload
         run: dotnet workload install wasm-tools
-      - name: Build the browser-wasm smoke host
-        run: build/ci.sh restore wasm
+      - name: Publish the browser-wasm smoke host and run it in headless Chromium
+        env:
+          ONEDOCUMENT_HOME: ${{ runner.temp }}/onedocument-home
+          CI_OUT: ${{ runner.temp }}/out
+        run: build/ci.sh restore wasm-run
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: wasm-run-log
+          path: ${{ runner.temp }}/out/wasm-run.log
+          if-no-files-found: ignore
 
   pack:
     # Builds the packages as an artifact only; nothing is pushed anywhere.
