@@ -40,6 +40,7 @@ internal static class SmokeChecks
         ("xls", XlsSmoke.Run),
         ("vba", VbaSmoke.Run),
         ("xml2003", Xml2003Smoke.Run),
+        ("ods", OdsSmoke.Run),
         ("poco", PocoSmoke.Run),
         ("template", TemplateSmoke.Run),
         ("accessibility", AccessibilitySmoke.Run),
