@@ -137,10 +137,18 @@ public sealed record ArtReadContext(OfficeLimits Limits, IDefectSink Defects, st
     /// <summary>A context with the default limits that discards defects; for tests and tools.</summary>
     public static ArtReadContext Default { get; } = new(OfficeLimits.Default, DiscardDefectSink.Instance, "OfficeArt");
 
-    internal void Repair(string code, string message, long offset) =>
+    /// <summary>Reports a repair (the reader carried on with a fix) at a record offset of the stream this context names.</summary>
+    /// <param name="code">The defect code (<c>layer.problem</c>).</param>
+    /// <param name="message">What was repaired.</param>
+    /// <param name="offset">The stream offset of the record, or -1.</param>
+    public void Repair(string code, string message, long offset) =>
         Defects.Report(new Defect(DefectKind.Record, code, DefectSeverity.Repaired, message, DefectLocation.InRecord(StreamPath, offset)));
 
-    internal void Drop(string code, string message, long offset) =>
+    /// <summary>Reports that content was dropped at a record offset of the stream this context names.</summary>
+    /// <param name="code">The defect code (<c>layer.problem</c>).</param>
+    /// <param name="message">What was dropped.</param>
+    /// <param name="offset">The stream offset of the record, or -1.</param>
+    public void Drop(string code, string message, long offset) =>
         Defects.Report(new Defect(DefectKind.Record, code, DefectSeverity.Dropped, message, DefectLocation.InRecord(StreamPath, offset)));
 }
 

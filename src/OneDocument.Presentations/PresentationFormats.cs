@@ -13,7 +13,7 @@ namespace RecursiveAI.OneDocument.Presentations;
 /// </remarks>
 public static class PresentationFormats
 {
-    /// <summary>The formats this package reads and writes: PPTX, PPTM, POTX, POTM, PPSX, PPSM, PPAM and Flat OPC.</summary>
+    /// <summary>The formats this package reads and writes (PowerPoint 97-2003 <c>.ppt</c> is also read, converted to PresentationML with a loss report): PPTX, PPTM, POTX, POTM, PPSX, PPSM, PPAM and Flat OPC.</summary>
     public static IReadOnlyList<OfficeFormat> Formats { get; } =
     [
         OfficeFormat.Pptx, OfficeFormat.Pptm, OfficeFormat.Potx, OfficeFormat.Potm, OfficeFormat.Ppsx, OfficeFormat.Ppsm, OfficeFormat.Ppam,
@@ -43,6 +43,9 @@ public static class PresentationFormats
                 presentation.Write(format, destination, cancellationToken);
             },
             formats);
+        registry.RegisterReader(
+            static (source, _, context, filePath, cancellationToken) => Presentation.OpenSource(source, context, filePath, cancellationToken),
+            OfficeFormat.Ppt);
         registry.RegisterTemplateBinder(Templating.PresentationTemplateBinder.Instance, formats);
     }
 }
