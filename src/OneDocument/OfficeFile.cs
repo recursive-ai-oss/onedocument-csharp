@@ -149,6 +149,50 @@ public abstract class OfficeFile : IDisposable
         ExtractTextCore(output, cancellationToken);
     }
 
+    /// <summary>
+    /// Removes the content matched or covered by a plan and writes the result as a new OOXML file; this file is not changed. Legacy and
+    /// other formats are redacted through the hub and written as the OOXML format of their kind (see <see cref="Redaction.RedactionReport.OutputFormat"/>);
+    /// the original binary is never edited. The written file is re-opened and searched in every entry unless the plan turns that off.
+    /// </summary>
+    /// <param name="plan">What to remove and how.</param>
+    /// <param name="outputPath">The new file. It must not be the path this file was opened from.</param>
+    /// <param name="cancellationToken">Cancels the operation; no output is left behind.</param>
+    /// <returns>What was removed, what could not be, and the verification verdict.</returns>
+    /// <exception cref="ArgumentException"><paramref name="outputPath"/> is the source file.</exception>
+    /// <exception cref="OfficeLimitException">A limit was exceeded, including the regular-expression timeout.</exception>
+    public Redaction.RedactionReport Redact(Redaction.RedactionPlan plan, string outputPath, CancellationToken cancellationToken = default)
+    {
+        ThrowIfDisposed();
+        return Redaction.Redactor.Run(this, plan, outputPath, RedactRegions, cancellationToken);
+    }
+
+    /// <summary>Like <see cref="Redact(Redaction.RedactionPlan, string, CancellationToken)"/>, writing to a stream that is left open.</summary>
+    /// <param name="plan">What to remove and how.</param>
+    /// <param name="destination">The stream to write the redacted file to.</param>
+    /// <param name="cancellationToken">Cancels the operation.</param>
+    /// <returns>What was removed, what could not be, and the verification verdict.</returns>
+    public Redaction.RedactionReport Redact(Redaction.RedactionPlan plan, Stream destination, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(destination);
+        ThrowIfDisposed();
+        return Redaction.Redactor.Run(this, plan, destination, RedactRegions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Applies the plan's regions to the staged OOXML package before the matches run. A kind overrides this for the regions that mean something
+    /// in it; the default reports every region as not applicable.
+    /// </summary>
+    /// <param name="package">The staged package of the file, in the OOXML output format.</param>
+    /// <param name="plan">The plan.</param>
+    /// <param name="report">Receives what was removed and what was not applicable.</param>
+    protected virtual void RedactRegions(Packaging.OpcPackage package, Redaction.RedactionPlan plan, Redaction.RedactionReport report)
+    {
+        foreach (Redaction.RedactionRegion region in plan.Regions)
+        {
+            report.Gap("redaction.region-not-applicable", region.GetType().Name, "The region does not apply to this kind of file.");
+        }
+    }
+
     /// <summary>Releases the document and what it holds open (the source it reads lazily from).</summary>
     public void Dispose()
     {

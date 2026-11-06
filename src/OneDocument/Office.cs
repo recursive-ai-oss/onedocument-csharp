@@ -179,6 +179,19 @@ public static class Office
         file.SaveAs(destination, cancellationToken);
     }
 
+    /// <summary>Removes what a plan matches or covers and writes a new file; see <see cref="OfficeFile.Redact(Redaction.RedactionPlan, string, CancellationToken)"/>.</summary>
+    /// <param name="source">The input path. It is never changed.</param>
+    /// <param name="destination">The output path; it must differ from <paramref name="source"/>.</param>
+    /// <param name="plan">What to remove and how.</param>
+    /// <param name="context">Limits, defect sink and password; null for the defaults.</param>
+    /// <param name="cancellationToken">Cancels the operation.</param>
+    /// <returns>What was removed, what could not be, and the verification verdict.</returns>
+    public static Redaction.RedactionReport Redact(string source, string destination, Redaction.RedactionPlan plan, OpenContext? context = null, CancellationToken cancellationToken = default)
+    {
+        using OfficeFile file = Open(source, context, cancellationToken);
+        return file.Redact(plan, destination, cancellationToken);
+    }
+
     // Lets a file that "owns" its source be opened over a source the caller still owns: disposing it leaves the original open.
     internal sealed class BorrowedByteSource(IByteSource inner) : IByteSource
     {

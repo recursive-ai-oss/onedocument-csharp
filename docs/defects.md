@@ -499,3 +499,7 @@ Reported by the readers of Word 2003 XML and Excel 2003 XML while they convert (
 | `sml2003.bad-date` | repaired | A `DateTime` cell does not hold an ISO 8601 date or is outside the date range; its text was kept as a string. |
 | `sml2003.bad-formula` | dropped | A cell's `ss:Formula` is not an R1C1 formula the parser reads (files written by other programs may hold OpenFormula text); the cached value stays as a constant. |
 | `sml2003.bad-value` | dropped | A bad date in the document properties. |
+
+## Redaction report codes
+
+Redaction does not report through the open-time defect list: what it could not remove or look into is in `RedactionReport.Gaps`, with codes of the form `redaction.problem` (`redaction.part-name`, `redaction.part-not-xml`, `redaction.embedded-package`, `redaction.opaque-part`, `redaction.depth`, `redaction.region-not-applicable`, `redaction.region-failed`, `redaction.shared-formula-extent`, `redaction.pivot-cache-source`, `redaction.animations-removed`). Their meaning and the tests that assert them are in `redaction.md`.
