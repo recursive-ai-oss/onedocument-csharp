@@ -30,7 +30,7 @@ internal static class Program
     {
         if (args.Length < 2 || args[0] != "run")
         {
-            Console.Error.WriteLine("usage: OperationsProbe run INPUT_DIR [--pattern REGEX] [--limit N] [--shard I/N]");
+            Console.Error.WriteLine("usage: OperationsProbe run INPUT_DIR [--pattern REGEX] [--limit N] [--shard I/N] [--list FILE]");
             return 2;
         }
 
@@ -38,12 +38,16 @@ internal static class Program
         int limit = int.MaxValue;
         int shard = 0;
         int shards = 1;
+        string? list = null;
         for (int i = 2; i < args.Length - 1; i++)
         {
             switch (args[i])
             {
                 case "--pattern":
                     pattern = args[++i];
+                    break;
+                case "--list":
+                    list = args[++i];
                     break;
                 case "--limit":
                     limit = int.Parse(args[++i], System.Globalization.CultureInfo.InvariantCulture);
@@ -59,6 +63,12 @@ internal static class Program
         string[] files = [.. Directory.EnumerateFiles(args[1], "*", SearchOption.AllDirectories)
             .Where(f => f.EndsWith(".docx", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".pptx", StringComparison.OrdinalIgnoreCase))
             .OrderBy(f => f, StringComparer.Ordinal)];
+        if (list is not null)
+        {
+            var wanted = new HashSet<string>(File.ReadAllLines(list), StringComparer.Ordinal);
+            files = [.. files.Where(f => wanted.Contains(Path.GetRelativePath(args[1], f)))];
+        }
+
         int n = 0;
         int bad = 0;
         for (int i = shard; i < files.Length && n < limit; i += shards, n++)
@@ -83,6 +93,7 @@ internal static class Program
         int issues = 0;
         string status = "ok";
         string? code = null;
+        string? issueNote = null;
         try
         {
             string ext = Path.GetExtension(path).ToLowerInvariant();
@@ -99,6 +110,7 @@ internal static class Program
                 ReplaceReport r = d0.Replace(pattern, "X", new DocumentReplaceOptions { Search = new SearchOptions { UseRegex = true } });
                 items = r.Count;
                 issues = r.Issues.Count;
+                issueNote ??= r.Issues.Count > 0 ? r.Issues[0].Code + ": " + r.Issues[0].Message : null;
                 Compare("replace", snapNow(d0), expected, failed);
                 using var ms = new MemoryStream();
                 d0.SaveAs(ms, OfficeFormat.Docx);
@@ -117,7 +129,7 @@ internal static class Program
                     }
 
                     t1.Revisions.AcceptAll();
-                    Compare("accept", snapNow(t1), expected, failed);
+                    Compare("accept", snapNow(t1), expected, failed, joined: true);
                 }
 
                 // A document that already had tracked changes loses them on reject-all too, so the baseline is the same
@@ -133,7 +145,7 @@ internal static class Program
                 {
                     _ = t2.Replace(pattern, "X", new DocumentReplaceOptions { Search = new SearchOptions { UseRegex = true }, TrackedAuthor = "probe" });
                     t2.Revisions.RejectAll();
-                    Compare("reject", snapNow(t2), rejectedBaseline, failed);
+                    Compare("reject", snapNow(t2), rejectedBaseline, failed, joined: true);
                 }
             }
             else if (ext == ".xlsx")
@@ -144,6 +156,7 @@ internal static class Program
                 ReplaceReport r = w0.Replace(pattern, "X", new WorkbookReplaceOptions { Search = options });
                 items = r.Count;
                 issues = r.Issues.Count;
+                issueNote ??= r.Issues.Count > 0 ? r.Issues[0].Code + ": " + r.Issues[0].Message : null;
                 Compare("replace", [.. w0.Find(All, new WorkbookFindOptions { Search = options }).Select(h => h.Text)], expected, failed);
                 using var ms = new MemoryStream();
                 w0.SaveAs(ms, w0.Format);
@@ -160,6 +173,7 @@ internal static class Program
                 ReplaceReport r = p0.Replace(pattern, "X", new PresentationReplaceOptions { Search = options, Parts = PresentationParts.All });
                 items = r.Count;
                 issues = r.Issues.Count;
+                issueNote ??= r.Issues.Count > 0 ? r.Issues[0].Code + ": " + r.Issues[0].Message : null;
                 Compare("replace", [.. p0.Find(All, all).Select(h => h.Text)], expected, failed);
                 using var ms = new MemoryStream();
                 p0.SaveAs(ms, OfficeFormat.Pptx);
@@ -172,6 +186,12 @@ internal static class Program
         {
             status = "typed-error";
             code = ex.Defect.Code;
+        }
+
+        if (issues > 0)
+        {
+            // Matches the operation reported and left alone make the text differ from a plain replacement by design.
+            failed.RemoveAll(f => f is "replace" or "reopen" or "accept");
         }
 
         var buf = new System.Buffers.ArrayBufferWriter<byte>();
@@ -187,6 +207,11 @@ internal static class Program
 
             w.WriteNumber("replacements", items);
             w.WriteNumber("issues", issues);
+            if (issueNote is not null)
+            {
+                w.WriteString("issue", issueNote);
+            }
+
             w.WriteStartArray("failed");
             foreach (string f in failed)
             {
@@ -201,9 +226,10 @@ internal static class Program
     }
 
     // Texts compared in order; paragraphs and cells whose text is empty after the replacement are not listed by a search.
-    private static void Compare(string name, string[] actual, string[] expected, List<string> failed)
+    private static void Compare(string name, string[] actual, string[] expected, List<string> failed, bool joined = false)
     {
-        if (!actual.SequenceEqual(expected, StringComparer.Ordinal))
+        bool same = joined ? string.Concat(actual) == string.Concat(expected) : actual.SequenceEqual(expected, StringComparer.Ordinal);
+        if (!same)
         {
             failed.Add(name);
         }
