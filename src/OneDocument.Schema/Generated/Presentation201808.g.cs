@@ -225,6 +225,11 @@ public readonly struct Comment : global::RecursiveAI.OneDocument.Schema.IElement
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DrawingCommand2013)
+        {
+            if (local.SequenceEqual("deMkLst"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013DrawingElementMonikerList; }
+            if (local.SequenceEqual("txMkLst"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013TextCharRangeMonikerList; }
+        }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command)
         {
             if (local.SequenceEqual("sldMkLst"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Presentation2013CommandSlideMonikerList; }
@@ -299,6 +304,28 @@ public readonly struct Comment : global::RecursiveAI.OneDocument.Schema.IElement
     /// <summary>Removes every <c>pc:sldMkLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemoveSldMkLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "sldMkLst"u8);
+
+    /// <summary>The <c>a13:deMkLst</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.DrawingElementMonikerList> DeMkLsts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DrawingCommand2013, "deMkLst"u8);
+
+    /// <summary>Adds a <c>a13:deMkLst</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.DrawingElementMonikerList AddDeMkLst() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.DrawingElementMonikerList, global::RecursiveAI.OneDocument.Schema.Presentation201808.Comment>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DrawingCommand2013, "deMkLst"u8);
+
+    /// <summary>Removes every <c>a13:deMkLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveDeMkLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DrawingCommand2013, "deMkLst"u8);
+
+    /// <summary>The <c>a13:txMkLst</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.TextCharRangeMonikerList> TxMkLsts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DrawingCommand2013, "txMkLst"u8);
+
+    /// <summary>Adds a <c>a13:txMkLst</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.TextCharRangeMonikerList AddTxMkLst() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.TextCharRangeMonikerList, global::RecursiveAI.OneDocument.Schema.Presentation201808.Comment>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DrawingCommand2013, "txMkLst"u8);
+
+    /// <summary>Removes every <c>a13:txMkLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTxMkLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DrawingCommand2013, "txMkLst"u8);
 
     /// <summary>The <c>p188:unknownAnchor</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Presentation201808.CommentUnknownAnchor? UnknownAnchor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Presentation201808.CommentUnknownAnchor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation201808, "unknownAnchor"u8);

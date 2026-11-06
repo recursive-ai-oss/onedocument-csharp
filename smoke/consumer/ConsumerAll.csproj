@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The All metapackage alone: it must bring in every package that has content, with their format registration. -->
+  <PropertyGroup>
+    <AssemblyName>ConsumerAll</AssemblyName>
+    <DefineConstants>$(DefineConstants);WITH_SPREADSHEETS;WITH_ALL</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="RecursiveAI.OneDocument.All" Version="$(OneDocumentVersion)" />
+  </ItemGroup>
+</Project>

@@ -85,6 +85,15 @@ internal static class Program
             sb.Append("  ").Append(g.Key).Append(": ").Append(g.Count()).Append('\n');
         sb.Append("\nUnresolved or ambiguous references:\n");
         foreach (var n in sem.Notes.Distinct().OrderBy(n => n, StringComparer.Ordinal)) sb.Append("  ").Append(n).Append('\n');
+        sb.Append("\nConstructs read as raw elements, not views (per namespace: children typed by a simple type or xsd:anyType, types with xsd:any content, types with xsd:anyAttribute):\n");
+        foreach (var g in sem.TypeList.GroupBy(t => t.Doc.EnumName).OrderBy(g => g.Key, StringComparer.Ordinal))
+        {
+            var simple = g.Sum(t => t.Slots.Count(x => x.Type is null && x.IsSimple));
+            var any = g.Sum(t => t.Slots.Count(x => x.Type is null && !x.IsSimple));
+            var wild = g.Count(t => t.HasWildcard);
+            var wildAttr = g.Count(t => t.HasWildcardAttributes);
+            if (simple + any + wild + wildAttr > 0) sb.Append("  ").Append(g.Key).Append(": simple ").Append(simple).Append(", anyType ").Append(any).Append(", xsd:any ").Append(wild).Append(", xsd:anyAttribute ").Append(wildAttr).Append('\n');
+        }
         sb.Append("\nStrict differences (types in a Strict schema whose declared child or attribute names differ from the Transitional type):\n");
         foreach (var line in StrictDiff.Report(lib, sem)) sb.Append("  ").Append(line).Append('\n');
         return sb.ToString();

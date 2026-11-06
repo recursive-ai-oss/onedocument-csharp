@@ -26,6 +26,7 @@ internal static class Naming
 
     public static string Plural(string s)
     {
+        if (s.EndsWith("Series", StringComparison.Ordinal)) return s + "Entries"; // "series" is its own plural
         if (s.EndsWith('s') || s.EndsWith('x') || s.EndsWith("ch", StringComparison.Ordinal) || s.EndsWith("sh", StringComparison.Ordinal)) return s + "es";
         if (s.Length > 1 && s.EndsWith('y') && "aeiou".IndexOf(char.ToLowerInvariant(s[^2])) < 0) return s[..^1] + "ies";
         return s + "s";
@@ -285,6 +286,9 @@ internal sealed class Emitter
             // A name already taken (often by the same local name in another namespace, w:t and m:t) takes the namespace prefix, then a suffix.
             var m = propBase;
             if (used.Contains(m) || (s.Type is not null && methodNames.Contains(single))) { single = pfx + single; m = s.Many && s.Type is not null ? Naming.Plural(single) : single; }
+            // A collection named like its own view (sheets/sheet, numFmts/numFmt) cannot be a member of that view: <Item>List reads better than a suffix.
+            // WordprocessingML keeps its first spelling (FootnotesElement…), which the document hub already codes against.
+            if (m == t.ViewName && s.Many && s.Type is not null && t.Doc.EnumName != "Wordprocessing" && !used.Contains(single + "List")) m = single + "List";
             var m0 = m;
             for (var i = 2; used.Contains(m); i++) m = m0 + "Element" + (i > 2 ? i.ToString(CultureInfo.InvariantCulture) : "");
             var sg = single;

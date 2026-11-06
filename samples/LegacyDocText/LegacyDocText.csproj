@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <!-- A small Word 97-2003 file written by a converter, kept with the tests. -->
+    <Content Include="../../testdata/doc/basic.doc" Link="basic.doc" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>
