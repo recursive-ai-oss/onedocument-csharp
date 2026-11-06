@@ -74,12 +74,33 @@ public class CorpusGateCalcTests
             a["AAB5"].Formula = "MAXIFS(C1:C9960,A1:ZW9960,1)";
             a["AAB6"].Formula = "COUNTIFS(C1:C9960,1,A1:ZW9960,1)";
             a["AAB7"].Formula = "SUMIFS(C1:C9960,A1:ZW9960,1)";
+            a["AAB8"].Formula = "MAXIFS(C1:C9960,A1:ZW9960,1,#REF!,1)";
             wb.RecalculateAll();
+            Assert.Equal(CellError.Reference, a["AAB8"].Value.Error); // an error in a range position is the answer, read before sizes are compared
             Assert.Equal(CellValueKind.Error, a["AAB5"].Value.Kind);
             Assert.Equal(CellError.Value, a["AAB5"].Value.Error);
             Assert.Equal(CellError.Value, a["AAB6"].Value.Error);
             Assert.Equal(CellError.Value, a["AAB7"].Value.Error);
         }
+    }
+
+    [Fact]
+    public void RangesReadByOneFormulaTogetherStayUnderTheAllocationLimit()
+    {
+        // Each block alone is under the ceiling (100 x 24 bytes); the five of them together are not.
+        using Workbook wb = Workbook.Create(new OfficeLimits { MaxAllocationBytes = 10_000 });
+        Worksheet s = wb.Sheets[0];
+        for (int r = 1; r <= 100; r++)
+        {
+            s["A" + r].SetNumber(r);
+        }
+
+        s["C1"].Formula = "SUM(A1:A100)";
+        s["C2"].Formula = "SUM(A1:A100)+SUM(A1:A100)+SUM(A1:A100)+SUM(A1:A100)+SUM(A1:A100)";
+        wb.Recalculate();
+        Assert.Equal(5050, s["C1"].Number);
+        Assert.Equal(CellError.Value, s["C2"].Value.Error);
+        Assert.Contains("calc.limit-exceeded", TestBook.Defects(wb.OpenContext).Select(d => d.Code));
     }
 
     [Fact]

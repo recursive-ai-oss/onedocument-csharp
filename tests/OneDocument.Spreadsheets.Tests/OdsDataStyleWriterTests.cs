@@ -16,5 +16,8 @@ public class OdsDataStyleWriterTests
         string text = xml.ToString();
         Assert.Equal(1, text.Split("<number:number ").Length - 1);
         Assert.Contains("multiple-digit-groups", issues);
+
+        // The separators left next to each other are one text element.
+        Assert.DoesNotContain("</number:text><number:text>", text, StringComparison.Ordinal);
     }
 }

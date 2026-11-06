@@ -152,6 +152,16 @@ internal static partial class MathFunctions
             return Fx.Err(CalcError.Value);
         }
 
+        if (a[0].IsError)
+        {
+            return a[0];
+        }
+
+        if (Fx.ErrorAmong(a, 1, 2) is { } rangeError)
+        {
+            return rangeError;
+        }
+
         if (Fx.RangeShapesDiffer(a, 1, 2))
         {
             return Fx.Err(CalcError.Value);

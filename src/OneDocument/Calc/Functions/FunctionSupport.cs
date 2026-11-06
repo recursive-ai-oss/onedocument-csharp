@@ -219,6 +219,20 @@ internal static class Fx
         return CalcValue.FromArray(new CalcArray(rows, cols, cells));
     }
 
+    /// <summary>The first error among the arguments at <paramref name="start"/>, <paramref name="start"/> + <paramref name="step"/>, ... (the range positions of the <c>*IFS</c> functions); null when none is an error.</summary>
+    public static CalcValue? ErrorAmong(ReadOnlySpan<CalcValue> args, int start, int step)
+    {
+        for (int i = start; i < args.Length; i += step)
+        {
+            if (args[i].IsError)
+            {
+                return args[i];
+            }
+        }
+
+        return null;
+    }
+
     /// <summary>
     /// True when the range arguments at <paramref name="start"/>, <paramref name="start"/> + <paramref name="step"/>, ... are explicit rectangles
     /// of different sizes. The <c>*IFS</c> functions answer <c>#VALUE!</c> for that, and checking the references first avoids reading

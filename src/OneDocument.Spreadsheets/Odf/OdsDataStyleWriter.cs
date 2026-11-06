@@ -539,6 +539,9 @@ internal static class OdsDataStyleWriter
             xml.Append(" number:truncate-on-overflow=\"false\"");
         }
 
+        // Adjacent literals are one text element: the schema allows a single text before and after the number, and dropping a
+        // second digit group above leaves its separators next to each other.
+        body.Replace("</number:text><number:text>", string.Empty);
         xml.Append('>').Append(body);
         if (maps is not null)
         {

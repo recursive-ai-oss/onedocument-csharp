@@ -230,6 +230,11 @@ internal static class DescriptiveFunctions
     /// </summary>
     private static CalcValue RunIfs(Evaluator ev, ReadOnlySpan<CalcValue> a, int first, Func<bool[], CalcValue> reduce, CalcArray? shapeLike = null)
     {
+        if (Fx.ErrorAmong(a, first, 2) is { } rangeError)
+        {
+            return rangeError;
+        }
+
         if (Fx.RangeShapesDiffer(a, first, 2))
         {
             return Fx.Err(CalcError.Value);
@@ -365,6 +370,11 @@ internal static class DescriptiveFunctions
         for (int i = 1; i < shapes.Length; i++)
         {
             shapes[i] = a[(2 * i) - 1];
+        }
+
+        if (Fx.ErrorAmong(shapes, 0, 1) is { } rangeError)
+        {
+            return rangeError;
         }
 
         if (Fx.RangeShapesDiffer(shapes, 0, 1))
