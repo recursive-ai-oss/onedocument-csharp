@@ -20,6 +20,16 @@ namespace RecursiveAI.OneDocument.Tools.CalcSweep;
 /// </summary>
 internal static class Program
 {
+    // The workbook formats the cached-value reproduction reads; Workbook.Open sniffs the content, so one loop serves them all.
+    private static readonly string[] Formats = [".xlsx", ".xlsm", ".xlsb", ".xls", ".ods", ".fods"];
+
+    // Functions whose result legitimately differs from the cached one, or that read the outside world.
+    private static readonly System.Text.RegularExpressions.Regex Volatile = new(@"(?i)\b(NOW|TODAY|RAND|RANDBETWEEN|RANDARRAY)\s*\(", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+    private static readonly System.Text.RegularExpressions.Regex ServiceBound = new(@"(?i)\b(WEBSERVICE|FILTERXML|STOCKHISTORY|RTD|CUBE\w+|ENCODEURL|HYPERLINK)\s*\(", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+    // A workbook index in square brackets (`[1]Sheet!A1`) names an external link target whatever the parser made of the prefix.
+    private static readonly System.Text.RegularExpressions.Regex ExternalIndex = new(@"\[\d+\]", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
     private static int Main(string[] args)
     {
         if (args.Length == 2 && args[0] == "gen")
@@ -74,7 +84,7 @@ internal static class Program
             if (Directory.Exists(path))
             {
                 files.AddRange(Directory.EnumerateFiles(path, "*.*", SearchOption.AllDirectories)
-                    .Where(f => f.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".xlsm", StringComparison.OrdinalIgnoreCase)));
+                    .Where(f => Formats.Any(x => f.EndsWith(x, StringComparison.OrdinalIgnoreCase))));
             }
             else
             {
@@ -137,6 +147,19 @@ internal static class Program
         return 0;
     }
 
+    // Two numbers that agree to nine significant digits: a last-bits difference, not a different answer.
+    private static bool NearlyEqual(string a, string b)
+    {
+        if (!a.StartsWith("n:", StringComparison.Ordinal) || !b.StartsWith("n:", StringComparison.Ordinal))
+        {
+            return false;
+        }
+
+        double x = double.Parse(a.AsSpan(2), CultureInfo.InvariantCulture);
+        double y = double.Parse(b.AsSpan(2), CultureInfo.InvariantCulture);
+        return Math.Abs(x - y) <= 1e-9 * Math.Max(Math.Abs(x), Math.Abs(y));
+    }
+
     private static void Add(Dictionary<string, long> d, string k) => d[k] = d.GetValueOrDefault(k) + 1;
 
     private static void Sweep(string file, FunctionRegistry registry, int threads, Dictionary<string, long> totals, Dictionary<string, List<string>> samples,
@@ -145,6 +168,8 @@ internal static class Program
         using Workbook wb = Workbook.Open(file);
         var before = new List<(Worksheet Sheet, int Row, int Column, string Value, string? Missing, bool External, string Formula)>();
         var names = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        bool anyVolatile = false;
+        bool anyRefLiteral = false;
         foreach (DefinedName n in wb.Names)
         {
             names.Add(n.Name);
@@ -175,6 +200,23 @@ internal static class Program
                         Scan(tree!, registry, names, ref missing, ref external);
                     }
 
+                    if (ExternalIndex.IsMatch(text))
+                    {
+                        external = true;
+                    }
+
+                    if (Volatile.IsMatch(text))
+                    {
+                        anyVolatile = true;
+                    }
+
+                    // A legacy workbook's reference into another workbook is converted to a bare #REF! (docs/xls.md, external references);
+                    // when the cached value is a number, the cell is an import gap, and so is what depends on it.
+                    if (text.Contains("#REF!", StringComparison.Ordinal) && !Key(ws, row.ValueAt(i)).StartsWith("e:", StringComparison.Ordinal))
+                    {
+                        anyRefLiteral = true;
+                    }
+
                     before.Add((ws, row.Row, row.ColumnAt(i), Key(ws, row.ValueAt(i)), missing, external, text));
                 }
             }
@@ -189,6 +231,23 @@ internal static class Program
             Add(totals, "formulas");
             string actual = Key(ws, ws[row, col].Value);
             bool match = expected == actual;
+
+            // A formula cell stored without a value has no cached result to reproduce. Some producers write booleans as 0/1 without the
+            // boolean cell type; that is the producer's encoding, not a different answer.
+            bool noCache = expected == "z:";
+            bool boolCache = !match && ((expected == "n:1" && actual == "b:True") || (expected == "n:0" && actual == "b:False"));
+            if (noCache)
+            {
+                Add(totals, "no-cached-value");
+                continue;
+            }
+
+            if (boolCache)
+            {
+                Add(totals, "bool-stored-as-number");
+                match = true;
+            }
+
             if (missing is null && !external)
             {
                 Add(totals, "testable");
@@ -204,7 +263,7 @@ internal static class Program
             }
 
             fileMismatch++;
-            string cls = missing is not null ? "unimplemented" : external ? "external" : anyBad ? "downstream-or-bug" : "bug";
+            string cls = missing is not null ? "unimplemented" : external ? "external" : ServiceBound.IsMatch(formula) ? "service-bound" : Volatile.IsMatch(formula) ? "volatile" : NearlyEqual(expected, actual) ? "precision" : anyRefLiteral && actual == "e:#REF!" ? "import-gap-ref" : anyVolatile ? "volatile-downstream" : anyBad ? "downstream-or-bug" : "bug";
             if (missing is not null)
             {
                 unimplemented[missing] = unimplemented.GetValueOrDefault(missing) + 1;
