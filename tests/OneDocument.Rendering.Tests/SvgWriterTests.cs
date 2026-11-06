@@ -272,6 +272,20 @@ public sealed class SvgWriterTests
         Assert.Throws<OperationCanceledException>(() => SvgWriter.Write(list, new StringWriter(), Page(), cts.Token));
     }
 
+    [Fact]
+    public void ARasterizedRegionWorksWhenTheListUsesTheIdsTheWrapperMightPick()
+    {
+        // The region copy keeps the items' ids, so the wrapper around it must not take one of them.
+        var list = new DisplayList();
+        Paint conic = list.ConicGradient(10, 10, 0, [new GradientStop(0, PaintColor.White), new GradientStop(1, PaintColor.Black)]);
+        list.FillRect(ItemId.Of(1), new RectF(0, 0, 20, 20), conic);
+        list.FillRect(ItemId.Of(uint.MaxValue), new RectF(30, 0, 20, 20), conic);
+        list.Validate();
+        SvgOptions o = Page();
+        o.Rasterizer = new FakeRasterizer();
+        Assert.Equal(2, SvgWriter.Write(list, new StringWriter(), o).RasterizedRegions);
+    }
+
     private sealed class FakeRasterizer : ISvgRasterizer
     {
         public int Calls { get; private set; }

@@ -1578,7 +1578,7 @@ public static class SvgWriter
             var region = new DisplayList();
             try
             {
-                region.PushTransform(ItemId.Of(1), Matrix3x2.CreateTranslation((float)(pad - b.X), (float)(pad - b.Y)));
+                region.PushTransform(WrapperId(), Matrix3x2.CreateTranslation((float)(pad - b.X), (float)(pad - b.Y)));
                 Copy(first, last, region);
                 region.PopTransform();
                 region.Validate();
@@ -1599,6 +1599,18 @@ public static class SvgWriter
             {
                 return false;
             }
+        }
+
+        // An id the wrapper can use in the copy: the copied items keep their own ids, and a list refuses two items with one id.
+        private ItemId WrapperId()
+        {
+            uint owner = uint.MaxValue;
+            while (_list.TryFind(ItemId.Of(owner), out _))
+            {
+                owner--;
+            }
+
+            return ItemId.Of(owner);
         }
 
         // Copies items first..last into another list (ids and all), so a backend can draw them alone.
