@@ -200,8 +200,13 @@ internal sealed partial class XlsImporter
                 CfRecord(r);
                 break;
             case 0x0879:
+                CondFmt12Record(r);
+                break;
             case 0x087A:
+                Cf12Record(r);
+                break;
             case 0x087B:
+                // CFEx extends a plain CF rule with the properties of the 2007 kinds; the rule itself is read, the extension is not.
                 _lossCounts["loss.conditional-formats-extended"] = _lossCounts.GetValueOrDefault("loss.conditional-formats-extended") + 1;
                 break;
             case 0x00EC:

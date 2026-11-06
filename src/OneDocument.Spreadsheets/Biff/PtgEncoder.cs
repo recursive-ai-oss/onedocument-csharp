@@ -20,6 +20,13 @@ internal sealed class PtgEncoder
         _ctx = ctx;
     }
 
+    /// <summary>
+    /// When set, references without a sheet prefix that have a relative part are written as <c>PtgRefN</c> and <c>PtgAreaN</c> ([MS-XLS] §2.5.198.88,
+    /// §2.5.198.64): the relative parts become offsets from this cell (zero-based row and column), as formulas of conditional formats and
+    /// data validation store them.
+    /// </summary>
+    public (int Row, int Column)? RelativeTo { get; set; }
+
     /// <summary>The reason the last <see cref="TryEncode"/> failed.</summary>
     public string? Reason => _why;
 
@@ -105,6 +112,14 @@ internal sealed class PtgEncoder
                 B(0x16);
                 break;
             case CellReferenceNode x:
+                if (x.Prefix is null && RelativeTo is { } bse && (!x.Row.Absolute || !x.Column.Absolute))
+                {
+                    B(0x2C);
+                    W(x.Row.Absolute ? x.Row.Index - 1 : (x.Row.Index - 1 - bse.Row) & 0xFFFF);
+                    W((x.Column.Absolute ? x.Column.Index - 1 : (x.Column.Index - 1 - bse.Column) & 0x3FFF) | (x.Column.Absolute ? 0 : 0x4000) | (x.Row.Absolute ? 0 : 0x8000));
+                    break;
+                }
+
                 if (x.Prefix is null)
                 {
                     B(0x24);
@@ -257,6 +272,16 @@ internal sealed class PtgEncoder
         if (r1 > 0xFFFF || r2 > 0xFFFF || c1 > 0xFF || c2 > 0xFF)
         {
             throw new NotSupportedException("A reference lies outside the 65,536 x 256 grid of BIFF8.");
+        }
+
+        if (x.Prefix is null && RelativeTo is { } bse && x.AreaKind == AreaKind.Cells && (!x.Row1.Absolute || !x.Column1.Absolute || !x.Row2.Absolute || !x.Column2.Absolute))
+        {
+            _rgce[^1] = 0x2D;
+            W(x.Row1.Absolute ? r1 : (r1 - bse.Row) & 0xFFFF);
+            W(x.Row2.Absolute ? r2 : (r2 - bse.Row) & 0xFFFF);
+            W((x.Column1.Absolute ? c1 : (c1 - bse.Column) & 0x3FFF) | (x.Column1.Absolute ? 0 : 0x4000) | (x.Row1.Absolute ? 0 : 0x8000));
+            W((x.Column2.Absolute ? c2 : (c2 - bse.Column) & 0x3FFF) | (x.Column2.Absolute ? 0 : 0x4000) | (x.Row2.Absolute ? 0 : 0x8000));
+            return;
         }
 
         W(r1);

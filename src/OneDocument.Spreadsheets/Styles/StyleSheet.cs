@@ -85,6 +85,9 @@ public sealed class StyleSheet
     /// <summary>Gets the number of cell formats (the valid values of <see cref="Cell.StyleIndex"/>).</summary>
     public int CellFormatCount => _xfs.Count;
 
+    /// <summary>Gets the number of cell style formats (<c>cellStyleXfs</c>), the parents of the cell formats.</summary>
+    internal int StyleFormatCount => _styleXfs.Count;
+
     /// <summary>Gets the number of differential formats.</summary>
     public int DifferentialFormatCount => _dxfs.Count;
 

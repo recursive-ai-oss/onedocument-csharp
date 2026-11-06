@@ -8,7 +8,7 @@ namespace RecursiveAI.OneDocument.Spreadsheets.Tests.Biff;
 
 public class XlsOracleTests
 {
-    private static string Dir
+    internal static string Dir
     {
         get
         {

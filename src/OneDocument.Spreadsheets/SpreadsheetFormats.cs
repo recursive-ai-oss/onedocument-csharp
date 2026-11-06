@@ -59,6 +59,17 @@ public static class SpreadsheetFormats
                 workbook.Write(format, destination, cancellationToken);
             },
             formats);
+        registry.RegisterWriter(
+            static (file, format, destination, cancellationToken) =>
+            {
+                if (file is not Workbook workbook)
+                {
+                    throw new FormatNotAvailableException(format, "write a " + file.Kind + " as");
+                }
+
+                workbook.WriteXls(destination, cancellationToken);
+            },
+            OfficeFormat.Xls);
         registry.RegisterTemplateBinder(Templating.XlsxTemplateBinderAdapter.Instance, formats);
     }
 }
