@@ -155,7 +155,7 @@ internal sealed class XlsbBook : IDisposable
         var hidden = new HashSet<string>(HiddenParts, StringComparer.OrdinalIgnoreCase);
 
         // Workbook first: it fills the formula context that sheets need.
-        var workbookBytes = new Lazy<byte[]>(() => BuildWorkbook(mainPart));
+        var workbookBytes = new Lazy<byte[]>(() => Guarded(mainPart.Name, () => BuildWorkbook(mainPart)));
         Func<ReadOnlyMemory<byte>> loadWorkbook = () => workbookBytes.Value;
         foreach (IPackagePart p in Source.Parts)
         {
@@ -180,16 +180,19 @@ internal sealed class XlsbBook : IDisposable
                 Kind.Worksheet => () =>
                 {
                     _ = workbookBytes.Value;
-                    EnsureStyles();
-                    return XlsbSheetPart.ToXml(src.GetBytes(), _context, src.Name, Formulas, Fonts);
+                    Guarded(src.Name, EnsureStyles);
+                    return Guarded(src.Name, () => XlsbSheetPart.ToXml(src.GetBytes(), _context, src.Name, Formulas, Fonts));
                 },
-                Kind.Styles => () => EnsureStyles(),
+                Kind.Styles => () => Guarded(src.Name, EnsureStyles),
                 Kind.SharedStrings => () =>
                 {
-                    EnsureStyles();
-                    return XlsbSharedStringsPart.ToXml(src.GetBytes(), _context, src.Name, Fonts);
+                    return Guarded(src.Name, () =>
+                    {
+                        EnsureStyles();
+                        return XlsbSharedStringsPart.ToXml(src.GetBytes(), _context, src.Name, Fonts);
+                    });
                 },
-                Kind.ChartSheet => () => XlsbChartSheetPart.ToXml(src.GetBytes(), _context, src.Name),
+                Kind.ChartSheet => () => Guarded(src.Name, () => XlsbChartSheetPart.ToXml(src.GetBytes(), _context, src.Name)),
                 _ => () => src.GetBytes(),
             };
             Hub.AddLoadedPart(info.HubName, type, p.Length, load);
@@ -203,6 +206,21 @@ internal sealed class XlsbBook : IDisposable
             {
                 MapRelationships(p.Name, info.HubName, Source.GetRelationships(p.Name), hidden);
             }
+        }
+    }
+
+    /// <summary>Runs a part translator so that only <see cref="OfficeException"/> can leave it: a record the translators did not expect is a malformed part, never an untyped failure.</summary>
+    private static T Guarded<T>(string partName, Func<T> translate)
+    {
+        try
+        {
+            return translate();
+        }
+        catch (Exception e) when (e is FormatException or IndexOutOfRangeException or ArgumentException or InvalidOperationException
+            or OverflowException or InvalidCastException or NullReferenceException or KeyNotFoundException or ArithmeticException
+            or InsufficientExecutionStackException or System.Text.DecoderFallbackException)
+        {
+            throw new OfficeFormatException(DefectKind.Record, "xlsb.part-unreadable", "The part could not be read: " + e.Message, DefectLocation.InPart(partName), e);
         }
     }
 
