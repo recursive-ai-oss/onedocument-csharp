@@ -38,8 +38,67 @@ internal sealed partial class OdtImporter
         {
             Lost("loss.shapes", "drawing shapes", "A frame with content other than a picture or a text box was dropped.");
         }
+        else
+        {
+            EmitFormulaText(st, frame);
+        }
 
         _ = s;
+    }
+
+    // An embedded formula is MathML in a sub-document of the package. The hub has no path from MathML to its equations, so the symbols' text stands in
+    // for it, and the formula is reported as lost.
+    private void EmitFormulaText(Inl st, MarkupNode frame)
+    {
+        MarkupNode obj = OdfMarkup.Child(frame, OdfNamespaces.Draw, "object");
+        string? href = obj.IsNull ? null : A(obj, OdfNamespaces.XLink, "href");
+        if (href is null || _pkg.IsFlat)
+        {
+            return;
+        }
+
+        string entry = (href.StartsWith("./", StringComparison.Ordinal) ? href[2..] : href).TrimEnd('/') + "/content.xml";
+        if (!_pkg.TryReadEntry(entry, out ReadOnlyMemory<byte> bytes) || !MarkupDocument.TryParse(bytes, out MarkupDocument? doc, _ctx, entry) || doc is null)
+        {
+            return;
+        }
+
+        MarkupNode root = doc.Root;
+        if (root.IsNull || root.NamespaceUri != OdfNamespaces.MathMl)
+        {
+            return;
+        }
+
+        Lost("loss.formulas", "formulas", "Embedded formulas (MathML) are written as the plain text of their symbols; the equation is not carried.");
+        var sb = new StringBuilder();
+        CollectMathText(root, sb, 0);
+        if (sb.Length > 0)
+        {
+            Flush(st);
+            st.LastSpace = false;
+            st.AddText(sb.ToString());
+            st.LastSpace = false;
+        }
+    }
+
+    private static void CollectMathText(MarkupNode n, StringBuilder sb, int depth)
+    {
+        if (depth > 64)
+        {
+            return;
+        }
+
+        foreach (MarkupNode c in n.ChildElements)
+        {
+            if (c.NamespaceUri == OdfNamespaces.MathMl && c.LocalNameString is "mi" or "mn" or "mo" or "mtext")
+            {
+                sb.Append(c.InnerText);
+            }
+            else if (c.LocalNameString != "annotation" && c.LocalNameString != "annotation-xml")
+            {
+                CollectMathText(c, sb, depth + 1);
+            }
+        }
     }
 
     private OdfStyle? GraphicStyle(MarkupNode frame) =>
@@ -225,6 +284,58 @@ internal sealed partial class OdtImporter
         return null;
     }
 
+    // A drawing shape other than a frame (rectangle, custom shape, group...). Its geometry is not carried; the text it holds becomes a text box and
+    // the frames inside a group are written as they are.
+    private void EmitShape(Inl st, MarkupNode shape)
+    {
+        string local = shape.LocalNameString;
+        if (local == "g" || local == "a")
+        {
+            bool any = false;
+            foreach (MarkupNode c in shape.ChildElements)
+            {
+                if (c.NamespaceUri == OdfNamespaces.Draw)
+                {
+                    Flush(st);
+                    if (c.LocalNameString == "frame")
+                    {
+                        EmitFrame(st, c);
+                    }
+                    else
+                    {
+                        EmitShape(st, c);
+                    }
+
+                    any = true;
+                }
+            }
+
+            if (!any)
+            {
+                Lost("loss.shapes", "drawing shapes", "Drawing shapes (lines, rectangles, custom shapes, groups) were dropped; the text inside them is kept in text boxes.");
+            }
+
+            return;
+        }
+
+        Lost("loss.shapes", "drawing shapes", "Drawing shapes (lines, rectangles, custom shapes, groups) were dropped; the text inside them is kept in text boxes.");
+        bool hasText = false;
+        foreach (MarkupNode c in shape.ChildElements)
+        {
+            if (c.NamespaceUri == OdfNamespaces.Text && c.LocalNameString is "p" or "h" or "list")
+            {
+                hasText = true;
+                break;
+            }
+        }
+
+        if (hasText)
+        {
+            Flush(st);
+            EmitTextBox(st, shape, shape);
+        }
+    }
+
     private void EmitPicture(Inl st, MarkupNode frame, MarkupNode image)
     {
         string? part = RegisterImage(image);
@@ -388,7 +499,11 @@ internal sealed partial class OdtImporter
         s.EndsWithParagraph = false;
         foreach (MarkupNode c in textBox.ChildElements)
         {
-            EmitBlock(s, c, null, null);
+            // A shape's own children include its geometry; only the text and tables are content.
+            if (c.NamespaceUri == OdfNamespaces.Text || c.NamespaceUri == OdfNamespaces.Table)
+            {
+                EmitBlock(s, c, null, null);
+            }
         }
 
         if (!s.EndsWithParagraph)

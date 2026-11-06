@@ -386,7 +386,7 @@ public sealed class OdfPackage : IDisposable
                     throw new OfficeUnsupportedException("encrypted OpenDocument package", DefectLocation.InPart(ManifestName));
                 }
 
-                if (e.FullPath != "/" && !_byName.ContainsKey(e.FullPath) && !_byName.ContainsKey(e.FullPath.TrimEnd('/') + "/") && !_byName.ContainsKey(e.FullPath.TrimEnd('/')))
+                if (e.FullPath != "/" && !e.FullPath.EndsWith('/') && !_byName.ContainsKey(e.FullPath) && !_byName.ContainsKey(e.FullPath.TrimEnd('/') + "/") && !_byName.ContainsKey(e.FullPath.TrimEnd('/')))
                 {
                     Report(Context, "packaging.odf-manifest-missing-entry", DefectSeverity.Repaired, "The manifest lists '" + e.FullPath + "', which the package does not hold.", ManifestName);
                 }

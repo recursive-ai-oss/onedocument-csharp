@@ -477,7 +477,7 @@ internal sealed partial class OdtImporter
             }
             else
             {
-                Lost("loss.shapes", "drawing shapes", "Drawing shapes (lines, rectangles, custom shapes, groups) were dropped.");
+                EmitShape(st, n);
             }
 
             return;
@@ -496,7 +496,26 @@ internal sealed partial class OdtImporter
             return;
         }
 
-        Unmapped(n);
+        switch (local)
+        {
+            case "content-control":
+                Lost("loss.content-controls", "content controls", "Content controls were read through: their text is kept, the controls are not.");
+                break;
+            case "fieldmark":
+            case "fieldmark-start":
+            case "fieldmark-separator":
+            case "fieldmark-end":
+            case "param":
+            case "user-defined":
+            case "style-ref":
+            case "conditional-text":
+                // Form-field marks and cached fields: the text between them is the content, read as it stands.
+                break;
+            default:
+                Unmapped(n);
+                break;
+        }
+
         EmitInline(st, n);
     }
 

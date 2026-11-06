@@ -142,6 +142,61 @@ public class OdfTests
 
     private static string Part(Document d, string name) => Encoding.UTF8.GetString(d.Package.FindPart(name)!.GetBytes().Span);
 
+    private static IEnumerable<string> Matches(string text, string pattern) =>
+        System.Text.RegularExpressions.Regex.Matches(text, pattern).Select(m => m.Groups[m.Groups.Count - 1].Value);
+
+    [Fact]
+    public void RoundTripKeepsStylesListsTablesNotesAndSections()
+    {
+        using Document source = OdfSamples.RichDocument();
+        using Document back = Open(Save(source, OfficeFormat.Odt));
+        string a = source.MainMarkup.Root.OuterXml, b = back.MainMarkup.Root.OuterXml;
+
+        // Styles: every named style the source defines is defined again under the same name, and the paragraphs use the same ones in the same order.
+        static SortedSet<string> StyleNames(Document d) =>
+            new(Matches(Part(d, "/word/styles.xml"), "<w:style [^>]*w:type=\"(?:paragraph|character)\"[^>]*><w:name w:val=\"([^\"]*)\"").Select(n => n.ToLowerInvariant()), StringComparer.Ordinal);
+        Assert.Subset(StyleNames(back), StyleNames(source));
+        Assert.Equal(
+            Matches(a, "<w:pStyle w:val=\"([^\"]*)\"").Select(StyleNameOf(source)),
+            Matches(b, "<w:pStyle w:val=\"([^\"]*)\"").Select(StyleNameOf(back)).Where(n => n is not "normal"));
+
+        // Lists: the same paragraphs are numbered, at the same levels, with the same formats and start values.
+        Assert.Equal(Matches(a, "<w:ilvl w:val=\"(\\d)\"/><w:numId w:val=\"[1-9]"), Matches(b, "<w:ilvl w:val=\"(\\d)\"/><w:numId w:val=\"[1-9]"));
+        Assert.Equal(
+            Matches(Part(source, "/word/numbering.xml"), "<w:numFmt w:val=\"([a-zA-Z]*)\"").Distinct().Order(),
+            Matches(Part(back, "/word/numbering.xml"), "<w:numFmt w:val=\"([a-zA-Z]*)\"").Distinct().Order());
+        // The source restarts at five with an override; the list style of that list starts at five.
+        Assert.Contains("<w:start w:val=\"5\"/>", Part(back, "/word/numbering.xml"), StringComparison.Ordinal);
+
+        // Tables, notes, comments, sections.
+        foreach (string marker in new[] { "<w:gridSpan w:val=\"2\"/>", "<w:vMerge w:val=\"restart\"/>", "<w:tblHeader/>", "<w:footnoteReference ", "<w:commentRangeStart ", "<w:bookmarkStart ", "<w:sectPr>", "<w:drawing>", "<w:ins ", "<w:del ", "<w:hyperlink " })
+        {
+            Assert.Equal(System.Text.RegularExpressions.Regex.Count(a, System.Text.RegularExpressions.Regex.Escape(marker)), System.Text.RegularExpressions.Regex.Count(b, System.Text.RegularExpressions.Regex.Escape(marker)));
+        }
+
+        Assert.Equal(Matches(a, "<w:pgSz w:w=\"(\\d+)\" w:h=\"(\\d+)\""), Matches(b, "<w:pgSz w:w=\"(\\d+)\" w:h=\"(\\d+)\""));
+        Assert.Equal(Matches(a, "w:orient=\"(landscape)\""), Matches(b, "w:orient=\"(landscape)\""));
+        Assert.Equal(Matches(a, "<w:cols w:num=\"(\\d)\""), Matches(b, "<w:cols w:num=\"(\\d)\""));
+        foreach (string part in new[] { "/word/footnotes.xml", "/word/comments.xml" })
+        {
+            Assert.Equal(Words(System.Text.RegularExpressions.Regex.Replace(Part(source, part), "<[^>]*>", " ")), Words(System.Text.RegularExpressions.Regex.Replace(Part(back, part), "<[^>]*>", " ")));
+        }
+
+        // Margins and the page size survive to within the rounding of the unit change.
+        int Margin(string xml, string side) => int.Parse(Matches(xml, "<w:pgMar [^>]*w:" + side + "=\"(\\d+)\"").First(), System.Globalization.CultureInfo.InvariantCulture);
+        foreach (string side in new[] { "top", "left", "right", "bottom" })
+        {
+            Assert.InRange(Math.Abs(Margin(a, side) - Margin(b, side)), 0, 2);
+        }
+    }
+
+    private static Func<string, string> StyleNameOf(Document d) => id =>
+    {
+        string styles = Part(d, "/word/styles.xml");
+        System.Text.RegularExpressions.Match m = System.Text.RegularExpressions.Regex.Match(styles, "w:styleId=\"" + System.Text.RegularExpressions.Regex.Escape(id) + "\"><w:name w:val=\"([^\"]*)\"");
+        return m.Success ? m.Groups[1].Value.ToLowerInvariant() : id;
+    };
+
     [Fact]
     public void FeatureFileMapsItsConstructs()
     {
@@ -224,6 +279,7 @@ public class OdfTests
         Assert.Contains("descr=\"A single dot\"", xml, StringComparison.Ordinal);
         Assert.Contains("<v:textbox><w:txbxContent>", xml, StringComparison.Ordinal);
         Assert.Contains("Text in a box", text, StringComparison.Ordinal);
+        Assert.Contains("shape text", text, StringComparison.Ordinal);
         Assert.True(d.Package.FindPart("/word/media/image1.png") is not null);
 
         // Page styles: three sections, the second landscape in two columns, headers per master page.
@@ -287,6 +343,22 @@ public class OdfTests
         using Document d = OpenFlat(Body("<text:p><draw:frame text:anchor-type=\"as-char\"><draw:image><office:binary-data>!!!</office:binary-data></draw:image></draw:frame></text:p>"), defects);
         Assert.Contains(defects, x => x.Code == "odf.bad-base64");
         Assert.True(d.ImportLoss!.CountOf("loss.pictures") > 0);
+    }
+
+    [Fact]
+    public void EmbeddedFormulaKeepsItsSymbolsAsText()
+    {
+        using var pkg = OdfPackage.Create(OdfMediaTypes.Text);
+        string content = FlatHead.Replace("office:document ", "office:document-content ", StringComparison.Ordinal).Replace(" office:mimetype=\"application/vnd.oasis.opendocument.text\"", string.Empty, StringComparison.Ordinal)
+            + Body("<text:p>E = <draw:frame text:anchor-type=\"as-char\" svg:width=\"2cm\" svg:height=\"1cm\"><draw:object xlink:href=\"./Object 1\"/></draw:frame> done</text:p>") + "</office:document-content>";
+        pkg.SetEntry(OdfPackage.ContentName, Encoding.UTF8.GetBytes(content), "text/xml");
+        pkg.SetEntry("Object 1/content.xml", Encoding.UTF8.GetBytes("<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>m</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding=\"StarMath 5.0\">m = 2</annotation></semantics></math>"), "text/xml");
+        using var ms = new MemoryStream();
+        pkg.WriteTo(ms);
+        using Document d = Open(ms.ToArray());
+        Assert.Contains("E = m=2 done", d.ExtractText().Replace("\r", string.Empty, StringComparison.Ordinal), StringComparison.Ordinal);
+        Assert.True(d.ImportLoss!.CountOf("loss.formulas") > 0);
+        Assert.True(d.ImportLoss!.CountOf("loss.embedded-objects") > 0);
     }
 
     [Fact]
@@ -426,7 +498,7 @@ public class OdfTests
                         }
                         else
                         {
-                            lines.Add("text differs: " + Path.GetFileName(file));
+                            lines.Add("text differs: " + Path.GetFileName(file) + " " + FirstDifference(Words(s.ExtractText()), Words(text)));
                         }
                     }
                 }
@@ -475,6 +547,19 @@ public class OdfTests
         }
 
         File.WriteAllText(report, sb.ToString());
+    }
+
+    private static string FirstDifference(string a, string b)
+    {
+        string[] x = a.Split(' '), y = b.Split(' ');
+        int i = 0;
+        while (i < x.Length && i < y.Length && x[i] == y[i])
+        {
+            i++;
+        }
+
+        string Ctx(string[] w) => string.Join(' ', w.Skip(Math.Max(0, i - 3)).Take(8));
+        return $"at word {i} of {x.Length}/{y.Length}: [{Ctx(x)}] vs [{Ctx(y)}]";
     }
 
     private static string Words(string text) => string.Join(' ', Norm(text).Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries));

@@ -73,7 +73,7 @@ exporter, which writes a valid package of its own from the hub; a save to anothe
 Reported as losses (`loss.*`): `unmapped-markup.<element>`, `shapes` (lines, rectangles, custom shapes, groups), `embedded-objects` (formulas,
 charts and OLE objects keep only a preview picture), `forms`, `linked-images` (never fetched), `pictures` (missing or undecodable data),
 `picture-cropping`, `ruby` (the text above the base), `formatting-revisions`, `column-breaks`, `page-break-after`, `table-page-break`,
-`section-columns` (text sections with columns), `index-fields` (indexes other than contents and alphabetical), `page-background`.
+`section-columns` (text sections with columns), `index-fields` (indexes other than contents and alphabetical), `page-background`, `formulas` (the MathML symbols are kept as text), `content-controls`. The text of a rectangle, custom shape or group is kept in a text box; the geometry is dropped (`shapes`).
 
 ### Writing (hub → ODF)
 
