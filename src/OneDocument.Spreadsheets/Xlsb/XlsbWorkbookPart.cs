@@ -679,7 +679,7 @@ internal static class XlsbWorkbookPart
                     {
                         if (!XlsbFormula.TryEncode(ast, cx, XlsbFormulaKind.Name, 0, 0, out rgce, out rgcb, out string? problem))
                         {
-                            loss.Report("xlsb.formula-approximated", "formula written approximately", 1, "A formula could not be encoded exactly: " + problem);
+                            loss.Report("loss.xlsb-formula-approximated", "formula written approximately", 1, "A formula could not be encoded exactly: " + problem);
                         }
                     }
                 }
@@ -790,7 +790,7 @@ internal static class XlsbWorkbookPart
                 default:
                     if (c.NamespaceUri == XlsbMarkup.MainNamespace)
                     {
-                        loss.Report("xlsb.workbook-element", "workbook element " + c.LocalNameString, 1, "The workbook element '" + c.LocalNameString + "' has no binary form here and is dropped.");
+                        loss.Report("loss.xlsb-workbook-element", "workbook element " + c.LocalNameString, 1, "The workbook element '" + c.LocalNameString + "' has no binary form here and is dropped.");
                     }
 
                     break;
@@ -826,7 +826,7 @@ internal static class XlsbWorkbookPart
             return node;
         }
 
-        loss.Report("xlsb.formula-unparsed", "formula that could not be parsed", 1, "The formula of " + what + " in " + partName + " could not be parsed (" + error.Code + "); it is written as #NAME?.");
+        loss.Report("loss.xlsb-formula-unparsed", "formula that could not be parsed", 1, "The formula of " + what + " in " + partName + " could not be parsed (" + error.Code + "); it is written as #NAME?.");
         return null;
     }
 

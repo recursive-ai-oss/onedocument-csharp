@@ -342,7 +342,7 @@ internal static class XlsbFilters
     {
         if (!XlsbAddress.TryParseRange(af.Str("ref"), out int r1, out int r2, out int c1, out int c2))
         {
-            loss.Report("xlsb.filter-dropped", "AutoFilter without a valid range", 1, "An AutoFilter has no valid range and is not written.");
+            loss.Report("loss.xlsb-filter-dropped", "AutoFilter without a valid range", 1, "An AutoFilter has no valid range and is not written.");
             return;
         }
 
@@ -363,7 +363,7 @@ internal static class XlsbFilters
             }
             else if (c.NamespaceUri == XlsbMarkup.MainNamespace)
             {
-                loss.Report("xlsb.filter-element", "AutoFilter element " + c.LocalNameString, 1, "The AutoFilter element '" + c.LocalNameString + "' has no binary form written yet and is left out.");
+                loss.Report("loss.xlsb-filter-element", "AutoFilter element " + c.LocalNameString, 1, "The AutoFilter element '" + c.LocalNameString + "' has no binary form written yet and is left out.");
             }
         }
 

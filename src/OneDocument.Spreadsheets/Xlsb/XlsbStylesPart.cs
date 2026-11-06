@@ -1478,7 +1478,7 @@ internal static class XlsbStylesPart
             }
             else
             {
-                loss.Report("xlsb.dxf-gradient", "gradient fill in a differential format", 1, "A gradient fill in a differential format is not written.");
+                loss.Report("loss.xlsb-dxf-gradient", "gradient fill in a differential format", 1, "A gradient fill in a differential format is not written.");
             }
         }
 

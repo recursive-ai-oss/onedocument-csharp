@@ -80,7 +80,7 @@ internal static class XlsbExport
         opc.SetRelationships(null, hub.GetRelationships());
         if (book.HiddenParts.Count > 0)
         {
-            loss.Report("xlsb.part-not-converted", "binary-only parts", book.HiddenParts.Count,
+            loss.Report("loss.xlsb-part-not-converted", "binary-only parts", book.HiddenParts.Count,
                 "Parts of the binary workbook with no SpreadsheetML counterpart here (" + string.Join(", ", book.HiddenParts.Take(6)) + (book.HiddenParts.Count > 6 ? ", …" : string.Empty) + ") are left out.");
         }
 
@@ -129,7 +129,7 @@ internal static class XlsbExport
 
         if (dropped > 0)
         {
-            loss.Report("xlsb.records-not-converted", "binary records without a SpreadsheetML form", dropped,
+            loss.Report("loss.xlsb-records-not-converted", "binary records without a SpreadsheetML form", dropped,
                 "Records of the binary workbook that the workbook model does not represent (extension and future records) are left out.");
         }
 
@@ -156,7 +156,7 @@ internal static class XlsbExport
             if (DroppedTypes.Contains(p.ContentType, StringComparer.OrdinalIgnoreCase))
             {
                 dropped.Add(p.Name);
-                loss.Report("xlsb.part-not-written", "part type " + p.ContentType.Replace("application/vnd.openxmlformats-officedocument.spreadsheetml.", string.Empty, StringComparison.Ordinal), 1,
+                loss.Report("loss.xlsb-part-not-written", "part type " + p.ContentType.Replace("application/vnd.openxmlformats-officedocument.spreadsheetml.", string.Empty, StringComparison.Ordinal), 1,
                     "A part of this type (pivot tables, connections, external links, the calculation chain) has no binary form written yet and is left out.");
             }
         }

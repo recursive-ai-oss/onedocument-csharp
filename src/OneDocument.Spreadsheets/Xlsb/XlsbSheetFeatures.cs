@@ -420,7 +420,7 @@ internal sealed class XlsbFeatureWriter(XlsbRecordWriter w, XlsbRecordData d, Op
             return node;
         }
 
-        loss.Report("xlsb.formula-unparsed", "formula that could not be parsed", 1,
+        loss.Report("loss.xlsb-formula-unparsed", "formula that could not be parsed", 1,
             "The formula of " + what + " in " + partName + " could not be parsed (" + error.Code + "); the feature is not written.");
         return null;
     }
@@ -438,7 +438,7 @@ internal sealed class XlsbFeatureWriter(XlsbRecordWriter w, XlsbRecordData d, Op
 
         if (!XlsbFormula.TryEncode(node, cx, XlsbFormulaKind.Name, originRow, originColumn, out rgce, out rgcb, out string? problem))
         {
-            loss.Report("xlsb.formula-approximated", "formula written approximately", 1, "A formula could not be encoded exactly: " + problem);
+            loss.Report("loss.xlsb-formula-approximated", "formula written approximately", 1, "A formula could not be encoded exactly: " + problem);
         }
 
         return true;
@@ -520,7 +520,7 @@ internal sealed class XlsbFeatureWriter(XlsbRecordWriter w, XlsbRecordData d, Op
             rec.U32(flags);
             if (!WriteSqRef(v.Str("sqref"), rec, out int row, out int col))
             {
-                loss.Report("xlsb.validation-dropped", "data validation without a valid range", 1, "A data validation has no valid cell range and is not written.");
+                loss.Report("loss.xlsb-validation-dropped", "data validation without a valid range", 1, "A data validation has no valid cell range and is not written.");
                 continue;
             }
 

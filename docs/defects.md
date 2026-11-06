@@ -153,6 +153,13 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.header-missing` | repaired | A header or footer reference names a relationship that does not lead to a readable part; the reference is ignored. |
 | `docx.header-reference-duplicate` | repaired | A section has two header (or footer) references of one type; the first is used. |
 | `props.part-unreadable` | dropped | A properties part (`docProps/core.xml`, `app.xml` or `custom.xml`) is not well-formed XML; it reads as empty. Writing a property into it raises this code instead of overwriting the part. |
+| `xlsb.record-truncated` | dropped | A binary record declares more data than the part has left; the part ends there. Located by part and record offset. |
+| `xlsb.record-short` | repaired / dropped | A record is shorter than its fields claim; what was read is used (repaired), or a cell record shorter than a cell header is skipped (dropped). Located by part and record offset. |
+| `xlsb.row-invalid` | repaired | A row header holds a row outside the sheet; the row takes the number after the previous row. |
+| `xlsb.cell-column-invalid` | dropped | A cell record holds a column outside the sheet; the cell is skipped. |
+| `xlsb.formula-unreadable` | dropped | A formula's tokens could not be read (a token that is cut off or unknown); the cell keeps its cached value, or the feature that holds the formula stays as raw records. Located by cell address or record offset. |
+| `xlsb.no-main-part` | fatal | No `officeDocument` relationship points at a workbook part that exists. |
+| `xlsb.part-unreadable` | fatal | A part holds a record the translators cannot make sense of (a field outside its range); the inner exception has the cause. Located by part. |
 | `xlsx.no-main-part` | fatal | No `officeDocument` relationship points at a part that exists. |
 | `xlsx.wrong-root` | fatal | The workbook part does not start with a `workbook` element, or a worksheet part with a `worksheet` element. The location holds the part and offset. |
 | `xlsx.no-sheets` | repaired | The workbook part has no `sheets` element; the workbook reads as having no sheets. |

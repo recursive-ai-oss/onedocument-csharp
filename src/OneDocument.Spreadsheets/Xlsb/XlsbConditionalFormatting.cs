@@ -417,7 +417,7 @@ internal static class XlsbConditionalFormatting
         var range = new XlsbRecordData();
         if (rules.Count == 0 || !XlsbFeatureWriter.WriteSqRef(cf.Str("sqref"), range, out int row, out int col))
         {
-            loss.Report("xlsb.conditional-format-dropped", "conditional formatting without a rule or a valid range", 1,
+            loss.Report("loss.xlsb-conditional-format-dropped", "conditional formatting without a rule or a valid range", 1,
                 "A conditional formatting block has no rule or no valid range and is not written.");
             return;
         }
@@ -525,7 +525,7 @@ internal static class XlsbConditionalFormatting
                 (type, tpl) = (MultiState, TplMultiState);
                 break;
             default:
-                loss.Report("xlsb.conditional-format-rule", "conditional formatting rule " + kind, 1,
+                loss.Report("loss.xlsb-conditional-format-rule", "conditional formatting rule " + kind, 1,
                     "A conditional formatting rule of type '" + kind + "' has no binary form written yet and is left out.");
                 return false;
         }

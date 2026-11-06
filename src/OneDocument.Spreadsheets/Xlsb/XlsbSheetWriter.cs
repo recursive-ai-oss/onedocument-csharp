@@ -199,7 +199,7 @@ internal static class XlsbSheetWriter
                         WriteRel(XlsbRecordType.LegacyDrawing, c);
                         break;
                     default:
-                        loss.Report("xlsb.sheet-element", "worksheet element " + c.LocalNameString, 1,
+                        loss.Report("loss.xlsb-sheet-element", "worksheet element " + c.LocalNameString, 1,
                             "The worksheet element '" + c.LocalNameString + "' has no binary form written here and is left out.");
                         break;
                 }
@@ -541,7 +541,7 @@ internal static class XlsbSheetWriter
                     InlineString(col, c);
                     return;
                 case "d":
-                    loss.Report("xlsb.date-text", "ISO 8601 date cells", 1, "A cell holding an ISO 8601 date as text (t=\"d\") is written as text.");
+                    loss.Report("loss.xlsb-date-text", "ISO 8601 date cells", 1, "A cell holding an ISO 8601 date as text (t=\"d\") is written as text.");
                     CellHead(col, c);
                     _d.WideString(text);
                     _w.Write(XlsbRecordType.CellSt, _d);
@@ -650,7 +650,7 @@ internal static class XlsbSheetWriter
                 return node;
             }
 
-            loss.Report("xlsb.formula-unparsed", "formula that could not be parsed", 1,
+            loss.Report("loss.xlsb-formula-unparsed", "formula that could not be parsed", 1,
                 "The formula of " + XlsbAddress.Cell(row, col) + " in " + partName + " could not be parsed (" + error.Code + "); the cell keeps its value only.");
             return null;
         }
@@ -697,7 +697,7 @@ internal static class XlsbSheetWriter
             }
             else if (ft == "dataTable")
             {
-                loss.Report("xlsb.data-table", "data table formulas", 1, "A data table is written as its cached values.");
+                loss.Report("loss.xlsb-data-table", "data table formulas", 1, "A data table is written as its cached values.");
             }
             else
             {
@@ -708,7 +708,7 @@ internal static class XlsbSheetWriter
             {
                 if (!XlsbFormula.TryEncode(node, cx, XlsbFormulaKind.Cell, row, col, out rgce, out rgcb, out string? problem))
                 {
-                    loss.Report("xlsb.formula-approximated", "formula written approximately", 1, "A formula could not be encoded exactly: " + problem);
+                    loss.Report("loss.xlsb-formula-approximated", "formula written approximately", 1, "A formula could not be encoded exactly: " + problem);
                 }
             }
 
@@ -744,7 +744,7 @@ internal static class XlsbSheetWriter
                 {
                     if (!XlsbFormula.TryEncode(node, cx, XlsbFormulaKind.Array, row, col, out byte[] arce, out byte[] arcb, out string? problem))
                     {
-                        loss.Report("xlsb.formula-approximated", "formula written approximately", 1, "A formula could not be encoded exactly: " + problem);
+                        loss.Report("loss.xlsb-formula-approximated", "formula written approximately", 1, "A formula could not be encoded exactly: " + problem);
                     }
 
                     _d.I32(r1);

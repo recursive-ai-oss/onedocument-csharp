@@ -78,14 +78,14 @@ public sealed partial class Workbook : OfficeFile
     internal Worksheet? FirstSheet => _sheets.Count > 0 ? _sheets[0] : null;
 
     /// <summary>
-    /// Opens a workbook from a file. The format is found from the content, never the extension: XLSX, XLSM, XLTX, XLTM, XLAM and Flat OPC are accepted.
+    /// Opens a workbook from a file. The format is found from the content, never the extension: XLSX, XLSM, XLTX, XLTM, XLAM, Flat OPC and the binary workbook (XLSB) are accepted. A binary workbook is shown through the same model (<see cref="IsBinary"/>); see the XLSB notes for what it keeps.
     /// </summary>
     /// <param name="path">The file.</param>
     /// <param name="context">Limits, defect sink and password; null for the defaults.</param>
     /// <param name="cancellationToken">Cancels the open.</param>
     /// <returns>The workbook, which the caller disposes. Only the package structure, the workbook part and its relationships are read.</returns>
     /// <exception cref="OfficeFormatException">The content is not a recognised format, or is damaged beyond repair.</exception>
-    /// <exception cref="FormatNotAvailableException">The content is another format (a document, a binary workbook…), named in the exception.</exception>
+    /// <exception cref="FormatNotAvailableException">The content is another format (a document, a legacy BIFF workbook…), named in the exception.</exception>
     /// <exception cref="OfficeLimitException">A limit was exceeded.</exception>
     /// <exception cref="IOException">The file cannot be read.</exception>
     public static Workbook Open(string path, OpenContext? context = null, CancellationToken cancellationToken = default)

@@ -379,7 +379,7 @@ internal static class XlsbTablePart
         var features = new XlsbFeatureWriter(w, d, context, partName, cx, loss);
         if (!XlsbAddress.TryParseRange(t.Str("ref"), out int r1, out int r2, out int c1, out int c2))
         {
-            loss.Report("xlsb.table-dropped", "table without a valid range", 1, "A table has no valid range and is written empty.");
+            loss.Report("loss.xlsb-table-dropped", "table without a valid range", 1, "A table has no valid range and is written empty.");
             r1 = r2 = c1 = c2 = 0;
         }
 

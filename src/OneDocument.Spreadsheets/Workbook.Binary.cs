@@ -45,7 +45,7 @@ public sealed partial class Workbook
 
     /// <summary>
     /// Writes a copy in an explicit format and reports in <paramref name="loss"/> everything the format cannot hold (for a binary workbook:
-    /// pivot tables, comments or tables that have no binary form written yet, external links, …).
+    /// pivot tables, connections, external links and the calculation chain, which have no binary form written yet).
     /// </summary>
     /// <param name="destination">The stream; it is left open.</param>
     /// <param name="format">The format to write.</param>
