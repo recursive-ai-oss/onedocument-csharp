@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The shared smoke checks as an Android app, run in an x86_64 emulator (build/mobile/android-run.sh). -->
+  <PropertyGroup>
+    <TargetFramework>net10.0-android</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RecursiveAI.OneDocument.Smoke</RootNamespace>
+    <AssemblyName>AndroidSmoke</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <SupportedOSPlatformVersion>24</SupportedOSPlatformVersion>
+    <ApplicationId>org.recursiveai.onedocument.smoke</ApplicationId>
+    <ApplicationTitle>OneDocument smoke</ApplicationTitle>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">android-x64</RuntimeIdentifier>
+    <!-- A package the emulator installs directly, not an app bundle. -->
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <!-- NativeAOT on Android is experimental and the SDK stops the build with XA1040, so the app is the SDK's release build: trimmed, with
+         ahead-of-time compiled assemblies on the Mono runtime. The analyzers keep trim and AOT warnings visible; warnings are errors. -->
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.IO" />
+  </ItemGroup>
+
+  <Import Project="../mobile/Mobile.props" />
+
+</Project>

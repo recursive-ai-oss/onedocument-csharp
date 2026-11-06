@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The shared smoke checks as an iOS app. Built for the simulator with NativeAOT (build/mobile/ios-run.sh). -->
+  <PropertyGroup>
+    <TargetFramework>net10.0-ios</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RecursiveAI.OneDocument.Smoke</RootNamespace>
+    <AssemblyName>IosSmoke</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <SupportedOSPlatformVersion>15.0</SupportedOSPlatformVersion>
+    <ApplicationId>org.recursiveai.onedocument.smoke</ApplicationId>
+    <ApplicationTitle>OneDocument smoke</ApplicationTitle>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
+    <!-- NativeAOT on iOS is for devices only (a simulator runtime identifier is rejected, NETSDK1203); the simulator build is the SDK's
+         release build: trimmed, with every assembly ahead-of-time compiled by the Mono compiler. The analyzers keep trim and AOT
+         warnings visible, and warnings are errors. -->
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">iossimulator-arm64</RuntimeIdentifier>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.IO" />
+  </ItemGroup>
+
+  <Import Project="../mobile/Mobile.props" />
+
+</Project>
