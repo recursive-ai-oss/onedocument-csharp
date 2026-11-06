@@ -247,6 +247,32 @@ public sealed class ExtendedProperties
         _part.SetChildText(Ns, element, "ep", value);
     }
 
+    /// <summary>Finds a child element of <c>Properties</c> by name, for the structured elements the typed members do not cover.</summary>
+    internal MarkupNode FindElement(string element) => PropertyPart.Find(_part.Root, Ns, element);
+
+    /// <summary>
+    /// Replaces or adds a structured child element of <c>Properties</c> (<c>HeadingPairs</c>, <c>TitlesOfParts</c>). The body is well-formed XML
+    /// that writes the variant-type namespace as <c>{vt}</c>, which becomes the prefix in use, declared when the part has none.
+    /// </summary>
+    internal void SetStructured(string element, string body)
+    {
+        MarkupNode root = _part.RootForWrite();
+        MarkupNode existing = PropertyPart.Find(root, Ns, element);
+        string name = PropertyPart.Qualified(root, Ns, element, "ep", out string declaration);
+        bool hasVt = root.TryGetPrefixInScope(CustomProperties.VtNs, out string vt);
+        string vtDeclaration = hasVt ? string.Empty : " xmlns:vt=\"" + CustomProperties.VtNs + "\"";
+        string xml = "<" + name + declaration + vtDeclaration + ">" + body.Replace("{vt}", hasVt ? vt : "vt", StringComparison.Ordinal) + "</" + name + ">";
+        byte[] bytes = Encoding.UTF8.GetBytes(xml);
+        if (existing.IsNull)
+        {
+            root.AppendXml(bytes);
+        }
+        else
+        {
+            existing.ReplaceWithXml(bytes);
+        }
+    }
+
     private long? Number(string element) =>
         long.TryParse(GetValue(element), NumberStyles.Integer, CultureInfo.InvariantCulture, out long v) ? v : null;
 
