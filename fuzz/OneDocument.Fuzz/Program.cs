@@ -59,6 +59,7 @@ internal static class Program
         ["mailmerge"] = MailMergeTarget.Run,
         ["richtext"] = RichTextTarget.Run,
         ["math"] = MathTarget.Run,
+        ["smartart"] = SmartArtTarget.Run,
         ["sheetrender"] = SheetRenderTarget.Run,
     };
 
@@ -99,6 +100,7 @@ internal static class Program
                 "mailmerge" => MailMergeTarget.WriteSeeds(args[2]),
                 "richtext" => RichTextTarget.WriteSeeds(args[2]),
                 "math" => MathTarget.WriteSeeds(args[2]),
+                "smartart" => SmartArtTarget.WriteSeeds(args[2]),
                 "sheetrender" => SheetRenderTarget.WriteSeeds(args[2]),
                 _ => 2,
             };

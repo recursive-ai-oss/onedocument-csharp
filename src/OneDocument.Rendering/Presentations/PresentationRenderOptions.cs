@@ -66,6 +66,9 @@ public sealed class PresentationRenderOptions
     /// <summary>Gets or sets how shrink-on-overflow is applied. Default <see cref="SlideAutofitMode.StoredThenComputed"/>.</summary>
     public SlideAutofitMode Autofit { get; set; }
 
+    /// <summary>Gets or sets how SmartArt diagrams are painted (stored drawing, or the layout run again) and a report callback. Null: the stored drawing unless it is missing or stale.</summary>
+    public SmartArt.DiagramOptions? Diagrams { get; set; }
+
     /// <summary>Gets or sets the number of slide images on a handout page: 1, 2, 3, 4, 6 or 9. Default 6.</summary>
     public int HandoutSlidesPerPage { get; set; } = 6;
 }

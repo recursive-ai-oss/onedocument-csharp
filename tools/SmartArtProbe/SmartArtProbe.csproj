@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RecursiveAI.OneDocument.Tools.SmartArtProbe</RootNamespace>
+    <AssemblyName>SmartArtProbe</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <NoWarn>$(NoWarn);CA1812</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="System" /><Using Include="System.IO" /><Using Include="System.Linq" /><Using Include="System.Collections.Generic" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/OneDocument.Rendering/OneDocument.Rendering.csproj" />
+  </ItemGroup>
+
+</Project>
