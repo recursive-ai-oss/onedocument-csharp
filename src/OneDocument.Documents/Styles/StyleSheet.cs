@@ -365,6 +365,13 @@ public sealed partial class StyleSheet
 
     // --- editing ---
 
+    /// <summary>Creates the part when missing and returns its root; used by operations that move styles between documents.</summary>
+    internal MarkupRef EnsureRootForMerge()
+    {
+        EnsurePart();
+        return _markup;
+    }
+
     private void EnsurePart()
     {
         if (_markup.IsValid)
