@@ -124,6 +124,22 @@ public sealed class WorkbookFindReplaceTests
     }
 
     [Fact]
+    public void SamplesForExternalChecksAreWritten()
+    {
+        string dir = Path.Combine(Path.GetTempPath(), "operation-samples");
+        Directory.CreateDirectory(dir);
+        string rows = "<row r=\"1\"><c r=\"A1\" t=\"s\"><v>0</v></c><c r=\"B1\"><v>2</v></c></row><row r=\"2\"><c r=\"A2\"><f>B1*2</f><v>4</v></c></row>";
+        using Workbook wb = Open(rows, "<si><r><t>Rich</t></r><r><rPr><b/></rPr><t> text</t></r></si>");
+        wb.Replace("ch te", "X");
+        wb.Replace("B1", "B3", new WorkbookReplaceOptions { Formulas = true, Values = false });
+        wb.Sheets["Data"].Protection.Protect(SheetActions.FormatCells | SheetActions.SelectLockedCells | SheetActions.SelectUnlockedCells, "sample", new RecursiveAI.OneDocument.Protection.ProtectionOptions { SpinCount = 1000 });
+        wb.Sheets["Data"].Protection.AddProtectedRange("Inputs", "B1:B3", "range", new RecursiveAI.OneDocument.Protection.ProtectionOptions { SpinCount = 1000 });
+        wb.Protection.Protect(true, true, "book", new RecursiveAI.OneDocument.Protection.ProtectionOptions { SpinCount = 1000 });
+        wb.FileSharing.Set("reserve", true, "Sample", new RecursiveAI.OneDocument.Protection.ProtectionOptions { SpinCount = 1000 });
+        wb.SaveAs(Path.Combine(dir, "replace-protect.xlsx"));
+    }
+
+    [Fact]
     public void OtherPartsAreUntouchedAndTheFileReopens()
     {
         byte[] original = TestBook.Bytes(sheet1: Sheet("<row r=\"1\"><c r=\"A1\" t=\"s\"><v>0</v></c></row>"), shared: Shared("<si><t>abc</t></si>"));

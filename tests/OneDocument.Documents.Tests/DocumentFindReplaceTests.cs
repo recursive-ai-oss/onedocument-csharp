@@ -3,6 +3,7 @@ using RecursiveAI.OneDocument.Diagnostics;
 using RecursiveAI.OneDocument.Documents.Revisions;
 using RecursiveAI.OneDocument.Operations;
 using RecursiveAI.OneDocument.Packaging;
+using RecursiveAI.OneDocument.Protection;
 
 namespace RecursiveAI.OneDocument.Documents.Tests;
 
@@ -221,7 +222,7 @@ public class DocumentFindReplaceTests
     [Fact]
     public void HeadersFootersNotesCommentsAndTextBoxesAreSearchedAndScoped()
     {
-        InMemoryPackage p = BuildPackage();
+        OpcPackage p = BuildPackage();
         Document d = Document.FromPackage(p);
         IReadOnlyList<TextHit> hits = d.Find("needle");
         Assert.Equal(["body", "textbox", "header", "footnotes", "comments"], hits.Select(h => h.Location.Story).ToArray());
@@ -250,6 +251,29 @@ public class DocumentFindReplaceTests
         Assert.EndsWith("one 2 3ee", AllText(back), StringComparison.Ordinal);
     }
 
+    [Fact]
+    public void SamplesForExternalChecksAreWritten()
+    {
+        string dir = Path.Combine(Path.GetTempPath(), "operation-samples");
+        Directory.CreateDirectory(dir);
+        using (Document d = Document.Create())
+        {
+            d.Body.AddParagraph("The quick brown fox jumps over the lazy dog.");
+            Paragraph second = d.Body.AddParagraph("Second paragraph, quick again.");
+            d.Replace("quick", "slow", new DocumentReplaceOptions { TrackedAuthor = "Sample Author", TrackedDate = When });
+            d.Replace("lazy dog", "sleepy cat", new DocumentReplaceOptions { RunPropertiesXml = "<w:i/>" });
+            d.AddEditingException(second, second);
+            d.Protection.Protect(DocumentEditRestriction.TrackedChanges, "sample", false, new ProtectionOptions { SpinCount = 1000 });
+            d.WriteProtection.Set("reserve", true, new ProtectionOptions { SpinCount = 1000 });
+            d.SaveAs(Path.Combine(dir, "replace-protect.docx"));
+        }
+
+        Document box = Document.FromPackage(BuildPackage());
+        box.Replace("needle", "thread");
+        box.SaveAs(Path.Combine(dir, "replace-textbox.docx"));
+        box.Dispose();
+    }
+
     private static int Count(string haystack, string needle)
     {
         int n = 0;
@@ -261,9 +285,9 @@ public class DocumentFindReplaceTests
         return n;
     }
 
-    private static InMemoryPackage BuildPackage()
+    private static OpcPackage BuildPackage()
     {
-        var p = new InMemoryPackage();
+        OpcPackage p = OpcPackage.Create();
         p.SetRelationships(null, [new Relationship("rId1", Rel + "officeDocument", "word/document.xml")]);
         string choice = "<w:txbxContent><w:p>" + Run("needle in box") + "</w:p></w:txbxContent>";
         string vml = "<w:txbxContent><w:p>" + Run("needle in box") + "</w:p></w:txbxContent>";

@@ -60,7 +60,7 @@ public class PresentationFindReplaceTests
         {
             Assert.Equal(1, deck.Replace(";", "\n").Count);
             string xml = slide.Shapes[^1].Markup.Node.OuterXml;
-            Assert.Contains("<a:r><a:rPr lang=\"fr-FR\" b=\"1\"/><a:t xml:space=\"preserve\">one</a:t></a:r><a:br><a:rPr lang=\"fr-FR\" b=\"1\"/></a:br><a:r><a:rPr lang=\"fr-FR\" b=\"1\"/><a:t xml:space=\"preserve\">two</a:t></a:r>", xml);
+            Assert.Contains("<a:r><a:rPr lang=\"fr-FR\" b=\"1\"/><a:t>one</a:t></a:r><a:br><a:rPr lang=\"fr-FR\" b=\"1\"/></a:br><a:r><a:rPr lang=\"fr-FR\" b=\"1\"/><a:t>two</a:t></a:r>", xml);
             Assert.Equal("one\vtwo", slide.Shapes[^1].TextBody!.Paragraphs[0].Text);
             // and a line break itself can be replaced by text
             Assert.Equal(1, deck.Replace("\v", " / ").Count);
@@ -100,6 +100,21 @@ public class PresentationFindReplaceTests
             byte[] after = Decks.Save(again);
             Assert.Equal([slide.PartName.TrimStart('/')], Decks.Changed(before, after));
             Assert.Contains("alpha gamma", Decks.Xml(after, slide.PartName.TrimStart('/')));
+        }
+    }
+
+    [Fact]
+    public void SamplesForExternalChecksAreWritten()
+    {
+        string dir = Path.Combine(Path.GetTempPath(), "operation-samples");
+        Directory.CreateDirectory(dir);
+        var (deck, _) = Deck("<a:p><a:r><a:rPr lang=\"en-US\" b=\"1\"/><a:t>The qui</a:t></a:r><a:r><a:rPr lang=\"en-US\"/><a:t>ck fox;two</a:t></a:r></a:p>");
+        using (deck)
+        {
+            deck.Replace("quick", "slow");
+            deck.Replace(";", "\n");
+            deck.Protection.Protect("sample", new ProtectionOptions { SpinCount = 1000 });
+            deck.SaveAs(Path.Combine(dir, "replace-protect.pptx"));
         }
     }
 

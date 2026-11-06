@@ -32,6 +32,7 @@
     <Project Path="tools/PptProbe/PptProbe.csproj" />
     <Project Path="tools/TextCompare/TextCompare.csproj" />
     <Project Path="tools/RevisionProbe/RevisionProbe.csproj" />
+    <Project Path="tools/OperationsProbe/OperationsProbe.csproj" />
     <Project Path="tools/DocumentSweep/DocumentSweep.csproj" />
     <Project Path="tools/DocxProbe/DocxProbe.csproj" />
     <Project Path="tools/RtfProbe/RtfProbe.csproj" />

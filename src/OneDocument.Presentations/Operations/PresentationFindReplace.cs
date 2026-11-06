@@ -333,12 +333,8 @@ internal static class ParagraphText
 
     private static void SetText(MarkupNode t, string text)
     {
+        // ECMA-376 Part 1 §21.1.2.3.11 (a:t) is a plain string element: it takes no xml:space, and DrawingML keeps its spaces anyway.
         t.SetText(text);
-        bool edge = text.Length > 0 && (char.IsWhiteSpace(text[0]) || char.IsWhiteSpace(text[^1]));
-        if (edge && t.GetAttribute("http://www.w3.org/XML/1998/namespace", "space") is null)
-        {
-            t.SetAttribute("xml:space", "preserve");
-        }
     }
 
     /// <summary>Replaces a stretch of the paragraph's text; false (with the reason) when the markup cannot take it.</summary>
@@ -421,7 +417,7 @@ internal static class ParagraphText
 
             if (segments[s].Length > 0)
             {
-                sb.Append('<').Append(runName).Append('>').Append(props).Append('<').Append(tName).Append(" xml:space=\"preserve\">")
+                sb.Append('<').Append(runName).Append('>').Append(props).Append('<').Append(tName).Append('>')
                   .Append(Escape(segments[s])).Append("</").Append(tName).Append("></").Append(runName).Append('>');
             }
         }

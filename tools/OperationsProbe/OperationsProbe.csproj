@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RecursiveAI.OneDocument.Tools.OperationsProbe</RootNamespace>
+    <AssemblyName>OperationsProbe</AssemblyName>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/OneDocument.Documents/OneDocument.Documents.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Spreadsheets/OneDocument.Spreadsheets.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Presentations/OneDocument.Presentations.csproj" />
+  </ItemGroup>
+
+</Project>

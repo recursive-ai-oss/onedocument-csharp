@@ -239,7 +239,7 @@ public sealed partial class Document
         }
     }
 
-    // ECMA-376 Part 1 §17.16.13 (fldSimple) holds the instruction in the w:instr attribute; §17.16.23 (instrText) in the element's text.
+    // ECMA-376 Part 1 §17.16.19 (fldSimple) holds the instruction in the w:instr attribute; §17.16.23 (instrText) in the element's text.
     private static List<(MarkupNode Node, string Text)> FieldInstructions(MarkupNode paragraph)
     {
         var list = new List<(MarkupNode, string)>();
