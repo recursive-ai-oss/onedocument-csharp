@@ -129,7 +129,9 @@ internal sealed partial class DocumentMerger
             // The destination's section ends right before the copied content; the source's last section ends right after it.
             if (!governing.IsNull)
             {
-                prefix = SectionBreakParagraph(governing, dstBody, MakeOptions(dstMain, dstMain));
+                // The destination's own properties are copied as written: its relationship ids already mean what they say here,
+                // and mapping them through the source's relationships would point them at the wrong parts.
+                prefix = SectionBreakParagraph(governing, dstBody, new MarkupFragmentOptions());
             }
 
             byte[] sect = MarkupFragment.Serialize(finalSect!.Value, dstBody, MakeOptions(srcMain, dstMain));

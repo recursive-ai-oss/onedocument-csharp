@@ -367,6 +367,30 @@ public class MergeTests
     }
 
     [Fact]
+    public void Sections_KeepSource_LeavesTheDestinationsOwnHeaderReferenceAlone()
+    {
+        // Both documents name their header relationship rIdH; the destination's break must still point at the destination's header.
+        InMemoryPackage Build(string text, string sectExtra)
+        {
+            InMemoryPackage p = TestDocs.Package(P(text) + "<w:sectPr xmlns:r=\"" + R + "\"><w:headerReference w:type=\"default\" r:id=\"rIdH\"/><w:pgSz w:w=\"" + sectExtra + "\" w:h=\"15840\"/></w:sectPr>");
+            PartHelper.Add(p, "/word/header1.xml", "application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml", PartHelper.Rel + "header",
+                $"<w:hdr xmlns:w=\"{W}\"><w:p><w:r><w:t>{text} header</w:t></w:r></w:p></w:hdr>");
+            var rels = new List<Relationship>(p.GetRelationships("/word/document.xml"));
+            rels[^1] = rels[^1] with { Id = "rIdH" };
+            p.SetRelationships("/word/document.xml", rels);
+            return p;
+        }
+
+        using var dst = Doc(Build("d", "12240"));
+        using var src = Doc(Build("s", "16838"));
+        dst.Append(src, new MergeOptions { Sections = SectionHandling.KeepSource });
+        using Document again = Reopen(dst);
+        Assert.Equal(2, again.Sections.Count);
+        Assert.Equal("d header", again.Sections[0].GetOwn(HeaderFooterKind.Header, HeaderFooterType.Default)!.Text);
+        Assert.Equal("s header", again.Sections[1].GetOwn(HeaderFooterKind.Header, HeaderFooterType.Default)!.Text);
+    }
+
+    [Fact]
     public void Sections_UseDestination_ReportsTheLossOfTheSourcePageSetup()
     {
         string sect(int w) => $"<w:sectPr><w:pgSz w:w=\"{w}\" w:h=\"15840\"/></w:sectPr>";
