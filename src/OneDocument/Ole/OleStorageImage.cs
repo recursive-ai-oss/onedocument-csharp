@@ -85,14 +85,22 @@ public sealed class OleStorageImage
     {
         using CfbPackage package = CfbPackage.Create(limits);
         package.RootClassId = ClassId;
-        foreach (OleSubStorageImage sub in Storages)
+        try
         {
-            package.AddStorage("/" + sub.Path, sub.ClassId);
-        }
+            foreach (OleSubStorageImage sub in Storages)
+            {
+                package.AddStorage("/" + sub.Path, sub.ClassId);
+            }
 
-        foreach (OleStreamImage s in Streams)
+            foreach (OleStreamImage s in Streams)
+            {
+                package.AddPart("/" + s.Path, string.Empty, s.Data);
+            }
+        }
+        catch (ArgumentException ex)
         {
-            package.AddPart("/" + s.Path, string.Empty, s.Data);
+            // A damaged source can hold names a compound file cannot store (a slash inside a name, a name past 31 characters).
+            throw new OfficeFormatException(DefectKind.Packaging, "ole.storage-name-invalid", "The storage holds a name that a compound file cannot store: " + ex.Message, DefectLocation.InRecord(Name), ex);
         }
 
         using var ms = new MemoryStream();

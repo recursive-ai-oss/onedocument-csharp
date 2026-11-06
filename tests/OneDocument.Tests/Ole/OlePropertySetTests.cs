@@ -263,6 +263,10 @@ public class OlePropertySetTests
         OlePropertySets back = OlePropertySets.Read(bytes, new OpenContext(defects: defects), "/c");
         Assert.Equal("caf\u00e9", back.Sets[0].Find(2)!.AsString());
         Assert.Contains(defects, x => x.Code == "ole.propset-codepage-unsupported" && x.Kind == DefectKind.Encoding);
+
+        // The strings are Windows-1252 text now, so a write stores them that way and reads back to the same text.
+        Assert.Equal(1252, back.Sets[0].CodePage);
+        Assert.Equal("caf\u00e9", OlePropertySets.Read(back.ToArray()).Sets[0].Find(2)!.AsString());
     }
 
     [Fact]

@@ -55,6 +55,7 @@ internal sealed class OlePropsReader
     private bool _codePageKnown;
     private bool _codePageReported;
     private Encoding? _encoding;
+    private OlePropertySet? _current;
 
     internal OlePropsReader(ReadOnlyMemory<byte> data, OpenContext context, string name)
     {
@@ -133,6 +134,7 @@ internal sealed class OlePropsReader
         _codePageReported = false;
         _encoding = null;
         var set = new OlePropertySet(fmtid);
+        _current = set;
 
         uint size = BinaryPrimitives.ReadUInt32LittleEndian(d.AsSpan(start));
         int end = d.Length;
@@ -659,6 +661,12 @@ internal sealed class OlePropsReader
         }
 
         Report("ole.propset-codepage-unsupported", DefectKind.Encoding, DefectSeverity.Repaired, "Code page " + _codePage + " is not available; the property set's strings are read as Windows-1252.", offset);
+        _codePage = 1252;
+        if (_current is not null)
+        {
+            _current.CodePage = 1252; // the strings are now Windows-1252 text, and a write must store them as that
+        }
+
         OleCodePages.TryGet(1252, out Encoding? fallback);
         return fallback ?? Encoding.Latin1;
     }
