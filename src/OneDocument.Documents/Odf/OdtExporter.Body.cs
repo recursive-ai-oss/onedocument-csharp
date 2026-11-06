@@ -505,7 +505,8 @@ internal sealed partial class OdtExporter
                     AppendText(c, rb, "\u2011");
                     break;
                 case "softHyphen":
-                    rb.Xml.Append("<text:soft-hyphen/>");
+                    // The ODF 1.3 schema has no soft-hyphen element: a soft hyphen is the character U+00AD in the text.
+                    AppendText(c, rb, "\u00AD");
                     break;
                 case "sym":
                     if (A(n, "char") is { } hex && int.TryParse(hex, NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out int cp) && cp > 0)

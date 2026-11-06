@@ -22,9 +22,9 @@ public class CorpusGateCalcTests
             v["D3"].SetNumber(7);
             v["E3"].SetNumber(39051);
             a["A5"].SetNumber(39050);
-            a["B5"].Formula = "SUMIFS(Valuation!D:D,Valuation!E:E,A5)";
+            a["AAB5"].Formula = "SUMIFS(Valuation!D:D,Valuation!E:E,A5)";
             wb.RecalculateAll();
-            Assert.Equal(5, a["B5"].Value.Number);
+            Assert.Equal(5, a["AAB5"].Value.Number);
         }
     }
 
@@ -60,6 +60,46 @@ public class CorpusGateCalcTests
             a["C2"].Formula = "IF(XLOOKUP(B2,Data!G:G,Data!H:H,\"none\")=0,\"\",\"found\")";
             wb.RecalculateAll();
             Assert.NotEqual(CellValueKind.Error, a["C2"].Value.Kind);
+        }
+    }
+
+    [Fact]
+    public void CriteriaRangesOfDifferentSizesAreValueErrorsWithoutReadingThem()
+    {
+        Worksheet a = Sheet(out Workbook wb);
+        using (wb)
+        {
+            a["A1"].SetNumber(1);
+            a["C1"].SetNumber(2);
+            a["AAB5"].Formula = "MAXIFS(C1:C9960,A1:ZW9960,1)";
+            a["AAB6"].Formula = "COUNTIFS(C1:C9960,1,A1:ZW9960,1)";
+            a["AAB7"].Formula = "SUMIFS(C1:C9960,A1:ZW9960,1)";
+            wb.RecalculateAll();
+            Assert.Equal(CellValueKind.Error, a["AAB5"].Value.Kind);
+            Assert.Equal(CellError.Value, a["AAB5"].Value.Error);
+            Assert.Equal(CellError.Value, a["AAB6"].Value.Error);
+            Assert.Equal(CellError.Value, a["AAB7"].Value.Error);
+        }
+    }
+
+    [Fact]
+    public void TableNameAloneIsItsDataRows()
+    {
+        Worksheet a = Sheet(out Workbook wb);
+        using (wb)
+        {
+            a["D1"].SetString("DoW");
+            a["E1"].SetString("Dayname");
+            a["D2"].SetNumber(1);
+            a["E2"].SetString("Sunday");
+            a["D3"].SetNumber(2);
+            a["E3"].SetString("Monday");
+            a.Tables.Add("Dow", CellRange.Parse("D1:E3"));
+            a["A1"].Formula = "VLOOKUP(2,Dow,2)";
+            a["A2"].Formula = "ROWS(Dow)";
+            wb.RecalculateAll();
+            Assert.Equal("Monday", a.GetText(a["A1"].Value));
+            Assert.Equal(2, a["A2"].Value.Number);
         }
     }
 

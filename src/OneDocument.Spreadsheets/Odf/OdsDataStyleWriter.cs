@@ -454,6 +454,7 @@ internal static class OdsDataStyleWriter
         }
 
         bool hasGrouping = false;
+        bool numberWritten = false;
         for (int i = 0; i < s.Tokens.Count; i++)
         {
             Token t = s.Tokens[i];
@@ -498,6 +499,15 @@ internal static class OdsDataStyleWriter
                         break;
                     }
 
+                    // A number style holds one number element (the ODF 1.3 schema allows no second one); a code with several digit groups, such as a
+                    // phone-number picture, keeps the first and reports the rest.
+                    if (numberWritten)
+                    {
+                        issues.Add("multiple-digit-groups");
+                        break;
+                    }
+
+                    numberWritten = true;
                     bool sci = i + 1 < s.Tokens.Count && s.Tokens[i + 1] is Exponent;
                     int expDigits = 2;
                     bool sign = true;

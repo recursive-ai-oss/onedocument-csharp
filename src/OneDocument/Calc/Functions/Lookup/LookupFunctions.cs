@@ -266,7 +266,7 @@ internal static class LookupFunctions
 
         bool lookupIsRow = la.Rows == 1 && la.Columns > 1;
         CalcReference? rref = rv.Reference;
-        CellArea? area = rref is { AreaCount: 1 } && !rref.IsSpill ? rref.First : null;
+        CellArea? area = rref is { AreaCount: 1 } && !rref.IsSpill ? ev.Resolver.ClipArea(rref.First) : null;
         int retRows;
         int retCols;
         CalcArray? ra = null;
