@@ -1596,7 +1596,6 @@ RecursiveAI.OneDocument.Spreadsheets.Workbook.IterationCount.get -> int
 RecursiveAI.OneDocument.Spreadsheets.Workbook.IterationDelta.get -> double
 RecursiveAI.OneDocument.Spreadsheets.Workbook.MainPartName.get -> string!
 RecursiveAI.OneDocument.Spreadsheets.Workbook.MarkNeedsRecalculation() -> void
-RecursiveAI.OneDocument.Spreadsheets.Workbook.MarkdownExportLoss.get -> RecursiveAI.OneDocument.Diagnostics.LossReport?
 RecursiveAI.OneDocument.Spreadsheets.Workbook.Markup.get -> RecursiveAI.OneDocument.Markup.MarkupDocument!
 RecursiveAI.OneDocument.Spreadsheets.Workbook.Names.get -> RecursiveAI.OneDocument.Spreadsheets.DefinedNameCollection!
 RecursiveAI.OneDocument.Spreadsheets.Workbook.NeedsRecalculation.get -> bool

@@ -44,7 +44,7 @@ public partial class PptFixtureTests
         using Presentation source = Presentation.Open(SourceOf(fixture));
 
         Assert.Equal(source.Slides.Count, legacy.Slides.Count);
-        Assert.Equal(OfficeFormat.Ppt, legacy.ConvertedFrom);
+        Assert.Equal(OfficeFormat.Ppt, legacy.SourceFormat);
         Assert.DoesNotContain(legacy.Defects, d => d.Severity == RecursiveAI.OneDocument.Diagnostics.DefectSeverity.Fatal);
     }
 
@@ -73,6 +73,6 @@ public partial class PptFixtureTests
 
         Assert.Equal(legacy.Slides.Count, again.Slides.Count);
         Assert.Equal(Words(legacy.ExtractText()), Words(again.ExtractText()));
-        Assert.NotNull(legacy.ConversionLoss);
+        Assert.NotNull(legacy.ImportLoss);
     }
 }

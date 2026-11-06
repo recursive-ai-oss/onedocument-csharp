@@ -434,8 +434,6 @@ RecursiveAI.OneDocument.Presentations.Presentation.ApplyAccessibilityFix(Recursi
 RecursiveAI.OneDocument.Presentations.Presentation.CommentAuthors.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.CommentAuthor!>!
 RecursiveAI.OneDocument.Presentations.Presentation.CommitChanges() -> void
 RecursiveAI.OneDocument.Presentations.Presentation.Context.get -> RecursiveAI.OneDocument.OpenContext!
-RecursiveAI.OneDocument.Presentations.Presentation.ConversionLoss.get -> RecursiveAI.OneDocument.Diagnostics.LossReport?
-RecursiveAI.OneDocument.Presentations.Presentation.ConvertedFrom.get -> RecursiveAI.OneDocument.OfficeFormat?
 RecursiveAI.OneDocument.Presentations.Presentation.CustomShows.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.CustomShow!>!
 RecursiveAI.OneDocument.Presentations.Presentation.DefaultTextStyle.get -> RecursiveAI.OneDocument.Schema.MarkupRef
 RecursiveAI.OneDocument.Presentations.Presentation.DeleteSlide(RecursiveAI.OneDocument.Presentations.Slide! slide) -> void
@@ -451,7 +449,6 @@ RecursiveAI.OneDocument.Presentations.Presentation.InsertSlides(System.Collectio
 RecursiveAI.OneDocument.Presentations.Presentation.IsStrict.get -> bool
 RecursiveAI.OneDocument.Presentations.Presentation.MainMarkup.get -> RecursiveAI.OneDocument.Markup.MarkupDocument!
 RecursiveAI.OneDocument.Presentations.Presentation.MainPartName.get -> string!
-RecursiveAI.OneDocument.Presentations.Presentation.MarkdownExportLoss.get -> RecursiveAI.OneDocument.Diagnostics.LossReport?
 RecursiveAI.OneDocument.Presentations.Presentation.Markup.get -> RecursiveAI.OneDocument.Schema.MarkupRef
 RecursiveAI.OneDocument.Presentations.Presentation.Masters.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.SlideMaster!>!
 RecursiveAI.OneDocument.Presentations.Presentation.MoveSlide(RecursiveAI.OneDocument.Presentations.Slide! slide, int newIndex) -> void
@@ -466,6 +463,7 @@ RecursiveAI.OneDocument.Presentations.Presentation.Sections.get -> System.Collec
 RecursiveAI.OneDocument.Presentations.Presentation.SetAccessibilityTitle(string! title) -> RecursiveAI.OneDocument.Accessibility.AccessibilityFixResult
 RecursiveAI.OneDocument.Presentations.Presentation.SlideSize.get -> RecursiveAI.OneDocument.Presentations.SlideSize?
 RecursiveAI.OneDocument.Presentations.Presentation.Slides.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.Slide!>!
+RecursiveAI.OneDocument.Presentations.Presentation.SourceFormat.get -> RecursiveAI.OneDocument.OfficeFormat
 RecursiveAI.OneDocument.Presentations.Presentation.SplitEvery(int slidesPerPart) -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.Presentation!>!
 RecursiveAI.OneDocument.Presentations.Presentation.ToHtml(RecursiveAI.OneDocument.HtmlExportOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> string!
 RecursiveAI.OneDocument.Presentations.Presentation.ToMarkdown(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> string!

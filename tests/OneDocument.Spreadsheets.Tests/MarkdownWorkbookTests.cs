@@ -21,7 +21,7 @@ public class MarkdownWorkbookTests
         string md = wb.ToMarkdown();
         Assert.Equal(
             "## Sheet1\n\n| Name | Qty |\n| --- | ---: |\n| a\\|b | 1.5 |\n| two<br>lines \\*x\\* | 2 |\n\n## Empty\n\n(empty)\n", md);
-        Assert.Equal(1, wb.MarkdownExportLoss!.CountOf("loss.formulas"));
+        Assert.Equal(1, wb.ExportLoss!.CountOf("loss.formulas"));
     }
 
     [Fact]

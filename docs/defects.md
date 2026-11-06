@@ -457,7 +457,7 @@ Reported by the shared OfficeArt reader (`RecursiveAI.OneDocument.OfficeArt`) wi
 ### PowerPoint binary (`ppt.`)
 
 Reported by the `.ppt` reader (`RecursiveAI.OneDocument.Ppt.Binary`) and the conversion to PresentationML, with a `Record` location in the `PowerPoint Document`
-stream (the `Current User` stream for `ppt.current-user-missing`). The conversion codes are also the items of `Presentation.ConversionLoss`. See `ppt.md`.
+stream (the `Current User` stream for `ppt.current-user-missing`). The conversion codes are also the items of `Presentation.ImportLoss`. See `ppt.md`.
 
 | Code | Action | Meaning |
 |---|---|---|

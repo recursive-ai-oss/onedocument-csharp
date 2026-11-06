@@ -8,7 +8,7 @@ public sealed partial class Presentation
 {
     /// <summary>
     /// Writes the presentation as GitHub Flavored Markdown: a second-level heading for each slide, its text in reading order (body placeholders as bullet lists by outline level,
-    /// tables as pipe tables) and its speaker notes under a third-level heading. <see cref="MarkdownExportLoss"/> lists what Markdown cannot hold.
+    /// tables as pipe tables) and its speaker notes under a third-level heading. <see cref="ExportLoss"/> lists what Markdown cannot hold.
     /// </summary>
     /// <param name="cancellationToken">Cancels the export.</param>
     /// <returns>The Markdown.</returns>
@@ -29,9 +29,7 @@ public sealed partial class Presentation
         CommitChanges();
         var loss = new LossReport();
         MarkdownPresentation.Write(this, destination, loss, cancellationToken);
-        MarkdownExportLoss = loss;
+        ExportLoss = loss;
     }
 
-    /// <summary>Gets what the last Markdown export could not carry (pictures, shapes, formatting, animations), one entry per kind with a count; null until an export has run.</summary>
-    public LossReport? MarkdownExportLoss { get; private set; }
 }

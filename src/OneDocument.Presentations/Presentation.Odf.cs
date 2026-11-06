@@ -12,9 +12,9 @@ public sealed partial class Presentation
     private bool _odfPristine;
 
     /// <summary>
-    /// Gets what the conversion from an OpenDocument presentation (ODP, OTP or FODP) could not carry over, or <c>null</c> for a presentation that was
-    /// not converted from one. Entries have <c>loss.odp-*</c> codes (see <c>docs/odp.md</c>); the located detail of each repair is in <see cref="OfficeFile.Defects"/>.
-    /// An OpenDocument presentation is a PresentationML package in memory once it is open.
+    /// Gets what the conversion from an OpenDocument presentation (ODP, OTP or FODP) or a PowerPoint 97-2003 file could not carry over, or <c>null</c> for a
+    /// presentation that was not converted. Entries have <c>loss.odp-*</c> codes for OpenDocument (see <c>docs/odp.md</c>) and <c>ppt.*</c> codes for binary files
+    /// (see <c>docs/ppt.md</c>); the located detail of each repair is in <see cref="OfficeFile.Defects"/>. Such a presentation is a PresentationML package in memory once it is open.
     /// </summary>
     public LossReport? ImportLoss { get; internal set; }
 

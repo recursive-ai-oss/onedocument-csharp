@@ -142,7 +142,7 @@ static int Open(IEnumerable<string> files)
                 }
             }
 
-            Console.WriteLine($"{Path.GetFileName(file)}\tok\tslides={p.Slides.Count}\tshapes={shapes}\tchars={chars}\tdefects={p.Defects.Count}\tloss={p.ConversionLoss?.Items.Count ?? 0}");
+            Console.WriteLine($"{Path.GetFileName(file)}\tok\tslides={p.Slides.Count}\tshapes={shapes}\tchars={chars}\tdefects={p.Defects.Count}\tloss={p.ImportLoss?.Items.Count ?? 0}");
             ok++;
         }
         catch (OfficeException ex)
@@ -182,7 +182,7 @@ static int Dump(string file, string? output)
     }
 
     Console.WriteLine("--- loss");
-    Console.WriteLine(p.ConversionLoss);
+    Console.WriteLine(p.ImportLoss);
     Console.WriteLine("--- defects");
     foreach (Defect d in p.Defects.Take(60))
     {

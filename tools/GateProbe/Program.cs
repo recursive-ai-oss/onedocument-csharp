@@ -171,7 +171,7 @@ internal static class Program
                     case Presentation p:
                         imp = Codes(p.ImportLoss);
                         exp = Codes(p.ExportLoss);
-                        conv = Codes(p.ConversionLoss);
+                        conv = Codes(p.ImportLoss);
                         break;
                 }
             }

@@ -8,7 +8,7 @@ public sealed partial class Workbook
 {
     /// <summary>
     /// Writes the workbook as GitHub Flavored Markdown: a second-level heading with the name of each worksheet and a pipe table of its used range, cells shown the way
-    /// their number format displays them. The first non-empty row is the table header; rows with no cell are left out. <see cref="MarkdownExportLoss"/> lists what a table cannot hold.
+    /// their number format displays them. The first non-empty row is the table header; rows with no cell are left out. <see cref="ExportLoss"/> lists what a table cannot hold.
     /// </summary>
     /// <param name="cancellationToken">Cancels the export.</param>
     /// <returns>The Markdown.</returns>
@@ -29,9 +29,7 @@ public sealed partial class Workbook
         CommitChanges();
         var loss = new LossReport();
         MarkdownWorkbook.Write(this, destination, loss, cancellationToken);
-        MarkdownExportLoss = loss;
+        ExportLoss = loss;
     }
 
-    /// <summary>Gets what the last Markdown export could not carry (formulas as values, styles, merged cells, charts and the like), one entry per kind with a count; null until an export has run.</summary>
-    public LossReport? MarkdownExportLoss { get; private set; }
 }
