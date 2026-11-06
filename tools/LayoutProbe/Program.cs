@@ -55,6 +55,16 @@ internal static class Program
                 File.WriteAllBytes(Path.Combine(args[1], "drawing-" + name + ".pptx"), pptx);
             }
 
+            foreach ((string name, byte[] docx) in SmartArtSamples.All())
+            {
+                File.WriteAllBytes(Path.Combine(args[1], name + ".docx"), docx);
+            }
+
+            foreach ((string name, byte[] pptx) in SmartArtSamples.Presentations())
+            {
+                File.WriteAllBytes(Path.Combine(args[1], name + ".pptx"), pptx);
+            }
+
             foreach ((string name, byte[] pptx) in SlideCases.All())
             {
                 File.WriteAllBytes(Path.Combine(args[1], "slide-" + name + ".pptx"), pptx);

@@ -118,6 +118,12 @@ public sealed class DrawingContext
     public Func<string, DisplayList, double, double, double, double, bool>? ChartPainter { get; set; }
 
     /// <summary>
+    /// Gets or sets the diagram painter for a graphic frame that shows a SmartArt diagram (<c>dgm:relIds</c>). Hosts install
+    /// <see cref="SmartArt.DiagramHost.CreatePainter"/> here. Null leaves diagrams unpainted (note <c>drawing.graphic-frame</c>).
+    /// </summary>
+    public Func<SmartArt.DiagramPaintRequest, bool>? DiagramPainter { get; set; }
+
+    /// <summary>
     /// Gets or sets a hook that tells the painter which shapes a shape inherits from (see <see cref="ShapeInheritance"/>). Null means
     /// every shape stands on its own, as in a Word drawing.
     /// </summary>

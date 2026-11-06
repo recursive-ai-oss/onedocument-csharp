@@ -27,6 +27,9 @@ public sealed class PaintOptions
 
     /// <summary>Gets or sets a list that receives notes about drawing features that were approximated or left out (each code once per page). Default null.</summary>
     public IList<DrawingNote>? DrawingNotes { get; set; }
+
+    /// <summary>Gets or sets how SmartArt diagrams are painted: stored drawing or regenerated layout, and a report callback. Null takes the defaults (stored drawing unless missing or stale).</summary>
+    public SmartArt.DiagramOptions? Diagrams { get; set; }
 }
 
 /// <summary>
@@ -88,6 +91,7 @@ public static class LayoutPainter
                     RecursiveAI.OneDocument.Charts.ChartHost.Paint(list, chart.Chart, x, y, w, h, chart.Theme, sources.Layout?.Fonts);
                     return true;
                 };
+                c.DiagramPainter = sources.DiagramPainter(options.Diagrams);
                 _drawingContexts[sources] = c;
             }
 

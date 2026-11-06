@@ -24,26 +24,37 @@ internal sealed partial class RenderSession
             return false;
         }
 
+        // The diagram painter paints the drawing the application saved with the diagram, and runs the layout definition when there is
+        // none, when the data changed since, or when the options ask for it (SmartArt/DiagramHost).
         MarkupNode relIds = DrawingTheme.Child(data, "relIds");
-        string? dataRel = relIds.IsNull ? null : RelationshipAttribute(relIds, "dm");
-        string? drawingRel = null;
-        if (dataRel is not null && LoadRelated(pc.Part, dataRel) is { } dataDoc)
+        if (relIds.IsNull || SmartArt.DiagramReferences.Read(relIds) is not { } refs)
         {
-            drawingRel = FindDataModelExtension(dataDoc.Root, 0);
+            AddNote("slide.smartart-not-painted", "A SmartArt frame without a data part reference is not painted.");
+            return true;
         }
 
-        if (drawingRel is not null && LoadRelated(pc.Part, drawingRel) is { } drawingDoc)
+        MarkupNode props = DrawingTheme.Child(DrawingTheme.Child(frame, "nvGraphicFramePr"), "cNvPr");
+        string? alt = props.IsNull ? null : props.GetAttribute("descr") ?? props.GetAttribute("title");
+        bool inFigure = pc.Drawing.Tagged && pc.Drawing.ShapeTagger?.Invoke(frame) is not null;
+        var reports = new List<SmartArt.DiagramReport>();
+        SmartArt.DiagramOptions options = Options.Diagrams ?? new SmartArt.DiagramOptions();
+        Action<SmartArt.DiagramReport>? outer = options.Report;
+        var local = new SmartArt.DiagramOptions { Regeneration = options.Regeneration, Report = r => { reports.Add(r); outer?.Invoke(r); } };
+        bool painted = SmartArt.DiagramHost.Paint(Presentation.Package, pc.Part.PartName, new SmartArt.DiagramPaintRequest(refs, list, NextId, pc.Drawing, x, y, w, h, alt, inFigure), local);
+        SmartArt.DiagramReport? report = reports.LastOrDefault();
+        if (!painted || report is null)
         {
-            MarkupNode tree = DrawingTheme.Child(drawingDoc.Root, "spTree");
-            if (!tree.IsNull)
-            {
-                DrawingPainter.DrawShapes(list, NextId, tree, x / K, y / K, pc.Drawing);
-                AddNote("slide.smartart-cached", "SmartArt is drawn from the drawing the application saved with it; it is not regenerated from its layout definition.");
-                return true;
-            }
+            AddNote("slide.smartart-not-painted", "A SmartArt diagram with no readable saved drawing or layout definition is not painted.");
+        }
+        else if (report.Source == SmartArt.DiagramSource.Regenerated)
+        {
+            AddNote("slide.smartart-regenerated", "A SmartArt diagram was laid out from its layout definition (" + report.Reason + "); Office's own layout may differ.");
+        }
+        else
+        {
+            AddNote("slide.smartart-cached", "SmartArt is drawn from the drawing the application saved with it.");
         }
 
-        AddNote("slide.smartart-not-painted", "A SmartArt diagram with no saved drawing is not painted; regenerating it from its layout definition is not supported here.");
         return true;
     }
 
