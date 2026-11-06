@@ -9,6 +9,8 @@
 #   --xlsx KIND     run a spreadsheet group instead of the document rows: read, write, model (fresh process per row and input,
 #                   see XlsxStreamBench) or bpc (bytes per cell, fresh process per library and input). XLSXBENCH_SIZES narrows
 #                   the row counts; bpc takes every .xlsx in $ONEDOCUMENT_BENCH_INPUTS/xlsx.
+#   --fmt GROUP     run one format group (see `fmtbench groups`: xls-read, xlsb-read, xls-write, calc-cold, calc-incr, pptx, extract,
+#                   template, info); the legacy-format inputs come from bench/make-legacy-inputs.sh and must already exist
 #   --no-peak       skip the fresh-process peak-memory pass
 #   --no-timing     skip BenchmarkDotNet (peak-memory pass only)
 #   --force         start even when the machine is busy; the override is written into env.txt
@@ -28,6 +30,7 @@ run="$(date -u +%Y%m%dT%H%M%SZ)"
 filter='*Bench.Docx*'
 threads=all
 xlsx=
+fmt=
 peak=1
 timing=1
 force=0
@@ -37,6 +40,7 @@ while [[ $# -gt 0 ]]; do
     --filter) filter="$2"; shift 2 ;;
     --threads) threads="$2"; shift 2 ;;
     --xlsx) xlsx="$2"; shift 2 ;;
+    --fmt) fmt="$2"; shift 2 ;;
     --no-peak) peak=0; shift ;;
     --no-timing) timing=0; shift ;;
     --force) force=1; shift ;;
@@ -73,7 +77,7 @@ fi
 
 {
   echo "run: $run"
-  if [[ -n "$xlsx" ]]; then echo "group: xlsx $xlsx"; else echo "filter: $filter"; fi
+  if [[ -n "$fmt" ]]; then echo "group: fmt $fmt"; elif [[ -n "$xlsx" ]]; then echo "group: xlsx $xlsx"; else echo "filter: $filter"; fi
   echo "threads: $threads"
   echo "load override: $forced"
   if [[ -r /proc/cpuinfo ]]; then
@@ -105,7 +109,11 @@ if [[ "$threads" == 1 ]]; then
 fi
 
 "$dotnet_bin" "$dll" versions > "$out/versions.txt"
-if [[ -z "$xlsx" ]]; then
+if [[ -n "$fmt" ]]; then
+  "$dotnet_bin" "$dll" gen "$inputs" > /dev/null
+  "$dotnet_bin" "$dll" fmtbench gen "$inputs" | sed "s|$inputs/||" > "$out/inputs.txt"
+  ( cd "$inputs" && sha256sum *.xlsb *.pptx *.xlsx *.docx legacy/* xlsx/*.xlsx 2>/dev/null || shasum -a 256 *.xlsb *.pptx *.xlsx *.docx legacy/* xlsx/*.xlsx ) >> "$out/inputs.txt"
+elif [[ -z "$xlsx" ]]; then
   "$dotnet_bin" "$dll" gen "$inputs" | sed "s|$inputs/||" > "$out/inputs.txt"
 else
   "$dotnet_bin" "$dll" xlsxstream gen "$inputs/xlsx" | sed "s|$inputs/xlsx/||" > "$out/inputs.txt"
@@ -117,7 +125,11 @@ fi
 sampler=$!
 trap 'kill "$sampler" 2>/dev/null || true' EXIT
 
-if [[ -n "$xlsx" ]]; then
+if [[ -n "$fmt" ]]; then
+  "$dotnet_bin" "$dll" fmtbench group "$fmt" "$inputs" "$out/fmt-$fmt.tsv" > "$out/fmt-$fmt.log" 2>&1
+  timing=0
+  peak=0
+elif [[ -n "$xlsx" ]]; then
   case "$xlsx" in
     bpc) "$dotnet_bin" "$dll" bpcall "$inputs/xlsx" "$out/bpc.tsv" > "$out/bpc.log" 2>&1 ;;
     read|write|model) XLSXBENCH_KIND="$xlsx" "$dotnet_bin" "$dll" xlsxstream all "$inputs/xlsx" "$out/xlsx-$xlsx.tsv" > "$out/xlsx-$xlsx.log" 2>&1 ;;
@@ -127,7 +139,7 @@ if [[ -n "$xlsx" ]]; then
   peak=0
 fi
 if [[ $timing -eq 1 ]]; then
-  "$dotnet_bin" "$dll" --filter "$filter" --artifacts "$out/bdn" > "$out/bdn.log" 2>&1
+  "$dotnet_bin" "$dll" --filter "$filter" --artifacts "$out/bdn" --buildTimeout 1500 > "$out/bdn.log" 2>&1
 fi
 if [[ $peak -eq 1 ]]; then
   "$dotnet_bin" "$dll" peakall "$inputs" "$out/peak.tsv" > "$out/peak.log" 2>&1

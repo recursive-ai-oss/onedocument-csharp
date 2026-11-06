@@ -68,20 +68,20 @@ The `Office` statics find the readers and writers of every kind package the appl
 | Text | no | yes (`Office.ExtractText`) | n/a | n/a | `docs/text-extraction.md` |
 | Embedded EMF, EMF+, WMF pictures | rendered | no | carried as parts | n/a | `docs/metafiles.md` |
 
-Encrypted files open when `OpenContext.Password` is supplied: OOXML Agile and Standard, RC4, RC4 CryptoAPI and XOR for the legacy formats (`docs/encryption.md`).
+Encrypted files open when `OpenContext.Password` is supplied: OOXML Agile and Standard, RC4, RC4 CryptoAPI and XOR for the legacy formats (`docs/encryption.md`). Excel, Word and PowerPoint open our RC4 CryptoAPI XLS output, and the Agile and RC4 files other applications wrote, with the same password (9 of 10 fixtures; the XOR one is the exception).
 
 ## Checks
 
-Numbers come from the committed note or test named in the last column. Office-oracle checks (Word, Excel and PowerPoint opening our output without a repair prompt, Office's own result for the same operation, the layout differential) are written as requests under `testdata/` and are all **pending (1.0 gate)**.
+Numbers come from the committed note or test named in the last column. Office-oracle checks (Word, Excel and PowerPoint opening our output without a repair prompt, Office's own result for the same operation, the layout differential) ran on desktop Office 16.0.20527 for the 1.0 gate: results, floors and the open items are in [`docs/office-oracle-1.0.md`](docs/office-oracle-1.0.md). The remaining requests under `testdata/` are listed there as not run.
 
 | Check | Result | Source |
 |---|---|---|
 | Untouched round trip over a public corpus, per-part hashes | pending (1.0 gate) | |
 | Written OOXML against the ECMA-376 and extension schemas | pending (1.0 gate) | |
-| Output opens in Word, Excel and PowerPoint with no repair prompt | pending (1.0 gate) | `testdata/*/ORACLE-REQUEST.md` |
+| Output opens in Word, Excel and PowerPoint with no repair prompt | 718 generated files open clean (edits, authoring, templates, mail merge, content controls, conversions from DOC, PPT, RTF, ODF, HTML, XLS, XLSB, written XLS with notes, layout cases); every other file is an input that fails the same way or an ODS file Excel does not open, each listed | `docs/office-oracle-1.0.md`, `testdata/*/ORACLE-REQUEST.md` |
 | Number formats against Excel (`TEXT` and cell display) | 7,602 of 7,602 agree on a grid; exceptions are listed | `docs/number-formats.md`, `NumberFormatExcelGridTests` |
-| Calculation: cached values reproduced over a corpus; per-function grids against Excel | pending (1.0 gate) | `docs/calc.md`, `docs/spreadsheets-calc.md` |
-| Layout: page count, line breaks and object geometry against Office's PDF export | pending (1.0 gate) | `docs/layout.md` |
+| Calculation: per-function grids against Excel 16.0.20527 | functions 22,700 rows 93.3 % agree, financial 84.5 %, engineering 88.0 %, lookup and reference 99.5 % (9,707 rows), database 100 % (324 rows); every disagreement is listed. Cached values over a corpus: pending (1.0 gate) | `docs/office-oracle-1.0.md`, `docs/calc.md`, `docs/spreadsheets-calc.md` |
+| Layout: page count, line breaks and object geometry against Office's PDF export | Word: page count 196/196 and PowerPoint 24/24 on the generated cases; line and geometry floors per set in `docs/office-oracle-1.0.md` | `docs/office-oracle-1.0.md`, `docs/layout.md` |
 | Tagged PDF against veraPDF (PDF/UA-1, PDF/A) | pending (1.0 gate) | |
 | CommonMark and GFM conformance | 652 of 652 and 28 of 28 examples | `docs/markdown.md`, `MarkdownSpecTests` |
 | Metafiles against Windows' own pictures | 64 Windows-written metafiles compared (25 EMF, 24 EMF+, 15 WMF); per-case agreement in the note | `docs/metafiles.md`, `MetafileTests` |
@@ -89,17 +89,17 @@ Numbers come from the committed note or test named in the last column. Office-or
 | NativeAOT and trimming | the smoke app publishes with warnings as errors and runs | `smoke/aot`, `build/ci.sh aot` |
 | Browser WebAssembly | 25 smoke groups run in headless Chromium | `docs/platforms.md`, `build/ci.sh wasm-run` |
 | Memory | 37 retained bytes per cell on a 20M-cell styled workbook (ClosedXML 79, NPOI 360); streaming read allocates 0.08 bytes per cell at 1M rows; streaming working set 47 to 49 MB from 10k to 1M rows (x64) | `bench/README.md` |
-| Speed (preview rows, re-run at the 1.0 gate) | against the fastest managed comparator: documents geomean 0.19 (x64) and 0.18 (arm64) over 15 rows, worst 0.65 and 0.63; workbooks geomean 0.53 and 0.59 over 10 rows, worst 1.01 and 1.05 | `bench/README.md`, `bench/published/` |
+| Speed (1.0 gate rows) | against the fastest like-for-like managed comparator over 45 rows, single thread: geomean 0.29 (x64) and 0.32 (arm64), worst row 2.35 and 1.63 (a 50-slide PPTX edit saved to a file, which pays the durable flush the Open XML SDK does not; 0.89 and 0.83 saved to a stream); binary workbook reads have no like-for-like comparator and are 2 to 43 times slower than forward value readers | `bench/README.md`, `bench/published/` |
 
 ## Operations
 
 | Operation | State |
 |---|---|
 | Find and replace, merge, append, split, protection | implemented (`docs/operations-find-replace.md`, `docs/operations-merge.md`, `docs/protection.md`) |
-| Redaction (`Office.Redact`) | implemented, writes a new file and re-reads it to verify; an independent completeness review passed (`docs/redaction-review.md`), with its open items listed there. Office check pending (1.0 gate) |
-| Inspect and sanitise (`Office.Inspect`, `Office.Sanitize`, `onedocument inspect`, `sanitize`) | implemented (`docs/sanitize.md`); coverage review pending |
+| Redaction (`Office.Redact`) | implemented, writes a new file and re-reads it to verify; an independent completeness review passed (`docs/redaction-review.md`), with its open items listed there. Office opens the redacted outputs: not run (see `docs/office-oracle-1.0.md`) |
+| Inspect and sanitise (`Office.Inspect`, `Office.Sanitize`, `onedocument inspect`, `sanitize`) | implemented (`docs/sanitize.md`); the Document Inspectors that automation can run (Word 5, Excel 5, PowerPoint 4) find nothing in 36 sanitised files that open, and Office opens them without repair (`docs/office-oracle-1.0.md`); coverage review pending |
 | VBA read, extract, remove | implemented, never executed (`docs/vba.md`) |
-| Accessibility checking | implemented (`docs/accessibility.md`); agreement with Office's checker pending (1.0 gate) |
+| Accessibility checking | implemented (`docs/accessibility.md`); agreement with Office's checker not run: the checker has no automation interface (`docs/office-oracle-1.0.md`) |
 
 ## Gaps
 
@@ -107,12 +107,12 @@ Stated here so they are not found by surprise.
 
 - **Encrypted output.** Encrypted files are written only for XLS (RC4 CryptoAPI). Agile OOXML and ODF encryption on write wait for the Cryptography package.
 - **Cryptography package.** `RecursiveAI.OneDocument.Cryptography` (signatures, encryption on write) has no content yet and is not part of the `All` metapackage.
-- **Browser.** WebAssembly has no `Aes` or MD5, so opening Agile or Standard encrypted OOXML and RC4-MD5 files there raises `OfficeUnsupportedException`. RC4 CryptoAPI and XOR files read normally (`docs/platforms.md`).
+- **Browser.** WebAssembly has no `Aes` or MD5, so opening Agile or Standard encrypted OOXML and RC4-MD5 files there raises `OfficeUnsupportedException`. RC4 CryptoAPI and XOR files read normally (`docs/platforms.md`). The XOR reader's array-index rule rests on LibreOffice alone: Excel does not open our XOR test file, so that scheme is unconfirmed against Office (`docs/office-oracle-1.0.md`).
 - **Formula text** is en-US and invariant only; localized function names are not supported.
 - **DOC and PPT** are read-only. **Word 6/95 and BIFF2 to BIFF5** layouts come from observed files, not a specification.
 - **Metafiles.** Drawn as vector content where the interpreter supports the records; custom pen caps, line-end anchors, colour matrices and text clipping to a string's rectangle are not drawn, and some raster-operation cases fall back to a bitmap (`docs/metafiles.md`).
 - **Output formats.** PDF, and PNG, JPEG, TIFF, WebP and SVG pages (`PageExporter`; `SaveAs` and `Office.Convert` write the first page, or every page for TIFF). HTML, Markdown and text export are on the hubs.
-- **Rendering fidelity.** Page layout is implemented from the Word, PowerPoint and Excel rules in `docs/layout*.md`; how closely it matches Office is pending (1.0 gate), and the layout notes list the places still to be checked against Word.
+- **Rendering fidelity.** Page layout is implemented from the Word, PowerPoint and Excel rules in `docs/layout*.md`; how closely it matches Office is measured in `docs/office-oracle-1.0.md` (Word 16.0.20527, generated cases), and the layout notes list the places still to be checked against Word.
 - **Not executed.** Macros, OLE payloads, Power Query, the Data Model and Solver are carried and (for VBA) listed or removed, never run.
 
 ## Packages

@@ -19,3 +19,7 @@ Questions the specifications leave open, to be decided by what the applications 
 - PowerPoint: is `p:oleObj` without `spid` accepted, and is the object shown from its `p:pic` child alone?
 - All three: the object part is a compound file written by this library (same streams, other sector layout); does activation depend on anything else in the file?
 - The edit time is converted to minutes (`TotalTime`); does Office show the same value for the legacy file?
+
+## Office run (Word, Excel and PowerPoint 16.0.20527)
+
+Answered as far as the oracle can drive the applications: see the row for this request in [`docs/office-oracle-1.0.md`](../../docs/office-oracle-1.0.md#the-other-requests). Questions not listed there as run are still open.

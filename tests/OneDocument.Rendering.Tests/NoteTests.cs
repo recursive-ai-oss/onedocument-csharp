@@ -280,6 +280,13 @@ public sealed class NoteTests
     }
 
     [Fact]
+    public void ADocumentWideBeneathTextPositionIsNotApplied()
+    {
+        LayoutPage page = Case("122-footnotes-beneath-text-settings-ignored").Pages[0];
+        Assert.True(page.FootnoteParagraphs.Last().Bounds.Y > 600);
+    }
+
+    [Fact]
     public void ReferencesInHeadersAreIgnored()
     {
         LayoutDocument l = Case("123-footnote-header-ignored");

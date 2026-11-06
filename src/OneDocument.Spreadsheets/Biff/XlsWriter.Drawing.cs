@@ -137,7 +137,7 @@ internal sealed partial class XlsWriter
         }
 
         int totalShapes = clusters.Sum(c => c.Shapes + 1);
-        int spidMax = clusters.Max(c => c.Drawing * 1024 + c.Shapes) + 1;
+        int spidMax = clusters.Max(c => c.Drawing * 1024 + c.Shapes);
         var dgg = new BiffBuffer();
         dgg.U32((uint)spidMax);
         dgg.U32((uint)(clusters.Count + 1));
@@ -173,6 +173,35 @@ internal sealed partial class XlsWriter
         _s.Record(0x00EB, all);
     }
 
+    // [MS-ODRAW] §2.3 property table of a note's text box: text wrapped and anchored at the top, a light yellow fill with a thin line,
+    // and the shadow and group flags of notes written by other applications.
+    private static readonly (int Id, uint Value)[] NoteProperties =
+    [
+        (0x0080, 0x00000000),
+        (0x0085, 0x00000002),
+        (0x0087, 0x00000001),
+        (0x00BF, 0x00080008),
+        (0x0158, 0x00000000),
+        (0x0180, 0x00000000),
+        (0x0181, 0x00E1FFFF),
+        (0x0183, 0x001E0000),
+        (0x01BF, 0x00100010),
+        (0x01C0, 0x00000000),
+        (0x01C1, 0x00010000),
+        (0x01C2, 0x00FFFFFF),
+        (0x01D0, 0x00000001),
+        (0x01D2, 0x00000001),
+        (0x01D3, 0x00000001),
+        (0x01D6, 0x00000001),
+        (0x01D7, 0x00000002),
+        (0x01FF, 0x00180018),
+        (0x0201, 0x00000000),
+        (0x023F, 0x00030003),
+        (0x03BF, 0x000A0002),
+    ];
+
+    private const int TextBoxMarkerLength = 8;
+
     private void WriteObjects(int si, Worksheet ws)
     {
         _ = ws;
@@ -193,16 +222,14 @@ internal sealed partial class XlsWriter
             sp.U32((uint)(baseId + 1 + k));
             sp.U32(0x00000A00);
             var opt = new BiffBuffer();
-            opt.U16(0x0181);
-            opt.U32(0x08000050);
-            opt.U16(0x01BF);
-            opt.U32(0x00110010);
-            opt.U16(0x01FF);
-            opt.U32(0x00080008);
-            opt.U16(0x03BF);
-            opt.U32(0x00020002);
+            foreach ((int id, uint value) in NoteProperties)
+            {
+                opt.U16(id);
+                opt.U32(value);
+            }
+
             var anchor = new BiffBuffer();
-            anchor.U16(3);
+            anchor.U16(2);
             anchor.U16(Math.Min(n.Col + 1, 255));
             anchor.U16(15);
             anchor.U16(Math.Max(n.Row - 1, 0));
@@ -213,14 +240,15 @@ internal sealed partial class XlsWriter
             anchor.U16(4);
             var body = new BiffBuffer();
             body.Bytes(sp.Span);
-            Escher(body, 3, 4, 0xF00B, opt.Length);
+            Escher(body, 3, NoteProperties.Length, 0xF00B, opt.Length);
             body.Bytes(opt.Span);
             Escher(body, 0, 0, 0xF010, anchor.Length);
             body.Bytes(anchor.Span);
             Escher(body, 0, 0, 0xF011, 0);
-            Escher(body, 0, 0, 0xF00D, 0);
             var container = new BiffBuffer();
-            Escher(container, 0xF, 0, 0xF004, body.Length);
+            // The container also counts the text box marker (8 bytes) that follows in the next record; a length that leaves it out is
+            // what made Excel refuse the workbook.
+            Escher(container, 0xF, 0, 0xF004, body.Length + TextBoxMarkerLength);
             container.Bytes(body.Span);
             shapes.Add(container.Span.ToArray());
         }
@@ -232,7 +260,7 @@ internal sealed partial class XlsWriter
         patriarch.U32((uint)baseId);
         patriarch.U32(5);
         int patriarchLength = 8 + patriarch.Length;
-        int groupLength = patriarchLength + shapes.Sum(x => x.Length);
+        int groupLength = patriarchLength + shapes.Sum(x => x.Length + TextBoxMarkerLength);
         int drawingLength = 16 + 8 + groupLength;
         var head = new BiffBuffer();
         Escher(head, 0xF, 0, 0xF002, drawingLength);
@@ -252,6 +280,11 @@ internal sealed partial class XlsWriter
             }
 
             WriteNoteObject(k + 1);
+            // [MS-XLS] §2.4.178 (MsoDrawing) and [MS-ODRAW] OfficeArtClientTextbox: the text box marker of a note is a record of its own
+            // between the Obj and the TxO, while the lengths of its shape container and of the containers above it count it.
+            var textbox = new BiffBuffer();
+            Escher(textbox, 0, 0, 0xF00D, 0);
+            _s.Record(0x00EC, textbox);
             WriteTextObject(notes[k].Text);
         }
 
@@ -278,7 +311,7 @@ internal sealed partial class XlsWriter
         b.U16(0x12);
         b.U16(0x19);
         b.U16(id);
-        b.U16(0x4011);
+        b.U16(0);
         b.Zeros(12);
         b.U16(0x0D);
         b.U16(0x16);
@@ -294,7 +327,7 @@ internal sealed partial class XlsWriter
     private void WriteTextObject(string text)
     {
         var b = new BiffBuffer();
-        b.U16(0x0212);
+        b.U16(0x0012);
         b.U16(0);
         b.Zeros(6);
         b.U16(text.Length);

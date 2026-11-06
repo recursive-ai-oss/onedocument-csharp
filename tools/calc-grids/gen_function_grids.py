@@ -5,7 +5,7 @@
 
 One test per line, tab separated: id, entry form (a1), formula. The files are *inputs*: no answers are committed.
 Excel answers them once (id, formula, value) and the answers become the expected values of the committed grid.
-Database cases read a block that the runner fills before entering formulas: see `db-data.tsv`.
+Database cases read a block that the runner fills before entering formulas: see `database.cells.tsv`.
 """
 import sys
 from datetime import date
@@ -198,7 +198,7 @@ def db_cases():
     return cases
 
 
-CRIT_DATA = {  # criteria blocks the runner places (cell -> value); see db-data.tsv
+CRIT_DATA = {  # criteria blocks the runner places (cell -> value); see database.cells.tsv
     "AH1": "Tree", "AI1": "Height", "AH2": "Apple", "AI2": ">10", "AH3": "Pear", "AI3": "<12",
     "AK1": "Tree", "AK2": "App", "AM1": "Tree", "AM2": "=App", "AO1": "Tree", "AO2": "A*e", "AQ1": "Tree", "AQ2": "",
     "AS1": "ok", "AS2": "=TRUE", "AU1": "Tree", "AU2": "<>Apple", "AW1": "Yield", "AW2": "10", "AY1": "Yield", "AZ1": "Age", "AY2": ">9", "AZ2": ">10", "AY3": "<9", "AZ3": "<10", "BB1": "Tree",
@@ -251,7 +251,7 @@ def main():
             cells.append((f"{cols[c]}{r + 2}", v))
     for k, v in CRIT_DATA.items():
         cells.append((k, v))
-    (out / "db-data.tsv").write_text("".join(f"{a}\t{v}\n" for a, v in cells), encoding="utf-8")
+    (out / "database.cells.tsv").write_text("".join(f"{a}\t{v}\n" for a, v in cells), encoding="utf-8")
 
 
 if __name__ == "__main__":

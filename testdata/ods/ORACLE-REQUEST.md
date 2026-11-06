@@ -22,3 +22,7 @@ Questions the specifications leave open (our current choice is in `docs/ods.md`)
 - Does it read the `calcext:conditional-format` data bars and icon sets, or only the `style:map` conditions?
 
 Rule to file: any difference in value, formula or format between Excel's reading and ours is filed against the exporter or importer with the file's hash.
+
+## Office run (Word, Excel and PowerPoint 16.0.20527)
+
+Answered as far as the oracle can drive the applications: see the row for this request in [`docs/office-oracle-1.0.md`](../../docs/office-oracle-1.0.md#the-other-requests). Questions not listed there as run are still open.

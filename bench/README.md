@@ -6,13 +6,16 @@ BenchmarkDotNet rows that compare OneDocument with the managed libraries people 
 
 | Package | Version | Used for |
 |---|---|---|
-| DocumentFormat.OpenXml | 3.5.1 | DOCX rows now; PPTX and XLSX rows later |
-| NPOI | 2.7.6 | DOCX rows now; XLS rows later (2.8 and later are not used: their binary release carries a fee EULA) |
+| DocumentFormat.OpenXml | 3.5.1 | DOCX, PPTX, XLSX rows |
+| NPOI | 2.7.6 | DOCX, XLSX, XLS rows (2.8 and later are not used: their binary release carries a fee EULA) |
 | ClosedXML | 0.105.1 | spreadsheet rows |
 | MiniExcel | 1.46.0 | spreadsheet rows |
 | Sylvan.Data.Excel | 0.5.8 | spreadsheet rows |
 | ExcelDataReader | 3.9.0 | spreadsheet rows |
 | EPPlus | 4.5.3.3 | spreadsheet rows; LGPL, so it is referenced from this project only and never shipped |
+| ClosedXML.Report | 0.2.12 (its assembly reports 1.0.0) | XLSX template-fill rows |
+
+ShapeCrawler is not restored: its package declares no licence, so the PPTX rows are gated against the Open XML SDK alone. LibreOffice 26.8.2.2 is run as a binary for the information rows (`lo-info.sh`); it is never a gate.
 
 The numbers in a result page come from the assemblies that actually ran (`versions.txt` in the results directory), not from this table.
 
@@ -29,6 +32,21 @@ Each row is one operation on one generated input, with the same work for every l
 | `DocxEdit` | change one paragraph's text, save | raw zip baseline (rewrite one part), Open XML SDK, NPOI, OneDocument |
 | `DocxLazyOpen` | open and read one small part | raw zip baseline, Open XML SDK (styles part), NPOI (loads everything), OneDocument (open, styles) |
 | `DocxExtract` | read all body text | Open XML SDK DOM, Open XML SDK forward reader, NPOI extractor, OneDocument streaming extractor |
+
+The format rows (`fmtbench`, one fresh process per row and input, same timing and allocation columns as the spreadsheet rows) are:
+
+| Group | Operation | Rows |
+|---|---|---|
+| `xls-read` | open a `.xls` made by LibreOffice, visit every cell value | OneDocument `Workbook.Open` (full model); NPOI `HSSFWorkbook` (full model, the like-for-like row); Sylvan.Data.Excel and ExcelDataReader forward readers (a lighter job: reported in the strict table, not in the bar) |
+| `xlsb-read` | the same on `.xlsb` | OneDocument `Workbook.Open`; Sylvan.Data.Excel and ExcelDataReader forward readers. No managed comparator builds a full model of a binary workbook, so there is no like-for-like row; the strict table shows the gap to the readers |
+| `xls-write` | build N rows by 10 columns in the model, save as `.xls` | OneDocument, NPOI |
+| `calc-cold`, `calc-incr` | recalculate every formula of a generated workbook (5 formulas per row plus two column totals); then change one input cell and recalculate | OneDocument (`Recalculate`, one thread), ClosedXML, NPOI evaluator, EPPlus. The clock covers the recalculation only (open and edit are outside); ClosedXML marks dependants dirty on a write and evaluates them when a value is read, NPOI is told which cell changed, EPPlus 4.5.3.3 has no dirty tracking and recalculates everything. Every library's totals are compared through the row checksum |
+| `pptx` | open and read the first slide; open and save untouched; change one slide's text and save, each to a file and (for the last two) to a stream | OneDocument `Presentation`, Open XML SDK |
+| `extract` | all text of a PPTX or XLSX | OneDocument `Office.ExtractText` into a counting writer, Open XML SDK forward reader, NPOI extractor (XLSX) |
+| `template` | fill a template with a loop over N items | OneDocument `Template.Render` (XLSX; DOCX is information, no managed comparator is licence-checked), ClosedXML.Report |
+| `info` | rendering and legacy readers with no managed comparator | OneDocument DOCX to PDF (substitute fonts), DOC/RTF/ODT text extraction, ODS load; LibreOffice for the first and last two as information |
+
+Inputs: the xlsx values workbooks and the DOCX inputs as before; `values-N.xlsb` converted from them by OneDocument (no other library writes XLSB); `calc-N.xlsx`, `deck-N.pptx` (the one-slide fixture `testdata/slides/slide-runs.pptx` replicated N times) and the templates written by `fmtbench gen`; `.xls`, `.doc`, `.rtf`, `.odt` and `.ods` made by LibreOffice from those (`make-legacy-inputs.sh`), so no library under test makes its own legacy input. A short operation gets a longer warm-up (twenty runs or three seconds) and at least fifteen measured runs, the same for every library; the median is published.
 
 The raw zip baseline is the BCL zip classes reading and writing every entry: the floor any tool that recompresses has to pay. It is the baseline row of its class, and ratios in the tables are relative to the first row of each class.
 
@@ -75,6 +93,8 @@ Peak memory comes from a separate pass because BenchmarkDotNet runs many iterati
 
 Each class runs one launch with one warm-up and five measured iterations. A filtered group (one class, all sizes) stays well under 20 minutes; run classes separately rather than all at once.
 
+Format groups: `bench/run-formats.sh PREFIX GROUP...` (needs `ONEDOCUMENT_RESULTS`, `ONEDOCUMENT_BENCH_INPUTS` and `ONEDOCUMENT_BENCH_DLL`; makes the legacy inputs with LibreOffice when they are missing), or `bench/run.sh --run NAME --fmt GROUP --threads 1`. `bench/lo-info.sh INPUTS OUT.tsv [soffice]` times LibreOffice on the rendering inputs.
+
 ### Shared build hosts
 
 On a machine shared with other work, run indicative timings with a limited core count; they are not publishable:
@@ -85,101 +105,104 @@ bench/run.sh --run indicative --filter '*Bench.DocxLoadSave*' --threads 1 --forc
 
 Published rows are run once per machine, alone on it, in groups of at most 20 minutes. A run that overlapped other work is not publishable.
 
-## Published rows: Word-processing documents (re-measured for the second preview)
+## Published rows: the 1.0 matrix
 
-Medians of five measured iterations after one warm-up (BenchmarkDotNet 0.15.8, .NET 10.0.14, SDK 10.0.403), one thread visible to the runtime (`--threads 1`). The operations are single-document and none of the comparators uses more than one core, so single-thread is the like-for-like mode; the all-cores mode is not published for these rows. Comparators: Open XML SDK 3.5.1 and NPOI 2.7.6 (XWPF). Inputs: `small`, `medium`, `pages1000` (the 1,000-page document, 11 MB of main-part XML). The `large` input is used only in the peak-memory pass. Like-for-like modes are as in the section above: the SDK's untouched-save row clones the package without parsing the main part, and its load row parses the whole main part.
-
-Each machine ran one timing group and one peak-memory group under the machine's exclusive benchmark queue class, each started alone on the machine. Full result pages, with the load log and per-class tables: [`published/x64/docx/results.md`](published/x64/docx/results.md) and [`published/arm64/docx/results.md`](published/arm64/docx/results.md).
+Every area of the speed table, measured at the 1.0 code freeze on both machines, **single thread** (`DOTNET_PROCESSOR_COUNT=1`; none of the comparators parallelises a single document, and recalculation was run on one thread on both sides), medians, BenchmarkDotNet 0.15.8 for the document classes and one fresh process per row for the others, .NET 10.0.14 (SDK 10.0.403). Each group ran alone on the machine under the exclusive benchmark queue class (`wq --class bench`, at most 20 minutes). Raw results, `env.txt` (CPU, cores, ISA, storage, load before and after), `load.log` (load every 10 s), `versions.txt` (the assemblies that ran), `inputs.txt` (sizes and SHA-256) and `results.md` (every row with median, minimum, allocations and peak working set for OneDocument and every comparator) are in [`published/x64/<group>/`](published/x64) and [`published/arm64/<group>/`](published/arm64).
 
 | | x64 | arm64 |
 |---|---|---|
 | Machine | AMD Ryzen 9 7950X3D, 16 cores / 32 threads, AVX2/AVX-512, 125 GB, NVMe, Linux 7.0 | Apple M2 (Mac mini), 4 performance + 4 efficiency cores, 8 GB, NEON, macOS |
-| Load average (1 min) before / after (samples every 10 s in `load.log`) | 1.33 / 1.04 | 2.39 / 2.04 |
+| Load average (1 min) at group start | 4.7 to 6.2 (the queue had just drained other projects' jobs; `wq` confirmed the CPU idle before starting) | 2.0 to 2.3 (the machine's idle level) |
+| Jobs (worker / Mac id, queue id) | `bwm9ejnr` 005295 (xlsx write, read; its DOCX group failed to build, see below), `8re3zw4q` 005300 (xlsx model, bytes per cell, xls read, xlsb read, xls write), `115on4d8` 005308 (recalculation), `cp17e9hs` 005310 (pptx, extract, template, info, LibreOffice), `xma48xdj` 005336 (DOCX) | `f7gpkthx` 001973 (xlsx write, read; DOCX failed to build), `l9omuc37` (xlsx model, bytes per cell, xls read, xlsb read, xls write), `gkjt2nkx` 001975 (cold recalculation; the group was killed at the 20-minute limit during the incremental one), `d6gw3erd` 001977 (incremental recalculation), `8eot9wg5` 001978 (pptx, extract, template, info), `9k5h9zqj` 001976 (DOCX) |
 
-The document groups on both machines started under the load limit. The x64 streaming-write group was started with `--force` at load 3.7 and the x64 model groups at 1.7 and 2.3 (the queue had settled; other projects' light jobs kept the load above idle). The x64 streaming-read group was re-run alone under the exclusive benchmark queue class with no override, starting at load 1.81, and replaces the first run; each `env.txt` records the override. Other light work kept the load average above idle during the runs, so treat ratios within a few percent of 1.00 as ties.
+The first DOCX group on both machines produced no timings: BenchmarkDotNet rebuilds the benchmark project for its child process, and with the larger project that build exceeded its two-minute default under the one-core limit. `run.sh` now passes `--buildTimeout 1500`; both machines re-ran the group (the directories published here are the re-runs). Total bench time was therefore above the usual 45 minutes per machine.
 
-### Ratios against the fastest comparator (OneDocument median / comparator median)
+### Ratios against the fastest like-for-like managed comparator (OneDocument median / comparator median)
 
-| Class | Input | x64 | arm64 |
-|---|---|---:|---:|
-| DocxLoad | small | 0.33 | 0.36 |
-| DocxLoad | medium | 0.14 | 0.05 |
-| DocxLoad | pages1000 | 0.16 | 0.17 |
-| DocxLoadSave | small | 0.21 | 0.26 |
-| DocxLoadSave | medium | 0.02 | 0.03 |
-| DocxLoadSave | pages1000 | <0.01 | 0.01 |
-| DocxEdit | small | 0.65 | 0.60 |
-| DocxEdit | medium | 0.20 | 0.14 |
-| DocxEdit | pages1000 | 0.46 | 0.33 |
-| DocxExtract | small | 0.55 | 0.52 |
-| DocxExtract | medium | 0.15 | 0.09 |
-| DocxExtract | pages1000 | 0.48 | 0.32 |
-| DocxLazyOpen | small | 0.55 | 0.63 |
-| DocxLazyOpen | medium | 0.37 | 0.45 |
-| DocxLazyOpen | pages1000 | 0.26 | 0.31 |
-| **Geometric mean, 15 rows** | | **0.19** | **0.18** |
-| **Worst row** | | 0.65 | 0.63 |
+| Operation | Input | Mode | x64 OneDocument | x64 fastest comparator | x64 ratio | arm64 OneDocument | arm64 fastest comparator | arm64 ratio |
+|---|---|---|---:|---|---:|---:|---|---:|
+| Recalculation, cold (every formula) | calc-10000.xlsx | single thread | 516.2 ms | npoi.calc.cold 1.11 s | 0.47x | 490.2 ms | npoi.calc.cold 1.22 s | 0.40x |
+| Recalculation, cold (every formula) | calc-50000.xlsx | single thread | 1.24 s | epplus.calc.cold 2.30 s | 0.54x | 1.16 s | epplus.calc.cold 3.12 s | 0.37x |
+| Recalculation, incremental (one input cell changed) | calc-10000.xlsx | single thread | 0.7 ms | npoi.calc.incr 6.7 ms | 0.10x | 0.4 ms | closedxml.calc.incr 7.7 ms | 0.05x |
+| Recalculation, incremental (one input cell changed) | calc-50000.xlsx | single thread | 3.1 ms | npoi.calc.incr 47.0 ms | 0.07x | 4.5 ms | closedxml.calc.incr 45.0 ms | 0.10x |
+| DocxEdit | medium | full model | 19.26 ms | OpenXml 100.67 ms | 0.19x | 22.30 ms | OpenXml 70.52 ms | 0.32x |
+| DocxEdit | pages1000 | full model | 373.67 ms | OpenXml 812.00 ms | 0.46x | 312.43 ms | OpenXml 1.00 s | 0.31x |
+| DocxEdit | small | full model | 766.55 us | OpenXml 1.13 ms | 0.68x | 947.32 us | OpenXml 1.67 ms | 0.57x |
+| DocxExtract | medium | streaming extract | 4.39 ms | OpenXmlReader 60.47 ms | 0.07x | 20.17 ms | OpenXmlReader 63.68 ms | 0.32x |
+| DocxExtract | pages1000 | streaming extract | 230.17 ms | OpenXmlReader 430.17 ms | 0.54x | 225.82 ms | OpenXmlDom 702.75 ms | 0.32x |
+| DocxExtract | small | streaming extract | 566.58 us | OpenXmlDom 992.68 us | 0.57x | 581.98 us | OpenXmlDom 1.18 ms | 0.49x |
+| DocxLazyOpen | medium | lazy open | 271.82 us | OpenXml 774.36 us | 0.35x | 319.36 us | OpenXml 734.95 us | 0.43x |
+| DocxLazyOpen | pages1000 | lazy open | 270.78 us | OpenXml 1.05 ms | 0.26x | 307.25 us | OpenXml 921.73 us | 0.33x |
+| DocxLazyOpen | small | lazy open | 254.50 us | OpenXml 485.01 us | 0.52x | 280.68 us | OpenXml 451.22 us | 0.62x |
+| DocxLoad | medium | full model | 9.03 ms | Npoi 66.88 ms | 0.14x | 5.19 ms | Npoi 60.24 ms | 0.09x |
+| DocxLoad | pages1000 | full model | 105.67 ms | OpenXml 621.84 ms | 0.17x | 107.04 ms | OpenXml 627.06 ms | 0.17x |
+| DocxLoad | small | full model | 385.48 us | OpenXml 962.15 us | 0.40x | 378.91 us | OpenXml 1.14 ms | 0.33x |
+| DocxLoadSave | medium | full model | 418.99 us | OpenXml 18.16 ms | 0.02x | 466.98 us | OpenXml 18.55 ms | 0.03x |
+| DocxLoadSave | pages1000 | full model | 560.61 us | OpenXml 124.27 ms | 0.00x | 618.46 us | OpenXml 98.36 ms | 0.01x |
+| DocxLoadSave | small | full model | 180.61 us | OpenXml 779.93 us | 0.23x | 201.70 us | OpenXml 788.48 us | 0.26x |
+| Text extraction, PPTX | deck-50.pptx | streaming extract | 6.1 ms | openxml.pptx.extract 9.0 ms | 0.68x | 6.3 ms | openxml.pptx.extract 11.4 ms | 0.55x |
+| Text extraction, PPTX | deck-500.pptx | streaming extract | 55.9 ms | openxml.pptx.extract 88.3 ms | 0.63x | 62.4 ms | openxml.pptx.extract 115.0 ms | 0.54x |
+| Text extraction, XLSX | values-10000.xlsx | streaming extract | 35.8 ms | openxml.xlsx.extract 534.7 ms | 0.07x | 26.5 ms | openxml.xlsx.extract 256.9 ms | 0.10x |
+| Text extraction, XLSX | values-50000.xlsx | streaming extract | 104.1 ms | openxml.xlsx.extract 1.11 s | 0.09x | 983.7 ms | openxml.xlsx.extract 1.20 s | 0.82x |
+| PPTX open, read the first slide | deck-50.pptx | full model | 1.5 ms | openxml.pptx.load 3.5 ms | 0.43x | 1.6 ms | openxml.pptx.load 3.6 ms | 0.44x |
+| PPTX open, read the first slide | deck-500.pptx | full model | 13.2 ms | openxml.pptx.load 30.9 ms | 0.43x | 14.1 ms | openxml.pptx.load 33.4 ms | 0.42x |
+| PPTX open and save untouched | deck-50.pptx | full model | 7.6 ms | openxml.pptx.loadsave 7.1 ms | 1.07x | 4.8 ms | openxml.pptx.loadsave 7.4 ms | 0.65x |
+| PPTX open and save untouched | deck-500.pptx | full model | 16.9 ms | openxml.pptx.loadsave 66.7 ms | 0.25x | 15.3 ms | openxml.pptx.loadsave 72.8 ms | 0.21x |
+| PPTX edit one slide's text, save | deck-50.pptx | full model | 8.7 ms | openxml.pptx.edit 3.7 ms | 2.35x | 6.7 ms | openxml.pptx.edit 4.1 ms | 1.63x |
+| PPTX edit one slide's text, save | deck-500.pptx | full model | 29.5 ms | openxml.pptx.edit 31.2 ms | 0.95x | 28.4 ms | openxml.pptx.edit 35.3 ms | 0.80x |
+| PPTX open and save untouched, to a stream | deck-50.pptx | full model (stream, no fsync) | 1.2 ms | openxml.pptx.loadsave.mem 6.8 ms | 0.18x | 1.2 ms | openxml.pptx.loadsave.mem 6.9 ms | 0.17x |
+| PPTX open and save untouched, to a stream | deck-500.pptx | full model (stream, no fsync) | 9.9 ms | openxml.pptx.loadsave.mem 64.2 ms | 0.15x | 11.0 ms | openxml.pptx.loadsave.mem 69.4 ms | 0.16x |
+| PPTX edit one slide's text, save to a stream | deck-50.pptx | full model (stream, no fsync) | 2.5 ms | openxml.pptx.edit.mem 2.8 ms | 0.89x | 2.5 ms | openxml.pptx.edit.mem 3.0 ms | 0.83x |
+| PPTX edit one slide's text, save to a stream | deck-500.pptx | full model (stream, no fsync) | 22.7 ms | openxml.pptx.edit.mem 24.3 ms | 0.93x | 24.2 ms | openxml.pptx.edit.mem 28.3 ms | 0.86x |
+| Template fill, XLSX (loop over N items) | n-1000 | full | 14.7 ms | closedxmlreport.tpl.xlsx 146.9 ms | 0.10x | 11.5 ms | closedxmlreport.tpl.xlsx 160.8 ms | 0.07x |
+| Template fill, XLSX (loop over N items) | n-5000 | full | 37.9 ms | closedxmlreport.tpl.xlsx 477.8 ms | 0.08x | 40.0 ms | closedxmlreport.tpl.xlsx 749.7 ms | 0.05x |
+| XLS read, full model | values-10000.xls | full model | 47.9 ms | npoi.xls.model 140.7 ms | 0.34x | 56.8 ms | npoi.xls.model 112.5 ms | 0.50x |
+| XLS read, full model | values-50000.xls | full model | 99.8 ms | npoi.xls.model 737.3 ms | 0.14x | 278.5 ms | npoi.xls.model 756.6 ms | 0.37x |
+| XLS write (build 10 columns per row, save) | n-10000 | full model | 73.3 ms | npoi.xls.write 67.9 ms | 1.08x | 77.0 ms | npoi.xls.write 131.2 ms | 0.59x |
+| XLS write (build 10 columns per row, save) | n-50000 | full model | 353.1 ms | npoi.xls.write 744.3 ms | 0.47x | 368.8 ms | npoi.xls.write 773.9 ms | 0.48x |
+| Full model: open and visit every cell | values-10000 | full model | 146.1 ms | epplus.model.load 174.8 ms | 0.84x | 164.2 ms | epplus.model.load 191.9 ms | 0.86x |
+| Full model: open and visit every cell | values-100000 | full model | 279.9 ms | epplus.model.load 901.0 ms | 0.31x | 260.3 ms | epplus.model.load 836.0 ms | 0.31x |
+| Full model: open, change one cell, save | values-10000 | full model | 250.3 ms | epplus.model.editsave 330.9 ms | 0.76x | 253.1 ms | epplus.model.editsave 367.3 ms | 0.69x |
+| Full model: open, change one cell, save | values-100000 | full model | 541.1 ms | epplus.model.editsave 1.82 s | 0.30x | 535.9 ms | epplus.model.editsave 1.67 s | 0.32x |
+| Streaming read, typed values (every cell) | values-10000 | value streaming | 70.9 ms | sylvan.read 69.1 ms | 1.03x | 78.0 ms | sylvan.read 73.2 ms | 1.07x |
+| Streaming read, typed values (every cell) | values-100000 | value streaming | 646.4 ms | sylvan.read 681.1 ms | 0.95x | 761.6 ms | sylvan.read 717.9 ms | 1.06x |
+| Streaming read, typed values (every cell) | values-1000000 | value streaming | 1.34 s | sylvan.read 1.75 s | 0.77x | 1.88 s | sylvan.read 2.01 s | 0.94x |
+| Streaming write | write-10000 | streaming | 17.8 ms | miniexcel.write 58.3 ms | 0.31x | 22.7 ms | miniexcel.write 66.0 ms | 0.34x |
+| Streaming write | write-100000 | streaming | 165.3 ms | miniexcel.write 546.6 ms | 0.30x | 215.0 ms | miniexcel.write 647.2 ms | 0.33x |
+| Streaming write | write-1000000 | streaming | 2.29 s | miniexcel.write 3.07 s | 0.75x | 2.59 s | miniexcel.write 3.31 s | 0.78x |
 
-Every row is at the bar (geometric mean at most 1.00, no row above 1.25); the worst row is 0.65x (x64) and 0.63x (arm64). Untouched save no longer parses the main part, so it is near zero against the SDK, which still clones the package.
+**Geometric mean over the 45 gated rows: 0.29 on x64, 0.32 on arm64.** The gated rows are the DOCX classes, XLSX streaming read and write, XLSX model, XLS read (against NPOI's full model), XLS write, both recalculation modes, PPTX (the file rows) , text extraction and template fill; the "to a stream" PPTX rows repeat the save rows without the durable flush and are published beside them, not counted twice.
 
-Opening a document and reading only a small part is now at the bar: the main part is parsed on first use, so `DocxLazyOpen` (open, read the style definitions) is 0.26x to 0.63x of the Open XML SDK on both machines (it was 7x to 110x slower in the first preview, when `Document.Open` parsed the main part). A malformed main part now raises its typed exception at first access. These rows were re-measured for the second preview; the paragraphs before and after this one describe the first preview where they differ.
+**Rows above 1.00**, none of them above 1.25 except the first:
+- `PPTX edit one slide's text, save`, 50 slides: **2.35x on x64, 1.63x on arm64**. `Save` and `SaveAs(path)` write a temporary file, flush it to disk and rename it over the target; the flush costs about 5 ms on the worker's NVMe, and the Open XML SDK row edits a copy in place without one. The same operation to a stream, where neither side flushes, is 0.89x and 0.83x, and at 500 slides the file row is 0.95x and 0.80x. The difference is the documented atomic-save contract, a fixed cost that matters only for files of about 100 KB or less (the DOCX edit rows on the small input pass at 0.68x and 0.57x because the DOCX comparator is slower than the PPTX one).
+- `PPTX open and save untouched`, 50 slides: 1.07x x64 (same cause); `XLS write`, 10,000 rows: 1.08x x64; `Streaming read`, 10,000 rows: 1.03x x64, 1.07x arm64, and 100,000 rows 1.06x arm64 (level with Sylvan.Data.Excel within the noise of a 70 to 760 ms single-process run; ExcelDataReader is 1.6x to 2.9x and MiniExcel 2.5x to 5.9x slower than OneDocument at every size).
 
-### Peak memory and allocations (fresh process per row, `pages1000`, 1.5 MB file, 11 MB main part)
+**XLSB and XLS reads against forward readers (not in the bar).** The speed table lists Sylvan.Data.Excel and ExcelDataReader as comparators for binary reads. They are forward value readers; OneDocument has no forward cursor for `.xls` or `.xlsb` (the streaming cursors are XLSX only), so its row builds the full workbook model, a heavier job. The like-for-like row for XLS is NPOI's model (0.34x/0.14x on x64, 0.50x/0.37x on arm64 as above); no managed library builds a model of an XLSB, so that row has no comparator. Against the forward readers (the "strict" tables in each group's `results.md`):
 
-Baseline is about 31 MB on both sides (runtime and loaded input). Peak is the process high-water mark; allocated is managed bytes allocated by the row. Values from `published/x64/docx/results.md`.
+| Operation | Input | x64 OneDocument | x64 Sylvan.Data.Excel | x64 ratio | arm64 ratio |
+|---|---|---:|---:|---:|---:|
+| XLS read | 10,000 rows | 47.9 ms | 9.1 ms | 5.26x | 5.41x |
+| XLS read | 50,000 rows | 99.8 ms | 44.0 ms | 2.27x | 5.40x |
+| XLSB read | 10,000 rows | 294.2 ms | 6.9 ms | 42.64x | 10.17x |
+| XLSB read | 50,000 rows | 1.10 s | 31.6 ms | 34.73x | 35.67x |
 
-| Row | OneDocument peak / allocated | Open XML SDK peak / allocated | NPOI peak / allocated |
-|---|---|---|---|
-| load | 87 MB / 51 MB | 126 MB / 79 MB | 292 MB / 288 MB |
-| load + save untouched | 44 MB / 4.5 MB | 74 MB / 31 MB | 329 MB / 348 MB |
-| edit one paragraph | 98 MB / 78 MB | 162 MB / 125 MB | 329 MB / 348 MB |
-| extract text | 42 MB / 0.6 MB | 102–134 MB / 79–94 MB | 337 MB / 378 MB |
+An XLSB opens by converting its records to SpreadsheetML in memory and loading that. A workbook of 1,000,000 XLSX cells loads in 0.28 s while 500,000 XLSB cells take 1.10 s on x64, so the conversion path is where the time goes; the 10,000-row XLSB took 294 ms on x64 and 76 ms on arm64, a spread the single-process harness cannot explain. A forward cursor over the binary records, like the XLSX one, would close the gap to the readers. That is a feature, not a tuning change, and it is listed for the decision.
 
-Untouched save no longer parses the main part, so it is also the cheapest row in memory (44 MB peak against 74 MB for the SDK). On arm64 the document peak columns read zero (the runtime does not report a high-water mark on macOS and these groups ran before the harness read it from `/usr/bin/time -l`); the allocated column is valid. The spreadsheet groups on arm64 carry the external figure.
-
-Lazy open, bytes read from the source: `Document.Open` on the 1,000-page document reads 1.9 MB for a 1.5 MB file (the directory, then the main part, with some regions read twice) and 3.1 MB for the 47.6 MB `large` input (6.5%); opening only the package reads 0.2 MB of either.
-
-## Published rows: workbooks, second preview
-
-Commands: `bench/run.sh --run NAME --xlsx read|write|model|bpc --threads 1`; results and machine records in [`published/x64/`](published/x64) and [`published/arm64/`](published/arm64) (one directory per group: `results.md`, `env.txt` with CPU, cores and load before/after, `load.log` sampled every 10 s, `versions.txt`, `inputs.txt` with hashes, the raw `.tsv`). Every group ran under the exclusive benchmark queue class. Each row is one fresh process: one warm-up (three for the whole-model rows, which the runtime only optimises after a few runs), then 5 / 3 / 2 measured repetitions at 10k / 100k / 1M rows; the table gives the median. Peak working set is the process high-water mark (on macOS, `/usr/bin/time -l`). Machines: x64 AMD Ryzen 9 7950X3D, 32 threads, Linux; arm64 Apple M2 Mac mini, 8 cores, macOS. .NET 10.0.14, OneDocument 0.1.0-preview.1, comparators as in `versions.txt`. Single thread is the like-for-like mode: no comparator reads or writes one workbook with more than one core.
-
-Inputs (`xlsxstream gen`, deterministic, built with the BCL zip classes): `values-N`, N rows by 10 columns of numbers, shared strings, booleans and date-styled numbers; and `tools/corpus/make_stress_xlsx.py` workbooks (20 columns with styles and 4M formulas at 1M rows) for bytes per cell.
-
-Like-for-like modes:
-- **Streaming read:** every cell's value is read in its typed form. OneDocument: the cursor, text as a string. Sylvan.Data.Excel: `GetExcelDataType` then the typed accessor (its documented typed path; `GetValue` under its default schema returns text, a different job). ExcelDataReader: `GetValue`. MiniExcel: `Query`, rows as dictionaries. The `read.span` row (text left as UTF-8) is informational.
-- **Streaming write:** the same 10 cells per row, shared strings where the writer has them. The Open XML SDK row uses `OpenXmlWriter` with inline strings. MiniExcel: `SaveAs` over a lazy enumerable.
-- **Full model:** `load` opens and visits every cell value through the library's object model; `editsave` opens, sets one cell and saves to a file. NPOI: `XSSFWorkbook`; ClosedXML: `XLWorkbook`; EPPlus 4.5.3.3: `ExcelPackage`. Timings stop at 100k rows (1M rows takes NPOI about 15 GB); bytes per cell covers 1M.
-
-### Ratios against the fastest managed comparator (OneDocument median / comparator median)
-
-| Operation | Input | x64 | arm64 |
-|---|---|---:|---:|
-| Streaming read | 10k rows | 1.01 | 1.01 |
-| Streaming read | 100k rows | 0.98 | **1.05** |
-| Streaming read | 1M rows | 0.80 | 0.94 |
-| Streaming write | 10k rows | 0.32 | 0.34 |
-| Streaming write | 100k rows | 0.30 | 0.33 |
-| Streaming write | 1M rows | 0.72 | 0.80 |
-| Model load | 10k rows | 0.83 | 0.88 |
-| Model load | 100k rows | 0.17 | 0.31 |
-| Model edit + save | 10k rows | 0.75 | 0.70 |
-| Model edit + save | 100k rows | 0.28 | 0.31 |
-| **Geometric mean, 10 rows** | | **0.53** | **0.59** |
-| **Worst row** | | 1.01 | 1.05 |
-
-The streaming read comparator is Sylvan.Data.Excel on every size; write is MiniExcel; the model comparators are EPPlus 4.5.3.3 or ClosedXML. Every row is at the bar (geomean at most 1.00, none above 1.25). Streaming read at 10k and 100k rows is level with Sylvan (within 5%, the noise of a 70 ms to 700 ms single-process run); ExcelDataReader is 1.5x to 2.8x and MiniExcel 2.6x to 5.4x slower than OneDocument. The whole-model 100k rows were re-run with three warm-ups (job IDs in the report) after a first group with one warm-up, whose 100k-row medians for OneDocument were 2x to 6x slower because the runtime had not yet optimised the load path.
-
-### Memory
+### Memory (x64 unless marked)
 
 | | OneDocument | ClosedXML | NPOI |
 |---|---:|---:|---:|
-| Retained bytes per cell, 20M-cell stress workbook (x64) | 37.2 | 78.8 | 360.4 |
-| Retained bytes per cell, 10M-cell values workbook (x64) | 36.1 | 79.7 | 363.2 |
-| Peak working set, 20M cells (x64) | 908 MB | 1,736 MB | 15,549 MB |
+| Retained bytes per cell, 20M-cell stress workbook | 37.2 | 78.8 | 360.4 |
+| Retained bytes per cell, 10M-cell values workbook | 36.1 | 79.7 | 363.2 |
+| Retained bytes per cell, 10M-cell values workbook, arm64 | 44.6 | 100.8 | 363.3 |
+| Peak working set, 20M cells | 952 MB | 1,740 MB | 15,576 MB |
+| Peak working set, 20M cells, arm64 | 1,132 MB | 1,852 MB | 3,739 MB |
 
-The small workbooks carry fixed type-loading costs (71 bytes per cell at 100k cells). The arm64 page reports higher retained figures for all three libraries (OneDocument 44.6 bytes per cell at 10M cells, 83.1 at 2M) because the macOS collector leaves more of the heap uncompacted when the figure is read; the ordering and the ratios are the same, and the published budget is the x64 figure.
+The arm64 figure is higher because the macOS collector leaves more of the heap uncompacted when the figure is read; the published budget is the x64 figure. Streaming read holds a constant working set: 52, 49 and 53 MB at 10k, 100k and 1M rows on x64 (65, 63, 66 MB on arm64), 0.08 bytes allocated per cell at 1M rows (the zero-allocation gate is measured separately by the allocation tests). Document peaks (`pages1000`, 1.5 MB file, 11 MB main part), x64: load 94 MB (Open XML SDK 139 MB, NPOI 297 MB); load and save untouched 51 MB (80, 333); edit 103 MB (167, 333); extract 47 MB (108 to 132, 320). All from `published/*/docx/peak.tsv` and the `bpc` groups.
 
-Streaming read and write hold a constant working set: reading the 10k-row and the 1M-row workbook peaks at 47 MB and 49 MB (x64), 61 MB and 62 MB (arm64); writing 10k and 1M rows peaks at 49 MB and 49 MB (x64). Allocation per cell on the streaming read: 0.08 bytes at 1M rows (the fixed cost of opening, spread over 10M cells; Sylvan 0.19, ExcelDataReader 217, MiniExcel 2,021); the loop itself allocates nothing.
+### Information rows (no managed comparator)
+
+x64, medians: DOCX to PDF 40 ms (small) and 1.25 s (medium, 3,000 paragraphs) against LibreOffice 26.8.2.2 headless at 627 ms and 1,428 ms including process start; DOC text extraction 10 ms against LibreOffice's 666 ms conversion; ODS load of 10,000 rows 792 ms against 682 ms; RTF 269 ms and ODT 505 ms extraction. LibreOffice times are one process per conversion (`published/x64/info/lo-info.tsv`). arm64 rows are in `published/arm64/info/`. Template fill of the DOCX template is in `published/*/template/` as information. None of these has a bar; the native ratio target (at most 1.5x) is not gating.
 
 ### Setting up another machine
 
@@ -197,18 +220,6 @@ Use only the public API of the library under test, and do the same work as the o
 
 `bpc` (`OneDocument.Bench bpc <onedocument|closedxml|npoi> <file.xlsx>`) loads a workbook in a fresh process with one library, touches every cell through the library's public API, collects twice and reports what stays reachable divided by the cell count; `bpcall <dir> <out.tsv>` runs every library over every `.xlsx` in a directory. The inputs are generated by `tools/corpus/make_stress_xlsx.py OUT --rows N` (20 columns: integers, doubles, shared strings, booleans, dates, formatted numbers, ordinary and shared formulas with cached values). Timings in the same row are one run on a loaded host: indicative only.
 
-Indicative run, 2026-11-04, a shared build host (AMD Ryzen 9 7950X3D, x64, 32 logical cores, 124 GB, NVMe, shared with other jobs, load 10-12 during the run), .NET 10.0.14, OneDocument 0.1.0-preview.1, ClosedXML 0.105.1, NPOI 2.7.6 (one process per cell, indicative, on a shared host):
+Final rows (x64 and arm64, `published/*/xlsx-bpc/`) are in the memory table above; the 10,000-row file is 71 retained bytes per cell on x64 and the 100,000-row file 38, because the fixed type-loading cost is spread over few cells.
 
-| Cells | Library | Retained bytes/cell | Allocated bytes/cell | Load ms | Peak working set MB |
-|---|---|---|---|---|---|
-| 200,020 (10k rows) | OneDocument | 75.2 | 91 | 618 | 68 |
-| | ClosedXML | 105.4 | 1,365 | 2,107 | 155 |
-| | NPOI | 361.3 | 1,053 | 1,277 | 263 |
-| 2,000,020 (100k rows) | OneDocument | 37.7 | 51 | 1,477 | 142 |
-| | ClosedXML | 81.2 | 1,292 | 5,077 | 304 |
-| | NPOI | 359.1 | 1,047 | 6,158 | 1,631 |
-| 20,000,020 (1M rows) | OneDocument | 37.2 | 50 | 8,857 | 920 |
-| | ClosedXML | 78.8 | 1,284 | 45,345 | 1,729 |
-| | NPOI | 360.4 | 1,049 | 47,589 | 15,491 |
-
-The small file's higher per-cell figure is fixed cost (type loading and caches, about 7 MB) spread over few cells. OneDocument's store is 15 bytes per cell (19 with a formula) in five parallel arrays; the rest is the interned formula records and the row headers. The shared string table and the other parts are not read unless a string or the part is touched. These are not final rows: they are not a bench-class run and carry no bar.
+The small file's higher per-cell figure is fixed cost (type loading and caches, about 7 MB) spread over few cells. OneDocument's store is 15 bytes per cell (19 with a formula) in five parallel arrays; the rest is the interned formula records and the row headers. The shared string table and the other parts are not read unless a string or the part is touched.

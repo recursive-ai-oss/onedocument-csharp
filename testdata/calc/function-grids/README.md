@@ -4,8 +4,9 @@ Inputs only. Each `*.fgrid` line is `id`, `a1` (entry form) and the formula, tab
 `tools/calc-grids/gen_function_grids.py <dir>` and cover, per function, typical values, boundaries, coercions (text, `TRUE`, omitted and empty
 arguments), errors and array arguments.
 
-The database grid (`database.fgrid`) refers to a database in `AA1:AF8` and criteria blocks to its right. `db-data.tsv` lists every cell (`address`,
-value; `=TRUE` is the logical TRUE, an empty value is an empty cell). A runner enters those cells before it enters the formulas.
+The database grid (`database.fgrid`) refers to a database in `AA1:AF8` and criteria blocks to its right. `database.cells.tsv` lists every cell
+(`address`, value; `=TRUE` is the logical TRUE, an empty value is an empty cell). The oracle driver enters a `NAME.cells.tsv` beside `NAME.fgrid`
+before it enters the formulas, and `tools/FormulaGrid compare` gives the engine the same cells.
 
-No answers are committed yet. When Excel has answered the grids, the answers are added next to the inputs as `*.fgrid.tsv`, and the repository's
-tests compare against them.
+Excel's answers are committed beside the inputs as `*.fgrid.tsv` (Excel 16.0.20527), and `FormulaGrid compare` lists every disagreement in
+`mismatches.txt`: financial 1,275 rows with 197 disagreements, engineering 1,212 with 145, database 324 with none.

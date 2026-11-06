@@ -90,6 +90,7 @@ internal static class Report
         }
 
         XlsxReport.Append(md, dir);
+        FmtReport.Append(md, dir);
         XlsxReport.AppendFootprint(md, dir);
 
         string peak = Path.Combine(dir, "peak.tsv");

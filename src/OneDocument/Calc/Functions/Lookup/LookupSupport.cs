@@ -124,35 +124,50 @@ internal static class LookupSupport
         return -1;
     }
 
+    /// <summary>The order the searches see two values in: numbers, text, logical values, errors, then empty cells; within a class by value.</summary>
+    public static int Order(in CalcValue a, in CalcValue b)
+    {
+        int ca = Class(a);
+        int cb = Class(b);
+        return ca != cb ? ca.CompareTo(cb) : CompareSameClass(a, b);
+    }
+
     /// <summary>
-    /// Binary search over data assumed sorted. Elements of another class than the target are skipped by stepping toward the low end
-    /// (a block of other-class cells never matches). Ascending: the last element not greater than the target; descending: the last
-    /// element not less than it. On unsorted data the answer is whatever the probing finds, as in Excel.
+    /// The legacy approximate search (<c>MATCH</c> types 1 and -1, <c>VLOOKUP</c>, <c>HLOOKUP</c>, <c>LOOKUP</c>) over data assumed sorted.
+    /// Observed in Excel 16.0.20527 on unsorted and mixed data: a probe that lands on a cell of another class moves up to the next cell of
+    /// the target's class; when a probe is equal the search stops there and, ascending, takes the last of the run of equal cells that
+    /// follows (descending it stays on the probe); otherwise it keeps the last probe on the near side. Ascending that is the last element
+    /// not greater than the target; descending, the last element not less than it.
     /// </summary>
     /// <param name="v">The data.</param>
     /// <param name="target">The value looked for.</param>
     /// <param name="ascending">The order the data is assumed to be in.</param>
-    /// <param name="exactOnly">True to return only an equal element (the first of a run of equal ones).</param>
     /// <returns>The 0-based position, or -1.</returns>
-    public static int Binary(in Vec v, in CalcValue target, bool ascending, bool exactOnly)
+    public static int Binary(in Vec v, in CalcValue target, bool ascending)
     {
         CalcValue t = Normalise(target);
+        if (t.Kind == ValueKind.Error)
+        {
+            return -1;
+        }
+
         int cls = Class(t);
+        int n = v.Length;
         int lo = 0;
-        int hi = v.Length - 1;
+        int hi = n - 1;
         int best = -1;
         while (lo <= hi)
         {
             int mid = lo + ((hi - lo) / 2);
             int probe = mid;
-            while (probe >= lo && Class(v[probe]) != cls)
+            while (probe <= hi && Class(v[probe]) != cls)
             {
-                probe--;
+                probe++;
             }
 
-            if (probe < lo)
+            if (probe > hi)
             {
-                lo = mid + 1;
+                hi = mid - 1;
                 continue;
             }
 
@@ -162,24 +177,26 @@ internal static class LookupSupport
                 c = -c;
             }
 
-            if (c <= 0)
+            if (c == 0)
+            {
+                int last = probe;
+                while (ascending && last + 1 < n && Class(v[last + 1]) == cls && CompareSameClass(v[last + 1], t) == 0)
+                {
+                    last++;
+                }
+
+                return last;
+            }
+
+            if (c < 0)
             {
                 best = probe;
-                lo = mid + 1;
-                if (c == 0 && exactOnly)
-                {
-                    // Keep going right: the last equal element wins in approximate mode; callers wanting the first use FindFirstEqualBinary.
-                }
+                lo = probe + 1;
             }
             else
             {
-                hi = probe - 1;
+                hi = mid - 1;
             }
-        }
-
-        if (best >= 0 && exactOnly && CompareSameClass(v[best], t) != 0)
-        {
-            return -1;
         }
 
         return best;

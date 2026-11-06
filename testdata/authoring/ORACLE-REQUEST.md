@@ -8,3 +8,7 @@ The three files here were built only with the authoring calls (`samples/Authorin
 | 2 | `sales.xlsx` | `85b91fa31574b37160428cda1dcf40bd4d23b9508657c81e57b0631842691a0a` | Excel opens without a repair prompt. A1:C1 is bold; B2:C3 show `1,200.00`, `1,350.50`, `950.00`, `1,010.00`; B4 holds `=SUM(B2:B3)` and shows 2,150.00 after calculation; A6:C6 is one merged cell showing "Notes"; a 48 x 48 pixel picture sits at E1 with the alt text "Company logo". |
 | 3 | `review.pptx` | `16507ebe6eae377aaf15797b274b2d14f6b67a2f99392a1c6e439b4469f6e75d` | PowerPoint opens without a repair prompt. Slide 1 (Title Slide) shows "Quarterly review" and "Half-year results" in its placeholders; slide 2 (Title and Content) shows the title "Regions", the two bullets "North grew" and "South held", a 3 x 2 table in the default table style with a header row at (60 pt, 300 pt), and a 72 pt wide picture at the top right with the alt text "Company logo". Run Review > Check Accessibility and record whether it reports anything for the pictures or tables. |
 | 4 | each of 1-3 passed through `Office.Sanitize(input, output)` | the sanitised copy | Opens without a repair prompt; File > Info shows no author or other personal information; the content is unchanged. |
+
+## Office run (Word, Excel and PowerPoint 16.0.20527)
+
+Answered as far as the oracle can drive the applications: see the row for this request in [`docs/office-oracle-1.0.md`](../../docs/office-oracle-1.0.md#the-other-requests). Questions not listed there as run are still open.
