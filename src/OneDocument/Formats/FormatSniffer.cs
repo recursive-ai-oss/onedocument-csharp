@@ -383,9 +383,17 @@ public static class FormatSniffer
     // with an EncryptionInfo and an EncryptedPackage stream. [MS-DOC] WordDocument, [MS-XLS] Workbook, [MS-PPT] PowerPoint Document.
     private static OfficeFormat ClassifyCompoundFile(IByteSource source, OfficeLimits limits)
     {
+        // A compound file with a damaged allocation table is still readable in recovery mode, as the package reader does it; classify what
+        // it holds so that the format's reader can report the damage as defects instead of the file being called unknown.
+        OfficeFormat strict = ClassifyCompoundFile(source, limits, recovery: false);
+        return strict != OfficeFormat.Unknown ? strict : ClassifyCompoundFile(source, limits, recovery: true);
+    }
+
+    private static OfficeFormat ClassifyCompoundFile(IByteSource source, OfficeLimits limits, bool recovery)
+    {
         try
         {
-            var options = new CompoundFileReaderOptions { Limits = limits.ToArchiveLimits() };
+            var options = new CompoundFileReaderOptions { Limits = limits.ToArchiveLimits(), Recovery = recovery };
             using CompoundFileReader cfb = source.TryGetMemory(out ReadOnlyMemory<byte> memory)
                 ? new CompoundFileReader(memory, options)
                 : new CompoundFileReader(ByteSource.AsStream(source), options);
@@ -415,14 +423,41 @@ public static class FormatSniffer
         {
             throw ArchiveErrors.Translate(ex);
         }
+        catch (CompressionException) when (!recovery)
+        {
+            // Some writers leave small violations in the directory (a stream name without its terminating null, from Excel on the Mac);
+            // the reader's recovery mode still finds the streams, and the format readers report the damage as defects.
+            return ClassifyCompoundFile(source, limits, recovery: true);
+        }
         catch (CompressionException)
         {
             return OfficeFormat.Unknown;
         }
     }
 
-    private static bool HasStream(CompoundFileReader cfb, string name) =>
-        cfb.Find(name) is { ObjectType: CfbObjectType.Stream };
+    private static bool HasStream(CompoundFileReader cfb, string name)
+    {
+        if (cfb.Find(name) is { ObjectType: CfbObjectType.Stream })
+        {
+            return true;
+        }
+
+        if (!cfb.IsRecovered)
+        {
+            return false;
+        }
+
+        // A recovered directory can hold names the lookup does not match (a missing null); the package layer walks the tree instead.
+        foreach (CfbEntry e in cfb.GetChildren(cfb.Root))
+        {
+            if (e.ObjectType == CfbObjectType.Stream && string.Equals(e.RawName, name, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private static OfficeFormat ClassifyXml(string text, IByteSource? source, bool truncated)
     {

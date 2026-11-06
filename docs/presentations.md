@@ -54,3 +54,7 @@ Codes `pptx.*` in `defects.md`. A missing or wrong-root slide, layout or master 
 ## Rendering
 
 Slides, notes pages and handouts render to PDF and PNG through `PresentationRenderer` in the rendering package; the rules are in `presentation-rendering.md`.
+
+## Legacy `.ppt`
+
+PowerPoint 97-2003 files open as presentations through a conversion to PresentationML with a loss report; see `ppt.md`.

@@ -26,12 +26,15 @@
     <Project Path="tools/RoundTrip/RoundTrip.csproj" />
     <Project Path="tools/LayoutProbe/LayoutProbe.csproj" />
     <Project Path="tools/PackageSweep/PackageSweep.csproj" />
+    <Project Path="tools/XlsProbe/XlsProbe.csproj" />
     <Project Path="tools/PackageTiming/PackageTiming.csproj" />
     <Project Path="tools/MarkupProbe/MarkupProbe.csproj" />
+    <Project Path="tools/PptProbe/PptProbe.csproj" />
     <Project Path="tools/TextCompare/TextCompare.csproj" />
     <Project Path="tools/RevisionProbe/RevisionProbe.csproj" />
     <Project Path="tools/DocumentSweep/DocumentSweep.csproj" />
     <Project Path="tools/DocxProbe/DocxProbe.csproj" />
+    <Project Path="tools/RtfProbe/RtfProbe.csproj" />
     <Project Path="tools/NumFmtGrid/NumFmtGrid.csproj" />
     <Project Path="tools/StreamProbe/StreamProbe.csproj" />
     <Project Path="tools/FormulaGrid/FormulaGrid.csproj" />
@@ -45,6 +48,7 @@
     <Project Path="tools/ChartProbe/ChartProbe.csproj" />
     <Project Path="tools/PptxProbe/PptxProbe.csproj" />
     <Project Path="tools/SmartArtProbe/SmartArtProbe.csproj" />
+    <Project Path="tools/DocProbe/DocProbe.csproj" />
     <Project Path="tools/CsvProbe/CsvProbe.csproj" />
     <Project Path="tools/PocoSample/PocoSample.csproj" />
   </Folder>

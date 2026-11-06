@@ -52,9 +52,40 @@ internal static class DocumentSmoke
             failures.Add("document edit");
         }
 
+        failures.AddRange(RtfSmoke());
+
         // Mail merge: a MERGEFIELD with a picture and a switch, merged into one document per record.
         failures.AddRange(MailMergeSmoke());
         failures.AddRange(RunTemplate());
+        return failures;
+    }
+
+    // RTF: read into the model, edited, written as RTF (the exporter) and read again; a table, a list-free paragraph with formatting and
+    // a Unicode character go through both directions.
+    private static List<string> RtfSmoke()
+    {
+        var failures = new List<string>();
+        byte[] rtf = System.Text.Encoding.ASCII.GetBytes(
+            "{\\rtf1\\ansi\\deff0{\\fonttbl{\\f0 Arial;}}\\trowd\\cellx2000\\cellx4000\\pard\\intbl A\\cell B\\cell\\row\\pard {\\b bold} caf\\'e9 \\u8364?\\par}");
+        using var written = new MemoryStream();
+        using (Document d = Document.Open(new MemoryStream(rtf)))
+        {
+            if (d.Format != OfficeFormat.Rtf || d.Tables.Count() != 1 || !d.ExtractText().Contains("A\tB", StringComparison.Ordinal))
+            {
+                failures.Add("rtf open");
+            }
+
+            d.Paragraphs.Last().SetText("edited \u20ac");
+            d.SaveAs(written, OfficeFormat.Rtf);
+        }
+
+        written.Position = 0;
+        using Document back = Document.Open(written);
+        if (back.Tables.Count() != 1 || !back.ExtractText().Contains("edited \u20ac", StringComparison.Ordinal))
+        {
+            failures.Add("rtf write");
+        }
+
         return failures;
     }
 
