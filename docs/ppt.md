@@ -30,8 +30,7 @@ Repairs, each a defect with the stream offset:
 - a document persist identifier that is not listed: the first top-level `DocumentContainer` is used;
 - a record that claims more bytes than the stream holds is clamped (`art.record-overrun`).
 
-Encrypted files (header token or a `CryptSession10Container` reference) raise `OfficeEncryptedException` (`encryption.password-required`); decryption is
-not implemented. PowerPoint 4.0 and 95 files (a `PersistentStorage Directory` stream, no user edits) are `OfficeUnsupportedException`: [MS-PPT] does
+Encrypted files (header token or a `CryptSession10Container` reference) are decrypted with `OpenContext.Password`, or raise `OfficeEncryptedException`; see `encryption.md`. PowerPoint 4.0 and 95 files (a `PersistentStorage Directory` stream, no user edits) are `OfficeUnsupportedException`: [MS-PPT] does
 not describe them.
 
 ## Text
