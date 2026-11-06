@@ -86,7 +86,9 @@ public static class FormatsBench
             case "toxlsb" when args.Length == 3:
             {
                 // Converts a workbook to a binary workbook: the memory rows need inputs of sizes the timing rows do not use.
-                using HubWorkbook wb = HubWorkbook.Open(args[1]);
+                // The million-row input is far past the default allocation ceiling; this tool converts files it generated itself.
+                var limits = RecursiveAI.OneDocument.OfficeLimits.Large;
+                using HubWorkbook wb = HubWorkbook.Open(args[1], new RecursiveAI.OneDocument.OpenContext(limits));
                 wb.SaveAs(args[2], RecursiveAI.OneDocument.OfficeFormat.Xlsb);
                 return 0;
             }

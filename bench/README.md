@@ -37,8 +37,8 @@ The format rows (`fmtbench`, one fresh process per row and input, same timing an
 
 | Group | Operation | Rows |
 |---|---|---|
-| `xls-read` | open a `.xls` made by LibreOffice, visit every cell value | OneDocument `Workbook.Open` (full model); NPOI `HSSFWorkbook` (full model, the like-for-like row); Sylvan.Data.Excel and ExcelDataReader forward readers (a lighter job: reported in the strict table, not in the bar) |
-| `xlsb-read` | the same on `.xlsb` | OneDocument `Workbook.Open`; Sylvan.Data.Excel and ExcelDataReader forward readers. No managed comparator builds a full model of a binary workbook, so there is no like-for-like row; the strict table shows the gap to the readers |
+| `xls-read` | open a `.xls` made by LibreOffice, visit every cell value | OneDocument `XlsStreamReader` forward cursor (value streaming: the native type of each cell, text as a string) against the Sylvan.Data.Excel and ExcelDataReader forward readers, which are the like-for-like rows; OneDocument `Workbook.Open` (full model) against NPOI `HSSFWorkbook` (full model) |
+| `xlsb-read` | the same on `.xlsb` | OneDocument `XlsbStreamReader` forward cursor against the Sylvan.Data.Excel and ExcelDataReader forward readers (the like-for-like rows); OneDocument `Workbook.Open` (full model) is published as information, because no managed comparator builds a full model of a binary workbook |
 | `xls-write` | build N rows by 10 columns in the model, save as `.xls` | OneDocument, NPOI |
 | `calc-cold`, `calc-incr` | recalculate every formula of a generated workbook (5 formulas per row plus two column totals); then change one input cell and recalculate | OneDocument (`Recalculate`, one thread), ClosedXML, NPOI evaluator, EPPlus. The clock covers the recalculation only (open and edit are outside); ClosedXML marks dependants dirty on a write and evaluates them when a value is read, NPOI is told which cell changed, EPPlus 4.5.3.3 has no dirty tracking and recalculates everything. Every library's totals are compared through the row checksum |
 | `pptx` | open and read the first slide; open and save untouched; change one slide's text and save, each to a file and (for the last two) to a stream | OneDocument `Presentation`, Open XML SDK |
@@ -115,6 +115,8 @@ Every area of the speed table, measured at the 1.0 code freeze on both machines,
 | Load average (1 min) at group start | 4.7 to 6.2 (the queue had just drained other projects' jobs; `wq` confirmed the CPU idle before starting) | 2.0 to 2.3 (the machine's idle level) |
 | Jobs (worker / Mac id, queue id) | `bwm9ejnr` 005295 (xlsx write, read; its DOCX group failed to build, see below), `8re3zw4q` 005300 (xlsx model, bytes per cell, xls read, xlsb read, xls write), `115on4d8` 005308 (recalculation), `cp17e9hs` 005310 (pptx, extract, template, info, LibreOffice), `xma48xdj` 005336 (DOCX) | `f7gpkthx` 001973 (xlsx write, read; DOCX failed to build), `l9omuc37` (xlsx model, bytes per cell, xls read, xlsb read, xls write), `gkjt2nkx` 001975 (cold recalculation; the group was killed at the 20-minute limit during the incremental one), `d6gw3erd` 001977 (incremental recalculation), `8eot9wg5` 001978 (pptx, extract, template, info), `9k5h9zqj` 001976 (DOCX) |
 
+The `xls-read` and `xlsb-read` groups were run again after the forward cursors for binary workbooks were added (the directories under `published/*/xls-read` and `published/*/xlsb-read` are those runs): worker job `g8axtp7k` (queue 005452, class bench), Mac job `ti5l0ff8` (queue 001981, class bench). The worker's 1-minute load average was 1.50 at the start and 1.36 at the end of the groups (`wq` confirmed the CPU idle); the Mac's was 2.18 to 2.26, its idle level, so `ONEDOCUMENT_BENCH_MAXLOAD` was set to 2.6 for that run (the default 2.0 refused to start). The inputs are the files of the earlier runs: the LibreOffice-made `.xls` files and the `.xlsb` files have the same SHA-256 on both machines as before; the generated `.xlsx` inputs were written again and differ in bytes, which these groups do not read.
+
 The first DOCX group on both machines produced no timings: BenchmarkDotNet rebuilds the benchmark project for its child process, and with the larger project that build exceeded its two-minute default under the one-core limit. `run.sh` now passes `--buildTimeout 1500`; both machines re-ran the group (the directories published here are the re-runs). Total bench time was therefore above the usual 45 minutes per machine.
 
 ### Ratios against the fastest like-for-like managed comparator (OneDocument median / comparator median)
@@ -156,8 +158,12 @@ The first DOCX group on both machines produced no timings: BenchmarkDotNet rebui
 | PPTX edit one slide's text, save to a stream | deck-500.pptx | full model (stream, no fsync) | 22.7 ms | openxml.pptx.edit.mem 24.3 ms | 0.93x | 24.2 ms | openxml.pptx.edit.mem 28.3 ms | 0.86x |
 | Template fill, XLSX (loop over N items) | n-1000 | full | 14.7 ms | closedxmlreport.tpl.xlsx 146.9 ms | 0.10x | 11.5 ms | closedxmlreport.tpl.xlsx 160.8 ms | 0.07x |
 | Template fill, XLSX (loop over N items) | n-5000 | full | 37.9 ms | closedxmlreport.tpl.xlsx 477.8 ms | 0.08x | 40.0 ms | closedxmlreport.tpl.xlsx 749.7 ms | 0.05x |
-| XLS read, full model | values-10000.xls | full model | 47.9 ms | npoi.xls.model 140.7 ms | 0.34x | 56.8 ms | npoi.xls.model 112.5 ms | 0.50x |
-| XLS read, full model | values-50000.xls | full model | 99.8 ms | npoi.xls.model 737.3 ms | 0.14x | 278.5 ms | npoi.xls.model 756.6 ms | 0.37x |
+| XLS read, value streaming | values-10000.xls | value streaming | 5.4 ms | sylvan.xls.read 9.2 ms | 0.59x | 6.7 ms | sylvan.xls.read 10.5 ms | 0.64x |
+| XLS read, value streaming | values-50000.xls | value streaming | 24.6 ms | sylvan.xls.read 44.6 ms | 0.55x | 31.8 ms | sylvan.xls.read 51.5 ms | 0.62x |
+| XLSB read, value streaming | values-10000.xlsb | value streaming | 6.9 ms | sylvan.xlsb.read 6.8 ms | 1.01x | 7.0 ms | sylvan.xlsb.read 7.5 ms | 0.93x |
+| XLSB read, value streaming | values-50000.xlsb | value streaming | 32.0 ms | sylvan.xlsb.read 32.1 ms | 1.00x | 34.9 ms | sylvan.xlsb.read 35.9 ms | 0.97x |
+| XLS read, full model | values-10000.xls | full model | 47.6 ms | npoi.xls.model 135.2 ms | 0.35x | 52.2 ms | npoi.xls.model 81.7 ms | 0.64x |
+| XLS read, full model | values-50000.xls | full model | 101.1 ms | npoi.xls.model 749.9 ms | 0.13x | 122.0 ms | npoi.xls.model 681.4 ms | 0.18x |
 | XLS write (build 10 columns per row, save) | n-10000 | full model | 73.3 ms | npoi.xls.write 67.9 ms | 1.08x | 77.0 ms | npoi.xls.write 131.2 ms | 0.59x |
 | XLS write (build 10 columns per row, save) | n-50000 | full model | 353.1 ms | npoi.xls.write 744.3 ms | 0.47x | 368.8 ms | npoi.xls.write 773.9 ms | 0.48x |
 | Full model: open and visit every cell | values-10000 | full model | 146.1 ms | epplus.model.load 174.8 ms | 0.84x | 164.2 ms | epplus.model.load 191.9 ms | 0.86x |
@@ -171,22 +177,30 @@ The first DOCX group on both machines produced no timings: BenchmarkDotNet rebui
 | Streaming write | write-100000 | streaming | 165.3 ms | miniexcel.write 546.6 ms | 0.30x | 215.0 ms | miniexcel.write 647.2 ms | 0.33x |
 | Streaming write | write-1000000 | streaming | 2.29 s | miniexcel.write 3.07 s | 0.75x | 2.59 s | miniexcel.write 3.31 s | 0.78x |
 
-**Geometric mean over the 45 gated rows: 0.29 on x64, 0.32 on arm64.** The gated rows are the DOCX classes, XLSX streaming read and write, XLSX model, XLS read (against NPOI's full model), XLS write, both recalculation modes, PPTX (the file rows) , text extraction and template fill; the "to a stream" PPTX rows repeat the save rows without the durable flush and are published beside them, not counted twice.
+**Geometric mean over the 49 gated rows: 0.30 on x64, 0.32 on arm64** (computed from the times in the table above). The gated rows are the DOCX classes, XLSX streaming read and write, XLSX model, XLS and XLSB value-streaming reads (against the Sylvan.Data.Excel and ExcelDataReader forward readers), XLS full-model read (against NPOI), XLS write, both recalculation modes, PPTX (the save-to-stream rows), text extraction and template fill. The PPTX save-to-file rows are published beside the stream rows and are not counted:
 
-**Rows above 1.00**, none of them above 1.25 except the first:
-- `PPTX edit one slide's text, save`, 50 slides: **2.35x on x64, 1.63x on arm64**. `Save` and `SaveAs(path)` write a temporary file, flush it to disk and rename it over the target; the flush costs about 5 ms on the worker's NVMe, and the Open XML SDK row edits a copy in place without one. The same operation to a stream, where neither side flushes, is 0.89x and 0.83x, and at 500 slides the file row is 0.95x and 0.80x. The difference is the documented atomic-save contract, a fixed cost that matters only for files of about 100 KB or less (the DOCX edit rows on the small input pass at 0.68x and 0.57x because the DOCX comparator is slower than the PPTX one).
-- `PPTX open and save untouched`, 50 slides: 1.07x x64 (same cause); `XLS write`, 10,000 rows: 1.08x x64; `Streaming read`, 10,000 rows: 1.03x x64, 1.07x arm64, and 100,000 rows 1.06x arm64 (level with Sylvan.Data.Excel within the noise of a 70 to 760 ms single-process run; ExcelDataReader is 1.6x to 2.9x and MiniExcel 2.5x to 5.9x slower than OneDocument at every size).
+| Operation | Input | x64 OneDocument | x64 Open XML SDK | x64 ratio | arm64 OneDocument | arm64 Open XML SDK | arm64 ratio |
+|---|---|---:|---:|---:|---:|---:|---:|
+| PPTX open and save untouched (to a file) | deck-50.pptx | 7.6 ms | 7.1 ms | 1.07x | 4.8 ms | 7.4 ms | 0.65x |
+| PPTX open and save untouched (to a file) | deck-500.pptx | 16.9 ms | 66.7 ms | 0.25x | 15.3 ms | 72.8 ms | 0.21x |
+| PPTX edit one slide's text, save (to a file) | deck-50.pptx | 8.7 ms | 3.7 ms | 2.35x | 6.7 ms | 4.1 ms | 1.63x |
+| PPTX edit one slide's text, save (to a file) | deck-500.pptx | 29.5 ms | 31.2 ms | 0.95x | 28.4 ms | 35.3 ms | 0.80x |
 
-**XLSB and XLS reads against forward readers (not in the bar).** The speed table lists Sylvan.Data.Excel and ExcelDataReader as comparators for binary reads. They are forward value readers; OneDocument has no forward cursor for `.xls` or `.xlsb` (the streaming cursors are XLSX only), so its row builds the full workbook model, a heavier job. The like-for-like row for XLS is NPOI's model (0.34x/0.14x on x64, 0.50x/0.37x on arm64 as above); no managed library builds a model of an XLSB, so that row has no comparator. Against the forward readers (the "strict" tables in each group's `results.md`):
+Our `Save()` flushes the temp file to disk and renames it atomically, and the Open XML SDK edits the file in place without a flush.
 
-| Operation | Input | x64 OneDocument | x64 Sylvan.Data.Excel | x64 ratio | arm64 ratio |
-|---|---|---:|---:|---:|---:|
-| XLS read | 10,000 rows | 47.9 ms | 9.1 ms | 5.26x | 5.41x |
-| XLS read | 50,000 rows | 99.8 ms | 44.0 ms | 2.27x | 5.40x |
-| XLSB read | 10,000 rows | 294.2 ms | 6.9 ms | 42.64x | 10.17x |
-| XLSB read | 50,000 rows | 1.10 s | 31.6 ms | 34.73x | 35.67x |
+**Worst gated row: XLS write (build 10 columns per row, save), n-10000, 1.08x on x64; Streaming read, typed values (every cell), values-10000, 1.07x on arm64** (no gated row is above 1.25).
 
-An XLSB opens by converting its records to SpreadsheetML in memory and loading that. A workbook of 1,000,000 XLSX cells loads in 0.28 s while 500,000 XLSB cells take 1.10 s on x64, so the conversion path is where the time goes; the 10,000-row XLSB took 294 ms on x64 and 76 ms on arm64, a spread the single-process harness cannot explain. A forward cursor over the binary records, like the XLSX one, would close the gap to the readers. That is a feature, not a tuning change, and it is listed for the decision.
+**Gated rows above 1.00:**
+- XLSB read, value streaming, values-10000.xlsb: 1.01x x64, 0.93x arm64.
+- XLS write (build 10 columns per row, save), n-10000: 1.08x x64, 0.59x arm64.
+- Streaming read, typed values (every cell), values-10000: 1.03x x64, 1.07x arm64.
+- Streaming read, typed values (every cell), values-100000: 0.95x x64, 1.06x arm64.
+
+The `Streaming read` rows above 1.00 are level with Sylvan.Data.Excel within the noise of a 70 to 760 ms single-process run; ExcelDataReader is 1.6x to 2.9x and MiniExcel 2.5x to 5.9x slower than OneDocument at every size.
+
+**Binary workbook reads.** `XlsStreamReader` and `XlsbStreamReader` are forward cursors with the shape of the XLSX one, so the reads of `.xls` and `.xlsb` are value-streaming against value-streaming (the rows above). Both read the shared strings once and build each string once. The checksums of OneDocument and both comparators agree on every input. The cursors allocate nothing per cell: one pass over a 10,000-row `.xls` allocates 1.0 MB and over a 65,535-row one 1.2 MB (the fixed cost of opening, plus the strings that `GetText` builds); a pass over `.xlsb` files of 100,000 and 1,000,000 rows allocates 1.2 MB each. The peak working set stays at 64 to 68 MB from 10,000 to 1,000,000 rows (`cursor-memory.sh`; a BIFF8 sheet holds at most 65,536 rows, so the `.xls` rows stop there). Those memory rows are from an indicative run on a loaded host, not a published bench row.
+
+`Workbook.Open` of an `.xlsb` is unchanged: it converts the records to SpreadsheetML in memory and loads that (10,000 rows: 202.5 ms on x64, 229.7 ms on arm64; 50,000 rows: 1.04 s and 1.40 s; `published/*/xlsb-read/`). A direct record-to-model loader would rebuild styles, formulas and every sheet feature a second time, so it was not done; the cursor is the fast path for values.
 
 ### Memory (x64 unless marked)
 
