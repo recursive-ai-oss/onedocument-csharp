@@ -53,10 +53,14 @@ from several threads.
 | run whose language differs from the document's | `Span` with the language |
 | shading, borders, highlight, underline, strike, tab leaders | plain fills, which the PDF backend writes as artifacts |
 | text | one `DrawGlyphRun` per same-font stretch: real glyph ids, per-glyph x, cluster indexes and the run text (for text extraction) |
-| equation | one `Figure` whose alternative text is the equation's linear form; a `DrawGlyphRun` per math glyph, `FillRect` for rules, filled quadrilaterals for strokes (`math-layout.md`) |
+| equation | one `Formula` whose alternative text is the equation's linear form; a `DrawGlyphRun` per math glyph, `FillRect` for rules, filled quadrilaterals for strokes (`math-layout.md`) |
 
 A run with character scale other than 100 % is drawn under a horizontal-scale transform. The document root tag is the backend's.
-Notes, references, TOC and header/footer artifacts use `Div`/`Span`/`Link`/`Artifact` until OneRender has the roles.
+Structure and artifact kinds:
+
+- a footnote or endnote body is a `Note` (a `Div` when the PDF profile is PDF/UA-1, because rule 7.9 wants an `/ID` on every `Note` element and OneRender's PDF writer does not write one yet); its reference mark in the text and the result of a `REF`, `PAGEREF` or `NOTEREF` complex field is a `Reference` (around the `Link` when the run links; `fldSimple` cross-references are not recognised);
+- a run of paragraphs in the styles `TOC1` to `TOC9` is one `TOC` with a `TOCI` per entry;
+- header and page-furniture artifacts carry a kind: header text `Pagination`/`Header`, footer text (page numbers included) `Pagination`/`Footer`, a watermark `Pagination`/`Watermark`, a repeated table header row `Pagination`, and line numbers, note separators and the continuation notice `Layout`.
 
 ## Fonts
 
@@ -155,8 +159,8 @@ starts below the tallest column. The last section of the document is not balance
 `even` on even printed pages with `evenAndOddHeaders`, else `default`; a missing story is taken from the nearest earlier section
 that has it). The header text starts `header` points from the page top and the footer text ends `footer` points from the bottom.
 A taller story pushes the body edge in (`LayoutPage.ContentArea` is the body after that). Their paragraphs are
-`LayoutParagraph`s with `Story` Header or Footer, listed by `HeaderParagraphs`/`FooterParagraphs`, and painted inside an
-`Artifact` tag. Tables in a story are skipped until tables are laid out.
+`LayoutParagraph`s with `Story` Header or Footer, listed by `HeaderParagraphs`/`FooterParagraphs`, and painted inside a
+`Pagination` artifact (subtype Header or Footer). Tables in a story are skipped until tables are laid out.
 
 **Page numbers.** `pgNumType start` restarts the printed number at a section's first page; `fmt` formats it. `PAGE`, `NUMPAGES`,
 `SECTIONPAGES` and `SECTION` fields in headers, footers and the body show the page's values, and `PAGEREF`, `REF`, `STYLEREF`, `SEQ`,
@@ -228,7 +232,7 @@ placement as body paragraphs (so they split across pages like text; the continua
 **The tree and paint.** A page's note areas are `LayoutPage.NoteBlocks`: one `LayoutNoteBlock` per column and note (or separator,
 continuation separator, continuation notice) with the note's `LayoutParagraph`s as children (`Story` `Footnote`); a note on two
 pages has a block on each with `ContinuesOnNextPage` and `ContinuesFromPreviousPage`. `FootnoteParagraphs` lists the text. Footnote
-blocks are tagged `Div` (OneRender has no `Note` role yet), separators and the notice are artifacts; endnote paragraphs are ordinary
+blocks are tagged `Note`, separators and the notice are `Layout` artifacts; endnote paragraphs are ordinary
 tagged paragraphs.
 
 ## Compatibility settings
