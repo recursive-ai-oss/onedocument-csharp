@@ -81,7 +81,7 @@ doc.Body.AddParagraph("Added");
 doc.SaveAs(outPath);
 ```
 
-Paragraph style is `p.StyleId`; `Body.AddParagraph(text, styleId)` sets it. Tables are `doc.Tables` with cell and row edits (`docs/docx-tables-sections.md`); there is no call that creates a table. Character formatting of a run is edited through the typed view `run.View` (`docs/docx-styles-numbering.md`).
+Paragraph style is `p.Style` (the name Word shows, "Heading 1") or `p.StyleId`; `Body.AddParagraph(text)` adds a paragraph. `doc.Body.AddTable(rows)` creates a table and `doc.Tables` edits cells and rows (`docs/docx-tables-sections.md`). A run is formatted with `run.Bold`, `run.Italic`, `run.Underline`, `run.FontSize`, `run.Color` and `run.FontName`; the typed view `run.View` reaches everything else (`docs/authoring.md`).
 
 ## Text extraction
 
@@ -104,6 +104,6 @@ NPOI's `SXSSFWorkbook` streams writes. OneDocument's `XlsxStreamWriter` and `Xls
 
 - No `HSLF`/`XSLF` (PowerPoint) object model matching: use `Presentation` (`docs/presentations.md`); `.ppt` is read-only.
 - No writing of `.doc` or `.ppt`.
-- No picture, drawing or chart creation call (existing ones are kept and rendered).
+- Pictures are added with `body.AddPicture(bytes, widthPoints, ...)`, `sheet.AddPicture(bytes, "E1")` and `slide.AddPicture(bytes, left, top, width)`; there is no drawing-shape or chart creation call (existing ones are kept and rendered).
 - No `IRow` / `IFormulaEvaluator` objects; no `ICellStyle` instances.
 - `.xls` support is BIFF8 for writing; the formula evaluation engine is not NPOI's, and results are documented in `docs/spreadsheets-calc.md`.

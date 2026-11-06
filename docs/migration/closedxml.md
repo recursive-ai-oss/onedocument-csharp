@@ -55,16 +55,12 @@ ws.Range("A1:C1").Merge();
 
 ```csharp
 // OneDocument
-for (int c = 1; c <= 3; c++)
-{
-    ws[1, c].UpdateStyle(s => s with { Font = (s.Font ?? new CellFont()) with { Bold = true } });
-}
-
-ws["B2"].UpdateStyle(s => s with { NumberFormatCode = "#,##0.00" });
-ws.Merge(CellRange.Parse("A1:C1"));
+ws.Range("A1:C1").UpdateStyle(s => s with { Font = (s.Font ?? new CellFont()) with { Bold = true } });
+ws.Range("B2").NumberFormat = "#,##0.00";
+ws.Range("A1:C1").Merge();
 ```
 
-There is no `IXLRange` with a shared style object: styles are immutable records applied cell by cell.
+A `SheetRange` is a handle over the sheet, not a style object: styles are immutable records, and `UpdateStyle` applies the change to every cell of the range (once per distinct current style).
 
 ## Tables and data
 
@@ -109,8 +105,8 @@ ClosedXML loads the whole workbook. For large sheets use `XlsxStreamReader` and 
 
 ## Not supported or different
 
-- No range objects (`IXLRange`, `IXLRows`, `IXLColumns`) with bulk operations: loop over cells and rows.
+- Ranges (`ws.Range("A1:C10")`) read and write values as a two-dimensional array and set styles, number formats, merges and `Clear`; there are no `IXLRows` / `IXLColumns` objects, and no copy or sort on a range.
 - No `AdjustToContents`, `InsertRowsAbove` style layout helpers; column width and row height are set through `ColumnProperties` and `GetRow(row).Height`.
-- No picture, chart or shape creation call. Existing ones are kept and rendered.
+- `ws.AddPicture(bytes, "E1", widthPixels, heightPixels, altText)` adds a picture; there is no chart or shape creation call. Existing ones are kept and rendered.
 - Formulas are not evaluated on read; no `ws.Evaluate("...")` shortcut on the sheet.
 - Pivot tables: existing ones are kept and can be refreshed (`docs/spreadsheets-pivots.md`); there is no pivot builder.

@@ -57,7 +57,8 @@ pres.Slides[0].Remove();
 
 ```csharp
 // OneDocument
-Slide added = deck.AddSlide(deck.Masters[0].Layouts[1]);
+Slide added = deck.AddSlide("Title and Content");     // by layout name; or AddSlide(layout)
+added.SetPlaceholderText("title", "Results");
 Slide copy = deck.DuplicateSlide(deck.Slides[0]);
 deck.MoveSlide(copy, 0);
 deck.DeleteSlide(deck.Slides[2]);
@@ -75,7 +76,14 @@ foreach (Shape shape in slide.Shapes)
 }
 ```
 
-Tables are read and edited; creating a table shape is not a hub call.
+Tables are read and edited, and `slide.AddTable(rows, left, top, width)` creates one (positions and sizes are in points).
+
+## Pictures
+
+```csharp
+// OneDocument
+Shape logo = slide.AddPicture(File.ReadAllBytes("logo.png"), left: 560, top: 20, width: 72, altText: "Company logo");
+```
 
 ## Templates and output
 
@@ -89,7 +97,7 @@ Slides render to PDF and PNG (`deck.SaveAs("deck.pdf")`, `Office.Convert`), with
 
 ## Not supported or different
 
-- No high-level call to add shapes, pictures, charts or connectors to a slide. Existing ones are kept byte-identical and drawn; new content comes from templates (`{% image %}`) or the typed views and markup.
+- A slide gets pictures and tables through `AddPicture` and `AddTable`; there is no high-level call to add other shapes, charts or connectors. Existing ones are kept byte-identical and drawn; other new content comes from templates (`{% image %}`) or the typed views and markup.
 - No animation or transition API: they are preserved and never touched, not rendered.
 - No fluent shape-geometry setters (`shape.X = ...`): geometry is in the shape's typed view.
 - `.ppt` can be read and converted, not written.
