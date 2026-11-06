@@ -1452,6 +1452,11 @@ public static class SvgWriter
                 TagRole.Code => " role=\"code\"",
                 TagRole.Form => " role=\"form\"",
                 TagRole.Link => " role=\"link\"",
+                TagRole.Note => " role=\"doc-footnote\"",
+                TagRole.Reference => " role=\"doc-noteref\"",
+                TagRole.TOC => " role=\"doc-toc\"",
+                TagRole.TOCI => " role=\"listitem\"",
+                TagRole.Formula => " role=\"math\"",
                 _ => null,
             };
             if (aria is null && label.Length == 0 && langAttr.Length == 0)
@@ -1482,8 +1487,9 @@ public static class SvgWriter
 
         // ---- rasterized regions
 
-        // The area the painting items first..last cover, in the space of the current transform. A push item carries no bounds of its own,
-        // so a scope's area is that of what it contains, taken from the items' root-space bounds and moved back through the transform.
+        // The area the painting items first..last cover, in the space of the current transform. A push item has no extent of its own,
+        // so a scope's area is the union of the layer bounds of what it contains (unclipped, and already widened by the outset of enclosing
+        // filters), moved back through the transform.
         private RectF ScopeBounds(int first, int last)
         {
             RectF u = default;
@@ -1497,7 +1503,7 @@ public static class SvgWriter
                     continue;
                 }
 
-                RectF r = x.RootBounds;
+                RectF r = x.LayerBounds;
                 if (r.IsEmpty || !float.IsFinite(r.X) || !float.IsFinite(r.Width) || !float.IsFinite(r.Y) || !float.IsFinite(r.Height))
                 {
                     continue;

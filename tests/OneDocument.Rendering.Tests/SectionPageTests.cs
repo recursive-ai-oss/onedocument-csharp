@@ -326,6 +326,7 @@ public sealed class SectionPageTests
         }
 
         Assert.Equal(new[] { TagRole.Artifact, TagRole.Paragraph }, roles);
+        Assert.Contains(Enumerable.Range(0, list.Count), i => list[i].Kind == ItemKind.BeginTag && list[i].ArtifactType == ArtifactType.Pagination && list[i].ArtifactSubtype == ArtifactSubtype.Header);
     }
 
     private static string Rows(int n) => string.Concat(Enumerable.Range(0, n).Select(i => TableCases.Tr(TableCases.Tc(TestDocx.P("Row " + i)) + TableCases.Tc(TestDocx.P("Value " + i)))));

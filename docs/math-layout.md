@@ -11,7 +11,7 @@ Office Math (OMML, ECMA-376 Part 1 §22.1) is read into a typed tree, laid out w
 | Math font table | `Rendering.Equations.MathTable` | Parser for the `MATH` table: constants, italic corrections, top-accent attachments, extended shapes, glyph variants and assemblies. Bounds-checked: a damaged table is refused, never thrown on. A font without one gets fixed ratios of the em and the note `math.no-math-table`. |
 | Box layout | `MathLayouter.Layout(MathNode, MathLayoutOptions)` | Returns a `MathBox`: width, ascent and descent in points about the first baseline (y down), the glyphs, rules and strokes, the linear text, the line count and notes. |
 | Paragraph hook | `Layout/ParagraphMath.cs`, `ParagraphFormatter` | An equation is one unbreakable atom whose text is its linear form. |
-| Paint | `LayoutPainter.PaintMath` | Glyph runs, filled rules, strokes as filled quadrilaterals, in a `Figure` tag. |
+| Paint | `LayoutPainter.PaintMath` | Glyph runs, filled rules, strokes as filled quadrilaterals, in a `Formula` tag. |
 
 ## In a paragraph
 

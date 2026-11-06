@@ -69,7 +69,7 @@ public static class DocumentRenderer
         PdfRenderOptions opt = options ?? new PdfRenderOptions();
         string language = DefaultLanguage(document);
         var images = new Drawing.DrawingImages();
-        var paint = new PaintOptions { Tagged = opt.Tagged, Language = language, Images = images };
+        var paint = new PaintOptions { Tagged = opt.Tagged, Language = language, Images = images, NotesAsDivs = opt.Profile is PdfProfile.PdfUA1 or PdfProfile.PdfA2aAndUA1 };
         var pdfOptions = new PdfOutputOptions
         {
             Title = opt.Title ?? document.Properties.Core.Title ?? FirstHeading(layout) ?? "Document",

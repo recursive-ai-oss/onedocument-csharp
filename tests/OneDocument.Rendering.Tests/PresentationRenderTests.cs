@@ -543,7 +543,7 @@ public sealed class PresentationRenderTests
         Assert.Contains("after", all, StringComparison.Ordinal);
         Assert.DoesNotContain("fallback", all, StringComparison.Ordinal);
         using var doc = PdfDocument.Open(pdf);
-        Assert.Contains(doc.StructureTree!.Elements(), e => e.Type == "Figure");
+        Assert.Contains(doc.StructureTree!.Elements(), e => e.Type == "Formula");
         Assert.DoesNotContain(report.Notes, n => n.Code == "slide.math-plain-text");
     }
 }

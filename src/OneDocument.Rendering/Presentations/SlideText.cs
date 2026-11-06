@@ -357,7 +357,7 @@ internal static class TextEmitter
     {
         if (o.Tagged)
         {
-            list.BeginTag(o.NextId(), TagRole.Figure, box.LinearText);
+            list.BeginTag(o.NextId(), TagRole.Formula, box.LinearText);
         }
 
         double ox = run.Left, oy = baseline;

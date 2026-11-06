@@ -271,6 +271,27 @@ public sealed class MetafileTests
         Assert.Contains(skipped, d => d.Code == "render.metafile-diagnostic" && d.Message.Contains("Record 1", StringComparison.Ordinal));
     }
 
+    // The interpreter has no injection seam, so containment is shown with hand-built hostile files: whatever the interpreter or the display
+    // list does with them, nothing escapes the adapter and the list stays balanced.
+    [Fact]
+    public void HostileHandBuiltRecordsNeverEscapeTheAdapter()
+    {
+        foreach (float scale in new[] { float.PositiveInfinity, float.NaN, float.MaxValue })
+        {
+            var b = new List<byte>();
+            void I(int v) => b.AddRange(BitConverter.GetBytes(v));
+            void F(float v) => b.AddRange(BitConverter.GetBytes(v));
+            I(1); I(88); I(0); I(0); I(99); I(99); I(0); I(0); I(2646); I(2646);
+            I(0x464D4520); I(0x10000); I(88 + 32 + 24 + 8 + 20); I(4); I(1); I(0); I(0); I(0);
+            I(1000); I(1000); I(100); I(100);
+            I(35); I(32); F(scale); F(0); F(0); F(scale); F(0); F(0);
+            I(43); I(24); I(int.MinValue); I(int.MinValue); I(int.MaxValue); I(int.MaxValue);
+            I(14); I(20); I(0); I(16); I(20);
+            var (list, _, _, _) = Paint(b.ToArray());
+            list.Validate();
+        }
+    }
+
     [Fact]
     public void EmfPlusStringsAndBrushesAreDrawnAsVectorsWhenFallbackIsOff()
     {
