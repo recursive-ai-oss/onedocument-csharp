@@ -66,6 +66,10 @@ public sealed class XlsbRecordWriter
     /// <param name="type">The record type.</param>
     public void Write(int type) => Write(type, ReadOnlySpan<byte>.Empty);
 
+    /// <summary>Writes bytes that are already framed records (a block composed with another writer).</summary>
+    /// <param name="framed">The framed records.</param>
+    internal void WriteFramed(ReadOnlySpan<byte> framed) => _sink.Write(framed);
+
     /// <summary>Writes one record whose data was composed in <paramref name="data"/>, then clears it for reuse.</summary>
     /// <param name="type">The record type.</param>
     /// <param name="data">The composed data.</param>

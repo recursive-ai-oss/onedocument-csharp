@@ -114,6 +114,9 @@ internal static class XlsbSheetWriter
                         break;
                     }
 
+                    case "conditionalFormatting":
+                        XlsbConditionalFormatting.FromXml(c, _w, Features(), loss);
+                        break;
                     case "tableParts":
                     {
                         var parts = c.Elements("tablePart").ToList();

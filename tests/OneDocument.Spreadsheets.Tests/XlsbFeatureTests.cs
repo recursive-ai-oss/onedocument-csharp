@@ -169,4 +169,45 @@ public class XlsbFeatureTests
         Assert.NotNull(back.Package.FindPart("/xl/tables/table1.xml"));
         Assert.NotNull(back.Package.FindPart("/xl/comments1.xml"));
     }
+
+    [Fact]
+    public void ConditionalFormattingSurvivesTheBinaryForm()
+    {
+        const string q = "\"";
+        string cf = "<conditionalFormatting sqref="+q+"B2:B9 D2"+q+">"
+            + "<cfRule type="+q+"cellIs"+q+" dxfId="+q+"0"+q+" priority="+q+"1"+q+" operator="+q+"between"+q+"><formula>1.5</formula><formula>2.5</formula></cfRule>"
+            + "<cfRule type="+q+"expression"+q+" dxfId="+q+"1"+q+" priority="+q+"2"+q+" stopIfTrue="+q+"1"+q+"><formula>MOD(ROW(),2)=0</formula></cfRule>"
+            + "<cfRule type="+q+"containsText"+q+" dxfId="+q+"2"+q+" priority="+q+"3"+q+" operator="+q+"containsText"+q+" text="+q+"abc"+q+"><formula>NOT(ISERROR(SEARCH("+q+"abc"+q+",B2)))</formula></cfRule>"
+            + "<cfRule type="+q+"top10"+q+" dxfId="+q+"0"+q+" priority="+q+"4"+q+" percent="+q+"1"+q+" bottom="+q+"1"+q+" rank="+q+"20"+q+"/>"
+            + "<cfRule type="+q+"aboveAverage"+q+" dxfId="+q+"0"+q+" priority="+q+"5"+q+" aboveAverage="+q+"0"+q+" equalAverage="+q+"1"+q+" stdDev="+q+"2"+q+"/>"
+            + "<cfRule type="+q+"timePeriod"+q+" dxfId="+q+"0"+q+" priority="+q+"6"+q+" timePeriod="+q+"lastWeek"+q+"><formula>AND(TODAY()-ROUNDDOWN(B2,0)&gt;=(WEEKDAY(TODAY())),TODAY()-ROUNDDOWN(B2,0)&lt;(WEEKDAY(TODAY())+7))</formula></cfRule>"
+            + "</conditionalFormatting>"
+            + "<conditionalFormatting sqref="+q+"E1:E9"+q+"><cfRule type="+q+"colorScale"+q+" priority="+q+"7"+q+"><colorScale><cfvo type="+q+"min"+q+"/><cfvo type="+q+"percentile"+q+" val="+q+"50"+q+"/><cfvo type="+q+"max"+q+"/><color rgb="+q+"FFF8696B"+q+"/><color rgb="+q+"FFFFEB84"+q+"/><color theme="+q+"4"+q+"/></colorScale></cfRule></conditionalFormatting>"
+            + "<conditionalFormatting sqref="+q+"F1:F9"+q+"><cfRule type="+q+"dataBar"+q+" priority="+q+"8"+q+"><dataBar showValue="+q+"0"+q+"><cfvo type="+q+"min"+q+"/><cfvo type="+q+"num"+q+" val="+q+"100"+q+"/><color rgb="+q+"FF638EC6"+q+"/></dataBar></cfRule></conditionalFormatting>"
+            + "<conditionalFormatting sqref="+q+"G1:G9"+q+"><cfRule type="+q+"iconSet"+q+" priority="+q+"9"+q+"><iconSet iconSet="+q+"4Rating"+q+" reverse="+q+"1"+q+"><cfvo type="+q+"percent"+q+" val="+q+"0"+q+"/><cfvo type="+q+"percent"+q+" val="+q+"25"+q+"/><cfvo type="+q+"formula"+q+" val="+q+"$H$1"+q+"/><cfvo type="+q+"num"+q+" val="+q+"90"+q+" gte="+q+"0"+q+"/></iconSet></cfRule></conditionalFormatting>";
+        (string hub, string back, LossReport loss) = RoundTrip(cf);
+        Assert.DoesNotContain("xb:r", hub);
+        Assert.DoesNotContain(loss.Items, i => i.Code.StartsWith("xlsb.conditional", StringComparison.Ordinal) || i.Code == "xlsb.sheet-element");
+        foreach (string xml in new[] { hub, back })
+        {
+            Assert.Contains("<conditionalFormatting sqref="+q+"B2:B9 D2"+q+">", xml);
+            Assert.Contains("operator="+q+"between"+q+"><formula>1.5</formula><formula>2.5</formula>", xml);
+            Assert.Contains("stopIfTrue="+q+"1"+q+"><formula>MOD(ROW(),2)=0</formula>", xml);
+            Assert.Contains("text="+q+"abc"+q, xml);
+            Assert.Contains("rank="+q+"20"+q, xml);
+            Assert.Contains("percent="+q+"1"+q, xml);
+            Assert.Contains("bottom="+q+"1"+q, xml);
+            Assert.Contains("aboveAverage="+q+"0"+q, xml);
+            Assert.Contains("equalAverage="+q+"1"+q, xml);
+            Assert.Contains("stdDev="+q+"2"+q, xml);
+            Assert.Contains("timePeriod="+q+"lastWeek"+q, xml);
+            Assert.Contains("<cfvo type="+q+"percentile"+q+" val="+q+"50"+q+"/>", xml);
+            Assert.Contains("<color rgb="+q+"FFF8696B"+q+"/>", xml);
+            Assert.Contains("<color theme="+q+"4"+q+"/>", xml);
+            Assert.Contains("<dataBar showValue="+q+"0"+q+">", xml);
+            Assert.Contains("iconSet="+q+"4Rating"+q+" reverse="+q+"1"+q, xml);
+            Assert.Contains("<cfvo type="+q+"formula"+q+" val="+q+"$H$1"+q+"/>", xml);
+            Assert.Contains("gte="+q+"0"+q, xml);
+        }
+    }
 }

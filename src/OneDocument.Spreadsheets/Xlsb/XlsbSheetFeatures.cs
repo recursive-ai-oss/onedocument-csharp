@@ -254,6 +254,9 @@ internal sealed class XlsbFeatureReader(OpenContext context, string partName, Xl
         return true;
     }
 
+    /// <summary>The conditional formatting group (BrtBeginConditionalFormatting … BrtEndConditionalFormatting).</summary>
+    public bool ConditionalFormatting(List<XlsbGroupRecord> group, XmlSink x) => XlsbConditionalFormatting.ToXml(group, this, x);
+
     // ------------------------------------------------------------------ sheet protection
 
     private static readonly string[] ProtectionFlags =
@@ -315,6 +318,25 @@ internal sealed class XlsbFeatureWriter(XlsbRecordWriter w, XlsbRecordData d, Op
         return null;
     }
 
+    /// <summary>Encodes a formula (reference offsets are relative to the given cell); false when it cannot be parsed.</summary>
+    internal bool TryEncode(string text, int originRow, int originColumn, string what, out byte[] rgce, out byte[] rgcb)
+    {
+        rgce = [];
+        rgcb = [];
+        FormulaNode? node = Parse(text, what);
+        if (node is null)
+        {
+            return false;
+        }
+
+        if (!XlsbFormula.TryEncode(node, cx, XlsbFormulaKind.Name, originRow, originColumn, out rgce, out rgcb, out string? problem))
+        {
+            loss.Report("xlsb.formula-approximated", "formula written approximately", 1, "A formula could not be encoded exactly: " + problem);
+        }
+
+        return true;
+    }
+
     /// <summary>Writes <c>cce, rgce, cb, rgcb</c> for a formula; false when it cannot be parsed.</summary>
     internal bool WriteFormula(string text, int originRow, int originColumn, string what, XlsbRecordData target)
     {
@@ -325,15 +347,9 @@ internal sealed class XlsbFeatureWriter(XlsbRecordWriter w, XlsbRecordData d, Op
             return true;
         }
 
-        FormulaNode? node = Parse(text, what);
-        if (node is null)
+        if (!TryEncode(text, originRow, originColumn, what, out byte[] rgce, out byte[] rgcb))
         {
             return false;
-        }
-
-        if (!XlsbFormula.TryEncode(node, cx, XlsbFormulaKind.Name, originRow, originColumn, out byte[] rgce, out byte[] rgcb, out string? problem))
-        {
-            loss.Report("xlsb.formula-approximated", "formula written approximately", 1, "A formula could not be encoded exactly: " + problem);
         }
 
         target.U32((uint)rgce.Length);

@@ -180,6 +180,7 @@ internal static class XlsbSheetPart
         private const int GroupDataValidations = 1;
         private const int GroupAutoFilter = 2;
         private const int GroupTableParts = 3;
+        private const int GroupConditionalFormatting = 4;
 
         private void StartGroup(int kind, int endType)
         {
@@ -200,6 +201,7 @@ internal static class XlsbSheetPart
                 GroupDataValidations => _features.DataValidations(group, tmp),
                 GroupAutoFilter => XlsbFilters.ToXml(group, tmp),
                 GroupTableParts => TableParts(group, tmp),
+                GroupConditionalFormatting => _features.ConditionalFormatting(group, tmp),
                 _ => false,
             };
             if (ok)
@@ -399,6 +401,9 @@ internal static class XlsbSheetPart
                     return;
                 }
 
+                case XlsbRecordType.BeginConditionalFormatting:
+                    StartGroup(GroupConditionalFormatting, XlsbRecordType.EndConditionalFormatting);
+                    return;
                 case XlsbRecordType.BeginListParts:
                     StartGroup(GroupTableParts, XlsbRecordType.EndListParts);
                     return;
