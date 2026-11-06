@@ -257,6 +257,12 @@ public sealed class GeometryDefinition
             foreach (PathCommand c in spec.Commands)
             {
                 string[] a = c.Args;
+                // A command with fewer points than it needs (a moveTo with no pt child) draws nothing, as an unreadable command does.
+                if (a.Length < (c.Op switch { 'M' or 'L' => 2, 'Q' => 4, 'C' => 6, 'A' => 4, _ => 0 }))
+                {
+                    continue;
+                }
+
                 switch (c.Op)
                 {
                     case 'M':

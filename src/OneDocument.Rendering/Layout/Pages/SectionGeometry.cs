@@ -57,6 +57,10 @@ internal sealed class SectionGeometry
         Columns = [new ColumnSlot(0, 468)],
     };
 
+    // A page size or margin is a twip count the file states in any size; Word allows pages up to 22 inches. Values beyond a million twips (about
+    // 700 inches) are clamped so a damaged value cannot push text beyond what the display list can hold.
+    private static double Twips(long v) => Math.Clamp(v, -1_000_000L, 1_000_000L) / 20.0;
+
     public static SectionGeometry Read(Section s, CompatSettings compat)
     {
         PageSize size = s.PageSize;
@@ -65,15 +69,15 @@ internal sealed class SectionGeometry
         {
             Source = s,
             Index = s.Index,
-            Width = size.Width / 20.0,
-            Height = size.Height / 20.0,
-            Top = m.Top / 20.0,
-            Bottom = m.Bottom / 20.0,
-            Left = m.Left / 20.0,
-            Right = m.Right / 20.0,
-            Gutter = m.Gutter / 20.0,
-            Header = m.Header / 20.0,
-            Footer = m.Footer / 20.0,
+            Width = Twips(size.Width),
+            Height = Twips(size.Height),
+            Top = Twips(m.Top),
+            Bottom = Twips(m.Bottom),
+            Left = Twips(m.Left),
+            Right = Twips(m.Right),
+            Gutter = Twips(m.Gutter),
+            Header = Twips(m.Header),
+            Footer = Twips(m.Footer),
             Mirror = compat.MirrorMargins,
             GutterAtTop = compat.GutterAtTop,
             Rtl = s.IsRightToLeft,

@@ -70,6 +70,14 @@ public static class ChartPainter
         var notes = new List<ChartNote>();
         var canvas = new ChartCanvas(list, options.Fonts, options.Theme ?? ChartTheme.Default, notes);
         var r = new ChartRenderer(chart, canvas, options, x, y, width, height, notes);
-        return r.Render();
+        try
+        {
+            return r.Render();
+        }
+        catch (DisplayListLimitException ex)
+        {
+            // A chart with more points, glyphs or segments than one display list holds.
+            throw new OfficeLimitException("DisplayList", 0, -1, default, ex);
+        }
     }
 }

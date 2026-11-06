@@ -41,6 +41,13 @@ internal sealed class ChartCanvas(DisplayList list, IChartFonts? fonts, ChartThe
 
     public ChartTheme Theme { get; } = theme;
 
+    // The display list refuses coordinates that are not finite or lie beyond a billion pixels; data with absurd values can produce them,
+    // so every coordinate is brought into range here (the shape is off the page either way).
+    // A font size from a chart part is any number the file says; the display list takes sizes up to a billion, and nothing real is above a few hundred points.
+    private static double FontSize(double size) => double.IsFinite(size) ? Math.Clamp(size, 0, 2000) : 0;
+
+    private static float F(double v) => double.IsFinite(v) ? (float)Math.Clamp(v, -1e8, 1e8) : 0f;
+
     private ItemId Id() => ItemId.Of(0xC0000000u + (++_id), 0, 0);
 
     public static PaintColor Pc(ChartRgb c, double alpha = 1.0) => new(c.R / 255f, c.G / 255f, c.B / 255f, (float)(c.A * alpha));
@@ -59,7 +66,7 @@ internal sealed class ChartCanvas(DisplayList list, IChartFonts? fonts, ChartThe
             return;
         }
 
-        List.FillRect(Id(), new RectF((float)x, (float)y, (float)w, (float)h), Pc(color));
+        List.FillRect(Id(), new RectF(F(x), F(y), F(w), F(h)), Pc(color));
     }
 
     public void Fill(PathBuffer path, ChartRgb color)
@@ -80,10 +87,10 @@ internal sealed class ChartCanvas(DisplayList list, IChartFonts? fonts, ChartThe
         }
 
         var p = new PathBuffer();
-        p.MoveTo((float)pts[0].X, (float)pts[0].Y);
+        p.MoveTo(F(pts[0].X), F(pts[0].Y));
         for (int i = 1; i < pts.Count; i++)
         {
-            p.LineTo((float)pts[i].X, (float)pts[i].Y);
+            p.LineTo(F(pts[i].X), F(pts[i].Y));
         }
 
         p.Close();
@@ -107,8 +114,8 @@ internal sealed class ChartCanvas(DisplayList list, IChartFonts? fonts, ChartThe
         double cx = x + (w / 2);
         double cy = y + (h / 2);
         double half = (Math.Abs(Math.Cos(a)) * w / 2) + (Math.Abs(Math.Sin(a)) * h / 2);
-        Paint paint = List.LinearGradient((float)(cx - (Math.Cos(a) * half)), (float)(cy - (Math.Sin(a) * half)), (float)(cx + (Math.Cos(a) * half)), (float)(cy + (Math.Sin(a) * half)), gs);
-        List.FillRect(Id(), new RectF((float)x, (float)y, (float)w, (float)h), paint);
+        Paint paint = List.LinearGradient(F(cx - (Math.Cos(a) * half)), F(cy - (Math.Sin(a) * half)), F(cx + (Math.Cos(a) * half)), F(cy + (Math.Sin(a) * half)), gs);
+        List.FillRect(Id(), new RectF(F(x), F(y), F(w), F(h)), paint);
     }
 
     public void StrokeRect(double x, double y, double w, double h, double width, ChartRgb color)
@@ -198,10 +205,10 @@ internal sealed class ChartCanvas(DisplayList list, IChartFonts? fonts, ChartThe
 
             double nx = -dy / len * hw;
             double ny = dx / len * hw;
-            path.MoveTo((float)(a.X + nx), (float)(a.Y + ny));
-            path.LineTo((float)(b.X + nx), (float)(b.Y + ny));
-            path.LineTo((float)(b.X - nx), (float)(b.Y - ny));
-            path.LineTo((float)(a.X - nx), (float)(a.Y - ny));
+            path.MoveTo(F(a.X + nx), F(a.Y + ny));
+            path.LineTo(F(b.X + nx), F(b.Y + ny));
+            path.LineTo(F(b.X - nx), F(b.Y - ny));
+            path.LineTo(F(a.X - nx), F(a.Y - ny));
             path.Close();
         }
 
@@ -223,8 +230,8 @@ internal sealed class ChartCanvas(DisplayList list, IChartFonts? fonts, ChartThe
         for (int i = 0; i < N; i++)
         {
             double t = 2 * Math.PI * i / N;
-            float px = (float)(cx + (Math.Cos(t) * r));
-            float py = (float)(cy + (Math.Sin(t) * r));
+            float px = F(cx + (Math.Cos(t) * r));
+            float py = F(cy + (Math.Sin(t) * r));
             if (i == 0)
             {
                 path.MoveTo(px, py);
@@ -261,8 +268,8 @@ internal sealed class ChartCanvas(DisplayList list, IChartFonts? fonts, ChartThe
         for (int i = 0; i < n; i++)
         {
             double t = 2 * Math.PI * i / n;
-            float px = (float)(cx + (Math.Cos(t) * r));
-            float py = (float)(cy + (Math.Sin(t) * r));
+            float px = F(cx + (Math.Cos(t) * r));
+            float py = F(cy + (Math.Sin(t) * r));
             if (i == 0)
             {
                 path.MoveTo(px, py);
@@ -318,6 +325,12 @@ internal sealed class ChartCanvas(DisplayList list, IChartFonts? fonts, ChartThe
 
     public (double Width, double Ascent, double Descent) Measure(string text, double size, string family, bool bold, bool italic)
     {
+        size = FontSize(size);
+        if (size <= 0)
+        {
+            return (0, 0, 0);
+        }
+
         FontFace? f = Face(family, bold, italic);
         if (f is null)
         {
@@ -351,6 +364,12 @@ internal sealed class ChartCanvas(DisplayList list, IChartFonts? fonts, ChartThe
             return;
         }
 
+        size = FontSize(size);
+        if (size <= 0)
+        {
+            return;
+        }
+
         FontFace? f = Face(family, bold, italic);
         (double w, double asc, double desc) = Measure(text, size, family, bold, italic);
         if (f is null)
@@ -373,15 +392,15 @@ internal sealed class ChartCanvas(DisplayList list, IChartFonts? fonts, ChartThe
         for (int i = 0; i < n; i++)
         {
             ids[i] = glyphs[i].GlyphId;
-            xs[i] = (float)(ox + ((pen + glyphs[i].XOffset) * size / upm));
-            ys[i] = (float)(oy - (glyphs[i].YOffset * size / upm));
+            xs[i] = F(ox + ((pen + glyphs[i].XOffset) * size / upm));
+            ys[i] = F(oy - (glyphs[i].YOffset * size / upm));
             cl[i] = Math.Clamp(origins[i].Cluster, 0, Math.Max(0, text.Length - 1));
             pen += glyphs[i].XAdvance;
         }
 
         bool rotated = Math.Abs(rotationDegrees) > 0.01;
-        float px = (float)x;
-        float py = (float)y;
+        float px = F(x);
+        float py = F(y);
         if (rotated)
         {
             List.PushTransform(Id(), Matrix3x2.CreateRotation((float)(rotationDegrees * Math.PI / 180)) * Matrix3x2.CreateTranslation(px, py));

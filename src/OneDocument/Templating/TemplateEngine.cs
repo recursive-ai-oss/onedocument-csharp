@@ -354,6 +354,11 @@ internal sealed class TemplateResolver(RenderState state) : ICalcResolver
         return CalcValue.FromError(CalcError.Ref);
     }
 
+    // A cell reference reads a variable, so a whole column or row (N:AK) would look up a million names per column. Template variables
+    // named like cells are few; reading 256 rows or columns from the corner covers any plausible use and keeps the lookup bounded.
+    public CellArea ClipArea(in CellArea area) =>
+        area with { Row2 = Math.Min(area.Row2, area.Row1 + 255), Column2 = Math.Min(area.Column2, area.Column1 + 255) };
+
     public CalcValue ResolveName(string? scopeSheet, string name, in CalcCell origin)
     {
         ITemplateData? node = state.ResolvePath([name], out bool missing);

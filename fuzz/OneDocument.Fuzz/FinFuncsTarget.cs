@@ -112,6 +112,11 @@ internal static class FinFuncsTarget
 
         sb.Append(')');
         string formula = sb.ToString();
+        if (Environment.GetEnvironmentVariable("ONEDOCUMENT_FUZZ_TRACE") is not null)
+        {
+            Console.Error.WriteLine(formula);
+        }
+
         if (!FormulaParser.TryParse(formula, out FormulaNode? n, out _, new FormulaParserOptions { FileForm = false }) || n is null)
         {
             return;
