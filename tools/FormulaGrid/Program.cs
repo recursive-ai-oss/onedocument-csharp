@@ -434,7 +434,17 @@ internal static class Program
         }
 
         // Excel's numeric codes for the error literals, learned from the answers to the literals themselves.
+        // Formula entry reports an error as -2146826288 plus the application's error number minus 2000 (#NULL! 2000, #DIV/0! 2007,
+        // #VALUE! 2015, #REF! 2023, #NAME? 2029, #NUM! 2036, #N/A 2042, #CALC! 2050); the grids that carry no error literals need them seeded.
         var errCode = new Dictionary<int, CalcError> { [-2146826238] = CalcError.Calc };
+        foreach ((int number, string literal) in new[] { (2000, "#NULL!"), (2007, "#DIV/0!"), (2015, "#VALUE!"), (2023, "#REF!"), (2029, "#NAME?"), (2036, "#NUM!"), (2042, "#N/A") })
+        {
+            if (CalcErrors.TryParse(literal, out CalcError seeded))
+            {
+                errCode[-2146826288 + (number - 2000)] = seeded;
+            }
+        }
+
         var answers = new Dictionary<string, string[]>();
         foreach (string f in Directory.EnumerateFiles(answerDir, "*.fgrid.tsv"))
         {

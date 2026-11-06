@@ -1297,9 +1297,10 @@ internal static partial class ParagraphFormatter
 
                 if (align == TabAlign.Decimal && decimalOffset < 0 && b.TextStart >= 0)
                 {
+                    // Word aligns a decimal tab on the locale's decimal symbol; a comma is a group separator in the en-US reference (observed: "1,234.56" aligns on the point).
                     Piece pc = pieces[b.Piece];
                     int rel = b.TextStart - pc.Start;
-                    if (rel >= 0 && rel < pc.Text.Length && pc.Text[rel] is '.' or ',')
+                    if (rel >= 0 && rel < pc.Text.Length && pc.Text[rel] == '.')
                     {
                         decimalOffset = content;
                     }
@@ -1527,22 +1528,37 @@ internal static partial class ParagraphFormatter
         // ECMA-376 Part 1 §17.3.1.33 (spacing): auto is a multiple of the single height in 240ths; exact fixes the height; atLeast sets a floor.
         double natural = asc + desc;
         double lineHeight = natural;
+        double above = asc;
         switch (lineRule)
         {
             case "exact":
                 lineHeight = lineValue / 20.0;
                 desc = natural > 0 ? desc * (lineHeight / natural) : 0;
+                above = lineHeight - desc;
                 break;
             case "atLeast":
                 lineHeight = Math.Max(natural, lineValue / 20.0);
+                above = lineHeight - desc;
                 break;
             default:
+                // Observed in Word 16.0.20527: the room a multiple adds goes below the text, so the first line of 1.5 spacing sits where
+                // single spacing puts it. An atLeast floor and an exact height put it above.
                 lineHeight = natural * (lineValue / 240.0);
+                if (lineHeight > natural)
+                {
+                    above = asc;
+                    desc += lineHeight - natural;
+                }
+                else
+                {
+                    above = lineHeight - desc;
+                }
+
                 break;
         }
 
         line.Descent = desc;
-        line.Ascent = lineHeight - desc;
+        line.Ascent = above;
 
         // Text range of the line and its string.
         int textStart = -1;

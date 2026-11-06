@@ -149,8 +149,11 @@ public sealed class NoteNumbering
     {
         ArgumentNullException.ThrowIfNull(document);
         NoteKind kind = document.Kind;
+        // Observed in Word 16.0.20527: a footnote position in the document settings is not applied (only a section's own is), so a
+        // document-wide "beneathText" leaves the notes at the page bottom.
+        NotePosition? documentPosition = kind == NoteKind.Footnote ? null : document.Position;
         return new EffectiveNoteNumbering(
-            section?.Position ?? document.Position ?? (kind == NoteKind.Footnote ? NotePosition.PageBottom : NotePosition.DocumentEnd),
+            section?.Position ?? documentPosition ?? (kind == NoteKind.Footnote ? NotePosition.PageBottom : NotePosition.DocumentEnd),
             section?.NumberFormat ?? document.NumberFormat ?? (kind == NoteKind.Footnote ? "decimal" : "lowerRoman"),
             section?.Start ?? document.Start ?? 1,
             section?.Restart ?? document.Restart ?? NoteRestart.Continuous);

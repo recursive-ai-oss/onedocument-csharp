@@ -46,3 +46,7 @@ For each file: open it in Excel and record whether Excel opens it with no repair
 4. **Relative references in conditional formats and validation** are written as `PtgRefN` and `PtgAreaN` (offsets from the first cell of the range). Excel's own files are the reference.
 5. **CF12 rules.** LibreOffice ignores the colour scale, data bar and icon set rules of `generated.xls`. Do they show in Excel, with the same colours, thresholds and icon set?
 6. **Cell format flags** (the attribute bits of each XF) are set for what differs from the parent style; does Excel show the same formats?
+
+## Office run (Word, Excel and PowerPoint 16.0.20527)
+
+Answered as far as the oracle can drive the applications: see the row for this request in [`docs/office-oracle-1.0.md`](../../docs/office-oracle-1.0.md#the-other-requests). Questions not listed there as run are still open.

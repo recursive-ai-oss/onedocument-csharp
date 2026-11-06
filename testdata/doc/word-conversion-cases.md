@@ -19,3 +19,7 @@ Questions the specification leaves open, to be decided by what Word does:
 - `notes`: whether the comment range is written when the document stores only the reference mark (this library anchors the comment at the reference).
 - `sections`: whether Word keeps the even-page and first-page header slots a writer stored although the document uses neither.
 - `basic`: how Word writes the paragraph that follows a page break stored as a paragraph property.
+
+## Office run (Word, Excel and PowerPoint 16.0.20527)
+
+Answered as far as the oracle can drive the applications: see the row for this request in [`docs/office-oracle-1.0.md`](../../docs/office-oracle-1.0.md#the-other-requests). Questions not listed there as run are still open.

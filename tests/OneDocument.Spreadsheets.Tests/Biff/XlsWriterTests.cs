@@ -413,6 +413,20 @@ public class XlsWriterTests
         Assert.True(diff.Count == 0, string.Join("\n", diff) + "\nloss: " + string.Join(", ", loss.Items.Select(i => i.Code + "=" + i.Count)));
         Assert.Contains("Bo é:first line", CommentsKey(back, back.Sheets[0]));
         Assert.Contains("https://example.com/a?b=1&c=2", LinksKey(back, back.Sheets[0]));
+
+        // Excel 16.0.20527 refuses a workbook whose notes carry the text box marker inside the shape container: it is a MsoDrawing
+        // record of its own (eight bytes, OfficeArtClientTextbox) between each note's Obj and TxO.
+        ReadOnlySpan<byte> marker = [0xEC, 0x00, 0x08, 0x00, 0x00, 0x00, 0x0D, 0xF0, 0x00, 0x00, 0x00, 0x00];
+        int found = 0;
+        for (int i = 0; i + marker.Length <= xls.Length; i++)
+        {
+            if (xls.AsSpan(i, marker.Length).SequenceEqual(marker))
+            {
+                found++;
+            }
+        }
+
+        Assert.Equal(2, found);
     }
 
     [Theory]

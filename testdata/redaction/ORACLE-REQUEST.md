@@ -35,3 +35,7 @@ SHA-256:
     444562062484cb94631f535bebe473a28f1fd9cb9f8a5a836e79dde0549ac19e  review-fragmented-object.docx
     259f4981def76250d2a0297751b1b03b932ef7d03e8b1f2c8021a8ec84fd0bde  review-png-text-chunk.docx
     0eaf6fa7d3c601faeec7a26e4cbc882c7ffc1ecf7af5d27049a28b1f7688212a  review-zip-comments.docx
+
+## Office run (Word, Excel and PowerPoint 16.0.20527)
+
+Answered as far as the oracle can drive the applications: see the row for this request in [`docs/office-oracle-1.0.md`](../../docs/office-oracle-1.0.md#the-other-requests). Questions not listed there as run are still open.

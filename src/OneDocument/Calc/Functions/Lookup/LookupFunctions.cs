@@ -400,6 +400,15 @@ internal static class LookupFunctions
         }
 
         int span = horizontal ? table.Rows : table.Columns;
+        Vec search = horizontal ? new Vec(table, true, 0) : new Vec(table, false, 0);
+        int i = approx ? LookupSupport.Binary(search, args[0], true, false) : LookupSupport.FindExact(search, args[0], true, false);
+        if (i < 0)
+        {
+            return Err(CalcError.NA);
+        }
+
+        // Observed in Excel 16.0.20527: the lookup runs first, so a value that is not found is #N/A whatever the index is; the index is
+        // checked only for a row that was found.
         if (index < 1)
         {
             return Err(CalcError.Value);
@@ -408,13 +417,6 @@ internal static class LookupFunctions
         if (index > span)
         {
             return Err(CalcError.Ref);
-        }
-
-        Vec search = horizontal ? new Vec(table, true, 0) : new Vec(table, false, 0);
-        int i = approx ? LookupSupport.Binary(search, args[0], true, false) : LookupSupport.FindExact(search, args[0], true, false);
-        if (i < 0)
-        {
-            return Err(CalcError.NA);
         }
 
         return horizontal ? table[index - 1, i] : table[i, index - 1];

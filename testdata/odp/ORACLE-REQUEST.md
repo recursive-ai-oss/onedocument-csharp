@@ -33,3 +33,7 @@ cfdb6776e1886eaf6a69c90b78b4c609877d6b9ae550b6f3de4739f4f600472a  lo-slide-spaci
 11cda6a0dbca934b9780785eeb09aea15bbb364d23cdb6c5f0b4177dae09e65a  lo-slide-vertical-and-columns.odp
 35691827a84aa7e55f9f8dd9d01f791b10c3a5d7e7b96f2d51fd8bf1cd424df4  lo-table-rows-template.odp
 ```
+
+## Office run (Word, Excel and PowerPoint 16.0.20527)
+
+Answered as far as the oracle can drive the applications: see the row for this request in [`docs/office-oracle-1.0.md`](../../docs/office-oracle-1.0.md#the-other-requests). Questions not listed there as run are still open.

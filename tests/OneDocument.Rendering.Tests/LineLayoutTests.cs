@@ -108,6 +108,17 @@ public sealed class LineLayoutTests
     }
 
     [Fact]
+    public void ADecimalTabAlignsOnThePointNotOnAGroupComma()
+    {
+        // Word 16.0.20527 puts the point of "1,234.56" on the stop; the comma is a group separator.
+        string pPr = "<w:tabs><w:tab w:val=\"decimal\" w:pos=\"4320\"/></w:tabs>";
+        LayoutLine line = Lay(TestDocx.P("Item\t1,234.56", pPr)).Pages[0].Paragraphs.Single().Lines.Single();
+        LayoutRun number = line.Runs.Where(r => r.RunKind == LayoutRunKind.Text).Last();
+        double beforePoint = Width(Sans, "1,234", 12);
+        Assert.Equal(72 + 216, number.Bounds.X + beforePoint, 2);
+    }
+
+    [Fact]
     public void HangingIndentPutsFirstLineLeftOfTheRest()
     {
         string text = string.Join(' ', Enumerable.Repeat("word", 60));
@@ -172,14 +183,14 @@ public sealed class LineLayoutTests
     }
 
     [Fact]
-    public void SpaceBeforeAndAfterAdd()
+    public void TheGapBetweenParagraphsIsTheLargerOfSpaceAfterAndBefore()
     {
         (double asc, double desc) = Lm(Sans, 12);
         string body = TestDocx.P("a", "<w:spacing w:before=\"200\" w:after=\"300\"/>") + TestDocx.P("b", "<w:spacing w:before=\"100\" w:after=\"0\"/>");
         var paragraphs = Lay(body).Pages[0].Paragraphs.ToList();
-        // The first paragraph keeps its space before on the first page; the gap between is after + before.
+        // The first paragraph keeps its space before on the first page; the gap between is max(after, before): Word 16.0.20527 does not add them.
         Assert.Equal(72 + 10, paragraphs[0].Bounds.Y, 3);
-        Assert.Equal(72 + 10 + asc + desc + 15 + 5, paragraphs[1].Bounds.Y, 3);
+        Assert.Equal(72 + 10 + asc + desc + 15, paragraphs[1].Bounds.Y, 3);
     }
 
     [Fact]

@@ -1,8 +1,8 @@
 # Registers the on-demand task that runs Run-Oracle.ps1 in the signed-in user's desktop session.
 # "Interactive" logon type means the task runs only while the user is logged on, which Office automation needs.
-# Everything is placed under <profile>\oneoffice; nothing else on the machine is changed.
+# Everything is placed under <profile>\onedocument; nothing else on the machine is changed.
 
-param([string]$Base = (Join-Path $env:USERPROFILE 'oneoffice'))
+param([string]$Base = (Join-Path $env:USERPROFILE 'onedocument'))
 
 $ErrorActionPreference = 'Stop'
 New-Item -ItemType Directory -Force -Path (Join-Path $Base 'driver'), (Join-Path $Base 'jobs') | Out-Null
@@ -10,7 +10,7 @@ New-Item -ItemType Directory -Force -Path (Join-Path $Base 'driver'), (Join-Path
 $script = Join-Path $Base 'driver\Run-Oracle.ps1'
 if (-not (Test-Path $script)) { throw "missing $script" }
 
-$name = 'OneOfficeOracle'
+$name = 'OneDocumentOracle'
 $action = New-ScheduledTaskAction -Execute 'powershell.exe' `
     -Argument ('-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "' + $script + '" -Base "' + $Base + '"')
 $principal = New-ScheduledTaskPrincipal -UserId ([Security.Principal.WindowsIdentity]::GetCurrent().Name) -LogonType Interactive -RunLevel Limited

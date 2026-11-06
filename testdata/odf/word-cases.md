@@ -18,3 +18,7 @@ All three validate against the OpenDocument 1.3 RelaxNG schema and open in Libre
 | 4 | Save `rich-written.odt` as DOCX in Word | the DOCX; compare paragraph text, list and table structure with `rich.docx` | |
 
 What decides: Word's own import of OpenDocument. Differences that change text or structure are findings; spacing and font-substitution differences are not.
+
+## Office run (Word, Excel and PowerPoint 16.0.20527)
+
+Answered as far as the oracle can drive the applications: see the row for this request in [`docs/office-oracle-1.0.md`](../../docs/office-oracle-1.0.md#the-other-requests). Questions not listed there as run are still open.

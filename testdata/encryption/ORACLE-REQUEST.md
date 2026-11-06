@@ -30,3 +30,7 @@ be64233a366dc194dc3dae2ca4d1a81a1991b3d6911dd65a5eff29d3805c23a4  secret-basic.x
 6b47029d6f438c90eacb294e566ab31a4247254909bf7ca5d0bee79685c3a0d7  secret-runs.pptx
 320638299d52b655e77f33de278fd7f160086656802a027ac3e65e0fbc8323d3  secret-epplus.xlsx
 ```
+
+## Office run (Word, Excel and PowerPoint 16.0.20527)
+
+Answered as far as the oracle can drive the applications: see the row for this request in [`docs/office-oracle-1.0.md`](../../docs/office-oracle-1.0.md#the-other-requests). Questions not listed there as run are still open.

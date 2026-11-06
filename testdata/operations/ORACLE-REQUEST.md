@@ -39,3 +39,7 @@ running heads, note references, the index and the table of authorities.
   and the layout each slide uses against `Presentation.InsertSlides` (`pptx-insert`).
 
 For every output also record: opens without a repair prompt (yes/no).
+
+## Office run (Word, Excel and PowerPoint 16.0.20527)
+
+Answered as far as the oracle can drive the applications: see the row for this request in [`docs/office-oracle-1.0.md`](../../docs/office-oracle-1.0.md#the-other-requests). Questions not listed there as run are still open.

@@ -41,6 +41,9 @@ public class LookupFunctionTests
     [InlineData("VLOOKUP(\"cherry\",A1:C4,4,FALSE)", "#REF!")]
     [InlineData("VLOOKUP(\"cherry\",A1:C4,0,FALSE)", "#VALUE!")]
     [InlineData("VLOOKUP(\"zzz\",A1:C4,2,FALSE)", "#N/A")]
+    // Excel 16.0.20527 looks first: a value that is not found is #N/A whatever the index is.
+    [InlineData("VLOOKUP(\"zzz\",A1:C4,0,FALSE)", "#N/A")]
+    [InlineData("VLOOKUP(\"zzz\",A1:C4,9,FALSE)", "#N/A")]
     [InlineData("VLOOKUP(\"c\",A1:C4,2)", "20")]
     [InlineData("VLOOKUP(\"a\",A1:C4,2)", "#N/A")]
     [InlineData("VLOOKUP(\"*e\",A1:C4,2,FALSE)", "10")]

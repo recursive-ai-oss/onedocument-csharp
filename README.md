@@ -72,7 +72,7 @@ Encrypted files open when `OpenContext.Password` is supplied: OOXML Agile and St
 
 ## Checks
 
-Numbers come from the committed note or test named in the last column. Office-oracle checks (Word, Excel and PowerPoint opening our output without a repair prompt, Office's own result for the same operation, the layout differential) are written as requests under `testdata/` and are all **pending (1.0 gate)**.
+Numbers come from the committed note or test named in the last column. Office-oracle checks (Word, Excel and PowerPoint opening our output without a repair prompt, Office's own result for the same operation, the layout differential) ran on desktop Office 16.0.20527 for the 1.0 gate: results, floors and the open items are in [`docs/office-oracle-1.0.md`](docs/office-oracle-1.0.md). The remaining requests under `testdata/` are listed there as not run.
 
 | Check | Result | Source |
 |---|---|---|
@@ -81,7 +81,7 @@ Numbers come from the committed note or test named in the last column. Office-or
 | Output opens in Word, Excel and PowerPoint with no repair prompt | pending (1.0 gate) | `testdata/*/ORACLE-REQUEST.md` |
 | Number formats against Excel (`TEXT` and cell display) | 7,602 of 7,602 agree on a grid; exceptions are listed | `docs/number-formats.md`, `NumberFormatExcelGridTests` |
 | Calculation: cached values reproduced over a corpus; per-function grids against Excel | pending (1.0 gate) | `docs/calc.md`, `docs/spreadsheets-calc.md` |
-| Layout: page count, line breaks and object geometry against Office's PDF export | pending (1.0 gate) | `docs/layout.md` |
+| Layout: page count, line breaks and object geometry against Office's PDF export | Word: page count 196/196 and PowerPoint 24/24 on the generated cases; line and geometry floors per set in `docs/office-oracle-1.0.md` | `docs/office-oracle-1.0.md`, `docs/layout.md` |
 | Tagged PDF against veraPDF (PDF/UA-1, PDF/A) | pending (1.0 gate) | |
 | CommonMark and GFM conformance | 652 of 652 and 28 of 28 examples | `docs/markdown.md`, `MarkdownSpecTests` |
 | Metafiles against Windows' own pictures | 64 Windows-written metafiles compared (25 EMF, 24 EMF+, 15 WMF); per-case agreement in the note | `docs/metafiles.md`, `MetafileTests` |
@@ -96,10 +96,10 @@ Numbers come from the committed note or test named in the last column. Office-or
 | Operation | State |
 |---|---|
 | Find and replace, merge, append, split, protection | implemented (`docs/operations-find-replace.md`, `docs/operations-merge.md`, `docs/protection.md`) |
-| Redaction (`Office.Redact`) | implemented, writes a new file and re-reads it to verify; an independent completeness review passed (`docs/redaction-review.md`), with its open items listed there. Office check pending (1.0 gate) |
+| Redaction (`Office.Redact`) | implemented, writes a new file and re-reads it to verify; an independent completeness review passed (`docs/redaction-review.md`), with its open items listed there. Office opens the redacted outputs: not run (see `docs/office-oracle-1.0.md`) |
 | Inspect and sanitise (`Office.Inspect`, `Office.Sanitize`, `onedocument inspect`, `sanitize`) | implemented (`docs/sanitize.md`); coverage review pending |
 | VBA read, extract, remove | implemented, never executed (`docs/vba.md`) |
-| Accessibility checking | implemented (`docs/accessibility.md`); agreement with Office's checker pending (1.0 gate) |
+| Accessibility checking | implemented (`docs/accessibility.md`); agreement with Office's checker not run: the checker has no automation interface (`docs/office-oracle-1.0.md`) |
 
 ## Gaps
 
@@ -112,7 +112,7 @@ Stated here so they are not found by surprise.
 - **DOC and PPT** are read-only. **Word 6/95 and BIFF2 to BIFF5** layouts come from observed files, not a specification.
 - **Metafiles.** Drawn as vector content where the interpreter supports the records; custom pen caps, line-end anchors, colour matrices and text clipping to a string's rectangle are not drawn, and some raster-operation cases fall back to a bitmap (`docs/metafiles.md`).
 - **Output formats.** PDF, and PNG, JPEG, TIFF, WebP and SVG pages (`PageExporter`; `SaveAs` and `Office.Convert` write the first page, or every page for TIFF). HTML, Markdown and text export are on the hubs.
-- **Rendering fidelity.** Page layout is implemented from the Word, PowerPoint and Excel rules in `docs/layout*.md`; how closely it matches Office is pending (1.0 gate), and the layout notes list the places still to be checked against Word.
+- **Rendering fidelity.** Page layout is implemented from the Word, PowerPoint and Excel rules in `docs/layout*.md`; how closely it matches Office is measured in `docs/office-oracle-1.0.md` (Word 16.0.20527, generated cases), and the layout notes list the places still to be checked against Word.
 - **Not executed.** Macros, OLE payloads, Power Query, the Data Model and Solver are carried and (for VBA) listed or removed, never run.
 
 ## Packages

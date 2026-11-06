@@ -13,7 +13,7 @@
 #
 # Only files that were generated may be sent: nothing from a downloaded corpus. The machine's Office needs the
 # signed-in user's desktop, so the checks run from a scheduled task (see laptop/Install.ps1); ssh only places
-# files, starts the task and collects the results. Everything lives under <profile>\oneoffice on the machine;
+# files, starts the task and collects the results. Everything lives under <profile>\onedocument on the machine;
 # the only other file touched is the shared lock <profile>\oracle.lock, created and removed by the task.
 set -euo pipefail
 
@@ -24,8 +24,8 @@ ssh_opts=(-o BatchMode=yes -o ConnectTimeout=15)
 
 remote() { ssh "${ssh_opts[@]}" "$OFFICE_ORACLE_SSH" "$@"; }
 profile=$(remote 'echo %USERPROFILE%' | tr -d '\r')
-base_win="$profile\\oneoffice"
-base_scp="${profile//\\//}/oneoffice"
+base_win="$profile\\onedocument"
+base_scp="${profile//\\//}/onedocument"
 
 cmd=${1:-}; shift || true
 
@@ -90,7 +90,7 @@ EOF
     [ $t -lt "$timeout" ] || { echo "timed out after ${timeout}s; job left in place" >&2; exit 3; }
   done
   scp -q -r "${ssh_opts[@]}" "$OFFICE_ORACLE_SSH:$base_scp/jobs/$run/out/." "$out/"
-  remote "schtasks /delete /tn OneOfficeOracle-$run /f" >/dev/null 2>&1 || true
+  remote "schtasks /delete /tn OneDocumentOracle-$run /f" >/dev/null 2>&1 || true
   $keep || remote "rmdir /s /q $base_win\\jobs\\$run" >/dev/null
   echo "results in $out" >&2
   ;;

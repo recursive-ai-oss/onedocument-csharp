@@ -15,7 +15,7 @@
 # Close, OK, in that order), so the open call fails instead of repairing. A prompt whose text mentions
 # unreadable/corrupt/problem-with-content/recover/repair is classified "repair-prompt".
 
-param([string]$Base = (Join-Path $env:USERPROFILE 'oneoffice'), [string]$JobDir = '')
+param([string]$Base = (Join-Path $env:USERPROFILE 'onedocument'), [string]$JobDir = '')
 
 $ErrorActionPreference = 'Stop'
 $utf8 = New-Object System.Text.UTF8Encoding($false)
@@ -97,7 +97,7 @@ function Get-Lock($path, $instance, $retrySeconds, $waitMinutes) {
         try {
             # CreateNew fails when the file exists, which makes the acquire atomic.
             $fs = [IO.File]::Open($path, [IO.FileMode]::CreateNew, [IO.FileAccess]::Write, [IO.FileShare]::Read)
-            $text = "project=oneoffice`ninstance=$instance`nstarted=" + (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ') + "`n"
+            $text = "project=onedocument`ninstance=$instance`nstarted=" + (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ') + "`n"
             $bytes = $utf8.GetBytes($text)
             $fs.Write($bytes, 0, $bytes.Length)
             $fs.Close()
@@ -682,7 +682,12 @@ public class DialogWatcher
         }
         $path = Join-Path $jobRoot $item.file
         $ext = [IO.Path]::GetExtension($path).ToLowerInvariant()
-        $kind = switch -regex ($ext) { '^\.(docx|docm|dotx|dotm|doc|rtf|xml)$' { 'word' } '^\.(xlsx|xlsm|xltx|xltm|xlsb|xls|csv|fgrid)$' { 'excel' } '^\.(pptx|pptm|potx|ppsx|ppt)$' { 'powerpoint' } default { $null } }
+        $kind = switch -regex ($ext) { '^\.(docx|docm|dotx|dotm|doc|rtf|xml|odt|html|htm)$' { 'word' } '^\.(xlsx|xlsm|xltx|xltm|xlsb|xls|csv|fgrid|ods)$' { 'excel' } '^\.(pptx|pptm|potx|ppsx|ppt|odp)$' { 'powerpoint' } default { $null } }
+        # Flat OPC files share the .xml extension: the processing instruction names the application that owns them.
+        if ($ext -eq '.xml') {
+            $head = [Text.Encoding]::UTF8.GetString([IO.File]::ReadAllBytes($path), 0, [Math]::Min(1024, (Get-Item $path).Length))
+            if ($head -match 'progid="PowerPoint\.') { $kind = 'powerpoint' } elseif ($head -match 'progid="Excel\.') { $kind = 'excel' }
+        }
         $res = @{ kind = 'file'; file = $item.file; app = $kind; mode = $item.mode }
         if (-not $kind) { $res.outcome = 'error'; $res.error = 'unknown extension'; Write-Line $res; continue }
         $watch = [Diagnostics.Stopwatch]::StartNew()

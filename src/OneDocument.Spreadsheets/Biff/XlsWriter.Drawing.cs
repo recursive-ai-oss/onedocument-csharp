@@ -193,6 +193,16 @@ internal sealed partial class XlsWriter
             sp.U32((uint)(baseId + 1 + k));
             sp.U32(0x00000A00);
             var opt = new BiffBuffer();
+            // [MS-ODRAW] §2.3.6 (text properties): the shape is a text box, so it names its text (lTxid), wraps it and anchors it at the
+            // top, as the notes written by other applications do.
+            opt.U16(0x0080);
+            opt.U32(0);
+            opt.U16(0x0085);
+            opt.U32(2);
+            opt.U16(0x0087);
+            opt.U32(1);
+            opt.U16(0x00BF);
+            opt.U32(0x00080008);
             opt.U16(0x0181);
             opt.U32(0x08000050);
             opt.U16(0x01BF);
@@ -213,12 +223,11 @@ internal sealed partial class XlsWriter
             anchor.U16(4);
             var body = new BiffBuffer();
             body.Bytes(sp.Span);
-            Escher(body, 3, 4, 0xF00B, opt.Length);
+            Escher(body, 3, 8, 0xF00B, opt.Length);
             body.Bytes(opt.Span);
             Escher(body, 0, 0, 0xF010, anchor.Length);
             body.Bytes(anchor.Span);
             Escher(body, 0, 0, 0xF011, 0);
-            Escher(body, 0, 0, 0xF00D, 0);
             var container = new BiffBuffer();
             Escher(container, 0xF, 0, 0xF004, body.Length);
             container.Bytes(body.Span);
@@ -252,6 +261,12 @@ internal sealed partial class XlsWriter
             }
 
             WriteNoteObject(k + 1);
+            // [MS-XLS] §2.4.178 (MsoDrawing) and [MS-ODRAW] OfficeArtClientTextbox: the text box marker of a note is a record of its own
+            // between the Obj and the TxO, not part of the shape container. Excel refuses a workbook whose notes carry it inside the
+            // container (observed: Excel 16.0.20527 fails to open it); a file written by another application has this layout.
+            var textbox = new BiffBuffer();
+            Escher(textbox, 0, 0, 0xF00D, 0);
+            _s.Record(0x00EC, textbox);
             WriteTextObject(notes[k].Text);
         }
 

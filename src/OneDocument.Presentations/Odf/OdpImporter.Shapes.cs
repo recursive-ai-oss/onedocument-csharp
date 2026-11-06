@@ -301,20 +301,25 @@ internal sealed partial class OdpImporter
                     }
                     else if (type!.StartsWith("ooxml-", StringComparison.Ordinal) && A(eg, OdfNamespaces.Draw, "modifiers") is { } mods)
                     {
-                        // The modifiers of an ooxml-* shape are the adjust values adj1, adj2… in order.
+                        // The modifiers of an ooxml-* shape are the preset's adjust values in the order the preset declares them. PowerPoint
+                        // refuses a file whose avLst names a guide the preset does not have (a roundRect has "adj", not "adj1"), so the names
+                        // come from the preset's own definition and values beyond them are dropped.
+                        string[]? names = PresetAdjustNames.Of(mapped);
                         var av = new StringBuilder();
                         int i = 0;
                         foreach (string token in mods.Split(' ', StringSplitOptions.RemoveEmptyEntries))
                         {
-                            if (++i > 8)
+                            if (names is null || i >= names.Length)
                             {
                                 break;
                             }
 
                             if (double.TryParse(token, NumberStyles.Float, CultureInfo.InvariantCulture, out double v) && double.IsFinite(v))
                             {
-                                av.Append("<a:gd name=\"adj").Append(i).Append("\" fmla=\"val ").Append(OdpUnits.I((long)Math.Round(v))).Append("\"/>");
+                                av.Append("<a:gd name=\"").Append(names[i]).Append("\" fmla=\"val ").Append(OdpUnits.I((long)Math.Round(v))).Append("\"/>");
                             }
+
+                            i++;
                         }
 
                         avList = av.ToString();

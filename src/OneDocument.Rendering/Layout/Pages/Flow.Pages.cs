@@ -117,6 +117,9 @@ public static partial class LayoutEngine
                 if (!Stopped)
                 {
                     StartPage();
+                    // Observed in Word 16.0.20527: the first paragraph of a section that starts a page keeps its space before, as after a
+                    // hard page break (a natural break drops it).
+                    _honourSpaceBefore = true;
                 }
             }
             else
@@ -474,7 +477,7 @@ public static partial class LayoutEngine
             double after = 0;
             for (int i = 0; i < fps.Count; i++)
             {
-                h += (i == 0 ? fps[i].SpaceBefore : after + fps[i].SpaceBefore) + Total(fps[i], 0, fps[i].Lines.Count);
+                h += (i == 0 ? fps[i].SpaceBefore : Math.Max(after, fps[i].SpaceBefore)) + Total(fps[i], 0, fps[i].Lines.Count);
                 after = fps[i].SpaceAfter;
             }
 
@@ -496,7 +499,7 @@ public static partial class LayoutEngine
             for (int i = 0; i < fps.Count; i++)
             {
                 FormattedParagraph fp = fps[i];
-                double gap = i == 0 ? fp.SpaceBefore : after + fp.SpaceBefore;
+                double gap = i == 0 ? fp.SpaceBefore : Math.Max(after, fp.SpaceBefore);
                 _pageHasContent = false;
                 Emit(fp, 0, fp.Lines.Count, gap, true, true);
                 after = fp.SpaceAfter;
