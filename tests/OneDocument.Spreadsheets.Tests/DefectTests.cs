@@ -199,12 +199,14 @@ public class DefectTests
     }
 
     [Fact]
-    public void AnotherFormatIsNotAvailableNotCorrupt()
+    public void ABinaryWorkbookIsOpenedAsABinaryWorkbook()
     {
         OpcPackage p = OpcPackage.Create();
         p.SetRelationships(null, [new Relationship("rId1", "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument", "xl/workbook.bin")]);
-        p.AddPart("/xl/workbook.bin", "application/vnd.ms-excel.sheet.binary.macroEnabled.main+xml", new byte[] { 1 });
-        Assert.Throws<FormatNotAvailableException>(() => Workbook.FromPackage(p));
+        p.AddPart("/xl/workbook.bin", "application/vnd.ms-excel.sheet.binary.macroEnabled.main", new byte[] { 0x83, 0x01, 0x00, 0x84, 0x01, 0x00 });
+        using Workbook wb = Workbook.FromPackage(p);
+        Assert.True(wb.IsBinary);
+        Assert.Equal(OfficeFormat.Xlsb, wb.Format);
     }
 
     [Fact]

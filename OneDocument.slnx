@@ -42,6 +42,7 @@
     <Project Path="tools/LookupGrid/LookupGrid.csproj" />
     <Project Path="tools/FormulaSweep/FormulaSweep.csproj" />
     <Project Path="tools/CalcSweep/CalcSweep.csproj" />
+    <Project Path="tools/XlsbProbe/XlsbProbe.csproj" />
     <Project Path="tools/XlsxProbe/XlsxProbe.csproj" />
     <Project Path="tools/Xml2003Probe/Xml2003Probe.csproj" />
     <Project Path="tools/OracleCases/OracleCases.csproj" />
