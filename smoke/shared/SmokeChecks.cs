@@ -71,6 +71,7 @@ internal static class SmokeChecks
         failures.AddRange(MarkdownSmoke.Run());
         failures.AddRange(XlsSmoke.Run());
         failures.AddRange(VbaSmoke.Run());
+        failures.AddRange(InspectSmoke.Run());
         failures.AddRange(Xml2003Smoke.Run());
         failures.AddRange(PocoSmoke.Run());
         failures.AddRange(TemplateSmoke.Run());
