@@ -140,4 +140,39 @@ public class OfficeArtTests
         Assert.Equal(54u, BinaryPrimitives.ReadUInt32LittleEndian(image.Data.Span[10..]));
         Assert.Null(parsed.GetImage(5, default, ArtReadContext.Default));
     }
+
+    [Fact]
+    public void Trailing_bytes_too_short_for_a_header_are_reported()
+    {
+        var defects = new DefectCollection(10);
+        IReadOnlyList<ArtRecord> records = ArtRecords.Parse(Cat(Record(0, 0, 0x1234, []), [1, 2, 3]), 40, new ArtReadContext(OfficeLimits.Default, defects, "S"));
+
+        Assert.Single(records);
+        Defect d = Assert.Single(defects);
+        Assert.Equal("art.record-truncated", d.Code);
+        Assert.Equal(48, d.Location.Offset);
+    }
+
+    [Fact]
+    public void Damaged_store_entries_and_blips_are_reported_not_thrown()
+    {
+        var defects = new DefectCollection(20);
+        var context = new ArtReadContext(OfficeLimits.Default, defects, "S");
+        // A BSE shorter than its fixed part, a BSE whose picture lives past the end of the delay stream, and a PNG BLIP with no data.
+        var bse = new byte[36];
+        BinaryPrimitives.WriteUInt32LittleEndian(bse.AsSpan(24), 1);
+        BinaryPrimitives.WriteUInt32LittleEndian(bse.AsSpan(28), 5000);
+        byte[] store = Record(0xF, 3, ArtRecordType.BStoreContainer, Cat(
+            Record(2, 6, ArtRecordType.Bse, new byte[10]),
+            Record(2, 6, ArtRecordType.Bse, bse),
+            Record(0, 0x6E0, ArtRecordType.BlipPng, new byte[16]),
+            Record(0, 1, 0xF0F0, [])));
+        ArtBlipStore parsed = ArtBlipStore.Parse(ArtRecords.Parse(store, 0, context)[0], context);
+
+        Assert.Null(parsed.GetImage(2, new byte[100], context));
+        Assert.Null(parsed.GetImage(3, default, context));
+        Assert.Contains(defects, d => d.Code == "art.bse-truncated");
+        Assert.Contains(defects, d => d.Code == "art.blip-missing");
+        Assert.Contains(defects, d => d.Code == "art.blip-invalid");
+    }
 }

@@ -84,7 +84,8 @@ internal static class PptTextWriter
         if (tabs.Count > 0)
         {
             body.Append("<a:tabLst>");
-            foreach ((int position, int type) in tabs)
+            // ECMA-376 Part 1 §21.1.2.2.13: a tab list holds at most 32 tabs.
+            foreach ((int position, int type) in tabs.Take(32))
             {
                 string alg = type switch
                 {
@@ -203,19 +204,19 @@ internal static class PptTextWriter
                 children.Append("<a:effectLst><a:outerShdw blurRad=\"38100\" dist=\"38100\" dir=\"2700000\" algn=\"tl\"><a:srgbClr val=\"000000\"><a:alpha val=\"43137\"/></a:srgbClr></a:outerShdw></a:effectLst>");
             }
 
+            // DrawingML order: latin, ea, cs, sym. The ANSI typeface stands in for the Latin one only when the format names none.
             if (cf.Has(16))
             {
                 children.Append("<a:latin typeface=\"").Append(Escape(page.Conv.Font(cf.FontRef))).Append("\"/>");
+            }
+            else if (cf.Has(22))
+            {
+                children.Append("<a:latin typeface=\"").Append(Escape(page.Conv.Font(cf.AnsiFontRef))).Append("\"/>");
             }
 
             if (cf.Has(21))
             {
                 children.Append("<a:ea typeface=\"").Append(Escape(page.Conv.Font(cf.OldEaFontRef))).Append("\"/>");
-            }
-
-            if (cf.Has(22) && !cf.Has(16))
-            {
-                children.Append("<a:latin typeface=\"").Append(Escape(page.Conv.Font(cf.AnsiFontRef))).Append("\"/>");
             }
 
             if (cf.Has(23))
