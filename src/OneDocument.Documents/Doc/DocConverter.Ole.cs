@@ -41,6 +41,12 @@ internal sealed partial class DocConverter
             return;
         }
 
+        if (!ReferenceEquals(mark.Owner, sb) || mark.Begin > sb.Length)
+        {
+            Skip("doc.ole-object-in-markup", "The object '" + name + "' is in a field that spans paragraphs; it keeps its preview picture only.", id);
+            return;
+        }
+
         string slice = sb.ToString(mark.Begin, sb.Length - mark.Begin);
         if (slice.Contains("<w:ins ", StringComparison.Ordinal) || slice.Contains("<w:del ", StringComparison.Ordinal) || slice.Contains("</w:ins>", StringComparison.Ordinal) || slice.Contains("</w:del>", StringComparison.Ordinal)
             || slice.Contains("<w:bookmark", StringComparison.Ordinal) || slice.Contains("<w:comment", StringComparison.Ordinal) || slice.Contains("<w:object", StringComparison.Ordinal))

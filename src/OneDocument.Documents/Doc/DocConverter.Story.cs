@@ -39,9 +39,12 @@ internal sealed partial class DocConverter
         internal bool ShapeTypeWritten { get; set; }
     }
 
-    private sealed class FieldMark(int begin)
+    private sealed class FieldMark(int begin, StringBuilder owner)
     {
         internal int Begin { get; } = begin;
+
+        /// <summary>The paragraph builder the field began in: an object is written only when the field ends in the same paragraph.</summary>
+        internal StringBuilder Owner { get; } = owner;
 
         /// <summary>The number the object storage in the <c>ObjectPool</c> is named after ([MS-DOC] sprmCPicLocation with sprmCFOle2), when the field's separator is an object placeholder.</summary>
         internal uint? ObjectId { get; set; }
@@ -492,7 +495,7 @@ internal sealed partial class DocConverter
                 {
                     case '\u0013':
                         FlushText();
-                        st.Marks.Add(new FieldMark(sb.Length));
+                        st.Marks.Add(new FieldMark(sb.Length, sb));
                         Run("<w:fldChar w:fldCharType=\"begin\"/>");
                         st.Fields.Add((true, new StringBuilder()));
                         break;
