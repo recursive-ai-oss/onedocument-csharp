@@ -12,6 +12,9 @@ public static class SpreadsheetFormats
     public static IReadOnlyList<OfficeFormat> Formats { get; } =
         [OfficeFormat.Xlsx, OfficeFormat.Xlsm, OfficeFormat.Xltx, OfficeFormat.Xltm, OfficeFormat.Xlam, OfficeFormat.Xlsb, OfficeFormat.FlatOpcWorkbook];
 
+    /// <summary>The OpenDocument formats this package reads and writes: ODS, OTS and flat ODS.</summary>
+    public static IReadOnlyList<OfficeFormat> OpenDocumentFormats { get; } = [OfficeFormat.Ods, OfficeFormat.Ots, OfficeFormat.Fods];
+
     /// <summary>The formats this package reads but does not write: Excel 2003 XML, which opens as a workbook that saves as XLSX.</summary>
     public static IReadOnlyList<OfficeFormat> ReadOnlyFormats { get; } = [OfficeFormat.Excel2003Xml];
 
@@ -29,6 +32,21 @@ public static class SpreadsheetFormats
         registry.RegisterReader(
             static (source, _, context, filePath, cancellationToken) => Workbook.OpenSource(source, context, filePath, cancellationToken),
             delimited);
+
+        registry.RegisterReader(
+            static (source, _, context, filePath, cancellationToken) => Workbook.OpenSource(source, context, filePath, cancellationToken),
+            [.. OpenDocumentFormats]);
+        registry.RegisterWriter(
+            static (file, format, destination, cancellationToken) =>
+            {
+                if (file is not Workbook workbook)
+                {
+                    throw new FormatNotAvailableException(format, "write a " + file.Kind + " as");
+                }
+
+                workbook.WriteOds(format, destination, cancellationToken);
+            },
+            [.. OpenDocumentFormats]);
 
         // Excel 2003 XML is read only: it opens as a workbook that saves as XLSX.
         registry.RegisterReader(

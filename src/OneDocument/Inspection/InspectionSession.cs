@@ -180,6 +180,53 @@ public class InspectionSession
         return p is null ? null : Markup(p);
     }
 
+    /// <summary>
+    /// Lists the parts that no chain of relationships from the package reaches. Office never reads such a part and drops it on the next
+    /// save, but its bytes stay in the file, so it can hold anything a category would otherwise find.
+    /// </summary>
+    /// <returns>The part names, in package order; empty when the package has no main part to start from.</returns>
+    internal List<string> UnreachableParts()
+    {
+        var result = new List<string>();
+        if (MainPartName is null)
+        {
+            return result;
+        }
+
+        // ECMA-376 Part 2 §9.3: a part belongs to the package's content through relationships; the package's own relationships are the roots.
+        var reached = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var queue = new Queue<string>();
+        foreach (Relationship r in Package.GetRelationships(null))
+        {
+            if (OpcPackage.TryResolveTarget(null, r, out PartUri t) && reached.Add(t.Value))
+            {
+                queue.Enqueue(t.Value);
+            }
+        }
+
+        while (queue.Count > 0)
+        {
+            string name = queue.Dequeue();
+            foreach (Relationship r in Package.GetRelationships(name))
+            {
+                if (OpcPackage.TryResolveTarget(name, r, out PartUri t) && reached.Add(t.Value))
+                {
+                    queue.Enqueue(t.Value);
+                }
+            }
+        }
+
+        foreach (IPackagePart p in Package.Parts)
+        {
+            if (!reached.Contains(p.Name))
+            {
+                result.Add(p.Name);
+            }
+        }
+
+        return result;
+    }
+
     /// <summary>Forgets every parsed part, after something else changed the package (the hub models write their edits into the package).</summary>
     protected void DropMarkupCache() => _markup.Clear();
 
@@ -452,17 +499,15 @@ public sealed class SanitizeSession : InspectionSession
         DropMarkupCache();
     }
 
-    /// <summary>Removes the parts that only removed parts pointed at, repeatedly, and then writes edited markup back.</summary>
-    internal void Finish()
+    /// <summary>
+    /// Removes the parts that only removed parts pointed at, repeatedly, then the parts nothing points at, and writes edited markup back.
+    /// </summary>
+    /// <returns>The names of the parts that no relationship reached (they were not reached before sanitising either).</returns>
+    internal List<string> Finish()
     {
         Flush();
         var queue = new Queue<string>(_pruneCandidates);
         _pruneCandidates.Clear();
-        if (queue.Count == 0)
-        {
-            return;
-        }
-
         var referenced = ReferencedTargets();
         while (queue.Count > 0)
         {
@@ -484,6 +529,14 @@ public sealed class SanitizeSession : InspectionSession
             Package.RemovePart(name);
             referenced = ReferencedTargets();
         }
+
+        List<string> orphans = UnreachableParts();
+        foreach (string name in orphans)
+        {
+            Package.RemovePart(name);
+        }
+
+        return orphans;
     }
 
     private bool IsRoot(string name) => string.Equals(name, MainPartName, StringComparison.OrdinalIgnoreCase);

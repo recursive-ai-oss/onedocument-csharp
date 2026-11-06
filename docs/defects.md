@@ -27,6 +27,8 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `html.` | HTML import and export | `Unsupported`, `Structure` |
 | `wml2003.`, `sml2003.` | the Office 2003 XML readers (Word, Excel) | `Structure`, `Reference`, `Value`, `Encoding`, `Formula` |
 | `odf.`, `odp.` | the OpenDocument text and presentation conversions (`odf.md`, `odp.md`); the package layer reports under `packaging.` | `Structure`, `Reference`, `Value`, `Encoding`, `Limit` |
+| `odf.` | the OpenDocument text conversion (`odf.md`); the package layer reports under `packaging.` | `Structure`, `Reference`, `Value`, `Encoding`, `Limit` |
+| `ods.`, `openformula.` | the OpenDocument spreadsheet conversion and OpenFormula text (`ods.md`) | `Structure`, `Reference`, `Value`, `Formula`, `Unsupported`, `Limit` |
 | `calc.` | workbook calculation | `Formula`, `Limit`, `Reference` |
 | `binding.` | reading and writing rows of plain objects (`Spreadsheet.Read<T>`, `Write<T>`) | `Structure`, `Reference`, `Value` |
 | `template.` | the template engine: reading, checking and rendering templates | `Markup`, `Structure`, `Formula`, `Reference`, `Value` |
@@ -155,6 +157,8 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `pptx.slide-part-missing` | dropped | A slide listed in `p:sldIdLst` has no relationship or no part; it is skipped. |
 | `pptx.slide-listed-twice` | dropped | The same slide part is listed twice in `p:sldIdLst`; the second entry is skipped. |
 | `pptx.slide-id-duplicate` | repaired | Two slides carry the same id in `p:sldIdLst`; both are kept. |
+| `pptx.layout-not-found` | fatal | `Presentation.AddSlide(string)` was given a layout name no master has. Raised as `PresentationAuthoringException`; the message lists the names there are, and no slide is added. |
+| `pptx.placeholder-not-found` | fatal | `Slide.SetPlaceholderText` found no text placeholder of the type or index. Raised as `PresentationAuthoringException`; the message lists the placeholders the slide has. |
 | `pptx.layout-missing` | repaired / dropped | A slide has no layout (repaired: its placeholders inherit nothing), or a layout listed by the master has no part (dropped). |
 | `pptx.master-missing` | repaired / dropped | A layout has no master (repaired), or a master listed in `p:sldMasterIdLst` has no part (dropped). |
 | `pptx.template-scope-unsupported` | dropped | A `scope=` the presentation binder cannot use (`sheet`, `row`, `column`, `section`), or `table-row`/`table` with tags that are not in a table. The scope the structure implies is used instead. |
@@ -168,6 +172,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.no-body` | repaired | The document has no `w:body`; it reads as an empty body and the tree is left as it was. |
 | `docx.part-unreadable` | dropped | An optional part (styles, numbering, theme, …) is not well-formed or is damaged; the document reads as if it were absent. The location holds the part and offset. |
 | `docx.style-duplicate-id` | repaired | Two styles have the same `w:styleId`; the first is used. |
+| `docx.style-not-found` | fatal | A style was asked for by name (`Paragraph.Style`, `Run.Style`, `Table.Style`, the `StyleSheet` indexer) and the document has no style of that name and type. Raised as `StyleNotFoundException`; nothing is created and nothing changes. |
 | `docx.style-base-missing` | repaired | A style is based on a style that does not exist; its chain ends there. |
 | `docx.style-cycle` | repaired | `w:basedOn` links form a cycle; the chain is cut where it closes. |
 | `docx.style-unknown` | repaired | A paragraph, run or table names a style that is not defined; the default style of that type applies (none for runs without a default character style). |
@@ -579,6 +584,36 @@ The package layer (`OdfPackage`, see `odf.md`) reports under `packaging.`; the t
 | `odf.missing-picture` | dropped | A picture names a package file that is not there. |
 | `odf.bad-base64` | dropped | The inline data (`office:binary-data`) of a picture is not valid base64. |
 | `odf.repeat-capped` | dropped | A table repeats rows or cells by counts that would exceed the reader's budget (200,000 cells per table, 10,000 repeats per element); the rest were dropped. |
+
+### OpenDocument spreadsheets (`ods.`, `openformula.`)
+
+See `ods.md`. Locations are `content.xml` (or the flat file) with a byte offset, a cell address (`DefectLocation.InCell`) for values and formulas, or the sheet name. Package problems report under `packaging.`; repeat budgets under `odf.repeat-capped`; `limit.max-part-size` stops a sheet that would build a part past the limit.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `ods.not-spreadsheet` | fatal | The document is a valid OpenDocument file but not a spreadsheet (its body is text, a presentation or a drawing). |
+| `ods.no-sheets` | repaired | The spreadsheet holds no table; an empty sheet was added. |
+| `ods.sheet-name` | repaired | A table name is empty, too long, holds characters a workbook sheet name cannot, or repeats another name (compared without case); a valid unique name was used. |
+| `ods.name` | repaired | A defined name is not valid in a workbook (starts with a digit, looks like a cell address, holds other characters); a valid name was used. |
+| `ods.bad-name` | dropped | A named range has no readable cell range address. |
+| `ods.bad-formula` | dropped | A formula is not OpenFormula the parser reads (or, when writing, cannot be expressed); the cached value is kept as a constant. The message names the `openformula.` code. |
+| `ods.formula-dialect` | dropped | A formula is in a syntax other than `of:` (`oooc:`, `msoxl:` and others) and is not read; the cached value is kept. |
+| `ods.style-missing` | repaired | A cell, row, column, data style or conditional-format style is named but not defined; the default was used. |
+| `ods.bad-number` | repaired | A float, percentage or currency cell has an `office:value` that is not a number; the displayed text was kept. |
+| `ods.bad-date` | repaired or dropped | A date cell's `office:date-value` is not a date (the displayed text was kept), or a date in `meta.xml` is not a date (dropped). |
+| `ods.bad-time` | repaired | A time cell's `office:time-value` is not an ISO 8601 duration; the displayed text was kept. |
+| `ods.bad-value-type` | repaired | A cell has an `office:value-type` the format does not define; the displayed text was kept. |
+| `ods.bad-repeat` | repaired | A `number-rows-repeated` or `number-columns-repeated` is not a positive integer; 1 was used. |
+| `ods.validation-missing` | dropped | A cell names a `table:content-validation` the file does not define. |
+| `ods.row-limit` | dropped | Rows with content lie past the last row of a worksheet (1,048,576). |
+| `ods.column-limit` | dropped | Cells with content lie past the last column of a worksheet (16,384). |
+| `openformula.syntax` | fatal for the formula | The text is not OpenFormula (reported inside `ods.bad-formula`). `FormulaSyntaxError` carries the offset. |
+| `openformula.bad-reference` | fatal for the formula | A reference without a `.`, with ends of different kinds, with no column or row, or outside the sheet's bounds. |
+| `openformula.external-reference` | fatal for the formula | A reference into another document (`['file:///x.ods'#$S.A1]`); never followed. |
+| `openformula.too-long`, `openformula.too-deep` | fatal for the formula | The formula is longer or nests deeper than `OfficeLimits.MaxFormulaLength` or `MaxFormulaDepth`. |
+
+The printer reports through `OpenFormulaProblem` (not defects): `openformula.function` (a function other readers do not know; still written), and `openformula.spill`, `openformula.structured-reference`, `openformula.member-path`, `openformula.invoke`, `openformula.unknown-node`, `openformula.error` (the AST has no OpenFormula form; the formula is not written and its cached value stays).
+
 ## Redaction report codes
 
 Redaction does not report through the open-time defect list: what it could not remove or look into is in `RedactionReport.Gaps`, with codes of the form `redaction.problem` (`redaction.part-name`, `redaction.part-not-xml`, `redaction.embedded-package`, `redaction.opaque-part`, `redaction.depth`, `redaction.region-not-applicable`, `redaction.region-failed`, `redaction.shared-formula-extent`, `redaction.pivot-cache-source`, `redaction.animations-removed`). Their meaning and the tests that assert them are in `redaction.md`.

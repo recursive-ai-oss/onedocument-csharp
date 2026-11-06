@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>RecursiveAI.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>RecursiveAI.$(MSBuildProjectName)</RootNamespace>
-    <Description>Read, write, calculate, template and render Word, Excel and PowerPoint documents (OOXML, legacy binary, RTF, ODF) in pure .NET. Not affiliated with Microsoft. Presentations for OneDocument: open, edit and save PPTX, PPTM, POTX, PPSX and Flat OPC with untouched parts kept byte-identical; slide masters, layouts and slides with placeholder inheritance, shapes, text, tables, notes, comments and sections; add, delete, duplicate and reorder slides.</Description>
+    <Description>Read, write, calculate, template and render Word, Excel and PowerPoint documents (OOXML, legacy binary, RTF, ODF) in pure .NET. Not affiliated with Microsoft. Presentations for OneDocument: open, edit and save PPTX, PPTM, POTX, PPSX and Flat OPC with untouched parts kept byte-identical, and read PPT; slide masters, layouts and slides with placeholder inheritance, shapes, text, tables, notes, comments and sections; add, delete, duplicate and reorder slides.</Description>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
 

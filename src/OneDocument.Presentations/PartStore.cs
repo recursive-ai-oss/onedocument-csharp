@@ -89,6 +89,15 @@ internal sealed class PartStore
         }
     }
 
+    /// <summary>Forgets every parsed tree, so the next use reads the part again from the package (after the package was changed underneath).</summary>
+    public void Clear()
+    {
+        lock (Gate)
+        {
+            _documents.Clear();
+        }
+    }
+
     public void Flush()
     {
         lock (Gate)

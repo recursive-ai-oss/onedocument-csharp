@@ -22,12 +22,23 @@
     <Project Path="tests/OneDocument.Schema.Tests/OneDocument.Schema.Tests.csproj" />
     <Project Path="tests/OneDocument.Generators.Tests/OneDocument.Generators.Tests.csproj" />
   </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/ConvertToPdf/ConvertToPdf.csproj" />
+    <Project Path="samples/TemplateToPdf/TemplateToPdf.csproj" />
+    <Project Path="samples/SpreadsheetRows/SpreadsheetRows.csproj" />
+    <Project Path="samples/LegacyDocText/LegacyDocText.csproj" />
+    <Project Path="samples/WorkbookRecalcPdf/WorkbookRecalcPdf.csproj" />
+    <Project Path="samples/DocumentRevisions/DocumentRevisions.csproj" />
+    <Project Path="samples/HappyPath/HappyPath.csproj" />
+    <Project Path="samples/Authoring/Authoring.csproj" />
+  </Folder>
   <Folder Name="/tools/">
     <Project Path="tools/ViewGenerator/ViewGenerator.csproj" />
     <Project Path="tools/RoundTrip/RoundTrip.csproj" />
     <Project Path="tools/LayoutProbe/LayoutProbe.csproj" />
     <Project Path="tools/PackageSweep/PackageSweep.csproj" />
     <Project Path="tools/RedactProbe/RedactProbe.csproj" />
+    <Project Path="tools/AuthoringProbe/AuthoringProbe.csproj" />
     <Project Path="tools/XlsProbe/XlsProbe.csproj" />
     <Project Path="tools/PackageTiming/PackageTiming.csproj" />
     <Project Path="tools/MarkupProbe/MarkupProbe.csproj" />

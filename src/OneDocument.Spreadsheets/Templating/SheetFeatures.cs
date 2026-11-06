@@ -51,7 +51,7 @@ internal static class SheetFeatures
 {
     private static readonly string[] CopiedElements = ["conditionalFormatting", "dataValidations", "printOptions", "pageMargins", "pageSetup", "headerFooter", "rowBreaks", "colBreaks"];
     private static readonly string[] HeaderFooterElements = ["oddHeader", "oddFooter", "evenHeader", "evenFooter", "firstHeader", "firstFooter"];
-    private const string SpreadsheetDrawingNs = "http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing";
+    internal const string SpreadsheetDrawingNs = "http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing";
 
     // ---- reading what the template sheet has -------------------------------------------------------------------------------------
 
@@ -804,7 +804,7 @@ internal static class SheetFeatures
     }
 
     // Walks from a cell over as many columns (or rows) as the picture covers; returns the 1-based cell it ends in and the offset in pixels.
-    private static (int Index, int Offset) Walk(int start, int pixels, Func<int, int> size)
+    internal static (int Index, int Offset) Walk(int start, int pixels, Func<int, int> size)
     {
         int i = start;
         int left = pixels;
@@ -823,7 +823,7 @@ internal static class SheetFeatures
         return (i, 0);
     }
 
-    private static int ColumnPixels(Worksheet ws, int column)
+    internal static int ColumnPixels(Worksheet ws, int column)
     {
         foreach (ColumnProperties c in ws.Columns)
         {
@@ -836,13 +836,13 @@ internal static class SheetFeatures
         return 64;
     }
 
-    private static int RowPixels(Worksheet ws, int row)
+    internal static int RowPixels(Worksheet ws, int row)
     {
         double h = ws.GetRow(row).Height;
         return h > 0 ? (int)Math.Round(h * 96 / 72) : 20;
     }
 
-    private static string FindOrCreateDrawing(Workbook wb, Worksheet target, string sheetPart)
+    internal static string FindOrCreateDrawing(Workbook wb, Worksheet target, string sheetPart)
     {
         if (PartTools.Related(wb, sheetPart, "/drawing") is [{ } existing, ..])
         {

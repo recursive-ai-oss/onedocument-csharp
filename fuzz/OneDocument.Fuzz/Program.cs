@@ -79,6 +79,8 @@ internal static class Program
         ["odfpkg"] = OdfTarget.RunPackage,
         ["odt"] = OdfTarget.Run,
         ["odp"] = OdpTarget.Run,
+        ["ods"] = OdsTarget.Run,
+        ["openformula"] = OdsTarget.RunFormula,
         ["vbacompress"] = VbaTarget.RunDecompress,
         ["vbadir"] = VbaTarget.RunDir,
         ["vbaproject"] = VbaTarget.RunProject,
@@ -136,6 +138,8 @@ internal static class Program
                 "xlsb" => XlsbTarget.WriteSeeds(args[2]),
                 "odfpkg" or "odt" => OdfTarget.WriteSeeds(args[2]),
                 "odp" => OdpTarget.WriteSeeds(args[2]),
+                "ods" => OdsTarget.WriteSeeds(args[2], formulas: false),
+                "openformula" => OdsTarget.WriteSeeds(args[2], formulas: true),
                 "vbacompress" or "vbadir" or "vbaproject" or "vbaremove" => VbaTarget.WriteSeeds(args[2]),
                 _ => 2,
             };

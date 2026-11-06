@@ -2,7 +2,7 @@
 # Restore, build, test, smoke-publish and pack the whole repository: what CI runs on linux-x64, and what runs the same way on any
 # build machine.
 #
-#   build/ci.sh [step...]       steps: restore generated build test aot wasm pack (default: all, in that order), and on request consumer
+#   build/ci.sh [step...]       steps: restore generated build test samples aot wasm pack (default: all, in that order), and on request consumer
 #                               and wasm-run (publishes the browser host and runs it in headless Chromium; needs the wasm-tools workload,
 #                               python3, curl and unzip), ios-run (builds the iOS app, runs it in the simulator; macOS with Xcode and
 #                               the ios workload) and android-run (builds the Android app, runs it in a headless emulator; Linux with
@@ -24,7 +24,7 @@ out="${CI_OUT:-${ONEDOCUMENT_ARTIFACTS:-$root/artifacts}/ci}"
 rid="${RID:-$("$dotnet_bin" --info | awk '/^ RID:/ {print $2; exit}')}"
 
 steps=("$@")
-[[ ${#steps[@]} -gt 0 ]] || steps=(restore generated build test aot wasm pack)
+[[ ${#steps[@]} -gt 0 ]] || steps=(restore generated build test samples aot wasm pack)
 
 for step in "${steps[@]}"; do
   echo "== $step"
@@ -34,6 +34,14 @@ for step in "${steps[@]}"; do
     generated) "$dotnet_bin" run --project tools/ViewGenerator -c "$config" --no-restore -- --check ;;
     build) "$dotnet_bin" build OneDocument.slnx -c "$config" --no-restore ;;
     test) "$dotnet_bin" test --solution OneDocument.slnx -c "$config" --no-build ;;
+    samples)
+      # Each sample generates its own input, performs its task and exits non-zero when the result is wrong.
+      for project in samples/*/*.csproj; do
+        name="$(basename "$project" .csproj)"
+        echo "-- $name"
+        "$dotnet_bin" run --project "$project" -c "$config" --no-build -- "$out/samples/$name"
+      done
+      ;;
     aot)
       # Warnings are errors: a trim or AOT warning in the library fails the publish.
       "$dotnet_bin" publish smoke/aot/AotSmoke.csproj -c "$config" -r "$rid" -o "$out/aot" -warnaserror
@@ -57,8 +65,9 @@ for step in "${steps[@]}"; do
     consumer)
       # Applications that reference the packages as packages (from a throwaway local pack) and call the Office statics with no
       # registration line: under NativeAOT with warnings as errors, with and without the spreadsheet package.
-      feed="$out/consumer-feed"; version=0.0.0-consumer.1
-      for project in OneDocument OneDocument.Schema OneDocument.Documents OneDocument.Spreadsheets; do
+      # A new version each run: a reused package cache would otherwise serve the assemblies of an earlier run.
+      feed="$out/consumer-feed"; version="0.0.0-consumer.$(date +%s)"
+      for project in OneDocument OneDocument.Schema OneDocument.Documents OneDocument.Spreadsheets OneDocument.Presentations OneDocument.Rendering OneDocument.All; do
         "$dotnet_bin" pack "src/$project" -c "$config" -p:Version=$version -p:EnablePackageValidation=false -o "$feed"
       done
       export ONEDOCUMENT_CONSUMER_FEED="$feed" ONEDOCUMENT_CONSUMER_VERSION=$version
@@ -66,6 +75,9 @@ for step in "${steps[@]}"; do
         "$dotnet_bin" publish "smoke/consumer/$app.csproj" -c "$config" -r "$rid" -o "$out/$app" -warnaserror
         "$out/$app/$app"
       done
+      # The metapackage on its own: format registration must reach the application through it.
+      "$dotnet_bin" publish smoke/consumer/ConsumerAll.csproj -c "$config" -o "$out/ConsumerAll" -warnaserror
+      "$dotnet_bin" "$out/ConsumerAll/ConsumerAll.dll"
       "$dotnet_bin" build smoke/consumer/ConsumerWasm.csproj -c "$config" -warnaserror
       ;;
     pack)
