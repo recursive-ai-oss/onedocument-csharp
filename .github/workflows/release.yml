@@ -107,7 +107,8 @@ jobs:
           done
       - name: Test
         run: |
-          for project in tests/*/*.csproj; do
+          # Only test projects: tests/ also holds helper programs the tests start (e.g. the interrupted-save child).
+          for project in tests/*/*.Tests.csproj; do
             dotnet test --project "$project" -c Release --no-build --results-directory "$ONEDOCUMENT_ARTIFACTS/TestResults"
           done
 
