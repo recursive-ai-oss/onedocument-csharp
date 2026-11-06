@@ -15,6 +15,18 @@ internal static class Program
 {
     private static int Main(string[] args)
     {
+        if (args.Length == 2 && args[0] == "diff")
+        {
+            // The words that only one side has, for one file (diagnosis of a low similarity).
+            using Document d = Document.Open(args[1]);
+            string html = d.ToHtml();
+            Dictionary<string, int> a = Bag(d.ExtractText());
+            Dictionary<string, int> b = Bag(BodyText(OneHtmlDocument.Parse(html)));
+            Console.WriteLine("only in the extracted text: " + string.Join(" ", a.Where(kv => kv.Value > b.GetValueOrDefault(kv.Key)).Take(25).Select(kv => kv.Key)));
+            Console.WriteLine("only in the HTML: " + string.Join(" ", b.Where(kv => kv.Value > a.GetValueOrDefault(kv.Key)).Take(25).Select(kv => kv.Key)));
+            return 0;
+        }
+
         if (args.Length < 2 || args[0] is not ("export" or "import"))
         {
             Console.Error.WriteLine("usage: HtmlProbe export <docx-dir> <out-dir> [--max N] | HtmlProbe import <html-dir> [--max N]");
@@ -74,9 +86,18 @@ internal static class Program
                 }
                 else if (c.IsElement)
                 {
-                    sb.Append(' ');
+                    // Only block boundaries separate words; a span or strong inside a word does not.
+                    bool block = c.LocalName is "p" or "div" or "li" or "td" or "th" or "tr" or "h1" or "h2" or "h3" or "h4" or "h5" or "h6" or "br" or "ul" or "ol" or "table" or "section" or "pre" or "hr";
+                    if (block)
+                    {
+                        sb.Append(' ');
+                    }
+
                     Walk(c);
-                    sb.Append(' ');
+                    if (block)
+                    {
+                        sb.Append(' ');
+                    }
                 }
             }
         }
@@ -122,6 +143,11 @@ internal static class Program
 
                 double sim = Similarity(d.ExtractText(), BodyText(parsed));
                 sims.Add(sim);
+                if (sim < 0.9)
+                {
+                    Console.WriteLine("{\"low\":\"" + Path.GetFileName(file) + "\",\"similarity\":" + sim.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture) + "}");
+                }
+
                 if (sim >= 0.95)
                 {
                     close++;

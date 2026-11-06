@@ -94,6 +94,8 @@ colours in the value are dropped and reported as `template.markup-dropped`.
 | page and section breaks | an empty `div` with `break-after: page`; the paragraph is split at an inline page break |
 | right-to-left paragraphs and runs, languages | `dir="rtl"`, `lang`; `html lang` from the document default |
 | text boxes | blocks after the paragraph they were anchored in (`loss.html-text-boxes`) |
+| ruby (phonetic guide) | `ruby` and `rt` |
+| equations | their linear text in a `span class="math"` (the text extractor's form) |
 | empty paragraph | `<p><br></p>` |
 
 The style sheet puts `white-space: pre-wrap` on paragraph elements, so the spaces and breaks of the document are exactly those of the HTML.

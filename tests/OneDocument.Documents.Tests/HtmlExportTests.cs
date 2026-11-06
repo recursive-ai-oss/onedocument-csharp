@@ -147,6 +147,18 @@ public class HtmlExportTests
     }
 
     [Fact]
+    public void Ruby_text_and_equations_keep_their_text()
+    {
+        const string om = "xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"";
+        using Document d = Build("<w:p><w:r><w:ruby><w:rt><w:r><w:t>kana</w:t></w:r></w:rt><w:rubyBase><w:r><w:t>BASE</w:t></w:r></w:rubyBase></w:ruby></w:r>" +
+            "<m:oMath " + om + "><m:r><m:t>x+1</m:t></m:r></m:oMath></w:p>", notes: false);
+        string html = d.ToHtml(new HtmlExportOptions { Fragment = true });
+        Assert.Contains("<ruby>BASE<rt>kana</rt></ruby>", html, StringComparison.Ordinal);
+        Assert.Contains("<span class=\"math\">x+1</span>", html, StringComparison.Ordinal);
+        Assert.Equal(1, d.ExportLoss!.CountOf("loss.html-equations"));
+    }
+
+    [Fact]
     public void Without_notes_the_text_is_equal_in_order()
     {
         using Document d = Build(Body().Replace("<w:r><w:footnoteReference w:id=\"1\"/></w:r>", string.Empty, StringComparison.Ordinal), notes: false);

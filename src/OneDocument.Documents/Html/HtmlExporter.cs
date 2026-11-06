@@ -618,6 +618,11 @@ internal sealed partial class HtmlExporter
 
     private void Inlines(MarkupNode container)
     {
+        if (container.IsNull)
+        {
+            return;
+        }
+
         foreach (MarkupNode c in container.ChildElements)
         {
             if (c.NamespaceUri is not (W or WStrict))
@@ -626,7 +631,7 @@ internal sealed partial class HtmlExporter
                 {
                     case "oMath" or "oMathPara":
                         _loss.Report("loss.html-equations", "equations", 1, "Equations are written as their plain text.");
-                        _b.Append("<span class=\"math\">").Append(Esc(c.InnerText)).Append("</span>");
+                        _b.Append("<span class=\"math\">").Append(Esc(Equations.MathLinearizer.Linearize(Equations.OmmlReader.Read(c, out _)))).Append("</span>");
                         break;
                     case "AlternateContent":
                         foreach (MarkupNode choice in c.ChildElements)
@@ -952,6 +957,15 @@ internal sealed partial class HtmlExporter
                     break;
                 case "footnoteReference" or "endnoteReference":
                     NoteReference(c);
+                    break;
+                case "ruby" when !InInstruction:
+                    // ECMA-376 Part 1 §17.3.3.25: the base text with its phonetic guide, which HTML has as ruby and rt.
+                    Open();
+                    _b.Append("<ruby>");
+                    Inlines(Child(c, "rubyBase"));
+                    _b.Append("<rt>");
+                    Inlines(Child(c, "rt"));
+                    _b.Append("</rt></ruby>");
                     break;
             }
         }
