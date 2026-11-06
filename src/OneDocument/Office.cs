@@ -58,6 +58,36 @@ public static class Office
     public static OfficeFile Open(IByteSource source, OpenContext? context = null, CancellationToken cancellationToken = default) =>
         Open(source, context, null, cancellationToken);
 
+    /// <summary>
+    /// Opens a file as a format the caller names, for the formats that are never recognised from content: <see cref="OfficeFormat.Markdown"/>. Any format with a
+    /// reader registered may be named; the content is not checked against it.
+    /// </summary>
+    /// <param name="path">The path.</param>
+    /// <param name="format">The format to read the file as.</param>
+    /// <param name="context">Limits, defect sink and password; null for the defaults.</param>
+    /// <param name="cancellationToken">Cancels the open.</param>
+    /// <returns>The opened file, which the caller disposes.</returns>
+    /// <exception cref="ArgumentException"><paramref name="format"/> is <see cref="OfficeFormat.Unknown"/>.</exception>
+    /// <exception cref="FormatNotAvailableException">No reader is registered for the format.</exception>
+    public static OfficeFile Open(string path, OfficeFormat format, OpenContext? context = null, CancellationToken cancellationToken = default)
+    {
+        if (format == OfficeFormat.Unknown)
+        {
+            throw new ArgumentException("A format must be named.", nameof(format));
+        }
+
+        IByteSource source = ByteSource.FromFile(path);
+        try
+        {
+            return FormatRegistry.Default.GetReader(format)(source, format, context ?? new OpenContext(), path, cancellationToken);
+        }
+        catch
+        {
+            source.Dispose();
+            throw;
+        }
+    }
+
     private static OfficeFile Open(IByteSource source, OpenContext? context, string? filePath, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(source);
@@ -143,7 +173,9 @@ public static class Office
     /// <exception cref="ArgumentException">The destination's extension does not name one format.</exception>
     public static void Convert(string source, string destination, OpenContext? context = null, CancellationToken cancellationToken = default)
     {
-        using OfficeFile file = Open(source, context, cancellationToken);
+        // Markdown is never recognised from content, so a source named like Markdown is read as Markdown.
+        OfficeFormat named = OfficeFormats.FromExtension(source);
+        using OfficeFile file = named == OfficeFormat.Markdown ? Open(source, named, context, cancellationToken) : Open(source, context, cancellationToken);
         file.SaveAs(destination, cancellationToken);
     }
 

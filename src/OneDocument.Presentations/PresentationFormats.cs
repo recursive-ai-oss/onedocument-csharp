@@ -47,6 +47,26 @@ public static class PresentationFormats
             static (source, _, context, filePath, cancellationToken) => Presentation.OpenSource(source, context, filePath, cancellationToken),
             OfficeFormat.Ppt);
         registry.RegisterVba(PptVba.Read, PptVba.Remove, OfficeFormat.Ppt);
+
+        // Markdown is written by every kind; this entry takes its own kind and passes the rest on to whichever package registered before.
+        registry.TryGetWriter(OfficeFormat.Markdown, out WriteHandler? previousMarkdown);
+        registry.RegisterWriter(
+            (file, format, destination, cancellationToken) =>
+            {
+                if (file is Presentation presentation)
+                {
+                    presentation.WriteMarkdown(destination, cancellationToken);
+                }
+                else if (previousMarkdown is not null)
+                {
+                    previousMarkdown(file, format, destination, cancellationToken);
+                }
+                else
+                {
+                    throw new FormatNotAvailableException(format, "write a " + file.Kind + " as");
+                }
+            },
+            OfficeFormat.Markdown);
         registry.RegisterTemplateBinder(Templating.PresentationTemplateBinder.Instance, formats);
     }
 }

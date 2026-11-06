@@ -53,6 +53,7 @@ internal static class DocumentSmoke
         }
 
         failures.AddRange(RtfSmoke());
+        failures.AddRange(HtmlSmoke());
 
         // Mail merge: a MERGEFIELD with a picture and a switch, merged into one document per record.
         failures.AddRange(MailMergeSmoke());
@@ -84,6 +85,26 @@ internal static class DocumentSmoke
         if (back.Tables.Count() != 1 || !back.ExtractText().Contains("edited \u20ac", StringComparison.Ordinal))
         {
             failures.Add("rtf write");
+        }
+
+        return failures;
+    }
+
+    // HTML: a page read into the model (with a hostile script), written as HTML and read again; text, a table and the loss report survive.
+    private static List<string> HtmlSmoke()
+    {
+        var failures = new List<string>();
+        using Document d = Document.FromHtml("<h1>Title</h1><p onclick='x()'>Hi <b>there</b></p><script>bad()</script><table><tr><th>A</th><td>B</td></tr></table>");
+        if (d.Tables.Count() != 1 || !d.ExtractText().Contains("Hi there", StringComparison.Ordinal) || d.ImportLoss is not { IsLossless: false })
+        {
+            failures.Add("html import");
+        }
+
+        string html = d.ToHtml();
+        using Document back = Document.FromHtml(html);
+        if (back.Tables.Count() != 1 || !back.ExtractText().Contains("Hi there", StringComparison.Ordinal) || html.Contains("bad()", StringComparison.Ordinal))
+        {
+            failures.Add("html export");
         }
 
         return failures;
