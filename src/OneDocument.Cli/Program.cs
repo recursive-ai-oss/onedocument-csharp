@@ -19,6 +19,7 @@ internal static class Program
         "       onedocument extract <file> [-o <out.txt>] [--json]\n" +
         "       onedocument recalc <workbook> [-o <out.xlsx>] [--full] [--threads <n>] [--json]\n" +
         TemplateCommand.Usage +
+        InspectCommand.Usage +
         RenderCommand.Usage;
 
     private static int Main(string[] args)
@@ -36,6 +37,16 @@ internal static class Program
         if (args.Length >= 2 && args[0] == "recalc")
         {
             return Run(args, "recalc", Recalc);
+        }
+
+        if (args.Length >= 2 && args[0] == "inspect")
+        {
+            return InspectCommand.Inspect(args[1..], Console.Error);
+        }
+
+        if (args.Length >= 3 && args[0] == "sanitize")
+        {
+            return InspectCommand.Sanitize(args[1..], Console.Error);
         }
 
         if (args.Length >= 2 && args[0] == "template")

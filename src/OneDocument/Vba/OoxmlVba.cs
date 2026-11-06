@@ -104,7 +104,7 @@ internal static class OoxmlVba
     }
 
     // The package's officeDocument relationship names the main part.
-    private static void RetypeMain(OpcPackage package, VbaRemovalReport report)
+    internal static void RetypeMain(OpcPackage package, VbaRemovalReport? report)
     {
         foreach (Relationship r in package.GetRelationships(null))
         {
@@ -124,7 +124,7 @@ internal static class OoxmlVba
                 if (string.Equals(part.ContentType, t.Enabled, StringComparison.OrdinalIgnoreCase))
                 {
                     package.SetPartContentType(part.Name, t.Free);
-                    report.Add(VbaRemovedKind.ContentType, part.Name, 0, "Main part content type " + t.Enabled + " changed to " + t.Free + ".");
+                    report?.Add(VbaRemovedKind.ContentType, part.Name, 0, "Main part content type " + t.Enabled + " changed to " + t.Free + ".");
                     return;
                 }
             }

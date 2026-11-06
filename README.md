@@ -90,7 +90,7 @@ Deviations and gaps: no calculation engine; XLSB, XLS and ODS are not read yet; 
 | `RecursiveAI.OneDocument.Rendering` | Layout and PDF/image output (not yet) |
 | `RecursiveAI.OneDocument.Cryptography` | Signatures and encryption on write (not yet) |
 | `RecursiveAI.OneDocument.All` | Metapackage |
-| `onedocument` | Command-line tool: `onedocument detect <file>`, `onedocument extract <file> [-o out.txt] [--json]` |
+| `onedocument` | Command-line tool: `onedocument detect <file>`, `onedocument extract <file> [-o out.txt] [--json]`, `onedocument inspect <file> [--json]`, `onedocument sanitize <in> <out> [--all] [--keep <categories>]` |
 
 ## Building
 
