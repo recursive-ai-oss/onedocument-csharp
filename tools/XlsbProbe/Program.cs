@@ -175,8 +175,43 @@ static int WriteCsv(string file, string outDir)
             continue;
         }
 
-        using var fs = File.Create(Path.Combine(outDir, (++i).ToString() + ".csv"));
-        CsvDocument.Write(s, fs);
+        // Raw cell values, one line per row with data; no number formats applied.
+        using var w = new StreamWriter(Path.Combine(outDir, (++i).ToString() + ".csv"), false, new UTF8Encoding(false));
+        int last = 0;
+        foreach (CellRowView row in s.Store.EnumerateRows())
+        {
+            for (; last < row.Row - 1; last++)
+            {
+                w.Write('\n');
+            }
+
+            var cols = new SortedDictionary<int, string>();
+            for (int c = 0; c < row.Count; c++)
+            {
+                CellValue v = row.ValueAt(c);
+                string t = v.Kind switch
+                {
+                    CellValueKind.Number => v.Number.ToString("R", System.Globalization.CultureInfo.InvariantCulture),
+                    CellValueKind.Text => s.GetText(v),
+                    CellValueKind.Boolean => v.Boolean ? "TRUE" : "FALSE",
+                    CellValueKind.Error => CellErrors.ToText(v.Error),
+                    _ => string.Empty,
+                };
+                cols[row.ColumnAt(c)] = t;
+            }
+
+            int width = cols.Count == 0 ? 0 : cols.Keys.Max();
+            string[] line = new string[width];
+            Array.Fill(line, string.Empty);
+            foreach ((int k, string t) in cols)
+            {
+                line[k - 1] = t.Length == 0 ? string.Empty : '"' + t.Replace("\"", "\"\"") + '"';
+            }
+
+            w.Write(string.Join(',', line));
+            w.Write('\n');
+            last = row.Row;
+        }
     }
 
     return 0;

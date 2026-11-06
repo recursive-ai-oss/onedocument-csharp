@@ -101,6 +101,14 @@ internal static class XlsbSharedStringsPart
         }
         else
         {
+            if (runs[0].Start > 0)
+            {
+                // Text before the first formatted run keeps the cell's own font; a run without properties says so.
+                x.Raw("<r>");
+                TextElement(x, str.Substring(0, Math.Min(runs[0].Start, str.Length)));
+                x.Raw("</r>");
+            }
+
             for (int i = 0; i < runs.Count; i++)
             {
                 int start = Math.Min(runs[i].Start, str.Length);
@@ -166,6 +174,12 @@ internal static class XlsbSharedStringsPart
                 {
                     MarkupNode rpr = c.Element("rPr");
                     int font = 0;
+                    if (rpr.IsNull && runs.Count == 0)
+                    {
+                        text.Append(Decode(c.Element("t").InnerText));
+                        continue;
+                    }
+
                     if (!rpr.IsNull)
                     {
                         XlsbFont f = XlsbFont.FromXml(rpr);

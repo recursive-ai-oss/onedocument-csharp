@@ -565,6 +565,12 @@ internal static class XlsbSheetWriter
                 {
                     MarkupNode rpr = r.Element("rPr");
                     int font = 0;
+                    if (rpr.IsNull && runs.Count == 0)
+                    {
+                        text.Append(XlsbSharedStringsPart.Decode(r.Element("t").InnerText));
+                        continue;
+                    }
+
                     if (!rpr.IsNull)
                     {
                         XlsbFont fnt = XlsbFont.FromXml(rpr);
