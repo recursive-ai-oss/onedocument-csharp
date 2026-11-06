@@ -437,6 +437,8 @@ internal sealed partial class MarkdownExporter
                 case "br":
                     if (A(c, "type") is "page" or "column")
                     {
+                        // Markdown has no page or column break; a space keeps the words either side apart.
+                        text.Append(' ');
                         break;
                     }
 
