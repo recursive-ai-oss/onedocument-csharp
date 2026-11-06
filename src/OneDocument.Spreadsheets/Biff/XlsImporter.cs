@@ -132,6 +132,12 @@ internal sealed partial class XlsImporter
         _hasProperties = hasProperties;
         _path = path;
         _hasVba = hasVba;
+        if (XlsEncryption.TryFindFilePass(workbookStream.Span, out int filePass))
+        {
+            // A password-protected workbook is decrypted record by record into a copy; every offset stays where it was.
+            workbookStream = XlsEncryption.Decrypt(workbookStream.Span, filePass, _context, path);
+        }
+
         _rs = BiffRecordSet.Parse(workbookStream, _context, path);
         IReadOnlyList<BiffRecord> recs = _rs.Records;
         if (recs.Count == 0 || !IsBof(recs[0].Type))
@@ -294,8 +300,8 @@ internal sealed partial class XlsImporter
     {
         switch (r.Type)
         {
-            case 0x002F: // FilePass
-                throw new OfficeEncryptedException(EncryptionProblem.PasswordRequired, DefectLocation.InRecord(_path, r.Offset));
+            case 0x002F: // FilePass: the stream was decrypted before it was read.
+                return true;
             case 0x0042: // CodePage
                 SetCodePage(U16(r, 0));
                 return true;

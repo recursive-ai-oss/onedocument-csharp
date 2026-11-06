@@ -151,6 +151,7 @@ public sealed class FormatRegistry
     {
         var registry = new FormatRegistry();
         TextExtraction.OoxmlTextExtractor.Register(registry);
+        Encryption.EncryptedPackageReader.Register(registry);
         return registry;
     }
 

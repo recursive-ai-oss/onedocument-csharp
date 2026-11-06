@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Writes a password-protected workbook with a comparator library (EPPlus 4.5.3.3, LGPL-3.0, run as a black box and never shipped). Not packed. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RecursiveAI.OneDocument.Tools.EncryptionOracle</RootNamespace>
+    <AssemblyName>EncryptionOracle</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1701;NU1901;NU1902;NU1903;NU1904</WarningsNotAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EPPlus" />
+  </ItemGroup>
+
+</Project>

@@ -67,6 +67,8 @@ internal static class Program
         ["sprm"] = DocTarget.RunSprm,
         ["xls"] = XlsTarget.Run,
         ["ptg"] = XlsTarget.RunPtg,
+        ["encinfo"] = EncryptionTarget.RunInfo,
+        ["filepass"] = EncryptionTarget.RunFilePass,
     };
 
     private static int Main(string[] args)
@@ -112,6 +114,7 @@ internal static class Program
                 "doc" => DocTarget.WriteSeeds(args[2]),
                 "sprm" => DocTarget.WriteSprmSeeds(args[2]),
                 "xls" or "ptg" => XlsTarget.WriteSeeds(args[2]),
+                "encinfo" or "filepass" => EncryptionTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }

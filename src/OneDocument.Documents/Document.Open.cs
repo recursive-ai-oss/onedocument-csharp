@@ -1,3 +1,4 @@
+using RecursiveAI.OneDocument.Encryption;
 using System.Text;
 using RecursiveAI.OneDocument.Diagnostics;
 using RecursiveAI.OneDocument.Formats;
@@ -317,6 +318,14 @@ public sealed partial class Document
             if (sniffed == OfficeFormat.Unknown)
             {
                 throw new OfficeFormatException(DefectKind.Structure, "format.unrecognised", "The content is not a format OneDocument knows.");
+            }
+
+            if (sniffed == OfficeFormat.EncryptedPackage)
+            {
+                // Decrypt to the package inside and open that as whatever it is. It has no file path, so Save() is not available.
+                IByteSource plain = ByteSource.FromMemory(PackageEncryption.DecryptCompoundFile(source, context));
+                source.Dispose();
+                return OpenSource(plain, context, null, cancellationToken);
             }
 
             if (sniffed == OfficeFormat.Doc)

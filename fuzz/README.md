@@ -34,6 +34,8 @@
 | `sprm` | a property modifier list | the modifier splitter and name lookup accept any bytes |
 | `xls` | a legacy workbook (compound file or bare BIFF stream) | the BIFF2-8 converter: records, cells, formulas, styles, drawings, then the converted workbook is walked and written as XLSX; typed rejections only |
 | `ptg` | formula tokens: a version byte, a split byte, then tokens and extra data | the Ptg decoder in every BIFF layout, and for BIFF8 an encode and decode of what it read; typed rejections only |
+| `encinfo` | an `EncryptionInfo` stream or a binary encryption header | the standard, agile and extensible parsers and the RC4 headers of Word, Excel and PowerPoint, then a password against each (spin count limited); typed rejections only |
+| `filepass` | the body of a `FilePass` record | a small BIFF stream with that record, read as a workbook with a password; typed rejections only |
 | `pptx` | the presentation part, a slide, its layout, the layout's master and a comments part, separated by NUL bytes | the presentation hub wired from those parts: typed rejections only on reading; text, table-cell, add, duplicate, move and delete edits may refuse with argument or state errors, and every part that parsed before an edit parses after it |
 | `ppt` | a 4-byte Current User edit offset, then the `PowerPoint Document` stream | the PowerPoint 97-2003 reader: record level, persist directory and edit chain, conversion to PresentationML and the hub over it; only typed exceptions may come out |
 | `stream` | one mode byte + a part (worksheet, shared strings or style sheet) | the streaming workbook cursor: every row and cell is read through every accessor, typed rejections only, and a second walk gives the same result |
