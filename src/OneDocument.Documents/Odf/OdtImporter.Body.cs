@@ -118,7 +118,7 @@ internal sealed partial class OdtImporter
             _ct.ThrowIfCancellationRequested();
             MarkupNode b = blocks[i];
             string? startsMaster = BlockMasterPage(b);
-            if (i > 0 && startsMaster is not null && !IsEmptyBlock(b))
+            if (i > 0 && startsMaster is not null)
             {
                 if (!string.Equals(startsMaster, _currentMaster, StringComparison.Ordinal))
                 {
@@ -151,8 +151,6 @@ internal sealed partial class OdtImporter
 
     private bool _sectionWritten;
     private bool _forcePageBreak;
-
-    private static bool IsEmptyBlock(MarkupNode b) => false;
 
     private string? FirstMasterName(List<MarkupNode> blocks)
     {
@@ -270,6 +268,8 @@ internal sealed partial class OdtImporter
                     EndSectionIfNeeded(s, sectPr);
                     return;
                 case "numbered-paragraph":
+                case "index-title":
+                case "index-body":
                     EmitBlocks(s, n, list);
                     return;
                 case "tracked-changes":

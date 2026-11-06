@@ -175,7 +175,8 @@ internal static class OdfFlat
 
         foreach (MarkupAttributeRef a in n.Attributes)
         {
-            if (picture is not null && a.NamespaceUri == OdfNamespaces.XLink && a.LocalName.SequenceEqual("href"u8))
+            // The inline form carries no xlink attributes: the schema allows them only with a link.
+            if (picture is not null && a.NamespaceUri == OdfNamespaces.XLink)
             {
                 continue;
             }

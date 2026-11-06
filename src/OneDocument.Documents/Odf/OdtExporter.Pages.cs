@@ -181,7 +181,7 @@ internal sealed partial class OdtExporter
 
                 for (int i = 0; i < n; i++)
                 {
-                    lay.Append("<style:column style:rel-width=\"1*\" fo:start-padding=\"0cm\" fo:end-padding=\"0cm\"/>");
+                    lay.Append("<style:column style:rel-width=\"1*\" fo:start-indent=\"0cm\" fo:end-indent=\"0cm\"/>");
                 }
 
                 lay.Append("</style:columns></style:page-layout-properties>");
