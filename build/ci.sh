@@ -4,7 +4,9 @@
 #
 #   build/ci.sh [step...]       steps: restore generated build test aot wasm pack (default: all, in that order), and on request consumer
 #                               and wasm-run (publishes the browser host and runs it in headless Chromium; needs the wasm-tools workload,
-#                               python3, curl and unzip)
+#                               python3, curl and unzip), ios-run (builds the iOS app, runs it in the simulator; macOS with Xcode and
+#                               the ios workload) and android-run (builds the Android app, runs it in a headless emulator; Linux with
+#                               /dev/kvm, the android workload and the SDK from build/mobile/fetch-android-sdk.sh)
 #
 # Environment:
 #   ONEDOCUMENT_ARTIFACTS   where build output goes (default: artifacts/ at the repository root, which git ignores)
@@ -50,6 +52,8 @@ for step in "${steps[@]}"; do
       chrome="$(build/wasm/fetch-chromium.sh)"
       python3 build/wasm/run-browser.py --root "$out/wasm/wwwroot" --chrome "$chrome" --log "$out/wasm-run.log"
       ;;
+    ios-run) build/mobile/ios-run.sh ;;
+    android-run) build/mobile/android-run.sh ;;
     consumer)
       # Applications that reference the packages as packages (from a throwaway local pack) and call the Office statics with no
       # registration line: under NativeAOT with warnings as errors, with and without the spreadsheet package.

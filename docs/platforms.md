@@ -1,7 +1,8 @@
 # Platforms
 
-OneDocument targets `net10.0` and runs the same code on the desktop runtime, under NativeAOT and in browser WebAssembly. One set of
-smoke checks (`smoke/shared`) is compiled into both the NativeAOT app (`smoke/aot`) and the browser app (`smoke/wasm`).
+OneDocument targets `net10.0` and runs the same code on the desktop runtime, under NativeAOT, in browser WebAssembly, in an iOS
+simulator and in an Android emulator. One set of smoke checks (`smoke/shared`) is compiled into the NativeAOT app (`smoke/aot`), the
+browser app (`smoke/wasm`), the iOS app (`smoke/ios`) and the Android app (`smoke/android`).
 
 ## What the smoke checks cover
 
@@ -34,6 +35,40 @@ It needs the `wasm-tools` workload (`dotnet workload install wasm-tools`), `pyth
 The log is `$CI_OUT/wasm-run.log`: `RUNTIME`, `CRYPTO` (the probe below), `GROUP` (one line per group with its time), `FAIL`,
 `ENCRYPTED` (what each protected file did) and the final `SMOKE-RESULT`. The browser app runs on the Mono interpreter (no
 ahead-of-time compilation) on one thread; the whole run takes about five seconds.
+
+## Running on iOS (simulator)
+
+```
+build/ci.sh ios-run
+```
+
+Needs macOS with Xcode, an iOS simulator runtime and the `ios` workload (`dotnet workload install ios`; a user-local SDK works).
+`build/mobile/ios-run.sh` builds `smoke/ios` for the simulator with warnings as errors, installs it on a simulator (an existing
+device is reused and shut down afterwards; otherwise one is created and deleted), launches it and reads the app's console. The log
+is `$CI_OUT/ios-run.log`, with the same line types as the browser log; the exit code is the result (`SMOKE-RESULT ok`).
+
+What is built is the SDK's release app for the simulator: trimmed, and every assembly ahead-of-time compiled by the Mono compiler.
+NativeAOT on iOS is for devices only (the SDK rejects a simulator runtime identifier with NETSDK1203), so the NativeAOT compiler
+cannot be exercised in a simulator; the NativeAOT smoke app on the desktop covers that compiler with the same checks.
+
+The app runs the checks before any UI exists and exits: current iOS releases stop an app that starts UIKit without scene lifecycle
+support, and the checks need no screen. The iOS SDK writes code-signing stamp files at a path built from the relative path between
+the project and the app bundle; with the output directory outside the repository that path can land on a file inside the bundle and
+overwrite it, so the script keeps its output under `artifacts/ios` in the repository (git ignores it).
+
+## Running on Android (emulator)
+
+```
+ANDROID_SDK_LICENSE_ACCEPTED=yes build/mobile/fetch-android-sdk.sh   # once
+build/ci.sh android-run
+```
+
+Needs Linux with `/dev/kvm` access, a JDK and the `android` workload. The SDK (command-line tools, platform tools, emulator, one
+platform, build tools and one x86_64 system image) comes from Google under the Android Software Development Kit License Agreement,
+which the person running the fetch script accepts by setting the variable; the script never accepts it by itself. `android-run.sh`
+publishes `smoke/android` (NativeAOT, warnings as errors), starts a headless emulator on a fixed port, installs the app, launches it
+and reads the `OneDocumentSmoke` tag from `logcat`. The log is `$CI_OUT/android-run.log`. The Android host and
+scripts are in the repository; the emulator run is pending (it waits on the SDK licence acceptance above).
 
 ## Known browser gaps
 
