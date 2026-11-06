@@ -17,6 +17,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `numfmt.` | number-format codes | `Value` |
 | `text.` | text extraction | `Structure`, `Reference`, `Markup`, `Packaging` |
 | `rtf.` | RTF (tokenizer, group tree, hub conversion, mail layer) | `Record`, `Limit`, `Structure`, `Reference` |
+| `markdown.` | Markdown (parser, hub conversion) | `Limit`, `Encoding`, `Structure` |
 | `docx.` | the word-processing hub | `Structure`, `Reference`, `Value`, `Packaging` |
 | `csv.` | delimited text (CSV, TSV) | `Structure`, `Markup`, `Encoding`, `Value` |
 | `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
@@ -351,6 +352,10 @@ Reported in `ContentBindingReport.Warnings`. See `docx-content-controls.md`.
 | `rtf.not-rtf` | fatal | The content does not start with `{\rtf`. |
 | `rtf.damaged` | fatal | The RTF could not be converted (an unexpected failure while reading, wrapped in a typed exception; the inner exception has the cause). |
 | `rtf.export-failed` | fatal | The document could not be written as RTF (wrapped unexpected failure). |
+| `markdown.too-deep` | repaired | Block containers (quotes, list items) nested deeper than `OfficeLimits.MaxRecursionDepth`; the markers beyond the limit are read as text. Located by character offset of the first line over the limit. |
+| `markdown.encoding-replaced` | repaired | The Markdown is not valid UTF-8 and has no UTF-16 byte-order mark; invalid bytes were replaced by U+FFFD. Located by byte offset of the first. |
+| `markdown.damaged` | fatal | The Markdown could not be converted (an unexpected failure while importing, wrapped in a typed exception). |
+| `markdown.export-failed` | fatal | The document could not be written as Markdown (wrapped unexpected failure). |
 | `rtf.parameter-overflow` | repaired | A control word parameter does not fit in 32 bits; it was clamped. |
 | `rtf.invalid-hex-escape` | repaired | `\'` was not followed by two hexadecimal digits; it was dropped. |
 | `rtf.binary-data-truncated` | repaired | A `\bin` length is negative or runs past the end of the input; it was clamped. |

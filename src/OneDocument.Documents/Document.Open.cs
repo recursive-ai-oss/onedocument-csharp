@@ -186,8 +186,8 @@ public sealed partial class Document
         // The text of the document as it is now, edits included: write it out and read it back through the streaming extractor, so
         // the model and Office.ExtractText agree on every file.
         CommitChanges();
-        // A document read from RTF or HTML is a word-processing package in memory, so its text comes from the same extractor.
-        OfficeFormat textFormat = Format is OfficeFormat.Rtf or OfficeFormat.Html ? OfficeFormat.Docx : Format;
+        // A document read from RTF, HTML or Markdown is a word-processing package in memory, so its text comes from the same extractor.
+        OfficeFormat textFormat = Format is OfficeFormat.Rtf or OfficeFormat.Html or OfficeFormat.Markdown ? OfficeFormat.Docx : Format;
         if (!FormatRegistry.Default.TryGetTextExtractor(textFormat, out TextExtractionHandler? extractor))
         {
             foreach (Paragraph paragraph in Paragraphs)
@@ -218,6 +218,10 @@ public sealed partial class Document
         else if (format == OfficeFormat.Html)
         {
             WriteHtml(destination, null, cancellationToken);
+        }
+        else if (format == OfficeFormat.Markdown)
+        {
+            SaveMarkdown(destination, cancellationToken);
         }
         else
         {
