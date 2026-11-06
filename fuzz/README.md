@@ -27,6 +27,10 @@
 | `richtext` | 1 byte (bit 0: html or markdown), the value | the document template's `html`/`markdown` converters: the rendered document saves and opens again; only a typed `OfficeException` may escape |
 | `math` | 1 option byte (bit 0: display style, bit 1: a 120 pt measure), OMML as XML | the equation reader, linear text and layout: nothing may throw, and the box extents are finite |
 | `smartart` | 1 option byte (bits 0-1: the frame size), then the data model, layout definition, colour transform, quick style and stored drawing of a diagram, separated by zero bytes | the diagram layout engine and painter: nothing may throw, every shape has finite coordinates, and the display lists validate with the stored drawing and with the layout forced |
+| `vbacompress` | raw bytes | the VBA compression decoder: it never throws, its answer and its problem agree, and a literal container of the input decodes back to the input |
+| `vbadir` | the decompressed `dir` stream | the VBA project reader: the bytes serve as the `dir` stream, as module sources and as the `PROJECT` stream; typed rejections only, and every module can be decoded and exported |
+| `vbaproject` | raw bytes (a compound file) | the VBA project reader over any compound file |
+| `vbaremove` | 1 layout byte + a stream | the project removers for Word, Excel and PowerPoint compound files: typed rejections only, and the output is a readable compound file |
 | `sheetrender` | a worksheet part (the workbook around it is fixed) | print rendering: the sheet is paged (page setup, breaks, titles, headers and footers, merges, conditional formats) and the first three pages painted; typed rejections only |
 | `rtftree` | RTF bytes | the RTF group tree (tokenizer included): nothing may throw, and every group lies inside the input |
 | `markdownparse` | Markdown text | the CommonMark and GFM parser with both option sets and a small nesting limit: nothing may throw |
