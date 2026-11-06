@@ -41,5 +41,18 @@ public static class DocumentFormats
             },
             formats);
         registry.RegisterTemplateBinder(Templating.DocxTemplateBinder.Instance, formats);
+        registry.RegisterReader(
+            static (source, _, context, filePath, cancellationToken) => Document.OpenSource(source, context, filePath, cancellationToken),
+            OfficeFormat.Doc);
+
+        // Word 97-2003 files (and Word 6/95) are read only: text without building the model, or the model through the hub.
+        registry.RegisterTextExtractor(
+            static (source, _, context, output, cancellationToken) =>
+                Doc.DocGuard.Run(() =>
+                {
+                    var file = Doc.Binary.DocFile.Open(source, context);
+                    Doc.Binary.DocTextExtractor.Extract(file, output, includeParts: true, cancellationToken);
+                }),
+            OfficeFormat.Doc);
     }
 }

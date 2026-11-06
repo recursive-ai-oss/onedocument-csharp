@@ -46,6 +46,7 @@
     <Project Path="tools/ChartProbe/ChartProbe.csproj" />
     <Project Path="tools/PptxProbe/PptxProbe.csproj" />
     <Project Path="tools/SmartArtProbe/SmartArtProbe.csproj" />
+    <Project Path="tools/DocProbe/DocProbe.csproj" />
     <Project Path="tools/CsvProbe/CsvProbe.csproj" />
     <Project Path="tools/PocoSample/PocoSample.csproj" />
   </Folder>

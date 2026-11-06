@@ -40,6 +40,28 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `render.metafile-rasterised` | repaired | The picture uses something the display list cannot express (XOR and other raster operations, triangle gradients, hatch or pattern pens, union or exclusive-or clips) and is drawn as a bitmap. |
 | `render.metafile-approximated` | repaired | A union or exclusive-or clip was drawn as a replacement (only with the raster fallback turned off). |
 | `render.metafile-font` | repaired | A font named in a picture is not available and another was used (once per family). |
+| `doc.malformed` | fatal | The Word binary reader met a structure it could not repair and stopped on an arithmetic or indexing failure; the reader normally reports its repairs under the codes below, so this code means a case worth a bug report with the file. |
+| `doc.fib-truncated` | fatal | The `WordDocument` stream is too short for the file information block (FibBase, or the counted FibRgW97/FibRgLw97 sections). |
+| `doc.bad-ident` | fatal | The stream does not start with a Word binary identifier (0xA5EC, or 0xA5DC for Word 6/95). |
+| `doc.no-word-stream` | fatal | The compound file has no `WordDocument` stream. |
+| `doc.no-table-stream` | fatal | The FIB names `0Table` or `1Table` as the table stream and the file does not have it. |
+| `doc.no-piece-table` | fatal | The `Clx` is missing, empty or holds no piece table. |
+| `doc.clx-bad` | fatal | The `Clx` holds an entry that is neither a property list (1) nor the piece table (2). |
+| `doc.clx-truncated` | repaired | The `Clx` (or a `Prc`/the piece table in it) is longer than the table stream; what fits was used. |
+| `doc.fib-pairs-truncated` | repaired | The FIB declares more offset pairs than fit in the stream; the pairs that fit were read. |
+| `doc.piece-cp-order` | repaired or dropped | A piece starts at a negative position, ends before it starts, or the first piece does not start at 0. |
+| `doc.piece-out-of-range` | repaired | A piece reads past the end of the `WordDocument` stream; its character positions are kept and the missing characters read as spaces. |
+| `doc.story-out-of-range` | repaired | A story length (`ccpFtn`, `ccpHdd` and so on) reaches past the text the piece table holds; it was clipped. |
+| `doc.codepage-unsupported` | repaired | 8-bit text of a Word 6/95 file is in a character set other than ANSI; it was read as Windows-1252. |
+| `doc.fkp-out-of-range` | dropped | A bin table entry points at a formatted disk page outside the `WordDocument` stream. |
+| `doc.fkp-bad` | dropped | A formatted disk page holds a run count that cannot fit, or a paragraph property record that runs past the page. |
+| `doc.plc-truncated` | repaired | A `Plc` runs past the end of the table stream; what fits was used. |
+| `doc.stylesheet-bad` | dropped | The stylesheet header is cut short, or a style runs past the stylesheet; styles from that point were dropped. |
+| `doc.lists-bad` | dropped | The list definitions end early; the remaining levels were dropped. |
+| `doc.sepx-bad` | dropped | A section's property block runs past the `WordDocument` stream; the section has default properties. |
+| `doc.huge-papx-bad` | dropped | `sprmPHugePapx` points outside the `Data` stream; the paragraph keeps the properties it has. |
+| `doc.picture-unreadable` | dropped | A picture character has no readable picture in the `Data` stream. |
+| `doc.sprm-not-mapped` | dropped | A property modifier has no counterpart in the document model (once per modifier, with the offset of its first occurrence); the count is the `loss.doc-sprms` entry of the conversion. Kind `Unsupported`. |
 | `packaging.damaged` | fatal | The container is damaged (zip or compound-file structure) beyond what recovery repairs, or a stream cannot be read; the location holds the part or stream and the offset when known. |
 | `packaging.refused` | fatal | The container reader refused the input for safety (unsafe path, overlapping entries). |
 | `packaging.not-a-package` | fatal | The input is neither a zip nor a Flat OPC document. |
