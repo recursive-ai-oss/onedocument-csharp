@@ -716,6 +716,7 @@ internal sealed partial class CalcEngine
         try
         {
             w.ServiceDenied = false;
+            w.RangeBytes = 0;
             CalcValue result = ev.Evaluate(tree, new CalcCell(ws.Name, r, c));
             if (w.ServiceDenied)
             {

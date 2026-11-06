@@ -265,7 +265,15 @@ internal static class FieldEvaluator
             return Strip(chain[^1]);
         }
 
-        if (context == 1 && fromParagraph >= 0 && NumberChain(env, fromParagraph) is { } own)
+        // Relative context is taken from the field's own paragraph, or, when that one is not numbered, from the last numbered paragraph
+        // before it (observed in Word 16.0.20527: a REF \r in plain text after item 1.a.i answers "i").
+        List<string>? own = null;
+        for (int q = fromParagraph; context == 1 && q >= 0 && own is null; q--)
+        {
+            own = NumberChain(env, q);
+        }
+
+        if (context == 1 && own is not null)
         {
             int shared = 0;
             while (shared < chain.Count - 1 && shared < own.Count && chain[shared] == own[shared])

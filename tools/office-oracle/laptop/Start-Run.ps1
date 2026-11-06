@@ -9,7 +9,7 @@ $script = Join-Path $Base 'driver\Run-Oracle.ps1'
 $job = Join-Path $Base ('jobs\' + $Run)
 if (-not (Test-Path $script)) { throw "missing $script" }
 if (-not (Test-Path (Join-Path $job 'job.json'))) { throw "missing job.json in $job" }
-$name = 'OneOfficeOracle-' + $Run
+$name = 'OneDocumentOracle-' + $Run
 $action = New-ScheduledTaskAction -Execute 'powershell.exe' `
     -Argument ('-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "' + $script + '" -Base "' + $Base + '" -Job "' + $job + '"')
 $principal = New-ScheduledTaskPrincipal -UserId ([Security.Principal.WindowsIdentity]::GetCurrent().Name) -LogonType Interactive -RunLevel Limited

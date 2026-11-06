@@ -47,11 +47,26 @@ internal static partial class MathFunctions
     }
 
     // The cells to add: the sum range is moved so that its top-left cell stays and its size becomes the criteria range's size.
-    private static CalcArray? ReadSumRange(Evaluator ev, in CalcValue arg, CellArea criteria, bool exactSize, out CalcValue error)
+    // The sizes compared are those of the blocks as read: a whole-column reference is clipped to the used extent when read, so the
+    // reference's own size (1,048,576 rows) is not the size of the data.
+    private static CalcArray? ReadSumRange(Evaluator ev, in CalcValue arg, CalcArray criteria, bool exactSize, out CalcValue error)
     {
         CalcArray? block = ReadRange(ev, arg, out CellArea sa, out error);
         if (block is null)
         {
+            return null;
+        }
+
+        if (exactSize && sa.Rows >= CellArea.MaxRow && block.Rows != criteria.Rows && block.Columns == criteria.Columns)
+        {
+            // A whole-column sum range clipped to a different extent than the criteria range: read the same rows.
+            var same = new CalcReference([new CellArea(sa.Sheet, null, sa.Row1, sa.Column1, sa.Row1 + criteria.Rows - 1, sa.Column2)]);
+            if (ev.TryReadAreas(same, out CalcArray[] sameBlocks, out CalcError se))
+            {
+                return sameBlocks[0];
+            }
+
+            error = Fx.Err(se);
             return null;
         }
 
@@ -80,7 +95,7 @@ internal static partial class MathFunctions
 
     private static CalcValue SumIf(Evaluator ev, ReadOnlySpan<CalcValue> a)
     {
-        CalcArray? range = ReadRange(ev, a[0], out CellArea area, out CalcValue e);
+        CalcArray? range = ReadRange(ev, a[0], out _, out CalcValue e);
         if (range is null)
         {
             return e;
@@ -94,7 +109,7 @@ internal static partial class MathFunctions
         CalcArray sums = range;
         if (!Fx.Omitted(a, 2))
         {
-            CalcArray? s = ReadSumRange(ev, a[2], area, false, out e);
+            CalcArray? s = ReadSumRange(ev, a[2], range, false, out e);
             if (s is null)
             {
                 return e;
@@ -137,13 +152,28 @@ internal static partial class MathFunctions
             return Fx.Err(CalcError.Value);
         }
 
-        CalcArray? first = ReadRange(ev, a[1], out CellArea area, out CalcValue e);
+        if (a[0].IsError)
+        {
+            return a[0];
+        }
+
+        if (Fx.ErrorAmong(a, 1, 2) is { } rangeError)
+        {
+            return rangeError;
+        }
+
+        if (Fx.RangeShapesDiffer(a, 1, 2))
+        {
+            return Fx.Err(CalcError.Value);
+        }
+
+        CalcArray? first = ReadRange(ev, a[1], out _, out CalcValue e);
         if (first is null)
         {
             return e;
         }
 
-        CalcArray? sums = ReadSumRange(ev, a[0], area, true, out e);
+        CalcArray? sums = ReadSumRange(ev, a[0], first, true, out e);
         if (sums is null)
         {
             return e;

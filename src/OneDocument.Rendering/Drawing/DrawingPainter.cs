@@ -79,13 +79,21 @@ public static partial class DrawingPainter
         var scene = new Scene(list, nextId, context);
         Matrix3x2 root = Matrix3x2.CreateScale((float)(PointsToPixels / EmuPerPoint)) * Matrix3x2.CreateTranslation((float)(originX * PointsToPixels), (float)(originY * PointsToPixels));
         int count = 0;
-        foreach (MarkupNode child in tree.ChildElements)
+        try
         {
-            if (child.LocalNameString is "sp" or "pic" or "cxnSp" or "grpSp" or "graphicFrame" or "AlternateContent" or "wsp" or "wgp" && (include is null || include(child)))
+            foreach (MarkupNode child in tree.ChildElements)
             {
-                scene.PaintNode(child, root, null, 0);
-                count++;
+                if (child.LocalNameString is "sp" or "pic" or "cxnSp" or "grpSp" or "graphicFrame" or "AlternateContent" or "wsp" or "wgp" && (include is null || include(child)))
+                {
+                    scene.PaintNode(child, root, null, 0);
+                    count++;
+                }
             }
+        }
+        catch (DisplayListLimitException ex)
+        {
+            // A drawing with more shapes, segments or glyphs than one display list holds.
+            throw new OfficeLimitException("DisplayList", 0, -1, default, ex);
         }
 
         return count;
@@ -504,6 +512,11 @@ public static partial class DrawingPainter
             }
         }
 
+        // The display list refuses transforms with entries that are not finite or beyond a billion; nothing that large is on a page.
+        private static bool InRange(in Matrix3x2 m) =>
+            float.IsFinite(m.M11) && float.IsFinite(m.M12) && float.IsFinite(m.M21) && float.IsFinite(m.M22) && float.IsFinite(m.M31) && float.IsFinite(m.M32)
+            && Math.Abs(m.M11) < 1e8f && Math.Abs(m.M12) < 1e8f && Math.Abs(m.M21) < 1e8f && Math.Abs(m.M22) < 1e8f && Math.Abs(m.M31) < 1e8f && Math.Abs(m.M32) < 1e8f;
+
         private void PaintShape(MarkupNode shape, Matrix3x2 parent, DrawingBox? top)
         {
             string kind = shape.LocalNameString;
@@ -532,6 +545,11 @@ public static partial class DrawingPainter
 
             double wPt = f.W / EmuPerPoint, hPt = f.H / EmuPerPoint;
             Matrix3x2 m = Placement(f, EmuPerPoint) * parent;
+            if (!InRange(m))
+            {
+                ctx.Note("drawing.shape-out-of-range", "A shape is placed or sized beyond what a page can hold; it was left out.");
+                return;
+            }
 
             GeometryDefinition? geometry = null;
             var adjust = new Dictionary<string, double>(StringComparer.Ordinal);
@@ -608,12 +626,12 @@ public static partial class DrawingPainter
                 // Effects are specified in points; the filter works in page pixels outside the shape's transform.
                 if (effects.Shadow is { } s)
                 {
-                    ops[0] = new FilterOp(FilterOpKind.DropShadow, (float)(s.Dx * PointsToPixels), (float)(s.Dy * PointsToPixels), (float)(s.Sigma * PointsToPixels), s.Color);
+                    ops[0] = new FilterOp(FilterOpKind.DropShadow, FilterValue(s.Dx * PointsToPixels), FilterValue(s.Dy * PointsToPixels), BlurValue(s.Sigma * PointsToPixels), s.Color);
                 }
                 else
                 {
                     GlowSpec g = effects.Glow!.Value;
-                    ops[0] = new FilterOp(FilterOpKind.DropShadow, 0f, 0f, (float)(g.Sigma * PointsToPixels), g.Color);
+                    ops[0] = new FilterOp(FilterOpKind.DropShadow, 0f, 0f, BlurValue(g.Sigma * PointsToPixels), g.Color);
                 }
 
                 list.PushFilter(nextId(), ops);
@@ -873,7 +891,7 @@ public static partial class DrawingPainter
             {
                 if (fill.Placeholder is { } solid)
                 {
-                    list.FillPath(nextId(), path, Paint.FromColor(ToPaint(Modify(solid, mode))));
+                    FillPathChecked(path, Paint.FromColor(ToPaint(Modify(solid, mode))));
                 }
 
                 return;
@@ -884,12 +902,12 @@ public static partial class DrawingPainter
                 case "solidFill":
                     if (ctx.Colors.ResolveChild(fill.Element, fill.Placeholder) is { } c)
                     {
-                        list.FillPath(nextId(), path, Paint.FromColor(ToPaint(Modify(c, mode))));
+                        FillPathChecked(path, Paint.FromColor(ToPaint(Modify(c, mode))));
                     }
 
                     break;
                 case "gradFill":
-                    list.FillPath(nextId(), path, Gradient(fill.Element, fill.Placeholder, w, h, mode));
+                    FillPathChecked(path, Gradient(fill.Element, fill.Placeholder, w, h, mode));
                     break;
                 case "pattFill":
                     PaintPattern(path, fill, mode, w, h);
@@ -977,7 +995,7 @@ public static partial class DrawingPainter
 
             if (!ctx.Images.TryGet(key, png, out ImageInfo info))
             {
-                list.FillPath(nextId(), path, Paint.FromColor(ToPaint(bg)));
+                FillPathChecked(path, Paint.FromColor(ToPaint(bg)));
                 return;
             }
 
@@ -1134,14 +1152,14 @@ public static partial class DrawingPainter
 
         private void Placeholder(PathBuffer path, RectF bounds)
         {
-            list.FillPath(nextId(), path, Paint.FromColor(new PaintColor(0.85f, 0.85f, 0.85f, 1f)));
+            FillPathChecked(path, Paint.FromColor(new PaintColor(0.85f, 0.85f, 0.85f, 1f)));
             var cross = new PathBuffer();
             cross.MoveTo(bounds.X, bounds.Y);
             cross.LineTo(bounds.Right, bounds.Bottom);
             cross.MoveTo(bounds.Right, bounds.Y);
             cross.LineTo(bounds.X, bounds.Bottom);
             List<Polyline> lines = PathGeometry.Flatten(cross, Matrix3x2.Identity);
-            list.FillPath(nextId(), PathGeometry.Stroke(lines, 0.75, LineCap.Flat, LineJoin.Miter, 4), Paint.FromColor(new PaintColor(0.55f, 0.55f, 0.55f, 1f)));
+            FillPathChecked(PathGeometry.Stroke(lines, 0.75, LineCap.Flat, LineJoin.Miter, 4), Paint.FromColor(new PaintColor(0.55f, 0.55f, 0.55f, 1f)));
         }
 
         // ---------------------------------------------------------------- lines
@@ -1287,9 +1305,33 @@ public static partial class DrawingPainter
             _ => null,
         };
 
+        // Shadow offsets and blur radii come from the file; the display list refuses values that are not finite or beyond a billion.
+        private static float FilterValue(double v) => double.IsFinite(v) ? (float)Math.Clamp(v, -1e6, 1e6) : 0f;
+
+        // The display list limits a blur standard deviation to 4096 px.
+        private static float BlurValue(double v) => double.IsFinite(v) ? (float)Math.Clamp(v, 0, 4096) : 0f;
+
+        // The display list refuses a path with a coordinate that is not finite or lies beyond a billion pixels. Geometry, line widths and miters
+        // that a file makes absurd can produce one; such a path is off any page, so it is not drawn.
+        private void FillPathChecked(PathBuffer path, Paint paint)
+        {
+            foreach (float c in path.Coords)
+            {
+                if (!float.IsFinite(c) || Math.Abs(c) >= 1e9f)
+                {
+                    ctx.Note("drawing.shape-out-of-range", "A shape is placed or sized beyond what a page can hold; it was left out.");
+                    return;
+                }
+            }
+
+            list.FillPath(nextId(), path, paint);
+        }
+
         private void PaintLine(PathBuffer path, LineSpec line)
         {
-            double width = Math.Max(line.Width, 0.25 * line.ArrowMin / 1.5);
+            // ECMA-376 Part 1 §20.1.10.35 (ST_LineWidth) allows at most 1584 points; the width here is in the shape's own space, which a
+            // stretched group scales, so the ceiling is generous. It only stops a width that would push the outline out of range.
+            double width = Math.Min(Math.Max(line.Width, 0.25 * line.ArrowMin / 1.5), 1e6);
             List<Polyline> lines = PathGeometry.Flatten(path, Matrix3x2.Identity);
             if (lines.Count == 0)
             {
@@ -1325,7 +1367,7 @@ public static partial class DrawingPainter
                 PathBuffer outline = PathGeometry.Stroke(dashed, width * fraction, cap, join, line.MiterLimit);
                 if (outline.VerbCount > 0)
                 {
-                    list.FillPath(nextId(), outline, Paint.FromColor(color));
+                    FillPathChecked(outline, Paint.FromColor(color));
                 }
             }
 
@@ -1413,7 +1455,7 @@ public static partial class DrawingPainter
                     return;
             }
 
-            list.FillPath(nextId(), pb, Paint.FromColor(color));
+            FillPathChecked(pb, Paint.FromColor(color));
         }
 
         private static double Size(string s) => s switch { "sm" => 2, "lg" => 5, _ => 3 };

@@ -14,3 +14,7 @@ Files are in this directory, written by the remover from the LibreOffice-written
 | 8 | a macro-enabled file with a digitally signed project | ours and Office's de-macroed copy | Both open without a prompt; the signature part is gone in both. |
 | 9 | a project with a password (Tools > VBAProject Properties > Protection) | `VbaProbe list` | Our locked flag is true and `HasPassword` true; Office shows the lock. |
 | 10 | a project whose source was edited in a hex editor while the p-code was left (stomped) | `VbaProbe list` | Office shows the edited source or runs the p-code; record which, and whether `SourceAndPCodeMayDisagree` should be true. |
+
+## Office run (Word, Excel and PowerPoint 16.0.20527)
+
+Answered as far as the oracle can drive the applications: see the row for this request in [`docs/office-oracle-1.0.md`](../../docs/office-oracle-1.0.md#the-other-requests). Questions not listed there as run are still open.

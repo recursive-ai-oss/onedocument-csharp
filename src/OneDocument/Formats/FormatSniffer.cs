@@ -93,6 +93,26 @@ public static class FormatSniffer
         return Classify(prefix.AsSpan(0, n), source, source.Length > n, limits, out _);
     }
 
+    /// <summary>
+    /// Tells whether the source starts with a zip local-file header but has no end-of-central-directory record in its last 64 KiB plus 22 bytes
+    /// (a truncated download, for example). <see cref="Detect(IByteSource, OfficeLimits?)"/> answers Unknown for such a file; the document, workbook
+    /// and presentation readers use this to hand it to the package reader, whose recovery mode scans the local headers and reports the damage
+    /// as defects. PKWARE APPNOTE §4.3.16: the end record is the signature 0x06054b50 followed by 18 bytes and a comment of at most 65,535 bytes.
+    /// </summary>
+    internal static bool IsZipWithoutDirectory(IByteSource source)
+    {
+        Span<byte> head = stackalloc byte[4]; // fixed 4-byte signature buffer
+        if (source.Length < 4 || source.Read(0, head) != 4 || head[0] != 'P' || head[1] != 'K' || head[2] != 3 || head[3] != 4)
+        {
+            return false;
+        }
+
+        long tailStart = Math.Max(0, source.Length - (65535 + 22));
+        byte[] tail = new byte[(int)(source.Length - tailStart)];
+        int n = source.Read(tailStart, tail);
+        return tail.AsSpan(0, n).IndexOf("PK\x05\x06"u8) < 0;
+    }
+
     /// <summary>Detects the format of bytes in memory.</summary>
     /// <param name="bytes">The content.</param>
     /// <param name="limits">The limits for the container reads; null for <see cref="OfficeLimits.Default"/>.</param>

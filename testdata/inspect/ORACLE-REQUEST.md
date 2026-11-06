@@ -74,3 +74,9 @@ Set `ONEDOCUMENT_REVIEW_OUT` to a directory and run `SanitizeReviewTests`: it wr
 | `xl-chart-reads-hidden-sheet` | A chart reads a hidden sheet: does Remove All keep the sheet, remove it and keep the chart's cached values, or remove both? |
 | `altchunk` | Is an imported HTML or RTF part (`w:altChunk`) listed under embedded documents? |
 | all `*-everything.*` | Open each output in its application: no repair prompt. |
+
+## Office run (Word, Excel and PowerPoint 16.0.20527)
+
+Answered as far as the oracle can drive the applications: see the row for this request in [`docs/office-oracle-1.0.md`](../../docs/office-oracle-1.0.md#the-other-requests). Questions not listed there as run are still open.
+
+Round two: the application's `DocumentInspectors` (the inspectors automation can run) were run on the torture files and on valid documents before and after our sanitiser; section 3's "opens without a repair prompt" holds for 36 of 38 sanitised outputs (the two failures have an input that fails the same way), and the three `torture.*` fixtures are not documents Office opens (a synthetic pptx without a master, a docx that needs repair, an xlsx Excel refuses). Sections 1 and 2 (per-inspector counts for comments, revisions, properties, embedded objects, macros; Remove All) and section 5 need the Inspect Document dialog, which has no automation interface; they stay open. Details in `docs/office-oracle-1.0.md`.

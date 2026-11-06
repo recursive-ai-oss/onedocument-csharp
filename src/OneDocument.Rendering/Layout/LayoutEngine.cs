@@ -242,7 +242,8 @@ public static partial class LayoutEngine
                 return _honourSpaceBefore ? before : 0;
             }
 
-            return after + before;
+            // Observed in Word 16.0.20527: the gap between two paragraphs is the larger of space after and space before, not their sum.
+            return Math.Max(after, before);
         }
 
         private void Place(List<FormattedParagraph> blocks, int index)
@@ -302,7 +303,7 @@ public static partial class LayoutEngine
                 while (j < blocks.Count && guard++ < 20)
                 {
                     FormattedParagraph next = blocks[j];
-                    need += cur.SpaceAfter + next.SpaceBefore;
+                    need += Math.Max(cur.SpaceAfter, next.SpaceBefore);
                     if (next.KeepNext)
                     {
                         need += Total(next, 0, next.Lines.Count);

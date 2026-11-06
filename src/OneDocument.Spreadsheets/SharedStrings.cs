@@ -76,7 +76,7 @@ internal static class XString
         bool need = false;
         foreach (char c in s)
         {
-            if (c < 0x20 && c != '\t' && c != '\n' || c == '\r' || c is '\uFFFE' or '\uFFFF' || c == '_')
+            if (c < 0x20 && c != '\t' && c != '\n' || c == '\r' || c is '\uFFFE' or '\uFFFF' || c == '_' || char.IsSurrogate(c))
             {
                 need = true;
                 break;

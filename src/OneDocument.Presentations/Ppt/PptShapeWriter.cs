@@ -413,6 +413,19 @@ internal sealed partial class PptShapeWriter
             return "";
         }
 
+        if (_kind == PageKind.Master)
+        {
+            // A slide master holds only title, body, date, footer and slide number placeholders; PowerPoint refuses the file when a
+            // master carries a subtitle, a centred title or an object placeholder (observed with a converted title master). The layouts keep
+            // the specific types and inherit from these.
+            type = type switch
+            {
+                "title" or "ctrTitle" => "title",
+                "dt" or "ftr" or "sldNum" => type,
+                _ => "body",
+            };
+        }
+
         bool titleLike = type is "title" or "ctrTitle";
         string attrs = type == "obj" ? "" : " type=\"" + type + "\"";
         string idx = "";

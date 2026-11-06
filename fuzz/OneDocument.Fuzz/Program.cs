@@ -87,6 +87,14 @@ internal static class Program
         ["vbadir"] = VbaTarget.RunDir,
         ["vbaproject"] = VbaTarget.RunProject,
         ["vbaremove"] = VbaTarget.RunRemove,
+        ["chart"] = ChartTarget.RunChart,
+        ["drawing"] = ChartTarget.RunDrawing,
+        ["docparts"] = DocPartsTarget.Run,
+        ["docxlayout"] = LayoutTargets.RunDocx,
+        ["pptxlayout"] = LayoutTargets.RunPptx,
+        ["xlsxprint"] = SheetRenderTarget.RunWorkbook,
+        ["metafile"] = MetafileTarget.Run,
+        ["operations"] = OperationsTarget.Run,
     };
 
     private static int Main(string[] args)
@@ -142,6 +150,14 @@ internal static class Program
                 "odp" => OdpTarget.WriteSeeds(args[2]),
                 "ods" => OdsTarget.WriteSeeds(args[2], formulas: false),
                 "openformula" => OdsTarget.WriteSeeds(args[2], formulas: true),
+                "chart" => ChartTarget.WriteChartSeeds(args[2]),
+                "drawing" => ChartTarget.WriteDrawingSeeds(args[2]),
+                "docparts" => DocPartsTarget.WriteSeeds(args[2]),
+                "docxlayout" => LayoutTargets.WriteDocxSeeds(args[2]),
+                "pptxlayout" => LayoutTargets.WritePptxSeeds(args[2]),
+                "xlsxprint" => SheetRenderTarget.WriteWorkbookSeeds(args[2]),
+                "metafile" => MetafileTarget.WriteSeeds(args[2]),
+                "operations" => OperationsTarget.WriteSeeds(args[2]),
                 "vbacompress" or "vbadir" or "vbaproject" or "vbaremove" => VbaTarget.WriteSeeds(args[2]),
                 _ => 2,
             };

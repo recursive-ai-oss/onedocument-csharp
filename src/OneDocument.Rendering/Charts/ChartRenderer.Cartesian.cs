@@ -195,7 +195,7 @@ internal sealed partial class ChartRenderer
                     }
                     else
                     {
-                        int n = g.Series.Max(s => s.Values?.Count ?? 0);
+                        int n = g.Series.Select(s => s.Values?.Count ?? 0).DefaultIfEmpty(0).Max();
                         for (int i = 0; i < n; i++)
                         {
                             double pos = 0, neg = 0;
@@ -557,7 +557,7 @@ internal sealed partial class ChartRenderer
 
             if (g.Type == ChartType.Surface)
             {
-                n = Math.Max(n, g.Series.Max(s => s.Values?.Count ?? 0));
+                n = Math.Max(n, g.Series.Select(s => s.Values?.Count ?? 0).DefaultIfEmpty(0).Max());
             }
         }
 

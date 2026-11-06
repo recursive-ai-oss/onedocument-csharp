@@ -329,7 +329,7 @@ internal sealed class FieldUpdater
 
     // --- table of contents -------------------------------------------------------------------------------------------------------
 
-    private sealed record TocEntry(int Level, string Text, string? Number, int Paragraph, FieldInfo? Tc, bool NoPage);
+    private sealed record TocEntry(int Level, string Text, string? Number, int Paragraph, FieldInfo? Tc, bool NoPage, string NumberSuffix = "tab");
 
     private List<EntryXml>? BuildToc(FieldInfo fi, HashSet<int> inside)
     {
@@ -436,8 +436,9 @@ internal sealed class FieldUpdater
                 string text = EntryText(p, keepTabs, keepBreaks);
                 if (text.Length > 0)
                 {
-                    string? number = _labels.TryGetValue(p, out ListLabel? label) && label.Text.Length > 0 && label.Definition.Format != "bullet" ? label.Text : null;
-                    entries.Add(new TocEntry(Math.Min(level, 9), text, number, i, null, noPage is { } np && level >= np.Lo && level <= np.Hi));
+                    ListLabel? label = null;
+                    string? number = _labels.TryGetValue(p, out label) && label.Text.Length > 0 && label.Definition.Format != "bullet" ? label.Text : null;
+                    entries.Add(new TocEntry(Math.Min(level, 9), text, number, i, null, noPage is { } np && level >= np.Lo && level <= np.Hi, label?.Suffix ?? "tab"));
                 }
             }
 
@@ -469,7 +470,8 @@ internal sealed class FieldUpdater
             string target = e.Tc is null ? HeadingBookmark(e.Paragraph) : TcBookmark(e.Tc);
             string style = StyleFor("toc " + e.Level, "TOC" + e.Level) ?? string.Empty;
             var props = new StringBuilder();
-            bool tabbed = e.Number is not null;
+            // Observed in Word 16.0.20527: the entry keeps the separator its list level declares after the number (a tab, a space or nothing).
+            bool tabbed = e.Number is not null && e.NumberSuffix == "tab";
             props.Append('<').Append(W).Append("tabs>");
             if (tabbed)
             {
@@ -496,7 +498,15 @@ internal sealed class FieldUpdater
             var content = new StringBuilder();
             if (e.Number is not null)
             {
-                content.Append(TextRun(e.Number)).Append(TextRun("\t"));
+                content.Append(TextRun(e.Number));
+                if (e.NumberSuffix == "tab")
+                {
+                    content.Append(TextRun("\t"));
+                }
+                else if (e.NumberSuffix == "space")
+                {
+                    content.Append(TextRun(" "));
+                }
             }
 
             content.Append(TextRun(e.Text));

@@ -59,6 +59,44 @@ internal static class SheetRenderTarget
         }
     }
 
+    // The whole workbook varies: the input is split at zero bytes into the worksheet, the style sheet and the workbook part.
+    public static void RunWorkbook(ReadOnlySpan<byte> data)
+    {
+        System.Collections.Generic.List<byte[]> pieces = DocPartsTarget.Split(data, 3);
+        try
+        {
+            OpcPackage p = OpcPackage.Create();
+            p.SetRelationships(null, [new Relationship("rId1", R + "officeDocument", "xl/workbook.xml")]);
+            p.AddPart("/xl/workbook.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", pieces[2]);
+            p.SetRelationships("/xl/workbook.xml", [new Relationship("rId1", R + "worksheet", "worksheets/sheet1.xml"), new Relationship("rId2", R + "styles", "styles.xml")]);
+            p.AddPart("/xl/worksheets/sheet1.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", pieces[0]);
+            p.AddPart("/xl/styles.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", pieces[1]);
+            using Workbook wb = Workbook.FromPackage(p, new OpenContext(Limits), ownsPackage: true);
+            SheetLayoutDocument layout = WorkbookRenderer.Layout(wb, new SheetRenderOptions { Fonts = Fonts.Value, MaxPages = 12, Clock = new FixedClock() });
+            for (int i = 0; i < Math.Min(3, layout.Pages.Count); i++)
+            {
+                _ = WorkbookRenderer.Paint(layout, layout.Pages[i]);
+            }
+        }
+        catch (OfficeException)
+        {
+        }
+    }
+
+    public static int WriteWorkbookSeeds(string dir)
+    {
+        Directory.CreateDirectory(dir);
+        WriteSeeds(dir);
+        string book = "<workbook xmlns=\"" + Main + "\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><definedNames><definedName name=\"_xlnm.Print_Area\" localSheetId=\"0\">A!$A$1:$B$4</definedName><definedName name=\"_xlnm.Print_Titles\" localSheetId=\"0\">A!$1:$1</definedName></definedNames><sheets><sheet name=\"A\" sheetId=\"1\" r:id=\"rId1\"/></sheets><calcPr/></workbook>";
+        foreach (string f in Directory.GetFiles(dir, "print-*.xml"))
+        {
+            File.WriteAllBytes(f + ".wb", [.. File.ReadAllBytes(f), 0, .. Encoding.UTF8.GetBytes(Styles), 0, .. Encoding.UTF8.GetBytes(book)]);
+            File.Delete(f);
+        }
+
+        return 0;
+    }
+
     public static int WriteSeeds(string dir)
     {
         Directory.CreateDirectory(dir);

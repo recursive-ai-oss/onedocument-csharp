@@ -15,7 +15,7 @@
 # Close, OK, in that order), so the open call fails instead of repairing. A prompt whose text mentions
 # unreadable/corrupt/problem-with-content/recover/repair is classified "repair-prompt".
 
-param([string]$Base = (Join-Path $env:USERPROFILE 'oneoffice'), [string]$JobDir = '')
+param([string]$Base = (Join-Path $env:USERPROFILE 'onedocument'), [string]$JobDir = '')
 
 $ErrorActionPreference = 'Stop'
 $utf8 = New-Object System.Text.UTF8Encoding($false)
@@ -97,7 +97,7 @@ function Get-Lock($path, $instance, $retrySeconds, $waitMinutes) {
         try {
             # CreateNew fails when the file exists, which makes the acquire atomic.
             $fs = [IO.File]::Open($path, [IO.FileMode]::CreateNew, [IO.FileAccess]::Write, [IO.FileShare]::Read)
-            $text = "project=oneoffice`ninstance=$instance`nstarted=" + (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ') + "`n"
+            $text = "project=onedocument`ninstance=$instance`nstarted=" + (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ') + "`n"
             $bytes = $utf8.GetBytes($text)
             $fs.Write($bytes, 0, $bytes.Length)
             $fs.Close()
@@ -128,23 +128,47 @@ function Get-Lock($path, $instance, $retrySeconds, $waitMinutes) {
 
 $missing = [Type]::Missing
 
+# The password of an encrypted input (a sidecar <file>.password beside it), or Type.Missing.
+function Get-ItemPassword($item) { if ($item.password) { return [string]$item.password } else { return $missing } }
+
+# Runs every Document Inspector of a Word document, a workbook or a presentation (Check for Issues > Inspect Document) and records,
+# per inspector, its name, status (0 = no issue, 1 = issue found, 2 = failed to run) and the result text. Nothing is removed.
+function Get-InspectorReport($doc) {
+    $rows = @()
+    $coll = $doc.DocumentInspectors
+    for ($i = 1; $i -le $coll.Count; $i++) {
+        $ins = $coll.Item($i)
+        $row = @{ index = $i; name = [string]$ins.Name }
+        try {
+            $st = [int]0
+            $rs = [string]''
+            $ins.Inspect([ref]$st, [ref]$rs)
+            $row.status = $st
+            $row.results = $rs
+        } catch { $row.error = $_.Exception.Message }
+        $rows += $row
+    }
+    return $rows
+}
+
 function Invoke-Word($app, $item, $path, $outDir, $res) {
     $doc = $null
     try {
         # Positional: ConfirmConversions=false, ReadOnly=true, AddToRecentFiles=false, Visible=false, OpenAndRepair=false; read-only so the input is never changed.
         try {
-            $doc = $app.Documents.Open($path, $false, $true, $false, $missing, $missing, $missing, $missing, $missing, $missing, $missing, $false, $false)
+            $doc = $app.Documents.Open($path, $false, $true, $false, (Get-ItemPassword $item), $missing, $missing, $missing, $missing, $missing, $missing, $false, $false)
         } catch {
             # Word declined to open it as is. If it opens with repair switched on, the file needs repair, which is what
             # the interactive "unreadable content" prompt offers.
             $res.firstOpenError = $_.Exception.Message
-            $doc = $app.Documents.Open($path, $false, $true, $false, $missing, $missing, $missing, $missing, $missing, $missing, $missing, $false, $true)
+            $doc = $app.Documents.Open($path, $false, $true, $false, (Get-ItemPassword $item), $missing, $missing, $missing, $missing, $missing, $missing, $false, $true)
             $res.needsRepair = $true
         }
         if ($job.trace) { Write-Line @{ kind = 'trace'; step = 'opened' } }
         $res.pages = $doc.ComputeStatistics(2)
         if ($job.trace) { Write-Line @{ kind = 'trace'; step = 'pages' } }
         $res.paragraphs = $doc.Paragraphs.Count
+        if ($item.mode -eq 'inspect') { $res.inspectors = @(Get-InspectorReport $doc) }
         if ($item.mode -eq 'probe') {
             $rows = @()
             $i = 0
@@ -258,7 +282,7 @@ function Invoke-Word($app, $item, $path, $outDir, $res) {
                 $d2 = $null
                 $entry = @{ action = $act }
                 try {
-                    $d2 = $app.Documents.Open($path, $false, $true, $false, $missing, $missing, $missing, $missing, $missing, $missing, $missing, $false, [bool]$res.needsRepair)
+                    $d2 = $app.Documents.Open($path, $false, $true, $false, (Get-ItemPassword $item), $missing, $missing, $missing, $missing, $missing, $missing, $false, [bool]$res.needsRepair)
                     $d2.Activate()
                     if ($job.trace) { Write-Line @{ kind = 'trace'; step = 'action-open'; action = $act } }
                     $d2.TrackRevisions = $false
@@ -285,6 +309,25 @@ function Invoke-Word($app, $item, $path, $outDir, $res) {
                             $d2 = $app.ActiveDocument
                             $d2.Activate()
                             try { $tpl.Close(0) } catch { }
+                        }
+                        'update-fields' {
+                            # update-fields -- Ctrl+A, F9 and "update entire table": every field of every story, then every table of contents,
+                            # figures, authorities and index, with the page numbers Word lays out.
+                            $d2.Repaginate()
+                            foreach ($sr in $d2.StoryRanges) { $r = $sr; while ($null -ne $r) { [void]$r.Fields.Update(); $nx = $null; try { $nx = $r.NextStoryRange } catch { }; $r = $nx } }
+                            foreach ($t in $d2.TablesOfContents) { $t.Update() }
+                            foreach ($t in $d2.TablesOfFigures) { $t.Update() }
+                            foreach ($t in $d2.TablesOfAuthorities) { $t.Update() }
+                            foreach ($t in $d2.Indexes) { $t.Update() }
+                            foreach ($sr in $d2.StoryRanges) { $r = $sr; while ($null -ne $r) { [void]$r.Fields.Update(); $nx = $null; try { $nx = $r.NextStoryRange } catch { }; $r = $nx } }
+                            $entry.pages = $d2.ComputeStatistics(2)
+                        }
+                        'insert-file' {
+                            # insert-file:NAME.docx -- Insert > Object > Text from File at the end of the document (the file is beside the input).
+                            $other = Join-Path (Split-Path -Parent $path) $arg
+                            $rng = $d2.Content
+                            $rng.Collapse(0)
+                            $rng.InsertFile([string]$other)
                         }
                         'accept-para' { $d2.Paragraphs.Item([int]$arg).Range.Revisions.AcceptAll() }
                         'reject-para' { $d2.Paragraphs.Item([int]$arg).Range.Revisions.RejectAll() }
@@ -365,6 +408,20 @@ function Invoke-ExcelFormulas($app, $item, $path, $outDir, $res) {
             $p = $line.Split("`t")
             $tests.Add(@{ id = $p[0]; how = $p[1]; text = (& $un $p[2]) })
         }
+        # Data the tests read: a sidecar <name>.cells.tsv (address<TAB>value) is entered first. A number is entered as a number, =TRUE as
+        # the logical TRUE, an empty value leaves the cell empty and any other text is entered as text (a leading = or an operator is kept).
+        $cellsPath = [IO.Path]::ChangeExtension($path, '.cells.tsv')
+        if (Test-Path -LiteralPath $cellsPath) {
+            foreach ($cl in [IO.File]::ReadAllLines($cellsPath, $utf8)) {
+                $cp = $cl.Split("`t")
+                if ($cp.Length -lt 2 -or $cp[1].Length -eq 0) { continue }
+                $target = $ws.Range($cp[0])
+                $num = 0.0
+                if ($cp[1] -eq '=TRUE') { $target.Value2 = $true }
+                elseif ([double]::TryParse($cp[1], [Globalization.NumberStyles]::Float, [Globalization.CultureInfo]::InvariantCulture, [ref]$num)) { $target.Value2 = $num }
+                else { $target.NumberFormat = '@'; $target.Value2 = [string]$cp[1] }
+            }
+        }
         $entered = @{}
         for ($i = 0; $i -lt $tests.Count; $i++) {
             $t = $tests[$i]
@@ -417,15 +474,16 @@ function Invoke-Excel($app, $item, $path, $outDir, $res) {
     $wb = $null
     try {
         try {
-            $wb = $app.Workbooks.Open($path, 0, $true)
+            $wb = $app.Workbooks.Open($path, 0, $true, $missing, (Get-ItemPassword $item))
         } catch {
             # CorruptLoad = xlRepairFile (1): the same retry as for Word.
             $res.firstOpenError = $_.Exception.Message
-            $wb = $app.Workbooks.Open($path, 0, $true, $missing, $missing, $missing, $missing, $missing, $missing, $missing, $missing, $missing, $missing, $missing, 1)
+            $wb = $app.Workbooks.Open($path, 0, $true, $missing, (Get-ItemPassword $item), $missing, $missing, $missing, $missing, $missing, $missing, $missing, $missing, $missing, 1)
             $res.needsRepair = $true
         }
         $res.sheets = $wb.Worksheets.Count
         $res.sheetNames = @($wb.Worksheets | ForEach-Object { $_.Name })
+        if ($item.mode -eq 'inspect') { $res.inspectors = @(Get-InspectorReport $wb) }
         if ($item.mode -eq 'probe') {
             $cells = @()
             foreach ($ws in $wb.Worksheets) {
@@ -493,8 +551,11 @@ function Invoke-PowerPoint($app, $item, $path, $outDir, $res) {
     $pres = $null
     try {
         # ReadOnly, Untitled=false, WithWindow=false
-        $pres = $app.Presentations.Open($path, -1, 0, 0)
+        # Open has no password argument; the file name takes it between double colons.
+        $openName = if ($item.password) { [string]$path + '::' + [string]$item.password + '::' } else { [string]$path }
+        $pres = $app.Presentations.Open($openName, -1, 0, 0)
         $res.slides = $pres.Slides.Count
+        if ($item.mode -eq 'inspect') { $res.inspectors = @(Get-InspectorReport $pres) }
         $res.slideSize = @($pres.PageSetup.SlideWidth, $pres.PageSetup.SlideHeight)
         $base = [IO.Path]::GetFileNameWithoutExtension($path)
         if ($item.exportPdf) {
@@ -682,7 +743,12 @@ public class DialogWatcher
         }
         $path = Join-Path $jobRoot $item.file
         $ext = [IO.Path]::GetExtension($path).ToLowerInvariant()
-        $kind = switch -regex ($ext) { '^\.(docx|docm|dotx|dotm|doc|rtf|xml)$' { 'word' } '^\.(xlsx|xlsm|xltx|xltm|xlsb|xls|csv|fgrid)$' { 'excel' } '^\.(pptx|pptm|potx|ppsx|ppt)$' { 'powerpoint' } default { $null } }
+        $kind = switch -regex ($ext) { '^\.(docx|docm|dotx|dotm|doc|rtf|xml|odt|html|htm)$' { 'word' } '^\.(xlsx|xlsm|xltx|xltm|xlsb|xls|csv|fgrid|ods)$' { 'excel' } '^\.(pptx|pptm|potx|ppsx|ppt|odp)$' { 'powerpoint' } default { $null } }
+        # Flat OPC files share the .xml extension: the processing instruction names the application that owns them.
+        if ($ext -eq '.xml') {
+            $head = [Text.Encoding]::UTF8.GetString([IO.File]::ReadAllBytes($path), 0, [Math]::Min(1024, (Get-Item $path).Length))
+            if ($head -match 'progid="PowerPoint\.') { $kind = 'powerpoint' } elseif ($head -match 'progid="Excel\.') { $kind = 'excel' }
+        }
         $res = @{ kind = 'file'; file = $item.file; app = $kind; mode = $item.mode }
         if (-not $kind) { $res.outcome = 'error'; $res.error = 'unknown extension'; Write-Line $res; continue }
         $watch = [Diagnostics.Stopwatch]::StartNew()

@@ -19,3 +19,7 @@ Not yet answered; the desktop-Office run fills in the last column. The files are
 
 What decides: Word's own HTML export is the reference for which constructs it writes for the same document (lists, tables, notes). Differences that
 change the text or the structure are findings; differences in class names and inline style spelling are not.
+
+## Office run (Word, Excel and PowerPoint 16.0.20527)
+
+Answered as far as the oracle can drive the applications: see the row for this request in [`docs/office-oracle-1.0.md`](../../docs/office-oracle-1.0.md#the-other-requests). Questions not listed there as run are still open.

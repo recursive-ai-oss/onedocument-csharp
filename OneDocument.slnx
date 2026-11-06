@@ -37,6 +37,7 @@
     <Project Path="tools/ViewGenerator/ViewGenerator.csproj" />
     <Project Path="tools/RoundTrip/RoundTrip.csproj" />
     <Project Path="tools/LayoutProbe/LayoutProbe.csproj" />
+    <Project Path="tools/GateProbe/GateProbe.csproj" />
     <Project Path="tools/PackageSweep/PackageSweep.csproj" />
     <Project Path="tools/RedactProbe/RedactProbe.csproj" />
     <Project Path="tools/AuthoringProbe/AuthoringProbe.csproj" />

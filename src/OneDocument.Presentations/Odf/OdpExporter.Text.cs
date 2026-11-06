@@ -547,7 +547,7 @@ internal sealed partial class OdpExporter
             {
                 if (Pml.AttrLong(tcPr, attr) is { } m)
                 {
-                    a.Append(" fo:padding-").Append(side).Append("=\"").Append(OdpUnits.Cm(m)).Append('"');
+                    a.Append(" fo:padding-").Append(side).Append("=\"").Append(OdpUnits.Cm(Math.Max(0, m))).Append('"');
                 }
             }
 

@@ -454,6 +454,7 @@ internal static class OdsDataStyleWriter
         }
 
         bool hasGrouping = false;
+        bool numberWritten = false;
         for (int i = 0; i < s.Tokens.Count; i++)
         {
             Token t = s.Tokens[i];
@@ -498,6 +499,15 @@ internal static class OdsDataStyleWriter
                         break;
                     }
 
+                    // A number style holds one number element (the ODF 1.3 schema allows no second one); a code with several digit groups, such as a
+                    // phone-number picture, keeps the first and reports the rest.
+                    if (numberWritten)
+                    {
+                        issues.Add("multiple-digit-groups");
+                        break;
+                    }
+
+                    numberWritten = true;
                     bool sci = i + 1 < s.Tokens.Count && s.Tokens[i + 1] is Exponent;
                     int expDigits = 2;
                     bool sign = true;
@@ -529,6 +539,9 @@ internal static class OdsDataStyleWriter
             xml.Append(" number:truncate-on-overflow=\"false\"");
         }
 
+        // Adjacent literals are one text element: the schema allows a single text before and after the number, and dropping a
+        // second digit group above leaves its separators next to each other.
+        body.Replace("</number:text><number:text>", string.Empty);
         xml.Append('>').Append(body);
         if (maps is not null)
         {

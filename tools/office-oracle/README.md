@@ -12,12 +12,12 @@ input) may be sent. Downloaded corpus files never leave the build host.
 | Part | Where | Job |
 |---|---|---|
 | `office-oracle.sh` | build host | `install` places the scripts and registers the task; `run` copies inputs, starts the task, waits, pulls results. |
-| `laptop/Install.ps1` | Windows | Registers the on-demand task `OneOfficeOracle`, logon type *Interactive* (runs only while the user is logged on). |
+| `laptop/Install.ps1` | Windows | Registers the on-demand task `OneDocumentOracle`, logon type *Interactive* (runs only while the user is logged on). |
 | `laptop/Run-Oracle.ps1` | Windows, inside the task | Takes the shared lock, opens each file in its application through COM, writes `results.jsonl`, quits what it started (recording each launched process id, verifying it exited and killing only that id otherwise), releases the lock. |
 | `make-cases.py` | build host | Writes the small clean and deliberately damaged files and the style-precedence document. |
 
 Office automation needs the signed-in user's desktop, so SSH is only used to copy files, start the task and fetch
-results. Everything lives under `<profile>\oneoffice\` on the machine (`driver\`, `jobs\<run>\`). The one file outside
+results. Everything lives under `<profile>\onedocument\` on the machine (`driver\`, `jobs\<run>\`). The one file outside
 it is the shared lock `<profile>\oracle.lock`.
 
 ## Environment
@@ -42,7 +42,7 @@ per-paragraph answers, `--lock-path`, `--lock-retry`, `--lock-wait` change the l
 ## The laptop lock
 
 The machine is shared. Before touching Office the task creates `<profile>\oracle.lock` with `CreateNew`, which fails
-if the file exists, and writes `project=oneoffice`, `instance=` and `started=` (UTC) into it. If the file exists the
+if the file exists, and writes `project=onedocument`, `instance=` and `started=` (UTC) into it. If the file exists the
 task waits (60 s between tries, 20 min in total by default). A lock older than two hours is treated as stale, removed,
 and reported in the `lock` result line. The lock is removed in a `finally` block.
 
@@ -56,7 +56,7 @@ and reported in the `lock` result line. The lock is removed in a `finally` block
 | `env` | `word`, `excel`, `powerpoint` (file versions), `fontFamilyCount`, `fontsPresent`, `fontsAbsent`, `os` |
 | `app` | `app`, `version`, `build` as the application reports them |
 | `file` | `file`, `app`, `outcome`, `dialogs`, `error`, `seconds`, plus `pages`/`paragraphs`/`paragraphInfo` (Word), `sheets` (Excel), `slides` (PowerPoint), `exportedPdf`, `savedDocx` |
-| `stale` | `killedFromEarlierRun`: applications an earlier, interrupted run launched (found by process id and start time in `<profile>\oneoffice\started-pids.json`) and that were still alive |
+| `stale` | `killedFromEarlierRun`: applications an earlier, interrupted run launched (found by process id and start time in `<profile>\onedocument\started-pids.json`) and that were still alive |
 | `end` | `lockReleased`, `officeProcessesLeft`, `launchedPidsKilled` (launched applications that ignored Quit and were killed by id), `launchedPidsSurvived` (should be empty) |
 
 `outcome` is one of:
@@ -122,7 +122,7 @@ refuses the text. The result line's `formulas` field records Excel's separators 
 
 ## Runs are self-contained
 
-Each `run` registers its own one-off task, `OneOfficeOracle-<run>` (`laptop/Start-Run.ps1`), whose command line carries the
+Each `run` registers its own one-off task, `OneDocumentOracle-<run>` (`laptop/Start-Run.ps1`), whose command line carries the
 run's job directory (`Run-Oracle.ps1 -JobDir`), and deletes it when the results are back. There is no shared pointer file any
 more, so two runs started at the same time cannot overwrite each other; they queue on the shared lock inside the script
 (the one that gets the lock goes first, the other waits up to `--lock-wait`). Run names may contain only letters, digits,
@@ -142,3 +142,11 @@ directory through `office-oracle.sh run` and every file should come back `clean`
 ## Mail merge (Word)
 
 `OracleCases --mailmerge testdata/templates OUT` writes each mail-merge golden template as `mm-NAME.docx` with `mm-NAME.data.csv` and `mm-NAME.actions.txt` holding `mailmerge:mm-NAME.data.csv|single`. The action has Word attach the CSV as the data source, run the merge to a new document (`single` is all records in one document) and save the result for the comparison with OneDocument's output of the same case in `OUT/ours`. `office-oracle.sh` uploads the data files beside their documents and does not treat `*.data.csv` as cases. `ASK` and `FILLIN` cases are left out. The action is new and has not been run yet: the 1.0 gate does its first run.
+
+## Layout floors and one-file runs
+
+`layout-geometry.py OURS OFFICE` pairs every word of two PDF directories by text and position (within 2 pt) and prints one JSON line per
+document; `layout-floors.py` groups the documents into sets, decides from the embedded fonts which rows used equivalent fonts on both
+sides, and prints page-count, text-line and geometry floors per set. Both need poppler's `pdftotext` and `pdffonts`. A file that crashes
+Excel leaves a recovery instance (`EXCEL.EXE /restore`) that later runs attach to and fail on, so risky files go one per run, and that
+instance is stopped by its process id.

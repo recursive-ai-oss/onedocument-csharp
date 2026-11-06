@@ -311,6 +311,15 @@ public class DatabaseFunctionTests
         Assert.Equal("#VALUE!", S("DSUM(A1:E7,\"Nope\",G1:G2)", r));
         Assert.Equal("#VALUE!", S("DSUM(A1:E7,9,G1:G2)", r));
         Assert.Equal("#VALUE!", S("DSUM(A1:E7,0,G1:G2)", r));
+        // Excel 16.0.20527: TRUE names the first column; a criteria block of one row, or a single value, is #VALUE!; DCOUNT and DCOUNTA may
+        // leave the field out and count the matching records.
+        Assert.Equal("0", S("DSUM(A1:E7,TRUE,G1:G2)", r));
+        Assert.Equal("#VALUE!", S("DSUM(A1:E7,\"Yield\",G1:G1)", r));
+        Assert.Equal("#VALUE!", S("DSUM(A1:E7,\"Yield\",5)", r));
+        Assert.Equal("0", S("DCOUNT(A1:E7,,G1:G2)", r));
+        r.Set("G2", "Apple");
+        Assert.Equal("3", S("DCOUNTA(A1:E7,,G1:G2)", r));
+        r.Set("G2", "Plum");
         // Field names compare ignoring case; an empty criteria row matches every record.
         r.Set("G2", CalcValue.Blank);
         Assert.Equal("6", S("DCOUNT(A1:E7,\"HEIGHT\",G1:G2)", r));

@@ -230,6 +230,16 @@ internal static class DescriptiveFunctions
     /// </summary>
     private static CalcValue RunIfs(Evaluator ev, ReadOnlySpan<CalcValue> a, int first, Func<bool[], CalcValue> reduce, CalcArray? shapeLike = null)
     {
+        if (Fx.ErrorAmong(a, first, 2) is { } rangeError)
+        {
+            return rangeError;
+        }
+
+        if (Fx.RangeShapesDiffer(a, first, 2))
+        {
+            return Fx.Err(CalcError.Value);
+        }
+
         int pairs = (a.Length - first) / 2;
         var ranges = new CalcArray[pairs];
         var crits = new CalcValue[pairs];
@@ -350,6 +360,24 @@ internal static class DescriptiveFunctions
     private static CalcValue IfsOver(Evaluator ev, ReadOnlySpan<CalcValue> a, Aggregate how)
     {
         if (a.Length % 2 == 0)
+        {
+            return Fx.Err(CalcError.Value);
+        }
+
+        // The values range and every criteria range must have one size: the ranges are a[0], a[1], a[3], ...
+        var shapes = new CalcValue[1 + ((a.Length - 1) / 2)];
+        shapes[0] = a[0];
+        for (int i = 1; i < shapes.Length; i++)
+        {
+            shapes[i] = a[(2 * i) - 1];
+        }
+
+        if (Fx.ErrorAmong(shapes, 0, 1) is { } rangeError)
+        {
+            return rangeError;
+        }
+
+        if (Fx.RangeShapesDiffer(shapes, 0, 1))
         {
             return Fx.Err(CalcError.Value);
         }

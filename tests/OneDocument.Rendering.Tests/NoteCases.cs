@@ -87,6 +87,12 @@ internal static class NoteCases
         Add("122-footnotes-beneath-text", NoteDocs.Build(
             NoteDocs.Pn("Only two short lines of text.", 1) + TestDocx.P("The notes follow the text directly."),
             NoteDocs.Fn(1, "Beneath the text, not at the bottom of the page."),
+            sectPr: Sect("<w:footnotePr><w:pos w:val=\"beneathText\"/></w:footnotePr>")));
+
+        // Word 16.0.20527 applies only a section own footnote position: the same setting in the document settings leaves the note at the bottom.
+        Add("122-footnotes-beneath-text-settings-ignored", NoteDocs.Build(
+            NoteDocs.Pn("Only two short lines of text.", 1) + TestDocx.P("The notes stay at the bottom."),
+            NoteDocs.Fn(1, "Not beneath the text."),
             settings: NoteDocs.Settings("<w:footnotePr><w:pos w:val=\"beneathText\"/></w:footnotePr>")));
 
         Add("123-footnote-header-ignored", NoteDocs.Build(

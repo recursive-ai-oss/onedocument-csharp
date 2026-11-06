@@ -42,6 +42,7 @@ text rectangle when present.
 - A `fill="none"` path is not filled; `stroke="0"` is not stroked; `lighten`, `lightenLess`, `darken`, `darkenLess` are +40 % / +20 %
   toward white and ×0.6 / ×0.8 of the fill colour.
 - An unknown preset name draws a rectangle and notes `drawing.unknown-preset`.
+- A shape whose placement or size is beyond what a page can hold (a transform entry of 100 million or more) is left out and noted `drawing.shape-out-of-range`.
 
 ## Transforms
 

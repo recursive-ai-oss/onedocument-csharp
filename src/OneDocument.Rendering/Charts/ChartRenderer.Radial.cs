@@ -22,7 +22,7 @@ internal sealed partial class ChartRenderer
 
         bool doughnut = g.Type == ChartType.Doughnut;
         bool outside = series.Any(s => (s.Labels ?? g.Labels) is { Deleted: false } dl && (dl.Position is null or "bestFit" or "outEnd") && (dl.ShowValue || dl.ShowCategoryName || dl.ShowPercent || dl.ShowSeriesName)) && !doughnut;
-        int maxExplosion = series.Max(s => Math.Max(s.Explosion, s.Points.Select(pt => pt.Explosion ?? 0).DefaultIfEmpty(0).Max()));
+        int maxExplosion = series.Count == 0 ? 0 : series.Max(s => Math.Max(s.Explosion, s.Points.Select(pt => pt.Explosion ?? 0).DefaultIfEmpty(0).Max()));
         Box plot = (_chart.PlotAreaLayout is { InnerTarget: true, X: { } lx, Y: { } ly, Width: { } lw, Height: { } lh })
             ? new Box(_x0 + (lx * _w), _y0 + (ly * _h), lw * _w, lh * _h)
             : Square(avail, outside ? 0.72 : 0.92);
@@ -143,7 +143,7 @@ internal sealed partial class ChartRenderer
         _scales[valAx.Id] = scale;
         TextStyle ts = Style(_chart.Axes.FirstOrDefault(a => a.Kind == ChartAxisKind.Category)?.TextFormat, _basePt * 0.9);
         string[] cats = [.. Enumerable.Range(0, n).Select(i => CategoryText(series[0].Categories, i))];
-        double labelW = cats.Max(c => TextWidth(c, ts));
+        double labelW = cats.Select(c => TextWidth(c, ts)).DefaultIfEmpty(0).Max();
         Box plot = Square(avail, 1);
         double r = (Math.Min(plot.W, plot.H) / 2) - Math.Max(labelW, LineHeight(ts)) - 8;
         r = Math.Max(10, Math.Min(r, Math.Min(plot.W, plot.H) / 2 - LineHeight(ts) - 6));
@@ -469,9 +469,9 @@ internal sealed partial class ChartRenderer
         }
 
         TextStyle ts = Style(_chart.Axes.FirstOrDefault()?.TextFormat, _basePt * 0.9);
-        double labelW = Enumerable.Range(0, n).Max(i => TextWidth(CategoryText(s.Categories, i), ts)) + 10;
+        double labelW = Enumerable.Range(0, n).Select(i => TextWidth(CategoryText(s.Categories, i), ts)).DefaultIfEmpty(0).Max() + 10;
         var plot = new Box(avail.X + labelW, avail.Y, Math.Max(10, avail.W - labelW), avail.H);
-        double max = Enumerable.Range(0, n).Max(i => Math.Abs(V(s.Values, i) ?? 0));
+        double max = Enumerable.Range(0, n).Select(i => Math.Abs(V(s.Values, i) ?? 0)).DefaultIfEmpty(0).Max();
         if (max <= 0)
         {
             max = 1;

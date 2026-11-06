@@ -915,12 +915,15 @@ internal sealed partial class OdsExporter
         pl.Append("\" fo:margin-top=\"").Append(OdfLengths.Cm((hasHeader ? header : top) * 72)).Append("\" fo:margin-bottom=\"").Append(OdfLengths.Cm((hasFooter ? footer : bottom) * 72)).Append('"');
         if (!setup.IsNull)
         {
-            if (int.TryParse(setup.GetAttribute("scale"), NumberStyles.None, CultureInfo.InvariantCulture, out int scale) && scale is >= 10 and <= 400 && scale != 100)
+            // ODF 1.3 Part 1 (style:page-layout-properties): scale-to, scale-to-pages and the pair scale-to-X / scale-to-Y are alternatives, so a
+            // sheet that fits to pages (which overrides its percentage in the source format) writes only the fit.
+            bool fitToPage = !sheetPr.IsNull && sheetPr.ChildElements.Any(static c => c.LocalNameString == "pageSetUpPr" && c.GetAttribute("fitToPage") is "1" or "true");
+            if (!fitToPage && int.TryParse(setup.GetAttribute("scale"), NumberStyles.None, CultureInfo.InvariantCulture, out int scale) && scale is >= 10 and <= 400 && scale != 100)
             {
                 pl.Append(" style:scale-to=\"").Append(scale).Append("%\"");
             }
 
-            if (!sheetPr.IsNull && sheetPr.ChildElements.Any(static c => c.LocalNameString == "pageSetUpPr" && c.GetAttribute("fitToPage") is "1" or "true"))
+            if (fitToPage)
             {
                 int.TryParse(setup.GetAttribute("fitToWidth"), NumberStyles.None, CultureInfo.InvariantCulture, out int fw);
                 int.TryParse(setup.GetAttribute("fitToHeight"), NumberStyles.None, CultureInfo.InvariantCulture, out int fh);
