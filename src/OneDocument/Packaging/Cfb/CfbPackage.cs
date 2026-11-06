@@ -307,6 +307,92 @@ public sealed class CfbPackage : IPackage
         return part;
     }
 
+    /// <summary>Declares a storage with its class identifier ([MS-CFB] §2.6.1), so a rewrite writes it with that CLSID (a storage that holds streams exists without this call, with a null CLSID).</summary>
+    /// <param name="path">The storage's path in the form stream names take, for example <c>/ObjectPool/_1234</c>; its parents are declared with it when they are not yet.</param>
+    /// <param name="classId">The CLSID, or <see cref="Guid.Empty"/>.</param>
+    /// <param name="stateBits">The user-defined state bits.</param>
+    /// <exception cref="ArgumentException">A name is not valid for a compound file, or a stream of that name exists.</exception>
+    public void AddStorage(string path, Guid classId, uint stateBits = 0)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+        ObjectDisposedException.ThrowIf(_disposed, this);
+        string[] components = Split(path);
+        if (components.Length == 0)
+        {
+            throw new ArgumentException("A storage needs a name.", nameof(path));
+        }
+
+        foreach (string c in components)
+        {
+            if (c.Length is 0 or > 31 || c.AsSpan().IndexOfAny("\0/\\:!") >= 0)
+            {
+                throw new ArgumentException($"'{c}' in '{path}' is not a valid compound-file name ([MS-CFB] 2.6.1).", nameof(path));
+            }
+        }
+
+        string prefix = string.Empty;
+        for (int i = 0; i < components.Length; i++)
+        {
+            prefix += "/" + Escape(components[i]);
+            bool last = i == components.Length - 1;
+            if (_folded.ContainsKey(prefix))
+            {
+                throw new ArgumentException($"A stream named '{prefix}' already exists.", nameof(path));
+            }
+
+            if (_storageNames.Add(prefix))
+            {
+                _storages.Add(new CfbStorage(prefix, last ? classId : Guid.Empty, last ? stateBits : 0, 0, 0));
+                _removed = true; // a new storage means the file must be rewritten
+            }
+            else if (last)
+            {
+                int at = _storages.FindIndex(s => string.Equals(s.Path, prefix, StringComparison.OrdinalIgnoreCase));
+                _storages[at] = _storages[at] with { ClassId = classId, StateBits = stateBits };
+                _removed = true;
+            }
+        }
+    }
+
+    /// <summary>Removes a storage with every stream and storage under it.</summary>
+    /// <param name="path">The storage's path in the form stream names take, for example <c>/Macros</c>; compared ignoring case.</param>
+    /// <returns>The number of streams removed; 0 when there is no such storage (a storage without streams is still removed).</returns>
+    public int RemoveStorage(string path)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+        ObjectDisposedException.ThrowIf(_disposed, this);
+        string root = "/" + string.Join('/', Split(path).Select(Escape));
+        string prefix = root + "/";
+        int streams = 0;
+        foreach (CfbStreamPart p in _parts.ToArray())
+        {
+            if (p.Name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+            {
+                RemovePart(p.Name);
+                streams++;
+            }
+        }
+
+        bool any = false;
+        for (int i = _storages.Count - 1; i >= 0; i--)
+        {
+            string s = _storages[i].Path;
+            if (string.Equals(s, root, StringComparison.OrdinalIgnoreCase) || s.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+            {
+                _storageNames.Remove(s);
+                _storages.RemoveAt(i);
+                any = true;
+            }
+        }
+
+        if (any)
+        {
+            _removed = true;
+        }
+
+        return streams;
+    }
+
     /// <inheritdoc />
     public bool RemovePart(string name)
     {

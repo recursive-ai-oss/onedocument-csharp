@@ -619,8 +619,6 @@ internal sealed partial class OdtImporter
 
         // Table cell borders have no w:space; a paragraph border does.
         bool para = container == "w:pBdr";
-        string element = !para && side is "left" or "right" ? side == "left" ? "start" : "end" : side;
-        _ = element;
         return "<w:" + side + " w:val=\"" + val + "\" w:sz=\"" + OdfUnits.I(size) + "\"" + (para ? " w:space=\"" + OdfUnits.I(space) + "\"" : " w:space=\"0\"") + " w:color=\"" + color + "\"/>";
     }
 }

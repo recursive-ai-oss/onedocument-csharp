@@ -42,7 +42,8 @@ The `Office` statics (`Office.Open`, `Office.ExtractText`, `Office.Convert`) fin
 | ODT/OTT and flat FODT | yes (`Document`; loss reports; `docs/odf.md`) | yes |
 | ODS/ODP and flat ODF spreadsheets and presentations | planned | planned |
 | CSV/TSV | yes | yes |
-| HTML, Markdown | planned (import) | planned (export) |
+| HTML | yes (`Document.FromHtml`, sanitised, loss report; `docs/html.md`) | yes (documents; workbooks and presentations at a basic level) |
+| Markdown (CommonMark, GFM) | yes (`Document`; `docs/markdown.md`) | yes (documents, workbooks, presentations) |
 | PDF, images, SVG, text | not applicable | planned (export) |
 
 ## Support and measurements (DOCX family)

@@ -1,3 +1,4 @@
+using RecursiveAI.OneDocument.Encryption;
 using System.Globalization;
 using System.Text;
 using RecursiveAI.OneDocument.Diagnostics;
@@ -132,6 +133,14 @@ public sealed partial class Workbook : OfficeFile
             if (sniffed == OfficeFormat.Unknown)
             {
                 throw new OfficeFormatException(DefectKind.Structure, "format.unrecognised", "The content is not a format OneDocument knows.");
+            }
+
+            if (sniffed == OfficeFormat.EncryptedPackage)
+            {
+                // Decrypt to the package inside and open that as whatever it is. It has no file path, so Save() is not available.
+                IByteSource plain = ByteSource.FromMemory(PackageEncryption.DecryptCompoundFile(source, context));
+                source.Dispose();
+                return OpenSource(plain, context, null, cancellationToken);
             }
 
             if (sniffed is OfficeFormat.Csv or OfficeFormat.Tsv)
@@ -641,9 +650,17 @@ public sealed partial class Workbook : OfficeFile
         {
             WriteXls(destination, cancellationToken);
         }
+        else if (format == OfficeFormat.Html)
+        {
+            WriteHtml(destination, null, cancellationToken);
+        }
         else if (format is OfficeFormat.Csv or OfficeFormat.Tsv)
         {
             Csv.CsvDocument.Write(this, destination, new Csv.CsvWriteOptions { Delimiter = format == OfficeFormat.Tsv ? '\t' : ',' }, null, cancellationToken);
+        }
+        else if (format == OfficeFormat.Markdown)
+        {
+            WriteMarkdown(destination, cancellationToken);
         }
         else
         {

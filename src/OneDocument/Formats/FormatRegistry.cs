@@ -26,6 +26,21 @@ public delegate void TextExtractionHandler(IByteSource source, OfficeFormat form
 /// <param name="cancellationToken">Cancels the write.</param>
 public delegate void WriteHandler(OfficeFile file, OfficeFormat format, Stream destination, CancellationToken cancellationToken);
 
+/// <summary>Finds the VBA project of a source whose format keeps it where the core package cannot look (PowerPoint 97-2003).</summary>
+/// <param name="source">The input.</param>
+/// <param name="context">Limits, defect sink and password.</param>
+/// <param name="cancellationToken">Cancels the read.</param>
+/// <returns>The project, or null when the file holds none.</returns>
+public delegate Vba.VbaProject? VbaReadHandler(IByteSource source, OpenContext context, CancellationToken cancellationToken);
+
+/// <summary>Writes a copy of a source without its VBA project.</summary>
+/// <param name="source">The input.</param>
+/// <param name="destination">Where the copy goes.</param>
+/// <param name="context">Limits, defect sink and password.</param>
+/// <param name="cancellationToken">Cancels the removal.</param>
+/// <returns>What was removed and what was left.</returns>
+public delegate Vba.VbaRemovalReport VbaRemoveHandler(IByteSource source, Stream destination, OpenContext context, CancellationToken cancellationToken);
+
 /// <summary>
 /// The explicit table of what can be read, text-extracted and written, per <see cref="OfficeFormat"/>. Each kind's package fills in its
 /// formats by calling <c>Register…</c> from a method it exposes (for example <c>DocumentFormats.Register(registry)</c>); nothing is found by
@@ -43,6 +58,8 @@ public sealed class FormatRegistry
     private readonly Dictionary<OfficeFormat, TextExtractionHandler> _extractors = [];
     private readonly Dictionary<OfficeFormat, WriteHandler> _writers = [];
     private readonly Dictionary<OfficeFormat, Templating.ITemplateBinder> _binders = [];
+    private readonly Dictionary<OfficeFormat, VbaReadHandler> _vbaReaders = [];
+    private readonly Dictionary<OfficeFormat, VbaRemoveHandler> _vbaRemovers = [];
 
     /// <summary>Gets the registry the <see cref="Office"/> statics and the hub types use.</summary>
     public static FormatRegistry Default { get; } = CreateDefault();
@@ -106,6 +123,29 @@ public sealed class FormatRegistry
     public Templating.ITemplateBinder GetTemplateBinder(OfficeFormat format) =>
         TryGetTemplateBinder(format, out Templating.ITemplateBinder? b) ? b : throw new FormatNotAvailableException(format, "render a template from");
 
+    /// <summary>Registers how to find and how to remove the VBA project of formats the core package cannot look into itself.</summary>
+    /// <param name="read">Finds the project.</param>
+    /// <param name="remove">Writes a copy without it.</param>
+    /// <param name="formats">The formats they handle.</param>
+    /// <exception cref="ArgumentException">A format is <see cref="OfficeFormat.Unknown"/>.</exception>
+    public void RegisterVba(VbaReadHandler read, VbaRemoveHandler remove, params OfficeFormat[] formats)
+    {
+        Register(_vbaReaders, read, formats);
+        Register(_vbaRemovers, remove, formats);
+    }
+
+    /// <summary>Gets the VBA project finder for a format.</summary>
+    /// <param name="format">The format.</param>
+    /// <param name="handler">The finder.</param>
+    /// <returns>True if registered.</returns>
+    public bool TryGetVbaReader(OfficeFormat format, out VbaReadHandler handler) => TryGet(_vbaReaders, format, out handler);
+
+    /// <summary>Gets the VBA project remover for a format.</summary>
+    /// <param name="format">The format.</param>
+    /// <param name="handler">The remover.</param>
+    /// <returns>True if registered.</returns>
+    public bool TryGetVbaRemover(OfficeFormat format, out VbaRemoveHandler handler) => TryGet(_vbaRemovers, format, out handler);
+
     /// <summary>Gets the reader for a format.</summary>
     /// <param name="format">The format.</param>
     /// <param name="handler">The reader.</param>
@@ -151,6 +191,7 @@ public sealed class FormatRegistry
     {
         var registry = new FormatRegistry();
         TextExtraction.OoxmlTextExtractor.Register(registry);
+        Encryption.EncryptedPackageReader.Register(registry);
         return registry;
     }
 

@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Compile Include="../Shared/AllocationProbe.cs" Link="AllocationProbe.cs" />
+    <Compile Include="../Shared/VbaTestProject.cs" Link="VbaTestProject.cs" />
   </ItemGroup>
 
   <ItemGroup>

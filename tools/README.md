@@ -13,12 +13,14 @@ nothing here is tied to a machine. Oracles (LibreOffice, Jing, python-docx and f
 | `corpus/fetch_templates.py` | Template files from caller-supplied pages or URL lists. |
 | `corpus/make_stress_docx.py` | Deterministic ~1000-page DOCX (headings, lists, tables, sections, footnotes, comments, revisions). |
 | `corpus/run_checks.py` | Parallel, resumable, time-boxed checks over a directory: `lo`, `validate`, `cmd`. |
+| `VbaProbe/` | VBA projects: `scan` (one JSON line per file that holds a project: modules, signed, locked, p-code and stomping flags, defect codes), `list`, `extract` (modules as `.bas`/`.cls`/`.frm`), `remove` (a copy without the project, with the report), `storage` (the project compound file of a PowerPoint document stream, for looking at damaged ones). Nothing is run. |
 | `StreamProbe/` | Streaming workbook cursors: `compare` (cursor against the workbook model over a directory), `read` and `write` (throughput, allocation and working-set checkpoints), `layers` (where read time goes), `sample` (small generated workbooks for opening in an application), `xcompare` (values of two workbooks). |
 | `RoundTrip/` | Per-part comparison of two packages (zip or Flat OPC). |
 | `validate/validate_ooxml.py` | Schema validation of every XML part, with markup-compatibility preprocessing. |
 | `validate/validate_odf.py` | Jing validation of ODT/ODS/ODP packages (each XML part and the manifest) and flat files against the OASIS ODF 1.3 or 1.2 RelaxNG schemas. |
 | `LayoutProbe/`, `layout-differential.sh` | The generated layout case set (`gen`: DOCX and the `slide-*.pptx` decks), rendering of a directory of DOCX and PPTX to PDF and page-1 PNG with a layout log (`render`), a recursive PPTX sweep with page and note counts (`sweep-pptx`), per-page text lines of PDFs (`lines`), and page-count and line-break comparison of two PDF directories (`compare`). The script chains gen, render, the Word and PowerPoint oracle's PDF exports and compare; its answers come at the milestone gate. |
 | `RtfProbe/` | RTF in bulk: `read` (every .rtf in a directory: defects, loss codes, text, the DOCX and the RTF written back), `write` (every DOCX through the RTF exporter), `text` and `similar` (extracted text and its similarity between two directories); `oracle.sh` runs LibreOffice as a black box over the same documents; `compare.py` compares our text with Apache Tika's. |
+| `HtmlProbe/` | HTML in bulk, information only: `export` (every DOCX: written as HTML, parsed with OneHtml for parse errors, its words compared with the extracted text, read back; export loss codes counted; the HTML files are kept for LibreOffice) and `import` (every HTML file: imported, extracted, written as DOCX and opened again; import loss codes counted). |
 | `fuzz-run.sh` | Builds and runs one fuzz target for N seconds and prints executions, features and findings. |
 | `tests/selftest.sh` | Checks the round-trip tool and the validator against small generated packages. |
 

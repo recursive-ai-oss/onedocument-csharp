@@ -295,15 +295,16 @@ public class PptReaderTests
     }
 
     [Fact]
-    public void An_encrypted_file_is_refused_with_the_encryption_exception()
+    public void An_encrypted_file_without_a_session_container_is_a_typed_error()
     {
         var b = new PptBuilder();
         int doc = b.Add(PptBuilder.Document(0x80000000, 2, 3, 256));
         int edit = b.AddEdit([(1, doc)], 0, 4);
         byte[] file = PptBuilder.File(b.Stream, PptBuilder.CurrentUser(edit, token: 0xF3D1C4DF));
 
-        var ex = Assert.Throws<OfficeEncryptedException>(() => Open(file));
-        Assert.Equal("encryption.password-required", ex.Defect.Code);
+        // Real encrypted files are covered by the encryption tests; this token alone names no scheme.
+        var ex = Assert.ThrowsAny<OfficeException>(() => Open(file));
+        Assert.StartsWith("encryption.", ex.Defect.Code, StringComparison.Ordinal);
     }
 
     [Fact]

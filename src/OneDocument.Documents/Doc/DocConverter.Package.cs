@@ -12,7 +12,7 @@ internal sealed partial class DocConverter
     private const string NsDecl =
         "xmlns:w=\"" + W + "\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" " +
         "xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\" " +
-        "xmlns:pic=\"http://schemas.openxmlformats.org/drawingml/2006/picture\"";
+        "xmlns:pic=\"http://schemas.openxmlformats.org/drawingml/2006/picture\" xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\"";
 
     private const string Header = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n";
 
@@ -210,6 +210,7 @@ internal sealed partial class DocConverter
             }
         }
 
+        ApplyProperties(pkg);
         ReportLosses();
     }
 
@@ -220,9 +221,9 @@ internal sealed partial class DocConverter
             _loss.Report("loss.doc-word6-formatting", "Word 6/95 formatting", 1, "Character, paragraph, section and table formatting, styles, lists and pictures of Word 6.0 and Word 95 files are not read; the text, its paragraphs, tables, sections and notes are.");
         }
 
-        if (_oleObjects > 0)
+        if (_oleObjects > _oleCarried)
         {
-            _loss.Report("loss.doc-ole-objects", "embedded and linked objects", _oleObjects, "Objects are kept as their preview picture; the embedded storage is not carried over.");
+            _loss.Report("loss.doc-ole-objects", "embedded and linked objects", _oleObjects - _oleCarried, "Objects whose storage could not be carried (missing from the ObjectPool, or inside tracked changes) keep only what the document shows of them.");
         }
 
         if (_formFields > 0)
@@ -241,16 +242,9 @@ internal sealed partial class DocConverter
         }
 
         bool macros = false;
-        bool properties = false;
         foreach (string n in _f.StreamNames)
         {
             macros |= n == "/Macros" || n.StartsWith("/Macros/", StringComparison.Ordinal);
-            properties |= n is "/\u0005SummaryInformation" or "/\u0005DocumentSummaryInformation";
-        }
-
-        if (properties)
-        {
-            _loss.Report("loss.doc-properties", "document properties", 1, "The summary information streams (title, author, dates, statistics) were not read.");
         }
 
         if (macros)

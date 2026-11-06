@@ -108,12 +108,16 @@ internal static class Insertions
     }
 
     /// <summary>The <c>w:drawing</c> of an inline picture (ECMA-376 Part 1 §20.4.2.8 wp:inline, §21.2.2.150 pic:pic).</summary>
-    internal static string Drawing(RenderContext ctx, string p, string relationshipId, string docPrId, string name, string alt, long cx, long cy)
+    internal static string Drawing(RenderContext ctx, string p, string relationshipId, string docPrId, string name, string alt, long cx, long cy) =>
+        Drawing(ctx.Strict, p, relationshipId, docPrId, name, alt, cx, cy);
+
+    /// <summary>The same drawing for a caller that has no render context; <paramref name="strict"/> selects the Strict namespaces.</summary>
+    internal static string Drawing(bool strict, string p, string relationshipId, string docPrId, string name, string alt, long cx, long cy)
     {
-        string wp = ctx.Strict ? "http://purl.oclc.org/ooxml/drawingml/wordprocessingDrawing" : "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing";
-        string a = ctx.Strict ? "http://purl.oclc.org/ooxml/drawingml/main" : "http://schemas.openxmlformats.org/drawingml/2006/main";
-        string pic = ctx.Strict ? "http://purl.oclc.org/ooxml/drawingml/picture" : "http://schemas.openxmlformats.org/drawingml/2006/picture";
-        string r = ctx.Strict ? "http://purl.oclc.org/ooxml/officeDocument/relationships" : "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+        string wp = strict ? "http://purl.oclc.org/ooxml/drawingml/wordprocessingDrawing" : "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing";
+        string a = strict ? "http://purl.oclc.org/ooxml/drawingml/main" : "http://schemas.openxmlformats.org/drawingml/2006/main";
+        string pic = strict ? "http://purl.oclc.org/ooxml/drawingml/picture" : "http://schemas.openxmlformats.org/drawingml/2006/picture";
+        string r = strict ? "http://purl.oclc.org/ooxml/officeDocument/relationships" : "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
         string cxs = cx.ToString(CultureInfo.InvariantCulture);
         string cys = cy.ToString(CultureInfo.InvariantCulture);
         var sb = new StringBuilder();
