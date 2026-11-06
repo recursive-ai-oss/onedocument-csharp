@@ -60,6 +60,7 @@ public sealed class FormatRegistry
     private readonly Dictionary<OfficeFormat, Templating.ITemplateBinder> _binders = [];
     private readonly Dictionary<OfficeFormat, VbaReadHandler> _vbaReaders = [];
     private readonly Dictionary<OfficeFormat, VbaRemoveHandler> _vbaRemovers = [];
+    private readonly Dictionary<OfficeKind, List<Inspection.IInspectionProvider>> _inspectors = [];
 
     /// <summary>Gets the registry the <see cref="Office"/> statics and the hub types use.</summary>
     public static FormatRegistry Default { get; } = CreateDefault();
@@ -122,6 +123,40 @@ public sealed class FormatRegistry
     /// <exception cref="FormatNotAvailableException">No binder is registered.</exception>
     public Templating.ITemplateBinder GetTemplateBinder(OfficeFormat format) =>
         TryGetTemplateBinder(format, out Templating.ITemplateBinder? b) ? b : throw new FormatNotAvailableException(format, "render a template from");
+
+    /// <summary>
+    /// Registers a provider that inspects and sanitises the parts a kind of document owns (the kinds' packages call this from their <c>Register</c> methods).
+    /// The generic provider for the categories every package shares always runs and is not registered.
+    /// </summary>
+    /// <param name="provider">The provider.</param>
+    /// <param name="kind">The kind of document it handles.</param>
+    public void RegisterInspectionProvider(Inspection.IInspectionProvider provider, OfficeKind kind)
+    {
+        ArgumentNullException.ThrowIfNull(provider);
+        lock (_gate)
+        {
+            if (!_inspectors.TryGetValue(kind, out List<Inspection.IInspectionProvider>? list))
+            {
+                _inspectors[kind] = list = [];
+            }
+
+            if (!list.Contains(provider))
+            {
+                list.Add(provider);
+            }
+        }
+    }
+
+    /// <summary>Gets the inspection providers registered for a kind of document, in registration order.</summary>
+    /// <param name="kind">The kind.</param>
+    /// <returns>A snapshot; empty when none is registered.</returns>
+    public IReadOnlyList<Inspection.IInspectionProvider> GetInspectionProviders(OfficeKind kind)
+    {
+        lock (_gate)
+        {
+            return _inspectors.TryGetValue(kind, out List<Inspection.IInspectionProvider>? list) ? [.. list] : [];
+        }
+    }
 
     /// <summary>Registers how to find and how to remove the VBA project of formats the core package cannot look into itself.</summary>
     /// <param name="read">Finds the project.</param>

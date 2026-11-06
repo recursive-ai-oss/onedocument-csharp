@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pivotCacheDefinition xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" r:id="rId1" refreshOnLoad="1" refreshedBy="author" refreshedDate="45000" createdVersion="6" refreshedVersion="6" minRefreshableVersion="3" recordCount="2">
+  <cacheSource type="worksheet"><worksheetSource ref="A1:B3" sheet="Sales"/></cacheSource>
+  <cacheFields count="2"><cacheField name="Item" numFmtId="0"><sharedItems count="2"><s v="a"/><s v="b"/></sharedItems></cacheField><cacheField name="Qty" numFmtId="0"><sharedItems containsSemiMixedTypes="0" containsString="0" containsNumber="1" containsInteger="1" minValue="1" maxValue="2"/></cacheField></cacheFields>
+</pivotCacheDefinition>

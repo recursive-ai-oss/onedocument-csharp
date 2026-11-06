@@ -127,7 +127,9 @@ public sealed partial class Presentation
     {
         // Write the current package out and read it back through the streaming extractor, so the model and Office.ExtractText agree on every file.
         CommitChanges();
-        if (!FormatRegistry.Default.TryGetTextExtractor(Format, out TextExtractionHandler? extractor))
+        // A presentation read from OpenDocument is a PresentationML package in memory, so its text comes from the same extractor.
+        OfficeFormat textFormat = IsOdfPresentationFormat(Format) ? OfficeFormat.Pptx : Format;
+        if (!FormatRegistry.Default.TryGetTextExtractor(textFormat, out TextExtractionHandler? extractor))
         {
             foreach (Slide slide in Slides)
             {
@@ -140,7 +142,7 @@ public sealed partial class Presentation
         using var buffer = new MemoryStream();
         Package.WriteTo(buffer, cancellationToken);
         using IByteSource source = ByteSource.FromMemory(buffer.GetBuffer().AsMemory(0, (int)buffer.Length));
-        extractor(source, Format, Context, output, cancellationToken);
+        extractor(source, textFormat, Context, output, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -149,6 +151,10 @@ public sealed partial class Presentation
         if (IsPresentationFormat(format))
         {
             Write(format, destination, cancellationToken);
+        }
+        else if (IsOdfPresentationFormat(format))
+        {
+            WriteOdf(format, destination, cancellationToken);
         }
         else if (format == OfficeFormat.Html)
         {
@@ -283,6 +289,11 @@ public sealed partial class Presentation
             if (sniffed == OfficeFormat.Ppt)
             {
                 return OpenLegacy(source, context, cancellationToken);
+            }
+
+            if (IsOdfPresentationFormat(sniffed))
+            {
+                return OpenOdf(source, context, filePath, sniffed, cancellationToken);
             }
 
             if (!IsPresentationFormat(sniffed))

@@ -133,7 +133,7 @@ public readonly struct CommentReplyV2Changes : global::RecursiveAI.OneDocument.S
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2022Command)
         {
-            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013ChangesData; }
             if (local.SequenceEqual("extLst"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.PresentationExtensionList; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
@@ -157,12 +157,12 @@ public readonly struct CommentReplyV2Changes : global::RecursiveAI.OneDocument.S
     /// <summary>Attribute <c>chg</c> (p226c:ST_CommentReplyV2ChangeBits, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
     public string? Chg { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "chg"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "chg"u8, value); }
 
-    /// <summary>The first <c>p226c:chgData</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ChgData => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2022Command, "chgData"u8);
+    /// <summary>The <c>p226c:chgData</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData? ChgData => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2022Command, "chgData"u8);
 
-    /// <summary>Adds a <c>p226c:chgData</c> child where the content model puts it.</summary>
-    /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddChgData() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2022Command.CommentReplyV2Changes>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2022Command, "chgData"u8);
+    /// <summary>Returns the <c>p226c:chgData</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData GetOrAddChgData() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData, global::RecursiveAI.OneDocument.Schema.Presentation2022Command.CommentReplyV2Changes>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2022Command, "chgData"u8);
 
     /// <summary>Removes every <c>p226c:chgData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
@@ -231,7 +231,7 @@ public readonly struct CommentV2Changes : global::RecursiveAI.OneDocument.Schema
         }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2022Command)
         {
-            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013ChangesData; }
             if (local.SequenceEqual("cmRplyChg"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.Presentation2022CommandCommentReplyV2Changes; }
             if (local.SequenceEqual("extLst"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.PresentationExtensionList; }
         }
@@ -256,12 +256,12 @@ public readonly struct CommentV2Changes : global::RecursiveAI.OneDocument.Schema
     /// <summary>Attribute <c>chg</c> (p226c:ST_CommentV2ChangeBits, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
     public string? Chg { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "chg"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "chg"u8, value); }
 
-    /// <summary>The first <c>p226c:chgData</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ChgData => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2022Command, "chgData"u8);
+    /// <summary>The <c>p226c:chgData</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData? ChgData => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2022Command, "chgData"u8);
 
-    /// <summary>Adds a <c>p226c:chgData</c> child where the content model puts it.</summary>
-    /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddChgData() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2022Command.CommentV2Changes>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2022Command, "chgData"u8);
+    /// <summary>Returns the <c>p226c:chgData</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData GetOrAddChgData() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData, global::RecursiveAI.OneDocument.Schema.Presentation2022Command.CommentV2Changes>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2022Command, "chgData"u8);
 
     /// <summary>Removes every <c>p226c:chgData</c> child.</summary>
     /// <returns>True when any was removed.</returns>

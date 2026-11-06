@@ -161,7 +161,7 @@ public readonly struct Relationships : global::RecursiveAI.OneDocument.Schema.IE
     }
 
     /// <summary>The <c>rel:Relationship</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.PackageRelationships.Relationship> RelationshipsElement => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.PackageRelationships, "Relationship"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.PackageRelationships.Relationship> RelationshipList => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.PackageRelationships, "Relationship"u8);
 
     /// <summary>Adds a <c>rel:Relationship</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
