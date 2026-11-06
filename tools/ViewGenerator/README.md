@@ -11,7 +11,7 @@ dotnet run --project tools/ViewGenerator -- --check  # exit 1 and list what diff
 
 ## Adding a vocabulary
 
-Add the XSD under `schemas/` (through `pin-schemas.py` when it comes from a standards document), then one line to `schemas/views.manifest`: `path|NamespaceEnumMember|prefix|role`. A `root` schema gets a view for every complex type and global element it declares; a `support` schema only for the types a root schema reaches. Spreadsheet and presentation vocabularies are added the same way. A name the schema spells awkwardly is overridden in `schemas/names.manifest`.
+Add the XSD under `schemas/` (through `pin-schemas.py` when it comes from a standards document), then one line to `schemas/views.manifest`: `path|NamespaceEnumMember|prefix|role`. A `root` schema gets a view for every complex type and global element it declares; a `support` schema only for the types a root schema reaches. Spreadsheet, chart, diagram and presentation vocabularies are added the same way. A `merge` line adds the declarations of a second file to a namespace an earlier root line loaded (for namespaces that two Microsoft documents both print). A name the schema spells awkwardly is overridden in `schemas/names.manifest` (`type|` lines rename views, `member|` lines rename child properties by element name within a vocabulary). A repeatable child whose plural would be its own view's name (`sheets/sheet`, `numFmts/numFmt`) is `<Item>List` (`Sheets.SheetList`); WordprocessingML keeps its earlier `…Element` spelling.
 
 ## What is generated
 
@@ -47,3 +47,13 @@ A view reports `mc:AlternateContent` as an unknown child and does not look insid
 - Extension attributes on base elements (`w14:paraId` on `w:p`) are not members of the base view; they are the extension schemas' global attributes. `UnknownAttributes.Of` lists them.
 - The Dublin Core elements in `docProps/core.xml` (`dc:title`, `dcterms:created`, …) have no pinned schema, so the core-properties view declares only `cp:` elements.
 - Elements whose type is a simple type or `anyType` have no view; they are reached as raw `MarkupRef` values.
+
+## Vocabularies
+
+`views.manifest` is the list. Roots: WordprocessingML, SpreadsheetML (`Spreadsheet`: worksheets, workbook, styles, shared strings, tables, pivots, query tables, external links, comments, metadata, volatile dependencies, revisions…), PresentationML, DrawingML (`Drawing`: themes, text bodies, shapes, effects), charts (`Chart`, `ChartDrawing`, chartex `ChartEx`), diagrams (`Diagram`, the `dsp:` drawing), spreadsheet drawings, locked canvas, bibliography, custom XML properties, schema library and additional characteristics, OMML, VML, the document properties and the OPC parts; and the Microsoft extension schemas of [MS-DOCX], [MS-ODRAWXML], [MS-PPTX], [MS-XLSX] (x14/x15/x16 and later: sparklines, slicers, timelines, threaded comments, rich data, dynamic arrays, named sheet views, the pivot extensions…) and [MS-OFFMACRO2] (macro sheets). Not covered because no pinned document defines them: see `schemas/README.md`.
+
+`GenerationNotes.txt` lists, besides the Strict differences, every reference that did not resolve and, per vocabulary, the constructs that read as raw elements (simple-typed children, `xsd:anyType`, `xsd:any`, `xsd:anyAttribute`).
+
+## Hub hop
+
+`Document.View`, `Workbook.View`, `Worksheet.View` (its `sheet` element in the workbook part, null for a sheet not yet saved), `Presentation.View` and the `View` of each slide, layout, master and notes part wrap the root element with the generated type; `Markup` is the untyped element. Cell data lives in the worksheet's cell store, not in a view.

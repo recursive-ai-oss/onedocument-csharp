@@ -768,7 +768,7 @@ public readonly struct CommentAuthorChanges : global::RecursiveAI.OneDocument.Sc
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command)
         {
-            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013ChangesData; }
             if (local.SequenceEqual("cmAuthorMkLst"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Presentation2013CommandCommentAuthorMonikerList; }
             if (local.SequenceEqual("extLst"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.PresentationExtensionList; }
         }
@@ -793,12 +793,12 @@ public readonly struct CommentAuthorChanges : global::RecursiveAI.OneDocument.Sc
     /// <summary>Attribute <c>chg</c> (pc:ST_CommentAuthorChangeBits, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
     public string? Chg { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "chg"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "chg"u8, value); }
 
-    /// <summary>The first <c>pc:chgData</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ChgData => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
+    /// <summary>The <c>pc:chgData</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData? ChgData => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
 
-    /// <summary>Adds a <c>pc:chgData</c> child where the content model puts it.</summary>
-    /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddChgData() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.CommentAuthorChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
+    /// <summary>Returns the <c>pc:chgData</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData GetOrAddChgData() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.CommentAuthorChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
 
     /// <summary>Removes every <c>pc:chgData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
@@ -963,7 +963,7 @@ public readonly struct CommentChanges : global::RecursiveAI.OneDocument.Schema.I
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command)
         {
-            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013ChangesData; }
             if (local.SequenceEqual("cmMkLst"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Presentation2013CommandCommentMonikerList; }
             if (local.SequenceEqual("extLst"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.PresentationExtensionList; }
         }
@@ -988,12 +988,12 @@ public readonly struct CommentChanges : global::RecursiveAI.OneDocument.Schema.I
     /// <summary>Attribute <c>chg</c> (pc:ST_CommentChangeBits, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
     public string? Chg { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "chg"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "chg"u8, value); }
 
-    /// <summary>The first <c>pc:chgData</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ChgData => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
+    /// <summary>The <c>pc:chgData</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData? ChgData => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
 
-    /// <summary>Adds a <c>pc:chgData</c> child where the content model puts it.</summary>
-    /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddChgData() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.CommentChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
+    /// <summary>Returns the <c>pc:chgData</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData GetOrAddChgData() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.CommentChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
 
     /// <summary>Removes every <c>pc:chgData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
@@ -1161,7 +1161,7 @@ public readonly struct DocumentChanges : global::RecursiveAI.OneDocument.Schema.
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command)
         {
-            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013ChangesData; }
             if (local.SequenceEqual("cmAuthorChg"u8)) { rank = 4; return global::RecursiveAI.OneDocument.Schema.ViewKind.Presentation2013CommandCommentAuthorChanges; }
             if (local.SequenceEqual("docMkLst"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Presentation2013CommandDocumentMonikerList; }
             if (local.SequenceEqual("extLst"u8)) { rank = 5; return global::RecursiveAI.OneDocument.Schema.ViewKind.PresentationExtensionList; }
@@ -1189,12 +1189,12 @@ public readonly struct DocumentChanges : global::RecursiveAI.OneDocument.Schema.
     /// <summary>Attribute <c>chg</c> (pc:ST_DocumentChangeBits, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
     public string? Chg { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "chg"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "chg"u8, value); }
 
-    /// <summary>The first <c>pc:chgData</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ChgData => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
+    /// <summary>The <c>pc:chgData</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData? ChgData => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
 
-    /// <summary>Adds a <c>pc:chgData</c> child where the content model puts it.</summary>
-    /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddChgData() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.DocumentChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
+    /// <summary>Returns the <c>pc:chgData</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData GetOrAddChgData() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.DocumentChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
 
     /// <summary>Removes every <c>pc:chgData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
@@ -1292,7 +1292,7 @@ public readonly struct DocumentChangesList : global::RecursiveAI.OneDocument.Sch
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command)
         {
-            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013ChangesData; }
             if (local.SequenceEqual("docChg"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Presentation2013CommandDocumentChanges; }
             if (local.SequenceEqual("extLst"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.PresentationExtensionList; }
         }
@@ -1313,12 +1313,12 @@ public readonly struct DocumentChangesList : global::RecursiveAI.OneDocument.Sch
         return false;
     }
 
-    /// <summary>The first <c>pc:chgData</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ChgData => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
+    /// <summary>The <c>pc:chgData</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData? ChgData => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
 
-    /// <summary>Adds a <c>pc:chgData</c> child where the content model puts it.</summary>
-    /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddChgData() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.DocumentChangesList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
+    /// <summary>Returns the <c>pc:chgData</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData GetOrAddChgData() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.DocumentChangesList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
 
     /// <summary>Removes every <c>pc:chgData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
@@ -1479,16 +1479,16 @@ public readonly struct MainMasterChanges : global::RecursiveAI.OneDocument.Schem
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command)
         {
-            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
-            if (local.SequenceEqual("cxnChg"u8)) { rank = 7; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013ChangesData; }
+            if (local.SequenceEqual("cxnChg"u8)) { rank = 7; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013ConnectorChanges; }
             if (local.SequenceEqual("extLst"u8)) { rank = 9; return global::RecursiveAI.OneDocument.Schema.ViewKind.PresentationExtensionList; }
-            if (local.SequenceEqual("graphicFrameChg"u8)) { rank = 4; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
-            if (local.SequenceEqual("grpChg"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
-            if (local.SequenceEqual("inkChg"u8)) { rank = 6; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
-            if (local.SequenceEqual("picChg"u8)) { rank = 5; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+            if (local.SequenceEqual("graphicFrameChg"u8)) { rank = 4; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013GraphicFrameChanges; }
+            if (local.SequenceEqual("grpChg"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013GroupShapeChanges; }
+            if (local.SequenceEqual("inkChg"u8)) { rank = 6; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013InkChanges; }
+            if (local.SequenceEqual("picChg"u8)) { rank = 5; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013PictureChanges; }
             if (local.SequenceEqual("sldLayoutChg"u8)) { rank = 8; return global::RecursiveAI.OneDocument.Schema.ViewKind.Presentation2013CommandSlideLayoutChanges; }
             if (local.SequenceEqual("sldMasterMkLst"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Presentation2013CommandMainMasterMonikerList; }
-            if (local.SequenceEqual("spChg"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+            if (local.SequenceEqual("spChg"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013ShapeChanges; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -1511,12 +1511,12 @@ public readonly struct MainMasterChanges : global::RecursiveAI.OneDocument.Schem
     /// <summary>Attribute <c>chg</c> (pc:ST_MainMasterChangeBits, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
     public string? Chg { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "chg"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "chg"u8, value); }
 
-    /// <summary>The first <c>pc:chgData</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ChgData => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
+    /// <summary>The <c>pc:chgData</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData? ChgData => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
 
-    /// <summary>Adds a <c>pc:chgData</c> child where the content model puts it.</summary>
-    /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddChgData() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.MainMasterChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
+    /// <summary>Returns the <c>pc:chgData</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData GetOrAddChgData() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.MainMasterChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
 
     /// <summary>Removes every <c>pc:chgData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
@@ -1533,67 +1533,67 @@ public readonly struct MainMasterChanges : global::RecursiveAI.OneDocument.Schem
     /// <returns>True when any was removed.</returns>
     public bool RemoveSldMasterMkLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "sldMasterMkLst"u8);
 
-    /// <summary>The first <c>pc:spChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? SpChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "spChg"u8);
+    /// <summary>The <c>pc:spChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ShapeChanges> SpChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "spChg"u8);
 
-    /// <summary>Adds a <c>pc:spChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:spChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddSpChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.MainMasterChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "spChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ShapeChanges AddSpChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ShapeChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.MainMasterChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "spChg"u8);
 
     /// <summary>Removes every <c>pc:spChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemoveSpChg() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "spChg"u8);
 
-    /// <summary>The first <c>pc:grpChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? GrpChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "grpChg"u8);
+    /// <summary>The <c>pc:grpChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GroupShapeChanges> GrpChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "grpChg"u8);
 
-    /// <summary>Adds a <c>pc:grpChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:grpChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddGrpChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.MainMasterChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "grpChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GroupShapeChanges AddGrpChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GroupShapeChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.MainMasterChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "grpChg"u8);
 
     /// <summary>Removes every <c>pc:grpChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemoveGrpChg() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "grpChg"u8);
 
-    /// <summary>The first <c>pc:graphicFrameChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? GraphicFrameChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "graphicFrameChg"u8);
+    /// <summary>The <c>pc:graphicFrameChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GraphicFrameChanges> GraphicFrameChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "graphicFrameChg"u8);
 
-    /// <summary>Adds a <c>pc:graphicFrameChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:graphicFrameChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddGraphicFrameChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.MainMasterChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "graphicFrameChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GraphicFrameChanges AddGraphicFrameChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GraphicFrameChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.MainMasterChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "graphicFrameChg"u8);
 
     /// <summary>Removes every <c>pc:graphicFrameChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemoveGraphicFrameChg() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "graphicFrameChg"u8);
 
-    /// <summary>The first <c>pc:picChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? PicChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "picChg"u8);
+    /// <summary>The <c>pc:picChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.PictureChanges> PicChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "picChg"u8);
 
-    /// <summary>Adds a <c>pc:picChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:picChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddPicChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.MainMasterChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "picChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.PictureChanges AddPicChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.PictureChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.MainMasterChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "picChg"u8);
 
     /// <summary>Removes every <c>pc:picChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemovePicChg() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "picChg"u8);
 
-    /// <summary>The first <c>pc:inkChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? InkChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "inkChg"u8);
+    /// <summary>The <c>pc:inkChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.InkChanges> InkChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "inkChg"u8);
 
-    /// <summary>Adds a <c>pc:inkChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:inkChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddInkChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.MainMasterChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "inkChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.InkChanges AddInkChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.InkChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.MainMasterChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "inkChg"u8);
 
     /// <summary>Removes every <c>pc:inkChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemoveInkChg() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "inkChg"u8);
 
-    /// <summary>The first <c>pc:cxnChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? CxnChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "cxnChg"u8);
+    /// <summary>The <c>pc:cxnChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ConnectorChanges> CxnChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "cxnChg"u8);
 
-    /// <summary>Adds a <c>pc:cxnChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:cxnChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddCxnChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.MainMasterChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "cxnChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ConnectorChanges AddCxnChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ConnectorChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.MainMasterChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "cxnChg"u8);
 
     /// <summary>Removes every <c>pc:cxnChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
@@ -1813,16 +1813,16 @@ public readonly struct SlideChanges : global::RecursiveAI.OneDocument.Schema.IEl
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command)
         {
-            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013ChangesData; }
             if (local.SequenceEqual("cmChg"u8)) { rank = 8; return global::RecursiveAI.OneDocument.Schema.ViewKind.Presentation2013CommandCommentChanges; }
-            if (local.SequenceEqual("cxnChg"u8)) { rank = 7; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+            if (local.SequenceEqual("cxnChg"u8)) { rank = 7; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013ConnectorChanges; }
             if (local.SequenceEqual("extLst"u8)) { rank = 9; return global::RecursiveAI.OneDocument.Schema.ViewKind.PresentationExtensionList; }
-            if (local.SequenceEqual("graphicFrameChg"u8)) { rank = 4; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
-            if (local.SequenceEqual("grpChg"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
-            if (local.SequenceEqual("inkChg"u8)) { rank = 6; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
-            if (local.SequenceEqual("picChg"u8)) { rank = 5; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+            if (local.SequenceEqual("graphicFrameChg"u8)) { rank = 4; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013GraphicFrameChanges; }
+            if (local.SequenceEqual("grpChg"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013GroupShapeChanges; }
+            if (local.SequenceEqual("inkChg"u8)) { rank = 6; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013InkChanges; }
+            if (local.SequenceEqual("picChg"u8)) { rank = 5; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013PictureChanges; }
             if (local.SequenceEqual("sldMkLst"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Presentation2013CommandSlideMonikerList; }
-            if (local.SequenceEqual("spChg"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+            if (local.SequenceEqual("spChg"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013ShapeChanges; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -1845,12 +1845,12 @@ public readonly struct SlideChanges : global::RecursiveAI.OneDocument.Schema.IEl
     /// <summary>Attribute <c>chg</c> (pc:ST_SlideChangeBits, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
     public string? Chg { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "chg"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "chg"u8, value); }
 
-    /// <summary>The first <c>pc:chgData</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ChgData => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
+    /// <summary>The <c>pc:chgData</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData? ChgData => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
 
-    /// <summary>Adds a <c>pc:chgData</c> child where the content model puts it.</summary>
-    /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddChgData() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
+    /// <summary>Returns the <c>pc:chgData</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData GetOrAddChgData() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
 
     /// <summary>Removes every <c>pc:chgData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
@@ -1867,67 +1867,67 @@ public readonly struct SlideChanges : global::RecursiveAI.OneDocument.Schema.IEl
     /// <returns>True when any was removed.</returns>
     public bool RemoveSldMkLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "sldMkLst"u8);
 
-    /// <summary>The first <c>pc:spChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? SpChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "spChg"u8);
+    /// <summary>The <c>pc:spChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ShapeChanges> SpChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "spChg"u8);
 
-    /// <summary>Adds a <c>pc:spChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:spChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddSpChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "spChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ShapeChanges AddSpChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ShapeChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "spChg"u8);
 
     /// <summary>Removes every <c>pc:spChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemoveSpChg() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "spChg"u8);
 
-    /// <summary>The first <c>pc:grpChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? GrpChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "grpChg"u8);
+    /// <summary>The <c>pc:grpChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GroupShapeChanges> GrpChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "grpChg"u8);
 
-    /// <summary>Adds a <c>pc:grpChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:grpChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddGrpChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "grpChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GroupShapeChanges AddGrpChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GroupShapeChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "grpChg"u8);
 
     /// <summary>Removes every <c>pc:grpChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemoveGrpChg() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "grpChg"u8);
 
-    /// <summary>The first <c>pc:graphicFrameChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? GraphicFrameChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "graphicFrameChg"u8);
+    /// <summary>The <c>pc:graphicFrameChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GraphicFrameChanges> GraphicFrameChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "graphicFrameChg"u8);
 
-    /// <summary>Adds a <c>pc:graphicFrameChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:graphicFrameChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddGraphicFrameChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "graphicFrameChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GraphicFrameChanges AddGraphicFrameChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GraphicFrameChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "graphicFrameChg"u8);
 
     /// <summary>Removes every <c>pc:graphicFrameChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemoveGraphicFrameChg() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "graphicFrameChg"u8);
 
-    /// <summary>The first <c>pc:picChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? PicChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "picChg"u8);
+    /// <summary>The <c>pc:picChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.PictureChanges> PicChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "picChg"u8);
 
-    /// <summary>Adds a <c>pc:picChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:picChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddPicChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "picChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.PictureChanges AddPicChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.PictureChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "picChg"u8);
 
     /// <summary>Removes every <c>pc:picChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemovePicChg() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "picChg"u8);
 
-    /// <summary>The first <c>pc:inkChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? InkChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "inkChg"u8);
+    /// <summary>The <c>pc:inkChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.InkChanges> InkChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "inkChg"u8);
 
-    /// <summary>Adds a <c>pc:inkChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:inkChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddInkChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "inkChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.InkChanges AddInkChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.InkChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "inkChg"u8);
 
     /// <summary>Removes every <c>pc:inkChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemoveInkChg() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "inkChg"u8);
 
-    /// <summary>The first <c>pc:cxnChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? CxnChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "cxnChg"u8);
+    /// <summary>The <c>pc:cxnChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ConnectorChanges> CxnChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "cxnChg"u8);
 
-    /// <summary>Adds a <c>pc:cxnChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:cxnChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddCxnChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "cxnChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ConnectorChanges AddCxnChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ConnectorChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "cxnChg"u8);
 
     /// <summary>Removes every <c>pc:cxnChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
@@ -1992,15 +1992,15 @@ public readonly struct SlideLayoutChanges : global::RecursiveAI.OneDocument.Sche
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command)
         {
-            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
-            if (local.SequenceEqual("cxnChg"u8)) { rank = 7; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+            if (local.SequenceEqual("chgData"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013ChangesData; }
+            if (local.SequenceEqual("cxnChg"u8)) { rank = 7; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013ConnectorChanges; }
             if (local.SequenceEqual("extLst"u8)) { rank = 8; return global::RecursiveAI.OneDocument.Schema.ViewKind.PresentationExtensionList; }
-            if (local.SequenceEqual("graphicFrameChg"u8)) { rank = 4; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
-            if (local.SequenceEqual("grpChg"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
-            if (local.SequenceEqual("inkChg"u8)) { rank = 6; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
-            if (local.SequenceEqual("picChg"u8)) { rank = 5; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+            if (local.SequenceEqual("graphicFrameChg"u8)) { rank = 4; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013GraphicFrameChanges; }
+            if (local.SequenceEqual("grpChg"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013GroupShapeChanges; }
+            if (local.SequenceEqual("inkChg"u8)) { rank = 6; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013InkChanges; }
+            if (local.SequenceEqual("picChg"u8)) { rank = 5; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013PictureChanges; }
             if (local.SequenceEqual("sldLayoutMkLst"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Presentation2013CommandSlideLayoutMonikerList; }
-            if (local.SequenceEqual("spChg"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+            if (local.SequenceEqual("spChg"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCommand2013ShapeChanges; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -2023,12 +2023,12 @@ public readonly struct SlideLayoutChanges : global::RecursiveAI.OneDocument.Sche
     /// <summary>Attribute <c>chg</c> (pc:ST_SlideLayoutChangeBits, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
     public string? Chg { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "chg"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "chg"u8, value); }
 
-    /// <summary>The first <c>pc:chgData</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? ChgData => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
+    /// <summary>The <c>pc:chgData</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData? ChgData => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
 
-    /// <summary>Adds a <c>pc:chgData</c> child where the content model puts it.</summary>
-    /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddChgData() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideLayoutChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
+    /// <summary>Returns the <c>pc:chgData</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData GetOrAddChgData() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideLayoutChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "chgData"u8);
 
     /// <summary>Removes every <c>pc:chgData</c> child.</summary>
     /// <returns>True when any was removed.</returns>
@@ -2045,67 +2045,67 @@ public readonly struct SlideLayoutChanges : global::RecursiveAI.OneDocument.Sche
     /// <returns>True when any was removed.</returns>
     public bool RemoveSldLayoutMkLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "sldLayoutMkLst"u8);
 
-    /// <summary>The first <c>pc:spChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? SpChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "spChg"u8);
+    /// <summary>The <c>pc:spChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ShapeChanges> SpChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "spChg"u8);
 
-    /// <summary>Adds a <c>pc:spChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:spChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddSpChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideLayoutChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "spChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ShapeChanges AddSpChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ShapeChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideLayoutChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "spChg"u8);
 
     /// <summary>Removes every <c>pc:spChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemoveSpChg() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "spChg"u8);
 
-    /// <summary>The first <c>pc:grpChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? GrpChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "grpChg"u8);
+    /// <summary>The <c>pc:grpChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GroupShapeChanges> GrpChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "grpChg"u8);
 
-    /// <summary>Adds a <c>pc:grpChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:grpChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddGrpChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideLayoutChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "grpChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GroupShapeChanges AddGrpChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GroupShapeChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideLayoutChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "grpChg"u8);
 
     /// <summary>Removes every <c>pc:grpChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemoveGrpChg() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "grpChg"u8);
 
-    /// <summary>The first <c>pc:graphicFrameChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? GraphicFrameChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "graphicFrameChg"u8);
+    /// <summary>The <c>pc:graphicFrameChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GraphicFrameChanges> GraphicFrameChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "graphicFrameChg"u8);
 
-    /// <summary>Adds a <c>pc:graphicFrameChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:graphicFrameChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddGraphicFrameChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideLayoutChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "graphicFrameChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GraphicFrameChanges AddGraphicFrameChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GraphicFrameChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideLayoutChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "graphicFrameChg"u8);
 
     /// <summary>Removes every <c>pc:graphicFrameChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemoveGraphicFrameChg() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "graphicFrameChg"u8);
 
-    /// <summary>The first <c>pc:picChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? PicChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "picChg"u8);
+    /// <summary>The <c>pc:picChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.PictureChanges> PicChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "picChg"u8);
 
-    /// <summary>Adds a <c>pc:picChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:picChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddPicChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideLayoutChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "picChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.PictureChanges AddPicChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.PictureChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideLayoutChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "picChg"u8);
 
     /// <summary>Removes every <c>pc:picChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemovePicChg() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "picChg"u8);
 
-    /// <summary>The first <c>pc:inkChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? InkChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "inkChg"u8);
+    /// <summary>The <c>pc:inkChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.InkChanges> InkChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "inkChg"u8);
 
-    /// <summary>Adds a <c>pc:inkChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:inkChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddInkChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideLayoutChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "inkChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.InkChanges AddInkChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.InkChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideLayoutChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "inkChg"u8);
 
     /// <summary>Removes every <c>pc:inkChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemoveInkChg() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "inkChg"u8);
 
-    /// <summary>The first <c>pc:cxnChg</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? CxnChg => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "cxnChg"u8);
+    /// <summary>The <c>pc:cxnChg</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ConnectorChanges> CxnChgs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "cxnChg"u8);
 
-    /// <summary>Adds a <c>pc:cxnChg</c> child where the content model puts it.</summary>
+    /// <summary>Adds a <c>pc:cxnChg</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddCxnChg() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideLayoutChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "cxnChg"u8);
+    public global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ConnectorChanges AddCxnChg() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ConnectorChanges, global::RecursiveAI.OneDocument.Schema.Presentation2013Command.SlideLayoutChanges>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2013Command, "cxnChg"u8);
 
     /// <summary>Removes every <c>pc:cxnChg</c> child.</summary>
     /// <returns>True when any was removed.</returns>

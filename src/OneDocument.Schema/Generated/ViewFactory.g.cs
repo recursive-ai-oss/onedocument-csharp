@@ -1066,986 +1066,3286 @@ public enum ViewKind
     DrawingAudioFile = 527,
     /// <summary>Drawing.Backdrop.</summary>
     DrawingBackdrop = 528,
+    /// <summary>Drawing.BackgroundFillStyleList.</summary>
+    DrawingBackgroundFillStyleList = 529,
     /// <summary>Drawing.BackgroundFormatting.</summary>
-    DrawingBackgroundFormatting = 529,
+    DrawingBackgroundFormatting = 530,
+    /// <summary>Drawing.BaseStyles.</summary>
+    DrawingBaseStyles = 531,
+    /// <summary>Drawing.BaseStylesOverride.</summary>
+    DrawingBaseStylesOverride = 532,
     /// <summary>Drawing.Bevel.</summary>
-    DrawingBevel = 530,
+    DrawingBevel = 533,
     /// <summary>Drawing.BiLevelEffect.</summary>
-    DrawingBiLevelEffect = 531,
+    DrawingBiLevelEffect = 534,
     /// <summary>Drawing.BlendEffect.</summary>
-    DrawingBlendEffect = 532,
+    DrawingBlendEffect = 535,
     /// <summary>Drawing.Blip.</summary>
-    DrawingBlip = 533,
+    DrawingBlip = 536,
     /// <summary>Drawing.BlipFillProperties.</summary>
-    DrawingBlipFillProperties = 534,
+    DrawingBlipFillProperties = 537,
     /// <summary>Drawing.BlurEffect.</summary>
-    DrawingBlurEffect = 535,
+    DrawingBlurEffect = 538,
     /// <summary>Drawing.Boolean.</summary>
-    DrawingBoolean = 536,
+    DrawingBoolean = 539,
     /// <summary>Drawing.Camera.</summary>
-    DrawingCamera = 537,
+    DrawingCamera = 540,
+    /// <summary>Drawing.Cell3D.</summary>
+    DrawingCell3D = 541,
+    /// <summary>Drawing.ClipboardStyleSheet.</summary>
+    DrawingClipboardStyleSheet = 542,
     /// <summary>Drawing.Color.</summary>
-    DrawingColor = 538,
+    DrawingColor = 543,
     /// <summary>Drawing.ColorChangeEffect.</summary>
-    DrawingColorChangeEffect = 539,
+    DrawingColorChangeEffect = 544,
     /// <summary>Drawing.ColorMRU.</summary>
-    DrawingColorMRU = 540,
+    DrawingColorMRU = 545,
     /// <summary>Drawing.ColorMapping.</summary>
-    DrawingColorMapping = 541,
+    DrawingColorMapping = 546,
     /// <summary>Drawing.ColorMappingOverride.</summary>
-    DrawingColorMappingOverride = 542,
+    DrawingColorMappingOverride = 547,
     /// <summary>Drawing.ColorReplaceEffect.</summary>
-    DrawingColorReplaceEffect = 543,
+    DrawingColorReplaceEffect = 548,
+    /// <summary>Drawing.ColorScheme.</summary>
+    DrawingColorScheme = 549,
+    /// <summary>Drawing.ColorSchemeAndMapping.</summary>
+    DrawingColorSchemeAndMapping = 550,
+    /// <summary>Drawing.ColorSchemeList.</summary>
+    DrawingColorSchemeList = 551,
     /// <summary>Drawing.ComplementTransform.</summary>
-    DrawingComplementTransform = 544,
+    DrawingComplementTransform = 552,
     /// <summary>Drawing.Connection.</summary>
-    DrawingConnection = 545,
+    DrawingConnection = 553,
     /// <summary>Drawing.ConnectionSite.</summary>
-    DrawingConnectionSite = 546,
+    DrawingConnectionSite = 554,
     /// <summary>Drawing.ConnectionSiteList.</summary>
-    DrawingConnectionSiteList = 547,
+    DrawingConnectionSiteList = 555,
     /// <summary>Drawing.ConnectorLocking.</summary>
-    DrawingConnectorLocking = 548,
+    DrawingConnectorLocking = 556,
     /// <summary>Drawing.ContentPartLocking.</summary>
-    DrawingContentPartLocking = 549,
+    DrawingContentPartLocking = 557,
+    /// <summary>Drawing.CustomColor.</summary>
+    DrawingCustomColor = 558,
+    /// <summary>Drawing.CustomColorList.</summary>
+    DrawingCustomColorList = 559,
     /// <summary>Drawing.CustomGeometry2D.</summary>
-    DrawingCustomGeometry2D = 550,
+    DrawingCustomGeometry2D = 560,
     /// <summary>Drawing.DashStop.</summary>
-    DrawingDashStop = 551,
+    DrawingDashStop = 561,
     /// <summary>Drawing.DashStopList.</summary>
-    DrawingDashStopList = 552,
+    DrawingDashStopList = 562,
+    /// <summary>Drawing.DefaultShapeDefinition.</summary>
+    DrawingDefaultShapeDefinition = 563,
     /// <summary>Drawing.DuotoneEffect.</summary>
-    DrawingDuotoneEffect = 553,
+    DrawingDuotoneEffect = 564,
     /// <summary>Drawing.EffectContainer.</summary>
-    DrawingEffectContainer = 554,
+    DrawingEffectContainer = 565,
     /// <summary>Drawing.EffectList.</summary>
-    DrawingEffectList = 555,
+    DrawingEffectList = 566,
     /// <summary>Drawing.EffectProperties.</summary>
-    DrawingEffectProperties = 556,
+    DrawingEffectProperties = 567,
     /// <summary>Drawing.EffectReference.</summary>
-    DrawingEffectReference = 557,
+    DrawingEffectReference = 568,
+    /// <summary>Drawing.EffectStyleItem.</summary>
+    DrawingEffectStyleItem = 569,
+    /// <summary>Drawing.EffectStyleList.</summary>
+    DrawingEffectStyleList = 570,
     /// <summary>Drawing.EmbeddedWAVAudioFile.</summary>
-    DrawingEmbeddedWAVAudioFile = 558,
+    DrawingEmbeddedWAVAudioFile = 571,
     /// <summary>Drawing.EmptyElement.</summary>
-    DrawingEmptyElement = 559,
+    DrawingEmptyElement = 572,
     /// <summary>Drawing.FillEffect.</summary>
-    DrawingFillEffect = 560,
+    DrawingFillEffect = 573,
     /// <summary>Drawing.FillOverlayEffect.</summary>
-    DrawingFillOverlayEffect = 561,
+    DrawingFillOverlayEffect = 574,
     /// <summary>Drawing.FillProperties.</summary>
-    DrawingFillProperties = 562,
+    DrawingFillProperties = 575,
+    /// <summary>Drawing.FillStyleList.</summary>
+    DrawingFillStyleList = 576,
     /// <summary>Drawing.FixedPercentage.</summary>
-    DrawingFixedPercentage = 563,
+    DrawingFixedPercentage = 577,
     /// <summary>Drawing.FlatText.</summary>
-    DrawingFlatText = 564,
+    DrawingFlatText = 578,
+    /// <summary>Drawing.FontCollection.</summary>
+    DrawingFontCollection = 579,
     /// <summary>Drawing.FontReference.</summary>
-    DrawingFontReference = 565,
+    DrawingFontReference = 580,
+    /// <summary>Drawing.FontScheme.</summary>
+    DrawingFontScheme = 581,
     /// <summary>Drawing.GammaTransform.</summary>
-    DrawingGammaTransform = 566,
+    DrawingGammaTransform = 582,
     /// <summary>Drawing.GeomGuide.</summary>
-    DrawingGeomGuide = 567,
+    DrawingGeomGuide = 583,
     /// <summary>Drawing.GeomGuideList.</summary>
-    DrawingGeomGuideList = 568,
+    DrawingGeomGuideList = 584,
     /// <summary>Drawing.GeomRect.</summary>
-    DrawingGeomRect = 569,
+    DrawingGeomRect = 585,
     /// <summary>Drawing.GlowEffect.</summary>
-    DrawingGlowEffect = 570,
+    DrawingGlowEffect = 586,
     /// <summary>Drawing.GradientFillProperties.</summary>
-    DrawingGradientFillProperties = 571,
+    DrawingGradientFillProperties = 587,
     /// <summary>Drawing.GradientStop.</summary>
-    DrawingGradientStop = 572,
+    DrawingGradientStop = 588,
     /// <summary>Drawing.GradientStopList.</summary>
-    DrawingGradientStopList = 573,
+    DrawingGradientStopList = 589,
     /// <summary>Drawing.GraphicalObject.</summary>
-    DrawingGraphicalObject = 574,
+    DrawingGraphicalObject = 590,
     /// <summary>Drawing.GraphicalObjectData.</summary>
-    DrawingGraphicalObjectData = 575,
+    DrawingGraphicalObjectData = 591,
     /// <summary>Drawing.GraphicalObjectFrameLocking.</summary>
-    DrawingGraphicalObjectFrameLocking = 576,
+    DrawingGraphicalObjectFrameLocking = 592,
     /// <summary>Drawing.GrayscaleEffect.</summary>
-    DrawingGrayscaleEffect = 577,
+    DrawingGrayscaleEffect = 593,
     /// <summary>Drawing.GrayscaleTransform.</summary>
-    DrawingGrayscaleTransform = 578,
+    DrawingGrayscaleTransform = 594,
     /// <summary>Drawing.GroupFillProperties.</summary>
-    DrawingGroupFillProperties = 579,
+    DrawingGroupFillProperties = 595,
     /// <summary>Drawing.GroupLocking.</summary>
-    DrawingGroupLocking = 580,
+    DrawingGroupLocking = 596,
     /// <summary>Drawing.GroupShapeProperties.</summary>
-    DrawingGroupShapeProperties = 581,
+    DrawingGroupShapeProperties = 597,
     /// <summary>Drawing.GroupTransform2D.</summary>
-    DrawingGroupTransform2D = 582,
+    DrawingGroupTransform2D = 598,
+    /// <summary>Drawing.GvmlConnector.</summary>
+    DrawingGvmlConnector = 599,
+    /// <summary>Drawing.GvmlConnectorNonVisual.</summary>
+    DrawingGvmlConnectorNonVisual = 600,
+    /// <summary>Drawing.GvmlGraphicFrameNonVisual.</summary>
+    DrawingGvmlGraphicFrameNonVisual = 601,
+    /// <summary>Drawing.GvmlGraphicalObjectFrame.</summary>
+    DrawingGvmlGraphicalObjectFrame = 602,
+    /// <summary>Drawing.GvmlGroupShape.</summary>
+    DrawingGvmlGroupShape = 603,
+    /// <summary>Drawing.GvmlGroupShapeNonVisual.</summary>
+    DrawingGvmlGroupShapeNonVisual = 604,
+    /// <summary>Drawing.GvmlPicture.</summary>
+    DrawingGvmlPicture = 605,
+    /// <summary>Drawing.GvmlPictureNonVisual.</summary>
+    DrawingGvmlPictureNonVisual = 606,
+    /// <summary>Drawing.GvmlShape.</summary>
+    DrawingGvmlShape = 607,
+    /// <summary>Drawing.GvmlShapeNonVisual.</summary>
+    DrawingGvmlShapeNonVisual = 608,
+    /// <summary>Drawing.GvmlTextShape.</summary>
+    DrawingGvmlTextShape = 609,
+    /// <summary>Drawing.GvmlUseShapeRectangle.</summary>
+    DrawingGvmlUseShapeRectangle = 610,
     /// <summary>Drawing.HSLEffect.</summary>
-    DrawingHSLEffect = 583,
+    DrawingHSLEffect = 611,
+    /// <summary>Drawing.Headers.</summary>
+    DrawingHeaders = 612,
     /// <summary>Drawing.HslColor.</summary>
-    DrawingHslColor = 584,
+    DrawingHslColor = 613,
     /// <summary>Drawing.Hyperlink.</summary>
-    DrawingHyperlink = 585,
+    DrawingHyperlink = 614,
     /// <summary>Drawing.InnerShadowEffect.</summary>
-    DrawingInnerShadowEffect = 586,
+    DrawingInnerShadowEffect = 615,
     /// <summary>Drawing.InverseGammaTransform.</summary>
-    DrawingInverseGammaTransform = 587,
+    DrawingInverseGammaTransform = 616,
     /// <summary>Drawing.InverseTransform.</summary>
-    DrawingInverseTransform = 588,
+    DrawingInverseTransform = 617,
     /// <summary>Drawing.LightRig.</summary>
-    DrawingLightRig = 589,
+    DrawingLightRig = 618,
     /// <summary>Drawing.LineEndProperties.</summary>
-    DrawingLineEndProperties = 590,
+    DrawingLineEndProperties = 619,
     /// <summary>Drawing.LineJoinBevel.</summary>
-    DrawingLineJoinBevel = 591,
+    DrawingLineJoinBevel = 620,
     /// <summary>Drawing.LineJoinMiterProperties.</summary>
-    DrawingLineJoinMiterProperties = 592,
+    DrawingLineJoinMiterProperties = 621,
     /// <summary>Drawing.LineJoinRound.</summary>
-    DrawingLineJoinRound = 593,
+    DrawingLineJoinRound = 622,
     /// <summary>Drawing.LineProperties.</summary>
-    DrawingLineProperties = 594,
+    DrawingLineProperties = 623,
+    /// <summary>Drawing.LineStyleList.</summary>
+    DrawingLineStyleList = 624,
     /// <summary>Drawing.LinearShadeProperties.</summary>
-    DrawingLinearShadeProperties = 595,
+    DrawingLinearShadeProperties = 625,
     /// <summary>Drawing.LuminanceEffect.</summary>
-    DrawingLuminanceEffect = 596,
+    DrawingLuminanceEffect = 626,
     /// <summary>Drawing.NoFillProperties.</summary>
-    DrawingNoFillProperties = 597,
+    DrawingNoFillProperties = 627,
     /// <summary>Drawing.NonVisualConnectorProperties.</summary>
-    DrawingNonVisualConnectorProperties = 598,
+    DrawingNonVisualConnectorProperties = 628,
     /// <summary>Drawing.NonVisualContentPartProperties.</summary>
-    DrawingNonVisualContentPartProperties = 599,
+    DrawingNonVisualContentPartProperties = 629,
     /// <summary>Drawing.NonVisualDrawingProps.</summary>
-    DrawingNonVisualDrawingProps = 600,
+    DrawingNonVisualDrawingProps = 630,
     /// <summary>Drawing.NonVisualDrawingShapeProps.</summary>
-    DrawingNonVisualDrawingShapeProps = 601,
+    DrawingNonVisualDrawingShapeProps = 631,
     /// <summary>Drawing.NonVisualGraphicFrameProperties.</summary>
-    DrawingNonVisualGraphicFrameProperties = 602,
+    DrawingNonVisualGraphicFrameProperties = 632,
     /// <summary>Drawing.NonVisualGroupDrawingShapeProps.</summary>
-    DrawingNonVisualGroupDrawingShapeProps = 603,
+    DrawingNonVisualGroupDrawingShapeProps = 633,
     /// <summary>Drawing.NonVisualPictureProperties.</summary>
-    DrawingNonVisualPictureProperties = 604,
+    DrawingNonVisualPictureProperties = 634,
+    /// <summary>Drawing.ObjectStyleDefaults.</summary>
+    DrawingObjectStyleDefaults = 635,
     /// <summary>Drawing.OfficeArtExtension.</summary>
-    DrawingOfficeArtExtension = 605,
+    DrawingOfficeArtExtension = 636,
     /// <summary>Drawing.OfficeArtExtensionList.</summary>
-    DrawingOfficeArtExtensionList = 606,
+    DrawingOfficeArtExtensionList = 637,
+    /// <summary>Drawing.OfficeStyleSheet.</summary>
+    DrawingOfficeStyleSheet = 638,
     /// <summary>Drawing.OuterShadowEffect.</summary>
-    DrawingOuterShadowEffect = 607,
+    DrawingOuterShadowEffect = 639,
     /// <summary>Drawing.Path2D.</summary>
-    DrawingPath2D = 608,
+    DrawingPath2D = 640,
     /// <summary>Drawing.Path2DArcTo.</summary>
-    DrawingPath2DArcTo = 609,
+    DrawingPath2DArcTo = 641,
     /// <summary>Drawing.Path2DClose.</summary>
-    DrawingPath2DClose = 610,
+    DrawingPath2DClose = 642,
     /// <summary>Drawing.Path2DCubicBezierTo.</summary>
-    DrawingPath2DCubicBezierTo = 611,
+    DrawingPath2DCubicBezierTo = 643,
     /// <summary>Drawing.Path2DLineTo.</summary>
-    DrawingPath2DLineTo = 612,
+    DrawingPath2DLineTo = 644,
     /// <summary>Drawing.Path2DList.</summary>
-    DrawingPath2DList = 613,
+    DrawingPath2DList = 645,
     /// <summary>Drawing.Path2DMoveTo.</summary>
-    DrawingPath2DMoveTo = 614,
+    DrawingPath2DMoveTo = 646,
     /// <summary>Drawing.Path2DQuadBezierTo.</summary>
-    DrawingPath2DQuadBezierTo = 615,
+    DrawingPath2DQuadBezierTo = 647,
     /// <summary>Drawing.PathShadeProperties.</summary>
-    DrawingPathShadeProperties = 616,
+    DrawingPathShadeProperties = 648,
     /// <summary>Drawing.PatternFillProperties.</summary>
-    DrawingPatternFillProperties = 617,
+    DrawingPatternFillProperties = 649,
     /// <summary>Drawing.Percentage.</summary>
-    DrawingPercentage = 618,
+    DrawingPercentage = 650,
     /// <summary>Drawing.PictureLocking.</summary>
-    DrawingPictureLocking = 619,
+    DrawingPictureLocking = 651,
     /// <summary>Drawing.Point2D.</summary>
-    DrawingPoint2D = 620,
+    DrawingPoint2D = 652,
     /// <summary>Drawing.Point3D.</summary>
-    DrawingPoint3D = 621,
+    DrawingPoint3D = 653,
     /// <summary>Drawing.PolarAdjustHandle.</summary>
-    DrawingPolarAdjustHandle = 622,
+    DrawingPolarAdjustHandle = 654,
     /// <summary>Drawing.PositiveFixedAngle.</summary>
-    DrawingPositiveFixedAngle = 623,
+    DrawingPositiveFixedAngle = 655,
     /// <summary>Drawing.PositiveFixedPercentage.</summary>
-    DrawingPositiveFixedPercentage = 624,
+    DrawingPositiveFixedPercentage = 656,
     /// <summary>Drawing.PositivePercentage.</summary>
-    DrawingPositivePercentage = 625,
+    DrawingPositivePercentage = 657,
     /// <summary>Drawing.PositiveSize2D.</summary>
-    DrawingPositiveSize2D = 626,
+    DrawingPositiveSize2D = 658,
     /// <summary>Drawing.PresetColor.</summary>
-    DrawingPresetColor = 627,
+    DrawingPresetColor = 659,
     /// <summary>Drawing.PresetGeometry2D.</summary>
-    DrawingPresetGeometry2D = 628,
+    DrawingPresetGeometry2D = 660,
     /// <summary>Drawing.PresetLineDashProperties.</summary>
-    DrawingPresetLineDashProperties = 629,
+    DrawingPresetLineDashProperties = 661,
     /// <summary>Drawing.PresetShadowEffect.</summary>
-    DrawingPresetShadowEffect = 630,
+    DrawingPresetShadowEffect = 662,
     /// <summary>Drawing.PresetTextShape.</summary>
-    DrawingPresetTextShape = 631,
+    DrawingPresetTextShape = 663,
     /// <summary>Drawing.QuickTimeFile.</summary>
-    DrawingQuickTimeFile = 632,
+    DrawingQuickTimeFile = 664,
     /// <summary>Drawing.Ratio.</summary>
-    DrawingRatio = 633,
+    DrawingRatio = 665,
     /// <summary>Drawing.ReflectionEffect.</summary>
-    DrawingReflectionEffect = 634,
+    DrawingReflectionEffect = 666,
     /// <summary>Drawing.RegularTextRun.</summary>
-    DrawingRegularTextRun = 635,
+    DrawingRegularTextRun = 667,
     /// <summary>Drawing.RelativeOffsetEffect.</summary>
-    DrawingRelativeOffsetEffect = 636,
+    DrawingRelativeOffsetEffect = 668,
     /// <summary>Drawing.RelativeRect.</summary>
-    DrawingRelativeRect = 637,
+    DrawingRelativeRect = 669,
     /// <summary>Drawing.SRgbColor.</summary>
-    DrawingSRgbColor = 638,
+    DrawingSRgbColor = 670,
     /// <summary>Drawing.ScRgbColor.</summary>
-    DrawingScRgbColor = 639,
+    DrawingScRgbColor = 671,
     /// <summary>Drawing.Scale2D.</summary>
-    DrawingScale2D = 640,
+    DrawingScale2D = 672,
     /// <summary>Drawing.Scene3D.</summary>
-    DrawingScene3D = 641,
+    DrawingScene3D = 673,
     /// <summary>Drawing.SchemeColor.</summary>
-    DrawingSchemeColor = 642,
+    DrawingSchemeColor = 674,
     /// <summary>Drawing.Shape3D.</summary>
-    DrawingShape3D = 643,
+    DrawingShape3D = 675,
     /// <summary>Drawing.ShapeLocking.</summary>
-    DrawingShapeLocking = 644,
+    DrawingShapeLocking = 676,
     /// <summary>Drawing.ShapeProperties.</summary>
-    DrawingShapeProperties = 645,
+    DrawingShapeProperties = 677,
     /// <summary>Drawing.ShapeStyle.</summary>
-    DrawingShapeStyle = 646,
+    DrawingShapeStyle = 678,
     /// <summary>Drawing.SoftEdgesEffect.</summary>
-    DrawingSoftEdgesEffect = 647,
+    DrawingSoftEdgesEffect = 679,
     /// <summary>Drawing.SolidColorFillProperties.</summary>
-    DrawingSolidColorFillProperties = 648,
+    DrawingSolidColorFillProperties = 680,
     /// <summary>Drawing.SphereCoords.</summary>
-    DrawingSphereCoords = 649,
+    DrawingSphereCoords = 681,
     /// <summary>Drawing.StretchInfoProperties.</summary>
-    DrawingStretchInfoProperties = 650,
+    DrawingStretchInfoProperties = 682,
+    /// <summary>Drawing.StyleMatrix.</summary>
+    DrawingStyleMatrix = 683,
     /// <summary>Drawing.StyleMatrixReference.</summary>
-    DrawingStyleMatrixReference = 651,
+    DrawingStyleMatrixReference = 684,
+    /// <summary>Drawing.SupplementalFont.</summary>
+    DrawingSupplementalFont = 685,
     /// <summary>Drawing.SystemColor.</summary>
-    DrawingSystemColor = 652,
+    DrawingSystemColor = 686,
+    /// <summary>Drawing.Table.</summary>
+    DrawingTable = 687,
+    /// <summary>Drawing.TableBackgroundStyle.</summary>
+    DrawingTableBackgroundStyle = 688,
+    /// <summary>Drawing.TableCell.</summary>
+    DrawingTableCell = 689,
+    /// <summary>Drawing.TableCellBorderStyle.</summary>
+    DrawingTableCellBorderStyle = 690,
+    /// <summary>Drawing.TableCellProperties.</summary>
+    DrawingTableCellProperties = 691,
+    /// <summary>Drawing.TableCol.</summary>
+    DrawingTableCol = 692,
+    /// <summary>Drawing.TableGrid.</summary>
+    DrawingTableGrid = 693,
+    /// <summary>Drawing.TablePartStyle.</summary>
+    DrawingTablePartStyle = 694,
+    /// <summary>Drawing.TableProperties.</summary>
+    DrawingTableProperties = 695,
+    /// <summary>Drawing.TableRow.</summary>
+    DrawingTableRow = 696,
+    /// <summary>Drawing.TableStyle.</summary>
+    DrawingTableStyle = 697,
+    /// <summary>Drawing.TableStyleCellStyle.</summary>
+    DrawingTableStyleCellStyle = 698,
+    /// <summary>Drawing.TableStyleList.</summary>
+    DrawingTableStyleList = 699,
+    /// <summary>Drawing.TableStyleTextStyle.</summary>
+    DrawingTableStyleTextStyle = 700,
     /// <summary>Drawing.TextAutonumberBullet.</summary>
-    DrawingTextAutonumberBullet = 653,
+    DrawingTextAutonumberBullet = 701,
     /// <summary>Drawing.TextBlipBullet.</summary>
-    DrawingTextBlipBullet = 654,
+    DrawingTextBlipBullet = 702,
     /// <summary>Drawing.TextBody.</summary>
-    DrawingTextBody = 655,
+    DrawingTextBody = 703,
     /// <summary>Drawing.TextBodyProperties.</summary>
-    DrawingTextBodyProperties = 656,
+    DrawingTextBodyProperties = 704,
     /// <summary>Drawing.TextBulletColorFollowText.</summary>
-    DrawingTextBulletColorFollowText = 657,
+    DrawingTextBulletColorFollowText = 705,
     /// <summary>Drawing.TextBulletSizeFollowText.</summary>
-    DrawingTextBulletSizeFollowText = 658,
+    DrawingTextBulletSizeFollowText = 706,
     /// <summary>Drawing.TextBulletSizePercent.</summary>
-    DrawingTextBulletSizePercent = 659,
+    DrawingTextBulletSizePercent = 707,
     /// <summary>Drawing.TextBulletSizePoint.</summary>
-    DrawingTextBulletSizePoint = 660,
+    DrawingTextBulletSizePoint = 708,
     /// <summary>Drawing.TextBulletTypefaceFollowText.</summary>
-    DrawingTextBulletTypefaceFollowText = 661,
+    DrawingTextBulletTypefaceFollowText = 709,
     /// <summary>Drawing.TextCharBullet.</summary>
-    DrawingTextCharBullet = 662,
+    DrawingTextCharBullet = 710,
     /// <summary>Drawing.TextCharacterProperties.</summary>
-    DrawingTextCharacterProperties = 663,
+    DrawingTextCharacterProperties = 711,
     /// <summary>Drawing.TextField.</summary>
-    DrawingTextField = 664,
+    DrawingTextField = 712,
     /// <summary>Drawing.TextFont.</summary>
-    DrawingTextFont = 665,
+    DrawingTextFont = 713,
     /// <summary>Drawing.TextLineBreak.</summary>
-    DrawingTextLineBreak = 666,
+    DrawingTextLineBreak = 714,
     /// <summary>Drawing.TextListStyle.</summary>
-    DrawingTextListStyle = 667,
+    DrawingTextListStyle = 715,
     /// <summary>Drawing.TextNoAutofit.</summary>
-    DrawingTextNoAutofit = 668,
+    DrawingTextNoAutofit = 716,
     /// <summary>Drawing.TextNoBullet.</summary>
-    DrawingTextNoBullet = 669,
+    DrawingTextNoBullet = 717,
     /// <summary>Drawing.TextNormalAutofit.</summary>
-    DrawingTextNormalAutofit = 670,
+    DrawingTextNormalAutofit = 718,
     /// <summary>Drawing.TextParagraph.</summary>
-    DrawingTextParagraph = 671,
+    DrawingTextParagraph = 719,
     /// <summary>Drawing.TextParagraphProperties.</summary>
-    DrawingTextParagraphProperties = 672,
+    DrawingTextParagraphProperties = 720,
     /// <summary>Drawing.TextShapeAutofit.</summary>
-    DrawingTextShapeAutofit = 673,
+    DrawingTextShapeAutofit = 721,
     /// <summary>Drawing.TextSpacing.</summary>
-    DrawingTextSpacing = 674,
+    DrawingTextSpacing = 722,
     /// <summary>Drawing.TextSpacingPercent.</summary>
-    DrawingTextSpacingPercent = 675,
+    DrawingTextSpacingPercent = 723,
     /// <summary>Drawing.TextSpacingPoint.</summary>
-    DrawingTextSpacingPoint = 676,
+    DrawingTextSpacingPoint = 724,
     /// <summary>Drawing.TextTabStop.</summary>
-    DrawingTextTabStop = 677,
+    DrawingTextTabStop = 725,
     /// <summary>Drawing.TextTabStopList.</summary>
-    DrawingTextTabStopList = 678,
+    DrawingTextTabStopList = 726,
     /// <summary>Drawing.TextUnderlineFillFollowText.</summary>
-    DrawingTextUnderlineFillFollowText = 679,
+    DrawingTextUnderlineFillFollowText = 727,
     /// <summary>Drawing.TextUnderlineFillGroupWrapper.</summary>
-    DrawingTextUnderlineFillGroupWrapper = 680,
+    DrawingTextUnderlineFillGroupWrapper = 728,
     /// <summary>Drawing.TextUnderlineLineFollowText.</summary>
-    DrawingTextUnderlineLineFollowText = 681,
+    DrawingTextUnderlineLineFollowText = 729,
+    /// <summary>Drawing.ThemeableLineStyle.</summary>
+    DrawingThemeableLineStyle = 730,
     /// <summary>Drawing.TileInfoProperties.</summary>
-    DrawingTileInfoProperties = 682,
+    DrawingTileInfoProperties = 731,
     /// <summary>Drawing.TintEffect.</summary>
-    DrawingTintEffect = 683,
+    DrawingTintEffect = 732,
     /// <summary>Drawing.Transform2D.</summary>
-    DrawingTransform2D = 684,
+    DrawingTransform2D = 733,
     /// <summary>Drawing.TransformEffect.</summary>
-    DrawingTransformEffect = 685,
+    DrawingTransformEffect = 734,
     /// <summary>Drawing.Vector3D.</summary>
-    DrawingVector3D = 686,
+    DrawingVector3D = 735,
     /// <summary>Drawing.VideoFile.</summary>
-    DrawingVideoFile = 687,
+    DrawingVideoFile = 736,
     /// <summary>Drawing.WholeE2oFormatting.</summary>
-    DrawingWholeE2oFormatting = 688,
+    DrawingWholeE2oFormatting = 737,
     /// <summary>Drawing.XYAdjustHandle.</summary>
-    DrawingXYAdjustHandle = 689,
+    DrawingXYAdjustHandle = 738,
     /// <summary>WordprocessingDrawing.Anchor.</summary>
-    WordprocessingDrawingAnchor = 690,
+    WordprocessingDrawingAnchor = 739,
     /// <summary>WordprocessingDrawing.EffectExtent.</summary>
-    WordprocessingDrawingEffectExtent = 691,
+    WordprocessingDrawingEffectExtent = 740,
     /// <summary>WordprocessingDrawing.GraphicFrame.</summary>
-    WordprocessingDrawingGraphicFrame = 692,
+    WordprocessingDrawingGraphicFrame = 741,
     /// <summary>WordprocessingDrawing.Inline.</summary>
-    WordprocessingDrawingInline = 693,
+    WordprocessingDrawingInline = 742,
     /// <summary>WordprocessingDrawing.LinkedTextboxInformation.</summary>
-    WordprocessingDrawingLinkedTextboxInformation = 694,
+    WordprocessingDrawingLinkedTextboxInformation = 743,
     /// <summary>WordprocessingDrawing.PosH.</summary>
-    WordprocessingDrawingPosH = 695,
+    WordprocessingDrawingPosH = 744,
     /// <summary>WordprocessingDrawing.PosV.</summary>
-    WordprocessingDrawingPosV = 696,
+    WordprocessingDrawingPosV = 745,
     /// <summary>WordprocessingDrawing.TextboxInfo.</summary>
-    WordprocessingDrawingTextboxInfo = 697,
+    WordprocessingDrawingTextboxInfo = 746,
     /// <summary>WordprocessingDrawing.TxbxContent.</summary>
-    WordprocessingDrawingTxbxContent = 698,
+    WordprocessingDrawingTxbxContent = 747,
     /// <summary>WordprocessingDrawing.WordprocessingCanvas.</summary>
-    WordprocessingDrawingWordprocessingCanvas = 699,
+    WordprocessingDrawingWordprocessingCanvas = 748,
     /// <summary>WordprocessingDrawing.WordprocessingContentPart.</summary>
-    WordprocessingDrawingWordprocessingContentPart = 700,
+    WordprocessingDrawingWordprocessingContentPart = 749,
     /// <summary>WordprocessingDrawing.WordprocessingContentPartNonVisual.</summary>
-    WordprocessingDrawingWordprocessingContentPartNonVisual = 701,
+    WordprocessingDrawingWordprocessingContentPartNonVisual = 750,
     /// <summary>WordprocessingDrawing.WordprocessingGroup.</summary>
-    WordprocessingDrawingWordprocessingGroup = 702,
+    WordprocessingDrawingWordprocessingGroup = 751,
     /// <summary>WordprocessingDrawing.WordprocessingShape.</summary>
-    WordprocessingDrawingWordprocessingShape = 703,
+    WordprocessingDrawingWordprocessingShape = 752,
     /// <summary>WordprocessingDrawing.WrapNone.</summary>
-    WordprocessingDrawingWrapNone = 704,
+    WordprocessingDrawingWrapNone = 753,
     /// <summary>WordprocessingDrawing.WrapPath.</summary>
-    WordprocessingDrawingWrapPath = 705,
+    WordprocessingDrawingWrapPath = 754,
     /// <summary>WordprocessingDrawing.WrapSquare.</summary>
-    WordprocessingDrawingWrapSquare = 706,
+    WordprocessingDrawingWrapSquare = 755,
     /// <summary>WordprocessingDrawing.WrapThrough.</summary>
-    WordprocessingDrawingWrapThrough = 707,
+    WordprocessingDrawingWrapThrough = 756,
     /// <summary>WordprocessingDrawing.WrapTight.</summary>
-    WordprocessingDrawingWrapTight = 708,
+    WordprocessingDrawingWrapTight = 757,
     /// <summary>WordprocessingDrawing.WrapTopBottom.</summary>
-    WordprocessingDrawingWrapTopBottom = 709,
+    WordprocessingDrawingWrapTopBottom = 758,
     /// <summary>Picture.Picture.</summary>
-    PicturePicture = 710,
+    PicturePicture = 759,
     /// <summary>Picture.PictureNonVisual.</summary>
-    PicturePictureNonVisual = 711,
+    PicturePictureNonVisual = 760,
     /// <summary>Vml.Arc.</summary>
-    VmlArc = 712,
+    VmlArc = 761,
     /// <summary>Vml.Background.</summary>
-    VmlBackground = 713,
+    VmlBackground = 762,
     /// <summary>Vml.Curve.</summary>
-    VmlCurve = 714,
+    VmlCurve = 763,
     /// <summary>Vml.F.</summary>
-    VmlF = 715,
+    VmlF = 764,
     /// <summary>Vml.Fill.</summary>
-    VmlFill = 716,
+    VmlFill = 765,
     /// <summary>Vml.Formulas.</summary>
-    VmlFormulas = 717,
+    VmlFormulas = 766,
     /// <summary>Vml.Group.</summary>
-    VmlGroup = 718,
+    VmlGroup = 767,
     /// <summary>Vml.H.</summary>
-    VmlH = 719,
+    VmlH = 768,
     /// <summary>Vml.Handles.</summary>
-    VmlHandles = 720,
+    VmlHandles = 769,
     /// <summary>Vml.Image.</summary>
-    VmlImage = 721,
+    VmlImage = 770,
     /// <summary>Vml.ImageData.</summary>
-    VmlImageData = 722,
+    VmlImageData = 771,
     /// <summary>Vml.Line.</summary>
-    VmlLine = 723,
+    VmlLine = 772,
     /// <summary>Vml.Oval.</summary>
-    VmlOval = 724,
+    VmlOval = 773,
     /// <summary>Vml.Path.</summary>
-    VmlPath = 725,
+    VmlPath = 774,
     /// <summary>Vml.PolyLine.</summary>
-    VmlPolyLine = 726,
+    VmlPolyLine = 775,
     /// <summary>Vml.Rect.</summary>
-    VmlRect = 727,
+    VmlRect = 776,
     /// <summary>Vml.RoundRect.</summary>
-    VmlRoundRect = 728,
+    VmlRoundRect = 777,
     /// <summary>Vml.Shadow.</summary>
-    VmlShadow = 729,
+    VmlShadow = 778,
     /// <summary>Vml.Shape.</summary>
-    VmlShape = 730,
+    VmlShape = 779,
     /// <summary>Vml.Shapetype.</summary>
-    VmlShapetype = 731,
+    VmlShapetype = 780,
     /// <summary>Vml.Stroke.</summary>
-    VmlStroke = 732,
+    VmlStroke = 781,
     /// <summary>Vml.TextPath.</summary>
-    VmlTextPath = 733,
+    VmlTextPath = 782,
     /// <summary>Vml.Textbox.</summary>
-    VmlTextbox = 734,
+    VmlTextbox = 783,
     /// <summary>VmlOffice.Callout.</summary>
-    VmlOfficeCallout = 735,
+    VmlOfficeCallout = 784,
     /// <summary>VmlOffice.ClipPath.</summary>
-    VmlOfficeClipPath = 736,
+    VmlOfficeClipPath = 785,
     /// <summary>VmlOffice.ColorMenu.</summary>
-    VmlOfficeColorMenu = 737,
+    VmlOfficeColorMenu = 786,
     /// <summary>VmlOffice.ColorMru.</summary>
-    VmlOfficeColorMru = 738,
+    VmlOfficeColorMru = 787,
     /// <summary>VmlOffice.Complex.</summary>
-    VmlOfficeComplex = 739,
+    VmlOfficeComplex = 788,
     /// <summary>VmlOffice.Diagram.</summary>
-    VmlOfficeDiagram = 740,
+    VmlOfficeDiagram = 789,
     /// <summary>VmlOffice.Entry.</summary>
-    VmlOfficeEntry = 741,
+    VmlOfficeEntry = 790,
     /// <summary>VmlOffice.EquationXml.</summary>
-    VmlOfficeEquationXml = 742,
+    VmlOfficeEquationXml = 791,
     /// <summary>VmlOffice.Extrusion.</summary>
-    VmlOfficeExtrusion = 743,
+    VmlOfficeExtrusion = 792,
     /// <summary>VmlOffice.Fill.</summary>
-    VmlOfficeFill = 744,
+    VmlOfficeFill = 793,
     /// <summary>VmlOffice.IdMap.</summary>
-    VmlOfficeIdMap = 745,
+    VmlOfficeIdMap = 794,
     /// <summary>VmlOffice.Ink.</summary>
-    VmlOfficeInk = 746,
+    VmlOfficeInk = 795,
     /// <summary>VmlOffice.Lock.</summary>
-    VmlOfficeLock = 747,
+    VmlOfficeLock = 796,
     /// <summary>VmlOffice.OLEObject.</summary>
-    VmlOfficeOLEObject = 748,
+    VmlOfficeOLEObject = 797,
     /// <summary>VmlOffice.Proxy.</summary>
-    VmlOfficeProxy = 749,
+    VmlOfficeProxy = 798,
     /// <summary>VmlOffice.R.</summary>
-    VmlOfficeR = 750,
+    VmlOfficeR = 799,
     /// <summary>VmlOffice.RegroupTable.</summary>
-    VmlOfficeRegroupTable = 751,
+    VmlOfficeRegroupTable = 800,
     /// <summary>VmlOffice.Relation.</summary>
-    VmlOfficeRelation = 752,
+    VmlOfficeRelation = 801,
     /// <summary>VmlOffice.RelationTable.</summary>
-    VmlOfficeRelationTable = 753,
+    VmlOfficeRelationTable = 802,
     /// <summary>VmlOffice.Rules.</summary>
-    VmlOfficeRules = 754,
+    VmlOfficeRules = 803,
     /// <summary>VmlOffice.ShapeDefaults.</summary>
-    VmlOfficeShapeDefaults = 755,
+    VmlOfficeShapeDefaults = 804,
     /// <summary>VmlOffice.ShapeLayout.</summary>
-    VmlOfficeShapeLayout = 756,
+    VmlOfficeShapeLayout = 805,
     /// <summary>VmlOffice.SignatureLine.</summary>
-    VmlOfficeSignatureLine = 757,
+    VmlOfficeSignatureLine = 806,
     /// <summary>VmlOffice.Skew.</summary>
-    VmlOfficeSkew = 758,
+    VmlOfficeSkew = 807,
     /// <summary>VmlOffice.StrokeChild.</summary>
-    VmlOfficeStrokeChild = 759,
+    VmlOfficeStrokeChild = 808,
     /// <summary>VmlWord.AnchorLock.</summary>
-    VmlWordAnchorLock = 760,
+    VmlWordAnchorLock = 809,
     /// <summary>VmlWord.Border.</summary>
-    VmlWordBorder = 761,
+    VmlWordBorder = 810,
     /// <summary>VmlWord.Wrap.</summary>
-    VmlWordWrap = 762,
+    VmlWordWrap = 811,
     /// <summary>VmlExcel.ClientData.</summary>
-    VmlExcelClientData = 763,
+    VmlExcelClientData = 812,
     /// <summary>VmlPowerPoint.Empty.</summary>
-    VmlPowerPointEmpty = 764,
+    VmlPowerPointEmpty = 813,
     /// <summary>VmlPowerPoint.Rel.</summary>
-    VmlPowerPointRel = 765,
+    VmlPowerPointRel = 814,
     /// <summary>ExtendedProperties.DigSigBlob.</summary>
-    ExtendedPropertiesDigSigBlob = 766,
+    ExtendedPropertiesDigSigBlob = 815,
     /// <summary>ExtendedProperties.Properties.</summary>
-    ExtendedPropertiesProperties = 767,
+    ExtendedPropertiesProperties = 816,
     /// <summary>ExtendedProperties.VectorLpstr.</summary>
-    ExtendedPropertiesVectorLpstr = 768,
+    ExtendedPropertiesVectorLpstr = 817,
     /// <summary>ExtendedProperties.VectorVariant.</summary>
-    ExtendedPropertiesVectorVariant = 769,
+    ExtendedPropertiesVectorVariant = 818,
     /// <summary>CustomProperties.Properties.</summary>
-    CustomPropertiesProperties = 770,
+    CustomPropertiesProperties = 819,
     /// <summary>CustomProperties.Property.</summary>
-    CustomPropertiesProperty = 771,
+    CustomPropertiesProperty = 820,
     /// <summary>VariantTypes.Array.</summary>
-    VariantTypesArray = 772,
+    VariantTypesArray = 821,
     /// <summary>VariantTypes.Empty.</summary>
-    VariantTypesEmpty = 773,
+    VariantTypesEmpty = 822,
     /// <summary>VariantTypes.Null.</summary>
-    VariantTypesNull = 774,
+    VariantTypesNull = 823,
     /// <summary>VariantTypes.Variant.</summary>
-    VariantTypesVariant = 775,
+    VariantTypesVariant = 824,
     /// <summary>VariantTypes.Vector.</summary>
-    VariantTypesVector = 776,
+    VariantTypesVector = 825,
     /// <summary>VariantTypes.Vstream.</summary>
-    VariantTypesVstream = 777,
+    VariantTypesVstream = 826,
     /// <summary>ContentTypes.Default.</summary>
-    ContentTypesDefault = 778,
+    ContentTypesDefault = 827,
     /// <summary>ContentTypes.Override.</summary>
-    ContentTypesOverride = 779,
+    ContentTypesOverride = 828,
     /// <summary>ContentTypes.Types.</summary>
-    ContentTypesTypes = 780,
+    ContentTypesTypes = 829,
     /// <summary>PackageRelationships.Relationship.</summary>
-    PackageRelationshipsRelationship = 781,
+    PackageRelationshipsRelationship = 830,
     /// <summary>PackageRelationships.Relationships.</summary>
-    PackageRelationshipsRelationships = 782,
+    PackageRelationshipsRelationships = 831,
     /// <summary>CoreProperties.CoreProperties.</summary>
-    CorePropertiesCoreProperties = 783,
+    CorePropertiesCoreProperties = 832,
     /// <summary>CoreProperties.Keyword.</summary>
-    CorePropertiesKeyword = 784,
+    CorePropertiesKeyword = 833,
     /// <summary>CoreProperties.Keywords.</summary>
-    CorePropertiesKeywords = 785,
+    CorePropertiesKeywords = 834,
     /// <summary>DigitalSignature.RelationshipReference.</summary>
-    DigitalSignatureRelationshipReference = 786,
+    DigitalSignatureRelationshipReference = 835,
     /// <summary>DigitalSignature.RelationshipsGroupReference.</summary>
-    DigitalSignatureRelationshipsGroupReference = 787,
+    DigitalSignatureRelationshipsGroupReference = 836,
     /// <summary>DigitalSignature.SignatureTime.</summary>
-    DigitalSignatureSignatureTime = 788,
+    DigitalSignatureSignatureTime = 837,
     /// <summary>Word2010.Bevel.</summary>
-    Word2010Bevel = 789,
+    Word2010Bevel = 838,
     /// <summary>Word2010.Camera.</summary>
-    Word2010Camera = 790,
+    Word2010Camera = 839,
     /// <summary>Word2010.Color.</summary>
-    Word2010Color = 791,
+    Word2010Color = 840,
     /// <summary>Word2010.DefaultImageDpi.</summary>
-    Word2010DefaultImageDpi = 792,
+    Word2010DefaultImageDpi = 841,
     /// <summary>Word2010.FillTextEffect.</summary>
-    Word2010FillTextEffect = 793,
+    Word2010FillTextEffect = 842,
     /// <summary>Word2010.Glow.</summary>
-    Word2010Glow = 794,
+    Word2010Glow = 843,
     /// <summary>Word2010.GradientFillProperties.</summary>
-    Word2010GradientFillProperties = 795,
+    Word2010GradientFillProperties = 844,
     /// <summary>Word2010.GradientStop.</summary>
-    Word2010GradientStop = 796,
+    Word2010GradientStop = 845,
     /// <summary>Word2010.GradientStopList.</summary>
-    Word2010GradientStopList = 797,
+    Word2010GradientStopList = 846,
     /// <summary>Word2010.Ligatures.</summary>
-    Word2010Ligatures = 798,
+    Word2010Ligatures = 847,
     /// <summary>Word2010.LightRig.</summary>
-    Word2010LightRig = 799,
+    Word2010LightRig = 848,
     /// <summary>Word2010.LineJoinMiterProperties.</summary>
-    Word2010LineJoinMiterProperties = 800,
+    Word2010LineJoinMiterProperties = 849,
     /// <summary>Word2010.LinearShadeProperties.</summary>
-    Word2010LinearShadeProperties = 801,
+    Word2010LinearShadeProperties = 850,
     /// <summary>Word2010.LongHexNumber.</summary>
-    Word2010LongHexNumber = 802,
+    Word2010LongHexNumber = 851,
     /// <summary>Word2010.NumForm.</summary>
-    Word2010NumForm = 803,
+    Word2010NumForm = 852,
     /// <summary>Word2010.NumSpacing.</summary>
-    Word2010NumSpacing = 804,
+    Word2010NumSpacing = 853,
     /// <summary>Word2010.OnOff.</summary>
-    Word2010OnOff = 805,
+    Word2010OnOff = 854,
     /// <summary>Word2010.PathShadeProperties.</summary>
-    Word2010PathShadeProperties = 806,
+    Word2010PathShadeProperties = 855,
     /// <summary>Word2010.Percentage.</summary>
-    Word2010Percentage = 807,
+    Word2010Percentage = 856,
     /// <summary>Word2010.PositiveFixedPercentage.</summary>
-    Word2010PositiveFixedPercentage = 808,
+    Word2010PositiveFixedPercentage = 857,
     /// <summary>Word2010.PositivePercentage.</summary>
-    Word2010PositivePercentage = 809,
+    Word2010PositivePercentage = 858,
     /// <summary>Word2010.PresetLineDashProperties.</summary>
-    Word2010PresetLineDashProperties = 810,
+    Word2010PresetLineDashProperties = 859,
     /// <summary>Word2010.Props3D.</summary>
-    Word2010Props3D = 811,
+    Word2010Props3D = 860,
     /// <summary>Word2010.Reflection.</summary>
-    Word2010Reflection = 812,
+    Word2010Reflection = 861,
     /// <summary>Word2010.RelativeRect.</summary>
-    Word2010RelativeRect = 813,
+    Word2010RelativeRect = 862,
     /// <summary>Word2010.SRgbColor.</summary>
-    Word2010SRgbColor = 814,
+    Word2010SRgbColor = 863,
     /// <summary>Word2010.Scene3D.</summary>
-    Word2010Scene3D = 815,
+    Word2010Scene3D = 864,
     /// <summary>Word2010.SchemeColor.</summary>
-    Word2010SchemeColor = 816,
+    Word2010SchemeColor = 865,
     /// <summary>Word2010.SdtCheckbox.</summary>
-    Word2010SdtCheckbox = 817,
+    Word2010SdtCheckbox = 866,
     /// <summary>Word2010.SdtCheckboxSymbol.</summary>
-    Word2010SdtCheckboxSymbol = 818,
+    Word2010SdtCheckboxSymbol = 867,
     /// <summary>Word2010.Shadow.</summary>
-    Word2010Shadow = 819,
+    Word2010Shadow = 868,
     /// <summary>Word2010.SolidColorFillProperties.</summary>
-    Word2010SolidColorFillProperties = 820,
+    Word2010SolidColorFillProperties = 869,
     /// <summary>Word2010.SphereCoords.</summary>
-    Word2010SphereCoords = 821,
+    Word2010SphereCoords = 870,
     /// <summary>Word2010.StyleSet.</summary>
-    Word2010StyleSet = 822,
+    Word2010StyleSet = 871,
     /// <summary>Word2010.StylisticSets.</summary>
-    Word2010StylisticSets = 823,
+    Word2010StylisticSets = 872,
     /// <summary>Word2010.TextOutlineEffect.</summary>
-    Word2010TextOutlineEffect = 824,
+    Word2010TextOutlineEffect = 873,
     /// <summary>Word2010.WordContentPart.</summary>
-    Word2010WordContentPart = 825,
+    Word2010WordContentPart = 874,
     /// <summary>Word2010.WordContentPartNonVisual.</summary>
-    Word2010WordContentPartNonVisual = 826,
+    Word2010WordContentPartNonVisual = 875,
     /// <summary>Word2012.CommentEx.</summary>
-    Word2012CommentEx = 827,
+    Word2012CommentEx = 876,
     /// <summary>Word2012.CommentsEx.</summary>
-    Word2012CommentsEx = 828,
+    Word2012CommentsEx = 877,
     /// <summary>Word2012.Guid.</summary>
-    Word2012Guid = 829,
+    Word2012Guid = 878,
     /// <summary>Word2012.People.</summary>
-    Word2012People = 830,
+    Word2012People = 879,
     /// <summary>Word2012.Person.</summary>
-    Word2012Person = 831,
+    Word2012Person = 880,
     /// <summary>Word2012.PresenceInfo.</summary>
-    Word2012PresenceInfo = 832,
+    Word2012PresenceInfo = 881,
     /// <summary>Word2012.SdtAppearance.</summary>
-    Word2012SdtAppearance = 833,
+    Word2012SdtAppearance = 882,
     /// <summary>Word2012.SdtRepeatedSection.</summary>
-    Word2012SdtRepeatedSection = 834,
+    Word2012SdtRepeatedSection = 883,
     /// <summary>Word2015Symex.SymEx.</summary>
-    Word2015SymexSymEx = 835,
+    Word2015SymexSymEx = 884,
     /// <summary>Word2016Cid.CommentId.</summary>
-    Word2016CidCommentId = 836,
+    Word2016CidCommentId = 885,
     /// <summary>Word2016Cid.CommentsIds.</summary>
-    Word2016CidCommentsIds = 837,
+    Word2016CidCommentsIds = 886,
     /// <summary>Word2018.Extension.</summary>
-    Word2018Extension = 838,
+    Word2018Extension = 887,
     /// <summary>Word2018.ExtensionList.</summary>
-    Word2018ExtensionList = 839,
+    Word2018ExtensionList = 888,
     /// <summary>Word2018Cex.CommentExtensible.</summary>
-    Word2018CexCommentExtensible = 840,
+    Word2018CexCommentExtensible = 889,
     /// <summary>Word2018Cex.CommentsExtensible.</summary>
-    Word2018CexCommentsExtensible = 841,
+    Word2018CexCommentsExtensible = 890,
     /// <summary>Word2026Cei.CommentEntityInfo.</summary>
-    Word2026CeiCommentEntityInfo = 842,
+    Word2026CeiCommentEntityInfo = 891,
     /// <summary>WordprocessingShape.LinkedTextboxInformation.</summary>
-    WordprocessingShapeLinkedTextboxInformation = 843,
+    WordprocessingShapeLinkedTextboxInformation = 892,
     /// <summary>WordprocessingShape.TextboxInfo.</summary>
-    WordprocessingShapeTextboxInfo = 844,
+    WordprocessingShapeTextboxInfo = 893,
     /// <summary>WordprocessingShape.WordprocessingShape.</summary>
-    WordprocessingShapeWordprocessingShape = 845,
+    WordprocessingShapeWordprocessingShape = 894,
     /// <summary>WordprocessingGroup.GraphicFrame.</summary>
-    WordprocessingGroupGraphicFrame = 846,
+    WordprocessingGroupGraphicFrame = 895,
     /// <summary>WordprocessingGroup.WordprocessingGroup.</summary>
-    WordprocessingGroupWordprocessingGroup = 847,
+    WordprocessingGroupWordprocessingGroup = 896,
     /// <summary>WordprocessingCanvas.WordprocessingCanvas.</summary>
-    WordprocessingCanvasWordprocessingCanvas = 848,
+    WordprocessingCanvasWordprocessingCanvas = 897,
     /// <summary>WordprocessingDrawing2010.SizeRelH.</summary>
-    WordprocessingDrawing2010SizeRelH = 849,
+    WordprocessingDrawing2010SizeRelH = 898,
     /// <summary>WordprocessingDrawing2010.SizeRelV.</summary>
-    WordprocessingDrawing2010SizeRelV = 850,
+    WordprocessingDrawing2010SizeRelV = 899,
     /// <summary>WordprocessingDrawing2012.WebVideoPr.</summary>
-    WordprocessingDrawing2012WebVideoPr = 851,
+    WordprocessingDrawing2012WebVideoPr = 900,
     /// <summary>WordOEmbed.OEmbed.</summary>
-    WordOEmbedOEmbed = 852,
+    WordOEmbedOEmbed = 901,
     /// <summary>Drawing2010.CameraTool.</summary>
-    Drawing2010CameraTool = 853,
+    Drawing2010CameraTool = 902,
     /// <summary>Drawing2010.CompatExt.</summary>
-    Drawing2010CompatExt = 854,
+    Drawing2010CompatExt = 903,
     /// <summary>Drawing2010.ContentPartLocking.</summary>
-    Drawing2010ContentPartLocking = 855,
+    Drawing2010ContentPartLocking = 904,
     /// <summary>Drawing2010.GvmlContentPart.</summary>
-    Drawing2010GvmlContentPart = 856,
+    Drawing2010GvmlContentPart = 905,
     /// <summary>Drawing2010.GvmlContentPartNonVisual.</summary>
-    Drawing2010GvmlContentPartNonVisual = 857,
+    Drawing2010GvmlContentPartNonVisual = 906,
     /// <summary>Drawing2010.IsGvmlCanvas.</summary>
-    Drawing2010IsGvmlCanvas = 858,
+    Drawing2010IsGvmlCanvas = 907,
     /// <summary>Drawing2010.NonVisualInkContentPartProperties.</summary>
-    Drawing2010NonVisualInkContentPartProperties = 859,
+    Drawing2010NonVisualInkContentPartProperties = 908,
     /// <summary>Drawing2010.Photo.</summary>
-    Drawing2010Photo = 860,
+    Drawing2010Photo = 909,
     /// <summary>Drawing2010.PictureEffect.</summary>
-    Drawing2010PictureEffect = 861,
+    Drawing2010PictureEffect = 910,
     /// <summary>Drawing2010.PictureEffectBackgroundRemoval.</summary>
-    Drawing2010PictureEffectBackgroundRemoval = 862,
+    Drawing2010PictureEffectBackgroundRemoval = 911,
     /// <summary>Drawing2010.PictureEffectBackgroundRemovalBackgroundMark.</summary>
-    Drawing2010PictureEffectBackgroundRemovalBackgroundMark = 863,
+    Drawing2010PictureEffectBackgroundRemovalBackgroundMark = 912,
     /// <summary>Drawing2010.PictureEffectBackgroundRemovalForegroundMark.</summary>
-    Drawing2010PictureEffectBackgroundRemovalForegroundMark = 864,
+    Drawing2010PictureEffectBackgroundRemovalForegroundMark = 913,
     /// <summary>Drawing2010.PictureEffectBlur.</summary>
-    Drawing2010PictureEffectBlur = 865,
+    Drawing2010PictureEffectBlur = 914,
     /// <summary>Drawing2010.PictureEffectBrightnessContrast.</summary>
-    Drawing2010PictureEffectBrightnessContrast = 866,
+    Drawing2010PictureEffectBrightnessContrast = 915,
     /// <summary>Drawing2010.PictureEffectCement.</summary>
-    Drawing2010PictureEffectCement = 867,
+    Drawing2010PictureEffectCement = 916,
     /// <summary>Drawing2010.PictureEffectChalkSketch.</summary>
-    Drawing2010PictureEffectChalkSketch = 868,
+    Drawing2010PictureEffectChalkSketch = 917,
     /// <summary>Drawing2010.PictureEffectColorTemperature.</summary>
-    Drawing2010PictureEffectColorTemperature = 869,
+    Drawing2010PictureEffectColorTemperature = 918,
     /// <summary>Drawing2010.PictureEffectCrisscrossEtching.</summary>
-    Drawing2010PictureEffectCrisscrossEtching = 870,
+    Drawing2010PictureEffectCrisscrossEtching = 919,
     /// <summary>Drawing2010.PictureEffectCutout.</summary>
-    Drawing2010PictureEffectCutout = 871,
+    Drawing2010PictureEffectCutout = 920,
     /// <summary>Drawing2010.PictureEffectFilmGrain.</summary>
-    Drawing2010PictureEffectFilmGrain = 872,
+    Drawing2010PictureEffectFilmGrain = 921,
     /// <summary>Drawing2010.PictureEffectGlass.</summary>
-    Drawing2010PictureEffectGlass = 873,
+    Drawing2010PictureEffectGlass = 922,
     /// <summary>Drawing2010.PictureEffectGlowDiffused.</summary>
-    Drawing2010PictureEffectGlowDiffused = 874,
+    Drawing2010PictureEffectGlowDiffused = 923,
     /// <summary>Drawing2010.PictureEffectGlowEdges.</summary>
-    Drawing2010PictureEffectGlowEdges = 875,
+    Drawing2010PictureEffectGlowEdges = 924,
     /// <summary>Drawing2010.PictureEffectLightScreen.</summary>
-    Drawing2010PictureEffectLightScreen = 876,
+    Drawing2010PictureEffectLightScreen = 925,
     /// <summary>Drawing2010.PictureEffectLineDrawing.</summary>
-    Drawing2010PictureEffectLineDrawing = 877,
+    Drawing2010PictureEffectLineDrawing = 926,
     /// <summary>Drawing2010.PictureEffectMarker.</summary>
-    Drawing2010PictureEffectMarker = 878,
+    Drawing2010PictureEffectMarker = 927,
     /// <summary>Drawing2010.PictureEffectMosiaicBubbles.</summary>
-    Drawing2010PictureEffectMosiaicBubbles = 879,
+    Drawing2010PictureEffectMosiaicBubbles = 928,
     /// <summary>Drawing2010.PictureEffectPaintBrush.</summary>
-    Drawing2010PictureEffectPaintBrush = 880,
+    Drawing2010PictureEffectPaintBrush = 929,
     /// <summary>Drawing2010.PictureEffectPaintStrokes.</summary>
-    Drawing2010PictureEffectPaintStrokes = 881,
+    Drawing2010PictureEffectPaintStrokes = 930,
     /// <summary>Drawing2010.PictureEffectPastelsSmooth.</summary>
-    Drawing2010PictureEffectPastelsSmooth = 882,
+    Drawing2010PictureEffectPastelsSmooth = 931,
     /// <summary>Drawing2010.PictureEffectPencilGrayscale.</summary>
-    Drawing2010PictureEffectPencilGrayscale = 883,
+    Drawing2010PictureEffectPencilGrayscale = 932,
     /// <summary>Drawing2010.PictureEffectPencilSketch.</summary>
-    Drawing2010PictureEffectPencilSketch = 884,
+    Drawing2010PictureEffectPencilSketch = 933,
     /// <summary>Drawing2010.PictureEffectPhotocopy.</summary>
-    Drawing2010PictureEffectPhotocopy = 885,
+    Drawing2010PictureEffectPhotocopy = 934,
     /// <summary>Drawing2010.PictureEffectPlasticWrap.</summary>
-    Drawing2010PictureEffectPlasticWrap = 886,
+    Drawing2010PictureEffectPlasticWrap = 935,
     /// <summary>Drawing2010.PictureEffectSaturation.</summary>
-    Drawing2010PictureEffectSaturation = 887,
+    Drawing2010PictureEffectSaturation = 936,
     /// <summary>Drawing2010.PictureEffectSharpenSoften.</summary>
-    Drawing2010PictureEffectSharpenSoften = 888,
+    Drawing2010PictureEffectSharpenSoften = 937,
     /// <summary>Drawing2010.PictureEffectTexturizer.</summary>
-    Drawing2010PictureEffectTexturizer = 889,
+    Drawing2010PictureEffectTexturizer = 938,
     /// <summary>Drawing2010.PictureEffectWatercolorSponge.</summary>
-    Drawing2010PictureEffectWatercolorSponge = 890,
+    Drawing2010PictureEffectWatercolorSponge = 939,
     /// <summary>Drawing2010.PictureLayer.</summary>
-    Drawing2010PictureLayer = 891,
+    Drawing2010PictureLayer = 940,
     /// <summary>Drawing2010.ShadowObscured.</summary>
-    Drawing2010ShadowObscured = 892,
+    Drawing2010ShadowObscured = 941,
     /// <summary>Drawing2010.TextMath.</summary>
-    Drawing2010TextMath = 893,
+    Drawing2010TextMath = 942,
     /// <summary>Drawing2010.UseLocalDpi.</summary>
-    Drawing2010UseLocalDpi = 894,
+    Drawing2010UseLocalDpi = 943,
     /// <summary>Drawing2012.BackgroundPr.</summary>
-    Drawing2012BackgroundPr = 895,
+    Drawing2012BackgroundPr = 944,
     /// <summary>Drawing2012.NonVisualGroupProps.</summary>
-    Drawing2012NonVisualGroupProps = 896,
+    Drawing2012NonVisualGroupProps = 945,
     /// <summary>Drawing2012.ObjectPr.</summary>
-    Drawing2012ObjectPr = 897,
+    Drawing2012ObjectPr = 946,
     /// <summary>Drawing2012.SignatureLine.</summary>
-    Drawing2012SignatureLine = 898,
+    Drawing2012SignatureLine = 947,
     /// <summary>Drawing2014.ConnectableReferences.</summary>
-    Drawing2014ConnectableReferences = 899,
+    Drawing2014ConnectableReferences = 948,
     /// <summary>Drawing2014.CreationId.</summary>
-    Drawing2014CreationId = 900,
+    Drawing2014CreationId = 949,
     /// <summary>Drawing2014.Identifier.</summary>
-    Drawing2014Identifier = 901,
+    Drawing2014Identifier = 950,
     /// <summary>Drawing2014.PredecessorDrawingElementReference.</summary>
-    Drawing2014PredecessorDrawingElementReference = 902,
+    Drawing2014PredecessorDrawingElementReference = 951,
     /// <summary>DrawingSvg.SVGBlip.</summary>
-    DrawingSvgSVGBlip = 903,
+    DrawingSvgSVGBlip = 952,
     /// <summary>DrawingDecorative.Decorative.</summary>
-    DrawingDecorativeDecorative = 904,
+    DrawingDecorativeDecorative = 953,
     /// <summary>DrawingClassification.ClassificationOutcome.</summary>
-    DrawingClassificationClassificationOutcome = 905,
+    DrawingClassificationClassificationOutcome = 954,
     /// <summary>DrawingHyperlinkColor.HyperlinkColor.</summary>
-    DrawingHyperlinkColorHyperlinkColor = 906,
+    DrawingHyperlinkColorHyperlinkColor = 955,
     /// <summary>Presentation2010.BrowseMode.</summary>
-    Presentation2010BrowseMode = 907,
+    Presentation2010BrowseMode = 956,
     /// <summary>Presentation2010.ContentPartNonVisual.</summary>
-    Presentation2010ContentPartNonVisual = 908,
+    Presentation2010ContentPartNonVisual = 957,
     /// <summary>Presentation2010.DefaultImageDpi.</summary>
-    Presentation2010DefaultImageDpi = 909,
+    Presentation2010DefaultImageDpi = 958,
     /// <summary>Presentation2010.DiscardImageEditData.</summary>
-    Presentation2010DiscardImageEditData = 910,
+    Presentation2010DiscardImageEditData = 959,
     /// <summary>Presentation2010.FlyThroughTransition.</summary>
-    Presentation2010FlyThroughTransition = 911,
+    Presentation2010FlyThroughTransition = 960,
     /// <summary>Presentation2010.GlitterTransition.</summary>
-    Presentation2010GlitterTransition = 912,
+    Presentation2010GlitterTransition = 961,
     /// <summary>Presentation2010.LaserTrace.</summary>
-    Presentation2010LaserTrace = 913,
+    Presentation2010LaserTrace = 962,
     /// <summary>Presentation2010.LaserTraceList.</summary>
-    Presentation2010LaserTraceList = 914,
+    Presentation2010LaserTraceList = 963,
     /// <summary>Presentation2010.LaserTracePoint.</summary>
-    Presentation2010LaserTracePoint = 915,
+    Presentation2010LaserTracePoint = 964,
     /// <summary>Presentation2010.LeftRightDirectionTransition.</summary>
-    Presentation2010LeftRightDirectionTransition = 916,
+    Presentation2010LeftRightDirectionTransition = 965,
     /// <summary>Presentation2010.Media.</summary>
-    Presentation2010Media = 917,
+    Presentation2010Media = 966,
     /// <summary>Presentation2010.MediaBookmark.</summary>
-    Presentation2010MediaBookmark = 918,
+    Presentation2010MediaBookmark = 967,
     /// <summary>Presentation2010.MediaBookmarkList.</summary>
-    Presentation2010MediaBookmarkList = 919,
+    Presentation2010MediaBookmarkList = 968,
     /// <summary>Presentation2010.MediaBookmarkTarget.</summary>
-    Presentation2010MediaBookmarkTarget = 920,
+    Presentation2010MediaBookmarkTarget = 969,
     /// <summary>Presentation2010.MediaFade.</summary>
-    Presentation2010MediaFade = 921,
+    Presentation2010MediaFade = 970,
     /// <summary>Presentation2010.MediaPlaybackEventRecord.</summary>
-    Presentation2010MediaPlaybackEventRecord = 922,
+    Presentation2010MediaPlaybackEventRecord = 971,
     /// <summary>Presentation2010.MediaSeekEventRecord.</summary>
-    Presentation2010MediaSeekEventRecord = 923,
+    Presentation2010MediaSeekEventRecord = 972,
     /// <summary>Presentation2010.MediaTrim.</summary>
-    Presentation2010MediaTrim = 924,
+    Presentation2010MediaTrim = 973,
     /// <summary>Presentation2010.NullEventRecord.</summary>
-    Presentation2010NullEventRecord = 925,
+    Presentation2010NullEventRecord = 974,
     /// <summary>Presentation2010.PrismTransition.</summary>
-    Presentation2010PrismTransition = 926,
+    Presentation2010PrismTransition = 975,
     /// <summary>Presentation2010.RandomId.</summary>
-    Presentation2010RandomId = 927,
+    Presentation2010RandomId = 976,
     /// <summary>Presentation2010.RevealTransition.</summary>
-    Presentation2010RevealTransition = 928,
+    Presentation2010RevealTransition = 977,
     /// <summary>Presentation2010.RippleTransition.</summary>
-    Presentation2010RippleTransition = 929,
+    Presentation2010RippleTransition = 978,
     /// <summary>Presentation2010.Section.</summary>
-    Presentation2010Section = 930,
+    Presentation2010Section = 979,
     /// <summary>Presentation2010.SectionList.</summary>
-    Presentation2010SectionList = 931,
+    Presentation2010SectionList = 980,
     /// <summary>Presentation2010.SectionSlideIdList.</summary>
-    Presentation2010SectionSlideIdList = 932,
+    Presentation2010SectionSlideIdList = 981,
     /// <summary>Presentation2010.SectionSlideIdListEntry.</summary>
-    Presentation2010SectionSlideIdListEntry = 933,
+    Presentation2010SectionSlideIdListEntry = 982,
     /// <summary>Presentation2010.ShowEventRecordList.</summary>
-    Presentation2010ShowEventRecordList = 934,
+    Presentation2010ShowEventRecordList = 983,
     /// <summary>Presentation2010.ShowMediaControls.</summary>
-    Presentation2010ShowMediaControls = 935,
+    Presentation2010ShowMediaControls = 984,
     /// <summary>Presentation2010.ShredTransition.</summary>
-    Presentation2010ShredTransition = 936,
+    Presentation2010ShredTransition = 985,
     /// <summary>Presentation2010.TriggerEventRecord.</summary>
-    Presentation2010TriggerEventRecord = 937,
+    Presentation2010TriggerEventRecord = 986,
     /// <summary>Presentation2012.ChartTrackingRefBased.</summary>
-    Presentation2012ChartTrackingRefBased = 938,
+    Presentation2012ChartTrackingRefBased = 987,
     /// <summary>Presentation2012.CommentThreading.</summary>
-    Presentation2012CommentThreading = 939,
+    Presentation2012CommentThreading = 988,
     /// <summary>Presentation2012.ExtendedGuide.</summary>
-    Presentation2012ExtendedGuide = 940,
+    Presentation2012ExtendedGuide = 989,
     /// <summary>Presentation2012.ExtendedGuideList.</summary>
-    Presentation2012ExtendedGuideList = 941,
+    Presentation2012ExtendedGuideList = 990,
     /// <summary>Presentation2012.IsNarration.</summary>
-    Presentation2012IsNarration = 942,
+    Presentation2012IsNarration = 991,
     /// <summary>Presentation2012.ParentCommentIdentifier.</summary>
-    Presentation2012ParentCommentIdentifier = 943,
+    Presentation2012ParentCommentIdentifier = 992,
     /// <summary>Presentation2012.PresenceInfo.</summary>
-    Presentation2012PresenceInfo = 944,
+    Presentation2012PresenceInfo = 993,
     /// <summary>Presentation2012.PresetTransition.</summary>
-    Presentation2012PresetTransition = 945,
+    Presentation2012PresetTransition = 994,
     /// <summary>Presentation2013Command.ChangesInfo.</summary>
-    Presentation2013CommandChangesInfo = 946,
+    Presentation2013CommandChangesInfo = 995,
     /// <summary>Presentation2013Command.CommentAuthorChanges.</summary>
-    Presentation2013CommandCommentAuthorChanges = 947,
+    Presentation2013CommandCommentAuthorChanges = 996,
     /// <summary>Presentation2013Command.CommentAuthorMoniker.</summary>
-    Presentation2013CommandCommentAuthorMoniker = 948,
+    Presentation2013CommandCommentAuthorMoniker = 997,
     /// <summary>Presentation2013Command.CommentAuthorMonikerList.</summary>
-    Presentation2013CommandCommentAuthorMonikerList = 949,
+    Presentation2013CommandCommentAuthorMonikerList = 998,
     /// <summary>Presentation2013Command.CommentChanges.</summary>
-    Presentation2013CommandCommentChanges = 950,
+    Presentation2013CommandCommentChanges = 999,
     /// <summary>Presentation2013Command.CommentMoniker.</summary>
-    Presentation2013CommandCommentMoniker = 951,
+    Presentation2013CommandCommentMoniker = 1000,
     /// <summary>Presentation2013Command.CommentMonikerList.</summary>
-    Presentation2013CommandCommentMonikerList = 952,
+    Presentation2013CommandCommentMonikerList = 1001,
     /// <summary>Presentation2013Command.DocumentChanges.</summary>
-    Presentation2013CommandDocumentChanges = 953,
+    Presentation2013CommandDocumentChanges = 1002,
     /// <summary>Presentation2013Command.DocumentChangesList.</summary>
-    Presentation2013CommandDocumentChangesList = 954,
+    Presentation2013CommandDocumentChangesList = 1003,
     /// <summary>Presentation2013Command.DocumentMoniker.</summary>
-    Presentation2013CommandDocumentMoniker = 955,
+    Presentation2013CommandDocumentMoniker = 1004,
     /// <summary>Presentation2013Command.DocumentMonikerList.</summary>
-    Presentation2013CommandDocumentMonikerList = 956,
+    Presentation2013CommandDocumentMonikerList = 1005,
     /// <summary>Presentation2013Command.MainMasterChanges.</summary>
-    Presentation2013CommandMainMasterChanges = 957,
+    Presentation2013CommandMainMasterChanges = 1006,
     /// <summary>Presentation2013Command.MainMasterMoniker.</summary>
-    Presentation2013CommandMainMasterMoniker = 958,
+    Presentation2013CommandMainMasterMoniker = 1007,
     /// <summary>Presentation2013Command.MainMasterMonikerList.</summary>
-    Presentation2013CommandMainMasterMonikerList = 959,
+    Presentation2013CommandMainMasterMonikerList = 1008,
     /// <summary>Presentation2013Command.SlideBaseMonikerList.</summary>
-    Presentation2013CommandSlideBaseMonikerList = 960,
+    Presentation2013CommandSlideBaseMonikerList = 1009,
     /// <summary>Presentation2013Command.SlideChanges.</summary>
-    Presentation2013CommandSlideChanges = 961,
+    Presentation2013CommandSlideChanges = 1010,
     /// <summary>Presentation2013Command.SlideLayoutChanges.</summary>
-    Presentation2013CommandSlideLayoutChanges = 962,
+    Presentation2013CommandSlideLayoutChanges = 1011,
     /// <summary>Presentation2013Command.SlideLayoutMoniker.</summary>
-    Presentation2013CommandSlideLayoutMoniker = 963,
+    Presentation2013CommandSlideLayoutMoniker = 1012,
     /// <summary>Presentation2013Command.SlideLayoutMonikerList.</summary>
-    Presentation2013CommandSlideLayoutMonikerList = 964,
+    Presentation2013CommandSlideLayoutMonikerList = 1013,
     /// <summary>Presentation2013Command.SlideMoniker.</summary>
-    Presentation2013CommandSlideMoniker = 965,
+    Presentation2013CommandSlideMoniker = 1014,
     /// <summary>Presentation2013Command.SlideMonikerList.</summary>
-    Presentation2013CommandSlideMonikerList = 966,
+    Presentation2013CommandSlideMonikerList = 1015,
     /// <summary>Presentation201509.MorphTransition.</summary>
-    Presentation201509MorphTransition = 967,
+    Presentation201509MorphTransition = 1016,
     /// <summary>Presentation201510.ClientRevision.</summary>
-    Presentation201510ClientRevision = 968,
+    Presentation201510ClientRevision = 1017,
     /// <summary>Presentation201510.ClientRevisionList.</summary>
-    Presentation201510ClientRevisionList = 969,
+    Presentation201510ClientRevisionList = 1018,
     /// <summary>Presentation201510.RevisionInfo.</summary>
-    Presentation201510RevisionInfo = 970,
+    Presentation201510RevisionInfo = 1019,
     /// <summary>Presentation2015.DesignElement.</summary>
-    Presentation2015DesignElement = 971,
+    Presentation2015DesignElement = 1020,
     /// <summary>Presentation2016Six.ZoomObjectProperties.</summary>
-    Presentation2016SixZoomObjectProperties = 972,
+    Presentation2016SixZoomObjectProperties = 1021,
     /// <summary>PresentationSectionZoom.SectionZoom.</summary>
-    PresentationSectionZoomSectionZoom = 973,
+    PresentationSectionZoomSectionZoom = 1022,
     /// <summary>PresentationSectionZoom.SectionZoomObject.</summary>
-    PresentationSectionZoomSectionZoomObject = 974,
+    PresentationSectionZoomSectionZoomObject = 1023,
     /// <summary>PresentationSlideZoom.SlideZoom.</summary>
-    PresentationSlideZoomSlideZoom = 975,
+    PresentationSlideZoomSlideZoom = 1024,
     /// <summary>PresentationSlideZoom.SlideZoomObject.</summary>
-    PresentationSlideZoomSlideZoomObject = 976,
+    PresentationSlideZoomSlideZoomObject = 1025,
     /// <summary>PresentationSummaryZoom.FixedLayout.</summary>
-    PresentationSummaryZoomFixedLayout = 977,
+    PresentationSummaryZoomFixedLayout = 1026,
     /// <summary>PresentationSummaryZoom.GridLayout.</summary>
-    PresentationSummaryZoomGridLayout = 978,
+    PresentationSummaryZoomGridLayout = 1027,
     /// <summary>PresentationSummaryZoom.SummaryZoom.</summary>
-    PresentationSummaryZoomSummaryZoom = 979,
+    PresentationSummaryZoomSummaryZoom = 1028,
     /// <summary>PresentationSummaryZoom.SummaryZoomObject.</summary>
-    PresentationSummaryZoomSummaryZoomObject = 980,
+    PresentationSummaryZoomSummaryZoomObject = 1029,
     /// <summary>Presentation201710.ReadonlyRecommended.</summary>
-    Presentation201710ReadonlyRecommended = 981,
+    Presentation201710ReadonlyRecommended = 1030,
     /// <summary>Presentation201703.Track.</summary>
-    Presentation201703Track = 982,
+    Presentation201703Track = 1031,
     /// <summary>Presentation201703.TrackList.</summary>
-    Presentation201703TrackList = 983,
+    Presentation201703TrackList = 1032,
     /// <summary>Presentation201703.TracksInfo.</summary>
-    Presentation201703TracksInfo = 984,
+    Presentation201703TracksInfo = 1033,
     /// <summary>Presentation201804.ClassificationOutcome.</summary>
-    Presentation201804ClassificationOutcome = 985,
+    Presentation201804ClassificationOutcome = 1034,
     /// <summary>Presentation201808.Author.</summary>
-    Presentation201808Author = 986,
+    Presentation201808Author = 1035,
     /// <summary>Presentation201808.AuthorList.</summary>
-    Presentation201808AuthorList = 987,
+    Presentation201808AuthorList = 1036,
     /// <summary>Presentation201808.Comment.</summary>
-    Presentation201808Comment = 988,
+    Presentation201808Comment = 1037,
     /// <summary>Presentation201808.CommentList.</summary>
-    Presentation201808CommentList = 989,
+    Presentation201808CommentList = 1038,
     /// <summary>Presentation201808.CommentRelationship.</summary>
-    Presentation201808CommentRelationship = 990,
+    Presentation201808CommentRelationship = 1039,
     /// <summary>Presentation201808.CommentReply.</summary>
-    Presentation201808CommentReply = 991,
+    Presentation201808CommentReply = 1040,
     /// <summary>Presentation201808.CommentReplyList.</summary>
-    Presentation201808CommentReplyList = 992,
+    Presentation201808CommentReplyList = 1041,
     /// <summary>Presentation201808.CommentUnknownAnchor.</summary>
-    Presentation201808CommentUnknownAnchor = 993,
+    Presentation201808CommentUnknownAnchor = 1042,
     /// <summary>Presentation2019Command.CommentReplyV2Moniker.</summary>
-    Presentation2019CommandCommentReplyV2Moniker = 994,
+    Presentation2019CommandCommentReplyV2Moniker = 1043,
     /// <summary>Presentation2019Command.CommentReplyV2MonikerList.</summary>
-    Presentation2019CommandCommentReplyV2MonikerList = 995,
+    Presentation2019CommandCommentReplyV2MonikerList = 1044,
     /// <summary>Presentation2019Command.CommentV2Moniker.</summary>
-    Presentation2019CommandCommentV2Moniker = 996,
+    Presentation2019CommandCommentV2Moniker = 1045,
     /// <summary>Presentation2019Command.CommentV2MonikerList.</summary>
-    Presentation2019CommandCommentV2MonikerList = 997,
+    Presentation2019CommandCommentV2MonikerList = 1046,
     /// <summary>Presentation202002.DesignerDrawingProps.</summary>
-    Presentation202002DesignerDrawingProps = 998,
+    Presentation202002DesignerDrawingProps = 1047,
     /// <summary>Presentation202002.DesignerTag.</summary>
-    Presentation202002DesignerTag = 999,
+    Presentation202002DesignerTag = 1048,
     /// <summary>Presentation202002.DesignerTagList.</summary>
-    Presentation202002DesignerTagList = 1000,
+    Presentation202002DesignerTagList = 1049,
     /// <summary>Presentation202203.Reaction.</summary>
-    Presentation202203Reaction = 1001,
+    Presentation202203Reaction = 1050,
     /// <summary>Presentation202203.ReactionInstance.</summary>
-    Presentation202203ReactionInstance = 1002,
+    Presentation202203ReactionInstance = 1051,
     /// <summary>Presentation202203.Reactions.</summary>
-    Presentation202203Reactions = 1003,
+    Presentation202203Reactions = 1052,
     /// <summary>Presentation2022Command.CommentReplyV2Changes.</summary>
-    Presentation2022CommandCommentReplyV2Changes = 1004,
+    Presentation2022CommandCommentReplyV2Changes = 1053,
     /// <summary>Presentation2022Command.CommentV2Changes.</summary>
-    Presentation2022CommandCommentV2Changes = 1005,
+    Presentation2022CommandCommentV2Changes = 1054,
     /// <summary>Presentation202208.CommentAnchor.</summary>
-    Presentation202208CommentAnchor = 1006,
+    Presentation202208CommentAnchor = 1055,
     /// <summary>Presentation202208.TaskAnchor.</summary>
-    Presentation202208TaskAnchor = 1007,
+    Presentation202208TaskAnchor = 1056,
     /// <summary>Presentation202208.TaskAssignUnassignUser.</summary>
-    Presentation202208TaskAssignUnassignUser = 1008,
+    Presentation202208TaskAssignUnassignUser = 1057,
     /// <summary>Presentation202208.TaskDetails.</summary>
-    Presentation202208TaskDetails = 1009,
+    Presentation202208TaskDetails = 1058,
     /// <summary>Presentation202208.TaskHistory.</summary>
-    Presentation202208TaskHistory = 1010,
+    Presentation202208TaskHistory = 1059,
     /// <summary>Presentation202208.TaskHistoryEvent.</summary>
-    Presentation202208TaskHistoryEvent = 1011,
+    Presentation202208TaskHistoryEvent = 1060,
     /// <summary>Presentation202208.TaskProgressEventInfo.</summary>
-    Presentation202208TaskProgressEventInfo = 1012,
+    Presentation202208TaskProgressEventInfo = 1061,
     /// <summary>Presentation202208.TaskScheduleEventInfo.</summary>
-    Presentation202208TaskScheduleEventInfo = 1013,
+    Presentation202208TaskScheduleEventInfo = 1062,
     /// <summary>Presentation202208.TaskTitleEventInfo.</summary>
-    Presentation202208TaskTitleEventInfo = 1014,
+    Presentation202208TaskTitleEventInfo = 1063,
     /// <summary>Presentation202208.TaskUndo.</summary>
-    Presentation202208TaskUndo = 1015,
+    Presentation202208TaskUndo = 1064,
     /// <summary>Presentation202208.TaskUnknownRecord.</summary>
-    Presentation202208TaskUnknownRecord = 1016,
+    Presentation202208TaskUnknownRecord = 1065,
     /// <summary>Presentation202302.PlaceholderTypeACB.</summary>
-    Presentation202302PlaceholderTypeACB = 1017,
+    Presentation202302PlaceholderTypeACB = 1066,
     /// <summary>Presentation202302.PlaceholderTypeExtension.</summary>
-    Presentation202302PlaceholderTypeExtension = 1018,
+    Presentation202302PlaceholderTypeExtension = 1067,
+    /// <summary>Spreadsheet.Authors.</summary>
+    SpreadsheetAuthors = 1068,
+    /// <summary>Spreadsheet.AutoFilter.</summary>
+    SpreadsheetAutoFilter = 1069,
+    /// <summary>Spreadsheet.AutoSortScope.</summary>
+    SpreadsheetAutoSortScope = 1070,
+    /// <summary>Spreadsheet.BookView.</summary>
+    SpreadsheetBookView = 1071,
+    /// <summary>Spreadsheet.BookViews.</summary>
+    SpreadsheetBookViews = 1072,
+    /// <summary>Spreadsheet.BooleanItem.</summary>
+    SpreadsheetBooleanItem = 1073,
+    /// <summary>Spreadsheet.BooleanProperty.</summary>
+    SpreadsheetBooleanProperty = 1074,
+    /// <summary>Spreadsheet.Border.</summary>
+    SpreadsheetBorder = 1075,
+    /// <summary>Spreadsheet.BorderProperties.</summary>
+    SpreadsheetBorderProperties = 1076,
+    /// <summary>Spreadsheet.Borders.</summary>
+    SpreadsheetBorders = 1077,
+    /// <summary>Spreadsheet.Break.</summary>
+    SpreadsheetBreak = 1078,
+    /// <summary>Spreadsheet.CacheField.</summary>
+    SpreadsheetCacheField = 1079,
+    /// <summary>Spreadsheet.CacheFields.</summary>
+    SpreadsheetCacheFields = 1080,
+    /// <summary>Spreadsheet.CacheHierarchies.</summary>
+    SpreadsheetCacheHierarchies = 1081,
+    /// <summary>Spreadsheet.CacheHierarchy.</summary>
+    SpreadsheetCacheHierarchy = 1082,
+    /// <summary>Spreadsheet.CacheSource.</summary>
+    SpreadsheetCacheSource = 1083,
+    /// <summary>Spreadsheet.CalculatedItem.</summary>
+    SpreadsheetCalculatedItem = 1084,
+    /// <summary>Spreadsheet.CalculatedItems.</summary>
+    SpreadsheetCalculatedItems = 1085,
+    /// <summary>Spreadsheet.CalculatedMember.</summary>
+    SpreadsheetCalculatedMember = 1086,
+    /// <summary>Spreadsheet.CalculatedMembers.</summary>
+    SpreadsheetCalculatedMembers = 1087,
+    /// <summary>Spreadsheet.CalculationChain.</summary>
+    SpreadsheetCalculationChain = 1088,
+    /// <summary>Spreadsheet.CalculationChainCell.</summary>
+    SpreadsheetCalculationChainCell = 1089,
+    /// <summary>Spreadsheet.CalculationProperties.</summary>
+    SpreadsheetCalculationProperties = 1090,
+    /// <summary>Spreadsheet.Cell.</summary>
+    SpreadsheetCell = 1091,
+    /// <summary>Spreadsheet.CellAlignment.</summary>
+    SpreadsheetCellAlignment = 1092,
+    /// <summary>Spreadsheet.CellFormat.</summary>
+    SpreadsheetCellFormat = 1093,
+    /// <summary>Spreadsheet.CellFormats.</summary>
+    SpreadsheetCellFormats = 1094,
+    /// <summary>Spreadsheet.CellFormula.</summary>
+    SpreadsheetCellFormula = 1095,
+    /// <summary>Spreadsheet.CellProtection.</summary>
+    SpreadsheetCellProtection = 1096,
+    /// <summary>Spreadsheet.CellSmartTag.</summary>
+    SpreadsheetCellSmartTag = 1097,
+    /// <summary>Spreadsheet.CellSmartTagProperty.</summary>
+    SpreadsheetCellSmartTagProperty = 1098,
+    /// <summary>Spreadsheet.CellSmartTags.</summary>
+    SpreadsheetCellSmartTags = 1099,
+    /// <summary>Spreadsheet.CellStyle.</summary>
+    SpreadsheetCellStyle = 1100,
+    /// <summary>Spreadsheet.CellStyleFormats.</summary>
+    SpreadsheetCellStyleFormats = 1101,
+    /// <summary>Spreadsheet.CellStyles.</summary>
+    SpreadsheetCellStyles = 1102,
+    /// <summary>Spreadsheet.CellWatch.</summary>
+    SpreadsheetCellWatch = 1103,
+    /// <summary>Spreadsheet.CellWatches.</summary>
+    SpreadsheetCellWatches = 1104,
+    /// <summary>Spreadsheet.ChartFormat.</summary>
+    SpreadsheetChartFormat = 1105,
+    /// <summary>Spreadsheet.ChartFormats.</summary>
+    SpreadsheetChartFormats = 1106,
+    /// <summary>Spreadsheet.Chartsheet.</summary>
+    SpreadsheetChartsheet = 1107,
+    /// <summary>Spreadsheet.ChartsheetPageSetup.</summary>
+    SpreadsheetChartsheetPageSetup = 1108,
+    /// <summary>Spreadsheet.ChartsheetProperties.</summary>
+    SpreadsheetChartsheetProperties = 1109,
+    /// <summary>Spreadsheet.ChartsheetProtection.</summary>
+    SpreadsheetChartsheetProtection = 1110,
+    /// <summary>Spreadsheet.ChartsheetView.</summary>
+    SpreadsheetChartsheetView = 1111,
+    /// <summary>Spreadsheet.ChartsheetViews.</summary>
+    SpreadsheetChartsheetViews = 1112,
+    /// <summary>Spreadsheet.ColFields.</summary>
+    SpreadsheetColFields = 1113,
+    /// <summary>Spreadsheet.ColHierarchiesUsage.</summary>
+    SpreadsheetColHierarchiesUsage = 1114,
+    /// <summary>Spreadsheet.ColItems.</summary>
+    SpreadsheetColItems = 1115,
+    /// <summary>Spreadsheet.Color.</summary>
+    SpreadsheetColor = 1116,
+    /// <summary>Spreadsheet.ColorFilter.</summary>
+    SpreadsheetColorFilter = 1117,
+    /// <summary>Spreadsheet.ColorScale.</summary>
+    SpreadsheetColorScale = 1118,
+    /// <summary>Spreadsheet.Colors.</summary>
+    SpreadsheetColors = 1119,
+    /// <summary>Spreadsheet.Column.</summary>
+    SpreadsheetColumn = 1120,
+    /// <summary>Spreadsheet.Columns.</summary>
+    SpreadsheetColumns = 1121,
+    /// <summary>Spreadsheet.Comment.</summary>
+    SpreadsheetComment = 1122,
+    /// <summary>Spreadsheet.CommentList.</summary>
+    SpreadsheetCommentList = 1123,
+    /// <summary>Spreadsheet.CommentProperties.</summary>
+    SpreadsheetCommentProperties = 1124,
+    /// <summary>Spreadsheet.Comments.</summary>
+    SpreadsheetComments = 1125,
+    /// <summary>Spreadsheet.ConditionalFormat.</summary>
+    SpreadsheetConditionalFormat = 1126,
+    /// <summary>Spreadsheet.ConditionalFormatValueObject.</summary>
+    SpreadsheetConditionalFormatValueObject = 1127,
+    /// <summary>Spreadsheet.ConditionalFormats.</summary>
+    SpreadsheetConditionalFormats = 1128,
+    /// <summary>Spreadsheet.ConditionalFormatting.</summary>
+    SpreadsheetConditionalFormatting = 1129,
+    /// <summary>Spreadsheet.ConditionalFormattingRule.</summary>
+    SpreadsheetConditionalFormattingRule = 1130,
+    /// <summary>Spreadsheet.Connection.</summary>
+    SpreadsheetConnection = 1131,
+    /// <summary>Spreadsheet.Connections.</summary>
+    SpreadsheetConnections = 1132,
+    /// <summary>Spreadsheet.Consolidation.</summary>
+    SpreadsheetConsolidation = 1133,
+    /// <summary>Spreadsheet.Control.</summary>
+    SpreadsheetControl = 1134,
+    /// <summary>Spreadsheet.ControlProperties.</summary>
+    SpreadsheetControlProperties = 1135,
+    /// <summary>Spreadsheet.Controls.</summary>
+    SpreadsheetControls = 1136,
+    /// <summary>Spreadsheet.CustomChartsheetView.</summary>
+    SpreadsheetCustomChartsheetView = 1137,
+    /// <summary>Spreadsheet.CustomChartsheetViews.</summary>
+    SpreadsheetCustomChartsheetViews = 1138,
+    /// <summary>Spreadsheet.CustomFilter.</summary>
+    SpreadsheetCustomFilter = 1139,
+    /// <summary>Spreadsheet.CustomFilters.</summary>
+    SpreadsheetCustomFilters = 1140,
+    /// <summary>Spreadsheet.CustomProperties.</summary>
+    SpreadsheetCustomProperties = 1141,
+    /// <summary>Spreadsheet.CustomProperty.</summary>
+    SpreadsheetCustomProperty = 1142,
+    /// <summary>Spreadsheet.CustomSheetView.</summary>
+    SpreadsheetCustomSheetView = 1143,
+    /// <summary>Spreadsheet.CustomSheetViews.</summary>
+    SpreadsheetCustomSheetViews = 1144,
+    /// <summary>Spreadsheet.CustomWorkbookView.</summary>
+    SpreadsheetCustomWorkbookView = 1145,
+    /// <summary>Spreadsheet.CustomWorkbookViews.</summary>
+    SpreadsheetCustomWorkbookViews = 1146,
+    /// <summary>Spreadsheet.DataBar.</summary>
+    SpreadsheetDataBar = 1147,
+    /// <summary>Spreadsheet.DataBinding.</summary>
+    SpreadsheetDataBinding = 1148,
+    /// <summary>Spreadsheet.DataConsolidate.</summary>
+    SpreadsheetDataConsolidate = 1149,
+    /// <summary>Spreadsheet.DataField.</summary>
+    SpreadsheetDataField = 1150,
+    /// <summary>Spreadsheet.DataFields.</summary>
+    SpreadsheetDataFields = 1151,
+    /// <summary>Spreadsheet.DataRef.</summary>
+    SpreadsheetDataRef = 1152,
+    /// <summary>Spreadsheet.DataRefs.</summary>
+    SpreadsheetDataRefs = 1153,
+    /// <summary>Spreadsheet.DataValidation.</summary>
+    SpreadsheetDataValidation = 1154,
+    /// <summary>Spreadsheet.DataValidations.</summary>
+    SpreadsheetDataValidations = 1155,
+    /// <summary>Spreadsheet.DatabaseProperties.</summary>
+    SpreadsheetDatabaseProperties = 1156,
+    /// <summary>Spreadsheet.DateGroupItem.</summary>
+    SpreadsheetDateGroupItem = 1157,
+    /// <summary>Spreadsheet.DateTimeItem.</summary>
+    SpreadsheetDateTimeItem = 1158,
+    /// <summary>Spreadsheet.DdeItem.</summary>
+    SpreadsheetDdeItem = 1159,
+    /// <summary>Spreadsheet.DdeItems.</summary>
+    SpreadsheetDdeItems = 1160,
+    /// <summary>Spreadsheet.DdeLink.</summary>
+    SpreadsheetDdeLink = 1161,
+    /// <summary>Spreadsheet.DdeValue.</summary>
+    SpreadsheetDdeValue = 1162,
+    /// <summary>Spreadsheet.DdeValues.</summary>
+    SpreadsheetDdeValues = 1163,
+    /// <summary>Spreadsheet.DefinedName.</summary>
+    SpreadsheetDefinedName = 1164,
+    /// <summary>Spreadsheet.DefinedNames.</summary>
+    SpreadsheetDefinedNames = 1165,
+    /// <summary>Spreadsheet.DeletedField.</summary>
+    SpreadsheetDeletedField = 1166,
+    /// <summary>Spreadsheet.Dialogsheet.</summary>
+    SpreadsheetDialogsheet = 1167,
+    /// <summary>Spreadsheet.DifferentialFormat.</summary>
+    SpreadsheetDifferentialFormat = 1168,
+    /// <summary>Spreadsheet.DifferentialFormats.</summary>
+    SpreadsheetDifferentialFormats = 1169,
+    /// <summary>Spreadsheet.DiscretePr.</summary>
+    SpreadsheetDiscretePr = 1170,
+    /// <summary>Spreadsheet.Drawing.</summary>
+    SpreadsheetDrawing = 1171,
+    /// <summary>Spreadsheet.DrawingHeaderFooter.</summary>
+    SpreadsheetDrawingHeaderFooter = 1172,
+    /// <summary>Spreadsheet.DynamicFilter.</summary>
+    SpreadsheetDynamicFilter = 1173,
+    /// <summary>Spreadsheet.ErrorItem.</summary>
+    SpreadsheetErrorItem = 1174,
+    /// <summary>Spreadsheet.Extension.</summary>
+    SpreadsheetExtension = 1175,
+    /// <summary>Spreadsheet.ExtensionList.</summary>
+    SpreadsheetExtensionList = 1176,
+    /// <summary>Spreadsheet.ExternalBook.</summary>
+    SpreadsheetExternalBook = 1177,
+    /// <summary>Spreadsheet.ExternalCell.</summary>
+    SpreadsheetExternalCell = 1178,
+    /// <summary>Spreadsheet.ExternalDefinedName.</summary>
+    SpreadsheetExternalDefinedName = 1179,
+    /// <summary>Spreadsheet.ExternalDefinedNames.</summary>
+    SpreadsheetExternalDefinedNames = 1180,
+    /// <summary>Spreadsheet.ExternalLink.</summary>
+    SpreadsheetExternalLink = 1181,
+    /// <summary>Spreadsheet.ExternalReference.</summary>
+    SpreadsheetExternalReference = 1182,
+    /// <summary>Spreadsheet.ExternalReferences.</summary>
+    SpreadsheetExternalReferences = 1183,
+    /// <summary>Spreadsheet.ExternalRow.</summary>
+    SpreadsheetExternalRow = 1184,
+    /// <summary>Spreadsheet.ExternalSheetData.</summary>
+    SpreadsheetExternalSheetData = 1185,
+    /// <summary>Spreadsheet.ExternalSheetDataSet.</summary>
+    SpreadsheetExternalSheetDataSet = 1186,
+    /// <summary>Spreadsheet.ExternalSheetName.</summary>
+    SpreadsheetExternalSheetName = 1187,
+    /// <summary>Spreadsheet.ExternalSheetNames.</summary>
+    SpreadsheetExternalSheetNames = 1188,
+    /// <summary>Spreadsheet.Field.</summary>
+    SpreadsheetField = 1189,
+    /// <summary>Spreadsheet.FieldGroup.</summary>
+    SpreadsheetFieldGroup = 1190,
+    /// <summary>Spreadsheet.FieldUsage.</summary>
+    SpreadsheetFieldUsage = 1191,
+    /// <summary>Spreadsheet.FieldsUsage.</summary>
+    SpreadsheetFieldsUsage = 1192,
+    /// <summary>Spreadsheet.FileRecoveryPr.</summary>
+    SpreadsheetFileRecoveryPr = 1193,
+    /// <summary>Spreadsheet.FileSharing.</summary>
+    SpreadsheetFileSharing = 1194,
+    /// <summary>Spreadsheet.FileVersion.</summary>
+    SpreadsheetFileVersion = 1195,
+    /// <summary>Spreadsheet.Fill.</summary>
+    SpreadsheetFill = 1196,
+    /// <summary>Spreadsheet.Fills.</summary>
+    SpreadsheetFills = 1197,
+    /// <summary>Spreadsheet.Filter.</summary>
+    SpreadsheetFilter = 1198,
+    /// <summary>Spreadsheet.FilterColumn.</summary>
+    SpreadsheetFilterColumn = 1199,
+    /// <summary>Spreadsheet.Filters.</summary>
+    SpreadsheetFilters = 1200,
+    /// <summary>Spreadsheet.Font.</summary>
+    SpreadsheetFont = 1201,
+    /// <summary>Spreadsheet.FontFamily.</summary>
+    SpreadsheetFontFamily = 1202,
+    /// <summary>Spreadsheet.FontName.</summary>
+    SpreadsheetFontName = 1203,
+    /// <summary>Spreadsheet.FontScheme.</summary>
+    SpreadsheetFontScheme = 1204,
+    /// <summary>Spreadsheet.FontSize.</summary>
+    SpreadsheetFontSize = 1205,
+    /// <summary>Spreadsheet.Fonts.</summary>
+    SpreadsheetFonts = 1206,
+    /// <summary>Spreadsheet.Format.</summary>
+    SpreadsheetFormat = 1207,
+    /// <summary>Spreadsheet.Formats.</summary>
+    SpreadsheetFormats = 1208,
+    /// <summary>Spreadsheet.FunctionGroup.</summary>
+    SpreadsheetFunctionGroup = 1209,
+    /// <summary>Spreadsheet.FunctionGroups.</summary>
+    SpreadsheetFunctionGroups = 1210,
+    /// <summary>Spreadsheet.FutureMetadata.</summary>
+    SpreadsheetFutureMetadata = 1211,
+    /// <summary>Spreadsheet.FutureMetadataBlock.</summary>
+    SpreadsheetFutureMetadataBlock = 1212,
+    /// <summary>Spreadsheet.GradientFill.</summary>
+    SpreadsheetGradientFill = 1213,
+    /// <summary>Spreadsheet.GradientStop.</summary>
+    SpreadsheetGradientStop = 1214,
+    /// <summary>Spreadsheet.GroupItems.</summary>
+    SpreadsheetGroupItems = 1215,
+    /// <summary>Spreadsheet.GroupLevel.</summary>
+    SpreadsheetGroupLevel = 1216,
+    /// <summary>Spreadsheet.GroupLevels.</summary>
+    SpreadsheetGroupLevels = 1217,
+    /// <summary>Spreadsheet.GroupMember.</summary>
+    SpreadsheetGroupMember = 1218,
+    /// <summary>Spreadsheet.GroupMembers.</summary>
+    SpreadsheetGroupMembers = 1219,
+    /// <summary>Spreadsheet.Groups.</summary>
+    SpreadsheetGroups = 1220,
+    /// <summary>Spreadsheet.HeaderFooter.</summary>
+    SpreadsheetHeaderFooter = 1221,
+    /// <summary>Spreadsheet.HierarchyUsage.</summary>
+    SpreadsheetHierarchyUsage = 1222,
+    /// <summary>Spreadsheet.Hyperlink.</summary>
+    SpreadsheetHyperlink = 1223,
+    /// <summary>Spreadsheet.Hyperlinks.</summary>
+    SpreadsheetHyperlinks = 1224,
+    /// <summary>Spreadsheet.IconFilter.</summary>
+    SpreadsheetIconFilter = 1225,
+    /// <summary>Spreadsheet.IconSet.</summary>
+    SpreadsheetIconSet = 1226,
+    /// <summary>Spreadsheet.IgnoredError.</summary>
+    SpreadsheetIgnoredError = 1227,
+    /// <summary>Spreadsheet.IgnoredErrors.</summary>
+    SpreadsheetIgnoredErrors = 1228,
+    /// <summary>Spreadsheet.Index.</summary>
+    SpreadsheetIndex = 1229,
+    /// <summary>Spreadsheet.IndexReference.</summary>
+    SpreadsheetIndexReference = 1230,
+    /// <summary>Spreadsheet.IndexedColors.</summary>
+    SpreadsheetIndexedColors = 1231,
+    /// <summary>Spreadsheet.InputCells.</summary>
+    SpreadsheetInputCells = 1232,
+    /// <summary>Spreadsheet.IntProperty.</summary>
+    SpreadsheetIntProperty = 1233,
+    /// <summary>Spreadsheet.Item.</summary>
+    SpreadsheetItem = 1234,
+    /// <summary>Spreadsheet.Items.</summary>
+    SpreadsheetItems = 1235,
+    /// <summary>Spreadsheet.LegacyDrawing.</summary>
+    SpreadsheetLegacyDrawing = 1236,
+    /// <summary>Spreadsheet.LevelGroup.</summary>
+    SpreadsheetLevelGroup = 1237,
+    /// <summary>Spreadsheet.Location.</summary>
+    SpreadsheetLocation = 1238,
+    /// <summary>Spreadsheet.Macrosheet.</summary>
+    SpreadsheetMacrosheet = 1239,
+    /// <summary>Spreadsheet.Map.</summary>
+    SpreadsheetMap = 1240,
+    /// <summary>Spreadsheet.MapInfo.</summary>
+    SpreadsheetMapInfo = 1241,
+    /// <summary>Spreadsheet.Mdx.</summary>
+    SpreadsheetMdx = 1242,
+    /// <summary>Spreadsheet.MdxKPI.</summary>
+    SpreadsheetMdxKPI = 1243,
+    /// <summary>Spreadsheet.MdxMemeberProp.</summary>
+    SpreadsheetMdxMemeberProp = 1244,
+    /// <summary>Spreadsheet.MdxMetadata.</summary>
+    SpreadsheetMdxMetadata = 1245,
+    /// <summary>Spreadsheet.MdxSet.</summary>
+    SpreadsheetMdxSet = 1246,
+    /// <summary>Spreadsheet.MdxTuple.</summary>
+    SpreadsheetMdxTuple = 1247,
+    /// <summary>Spreadsheet.MeasureDimensionMap.</summary>
+    SpreadsheetMeasureDimensionMap = 1248,
+    /// <summary>Spreadsheet.MeasureDimensionMaps.</summary>
+    SpreadsheetMeasureDimensionMaps = 1249,
+    /// <summary>Spreadsheet.MeasureGroup.</summary>
+    SpreadsheetMeasureGroup = 1250,
+    /// <summary>Spreadsheet.MeasureGroups.</summary>
+    SpreadsheetMeasureGroups = 1251,
+    /// <summary>Spreadsheet.Member.</summary>
+    SpreadsheetMember = 1252,
+    /// <summary>Spreadsheet.MemberProperties.</summary>
+    SpreadsheetMemberProperties = 1253,
+    /// <summary>Spreadsheet.MemberProperty.</summary>
+    SpreadsheetMemberProperty = 1254,
+    /// <summary>Spreadsheet.Members.</summary>
+    SpreadsheetMembers = 1255,
+    /// <summary>Spreadsheet.MergeCell.</summary>
+    SpreadsheetMergeCell = 1256,
+    /// <summary>Spreadsheet.MergeCells.</summary>
+    SpreadsheetMergeCells = 1257,
+    /// <summary>Spreadsheet.Metadata.</summary>
+    SpreadsheetMetadata = 1258,
+    /// <summary>Spreadsheet.MetadataBlock.</summary>
+    SpreadsheetMetadataBlock = 1259,
+    /// <summary>Spreadsheet.MetadataBlocks.</summary>
+    SpreadsheetMetadataBlocks = 1260,
+    /// <summary>Spreadsheet.MetadataRecord.</summary>
+    SpreadsheetMetadataRecord = 1261,
+    /// <summary>Spreadsheet.MetadataStringIndex.</summary>
+    SpreadsheetMetadataStringIndex = 1262,
+    /// <summary>Spreadsheet.MetadataStrings.</summary>
+    SpreadsheetMetadataStrings = 1263,
+    /// <summary>Spreadsheet.MetadataType.</summary>
+    SpreadsheetMetadataType = 1264,
+    /// <summary>Spreadsheet.MetadataTypes.</summary>
+    SpreadsheetMetadataTypes = 1265,
+    /// <summary>Spreadsheet.MissingItem.</summary>
+    SpreadsheetMissingItem = 1266,
+    /// <summary>Spreadsheet.MostRecentColors.</summary>
+    SpreadsheetMostRecentColors = 1267,
+    /// <summary>Spreadsheet.NumberFormat.</summary>
+    SpreadsheetNumberFormat = 1268,
+    /// <summary>Spreadsheet.NumberFormats.</summary>
+    SpreadsheetNumberFormats = 1269,
+    /// <summary>Spreadsheet.NumberItem.</summary>
+    SpreadsheetNumberItem = 1270,
+    /// <summary>Spreadsheet.ObjectAnchor.</summary>
+    SpreadsheetObjectAnchor = 1271,
+    /// <summary>Spreadsheet.ObjectProperties.</summary>
+    SpreadsheetObjectProperties = 1272,
+    /// <summary>Spreadsheet.OlapProperties.</summary>
+    SpreadsheetOlapProperties = 1273,
+    /// <summary>Spreadsheet.OleItem.</summary>
+    SpreadsheetOleItem = 1274,
+    /// <summary>Spreadsheet.OleItems.</summary>
+    SpreadsheetOleItems = 1275,
+    /// <summary>Spreadsheet.OleLink.</summary>
+    SpreadsheetOleLink = 1276,
+    /// <summary>Spreadsheet.OleObject.</summary>
+    SpreadsheetOleObject = 1277,
+    /// <summary>Spreadsheet.OleObjects.</summary>
+    SpreadsheetOleObjects = 1278,
+    /// <summary>Spreadsheet.OleSize.</summary>
+    SpreadsheetOleSize = 1279,
+    /// <summary>Spreadsheet.OutlineProperties.</summary>
+    SpreadsheetOutlineProperties = 1280,
+    /// <summary>Spreadsheet.PageBreak.</summary>
+    SpreadsheetPageBreak = 1281,
+    /// <summary>Spreadsheet.PageField.</summary>
+    SpreadsheetPageField = 1282,
+    /// <summary>Spreadsheet.PageFields.</summary>
+    SpreadsheetPageFields = 1283,
+    /// <summary>Spreadsheet.PageItem.</summary>
+    SpreadsheetPageItem = 1284,
+    /// <summary>Spreadsheet.PageMargins.</summary>
+    SpreadsheetPageMargins = 1285,
+    /// <summary>Spreadsheet.PageSetup.</summary>
+    SpreadsheetPageSetup = 1286,
+    /// <summary>Spreadsheet.PageSetupProperties.</summary>
+    SpreadsheetPageSetupProperties = 1287,
+    /// <summary>Spreadsheet.Pages.</summary>
+    SpreadsheetPages = 1288,
+    /// <summary>Spreadsheet.Pane.</summary>
+    SpreadsheetPane = 1289,
+    /// <summary>Spreadsheet.Parameter.</summary>
+    SpreadsheetParameter = 1290,
+    /// <summary>Spreadsheet.Parameters.</summary>
+    SpreadsheetParameters = 1291,
+    /// <summary>Spreadsheet.PatternFill.</summary>
+    SpreadsheetPatternFill = 1292,
+    /// <summary>Spreadsheet.PhoneticProperties.</summary>
+    SpreadsheetPhoneticProperties = 1293,
+    /// <summary>Spreadsheet.PhoneticRun.</summary>
+    SpreadsheetPhoneticRun = 1294,
+    /// <summary>Spreadsheet.PivotArea.</summary>
+    SpreadsheetPivotArea = 1295,
+    /// <summary>Spreadsheet.PivotAreaReference.</summary>
+    SpreadsheetPivotAreaReference = 1296,
+    /// <summary>Spreadsheet.PivotAreaReferences.</summary>
+    SpreadsheetPivotAreaReferences = 1297,
+    /// <summary>Spreadsheet.PivotAreas.</summary>
+    SpreadsheetPivotAreas = 1298,
+    /// <summary>Spreadsheet.PivotCache.</summary>
+    SpreadsheetPivotCache = 1299,
+    /// <summary>Spreadsheet.PivotCacheDefinition.</summary>
+    SpreadsheetPivotCacheDefinition = 1300,
+    /// <summary>Spreadsheet.PivotCacheKpi.</summary>
+    SpreadsheetPivotCacheKpi = 1301,
+    /// <summary>Spreadsheet.PivotCacheKpis.</summary>
+    SpreadsheetPivotCacheKpis = 1302,
+    /// <summary>Spreadsheet.PivotCacheRecords.</summary>
+    SpreadsheetPivotCacheRecords = 1303,
+    /// <summary>Spreadsheet.PivotCacheServerPage.</summary>
+    SpreadsheetPivotCacheServerPage = 1304,
+    /// <summary>Spreadsheet.PivotCacheSharedEntries.</summary>
+    SpreadsheetPivotCacheSharedEntries = 1305,
+    /// <summary>Spreadsheet.PivotCaches.</summary>
+    SpreadsheetPivotCaches = 1306,
+    /// <summary>Spreadsheet.PivotDimension.</summary>
+    SpreadsheetPivotDimension = 1307,
+    /// <summary>Spreadsheet.PivotField.</summary>
+    SpreadsheetPivotField = 1308,
+    /// <summary>Spreadsheet.PivotFields.</summary>
+    SpreadsheetPivotFields = 1309,
+    /// <summary>Spreadsheet.PivotFilter.</summary>
+    SpreadsheetPivotFilter = 1310,
+    /// <summary>Spreadsheet.PivotFilters.</summary>
+    SpreadsheetPivotFilters = 1311,
+    /// <summary>Spreadsheet.PivotHierarchies.</summary>
+    SpreadsheetPivotHierarchies = 1312,
+    /// <summary>Spreadsheet.PivotHierarchy.</summary>
+    SpreadsheetPivotHierarchy = 1313,
+    /// <summary>Spreadsheet.PivotSelection.</summary>
+    SpreadsheetPivotSelection = 1314,
+    /// <summary>Spreadsheet.PivotTableDefinition.</summary>
+    SpreadsheetPivotTableDefinition = 1315,
+    /// <summary>Spreadsheet.PivotTableStyle.</summary>
+    SpreadsheetPivotTableStyle = 1316,
+    /// <summary>Spreadsheet.PrintOptions.</summary>
+    SpreadsheetPrintOptions = 1317,
+    /// <summary>Spreadsheet.ProtectedRange.</summary>
+    SpreadsheetProtectedRange = 1318,
+    /// <summary>Spreadsheet.ProtectedRanges.</summary>
+    SpreadsheetProtectedRanges = 1319,
+    /// <summary>Spreadsheet.Query.</summary>
+    SpreadsheetQuery = 1320,
+    /// <summary>Spreadsheet.QueryCache.</summary>
+    SpreadsheetQueryCache = 1321,
+    /// <summary>Spreadsheet.QueryTable.</summary>
+    SpreadsheetQueryTable = 1322,
+    /// <summary>Spreadsheet.QueryTableDeletedFields.</summary>
+    SpreadsheetQueryTableDeletedFields = 1323,
+    /// <summary>Spreadsheet.QueryTableField.</summary>
+    SpreadsheetQueryTableField = 1324,
+    /// <summary>Spreadsheet.QueryTableFields.</summary>
+    SpreadsheetQueryTableFields = 1325,
+    /// <summary>Spreadsheet.QueryTableRefresh.</summary>
+    SpreadsheetQueryTableRefresh = 1326,
+    /// <summary>Spreadsheet.RangePr.</summary>
+    SpreadsheetRangePr = 1327,
+    /// <summary>Spreadsheet.RangeSet.</summary>
+    SpreadsheetRangeSet = 1328,
+    /// <summary>Spreadsheet.RangeSets.</summary>
+    SpreadsheetRangeSets = 1329,
+    /// <summary>Spreadsheet.Record.</summary>
+    SpreadsheetRecord = 1330,
+    /// <summary>Spreadsheet.Reviewed.</summary>
+    SpreadsheetReviewed = 1331,
+    /// <summary>Spreadsheet.ReviewedRevisions.</summary>
+    SpreadsheetReviewedRevisions = 1332,
+    /// <summary>Spreadsheet.RevisionAutoFormatting.</summary>
+    SpreadsheetRevisionAutoFormatting = 1333,
+    /// <summary>Spreadsheet.RevisionCellChange.</summary>
+    SpreadsheetRevisionCellChange = 1334,
+    /// <summary>Spreadsheet.RevisionComment.</summary>
+    SpreadsheetRevisionComment = 1335,
+    /// <summary>Spreadsheet.RevisionConflict.</summary>
+    SpreadsheetRevisionConflict = 1336,
+    /// <summary>Spreadsheet.RevisionCustomView.</summary>
+    SpreadsheetRevisionCustomView = 1337,
+    /// <summary>Spreadsheet.RevisionDefinedName.</summary>
+    SpreadsheetRevisionDefinedName = 1338,
+    /// <summary>Spreadsheet.RevisionFormatting.</summary>
+    SpreadsheetRevisionFormatting = 1339,
+    /// <summary>Spreadsheet.RevisionHeader.</summary>
+    SpreadsheetRevisionHeader = 1340,
+    /// <summary>Spreadsheet.RevisionHeaders.</summary>
+    SpreadsheetRevisionHeaders = 1341,
+    /// <summary>Spreadsheet.RevisionInsertSheet.</summary>
+    SpreadsheetRevisionInsertSheet = 1342,
+    /// <summary>Spreadsheet.RevisionMove.</summary>
+    SpreadsheetRevisionMove = 1343,
+    /// <summary>Spreadsheet.RevisionQueryTableField.</summary>
+    SpreadsheetRevisionQueryTableField = 1344,
+    /// <summary>Spreadsheet.RevisionRowColumn.</summary>
+    SpreadsheetRevisionRowColumn = 1345,
+    /// <summary>Spreadsheet.RevisionSheetRename.</summary>
+    SpreadsheetRevisionSheetRename = 1346,
+    /// <summary>Spreadsheet.Revisions.</summary>
+    SpreadsheetRevisions = 1347,
+    /// <summary>Spreadsheet.RgbColor.</summary>
+    SpreadsheetRgbColor = 1348,
+    /// <summary>Spreadsheet.RichString.</summary>
+    SpreadsheetRichString = 1349,
+    /// <summary>Spreadsheet.RichTextRun.</summary>
+    SpreadsheetRichTextRun = 1350,
+    /// <summary>Spreadsheet.Row.</summary>
+    SpreadsheetRow = 1351,
+    /// <summary>Spreadsheet.RowFields.</summary>
+    SpreadsheetRowFields = 1352,
+    /// <summary>Spreadsheet.RowHierarchiesUsage.</summary>
+    SpreadsheetRowHierarchiesUsage = 1353,
+    /// <summary>Spreadsheet.RowItem.</summary>
+    SpreadsheetRowItem = 1354,
+    /// <summary>Spreadsheet.RowItems.</summary>
+    SpreadsheetRowItems = 1355,
+    /// <summary>Spreadsheet.RunProperties.</summary>
+    SpreadsheetRunProperties = 1356,
+    /// <summary>Spreadsheet.Scenario.</summary>
+    SpreadsheetScenario = 1357,
+    /// <summary>Spreadsheet.Scenarios.</summary>
+    SpreadsheetScenarios = 1358,
+    /// <summary>Spreadsheet.Selection.</summary>
+    SpreadsheetSelection = 1359,
+    /// <summary>Spreadsheet.ServerFormat.</summary>
+    SpreadsheetServerFormat = 1360,
+    /// <summary>Spreadsheet.ServerFormats.</summary>
+    SpreadsheetServerFormats = 1361,
+    /// <summary>Spreadsheet.Set.</summary>
+    SpreadsheetSet = 1362,
+    /// <summary>Spreadsheet.Sets.</summary>
+    SpreadsheetSets = 1363,
+    /// <summary>Spreadsheet.SharedItems.</summary>
+    SpreadsheetSharedItems = 1364,
+    /// <summary>Spreadsheet.SharedStringTable.</summary>
+    SpreadsheetSharedStringTable = 1365,
+    /// <summary>Spreadsheet.SharedUser.</summary>
+    SpreadsheetSharedUser = 1366,
+    /// <summary>Spreadsheet.Sheet.</summary>
+    SpreadsheetSheet = 1367,
+    /// <summary>Spreadsheet.SheetBackgroundPicture.</summary>
+    SpreadsheetSheetBackgroundPicture = 1368,
+    /// <summary>Spreadsheet.SheetCalcPr.</summary>
+    SpreadsheetSheetCalcPr = 1369,
+    /// <summary>Spreadsheet.SheetData.</summary>
+    SpreadsheetSheetData = 1370,
+    /// <summary>Spreadsheet.SheetDimension.</summary>
+    SpreadsheetSheetDimension = 1371,
+    /// <summary>Spreadsheet.SheetFormatProperties.</summary>
+    SpreadsheetSheetFormatProperties = 1372,
+    /// <summary>Spreadsheet.SheetId.</summary>
+    SpreadsheetSheetId = 1373,
+    /// <summary>Spreadsheet.SheetIdMap.</summary>
+    SpreadsheetSheetIdMap = 1374,
+    /// <summary>Spreadsheet.SheetProperties.</summary>
+    SpreadsheetSheetProperties = 1375,
+    /// <summary>Spreadsheet.SheetProtection.</summary>
+    SpreadsheetSheetProtection = 1376,
+    /// <summary>Spreadsheet.SheetView.</summary>
+    SpreadsheetSheetView = 1377,
+    /// <summary>Spreadsheet.SheetViews.</summary>
+    SpreadsheetSheetViews = 1378,
+    /// <summary>Spreadsheet.Sheets.</summary>
+    SpreadsheetSheets = 1379,
+    /// <summary>Spreadsheet.SingleXmlCell.</summary>
+    SpreadsheetSingleXmlCell = 1380,
+    /// <summary>Spreadsheet.SingleXmlCells.</summary>
+    SpreadsheetSingleXmlCells = 1381,
+    /// <summary>Spreadsheet.SmartTagProperties.</summary>
+    SpreadsheetSmartTagProperties = 1382,
+    /// <summary>Spreadsheet.SmartTagType.</summary>
+    SpreadsheetSmartTagType = 1383,
+    /// <summary>Spreadsheet.SmartTagTypes.</summary>
+    SpreadsheetSmartTagTypes = 1384,
+    /// <summary>Spreadsheet.SmartTags.</summary>
+    SpreadsheetSmartTags = 1385,
+    /// <summary>Spreadsheet.SortCondition.</summary>
+    SpreadsheetSortCondition = 1386,
+    /// <summary>Spreadsheet.SortState.</summary>
+    SpreadsheetSortState = 1387,
+    /// <summary>Spreadsheet.StringItem.</summary>
+    SpreadsheetStringItem = 1388,
+    /// <summary>Spreadsheet.Stylesheet.</summary>
+    SpreadsheetStylesheet = 1389,
+    /// <summary>Spreadsheet.Table.</summary>
+    SpreadsheetTable = 1390,
+    /// <summary>Spreadsheet.TableColumn.</summary>
+    SpreadsheetTableColumn = 1391,
+    /// <summary>Spreadsheet.TableColumns.</summary>
+    SpreadsheetTableColumns = 1392,
+    /// <summary>Spreadsheet.TableFormula.</summary>
+    SpreadsheetTableFormula = 1393,
+    /// <summary>Spreadsheet.TableMissing.</summary>
+    SpreadsheetTableMissing = 1394,
+    /// <summary>Spreadsheet.TablePart.</summary>
+    SpreadsheetTablePart = 1395,
+    /// <summary>Spreadsheet.TableParts.</summary>
+    SpreadsheetTableParts = 1396,
+    /// <summary>Spreadsheet.TableStyle.</summary>
+    SpreadsheetTableStyle = 1397,
+    /// <summary>Spreadsheet.TableStyleElement.</summary>
+    SpreadsheetTableStyleElement = 1398,
+    /// <summary>Spreadsheet.TableStyleInfo.</summary>
+    SpreadsheetTableStyleInfo = 1399,
+    /// <summary>Spreadsheet.TableStyles.</summary>
+    SpreadsheetTableStyles = 1400,
+    /// <summary>Spreadsheet.Tables.</summary>
+    SpreadsheetTables = 1401,
+    /// <summary>Spreadsheet.TextField.</summary>
+    SpreadsheetTextField = 1402,
+    /// <summary>Spreadsheet.TextFields.</summary>
+    SpreadsheetTextFields = 1403,
+    /// <summary>Spreadsheet.TextQueryProperties.</summary>
+    SpreadsheetTextQueryProperties = 1404,
+    /// <summary>Spreadsheet.Top10Filter.</summary>
+    SpreadsheetTop10Filter = 1405,
+    /// <summary>Spreadsheet.Tuple.</summary>
+    SpreadsheetTuple = 1406,
+    /// <summary>Spreadsheet.TupleCache.</summary>
+    SpreadsheetTupleCache = 1407,
+    /// <summary>Spreadsheet.Tuples.</summary>
+    SpreadsheetTuples = 1408,
+    /// <summary>Spreadsheet.UnderlineProperty.</summary>
+    SpreadsheetUnderlineProperty = 1409,
+    /// <summary>Spreadsheet.UndoInfo.</summary>
+    SpreadsheetUndoInfo = 1410,
+    /// <summary>Spreadsheet.Users.</summary>
+    SpreadsheetUsers = 1411,
+    /// <summary>Spreadsheet.VerticalAlignFontProperty.</summary>
+    SpreadsheetVerticalAlignFontProperty = 1412,
+    /// <summary>Spreadsheet.VolatileMain.</summary>
+    SpreadsheetVolatileMain = 1413,
+    /// <summary>Spreadsheet.VolatileTopic.</summary>
+    SpreadsheetVolatileTopic = 1414,
+    /// <summary>Spreadsheet.VolatileTopicReference.</summary>
+    SpreadsheetVolatileTopicReference = 1415,
+    /// <summary>Spreadsheet.VolatileType.</summary>
+    SpreadsheetVolatileType = 1416,
+    /// <summary>Spreadsheet.VolatileTypes.</summary>
+    SpreadsheetVolatileTypes = 1417,
+    /// <summary>Spreadsheet.WebPublishItem.</summary>
+    SpreadsheetWebPublishItem = 1418,
+    /// <summary>Spreadsheet.WebPublishItems.</summary>
+    SpreadsheetWebPublishItems = 1419,
+    /// <summary>Spreadsheet.WebPublishObject.</summary>
+    SpreadsheetWebPublishObject = 1420,
+    /// <summary>Spreadsheet.WebPublishObjects.</summary>
+    SpreadsheetWebPublishObjects = 1421,
+    /// <summary>Spreadsheet.WebPublishing.</summary>
+    SpreadsheetWebPublishing = 1422,
+    /// <summary>Spreadsheet.WebQueryProperties.</summary>
+    SpreadsheetWebQueryProperties = 1423,
+    /// <summary>Spreadsheet.Workbook.</summary>
+    SpreadsheetWorkbook = 1424,
+    /// <summary>Spreadsheet.WorkbookProperties.</summary>
+    SpreadsheetWorkbookProperties = 1425,
+    /// <summary>Spreadsheet.WorkbookProtection.</summary>
+    SpreadsheetWorkbookProtection = 1426,
+    /// <summary>Spreadsheet.Worksheet.</summary>
+    SpreadsheetWorksheet = 1427,
+    /// <summary>Spreadsheet.WorksheetDimensions.</summary>
+    SpreadsheetWorksheetDimensions = 1428,
+    /// <summary>Spreadsheet.WorksheetSource.</summary>
+    SpreadsheetWorksheetSource = 1429,
+    /// <summary>Spreadsheet.XStringElement.</summary>
+    SpreadsheetXStringElement = 1430,
+    /// <summary>Spreadsheet.XmlCellPr.</summary>
+    SpreadsheetXmlCellPr = 1431,
+    /// <summary>Spreadsheet.XmlColumnPr.</summary>
+    SpreadsheetXmlColumnPr = 1432,
+    /// <summary>Spreadsheet.XmlPr.</summary>
+    SpreadsheetXmlPr = 1433,
+    /// <summary>Spreadsheet.XmlSchemaReference.</summary>
+    SpreadsheetXmlSchemaReference = 1434,
+    /// <summary>SpreadsheetDrawing.AbsoluteAnchor.</summary>
+    SpreadsheetDrawingAbsoluteAnchor = 1435,
+    /// <summary>SpreadsheetDrawing.AnchorClientData.</summary>
+    SpreadsheetDrawingAnchorClientData = 1436,
+    /// <summary>SpreadsheetDrawing.AnchorMarker.</summary>
+    SpreadsheetDrawingAnchorMarker = 1437,
+    /// <summary>SpreadsheetDrawing.Connector.</summary>
+    SpreadsheetDrawingConnector = 1438,
+    /// <summary>SpreadsheetDrawing.ConnectorNonVisual.</summary>
+    SpreadsheetDrawingConnectorNonVisual = 1439,
+    /// <summary>SpreadsheetDrawing.GraphicFrame.</summary>
+    SpreadsheetDrawingGraphicFrame = 1440,
+    /// <summary>SpreadsheetDrawing.GraphicalObjectFrameNonVisual.</summary>
+    SpreadsheetDrawingGraphicalObjectFrameNonVisual = 1441,
+    /// <summary>SpreadsheetDrawing.GroupShape.</summary>
+    SpreadsheetDrawingGroupShape = 1442,
+    /// <summary>SpreadsheetDrawing.GroupShapeNonVisual.</summary>
+    SpreadsheetDrawingGroupShapeNonVisual = 1443,
+    /// <summary>SpreadsheetDrawing.OneCellAnchor.</summary>
+    SpreadsheetDrawingOneCellAnchor = 1444,
+    /// <summary>SpreadsheetDrawing.Picture.</summary>
+    SpreadsheetDrawingPicture = 1445,
+    /// <summary>SpreadsheetDrawing.PictureNonVisual.</summary>
+    SpreadsheetDrawingPictureNonVisual = 1446,
+    /// <summary>SpreadsheetDrawing.Rel.</summary>
+    SpreadsheetDrawingRel = 1447,
+    /// <summary>SpreadsheetDrawing.Shape.</summary>
+    SpreadsheetDrawingShape = 1448,
+    /// <summary>SpreadsheetDrawing.ShapeNonVisual.</summary>
+    SpreadsheetDrawingShapeNonVisual = 1449,
+    /// <summary>SpreadsheetDrawing.TwoCellAnchor.</summary>
+    SpreadsheetDrawingTwoCellAnchor = 1450,
+    /// <summary>SpreadsheetDrawing.WorksheetDrawing.</summary>
+    SpreadsheetDrawingWorksheetDrawing = 1451,
+    /// <summary>Chart.Area3DChart.</summary>
+    ChartArea3DChart = 1452,
+    /// <summary>Chart.AreaChart.</summary>
+    ChartAreaChart = 1453,
+    /// <summary>Chart.AreaSeries.</summary>
+    ChartAreaSeries = 1454,
+    /// <summary>Chart.AxDataSource.</summary>
+    ChartAxDataSource = 1455,
+    /// <summary>Chart.AxPos.</summary>
+    ChartAxPos = 1456,
+    /// <summary>Chart.AxisUnit.</summary>
+    ChartAxisUnit = 1457,
+    /// <summary>Chart.BandFmt.</summary>
+    ChartBandFmt = 1458,
+    /// <summary>Chart.BandFmts.</summary>
+    ChartBandFmts = 1459,
+    /// <summary>Chart.Bar3DChart.</summary>
+    ChartBar3DChart = 1460,
+    /// <summary>Chart.BarChart.</summary>
+    ChartBarChart = 1461,
+    /// <summary>Chart.BarDir.</summary>
+    ChartBarDir = 1462,
+    /// <summary>Chart.BarGrouping.</summary>
+    ChartBarGrouping = 1463,
+    /// <summary>Chart.BarSeries.</summary>
+    ChartBarSeries = 1464,
+    /// <summary>Chart.Boolean.</summary>
+    ChartBoolean = 1465,
+    /// <summary>Chart.BubbleChart.</summary>
+    ChartBubbleChart = 1466,
+    /// <summary>Chart.BubbleScale.</summary>
+    ChartBubbleScale = 1467,
+    /// <summary>Chart.BubbleSeries.</summary>
+    ChartBubbleSeries = 1468,
+    /// <summary>Chart.BuiltInUnit.</summary>
+    ChartBuiltInUnit = 1469,
+    /// <summary>Chart.CategoryAxis.</summary>
+    ChartCategoryAxis = 1470,
+    /// <summary>Chart.Chart.</summary>
+    ChartChart = 1471,
+    /// <summary>Chart.ChartLines.</summary>
+    ChartChartLines = 1472,
+    /// <summary>Chart.ChartSpace.</summary>
+    ChartChartSpace = 1473,
+    /// <summary>Chart.ChartText.</summary>
+    ChartChartText = 1474,
+    /// <summary>Chart.CrossBetween.</summary>
+    ChartCrossBetween = 1475,
+    /// <summary>Chart.Crosses.</summary>
+    ChartCrosses = 1476,
+    /// <summary>Chart.CustSplit.</summary>
+    ChartCustSplit = 1477,
+    /// <summary>Chart.DLblPos.</summary>
+    ChartDLblPos = 1478,
+    /// <summary>Chart.DTable.</summary>
+    ChartDTable = 1479,
+    /// <summary>Chart.DataLabel.</summary>
+    ChartDataLabel = 1480,
+    /// <summary>Chart.DataLabels.</summary>
+    ChartDataLabels = 1481,
+    /// <summary>Chart.DataPoint.</summary>
+    ChartDataPoint = 1482,
+    /// <summary>Chart.DateAxis.</summary>
+    ChartDateAxis = 1483,
+    /// <summary>Chart.DepthPercent.</summary>
+    ChartDepthPercent = 1484,
+    /// <summary>Chart.DispBlanksAs.</summary>
+    ChartDispBlanksAs = 1485,
+    /// <summary>Chart.DispUnitsLbl.</summary>
+    ChartDispUnitsLbl = 1486,
+    /// <summary>Chart.DisplayUnits.</summary>
+    ChartDisplayUnits = 1487,
+    /// <summary>Chart.Double.</summary>
+    ChartDouble = 1488,
+    /// <summary>Chart.DoughnutChart.</summary>
+    ChartDoughnutChart = 1489,
+    /// <summary>Chart.ErrBarType.</summary>
+    ChartErrBarType = 1490,
+    /// <summary>Chart.ErrDir.</summary>
+    ChartErrDir = 1491,
+    /// <summary>Chart.ErrValType.</summary>
+    ChartErrValType = 1492,
+    /// <summary>Chart.ErrorBars.</summary>
+    ChartErrorBars = 1493,
+    /// <summary>Chart.Extension.</summary>
+    ChartExtension = 1494,
+    /// <summary>Chart.ExtensionList.</summary>
+    ChartExtensionList = 1495,
+    /// <summary>Chart.ExternalData.</summary>
+    ChartExternalData = 1496,
+    /// <summary>Chart.FirstSliceAng.</summary>
+    ChartFirstSliceAng = 1497,
+    /// <summary>Chart.GapAmount.</summary>
+    ChartGapAmount = 1498,
+    /// <summary>Chart.Grouping.</summary>
+    ChartGrouping = 1499,
+    /// <summary>Chart.HPercent.</summary>
+    ChartHPercent = 1500,
+    /// <summary>Chart.HeaderFooter.</summary>
+    ChartHeaderFooter = 1501,
+    /// <summary>Chart.HoleSize.</summary>
+    ChartHoleSize = 1502,
+    /// <summary>Chart.Layout.</summary>
+    ChartLayout = 1503,
+    /// <summary>Chart.LayoutMode.</summary>
+    ChartLayoutMode = 1504,
+    /// <summary>Chart.LayoutTarget.</summary>
+    ChartLayoutTarget = 1505,
+    /// <summary>Chart.LblAlgn.</summary>
+    ChartLblAlgn = 1506,
+    /// <summary>Chart.LblOffset.</summary>
+    ChartLblOffset = 1507,
+    /// <summary>Chart.Legend.</summary>
+    ChartLegend = 1508,
+    /// <summary>Chart.LegendEntry.</summary>
+    ChartLegendEntry = 1509,
+    /// <summary>Chart.LegendPos.</summary>
+    ChartLegendPos = 1510,
+    /// <summary>Chart.Line3DChart.</summary>
+    ChartLine3DChart = 1511,
+    /// <summary>Chart.LineChart.</summary>
+    ChartLineChart = 1512,
+    /// <summary>Chart.LineSeries.</summary>
+    ChartLineSeries = 1513,
+    /// <summary>Chart.LogBase.</summary>
+    ChartLogBase = 1514,
+    /// <summary>Chart.Lvl.</summary>
+    ChartLvl = 1515,
+    /// <summary>Chart.ManualLayout.</summary>
+    ChartManualLayout = 1516,
+    /// <summary>Chart.Marker.</summary>
+    ChartMarker = 1517,
+    /// <summary>Chart.MarkerSize.</summary>
+    ChartMarkerSize = 1518,
+    /// <summary>Chart.MarkerStyle.</summary>
+    ChartMarkerStyle = 1519,
+    /// <summary>Chart.MultiLvlStrData.</summary>
+    ChartMultiLvlStrData = 1520,
+    /// <summary>Chart.MultiLvlStrRef.</summary>
+    ChartMultiLvlStrRef = 1521,
+    /// <summary>Chart.NumData.</summary>
+    ChartNumData = 1522,
+    /// <summary>Chart.NumDataSource.</summary>
+    ChartNumDataSource = 1523,
+    /// <summary>Chart.NumRef.</summary>
+    ChartNumRef = 1524,
+    /// <summary>Chart.NumVal.</summary>
+    ChartNumVal = 1525,
+    /// <summary>Chart.NumberFormat.</summary>
+    ChartNumberFormat = 1526,
+    /// <summary>Chart.OfPieChart.</summary>
+    ChartOfPieChart = 1527,
+    /// <summary>Chart.OfPieType.</summary>
+    ChartOfPieType = 1528,
+    /// <summary>Chart.Order.</summary>
+    ChartOrder = 1529,
+    /// <summary>Chart.Orientation.</summary>
+    ChartOrientation = 1530,
+    /// <summary>Chart.Overlap.</summary>
+    ChartOverlap = 1531,
+    /// <summary>Chart.PageMargins.</summary>
+    ChartPageMargins = 1532,
+    /// <summary>Chart.PageSetup.</summary>
+    ChartPageSetup = 1533,
+    /// <summary>Chart.Period.</summary>
+    ChartPeriod = 1534,
+    /// <summary>Chart.Perspective.</summary>
+    ChartPerspective = 1535,
+    /// <summary>Chart.PictureFormat.</summary>
+    ChartPictureFormat = 1536,
+    /// <summary>Chart.PictureOptions.</summary>
+    ChartPictureOptions = 1537,
+    /// <summary>Chart.PictureStackUnit.</summary>
+    ChartPictureStackUnit = 1538,
+    /// <summary>Chart.Pie3DChart.</summary>
+    ChartPie3DChart = 1539,
+    /// <summary>Chart.PieChart.</summary>
+    ChartPieChart = 1540,
+    /// <summary>Chart.PieSeries.</summary>
+    ChartPieSeries = 1541,
+    /// <summary>Chart.PivotFormat.</summary>
+    ChartPivotFormat = 1542,
+    /// <summary>Chart.PivotFormats.</summary>
+    ChartPivotFormats = 1543,
+    /// <summary>Chart.PivotSource.</summary>
+    ChartPivotSource = 1544,
+    /// <summary>Chart.PlotArea.</summary>
+    ChartPlotArea = 1545,
+    /// <summary>Chart.PrintSettings.</summary>
+    ChartPrintSettings = 1546,
+    /// <summary>Chart.Protection.</summary>
+    ChartProtection = 1547,
+    /// <summary>Chart.RadarChart.</summary>
+    ChartRadarChart = 1548,
+    /// <summary>Chart.RadarSeries.</summary>
+    ChartRadarSeries = 1549,
+    /// <summary>Chart.RadarStyle.</summary>
+    ChartRadarStyle = 1550,
+    /// <summary>Chart.RelId.</summary>
+    ChartRelId = 1551,
+    /// <summary>Chart.RotX.</summary>
+    ChartRotX = 1552,
+    /// <summary>Chart.RotY.</summary>
+    ChartRotY = 1553,
+    /// <summary>Chart.Scaling.</summary>
+    ChartScaling = 1554,
+    /// <summary>Chart.ScatterChart.</summary>
+    ChartScatterChart = 1555,
+    /// <summary>Chart.ScatterSeries.</summary>
+    ChartScatterSeries = 1556,
+    /// <summary>Chart.ScatterStyle.</summary>
+    ChartScatterStyle = 1557,
+    /// <summary>Chart.SecondPieSize.</summary>
+    ChartSecondPieSize = 1558,
+    /// <summary>Chart.SerTx.</summary>
+    ChartSerTx = 1559,
+    /// <summary>Chart.SeriesAxis.</summary>
+    ChartSeriesAxis = 1560,
+    /// <summary>Chart.Shape.</summary>
+    ChartShape = 1561,
+    /// <summary>Chart.SizeRepresents.</summary>
+    ChartSizeRepresents = 1562,
+    /// <summary>Chart.Skip.</summary>
+    ChartSkip = 1563,
+    /// <summary>Chart.SplitType.</summary>
+    ChartSplitType = 1564,
+    /// <summary>Chart.StockChart.</summary>
+    ChartStockChart = 1565,
+    /// <summary>Chart.StrData.</summary>
+    ChartStrData = 1566,
+    /// <summary>Chart.StrRef.</summary>
+    ChartStrRef = 1567,
+    /// <summary>Chart.StrVal.</summary>
+    ChartStrVal = 1568,
+    /// <summary>Chart.Style.</summary>
+    ChartStyle = 1569,
+    /// <summary>Chart.Surface.</summary>
+    ChartSurface = 1570,
+    /// <summary>Chart.Surface3DChart.</summary>
+    ChartSurface3DChart = 1571,
+    /// <summary>Chart.SurfaceChart.</summary>
+    ChartSurfaceChart = 1572,
+    /// <summary>Chart.SurfaceSeries.</summary>
+    ChartSurfaceSeries = 1573,
+    /// <summary>Chart.TextLanguageID.</summary>
+    ChartTextLanguageID = 1574,
+    /// <summary>Chart.Thickness.</summary>
+    ChartThickness = 1575,
+    /// <summary>Chart.TickLblPos.</summary>
+    ChartTickLblPos = 1576,
+    /// <summary>Chart.TickMark.</summary>
+    ChartTickMark = 1577,
+    /// <summary>Chart.TimeUnit.</summary>
+    ChartTimeUnit = 1578,
+    /// <summary>Chart.Title.</summary>
+    ChartTitle = 1579,
+    /// <summary>Chart.Trendline.</summary>
+    ChartTrendline = 1580,
+    /// <summary>Chart.TrendlineLbl.</summary>
+    ChartTrendlineLbl = 1581,
+    /// <summary>Chart.TrendlineType.</summary>
+    ChartTrendlineType = 1582,
+    /// <summary>Chart.UnsignedInt.</summary>
+    ChartUnsignedInt = 1583,
+    /// <summary>Chart.UpDownBar.</summary>
+    ChartUpDownBar = 1584,
+    /// <summary>Chart.UpDownBars.</summary>
+    ChartUpDownBars = 1585,
+    /// <summary>Chart.ValueAxis.</summary>
+    ChartValueAxis = 1586,
+    /// <summary>Chart.View3D.</summary>
+    ChartView3D = 1587,
+    /// <summary>ChartDrawing.AbsSizeAnchor.</summary>
+    ChartDrawingAbsSizeAnchor = 1588,
+    /// <summary>ChartDrawing.Connector.</summary>
+    ChartDrawingConnector = 1589,
+    /// <summary>ChartDrawing.ConnectorNonVisual.</summary>
+    ChartDrawingConnectorNonVisual = 1590,
+    /// <summary>ChartDrawing.Drawing.</summary>
+    ChartDrawingDrawing = 1591,
+    /// <summary>ChartDrawing.GraphicFrame.</summary>
+    ChartDrawingGraphicFrame = 1592,
+    /// <summary>ChartDrawing.GraphicFrameNonVisual.</summary>
+    ChartDrawingGraphicFrameNonVisual = 1593,
+    /// <summary>ChartDrawing.GroupShape.</summary>
+    ChartDrawingGroupShape = 1594,
+    /// <summary>ChartDrawing.GroupShapeNonVisual.</summary>
+    ChartDrawingGroupShapeNonVisual = 1595,
+    /// <summary>ChartDrawing.Marker.</summary>
+    ChartDrawingMarker = 1596,
+    /// <summary>ChartDrawing.Picture.</summary>
+    ChartDrawingPicture = 1597,
+    /// <summary>ChartDrawing.PictureNonVisual.</summary>
+    ChartDrawingPictureNonVisual = 1598,
+    /// <summary>ChartDrawing.RelSizeAnchor.</summary>
+    ChartDrawingRelSizeAnchor = 1599,
+    /// <summary>ChartDrawing.Shape.</summary>
+    ChartDrawingShape = 1600,
+    /// <summary>ChartDrawing.ShapeNonVisual.</summary>
+    ChartDrawingShapeNonVisual = 1601,
+    /// <summary>Diagram.Adj.</summary>
+    DiagramAdj = 1602,
+    /// <summary>Diagram.AdjLst.</summary>
+    DiagramAdjLst = 1603,
+    /// <summary>Diagram.Algorithm.</summary>
+    DiagramAlgorithm = 1604,
+    /// <summary>Diagram.AnimLvl.</summary>
+    DiagramAnimLvl = 1605,
+    /// <summary>Diagram.AnimOne.</summary>
+    DiagramAnimOne = 1606,
+    /// <summary>Diagram.BulletEnabled.</summary>
+    DiagramBulletEnabled = 1607,
+    /// <summary>Diagram.CTCategories.</summary>
+    DiagramCTCategories = 1608,
+    /// <summary>Diagram.CTCategory.</summary>
+    DiagramCTCategory = 1609,
+    /// <summary>Diagram.CTDescription.</summary>
+    DiagramCTDescription = 1610,
+    /// <summary>Diagram.CTName.</summary>
+    DiagramCTName = 1611,
+    /// <summary>Diagram.CTStyleLabel.</summary>
+    DiagramCTStyleLabel = 1612,
+    /// <summary>Diagram.Categories.</summary>
+    DiagramCategories = 1613,
+    /// <summary>Diagram.Category.</summary>
+    DiagramCategory = 1614,
+    /// <summary>Diagram.ChildMax.</summary>
+    DiagramChildMax = 1615,
+    /// <summary>Diagram.ChildPref.</summary>
+    DiagramChildPref = 1616,
+    /// <summary>Diagram.Choose.</summary>
+    DiagramChoose = 1617,
+    /// <summary>Diagram.ColorTransform.</summary>
+    DiagramColorTransform = 1618,
+    /// <summary>Diagram.ColorTransformHeader.</summary>
+    DiagramColorTransformHeader = 1619,
+    /// <summary>Diagram.ColorTransformHeaderLst.</summary>
+    DiagramColorTransformHeaderLst = 1620,
+    /// <summary>Diagram.Colors.</summary>
+    DiagramColors = 1621,
+    /// <summary>Diagram.Connection.</summary>
+    DiagramConnection = 1622,
+    /// <summary>Diagram.ConnectionList.</summary>
+    DiagramConnectionList = 1623,
+    /// <summary>Diagram.Constraint.</summary>
+    DiagramConstraint = 1624,
+    /// <summary>Diagram.Constraints.</summary>
+    DiagramConstraints = 1625,
+    /// <summary>Diagram.DataModel.</summary>
+    DiagramDataModel = 1626,
+    /// <summary>Diagram.Description.</summary>
+    DiagramDescription = 1627,
+    /// <summary>Diagram.DiagramDefinition.</summary>
+    DiagramDiagramDefinition = 1628,
+    /// <summary>Diagram.DiagramDefinitionHeader.</summary>
+    DiagramDiagramDefinitionHeader = 1629,
+    /// <summary>Diagram.DiagramDefinitionHeaderLst.</summary>
+    DiagramDiagramDefinitionHeaderLst = 1630,
+    /// <summary>Diagram.Direction.</summary>
+    DiagramDirection = 1631,
+    /// <summary>Diagram.ElemPropSet.</summary>
+    DiagramElemPropSet = 1632,
+    /// <summary>Diagram.ForEach.</summary>
+    DiagramForEach = 1633,
+    /// <summary>Diagram.HierBranchStyle.</summary>
+    DiagramHierBranchStyle = 1634,
+    /// <summary>Diagram.LayoutNode.</summary>
+    DiagramLayoutNode = 1635,
+    /// <summary>Diagram.LayoutVariablePropertySet.</summary>
+    DiagramLayoutVariablePropertySet = 1636,
+    /// <summary>Diagram.Name.</summary>
+    DiagramName = 1637,
+    /// <summary>Diagram.NumericRule.</summary>
+    DiagramNumericRule = 1638,
+    /// <summary>Diagram.OrgChart.</summary>
+    DiagramOrgChart = 1639,
+    /// <summary>Diagram.Otherwise.</summary>
+    DiagramOtherwise = 1640,
+    /// <summary>Diagram.Parameter.</summary>
+    DiagramParameter = 1641,
+    /// <summary>Diagram.Point.</summary>
+    DiagramPoint = 1642,
+    /// <summary>Diagram.PresentationOf.</summary>
+    DiagramPresentationOf = 1643,
+    /// <summary>Diagram.PtList.</summary>
+    DiagramPtList = 1644,
+    /// <summary>Diagram.RelIds.</summary>
+    DiagramRelIds = 1645,
+    /// <summary>Diagram.ResizeHandles.</summary>
+    DiagramResizeHandles = 1646,
+    /// <summary>Diagram.Rules.</summary>
+    DiagramRules = 1647,
+    /// <summary>Diagram.SDCategories.</summary>
+    DiagramSDCategories = 1648,
+    /// <summary>Diagram.SDCategory.</summary>
+    DiagramSDCategory = 1649,
+    /// <summary>Diagram.SDDescription.</summary>
+    DiagramSDDescription = 1650,
+    /// <summary>Diagram.SDName.</summary>
+    DiagramSDName = 1651,
+    /// <summary>Diagram.SampleData.</summary>
+    DiagramSampleData = 1652,
+    /// <summary>Diagram.Shape.</summary>
+    DiagramShape = 1653,
+    /// <summary>Diagram.StyleDefinition.</summary>
+    DiagramStyleDefinition = 1654,
+    /// <summary>Diagram.StyleDefinitionHeader.</summary>
+    DiagramStyleDefinitionHeader = 1655,
+    /// <summary>Diagram.StyleDefinitionHeaderLst.</summary>
+    DiagramStyleDefinitionHeaderLst = 1656,
+    /// <summary>Diagram.StyleLabel.</summary>
+    DiagramStyleLabel = 1657,
+    /// <summary>Diagram.TextProps.</summary>
+    DiagramTextProps = 1658,
+    /// <summary>Diagram.When.</summary>
+    DiagramWhen = 1659,
+    /// <summary>Bibliography.AuthorType.</summary>
+    BibliographyAuthorType = 1660,
+    /// <summary>Bibliography.NameListType.</summary>
+    BibliographyNameListType = 1661,
+    /// <summary>Bibliography.NameOrCorporateType.</summary>
+    BibliographyNameOrCorporateType = 1662,
+    /// <summary>Bibliography.NameType.</summary>
+    BibliographyNameType = 1663,
+    /// <summary>Bibliography.PersonType.</summary>
+    BibliographyPersonType = 1664,
+    /// <summary>Bibliography.SourceType.</summary>
+    BibliographySourceType = 1665,
+    /// <summary>Bibliography.Sources.</summary>
+    BibliographySources = 1666,
+    /// <summary>CustomXmlDataProperties.DatastoreItem.</summary>
+    CustomXmlDataPropertiesDatastoreItem = 1667,
+    /// <summary>CustomXmlDataProperties.DatastoreSchemaRef.</summary>
+    CustomXmlDataPropertiesDatastoreSchemaRef = 1668,
+    /// <summary>CustomXmlDataProperties.DatastoreSchemaRefs.</summary>
+    CustomXmlDataPropertiesDatastoreSchemaRefs = 1669,
+    /// <summary>SchemaLibrary.Schema.</summary>
+    SchemaLibrarySchema = 1670,
+    /// <summary>SchemaLibrary.SchemaLibrary.</summary>
+    SchemaLibrarySchemaLibrary = 1671,
+    /// <summary>AdditionalCharacteristics.AdditionalCharacteristics.</summary>
+    AdditionalCharacteristicsAdditionalCharacteristics = 1672,
+    /// <summary>AdditionalCharacteristics.Characteristic.</summary>
+    AdditionalCharacteristicsCharacteristic = 1673,
+    /// <summary>Chart2007.BooleanFalse.</summary>
+    Chart2007BooleanFalse = 1674,
+    /// <summary>Chart2007.BooleanTrue.</summary>
+    Chart2007BooleanTrue = 1675,
+    /// <summary>Chart2007.InvertSolidFillFmt.</summary>
+    Chart2007InvertSolidFillFmt = 1676,
+    /// <summary>Chart2007.PivotOptions.</summary>
+    Chart2007PivotOptions = 1677,
+    /// <summary>Chart2007.Style.</summary>
+    Chart2007Style = 1678,
+    /// <summary>Chart2012.CategoryFilterException.</summary>
+    Chart2012CategoryFilterException = 1679,
+    /// <summary>Chart2012.CategoryFilterExceptions.</summary>
+    Chart2012CategoryFilterExceptions = 1680,
+    /// <summary>Chart2012.DataLabelFieldTable.</summary>
+    Chart2012DataLabelFieldTable = 1681,
+    /// <summary>Chart2012.DataLabelFieldTableEntry.</summary>
+    Chart2012DataLabelFieldTableEntry = 1682,
+    /// <summary>Chart2012.FilteredAreaSer.</summary>
+    Chart2012FilteredAreaSer = 1683,
+    /// <summary>Chart2012.FilteredBarSer.</summary>
+    Chart2012FilteredBarSer = 1684,
+    /// <summary>Chart2012.FilteredBubbleSer.</summary>
+    Chart2012FilteredBubbleSer = 1685,
+    /// <summary>Chart2012.FilteredCategoryTitle.</summary>
+    Chart2012FilteredCategoryTitle = 1686,
+    /// <summary>Chart2012.FilteredLineSer.</summary>
+    Chart2012FilteredLineSer = 1687,
+    /// <summary>Chart2012.FilteredPieSer.</summary>
+    Chart2012FilteredPieSer = 1688,
+    /// <summary>Chart2012.FilteredRadarSer.</summary>
+    Chart2012FilteredRadarSer = 1689,
+    /// <summary>Chart2012.FilteredScatterSer.</summary>
+    Chart2012FilteredScatterSer = 1690,
+    /// <summary>Chart2012.FilteredSeriesTitle.</summary>
+    Chart2012FilteredSeriesTitle = 1691,
+    /// <summary>Chart2012.FilteredSurfaceSer.</summary>
+    Chart2012FilteredSurfaceSer = 1692,
+    /// <summary>Chart2012.FormulaRef.</summary>
+    Chart2012FormulaRef = 1693,
+    /// <summary>Chart2012.FullRef.</summary>
+    Chart2012FullRef = 1694,
+    /// <summary>Chart2012.LevelRef.</summary>
+    Chart2012LevelRef = 1695,
+    /// <summary>Chart2012.SeriesDataLabelsRange.</summary>
+    Chart2012SeriesDataLabelsRange = 1696,
+    /// <summary>ChartStyle2012.ChartStyle.</summary>
+    ChartStyle2012ChartStyle = 1697,
+    /// <summary>ChartStyle2012.ColorStyle.</summary>
+    ChartStyle2012ColorStyle = 1698,
+    /// <summary>ChartStyle2012.ColorStyleVariation.</summary>
+    ChartStyle2012ColorStyleVariation = 1699,
+    /// <summary>ChartStyle2012.FontReference.</summary>
+    ChartStyle2012FontReference = 1700,
+    /// <summary>ChartStyle2012.MarkerLayout.</summary>
+    ChartStyle2012MarkerLayout = 1701,
+    /// <summary>ChartStyle2012.StyleColor.</summary>
+    ChartStyle2012StyleColor = 1702,
+    /// <summary>ChartStyle2012.StyleEntry.</summary>
+    ChartStyle2012StyleEntry = 1703,
+    /// <summary>ChartStyle2012.StyleReference.</summary>
+    ChartStyle2012StyleReference = 1704,
+    /// <summary>Chart2014.BooleanFalse.</summary>
+    Chart2014BooleanFalse = 1705,
+    /// <summary>Chart2014.CategoryFilterException.</summary>
+    Chart2014CategoryFilterException = 1706,
+    /// <summary>Chart2014.CategoryFilterExceptions.</summary>
+    Chart2014CategoryFilterExceptions = 1707,
+    /// <summary>Chart2014.ChartDataPointUniqueIDMap.</summary>
+    Chart2014ChartDataPointUniqueIDMap = 1708,
+    /// <summary>Chart2014.ChartDataPointUniqueIDMapEntry.</summary>
+    Chart2014ChartDataPointUniqueIDMapEntry = 1709,
+    /// <summary>Chart2014.ChartUniqueID.</summary>
+    Chart2014ChartUniqueID = 1710,
+    /// <summary>Chart2014.LiteralDataChart.</summary>
+    Chart2014LiteralDataChart = 1711,
+    /// <summary>Chart2014.MultiLvlStrFilteredLiteralCache.</summary>
+    Chart2014MultiLvlStrFilteredLiteralCache = 1712,
+    /// <summary>Chart2014.NumFilteredLiteralCache.</summary>
+    Chart2014NumFilteredLiteralCache = 1713,
+    /// <summary>Chart2014.PivotOptions16.</summary>
+    Chart2014PivotOptions16 = 1714,
+    /// <summary>Chart2014.StrFilteredLiteralCache.</summary>
+    Chart2014StrFilteredLiteralCache = 1715,
+    /// <summary>ChartEx.Address.</summary>
+    ChartExAddress = 1716,
+    /// <summary>ChartEx.Aggregation.</summary>
+    ChartExAggregation = 1717,
+    /// <summary>ChartEx.Axis.</summary>
+    ChartExAxis = 1718,
+    /// <summary>ChartEx.AxisTitle.</summary>
+    ChartExAxisTitle = 1719,
+    /// <summary>ChartEx.AxisUnits.</summary>
+    ChartExAxisUnits = 1720,
+    /// <summary>ChartEx.AxisUnitsLabel.</summary>
+    ChartExAxisUnitsLabel = 1721,
+    /// <summary>ChartEx.Binning.</summary>
+    ChartExBinning = 1722,
+    /// <summary>ChartEx.CategoryAxisScaling.</summary>
+    ChartExCategoryAxisScaling = 1723,
+    /// <summary>ChartEx.Chart.</summary>
+    ChartExChart = 1724,
+    /// <summary>ChartEx.ChartData.</summary>
+    ChartExChartData = 1725,
+    /// <summary>ChartEx.ChartSpace.</summary>
+    ChartExChartSpace = 1726,
+    /// <summary>ChartEx.ChartTitle.</summary>
+    ChartExChartTitle = 1727,
+    /// <summary>ChartEx.Clear.</summary>
+    ChartExClear = 1728,
+    /// <summary>ChartEx.Copyrights.</summary>
+    ChartExCopyrights = 1729,
+    /// <summary>ChartEx.Data.</summary>
+    ChartExData = 1730,
+    /// <summary>ChartEx.DataId.</summary>
+    ChartExDataId = 1731,
+    /// <summary>ChartEx.DataLabel.</summary>
+    ChartExDataLabel = 1732,
+    /// <summary>ChartEx.DataLabelHidden.</summary>
+    ChartExDataLabelHidden = 1733,
+    /// <summary>ChartEx.DataLabelVisibilities.</summary>
+    ChartExDataLabelVisibilities = 1734,
+    /// <summary>ChartEx.DataLabels.</summary>
+    ChartExDataLabels = 1735,
+    /// <summary>ChartEx.DataPoint.</summary>
+    ChartExDataPoint = 1736,
+    /// <summary>ChartEx.Extension.</summary>
+    ChartExExtension = 1737,
+    /// <summary>ChartEx.ExtensionList.</summary>
+    ChartExExtensionList = 1738,
+    /// <summary>ChartEx.ExternalData.</summary>
+    ChartExExternalData = 1739,
+    /// <summary>ChartEx.ExtremeValueColorPosition.</summary>
+    ChartExExtremeValueColorPosition = 1740,
+    /// <summary>ChartEx.FeatureExtension.</summary>
+    ChartExFeatureExtension = 1741,
+    /// <summary>ChartEx.FormatOverride.</summary>
+    ChartExFormatOverride = 1742,
+    /// <summary>ChartEx.FormatOverrides.</summary>
+    ChartExFormatOverrides = 1743,
+    /// <summary>ChartEx.Formula.</summary>
+    ChartExFormula = 1744,
+    /// <summary>ChartEx.GeoCache.</summary>
+    ChartExGeoCache = 1745,
+    /// <summary>ChartEx.GeoChildEntities.</summary>
+    ChartExGeoChildEntities = 1746,
+    /// <summary>ChartEx.GeoChildEntitiesQuery.</summary>
+    ChartExGeoChildEntitiesQuery = 1747,
+    /// <summary>ChartEx.GeoChildEntitiesQueryResult.</summary>
+    ChartExGeoChildEntitiesQueryResult = 1748,
+    /// <summary>ChartEx.GeoChildEntitiesQueryResults.</summary>
+    ChartExGeoChildEntitiesQueryResults = 1749,
+    /// <summary>ChartEx.GeoChildTypes.</summary>
+    ChartExGeoChildTypes = 1750,
+    /// <summary>ChartEx.GeoData.</summary>
+    ChartExGeoData = 1751,
+    /// <summary>ChartEx.GeoDataEntityQuery.</summary>
+    ChartExGeoDataEntityQuery = 1752,
+    /// <summary>ChartEx.GeoDataEntityQueryResult.</summary>
+    ChartExGeoDataEntityQueryResult = 1753,
+    /// <summary>ChartEx.GeoDataEntityQueryResults.</summary>
+    ChartExGeoDataEntityQueryResults = 1754,
+    /// <summary>ChartEx.GeoDataPointQuery.</summary>
+    ChartExGeoDataPointQuery = 1755,
+    /// <summary>ChartEx.GeoDataPointToEntityQuery.</summary>
+    ChartExGeoDataPointToEntityQuery = 1756,
+    /// <summary>ChartEx.GeoDataPointToEntityQueryResult.</summary>
+    ChartExGeoDataPointToEntityQueryResult = 1757,
+    /// <summary>ChartEx.GeoDataPointToEntityQueryResults.</summary>
+    ChartExGeoDataPointToEntityQueryResults = 1758,
+    /// <summary>ChartEx.GeoEntity.</summary>
+    ChartExGeoEntity = 1759,
+    /// <summary>ChartEx.GeoHierarchyEntity.</summary>
+    ChartExGeoHierarchyEntity = 1760,
+    /// <summary>ChartEx.GeoLocation.</summary>
+    ChartExGeoLocation = 1761,
+    /// <summary>ChartEx.GeoLocationQuery.</summary>
+    ChartExGeoLocationQuery = 1762,
+    /// <summary>ChartEx.GeoLocationQueryResult.</summary>
+    ChartExGeoLocationQueryResult = 1763,
+    /// <summary>ChartEx.GeoLocationQueryResults.</summary>
+    ChartExGeoLocationQueryResults = 1764,
+    /// <summary>ChartEx.GeoLocations.</summary>
+    ChartExGeoLocations = 1765,
+    /// <summary>ChartEx.GeoParentEntitiesQuery.</summary>
+    ChartExGeoParentEntitiesQuery = 1766,
+    /// <summary>ChartEx.GeoParentEntitiesQueryResult.</summary>
+    ChartExGeoParentEntitiesQueryResult = 1767,
+    /// <summary>ChartEx.GeoParentEntitiesQueryResults.</summary>
+    ChartExGeoParentEntitiesQueryResults = 1768,
+    /// <summary>ChartEx.GeoParentEntity.</summary>
+    ChartExGeoParentEntity = 1769,
+    /// <summary>ChartEx.GeoPolygon.</summary>
+    ChartExGeoPolygon = 1770,
+    /// <summary>ChartEx.GeoPolygons.</summary>
+    ChartExGeoPolygons = 1771,
+    /// <summary>ChartEx.Geography.</summary>
+    ChartExGeography = 1772,
+    /// <summary>ChartEx.Gridlines.</summary>
+    ChartExGridlines = 1773,
+    /// <summary>ChartEx.HeaderFooter.</summary>
+    ChartExHeaderFooter = 1774,
+    /// <summary>ChartEx.Legend.</summary>
+    ChartExLegend = 1775,
+    /// <summary>ChartEx.NumberColorPosition.</summary>
+    ChartExNumberColorPosition = 1776,
+    /// <summary>ChartEx.NumberFormat.</summary>
+    ChartExNumberFormat = 1777,
+    /// <summary>ChartEx.NumericDimension.</summary>
+    ChartExNumericDimension = 1778,
+    /// <summary>ChartEx.NumericLevel.</summary>
+    ChartExNumericLevel = 1779,
+    /// <summary>ChartEx.NumericValue.</summary>
+    ChartExNumericValue = 1780,
+    /// <summary>ChartEx.Offset.</summary>
+    ChartExOffset = 1781,
+    /// <summary>ChartEx.PageMargins.</summary>
+    ChartExPageMargins = 1782,
+    /// <summary>ChartEx.PageSetup.</summary>
+    ChartExPageSetup = 1783,
+    /// <summary>ChartEx.ParentLabelLayout.</summary>
+    ChartExParentLabelLayout = 1784,
+    /// <summary>ChartEx.PercentageColorPosition.</summary>
+    ChartExPercentageColorPosition = 1785,
+    /// <summary>ChartEx.PlotArea.</summary>
+    ChartExPlotArea = 1786,
+    /// <summary>ChartEx.PlotAreaRegion.</summary>
+    ChartExPlotAreaRegion = 1787,
+    /// <summary>ChartEx.PlotSurface.</summary>
+    ChartExPlotSurface = 1788,
+    /// <summary>ChartEx.PrintSettings.</summary>
+    ChartExPrintSettings = 1789,
+    /// <summary>ChartEx.RegionLabelLayout.</summary>
+    ChartExRegionLabelLayout = 1790,
+    /// <summary>ChartEx.RelId.</summary>
+    ChartExRelId = 1791,
+    /// <summary>ChartEx.Series.</summary>
+    ChartExSeries = 1792,
+    /// <summary>ChartEx.SeriesElementVisibilities.</summary>
+    ChartExSeriesElementVisibilities = 1793,
+    /// <summary>ChartEx.SeriesLayoutProperties.</summary>
+    ChartExSeriesLayoutProperties = 1794,
+    /// <summary>ChartEx.Statistics.</summary>
+    ChartExStatistics = 1795,
+    /// <summary>ChartEx.StringDimension.</summary>
+    ChartExStringDimension = 1796,
+    /// <summary>ChartEx.StringLevel.</summary>
+    ChartExStringLevel = 1797,
+    /// <summary>ChartEx.StringValue.</summary>
+    ChartExStringValue = 1798,
+    /// <summary>ChartEx.SubtotalIndex.</summary>
+    ChartExSubtotalIndex = 1799,
+    /// <summary>ChartEx.Subtotals.</summary>
+    ChartExSubtotals = 1800,
+    /// <summary>ChartEx.Text.</summary>
+    ChartExText = 1801,
+    /// <summary>ChartEx.TextData.</summary>
+    ChartExTextData = 1802,
+    /// <summary>ChartEx.TickLabels.</summary>
+    ChartExTickLabels = 1803,
+    /// <summary>ChartEx.TickMarks.</summary>
+    ChartExTickMarks = 1804,
+    /// <summary>ChartEx.ValueAxisScaling.</summary>
+    ChartExValueAxisScaling = 1805,
+    /// <summary>ChartEx.ValueColorEndPosition.</summary>
+    ChartExValueColorEndPosition = 1806,
+    /// <summary>ChartEx.ValueColorMiddlePosition.</summary>
+    ChartExValueColorMiddlePosition = 1807,
+    /// <summary>ChartEx.ValueColorPositions.</summary>
+    ChartExValueColorPositions = 1808,
+    /// <summary>ChartEx.ValueColors.</summary>
+    ChartExValueColors = 1809,
+    /// <summary>Chart201703.BooleanFalse.</summary>
+    Chart201703BooleanFalse = 1810,
+    /// <summary>Chart201703.DataDisplayOptions16.</summary>
+    Chart201703DataDisplayOptions16 = 1811,
+    /// <summary>ChartDrawing2010.ApplicationNonVisualDrawingProps.</summary>
+    ChartDrawing2010ApplicationNonVisualDrawingProps = 1812,
+    /// <summary>ChartDrawing2010.ContentPart.</summary>
+    ChartDrawing2010ContentPart = 1813,
+    /// <summary>ChartDrawing2010.ContentPartNonVisual.</summary>
+    ChartDrawing2010ContentPartNonVisual = 1814,
+    /// <summary>DiagramDrawing.DataModelExtBlock.</summary>
+    DiagramDrawingDataModelExtBlock = 1815,
+    /// <summary>DiagramDrawing.Drawing.</summary>
+    DiagramDrawingDrawing = 1816,
+    /// <summary>DiagramDrawing.GroupShape.</summary>
+    DiagramDrawingGroupShape = 1817,
+    /// <summary>DiagramDrawing.GroupShapeNonVisual.</summary>
+    DiagramDrawingGroupShapeNonVisual = 1818,
+    /// <summary>DiagramDrawing.Shape.</summary>
+    DiagramDrawingShape = 1819,
+    /// <summary>DiagramDrawing.ShapeNonVisual.</summary>
+    DiagramDrawingShapeNonVisual = 1820,
+    /// <summary>Diagram2010.Boolean.</summary>
+    Diagram2010Boolean = 1821,
+    /// <summary>Diagram201611.DiagramAutoBullet.</summary>
+    Diagram201611DiagramAutoBullet = 1822,
+    /// <summary>Diagram201611.NumberDiagramInfo.</summary>
+    Diagram201611NumberDiagramInfo = 1823,
+    /// <summary>Diagram201611.NumberDiagramInfoList.</summary>
+    Diagram201611NumberDiagramInfoList = 1824,
+    /// <summary>DrawingCommand2013.ChangesData.</summary>
+    DrawingCommand2013ChangesData = 1825,
+    /// <summary>DrawingCommand2013.ConnectorChanges.</summary>
+    DrawingCommand2013ConnectorChanges = 1826,
+    /// <summary>DrawingCommand2013.ConnectorMoniker.</summary>
+    DrawingCommand2013ConnectorMoniker = 1827,
+    /// <summary>DrawingCommand2013.ConnectorMonikerList.</summary>
+    DrawingCommand2013ConnectorMonikerList = 1828,
+    /// <summary>DrawingCommand2013.DrawingElementMonikerList.</summary>
+    DrawingCommand2013DrawingElementMonikerList = 1829,
+    /// <summary>DrawingCommand2013.GraphicFrameChanges.</summary>
+    DrawingCommand2013GraphicFrameChanges = 1830,
+    /// <summary>DrawingCommand2013.GraphicFrameMoniker.</summary>
+    DrawingCommand2013GraphicFrameMoniker = 1831,
+    /// <summary>DrawingCommand2013.GraphicFrameMonikerList.</summary>
+    DrawingCommand2013GraphicFrameMonikerList = 1832,
+    /// <summary>DrawingCommand2013.GroupShapeChanges.</summary>
+    DrawingCommand2013GroupShapeChanges = 1833,
+    /// <summary>DrawingCommand2013.GroupShapeMoniker.</summary>
+    DrawingCommand2013GroupShapeMoniker = 1834,
+    /// <summary>DrawingCommand2013.GroupShapeMonikerList.</summary>
+    DrawingCommand2013GroupShapeMonikerList = 1835,
+    /// <summary>DrawingCommand2013.InkChanges.</summary>
+    DrawingCommand2013InkChanges = 1836,
+    /// <summary>DrawingCommand2013.InkMoniker.</summary>
+    DrawingCommand2013InkMoniker = 1837,
+    /// <summary>DrawingCommand2013.InkMonikerList.</summary>
+    DrawingCommand2013InkMonikerList = 1838,
+    /// <summary>DrawingCommand2013.PictureChanges.</summary>
+    DrawingCommand2013PictureChanges = 1839,
+    /// <summary>DrawingCommand2013.PictureMoniker.</summary>
+    DrawingCommand2013PictureMoniker = 1840,
+    /// <summary>DrawingCommand2013.PictureMonikerList.</summary>
+    DrawingCommand2013PictureMonikerList = 1841,
+    /// <summary>DrawingCommand2013.ShapeChanges.</summary>
+    DrawingCommand2013ShapeChanges = 1842,
+    /// <summary>DrawingCommand2013.ShapeMoniker.</summary>
+    DrawingCommand2013ShapeMoniker = 1843,
+    /// <summary>DrawingCommand2013.ShapeMonikerList.</summary>
+    DrawingCommand2013ShapeMonikerList = 1844,
+    /// <summary>DrawingCommand2013.TextCharRangeContext.</summary>
+    DrawingCommand2013TextCharRangeContext = 1845,
+    /// <summary>DrawingCommand2013.TextCharRangeMoniker.</summary>
+    DrawingCommand2013TextCharRangeMoniker = 1846,
+    /// <summary>DrawingCommand2013.TextCharRangeMonikerList.</summary>
+    DrawingCommand2013TextCharRangeMonikerList = 1847,
+    /// <summary>Drawing201611.PictureAttributionSourceURL.</summary>
+    Drawing201611PictureAttributionSourceURL = 1848,
+    /// <summary>Model3D.AmbientLight.</summary>
+    Model3DAmbientLight = 1849,
+    /// <summary>Model3D.DirectionalLight.</summary>
+    Model3DDirectionalLight = 1850,
+    /// <summary>Model3D.Model3D.</summary>
+    Model3DModel3D = 1851,
+    /// <summary>Model3D.Model3DCamera.</summary>
+    Model3DModel3DCamera = 1852,
+    /// <summary>Model3D.Model3DRaster.</summary>
+    Model3DModel3DRaster = 1853,
+    /// <summary>Model3D.Model3DTransform.</summary>
+    Model3DModel3DTransform = 1854,
+    /// <summary>Model3D.ObjectViewport.</summary>
+    Model3DObjectViewport = 1855,
+    /// <summary>Model3D.OrthographicProjection.</summary>
+    Model3DOrthographicProjection = 1856,
+    /// <summary>Model3D.PerspectiveProjection.</summary>
+    Model3DPerspectiveProjection = 1857,
+    /// <summary>Model3D.PointLight.</summary>
+    Model3DPointLight = 1858,
+    /// <summary>Model3D.PositiveRatio.</summary>
+    Model3DPositiveRatio = 1859,
+    /// <summary>Model3D.Rotate3D.</summary>
+    Model3DRotate3D = 1860,
+    /// <summary>Model3D.Scale3D.</summary>
+    Model3DScale3D = 1861,
+    /// <summary>Model3D.SpotLight.</summary>
+    Model3DSpotLight = 1862,
+    /// <summary>Model3D.UnknownLight.</summary>
+    Model3DUnknownLight = 1863,
+    /// <summary>Model3D.WindowViewport.</summary>
+    Model3DWindowViewport = 1864,
+    /// <summary>DrawingAnimation.AnimationProperties.</summary>
+    DrawingAnimationAnimationProperties = 1865,
+    /// <summary>DrawingAnimationModel3D.EmbeddedAnimation.</summary>
+    DrawingAnimationModel3DEmbeddedAnimation = 1866,
+    /// <summary>DrawingAnimationModel3D.PosterFrame.</summary>
+    DrawingAnimationModel3DPosterFrame = 1867,
+    /// <summary>SketchyShapes.Empty.</summary>
+    SketchyShapesEmpty = 1868,
+    /// <summary>SketchyShapes.LineSketchStyleProperties.</summary>
+    SketchyShapesLineSketchStyleProperties = 1869,
+    /// <summary>SketchyShapes.LineSketchTypeProperties.</summary>
+    SketchyShapesLineSketchTypeProperties = 1870,
+    /// <summary>LiveFeed.BackgroundBlurProperties.</summary>
+    LiveFeedBackgroundBlurProperties = 1871,
+    /// <summary>LiveFeed.BackgroundCustomProperties.</summary>
+    LiveFeedBackgroundCustomProperties = 1872,
+    /// <summary>LiveFeed.BackgroundNormalProperties.</summary>
+    LiveFeedBackgroundNormalProperties = 1873,
+    /// <summary>LiveFeed.BackgroundRemovedProperties.</summary>
+    LiveFeedBackgroundRemovedProperties = 1874,
+    /// <summary>LiveFeed.LiveFeedBackgroundProperties.</summary>
+    LiveFeedLiveFeedBackgroundProperties = 1875,
+    /// <summary>LiveFeed.LiveFeedProperties.</summary>
+    LiveFeedLiveFeedProperties = 1876,
+    /// <summary>ScriptLink.ScriptLink.</summary>
+    ScriptLinkScriptLink = 1877,
+    /// <summary>ImageFormula.ImageFormula.</summary>
+    ImageFormulaImageFormula = 1878,
+    /// <summary>SpreadsheetDrawing2010.ApplicationNonVisualDrawingProps.</summary>
+    SpreadsheetDrawing2010ApplicationNonVisualDrawingProps = 1879,
+    /// <summary>SpreadsheetDrawing2010.ContentPart.</summary>
+    SpreadsheetDrawing2010ContentPart = 1880,
+    /// <summary>SpreadsheetDrawing2010.ContentPartNonVisual.</summary>
+    SpreadsheetDrawing2010ContentPartNonVisual = 1881,
+    /// <summary>InkAction.Action.</summary>
+    InkActionAction = 1882,
+    /// <summary>InkAction.ActionData.</summary>
+    InkActionActionData = 1883,
+    /// <summary>InkAction.ActionDataGroup.</summary>
+    InkActionActionDataGroup = 1884,
+    /// <summary>InkAction.ActionGroup.</summary>
+    InkActionActionGroup = 1885,
+    /// <summary>InkAction.ActionProperty.</summary>
+    InkActionActionProperty = 1886,
+    /// <summary>InkAction.Actions.</summary>
+    InkActionActions = 1887,
+    /// <summary>Ink2010.CtxLink.</summary>
+    Ink2010CtxLink = 1888,
+    /// <summary>Ink2010.CtxNode.</summary>
+    Ink2010CtxNode = 1889,
+    /// <summary>Ink2010.Property.</summary>
+    Ink2010Property = 1890,
+    /// <summary>ThemeMl2012.ThemeFamily.</summary>
+    ThemeMl2012ThemeFamily = 1891,
+    /// <summary>Slicer2010.Slicer.</summary>
+    Slicer2010Slicer = 1892,
+    /// <summary>TimeSlicer2012.Timeline.</summary>
+    TimeSlicer2012Timeline = 1893,
+    /// <summary>ExcelMacro2006.Ref.</summary>
+    ExcelMacro2006Ref = 1894,
+    /// <summary>ExcelMacro2006.Sqref.</summary>
+    ExcelMacro2006Sqref = 1895,
+    /// <summary>ExcelMacro2006.Worksheet.</summary>
+    ExcelMacro2006Worksheet = 1896,
+    /// <summary>ExcelMacro2008.DefinedName.</summary>
+    ExcelMacro2008DefinedName = 1897,
+    /// <summary>ExcelMacro2008.DefinedNameArgumentDescription.</summary>
+    ExcelMacro2008DefinedNameArgumentDescription = 1898,
+    /// <summary>ExcelMacro2008.DefinedNameArgumentDescriptions.</summary>
+    ExcelMacro2008DefinedNameArgumentDescriptions = 1899,
+    /// <summary>ExcelMacro2008.DefinedNames.</summary>
+    ExcelMacro2008DefinedNames = 1900,
+    /// <summary>WordMacro2006.DocEvents.</summary>
+    WordMacro2006DocEvents = 1901,
+    /// <summary>WordMacro2006.Mcd.</summary>
+    WordMacro2006Mcd = 1902,
+    /// <summary>WordMacro2006.Mcds.</summary>
+    WordMacro2006Mcds = 1903,
+    /// <summary>WordMacro2006.VbaSuppData.</summary>
+    WordMacro2006VbaSuppData = 1904,
+    /// <summary>Spreadsheet2009.CacheField.</summary>
+    Spreadsheet2009CacheField = 1905,
+    /// <summary>Spreadsheet2009.CacheHierarchy.</summary>
+    Spreadsheet2009CacheHierarchy = 1906,
+    /// <summary>Spreadsheet2009.CacheSourceExt.</summary>
+    Spreadsheet2009CacheSourceExt = 1907,
+    /// <summary>Spreadsheet2009.CalculatedMember.</summary>
+    Spreadsheet2009CalculatedMember = 1908,
+    /// <summary>Spreadsheet2009.CfIcon.</summary>
+    Spreadsheet2009CfIcon = 1909,
+    /// <summary>Spreadsheet2009.CfRule.</summary>
+    Spreadsheet2009CfRule = 1910,
+    /// <summary>Spreadsheet2009.Cfvo.</summary>
+    Spreadsheet2009Cfvo = 1911,
+    /// <summary>Spreadsheet2009.ColorScale.</summary>
+    Spreadsheet2009ColorScale = 1912,
+    /// <summary>Spreadsheet2009.ConditionalFormat.</summary>
+    Spreadsheet2009ConditionalFormat = 1913,
+    /// <summary>Spreadsheet2009.ConditionalFormats.</summary>
+    Spreadsheet2009ConditionalFormats = 1914,
+    /// <summary>Spreadsheet2009.ConditionalFormatting.</summary>
+    Spreadsheet2009ConditionalFormatting = 1915,
+    /// <summary>Spreadsheet2009.ConditionalFormattings.</summary>
+    Spreadsheet2009ConditionalFormattings = 1916,
+    /// <summary>Spreadsheet2009.Connection.</summary>
+    Spreadsheet2009Connection = 1917,
+    /// <summary>Spreadsheet2009.CustomFilter.</summary>
+    Spreadsheet2009CustomFilter = 1918,
+    /// <summary>Spreadsheet2009.CustomFilters.</summary>
+    Spreadsheet2009CustomFilters = 1919,
+    /// <summary>Spreadsheet2009.DataBar.</summary>
+    Spreadsheet2009DataBar = 1920,
+    /// <summary>Spreadsheet2009.DataField.</summary>
+    Spreadsheet2009DataField = 1921,
+    /// <summary>Spreadsheet2009.DataValidation.</summary>
+    Spreadsheet2009DataValidation = 1922,
+    /// <summary>Spreadsheet2009.DataValidationFormula.</summary>
+    Spreadsheet2009DataValidationFormula = 1923,
+    /// <summary>Spreadsheet2009.DataValidations.</summary>
+    Spreadsheet2009DataValidations = 1924,
+    /// <summary>Spreadsheet2009.DatastoreItem.</summary>
+    Spreadsheet2009DatastoreItem = 1925,
+    /// <summary>Spreadsheet2009.Filter.</summary>
+    Spreadsheet2009Filter = 1926,
+    /// <summary>Spreadsheet2009.FormControlPr.</summary>
+    Spreadsheet2009FormControlPr = 1927,
+    /// <summary>Spreadsheet2009.IconFilter.</summary>
+    Spreadsheet2009IconFilter = 1928,
+    /// <summary>Spreadsheet2009.IconSet.</summary>
+    Spreadsheet2009IconSet = 1929,
+    /// <summary>Spreadsheet2009.IgnoredError.</summary>
+    Spreadsheet2009IgnoredError = 1930,
+    /// <summary>Spreadsheet2009.IgnoredErrors.</summary>
+    Spreadsheet2009IgnoredErrors = 1931,
+    /// <summary>Spreadsheet2009.ListItem.</summary>
+    Spreadsheet2009ListItem = 1932,
+    /// <summary>Spreadsheet2009.ListItems.</summary>
+    Spreadsheet2009ListItems = 1933,
+    /// <summary>Spreadsheet2009.OlapSlicerCache.</summary>
+    Spreadsheet2009OlapSlicerCache = 1934,
+    /// <summary>Spreadsheet2009.OlapSlicerCacheItem.</summary>
+    Spreadsheet2009OlapSlicerCacheItem = 1935,
+    /// <summary>Spreadsheet2009.OlapSlicerCacheItemParent.</summary>
+    Spreadsheet2009OlapSlicerCacheItemParent = 1936,
+    /// <summary>Spreadsheet2009.OlapSlicerCacheLevelData.</summary>
+    Spreadsheet2009OlapSlicerCacheLevelData = 1937,
+    /// <summary>Spreadsheet2009.OlapSlicerCacheLevelsData.</summary>
+    Spreadsheet2009OlapSlicerCacheLevelsData = 1938,
+    /// <summary>Spreadsheet2009.OlapSlicerCacheRange.</summary>
+    Spreadsheet2009OlapSlicerCacheRange = 1939,
+    /// <summary>Spreadsheet2009.OlapSlicerCacheRanges.</summary>
+    Spreadsheet2009OlapSlicerCacheRanges = 1940,
+    /// <summary>Spreadsheet2009.OlapSlicerCacheSelection.</summary>
+    Spreadsheet2009OlapSlicerCacheSelection = 1941,
+    /// <summary>Spreadsheet2009.OlapSlicerCacheSelections.</summary>
+    Spreadsheet2009OlapSlicerCacheSelections = 1942,
+    /// <summary>Spreadsheet2009.OleItem.</summary>
+    Spreadsheet2009OleItem = 1943,
+    /// <summary>Spreadsheet2009.PivotCacheDefinition.</summary>
+    Spreadsheet2009PivotCacheDefinition = 1944,
+    /// <summary>Spreadsheet2009.PivotChange.</summary>
+    Spreadsheet2009PivotChange = 1945,
+    /// <summary>Spreadsheet2009.PivotChanges.</summary>
+    Spreadsheet2009PivotChanges = 1946,
+    /// <summary>Spreadsheet2009.PivotEdit.</summary>
+    Spreadsheet2009PivotEdit = 1947,
+    /// <summary>Spreadsheet2009.PivotEditValue.</summary>
+    Spreadsheet2009PivotEditValue = 1948,
+    /// <summary>Spreadsheet2009.PivotEdits.</summary>
+    Spreadsheet2009PivotEdits = 1949,
+    /// <summary>Spreadsheet2009.PivotField.</summary>
+    Spreadsheet2009PivotField = 1950,
+    /// <summary>Spreadsheet2009.PivotHierarchy.</summary>
+    Spreadsheet2009PivotHierarchy = 1951,
+    /// <summary>Spreadsheet2009.PivotTableDefinition.</summary>
+    Spreadsheet2009PivotTableDefinition = 1952,
+    /// <summary>Spreadsheet2009.PivotUserEdit.</summary>
+    Spreadsheet2009PivotUserEdit = 1953,
+    /// <summary>Spreadsheet2009.ProtectedRange.</summary>
+    Spreadsheet2009ProtectedRange = 1954,
+    /// <summary>Spreadsheet2009.ProtectedRanges.</summary>
+    Spreadsheet2009ProtectedRanges = 1955,
+    /// <summary>Spreadsheet2009.SetLevel.</summary>
+    Spreadsheet2009SetLevel = 1956,
+    /// <summary>Spreadsheet2009.SetLevels.</summary>
+    Spreadsheet2009SetLevels = 1957,
+    /// <summary>Spreadsheet2009.Slicer.</summary>
+    Spreadsheet2009Slicer = 1958,
+    /// <summary>Spreadsheet2009.SlicerCache.</summary>
+    Spreadsheet2009SlicerCache = 1959,
+    /// <summary>Spreadsheet2009.SlicerCacheData.</summary>
+    Spreadsheet2009SlicerCacheData = 1960,
+    /// <summary>Spreadsheet2009.SlicerCacheDefinition.</summary>
+    Spreadsheet2009SlicerCacheDefinition = 1961,
+    /// <summary>Spreadsheet2009.SlicerCachePivotTable.</summary>
+    Spreadsheet2009SlicerCachePivotTable = 1962,
+    /// <summary>Spreadsheet2009.SlicerCachePivotTables.</summary>
+    Spreadsheet2009SlicerCachePivotTables = 1963,
+    /// <summary>Spreadsheet2009.SlicerCaches.</summary>
+    Spreadsheet2009SlicerCaches = 1964,
+    /// <summary>Spreadsheet2009.SlicerRef.</summary>
+    Spreadsheet2009SlicerRef = 1965,
+    /// <summary>Spreadsheet2009.SlicerRefs.</summary>
+    Spreadsheet2009SlicerRefs = 1966,
+    /// <summary>Spreadsheet2009.SlicerStyle.</summary>
+    Spreadsheet2009SlicerStyle = 1967,
+    /// <summary>Spreadsheet2009.SlicerStyleElement.</summary>
+    Spreadsheet2009SlicerStyleElement = 1968,
+    /// <summary>Spreadsheet2009.SlicerStyleElements.</summary>
+    Spreadsheet2009SlicerStyleElements = 1969,
+    /// <summary>Spreadsheet2009.SlicerStyles.</summary>
+    Spreadsheet2009SlicerStyles = 1970,
+    /// <summary>Spreadsheet2009.Slicers.</summary>
+    Spreadsheet2009Slicers = 1971,
+    /// <summary>Spreadsheet2009.SortCondition.</summary>
+    Spreadsheet2009SortCondition = 1972,
+    /// <summary>Spreadsheet2009.SourceConnection.</summary>
+    Spreadsheet2009SourceConnection = 1973,
+    /// <summary>Spreadsheet2009.Sparkline.</summary>
+    Spreadsheet2009Sparkline = 1974,
+    /// <summary>Spreadsheet2009.SparklineGroup.</summary>
+    Spreadsheet2009SparklineGroup = 1975,
+    /// <summary>Spreadsheet2009.SparklineGroups.</summary>
+    Spreadsheet2009SparklineGroups = 1976,
+    /// <summary>Spreadsheet2009.Sparklines.</summary>
+    Spreadsheet2009Sparklines = 1977,
+    /// <summary>Spreadsheet2009.Table.</summary>
+    Spreadsheet2009Table = 1978,
+    /// <summary>Spreadsheet2009.TabularSlicerCache.</summary>
+    Spreadsheet2009TabularSlicerCache = 1979,
+    /// <summary>Spreadsheet2009.TabularSlicerCacheItem.</summary>
+    Spreadsheet2009TabularSlicerCacheItem = 1980,
+    /// <summary>Spreadsheet2009.TabularSlicerCacheItems.</summary>
+    Spreadsheet2009TabularSlicerCacheItems = 1981,
+    /// <summary>Spreadsheet2009.TupleItems.</summary>
+    Spreadsheet2009TupleItems = 1982,
+    /// <summary>Spreadsheet2009.TupleSet.</summary>
+    Spreadsheet2009TupleSet = 1983,
+    /// <summary>Spreadsheet2009.TupleSetHeader.</summary>
+    Spreadsheet2009TupleSetHeader = 1984,
+    /// <summary>Spreadsheet2009.TupleSetHeaders.</summary>
+    Spreadsheet2009TupleSetHeaders = 1985,
+    /// <summary>Spreadsheet2009.TupleSetRow.</summary>
+    Spreadsheet2009TupleSetRow = 1986,
+    /// <summary>Spreadsheet2009.TupleSetRowItem.</summary>
+    Spreadsheet2009TupleSetRowItem = 1987,
+    /// <summary>Spreadsheet2009.TupleSetRows.</summary>
+    Spreadsheet2009TupleSetRows = 1988,
+    /// <summary>Spreadsheet2009.WorkbookPr.</summary>
+    Spreadsheet2009WorkbookPr = 1989,
+    /// <summary>Spreadsheet2010.CacheHierarchy.</summary>
+    Spreadsheet2010CacheHierarchy = 1990,
+    /// <summary>Spreadsheet2010.CachedUniqueName.</summary>
+    Spreadsheet2010CachedUniqueName = 1991,
+    /// <summary>Spreadsheet2010.CachedUniqueNames.</summary>
+    Spreadsheet2010CachedUniqueNames = 1992,
+    /// <summary>Spreadsheet2010.CalculatedMember.</summary>
+    Spreadsheet2010CalculatedMember = 1993,
+    /// <summary>Spreadsheet2010.CalculatedMemberExt.</summary>
+    Spreadsheet2010CalculatedMemberExt = 1994,
+    /// <summary>Spreadsheet2010.Connection.</summary>
+    Spreadsheet2010Connection = 1995,
+    /// <summary>Spreadsheet2010.DataFeedPr.</summary>
+    Spreadsheet2010DataFeedPr = 1996,
+    /// <summary>Spreadsheet2010.DataField.</summary>
+    Spreadsheet2010DataField = 1997,
+    /// <summary>Spreadsheet2010.DataModel.</summary>
+    Spreadsheet2010DataModel = 1998,
+    /// <summary>Spreadsheet2010.DbCommand.</summary>
+    Spreadsheet2010DbCommand = 1999,
+    /// <summary>Spreadsheet2010.DbTable.</summary>
+    Spreadsheet2010DbTable = 2000,
+    /// <summary>Spreadsheet2010.DbTables.</summary>
+    Spreadsheet2010DbTables = 2001,
+    /// <summary>Spreadsheet2010.FieldListActiveTabTopLevelEntity.</summary>
+    Spreadsheet2010FieldListActiveTabTopLevelEntity = 2002,
+    /// <summary>Spreadsheet2010.ModelRelationship.</summary>
+    Spreadsheet2010ModelRelationship = 2003,
+    /// <summary>Spreadsheet2010.ModelRelationships.</summary>
+    Spreadsheet2010ModelRelationships = 2004,
+    /// <summary>Spreadsheet2010.ModelTable.</summary>
+    Spreadsheet2010ModelTable = 2005,
+    /// <summary>Spreadsheet2010.ModelTables.</summary>
+    Spreadsheet2010ModelTables = 2006,
+    /// <summary>Spreadsheet2010.ModelTextPr.</summary>
+    Spreadsheet2010ModelTextPr = 2007,
+    /// <summary>Spreadsheet2010.OledbPr.</summary>
+    Spreadsheet2010OledbPr = 2008,
+    /// <summary>Spreadsheet2010.PivotCacheIdVersion.</summary>
+    Spreadsheet2010PivotCacheIdVersion = 2009,
+    /// <summary>Spreadsheet2010.PivotFilter.</summary>
+    Spreadsheet2010PivotFilter = 2010,
+    /// <summary>Spreadsheet2010.PivotRow.</summary>
+    Spreadsheet2010PivotRow = 2011,
+    /// <summary>Spreadsheet2010.PivotTableData.</summary>
+    Spreadsheet2010PivotTableData = 2012,
+    /// <summary>Spreadsheet2010.PivotTableReference.</summary>
+    Spreadsheet2010PivotTableReference = 2013,
+    /// <summary>Spreadsheet2010.PivotTableReferences.</summary>
+    Spreadsheet2010PivotTableReferences = 2014,
+    /// <summary>Spreadsheet2010.PivotTableServerFormats.</summary>
+    Spreadsheet2010PivotTableServerFormats = 2015,
+    /// <summary>Spreadsheet2010.PivotTableUISettings.</summary>
+    Spreadsheet2010PivotTableUISettings = 2016,
+    /// <summary>Spreadsheet2010.PivotValueCell.</summary>
+    Spreadsheet2010PivotValueCell = 2017,
+    /// <summary>Spreadsheet2010.PivotValueCellExtra.</summary>
+    Spreadsheet2010PivotValueCellExtra = 2018,
+    /// <summary>Spreadsheet2010.QueryTable.</summary>
+    Spreadsheet2010QueryTable = 2019,
+    /// <summary>Spreadsheet2010.RangePr.</summary>
+    Spreadsheet2010RangePr = 2020,
+    /// <summary>Spreadsheet2010.SlicerCacheHideNoData.</summary>
+    Spreadsheet2010SlicerCacheHideNoData = 2021,
+    /// <summary>Spreadsheet2010.SlicerCacheOlapLevelName.</summary>
+    Spreadsheet2010SlicerCacheOlapLevelName = 2022,
+    /// <summary>Spreadsheet2010.Survey.</summary>
+    Spreadsheet2010Survey = 2023,
+    /// <summary>Spreadsheet2010.SurveyElementPr.</summary>
+    Spreadsheet2010SurveyElementPr = 2024,
+    /// <summary>Spreadsheet2010.SurveyQuestion.</summary>
+    Spreadsheet2010SurveyQuestion = 2025,
+    /// <summary>Spreadsheet2010.SurveyQuestions.</summary>
+    Spreadsheet2010SurveyQuestions = 2026,
+    /// <summary>Spreadsheet2010.TableSlicerCache.</summary>
+    Spreadsheet2010TableSlicerCache = 2027,
+    /// <summary>Spreadsheet2010.Timeline.</summary>
+    Spreadsheet2010Timeline = 2028,
+    /// <summary>Spreadsheet2010.TimelineCacheDefinition.</summary>
+    Spreadsheet2010TimelineCacheDefinition = 2029,
+    /// <summary>Spreadsheet2010.TimelineCachePivotTable.</summary>
+    Spreadsheet2010TimelineCachePivotTable = 2030,
+    /// <summary>Spreadsheet2010.TimelineCachePivotTables.</summary>
+    Spreadsheet2010TimelineCachePivotTables = 2031,
+    /// <summary>Spreadsheet2010.TimelineCacheRef.</summary>
+    Spreadsheet2010TimelineCacheRef = 2032,
+    /// <summary>Spreadsheet2010.TimelineCacheRefs.</summary>
+    Spreadsheet2010TimelineCacheRefs = 2033,
+    /// <summary>Spreadsheet2010.TimelinePivotCacheDefinition.</summary>
+    Spreadsheet2010TimelinePivotCacheDefinition = 2034,
+    /// <summary>Spreadsheet2010.TimelinePivotFilter.</summary>
+    Spreadsheet2010TimelinePivotFilter = 2035,
+    /// <summary>Spreadsheet2010.TimelineRange.</summary>
+    Spreadsheet2010TimelineRange = 2036,
+    /// <summary>Spreadsheet2010.TimelineRef.</summary>
+    Spreadsheet2010TimelineRef = 2037,
+    /// <summary>Spreadsheet2010.TimelineRefs.</summary>
+    Spreadsheet2010TimelineRefs = 2038,
+    /// <summary>Spreadsheet2010.TimelineState.</summary>
+    Spreadsheet2010TimelineState = 2039,
+    /// <summary>Spreadsheet2010.TimelineStyle.</summary>
+    Spreadsheet2010TimelineStyle = 2040,
+    /// <summary>Spreadsheet2010.TimelineStyleElement.</summary>
+    Spreadsheet2010TimelineStyleElement = 2041,
+    /// <summary>Spreadsheet2010.TimelineStyleElements.</summary>
+    Spreadsheet2010TimelineStyleElements = 2042,
+    /// <summary>Spreadsheet2010.TimelineStyles.</summary>
+    Spreadsheet2010TimelineStyles = 2043,
+    /// <summary>Spreadsheet2010.Timelines.</summary>
+    Spreadsheet2010Timelines = 2044,
+    /// <summary>Spreadsheet2010.WebExtension.</summary>
+    Spreadsheet2010WebExtension = 2045,
+    /// <summary>Spreadsheet2010.WebExtensions.</summary>
+    Spreadsheet2010WebExtensions = 2046,
+    /// <summary>Spreadsheet2010.WorkbookPr.</summary>
+    Spreadsheet2010WorkbookPr = 2047,
+    /// <summary>Spreadsheet2010Ac.AbsolutePath.</summary>
+    Spreadsheet2010AcAbsolutePath = 2048,
+    /// <summary>Spreadsheet2014.CalculatedTimeColumn.</summary>
+    Spreadsheet2014CalculatedTimeColumn = 2049,
+    /// <summary>Spreadsheet2014.ModelTimeGrouping.</summary>
+    Spreadsheet2014ModelTimeGrouping = 2050,
+    /// <summary>Spreadsheet2014.ModelTimeGroupings.</summary>
+    Spreadsheet2014ModelTimeGroupings = 2051,
+    /// <summary>SpreadsheetRevision2014.RevisionPtr.</summary>
+    SpreadsheetRevision2014RevisionPtr = 2052,
+    /// <summary>PivotDefaultLayout.PivotTableDefinition16.</summary>
+    PivotDefaultLayoutPivotTableDefinition16 = 2053,
+    /// <summary>DynamicArray.DynamicArrayProperties.</summary>
+    DynamicArrayDynamicArrayProperties = 2054,
+    /// <summary>RichData.Key.</summary>
+    RichDataKey = 2055,
+    /// <summary>RichData.RichValue.</summary>
+    RichDataRichValue = 2056,
+    /// <summary>RichData.RichValueBlock.</summary>
+    RichDataRichValueBlock = 2057,
+    /// <summary>RichData.RichValueData.</summary>
+    RichDataRichValueData = 2058,
+    /// <summary>RichData.RichValueFallback.</summary>
+    RichDataRichValueFallback = 2059,
+    /// <summary>RichData.RichValueStructure.</summary>
+    RichDataRichValueStructure = 2060,
+    /// <summary>RichData.RichValueStructures.</summary>
+    RichDataRichValueStructures = 2061,
+    /// <summary>RichData.Value.</summary>
+    RichDataValue = 2062,
+    /// <summary>RichData2.Array.</summary>
+    RichData2Array = 2063,
+    /// <summary>RichData2.ArrayData.</summary>
+    RichData2ArrayData = 2064,
+    /// <summary>RichData2.ArrayValue.</summary>
+    RichData2ArrayValue = 2065,
+    /// <summary>RichData2.CustomRichFilter.</summary>
+    RichData2CustomRichFilter = 2066,
+    /// <summary>RichData2.CustomRichFilters.</summary>
+    RichData2CustomRichFilters = 2067,
+    /// <summary>RichData2.DynamicRichFilter.</summary>
+    RichData2DynamicRichFilter = 2068,
+    /// <summary>RichData2.RichDateGroupItem.</summary>
+    RichData2RichDateGroupItem = 2069,
+    /// <summary>RichData2.RichFilter.</summary>
+    RichData2RichFilter = 2070,
+    /// <summary>RichData2.RichFilterColumn.</summary>
+    RichData2RichFilterColumn = 2071,
+    /// <summary>RichData2.RichFilters.</summary>
+    RichData2RichFilters = 2072,
+    /// <summary>RichData2.RichFormatProperties.</summary>
+    RichData2RichFormatProperties = 2073,
+    /// <summary>RichData2.RichFormatProperty.</summary>
+    RichData2RichFormatProperty = 2074,
+    /// <summary>RichData2.RichSortCondition.</summary>
+    RichData2RichSortCondition = 2075,
+    /// <summary>RichData2.RichStyle.</summary>
+    RichData2RichStyle = 2076,
+    /// <summary>RichData2.RichStylePropertyValue.</summary>
+    RichData2RichStylePropertyValue = 2077,
+    /// <summary>RichData2.RichStyles.</summary>
+    RichData2RichStyles = 2078,
+    /// <summary>RichData2.RichStylesheet.</summary>
+    RichData2RichStylesheet = 2079,
+    /// <summary>RichData2.RichTop10.</summary>
+    RichData2RichTop10 = 2080,
+    /// <summary>RichData2.RichValueGlobalType.</summary>
+    RichData2RichValueGlobalType = 2081,
+    /// <summary>RichData2.RichValueType.</summary>
+    RichData2RichValueType = 2082,
+    /// <summary>RichData2.RichValueTypeKeyFlags.</summary>
+    RichData2RichValueTypeKeyFlags = 2083,
+    /// <summary>RichData2.RichValueTypeReservedKey.</summary>
+    RichData2RichValueTypeReservedKey = 2084,
+    /// <summary>RichData2.RichValueTypeReservedKeyFlag.</summary>
+    RichData2RichValueTypeReservedKeyFlag = 2085,
+    /// <summary>RichData2.RichValueTypes.</summary>
+    RichData2RichValueTypes = 2086,
+    /// <summary>RichData2.RichValueTypesInfo.</summary>
+    RichData2RichValueTypesInfo = 2087,
+    /// <summary>RichData2.SupportingPropertyBag.</summary>
+    RichData2SupportingPropertyBag = 2088,
+    /// <summary>RichData2.SupportingPropertyBagArray.</summary>
+    RichData2SupportingPropertyBagArray = 2089,
+    /// <summary>RichData2.SupportingPropertyBagArrayData.</summary>
+    RichData2SupportingPropertyBagArrayData = 2090,
+    /// <summary>RichData2.SupportingPropertyBagArrayValue.</summary>
+    RichData2SupportingPropertyBagArrayValue = 2091,
+    /// <summary>RichData2.SupportingPropertyBagData.</summary>
+    RichData2SupportingPropertyBagData = 2092,
+    /// <summary>RichData2.SupportingPropertyBagKey.</summary>
+    RichData2SupportingPropertyBagKey = 2093,
+    /// <summary>RichData2.SupportingPropertyBagStructure.</summary>
+    RichData2SupportingPropertyBagStructure = 2094,
+    /// <summary>RichData2.SupportingPropertyBagStructures.</summary>
+    RichData2SupportingPropertyBagStructures = 2095,
+    /// <summary>RichData2.SupportingPropertyBagValue.</summary>
+    RichData2SupportingPropertyBagValue = 2096,
+    /// <summary>RichData2.SupportingPropertyBags.</summary>
+    RichData2SupportingPropertyBags = 2097,
+    /// <summary>CalcFeatures.CalcFeature.</summary>
+    CalcFeaturesCalcFeature = 2098,
+    /// <summary>CalcFeatures.CalcFeatures.</summary>
+    CalcFeaturesCalcFeatures = 2099,
+    /// <summary>ThreadedComments.Mention.</summary>
+    ThreadedCommentsMention = 2100,
+    /// <summary>ThreadedComments.Person.</summary>
+    ThreadedCommentsPerson = 2101,
+    /// <summary>ThreadedComments.PersonList.</summary>
+    ThreadedCommentsPersonList = 2102,
+    /// <summary>ThreadedComments.ThreadedComment.</summary>
+    ThreadedCommentsThreadedComment = 2103,
+    /// <summary>ThreadedComments.ThreadedCommentMentions.</summary>
+    ThreadedCommentsThreadedCommentMentions = 2104,
+    /// <summary>ThreadedComments.ThreadedComments.</summary>
+    ThreadedCommentsThreadedComments = 2105,
+    /// <summary>ExternalLinkProperties.ExternalLinksPr.</summary>
+    ExternalLinkPropertiesExternalLinksPr = 2106,
+    /// <summary>NamedSheetViews.ColumnFilter.</summary>
+    NamedSheetViewsColumnFilter = 2107,
+    /// <summary>NamedSheetViews.NamedSheetView.</summary>
+    NamedSheetViewsNamedSheetView = 2108,
+    /// <summary>NamedSheetViews.NamedSheetViews.</summary>
+    NamedSheetViewsNamedSheetViews = 2109,
+    /// <summary>NamedSheetViews.NsvFilter.</summary>
+    NamedSheetViewsNsvFilter = 2110,
+    /// <summary>NamedSheetViews.SortRule.</summary>
+    NamedSheetViewsSortRule = 2111,
+    /// <summary>NamedSheetViews.SortRules.</summary>
+    NamedSheetViewsSortRules = 2112,
+    /// <summary>Pivot2020.DataFieldFutureData.</summary>
+    Pivot2020DataFieldFutureData = 2113,
+    /// <summary>Pivot2020.Ignorable.</summary>
+    Pivot2020Ignorable = 2114,
+    /// <summary>RichDataWebImage.WebImageSupportingRichData.</summary>
+    RichDataWebImageWebImageSupportingRichData = 2115,
+    /// <summary>RichDataWebImage.WebImageSupportingRichDataRelationship.</summary>
+    RichDataWebImageWebImageSupportingRichDataRelationship = 2116,
+    /// <summary>RichDataWebImage.WebImagesSupportingRichData.</summary>
+    RichDataWebImageWebImagesSupportingRichData = 2117,
+    /// <summary>RichValueRefresh.RichValueRefreshInterval.</summary>
+    RichValueRefreshRichValueRefreshInterval = 2118,
+    /// <summary>RichValueRefresh.RichValueRefreshIntervals.</summary>
+    RichValueRefreshRichValueRefreshIntervals = 2119,
+    /// <summary>ThreadedComments2.CommentHyperlink.</summary>
+    ThreadedComments2CommentHyperlink = 2120,
+    /// <summary>ThreadedComments2.ThreadedComments2Ext.</summary>
+    ThreadedComments2ThreadedComments2Ext = 2121,
+    /// <summary>ExternalLinks2021.AlternateUrl.</summary>
+    ExternalLinks2021AlternateUrl = 2122,
+    /// <summary>ExternalLinks2021.ExternalBookAlternateUrls.</summary>
+    ExternalLinks2021ExternalBookAlternateUrls = 2123,
+    /// <summary>FeaturePropertyBag.ArrayFeatureProperty.</summary>
+    FeaturePropertyBagArrayFeatureProperty = 2124,
+    /// <summary>FeaturePropertyBag.BagExtensions.</summary>
+    FeaturePropertyBagBagExtensions = 2125,
+    /// <summary>FeaturePropertyBag.BagFeatureProperty.</summary>
+    FeaturePropertyBagBagFeatureProperty = 2126,
+    /// <summary>FeaturePropertyBag.BoolFeatureProperty.</summary>
+    FeaturePropertyBagBoolFeatureProperty = 2127,
+    /// <summary>FeaturePropertyBag.DXFComplement.</summary>
+    FeaturePropertyBagDXFComplement = 2128,
+    /// <summary>FeaturePropertyBag.DXFComplementExt.</summary>
+    FeaturePropertyBagDXFComplementExt = 2129,
+    /// <summary>FeaturePropertyBag.DecimalFeatureProperty.</summary>
+    FeaturePropertyBagDecimalFeatureProperty = 2130,
+    /// <summary>FeaturePropertyBag.FeaturePropertyBag.</summary>
+    FeaturePropertyBagFeaturePropertyBag = 2131,
+    /// <summary>FeaturePropertyBag.FeaturePropertyBags.</summary>
+    FeaturePropertyBagFeaturePropertyBags = 2132,
+    /// <summary>FeaturePropertyBag.IntFeatureProperty.</summary>
+    FeaturePropertyBagIntFeatureProperty = 2133,
+    /// <summary>FeaturePropertyBag.RelFeatureProperty.</summary>
+    FeaturePropertyBagRelFeatureProperty = 2134,
+    /// <summary>FeaturePropertyBag.StringFeatureProperty.</summary>
+    FeaturePropertyBagStringFeatureProperty = 2135,
+    /// <summary>FeaturePropertyBag.XfComplement.</summary>
+    FeaturePropertyBagXfComplement = 2136,
+    /// <summary>FeaturePropertyBag.XfComplementExt.</summary>
+    FeaturePropertyBagXfComplementExt = 2137,
+    /// <summary>PivotRichData.PivotCacheRichInfo.</summary>
+    PivotRichDataPivotCacheRichInfo = 2138,
+    /// <summary>PivotVersionInfo.CacheVersionInfo.</summary>
+    PivotVersionInfoCacheVersionInfo = 2139,
+    /// <summary>PivotVersionInfo.PivotVersionInfo.</summary>
+    PivotVersionInfoPivotVersionInfo = 2140,
+    /// <summary>RichValueRel.RichValueRelRelationship.</summary>
+    RichValueRelRichValueRelRelationship = 2141,
+    /// <summary>RichValueRel.RichValueRels.</summary>
+    RichValueRelRichValueRels = 2142,
+    /// <summary>ExternalCodeService.ExternalCodeService.</summary>
+    ExternalCodeServiceExternalCodeService = 2143,
+    /// <summary>ExternalCodeService.ExternalCodeServiceExt.</summary>
+    ExternalCodeServiceExternalCodeServiceExt = 2144,
+    /// <summary>MsForms.MsForm.</summary>
+    MsFormsMsForm = 2145,
+    /// <summary>MsForms.MsFormsExt.</summary>
+    MsFormsMsFormsExt = 2146,
+    /// <summary>MsForms.Question.</summary>
+    MsFormsQuestion = 2147,
+    /// <summary>MsForms.QuestionExt.</summary>
+    MsFormsQuestionExt = 2148,
+    /// <summary>Pivot2023Calculation.AggregationInfo.</summary>
+    Pivot2023CalculationAggregationInfo = 2149,
+    /// <summary>Pivot2023Calculation.FeatureSupport.</summary>
+    Pivot2023CalculationFeatureSupport = 2150,
+    /// <summary>Pivot2023Calculation.PivotAreaReferenceSubtotals.</summary>
+    Pivot2023CalculationPivotAreaReferenceSubtotals = 2151,
+    /// <summary>Pivot2023Calculation.PivotFieldSubtotals.</summary>
+    Pivot2023CalculationPivotFieldSubtotals = 2152,
+    /// <summary>Pivot2023Calculation.PivotItemSubtotal.</summary>
+    Pivot2023CalculationPivotItemSubtotal = 2153,
+    /// <summary>Pivot2023Calculation.PivotSubtotalType.</summary>
+    Pivot2023CalculationPivotSubtotalType = 2154,
+    /// <summary>Pivot2023Calculation.PivotTableSubtotalLineItems.</summary>
+    Pivot2023CalculationPivotTableSubtotalLineItems = 2155,
+    /// <summary>Python.Python.</summary>
+    PythonPython = 2156,
+    /// <summary>Python.PythonEnvironmentDefinition.</summary>
+    PythonPythonEnvironmentDefinition = 2157,
+    /// <summary>Python.PythonInitialization.</summary>
+    PythonPythonInitialization = 2158,
+    /// <summary>Python.PythonScript.</summary>
+    PythonPythonScript = 2159,
+    /// <summary>Python.PythonScripts.</summary>
+    PythonPythonScripts = 2160,
+    /// <summary>ShowDataTypeIcons.ShowDataTypeIcons.</summary>
+    ShowDataTypeIconsShowDataTypeIcons = 2161,
+    /// <summary>ShowDataTypeIcons.ShowDataTypeIconsCustomSheetViewExt.</summary>
+    ShowDataTypeIconsShowDataTypeIconsCustomSheetViewExt = 2162,
+    /// <summary>ShowDataTypeIcons.ShowDataTypeIconsExt.</summary>
+    ShowDataTypeIconsShowDataTypeIconsExt = 2163,
+    /// <summary>WorkbookCompatibilityVersion.Version.</summary>
+    WorkbookCompatibilityVersionVersion = 2164,
+    /// <summary>WorkbookCompatibilityVersion.WorkbookCompatibilityVersionExt.</summary>
+    WorkbookCompatibilityVersionWorkbookCompatibilityVersionExt = 2165,
+    /// <summary>ExternalCodeService2.ExternalCodeServiceImageAsInput.</summary>
+    ExternalCodeService2ExternalCodeServiceImageAsInput = 2166,
+    /// <summary>ExternalCodeService2.ExternalCodeServiceImageAsInputExt.</summary>
+    ExternalCodeService2ExternalCodeServiceImageAsInputExt = 2167,
+    /// <summary>PivotDataSource.PivotCacheDataSource.</summary>
+    PivotDataSourcePivotCacheDataSource = 2168,
 }
 
 /// <summary>Maps element names to generated views with explicit switches: no reflection, nothing to trim.</summary>
@@ -2054,7 +4354,7 @@ public static class ViewFactory
     /// <summary>True for the namespaces of the Microsoft extension schemas, whose elements may appear inside base-schema types.</summary>
     /// <param name="ns">The namespace.</param>
     /// <returns>True for an extension namespace.</returns>
-    public static bool IsExtensionNamespace(SchemaNamespace ns) => ns == SchemaNamespace.Word2010 || ns == SchemaNamespace.Word2012 || ns == SchemaNamespace.Word2015Symex || ns == SchemaNamespace.Word2016Cid || ns == SchemaNamespace.Word2018 || ns == SchemaNamespace.Word2018Cex || ns == SchemaNamespace.Word2020SdtDataHash || ns == SchemaNamespace.Word2023Du || ns == SchemaNamespace.Word2024SdtFormatLock || ns == SchemaNamespace.Word2026Cei || ns == SchemaNamespace.WordprocessingShape || ns == SchemaNamespace.WordprocessingGroup || ns == SchemaNamespace.WordprocessingCanvas || ns == SchemaNamespace.WordprocessingDrawing2010 || ns == SchemaNamespace.WordprocessingDrawing2012 || ns == SchemaNamespace.WordOEmbed || ns == SchemaNamespace.Drawing2010 || ns == SchemaNamespace.Picture2010 || ns == SchemaNamespace.Drawing2012 || ns == SchemaNamespace.Drawing2014 || ns == SchemaNamespace.DrawingSvg || ns == SchemaNamespace.DrawingDecorative || ns == SchemaNamespace.DrawingClassification || ns == SchemaNamespace.DrawingHyperlinkColor || ns == SchemaNamespace.Presentation2010 || ns == SchemaNamespace.Presentation2012 || ns == SchemaNamespace.Presentation2013Command || ns == SchemaNamespace.Presentation201509 || ns == SchemaNamespace.Presentation201510 || ns == SchemaNamespace.Presentation2015 || ns == SchemaNamespace.Presentation2016Six || ns == SchemaNamespace.PresentationSectionZoom || ns == SchemaNamespace.PresentationSlideZoom || ns == SchemaNamespace.PresentationSummaryZoom || ns == SchemaNamespace.Presentation201710 || ns == SchemaNamespace.Presentation201703 || ns == SchemaNamespace.Presentation201804 || ns == SchemaNamespace.Presentation201808 || ns == SchemaNamespace.Presentation2019Command || ns == SchemaNamespace.Presentation202002 || ns == SchemaNamespace.Presentation202203 || ns == SchemaNamespace.Presentation2022Command || ns == SchemaNamespace.Presentation202208 || ns == SchemaNamespace.Presentation202302;
+    public static bool IsExtensionNamespace(SchemaNamespace ns) => ns == SchemaNamespace.Word2010 || ns == SchemaNamespace.Word2012 || ns == SchemaNamespace.Word2015Symex || ns == SchemaNamespace.Word2016Cid || ns == SchemaNamespace.Word2018 || ns == SchemaNamespace.Word2018Cex || ns == SchemaNamespace.Word2020SdtDataHash || ns == SchemaNamespace.Word2023Du || ns == SchemaNamespace.Word2024SdtFormatLock || ns == SchemaNamespace.Word2026Cei || ns == SchemaNamespace.WordprocessingShape || ns == SchemaNamespace.WordprocessingGroup || ns == SchemaNamespace.WordprocessingCanvas || ns == SchemaNamespace.WordprocessingDrawing2010 || ns == SchemaNamespace.WordprocessingDrawing2012 || ns == SchemaNamespace.WordOEmbed || ns == SchemaNamespace.Drawing2010 || ns == SchemaNamespace.Picture2010 || ns == SchemaNamespace.Drawing2012 || ns == SchemaNamespace.Drawing2014 || ns == SchemaNamespace.DrawingSvg || ns == SchemaNamespace.DrawingDecorative || ns == SchemaNamespace.DrawingClassification || ns == SchemaNamespace.DrawingHyperlinkColor || ns == SchemaNamespace.Presentation2010 || ns == SchemaNamespace.Presentation2012 || ns == SchemaNamespace.Presentation2013Command || ns == SchemaNamespace.Presentation201509 || ns == SchemaNamespace.Presentation201510 || ns == SchemaNamespace.Presentation2015 || ns == SchemaNamespace.Presentation2016Six || ns == SchemaNamespace.PresentationSectionZoom || ns == SchemaNamespace.PresentationSlideZoom || ns == SchemaNamespace.PresentationSummaryZoom || ns == SchemaNamespace.Presentation201710 || ns == SchemaNamespace.Presentation201703 || ns == SchemaNamespace.Presentation201804 || ns == SchemaNamespace.Presentation201808 || ns == SchemaNamespace.Presentation2019Command || ns == SchemaNamespace.Presentation202002 || ns == SchemaNamespace.Presentation202203 || ns == SchemaNamespace.Presentation2022Command || ns == SchemaNamespace.Presentation202208 || ns == SchemaNamespace.Presentation202302 || ns == SchemaNamespace.Chart2007 || ns == SchemaNamespace.Chart2012 || ns == SchemaNamespace.ChartStyle2012 || ns == SchemaNamespace.Chart2014 || ns == SchemaNamespace.Chart2014Ac || ns == SchemaNamespace.ChartEx || ns == SchemaNamespace.Chart201506 || ns == SchemaNamespace.Chart201703 || ns == SchemaNamespace.ChartDrawing2010 || ns == SchemaNamespace.DiagramDrawing || ns == SchemaNamespace.Diagram2010 || ns == SchemaNamespace.Diagram201611 || ns == SchemaNamespace.Diagram201612 || ns == SchemaNamespace.DrawingCommand2013 || ns == SchemaNamespace.Drawing201611 || ns == SchemaNamespace.DrawingInk2016 || ns == SchemaNamespace.Model3D || ns == SchemaNamespace.DrawingAnimation || ns == SchemaNamespace.DrawingAnimationModel3D || ns == SchemaNamespace.SketchyShapes || ns == SchemaNamespace.LiveFeed || ns == SchemaNamespace.ScriptLink || ns == SchemaNamespace.ImageFormula || ns == SchemaNamespace.SpreadsheetDrawing2010 || ns == SchemaNamespace.InkAction || ns == SchemaNamespace.Ink2010 || ns == SchemaNamespace.ThemeMl2012 || ns == SchemaNamespace.Slicer2010 || ns == SchemaNamespace.TimeSlicer2012 || ns == SchemaNamespace.ExcelMacro2006 || ns == SchemaNamespace.ExcelMacro2008 || ns == SchemaNamespace.WordMacro2006 || ns == SchemaNamespace.Spreadsheet2009 || ns == SchemaNamespace.Spreadsheet2009Ac || ns == SchemaNamespace.Spreadsheet2010 || ns == SchemaNamespace.Spreadsheet2010Ac || ns == SchemaNamespace.Spreadsheet2011Ac || ns == SchemaNamespace.Spreadsheet2014 || ns == SchemaNamespace.SpreadsheetRevision2014 || ns == SchemaNamespace.Spreadsheet2015 || ns == SchemaNamespace.SpreadsheetRevision2 || ns == SchemaNamespace.SpreadsheetRevision3 || ns == SchemaNamespace.SpreadsheetRevision5 || ns == SchemaNamespace.SpreadsheetRevision6 || ns == SchemaNamespace.SpreadsheetRevision9 || ns == SchemaNamespace.SpreadsheetRevision10 || ns == SchemaNamespace.PivotDefaultLayout || ns == SchemaNamespace.DynamicArray || ns == SchemaNamespace.RichData || ns == SchemaNamespace.RichData2 || ns == SchemaNamespace.Spreadsheet201808 || ns == SchemaNamespace.CalcFeatures || ns == SchemaNamespace.ThreadedComments || ns == SchemaNamespace.ExternalLinkProperties || ns == SchemaNamespace.NamedSheetViews || ns == SchemaNamespace.Pivot2020 || ns == SchemaNamespace.RichDataWebImage || ns == SchemaNamespace.RichValueRefresh || ns == SchemaNamespace.ThreadedComments2 || ns == SchemaNamespace.ExternalLinks2021 || ns == SchemaNamespace.FeaturePropertyBag || ns == SchemaNamespace.PivotRichData || ns == SchemaNamespace.PivotVersionInfo || ns == SchemaNamespace.RichValueRel || ns == SchemaNamespace.ExternalCodeService || ns == SchemaNamespace.MsForms || ns == SchemaNamespace.Pivot2023Calculation || ns == SchemaNamespace.Python || ns == SchemaNamespace.ShowDataTypeIcons || ns == SchemaNamespace.PivotAutoRefresh || ns == SchemaNamespace.WorkbookCompatibilityVersion || ns == SchemaNamespace.ExternalCodeService2 || ns == SchemaNamespace.PivotDataSource;
 
     /// <summary>The view for a global element declared by a root schema (the element a part starts with, or one that can appear anywhere).</summary>
     /// <param name="ns">The element's namespace.</param>
@@ -2062,6 +4362,30 @@ public static class ViewFactory
     /// <returns>The kind, or <see cref="ViewKind.None"/> when no root schema declares the element.</returns>
     public static ViewKind RootKind(SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == SchemaNamespace.Ink2010)
+        {
+            if (local.SequenceEqual("context"u8)) return ViewKind.Ink2010CtxNode;
+        }
+        if (ns == SchemaNamespace.Chart2007)
+        {
+            if (local.SequenceEqual("invertSolidFillFmt"u8)) return ViewKind.Chart2007InvertSolidFillFmt;
+            if (local.SequenceEqual("pivotOptions"u8)) return ViewKind.Chart2007PivotOptions;
+            if (local.SequenceEqual("style"u8)) return ViewKind.Chart2007Style;
+        }
+        if (ns == SchemaNamespace.DiagramDrawing)
+        {
+            if (local.SequenceEqual("dataModelExt"u8)) return ViewKind.DiagramDrawingDataModelExtBlock;
+            if (local.SequenceEqual("drawing"u8)) return ViewKind.DiagramDrawingDrawing;
+        }
+        if (ns == SchemaNamespace.ChartDrawing2010)
+        {
+            if (local.SequenceEqual("contentPart"u8)) return ViewKind.ChartDrawing2010ContentPart;
+        }
+        if (ns == SchemaNamespace.Diagram2010)
+        {
+            if (local.SequenceEqual("cNvPr"u8)) return ViewKind.DrawingNonVisualDrawingProps;
+            if (local.SequenceEqual("recolorImg"u8)) return ViewKind.Diagram2010Boolean;
+        }
         if (ns == SchemaNamespace.Drawing2010)
         {
             if (local.SequenceEqual("cameraTool"u8)) return ViewKind.Drawing2010CameraTool;
@@ -2083,12 +4407,88 @@ public static class ViewFactory
             if (local.SequenceEqual("extLst"u8)) return ViewKind.DrawingOfficeArtExtensionList;
             if (local.SequenceEqual("style"u8)) return ViewKind.DrawingShapeStyle;
         }
+        if (ns == SchemaNamespace.Slicer2010)
+        {
+            if (local.SequenceEqual("slicer"u8)) return ViewKind.Slicer2010Slicer;
+        }
+        if (ns == SchemaNamespace.Chart2012)
+        {
+            if (local.SequenceEqual("autoCat"u8)) return ViewKind.ChartBoolean;
+            if (local.SequenceEqual("categoryFilterExceptions"u8)) return ViewKind.Chart2012CategoryFilterExceptions;
+            if (local.SequenceEqual("datalabelsRange"u8)) return ViewKind.Chart2012SeriesDataLabelsRange;
+            if (local.SequenceEqual("dlblFieldTable"u8)) return ViewKind.Chart2012DataLabelFieldTable;
+            if (local.SequenceEqual("filteredAreaSeries"u8)) return ViewKind.Chart2012FilteredAreaSer;
+            if (local.SequenceEqual("filteredBarSeries"u8)) return ViewKind.Chart2012FilteredBarSer;
+            if (local.SequenceEqual("filteredBubbleSeries"u8)) return ViewKind.Chart2012FilteredBubbleSer;
+            if (local.SequenceEqual("filteredCategoryTitle"u8)) return ViewKind.Chart2012FilteredCategoryTitle;
+            if (local.SequenceEqual("filteredLineSeries"u8)) return ViewKind.Chart2012FilteredLineSer;
+            if (local.SequenceEqual("filteredPieSeries"u8)) return ViewKind.Chart2012FilteredPieSer;
+            if (local.SequenceEqual("filteredRadarSeries"u8)) return ViewKind.Chart2012FilteredRadarSer;
+            if (local.SequenceEqual("filteredScatterSeries"u8)) return ViewKind.Chart2012FilteredScatterSer;
+            if (local.SequenceEqual("filteredSeriesTitle"u8)) return ViewKind.Chart2012FilteredSeriesTitle;
+            if (local.SequenceEqual("filteredSurfaceSeries"u8)) return ViewKind.Chart2012FilteredSurfaceSer;
+            if (local.SequenceEqual("formulaRef"u8)) return ViewKind.Chart2012FormulaRef;
+            if (local.SequenceEqual("fullRef"u8)) return ViewKind.Chart2012FullRef;
+            if (local.SequenceEqual("layout"u8)) return ViewKind.ChartLayout;
+            if (local.SequenceEqual("leaderLines"u8)) return ViewKind.ChartChartLines;
+            if (local.SequenceEqual("levelRef"u8)) return ViewKind.Chart2012LevelRef;
+            if (local.SequenceEqual("numFmt"u8)) return ViewKind.ChartNumberFormat;
+            if (local.SequenceEqual("pivotSource"u8)) return ViewKind.ChartPivotSource;
+            if (local.SequenceEqual("showDataLabelsRange"u8)) return ViewKind.ChartBoolean;
+            if (local.SequenceEqual("showLeaderLines"u8)) return ViewKind.ChartBoolean;
+            if (local.SequenceEqual("spPr"u8)) return ViewKind.DrawingShapeProperties;
+            if (local.SequenceEqual("tx"u8)) return ViewKind.ChartChartText;
+            if (local.SequenceEqual("xForSave"u8)) return ViewKind.ChartBoolean;
+        }
+        if (ns == SchemaNamespace.ChartStyle2012)
+        {
+            if (local.SequenceEqual("chartStyle"u8)) return ViewKind.ChartStyle2012ChartStyle;
+            if (local.SequenceEqual("colorStyle"u8)) return ViewKind.ChartStyle2012ColorStyle;
+        }
         if (ns == SchemaNamespace.Drawing2012)
         {
             if (local.SequenceEqual("backgroundPr"u8)) return ViewKind.Drawing2012BackgroundPr;
             if (local.SequenceEqual("nonVisualGroupProps"u8)) return ViewKind.Drawing2012NonVisualGroupProps;
             if (local.SequenceEqual("objectPr"u8)) return ViewKind.Drawing2012ObjectPr;
             if (local.SequenceEqual("signatureLine"u8)) return ViewKind.Drawing2012SignatureLine;
+        }
+        if (ns == SchemaNamespace.TimeSlicer2012)
+        {
+            if (local.SequenceEqual("timeslicer"u8)) return ViewKind.TimeSlicer2012Timeline;
+        }
+        if (ns == SchemaNamespace.DrawingCommand2013)
+        {
+            if (local.SequenceEqual("cxnSpMkLst"u8)) return ViewKind.DrawingCommand2013ConnectorMonikerList;
+            if (local.SequenceEqual("deMkLst"u8)) return ViewKind.DrawingCommand2013DrawingElementMonikerList;
+            if (local.SequenceEqual("deMkLst"u8)) return ViewKind.DrawingCommand2013DrawingElementMonikerList;
+            if (local.SequenceEqual("graphicFrameMkLst"u8)) return ViewKind.DrawingCommand2013GraphicFrameMonikerList;
+            if (local.SequenceEqual("grpSpMkLst"u8)) return ViewKind.DrawingCommand2013GroupShapeMonikerList;
+            if (local.SequenceEqual("inkMkLst"u8)) return ViewKind.DrawingCommand2013InkMonikerList;
+            if (local.SequenceEqual("picMkLst"u8)) return ViewKind.DrawingCommand2013PictureMonikerList;
+            if (local.SequenceEqual("spMkLst"u8)) return ViewKind.DrawingCommand2013ShapeMonikerList;
+            if (local.SequenceEqual("txMkLst"u8)) return ViewKind.DrawingCommand2013TextCharRangeMonikerList;
+            if (local.SequenceEqual("txMkLst"u8)) return ViewKind.DrawingCommand2013TextCharRangeMonikerList;
+        }
+        if (ns == SchemaNamespace.Chart2014)
+        {
+            if (local.SequenceEqual("bubble3D"u8)) return ViewKind.ChartBoolean;
+            if (local.SequenceEqual("categoryFilterExceptions"u8)) return ViewKind.Chart2014CategoryFilterExceptions;
+            if (local.SequenceEqual("dLbl"u8)) return ViewKind.ChartDataLabel;
+            if (local.SequenceEqual("datapointuniqueidmap"u8)) return ViewKind.Chart2014ChartDataPointUniqueIDMap;
+            if (local.SequenceEqual("explosion"u8)) return ViewKind.ChartUnsignedInt;
+            if (local.SequenceEqual("invertIfNegative"u8)) return ViewKind.ChartBoolean;
+            if (local.SequenceEqual("marker"u8)) return ViewKind.ChartMarker;
+            if (local.SequenceEqual("pivotOptions16"u8)) return ViewKind.Chart2014PivotOptions16;
+            if (local.SequenceEqual("spPr"u8)) return ViewKind.DrawingShapeProperties;
+        }
+        if (ns == SchemaNamespace.Chart2014Ac)
+        {
+            if (local.SequenceEqual("multiLvlStrLit"u8)) return ViewKind.ChartMultiLvlStrData;
+        }
+        if (ns == SchemaNamespace.ChartEx)
+        {
+            if (local.SequenceEqual("chart"u8)) return ViewKind.ChartExRelId;
+            if (local.SequenceEqual("chartSpace"u8)) return ViewKind.ChartExChartSpace;
         }
         if (ns == SchemaNamespace.Drawing2014)
         {
@@ -2098,21 +4498,95 @@ public static class ViewFactory
             if (local.SequenceEqual("predDERef"u8)) return ViewKind.Drawing2014PredecessorDrawingElementReference;
             if (local.SequenceEqual("rowId"u8)) return ViewKind.Drawing2014Identifier;
         }
+        if (ns == SchemaNamespace.Chart201506)
+        {
+            if (local.SequenceEqual("formatcode2"u8)) return ViewKind.Simple;
+        }
+        if (ns == SchemaNamespace.Diagram201611)
+        {
+            if (local.SequenceEqual("autoBuNodeInfoLst"u8)) return ViewKind.Diagram201611NumberDiagramInfoList;
+        }
+        if (ns == SchemaNamespace.Drawing201611)
+        {
+            if (local.SequenceEqual("picAttrSrcUrl"u8)) return ViewKind.Drawing201611PictureAttributionSourceURL;
+        }
+        if (ns == SchemaNamespace.Diagram201612)
+        {
+            if (local.SequenceEqual("lstStyle"u8)) return ViewKind.DrawingTextListStyle;
+            if (local.SequenceEqual("spPr"u8)) return ViewKind.DrawingShapeProperties;
+        }
         if (ns == SchemaNamespace.DrawingSvg)
         {
             if (local.SequenceEqual("svgBlip"u8)) return ViewKind.DrawingSvgSVGBlip;
+        }
+        if (ns == SchemaNamespace.Chart201703)
+        {
+            if (local.SequenceEqual("dataDisplayOptions16"u8)) return ViewKind.Chart201703DataDisplayOptions16;
         }
         if (ns == SchemaNamespace.DrawingDecorative)
         {
             if (local.SequenceEqual("decorative"u8)) return ViewKind.DrawingDecorativeDecorative;
         }
+        if (ns == SchemaNamespace.Model3D)
+        {
+            if (local.SequenceEqual("model3d"u8)) return ViewKind.Model3DModel3D;
+        }
+        if (ns == SchemaNamespace.DrawingAnimation)
+        {
+            if (local.SequenceEqual("animPr"u8)) return ViewKind.DrawingAnimationAnimationProperties;
+        }
+        if (ns == SchemaNamespace.DrawingAnimationModel3D)
+        {
+            if (local.SequenceEqual("embedAnim"u8)) return ViewKind.DrawingAnimationModel3DEmbeddedAnimation;
+            if (local.SequenceEqual("posterFrame"u8)) return ViewKind.DrawingAnimationModel3DPosterFrame;
+        }
         if (ns == SchemaNamespace.DrawingHyperlinkColor)
         {
             if (local.SequenceEqual("hlinkClr"u8)) return ViewKind.DrawingHyperlinkColorHyperlinkColor;
         }
+        if (ns == SchemaNamespace.SketchyShapes)
+        {
+            if (local.SequenceEqual("lineSketchCurved"u8)) return ViewKind.SketchyShapesEmpty;
+            if (local.SequenceEqual("lineSketchFreehand"u8)) return ViewKind.SketchyShapesEmpty;
+            if (local.SequenceEqual("lineSketchNone"u8)) return ViewKind.SketchyShapesEmpty;
+            if (local.SequenceEqual("lineSketchScribble"u8)) return ViewKind.SketchyShapesEmpty;
+            if (local.SequenceEqual("lineSketchStyleProps"u8)) return ViewKind.SketchyShapesLineSketchStyleProperties;
+        }
         if (ns == SchemaNamespace.DrawingClassification)
         {
             if (local.SequenceEqual("classification"u8)) return ViewKind.DrawingClassificationClassificationOutcome;
+        }
+        if (ns == SchemaNamespace.LiveFeed)
+        {
+            if (local.SequenceEqual("Blur"u8)) return ViewKind.LiveFeedBackgroundBlurProperties;
+            if (local.SequenceEqual("Custom"u8)) return ViewKind.LiveFeedBackgroundCustomProperties;
+            if (local.SequenceEqual("Normal"u8)) return ViewKind.LiveFeedBackgroundNormalProperties;
+            if (local.SequenceEqual("Removed"u8)) return ViewKind.LiveFeedBackgroundRemovedProperties;
+            if (local.SequenceEqual("liveFeedProps"u8)) return ViewKind.LiveFeedLiveFeedProperties;
+        }
+        if (ns == SchemaNamespace.ScriptLink)
+        {
+            if (local.SequenceEqual("scriptLink"u8)) return ViewKind.ScriptLinkScriptLink;
+        }
+        if (ns == SchemaNamespace.ImageFormula)
+        {
+            if (local.SequenceEqual("imageFormula"u8)) return ViewKind.ImageFormulaImageFormula;
+        }
+        if (ns == SchemaNamespace.ExcelMacro2006)
+        {
+            if (local.SequenceEqual("f"u8)) return ViewKind.Simple;
+            if (local.SequenceEqual("macrosheet"u8)) return ViewKind.ExcelMacro2006Worksheet;
+            if (local.SequenceEqual("ref"u8)) return ViewKind.ExcelMacro2006Ref;
+            if (local.SequenceEqual("sqref"u8)) return ViewKind.ExcelMacro2006Sqref;
+        }
+        if (ns == SchemaNamespace.ExcelMacro2008)
+        {
+            if (local.SequenceEqual("definedNames"u8)) return ViewKind.ExcelMacro2008DefinedNames;
+            if (local.SequenceEqual("macrosheet"u8)) return ViewKind.Simple;
+        }
+        if (ns == SchemaNamespace.SpreadsheetDrawing2010)
+        {
+            if (local.SequenceEqual("contentPart"u8)) return ViewKind.SpreadsheetDrawing2010ContentPart;
         }
         if (ns == SchemaNamespace.Presentation2010)
         {
@@ -2171,6 +4645,10 @@ public static class ViewFactory
             if (local.SequenceEqual("sldLayoutMkLst"u8)) return ViewKind.Presentation2013CommandSlideLayoutMonikerList;
             if (local.SequenceEqual("sldMasterMkLst"u8)) return ViewKind.Presentation2013CommandMainMasterMonikerList;
             if (local.SequenceEqual("sldMkLst"u8)) return ViewKind.Presentation2013CommandSlideMonikerList;
+        }
+        if (ns == SchemaNamespace.InkAction)
+        {
+            if (local.SequenceEqual("actions"u8)) return ViewKind.InkActionActions;
         }
         if (ns == SchemaNamespace.Presentation201509)
         {
@@ -2242,6 +4720,211 @@ public static class ViewFactory
         if (ns == SchemaNamespace.Presentation202302)
         {
             if (local.SequenceEqual("phTypeExt"u8)) return ViewKind.Presentation202302PlaceholderTypeExtension;
+        }
+        if (ns == SchemaNamespace.Spreadsheet2009)
+        {
+            if (local.SequenceEqual("cacheField"u8)) return ViewKind.Spreadsheet2009CacheField;
+            if (local.SequenceEqual("cacheHierarchy"u8)) return ViewKind.Spreadsheet2009CacheHierarchy;
+            if (local.SequenceEqual("calculatedMember"u8)) return ViewKind.Spreadsheet2009CalculatedMember;
+            if (local.SequenceEqual("conditionalFormattings"u8)) return ViewKind.Spreadsheet2009ConditionalFormattings;
+            if (local.SequenceEqual("connection"u8)) return ViewKind.Spreadsheet2009Connection;
+            if (local.SequenceEqual("customFilters"u8)) return ViewKind.Spreadsheet2009CustomFilters;
+            if (local.SequenceEqual("dataField"u8)) return ViewKind.Spreadsheet2009DataField;
+            if (local.SequenceEqual("dataValidations"u8)) return ViewKind.Spreadsheet2009DataValidations;
+            if (local.SequenceEqual("datastoreItem"u8)) return ViewKind.Spreadsheet2009DatastoreItem;
+            if (local.SequenceEqual("dxfs"u8)) return ViewKind.SpreadsheetDifferentialFormats;
+            if (local.SequenceEqual("filter"u8)) return ViewKind.Spreadsheet2009Filter;
+            if (local.SequenceEqual("formControlPr"u8)) return ViewKind.Spreadsheet2009FormControlPr;
+            if (local.SequenceEqual("iconFilter"u8)) return ViewKind.Spreadsheet2009IconFilter;
+            if (local.SequenceEqual("id"u8)) return ViewKind.Simple;
+            if (local.SequenceEqual("ignoredErrors"u8)) return ViewKind.Spreadsheet2009IgnoredErrors;
+            if (local.SequenceEqual("oleItem"u8)) return ViewKind.Spreadsheet2009OleItem;
+            if (local.SequenceEqual("pivotCacheDefinition"u8)) return ViewKind.Spreadsheet2009PivotCacheDefinition;
+            if (local.SequenceEqual("pivotCaches"u8)) return ViewKind.SpreadsheetPivotCaches;
+            if (local.SequenceEqual("pivotField"u8)) return ViewKind.Spreadsheet2009PivotField;
+            if (local.SequenceEqual("pivotHierarchy"u8)) return ViewKind.Spreadsheet2009PivotHierarchy;
+            if (local.SequenceEqual("pivotTableDefinition"u8)) return ViewKind.Spreadsheet2009PivotTableDefinition;
+            if (local.SequenceEqual("protectedRanges"u8)) return ViewKind.Spreadsheet2009ProtectedRanges;
+            if (local.SequenceEqual("slicerCacheDefinition"u8)) return ViewKind.Spreadsheet2009SlicerCacheDefinition;
+            if (local.SequenceEqual("slicerCaches"u8)) return ViewKind.Spreadsheet2009SlicerCaches;
+            if (local.SequenceEqual("slicerList"u8)) return ViewKind.Spreadsheet2009SlicerRefs;
+            if (local.SequenceEqual("slicerStyles"u8)) return ViewKind.Spreadsheet2009SlicerStyles;
+            if (local.SequenceEqual("slicers"u8)) return ViewKind.Spreadsheet2009Slicers;
+            if (local.SequenceEqual("sortCondition"u8)) return ViewKind.Spreadsheet2009SortCondition;
+            if (local.SequenceEqual("sourceConnection"u8)) return ViewKind.Spreadsheet2009SourceConnection;
+            if (local.SequenceEqual("sparklineGroups"u8)) return ViewKind.Spreadsheet2009SparklineGroups;
+            if (local.SequenceEqual("table"u8)) return ViewKind.Spreadsheet2009Table;
+            if (local.SequenceEqual("workbookPr"u8)) return ViewKind.Spreadsheet2009WorkbookPr;
+        }
+        if (ns == SchemaNamespace.Spreadsheet2010Ac)
+        {
+            if (local.SequenceEqual("absPath"u8)) return ViewKind.Spreadsheet2010AcAbsolutePath;
+        }
+        if (ns == SchemaNamespace.Spreadsheet2010)
+        {
+            if (local.SequenceEqual("cacheHierarchy"u8)) return ViewKind.Spreadsheet2010CacheHierarchy;
+            if (local.SequenceEqual("cachedUniqueNames"u8)) return ViewKind.Spreadsheet2010CachedUniqueNames;
+            if (local.SequenceEqual("calculatedMember"u8)) return ViewKind.Spreadsheet2010CalculatedMember;
+            if (local.SequenceEqual("connection"u8)) return ViewKind.Spreadsheet2010Connection;
+            if (local.SequenceEqual("dataField"u8)) return ViewKind.Spreadsheet2010DataField;
+            if (local.SequenceEqual("dataModel"u8)) return ViewKind.Spreadsheet2010DataModel;
+            if (local.SequenceEqual("dxfs"u8)) return ViewKind.SpreadsheetDifferentialFormats;
+            if (local.SequenceEqual("pivotCacheIdVersion"u8)) return ViewKind.Spreadsheet2010PivotCacheIdVersion;
+            if (local.SequenceEqual("pivotCaches"u8)) return ViewKind.SpreadsheetPivotCaches;
+            if (local.SequenceEqual("pivotFilter"u8)) return ViewKind.Spreadsheet2010PivotFilter;
+            if (local.SequenceEqual("pivotTableData"u8)) return ViewKind.Spreadsheet2010PivotTableData;
+            if (local.SequenceEqual("pivotTableReferences"u8)) return ViewKind.Spreadsheet2010PivotTableReferences;
+            if (local.SequenceEqual("pivotTableUISettings"u8)) return ViewKind.Spreadsheet2010PivotTableUISettings;
+            if (local.SequenceEqual("queryTable"u8)) return ViewKind.Spreadsheet2010QueryTable;
+            if (local.SequenceEqual("slicerCacheHideItemsWithNoData"u8)) return ViewKind.Spreadsheet2010SlicerCacheHideNoData;
+            if (local.SequenceEqual("slicerCachePivotTables"u8)) return ViewKind.Spreadsheet2009SlicerCachePivotTables;
+            if (local.SequenceEqual("slicerCaches"u8)) return ViewKind.Spreadsheet2009SlicerCaches;
+            if (local.SequenceEqual("survey"u8)) return ViewKind.Spreadsheet2010Survey;
+            if (local.SequenceEqual("tableSlicerCache"u8)) return ViewKind.Spreadsheet2010TableSlicerCache;
+            if (local.SequenceEqual("timelineCacheDefinition"u8)) return ViewKind.Spreadsheet2010TimelineCacheDefinition;
+            if (local.SequenceEqual("timelineCachePivotCaches"u8)) return ViewKind.SpreadsheetPivotCaches;
+            if (local.SequenceEqual("timelineCacheRefs"u8)) return ViewKind.Spreadsheet2010TimelineCacheRefs;
+            if (local.SequenceEqual("timelinePivotCacheDefinition"u8)) return ViewKind.Spreadsheet2010TimelinePivotCacheDefinition;
+            if (local.SequenceEqual("timelineRefs"u8)) return ViewKind.Spreadsheet2010TimelineRefs;
+            if (local.SequenceEqual("timelineStyles"u8)) return ViewKind.Spreadsheet2010TimelineStyles;
+            if (local.SequenceEqual("timelines"u8)) return ViewKind.Spreadsheet2010Timelines;
+            if (local.SequenceEqual("webExtensions"u8)) return ViewKind.Spreadsheet2010WebExtensions;
+            if (local.SequenceEqual("workbookPr"u8)) return ViewKind.Spreadsheet2010WorkbookPr;
+        }
+        if (ns == SchemaNamespace.Spreadsheet2011Ac)
+        {
+            if (local.SequenceEqual("list"u8)) return ViewKind.Simple;
+        }
+        if (ns == SchemaNamespace.Spreadsheet2014)
+        {
+            if (local.SequenceEqual("modelTimeGroupings"u8)) return ViewKind.Spreadsheet2014ModelTimeGroupings;
+        }
+        if (ns == SchemaNamespace.SpreadsheetRevision2014)
+        {
+            if (local.SequenceEqual("revisionPtr"u8)) return ViewKind.SpreadsheetRevision2014RevisionPtr;
+        }
+        if (ns == SchemaNamespace.PivotDefaultLayout)
+        {
+            if (local.SequenceEqual("pivotTableDefinition16"u8)) return ViewKind.PivotDefaultLayoutPivotTableDefinition16;
+        }
+        if (ns == SchemaNamespace.DynamicArray)
+        {
+            if (local.SequenceEqual("dynamicArrayProperties"u8)) return ViewKind.DynamicArrayDynamicArrayProperties;
+        }
+        if (ns == SchemaNamespace.RichData)
+        {
+            if (local.SequenceEqual("rvData"u8)) return ViewKind.RichDataRichValueData;
+            if (local.SequenceEqual("rvStructures"u8)) return ViewKind.RichDataRichValueStructures;
+            if (local.SequenceEqual("rvb"u8)) return ViewKind.RichDataRichValueBlock;
+        }
+        if (ns == SchemaNamespace.RichData2)
+        {
+            if (local.SequenceEqual("arrayData"u8)) return ViewKind.RichData2ArrayData;
+            if (local.SequenceEqual("filterColumn"u8)) return ViewKind.RichData2RichFilterColumn;
+            if (local.SequenceEqual("richSortCondition"u8)) return ViewKind.RichData2RichSortCondition;
+            if (local.SequenceEqual("richStyleSheet"u8)) return ViewKind.RichData2RichStylesheet;
+            if (local.SequenceEqual("rvTypesInfo"u8)) return ViewKind.RichData2RichValueTypesInfo;
+            if (local.SequenceEqual("spbStructures"u8)) return ViewKind.RichData2SupportingPropertyBagStructures;
+            if (local.SequenceEqual("supportingPropertyBags"u8)) return ViewKind.RichData2SupportingPropertyBags;
+        }
+        if (ns == SchemaNamespace.CalcFeatures)
+        {
+            if (local.SequenceEqual("calcFeatures"u8)) return ViewKind.CalcFeaturesCalcFeatures;
+        }
+        if (ns == SchemaNamespace.ThreadedComments)
+        {
+            if (local.SequenceEqual("ThreadedComments"u8)) return ViewKind.ThreadedCommentsThreadedComments;
+            if (local.SequenceEqual("personList"u8)) return ViewKind.ThreadedCommentsPersonList;
+        }
+        if (ns == SchemaNamespace.ExternalLinkProperties)
+        {
+            if (local.SequenceEqual("externalLinksPr"u8)) return ViewKind.ExternalLinkPropertiesExternalLinksPr;
+        }
+        if (ns == SchemaNamespace.NamedSheetViews)
+        {
+            if (local.SequenceEqual("namedSheetViews"u8)) return ViewKind.NamedSheetViewsNamedSheetViews;
+        }
+        if (ns == SchemaNamespace.Pivot2020)
+        {
+            if (local.SequenceEqual("dataFieldFutureData"u8)) return ViewKind.Pivot2020DataFieldFutureData;
+            if (local.SequenceEqual("ignorableAfterVersion"u8)) return ViewKind.Pivot2020Ignorable;
+            if (local.SequenceEqual("implicitMeasureSupport"u8)) return ViewKind.Simple;
+        }
+        if (ns == SchemaNamespace.RichDataWebImage)
+        {
+            if (local.SequenceEqual("webImagesSrd"u8)) return ViewKind.RichDataWebImageWebImagesSupportingRichData;
+        }
+        if (ns == SchemaNamespace.RichValueRefresh)
+        {
+            if (local.SequenceEqual("refreshIntervals"u8)) return ViewKind.RichValueRefreshRichValueRefreshIntervals;
+        }
+        if (ns == SchemaNamespace.ExternalLinks2021)
+        {
+            if (local.SequenceEqual("alternateUrls"u8)) return ViewKind.ExternalLinks2021ExternalBookAlternateUrls;
+        }
+        if (ns == SchemaNamespace.FeaturePropertyBag)
+        {
+            if (local.SequenceEqual("DXFComplement"u8)) return ViewKind.FeaturePropertyBagDXFComplement;
+            if (local.SequenceEqual("FeaturePropertyBags"u8)) return ViewKind.FeaturePropertyBagFeaturePropertyBags;
+            if (local.SequenceEqual("xfComplement"u8)) return ViewKind.FeaturePropertyBagXfComplement;
+        }
+        if (ns == SchemaNamespace.PivotRichData)
+        {
+            if (local.SequenceEqual("richInfo"u8)) return ViewKind.PivotRichDataPivotCacheRichInfo;
+        }
+        if (ns == SchemaNamespace.PivotVersionInfo)
+        {
+            if (local.SequenceEqual("cacheVersionInfo"u8)) return ViewKind.PivotVersionInfoCacheVersionInfo;
+            if (local.SequenceEqual("pivotVersionInfo"u8)) return ViewKind.PivotVersionInfoPivotVersionInfo;
+        }
+        if (ns == SchemaNamespace.RichValueRel)
+        {
+            if (local.SequenceEqual("richValueRels"u8)) return ViewKind.RichValueRelRichValueRels;
+        }
+        if (ns == SchemaNamespace.ExternalCodeService)
+        {
+            if (local.SequenceEqual("externalCodeService"u8)) return ViewKind.ExternalCodeServiceExternalCodeService;
+        }
+        if (ns == SchemaNamespace.Pivot2023Calculation)
+        {
+            if (local.SequenceEqual("aggregationInfo"u8)) return ViewKind.Pivot2023CalculationAggregationInfo;
+            if (local.SequenceEqual("featureSupportInfo"u8)) return ViewKind.Pivot2023CalculationFeatureSupport;
+            if (local.SequenceEqual("pivotAreaReferenceSubtotals"u8)) return ViewKind.Pivot2023CalculationPivotAreaReferenceSubtotals;
+            if (local.SequenceEqual("pivotFieldSubtotalLineItems"u8)) return ViewKind.Pivot2023CalculationPivotTableSubtotalLineItems;
+            if (local.SequenceEqual("pivotFieldSubtotals"u8)) return ViewKind.Pivot2023CalculationPivotFieldSubtotals;
+        }
+        if (ns == SchemaNamespace.Python)
+        {
+            if (local.SequenceEqual("python"u8)) return ViewKind.PythonPython;
+        }
+        if (ns == SchemaNamespace.ShowDataTypeIcons)
+        {
+            if (local.SequenceEqual("showDataTypeIcons"u8)) return ViewKind.ShowDataTypeIconsShowDataTypeIcons;
+            if (local.SequenceEqual("showDataTypeIconsCustomSheetView"u8)) return ViewKind.ShowDataTypeIconsShowDataTypeIcons;
+        }
+        if (ns == SchemaNamespace.PivotAutoRefresh)
+        {
+            if (local.SequenceEqual("autoRefresh"u8)) return ViewKind.Simple;
+        }
+        if (ns == SchemaNamespace.WorkbookCompatibilityVersion)
+        {
+            if (local.SequenceEqual("version"u8)) return ViewKind.WorkbookCompatibilityVersionVersion;
+        }
+        if (ns == SchemaNamespace.ExternalCodeService2)
+        {
+            if (local.SequenceEqual("externalCodeServiceImageAsInput"u8)) return ViewKind.ExternalCodeService2ExternalCodeServiceImageAsInput;
+        }
+        if (ns == SchemaNamespace.PivotDataSource)
+        {
+            if (local.SequenceEqual("pivotCacheDataSource"u8)) return ViewKind.PivotDataSourcePivotCacheDataSource;
+        }
+        if (ns == SchemaNamespace.ThemeMl2012)
+        {
+            if (local.SequenceEqual("themeFamily"u8)) return ViewKind.ThemeMl2012ThemeFamily;
+        }
+        if (ns == SchemaNamespace.WordMacro2006)
+        {
+            if (local.SequenceEqual("vbaSuppData"u8)) return ViewKind.Simple;
         }
         if (ns == SchemaNamespace.Word2010)
         {
@@ -2351,9 +5034,50 @@ public static class ViewFactory
         {
             if (local.SequenceEqual("commentEntityInfo"u8)) return ViewKind.Word2026CeiCommentEntityInfo;
         }
+        if (ns == SchemaNamespace.Chart)
+        {
+            if (local.SequenceEqual("chart"u8)) return ViewKind.ChartRelId;
+            if (local.SequenceEqual("chartSpace"u8)) return ViewKind.ChartChartSpace;
+            if (local.SequenceEqual("userShapes"u8)) return ViewKind.ChartDrawingDrawing;
+        }
+        if (ns == SchemaNamespace.Diagram)
+        {
+            if (local.SequenceEqual("colorsDef"u8)) return ViewKind.DiagramColorTransform;
+            if (local.SequenceEqual("colorsDefHdr"u8)) return ViewKind.DiagramColorTransformHeader;
+            if (local.SequenceEqual("colorsDefHdrLst"u8)) return ViewKind.DiagramColorTransformHeaderLst;
+            if (local.SequenceEqual("dataModel"u8)) return ViewKind.DiagramDataModel;
+            if (local.SequenceEqual("layoutDef"u8)) return ViewKind.DiagramDiagramDefinition;
+            if (local.SequenceEqual("layoutDefHdr"u8)) return ViewKind.DiagramDiagramDefinitionHeader;
+            if (local.SequenceEqual("layoutDefHdrLst"u8)) return ViewKind.DiagramDiagramDefinitionHeaderLst;
+            if (local.SequenceEqual("relIds"u8)) return ViewKind.DiagramRelIds;
+            if (local.SequenceEqual("styleDef"u8)) return ViewKind.DiagramStyleDefinition;
+            if (local.SequenceEqual("styleDefHdr"u8)) return ViewKind.DiagramStyleDefinitionHeader;
+            if (local.SequenceEqual("styleDefHdrLst"u8)) return ViewKind.DiagramStyleDefinitionHeaderLst;
+        }
+        if (ns == SchemaNamespace.LockedCanvas)
+        {
+            if (local.SequenceEqual("lockedCanvas"u8)) return ViewKind.DrawingGvmlGroupShape;
+        }
+        if (ns == SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("blip"u8)) return ViewKind.DrawingBlip;
+            if (local.SequenceEqual("graphic"u8)) return ViewKind.DrawingGraphicalObject;
+            if (local.SequenceEqual("tbl"u8)) return ViewKind.DrawingTable;
+            if (local.SequenceEqual("tblStyleLst"u8)) return ViewKind.DrawingTableStyleList;
+            if (local.SequenceEqual("theme"u8)) return ViewKind.DrawingOfficeStyleSheet;
+            if (local.SequenceEqual("themeManager"u8)) return ViewKind.DrawingEmptyElement;
+            if (local.SequenceEqual("themeOverride"u8)) return ViewKind.DrawingBaseStylesOverride;
+            if (local.SequenceEqual("videoFile"u8)) return ViewKind.DrawingVideoFile;
+        }
         if (ns == SchemaNamespace.Picture)
         {
             if (local.SequenceEqual("pic"u8)) return ViewKind.PicturePicture;
+        }
+        if (ns == SchemaNamespace.SpreadsheetDrawing)
+        {
+            if (local.SequenceEqual("from"u8)) return ViewKind.SpreadsheetDrawingAnchorMarker;
+            if (local.SequenceEqual("to"u8)) return ViewKind.SpreadsheetDrawingAnchorMarker;
+            if (local.SequenceEqual("wsDr"u8)) return ViewKind.SpreadsheetDrawingWorksheetDrawing;
         }
         if (ns == SchemaNamespace.WordprocessingDrawing)
         {
@@ -2363,9 +5087,21 @@ public static class ViewFactory
             if (local.SequenceEqual("wpc"u8)) return ViewKind.WordprocessingDrawingWordprocessingCanvas;
             if (local.SequenceEqual("wsp"u8)) return ViewKind.WordprocessingDrawingWordprocessingShape;
         }
+        if (ns == SchemaNamespace.Bibliography)
+        {
+            if (local.SequenceEqual("Sources"u8)) return ViewKind.BibliographySources;
+        }
+        if (ns == SchemaNamespace.AdditionalCharacteristics)
+        {
+            if (local.SequenceEqual("additionalCharacteristics"u8)) return ViewKind.AdditionalCharacteristicsAdditionalCharacteristics;
+        }
         if (ns == SchemaNamespace.CustomProperties)
         {
             if (local.SequenceEqual("Properties"u8)) return ViewKind.CustomPropertiesProperties;
+        }
+        if (ns == SchemaNamespace.CustomXmlDataProperties)
+        {
+            if (local.SequenceEqual("datastoreItem"u8)) return ViewKind.CustomXmlDataPropertiesDatastoreItem;
         }
         if (ns == SchemaNamespace.ExtendedProperties)
         {
@@ -2414,6 +5150,35 @@ public static class ViewFactory
             if (local.SequenceEqual("sldSyncPr"u8)) return ViewKind.PresentationSlideSyncProperties;
             if (local.SequenceEqual("tagLst"u8)) return ViewKind.PresentationTagList;
             if (local.SequenceEqual("viewPr"u8)) return ViewKind.PresentationViewProperties;
+        }
+        if (ns == SchemaNamespace.SchemaLibrary)
+        {
+            if (local.SequenceEqual("schemaLibrary"u8)) return ViewKind.SchemaLibrarySchemaLibrary;
+        }
+        if (ns == SchemaNamespace.Spreadsheet)
+        {
+            if (local.SequenceEqual("MapInfo"u8)) return ViewKind.SpreadsheetMapInfo;
+            if (local.SequenceEqual("calcChain"u8)) return ViewKind.SpreadsheetCalculationChain;
+            if (local.SequenceEqual("chartsheet"u8)) return ViewKind.SpreadsheetChartsheet;
+            if (local.SequenceEqual("comments"u8)) return ViewKind.SpreadsheetComments;
+            if (local.SequenceEqual("connections"u8)) return ViewKind.SpreadsheetConnections;
+            if (local.SequenceEqual("dialogsheet"u8)) return ViewKind.SpreadsheetDialogsheet;
+            if (local.SequenceEqual("externalLink"u8)) return ViewKind.SpreadsheetExternalLink;
+            if (local.SequenceEqual("headers"u8)) return ViewKind.SpreadsheetRevisionHeaders;
+            if (local.SequenceEqual("metadata"u8)) return ViewKind.SpreadsheetMetadata;
+            if (local.SequenceEqual("pivotCacheDefinition"u8)) return ViewKind.SpreadsheetPivotCacheDefinition;
+            if (local.SequenceEqual("pivotCacheRecords"u8)) return ViewKind.SpreadsheetPivotCacheRecords;
+            if (local.SequenceEqual("pivotTableDefinition"u8)) return ViewKind.SpreadsheetPivotTableDefinition;
+            if (local.SequenceEqual("queryTable"u8)) return ViewKind.SpreadsheetQueryTable;
+            if (local.SequenceEqual("revisions"u8)) return ViewKind.SpreadsheetRevisions;
+            if (local.SequenceEqual("singleXmlCells"u8)) return ViewKind.SpreadsheetSingleXmlCells;
+            if (local.SequenceEqual("sst"u8)) return ViewKind.SpreadsheetSharedStringTable;
+            if (local.SequenceEqual("styleSheet"u8)) return ViewKind.SpreadsheetStylesheet;
+            if (local.SequenceEqual("table"u8)) return ViewKind.SpreadsheetTable;
+            if (local.SequenceEqual("users"u8)) return ViewKind.SpreadsheetUsers;
+            if (local.SequenceEqual("volTypes"u8)) return ViewKind.SpreadsheetVolatileTypes;
+            if (local.SequenceEqual("workbook"u8)) return ViewKind.SpreadsheetWorkbook;
+            if (local.SequenceEqual("worksheet"u8)) return ViewKind.SpreadsheetWorksheet;
         }
         if (ns == SchemaNamespace.Wordprocessing)
         {
@@ -2818,31 +5583,47 @@ public static class ViewFactory
             case ViewKind.DrawingAudioCD: return global::RecursiveAI.OneDocument.Schema.Drawing.AudioCD.ChildKind(ns, local, out rank);
             case ViewKind.DrawingAudioFile: return global::RecursiveAI.OneDocument.Schema.Drawing.AudioFile.ChildKind(ns, local, out rank);
             case ViewKind.DrawingBackdrop: return global::RecursiveAI.OneDocument.Schema.Drawing.Backdrop.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingBackgroundFillStyleList: return global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFillStyleList.ChildKind(ns, local, out rank);
             case ViewKind.DrawingBackgroundFormatting: return global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFormatting.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingBaseStyles: return global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingBaseStylesOverride: return global::RecursiveAI.OneDocument.Schema.Drawing.BaseStylesOverride.ChildKind(ns, local, out rank);
             case ViewKind.DrawingBlendEffect: return global::RecursiveAI.OneDocument.Schema.Drawing.BlendEffect.ChildKind(ns, local, out rank);
             case ViewKind.DrawingBlip: return global::RecursiveAI.OneDocument.Schema.Drawing.Blip.ChildKind(ns, local, out rank);
             case ViewKind.DrawingBlipFillProperties: return global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties.ChildKind(ns, local, out rank);
             case ViewKind.DrawingCamera: return global::RecursiveAI.OneDocument.Schema.Drawing.Camera.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCell3D: return global::RecursiveAI.OneDocument.Schema.Drawing.Cell3D.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingClipboardStyleSheet: return global::RecursiveAI.OneDocument.Schema.Drawing.ClipboardStyleSheet.ChildKind(ns, local, out rank);
             case ViewKind.DrawingColor: return global::RecursiveAI.OneDocument.Schema.Drawing.Color.ChildKind(ns, local, out rank);
             case ViewKind.DrawingColorChangeEffect: return global::RecursiveAI.OneDocument.Schema.Drawing.ColorChangeEffect.ChildKind(ns, local, out rank);
             case ViewKind.DrawingColorMRU: return global::RecursiveAI.OneDocument.Schema.Drawing.ColorMRU.ChildKind(ns, local, out rank);
             case ViewKind.DrawingColorMapping: return global::RecursiveAI.OneDocument.Schema.Drawing.ColorMapping.ChildKind(ns, local, out rank);
             case ViewKind.DrawingColorMappingOverride: return global::RecursiveAI.OneDocument.Schema.Drawing.ColorMappingOverride.ChildKind(ns, local, out rank);
             case ViewKind.DrawingColorReplaceEffect: return global::RecursiveAI.OneDocument.Schema.Drawing.ColorReplaceEffect.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingColorScheme: return global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingColorSchemeAndMapping: return global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeAndMapping.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingColorSchemeList: return global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeList.ChildKind(ns, local, out rank);
             case ViewKind.DrawingConnectionSite: return global::RecursiveAI.OneDocument.Schema.Drawing.ConnectionSite.ChildKind(ns, local, out rank);
             case ViewKind.DrawingConnectionSiteList: return global::RecursiveAI.OneDocument.Schema.Drawing.ConnectionSiteList.ChildKind(ns, local, out rank);
             case ViewKind.DrawingConnectorLocking: return global::RecursiveAI.OneDocument.Schema.Drawing.ConnectorLocking.ChildKind(ns, local, out rank);
             case ViewKind.DrawingContentPartLocking: return global::RecursiveAI.OneDocument.Schema.Drawing.ContentPartLocking.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCustomColor: return global::RecursiveAI.OneDocument.Schema.Drawing.CustomColor.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCustomColorList: return global::RecursiveAI.OneDocument.Schema.Drawing.CustomColorList.ChildKind(ns, local, out rank);
             case ViewKind.DrawingCustomGeometry2D: return global::RecursiveAI.OneDocument.Schema.Drawing.CustomGeometry2D.ChildKind(ns, local, out rank);
             case ViewKind.DrawingDashStopList: return global::RecursiveAI.OneDocument.Schema.Drawing.DashStopList.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingDefaultShapeDefinition: return global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition.ChildKind(ns, local, out rank);
             case ViewKind.DrawingDuotoneEffect: return global::RecursiveAI.OneDocument.Schema.Drawing.DuotoneEffect.ChildKind(ns, local, out rank);
             case ViewKind.DrawingEffectContainer: return global::RecursiveAI.OneDocument.Schema.Drawing.EffectContainer.ChildKind(ns, local, out rank);
             case ViewKind.DrawingEffectList: return global::RecursiveAI.OneDocument.Schema.Drawing.EffectList.ChildKind(ns, local, out rank);
             case ViewKind.DrawingEffectProperties: return global::RecursiveAI.OneDocument.Schema.Drawing.EffectProperties.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingEffectStyleItem: return global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleItem.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingEffectStyleList: return global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleList.ChildKind(ns, local, out rank);
             case ViewKind.DrawingFillEffect: return global::RecursiveAI.OneDocument.Schema.Drawing.FillEffect.ChildKind(ns, local, out rank);
             case ViewKind.DrawingFillOverlayEffect: return global::RecursiveAI.OneDocument.Schema.Drawing.FillOverlayEffect.ChildKind(ns, local, out rank);
             case ViewKind.DrawingFillProperties: return global::RecursiveAI.OneDocument.Schema.Drawing.FillProperties.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingFillStyleList: return global::RecursiveAI.OneDocument.Schema.Drawing.FillStyleList.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingFontCollection: return global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection.ChildKind(ns, local, out rank);
             case ViewKind.DrawingFontReference: return global::RecursiveAI.OneDocument.Schema.Drawing.FontReference.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingFontScheme: return global::RecursiveAI.OneDocument.Schema.Drawing.FontScheme.ChildKind(ns, local, out rank);
             case ViewKind.DrawingGeomGuideList: return global::RecursiveAI.OneDocument.Schema.Drawing.GeomGuideList.ChildKind(ns, local, out rank);
             case ViewKind.DrawingGlowEffect: return global::RecursiveAI.OneDocument.Schema.Drawing.GlowEffect.ChildKind(ns, local, out rank);
             case ViewKind.DrawingGradientFillProperties: return global::RecursiveAI.OneDocument.Schema.Drawing.GradientFillProperties.ChildKind(ns, local, out rank);
@@ -2854,11 +5635,24 @@ public static class ViewFactory
             case ViewKind.DrawingGroupLocking: return global::RecursiveAI.OneDocument.Schema.Drawing.GroupLocking.ChildKind(ns, local, out rank);
             case ViewKind.DrawingGroupShapeProperties: return global::RecursiveAI.OneDocument.Schema.Drawing.GroupShapeProperties.ChildKind(ns, local, out rank);
             case ViewKind.DrawingGroupTransform2D: return global::RecursiveAI.OneDocument.Schema.Drawing.GroupTransform2D.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingGvmlConnector: return global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnector.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingGvmlConnectorNonVisual: return global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnectorNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingGvmlGraphicFrameNonVisual: return global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicFrameNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingGvmlGraphicalObjectFrame: return global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicalObjectFrame.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingGvmlGroupShape: return global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingGvmlGroupShapeNonVisual: return global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShapeNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingGvmlPicture: return global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPicture.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingGvmlPictureNonVisual: return global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPictureNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingGvmlShape: return global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShape.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingGvmlShapeNonVisual: return global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShapeNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingGvmlTextShape: return global::RecursiveAI.OneDocument.Schema.Drawing.GvmlTextShape.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingHeaders: return global::RecursiveAI.OneDocument.Schema.Drawing.Headers.ChildKind(ns, local, out rank);
             case ViewKind.DrawingHslColor: return global::RecursiveAI.OneDocument.Schema.Drawing.HslColor.ChildKind(ns, local, out rank);
             case ViewKind.DrawingHyperlink: return global::RecursiveAI.OneDocument.Schema.Drawing.Hyperlink.ChildKind(ns, local, out rank);
             case ViewKind.DrawingInnerShadowEffect: return global::RecursiveAI.OneDocument.Schema.Drawing.InnerShadowEffect.ChildKind(ns, local, out rank);
             case ViewKind.DrawingLightRig: return global::RecursiveAI.OneDocument.Schema.Drawing.LightRig.ChildKind(ns, local, out rank);
             case ViewKind.DrawingLineProperties: return global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingLineStyleList: return global::RecursiveAI.OneDocument.Schema.Drawing.LineStyleList.ChildKind(ns, local, out rank);
             case ViewKind.DrawingNonVisualConnectorProperties: return global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualConnectorProperties.ChildKind(ns, local, out rank);
             case ViewKind.DrawingNonVisualContentPartProperties: return global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualContentPartProperties.ChildKind(ns, local, out rank);
             case ViewKind.DrawingNonVisualDrawingProps: return global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps.ChildKind(ns, local, out rank);
@@ -2866,8 +5660,10 @@ public static class ViewFactory
             case ViewKind.DrawingNonVisualGraphicFrameProperties: return global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGraphicFrameProperties.ChildKind(ns, local, out rank);
             case ViewKind.DrawingNonVisualGroupDrawingShapeProps: return global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGroupDrawingShapeProps.ChildKind(ns, local, out rank);
             case ViewKind.DrawingNonVisualPictureProperties: return global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualPictureProperties.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingObjectStyleDefaults: return global::RecursiveAI.OneDocument.Schema.Drawing.ObjectStyleDefaults.ChildKind(ns, local, out rank);
             case ViewKind.DrawingOfficeArtExtension: return global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtension.ChildKind(ns, local, out rank);
             case ViewKind.DrawingOfficeArtExtensionList: return global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingOfficeStyleSheet: return global::RecursiveAI.OneDocument.Schema.Drawing.OfficeStyleSheet.ChildKind(ns, local, out rank);
             case ViewKind.DrawingOuterShadowEffect: return global::RecursiveAI.OneDocument.Schema.Drawing.OuterShadowEffect.ChildKind(ns, local, out rank);
             case ViewKind.DrawingPath2D: return global::RecursiveAI.OneDocument.Schema.Drawing.Path2D.ChildKind(ns, local, out rank);
             case ViewKind.DrawingPath2DCubicBezierTo: return global::RecursiveAI.OneDocument.Schema.Drawing.Path2DCubicBezierTo.ChildKind(ns, local, out rank);
@@ -2896,8 +5692,23 @@ public static class ViewFactory
             case ViewKind.DrawingShapeStyle: return global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle.ChildKind(ns, local, out rank);
             case ViewKind.DrawingSolidColorFillProperties: return global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties.ChildKind(ns, local, out rank);
             case ViewKind.DrawingStretchInfoProperties: return global::RecursiveAI.OneDocument.Schema.Drawing.StretchInfoProperties.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingStyleMatrix: return global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix.ChildKind(ns, local, out rank);
             case ViewKind.DrawingStyleMatrixReference: return global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference.ChildKind(ns, local, out rank);
             case ViewKind.DrawingSystemColor: return global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingTable: return global::RecursiveAI.OneDocument.Schema.Drawing.Table.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingTableBackgroundStyle: return global::RecursiveAI.OneDocument.Schema.Drawing.TableBackgroundStyle.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingTableCell: return global::RecursiveAI.OneDocument.Schema.Drawing.TableCell.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingTableCellBorderStyle: return global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingTableCellProperties: return global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingTableCol: return global::RecursiveAI.OneDocument.Schema.Drawing.TableCol.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingTableGrid: return global::RecursiveAI.OneDocument.Schema.Drawing.TableGrid.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingTablePartStyle: return global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingTableProperties: return global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingTableRow: return global::RecursiveAI.OneDocument.Schema.Drawing.TableRow.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingTableStyle: return global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingTableStyleCellStyle: return global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleCellStyle.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingTableStyleList: return global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleList.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingTableStyleTextStyle: return global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle.ChildKind(ns, local, out rank);
             case ViewKind.DrawingTextBlipBullet: return global::RecursiveAI.OneDocument.Schema.Drawing.TextBlipBullet.ChildKind(ns, local, out rank);
             case ViewKind.DrawingTextBody: return global::RecursiveAI.OneDocument.Schema.Drawing.TextBody.ChildKind(ns, local, out rank);
             case ViewKind.DrawingTextBodyProperties: return global::RecursiveAI.OneDocument.Schema.Drawing.TextBodyProperties.ChildKind(ns, local, out rank);
@@ -2910,6 +5721,7 @@ public static class ViewFactory
             case ViewKind.DrawingTextSpacing: return global::RecursiveAI.OneDocument.Schema.Drawing.TextSpacing.ChildKind(ns, local, out rank);
             case ViewKind.DrawingTextTabStopList: return global::RecursiveAI.OneDocument.Schema.Drawing.TextTabStopList.ChildKind(ns, local, out rank);
             case ViewKind.DrawingTextUnderlineFillGroupWrapper: return global::RecursiveAI.OneDocument.Schema.Drawing.TextUnderlineFillGroupWrapper.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingThemeableLineStyle: return global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle.ChildKind(ns, local, out rank);
             case ViewKind.DrawingTransform2D: return global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D.ChildKind(ns, local, out rank);
             case ViewKind.DrawingVideoFile: return global::RecursiveAI.OneDocument.Schema.Drawing.VideoFile.ChildKind(ns, local, out rank);
             case ViewKind.DrawingWholeE2oFormatting: return global::RecursiveAI.OneDocument.Schema.Drawing.WholeE2oFormatting.ChildKind(ns, local, out rank);
@@ -3080,6 +5892,744 @@ public static class ViewFactory
             case ViewKind.Presentation202208TaskHistoryEvent: return global::RecursiveAI.OneDocument.Schema.Presentation202208.TaskHistoryEvent.ChildKind(ns, local, out rank);
             case ViewKind.Presentation202302PlaceholderTypeACB: return global::RecursiveAI.OneDocument.Schema.Presentation202302.PlaceholderTypeACB.ChildKind(ns, local, out rank);
             case ViewKind.Presentation202302PlaceholderTypeExtension: return global::RecursiveAI.OneDocument.Schema.Presentation202302.PlaceholderTypeExtension.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetAuthors: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Authors.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetAutoFilter: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.AutoFilter.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetAutoSortScope: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.AutoSortScope.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetBookView: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.BookView.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetBookViews: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.BookViews.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetBooleanItem: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.BooleanItem.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetBorder: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Border.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetBorderProperties: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.BorderProperties.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetBorders: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Borders.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCacheField: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CacheField.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCacheFields: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CacheFields.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCacheHierarchies: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CacheHierarchies.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCacheHierarchy: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CacheHierarchy.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCacheSource: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CacheSource.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCalculatedItem: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CalculatedItem.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCalculatedItems: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CalculatedItems.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCalculatedMember: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CalculatedMember.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCalculatedMembers: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CalculatedMembers.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCalculationChain: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CalculationChain.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCell: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Cell.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCellFormat: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellFormat.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCellFormats: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellFormats.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCellSmartTag: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellSmartTag.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCellSmartTags: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellSmartTags.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCellStyle: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellStyle.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCellStyleFormats: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellStyleFormats.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCellStyles: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellStyles.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCellWatches: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellWatches.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetChartFormat: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ChartFormat.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetChartFormats: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ChartFormats.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetChartsheet: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Chartsheet.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetChartsheetProperties: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ChartsheetProperties.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetChartsheetView: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ChartsheetView.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetChartsheetViews: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ChartsheetViews.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetColFields: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ColFields.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetColHierarchiesUsage: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ColHierarchiesUsage.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetColItems: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ColItems.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetColorScale: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ColorScale.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetColors: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Colors.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetColumns: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Columns.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetComment: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Comment.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCommentList: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CommentList.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCommentProperties: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CommentProperties.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetComments: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Comments.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetConditionalFormat: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ConditionalFormat.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetConditionalFormatValueObject: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ConditionalFormatValueObject.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetConditionalFormats: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ConditionalFormats.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetConditionalFormatting: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ConditionalFormatting.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetConditionalFormattingRule: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ConditionalFormattingRule.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetConnection: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Connection.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetConnections: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Connections.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetConsolidation: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Consolidation.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetControl: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Control.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetControlProperties: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ControlProperties.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetControls: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Controls.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCustomChartsheetView: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomChartsheetView.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCustomChartsheetViews: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomChartsheetViews.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCustomFilters: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomFilters.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCustomProperties: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomProperties.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCustomSheetView: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomSheetView.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCustomSheetViews: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomSheetViews.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCustomWorkbookView: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomWorkbookView.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetCustomWorkbookViews: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomWorkbookViews.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDataBar: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataBar.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDataBinding: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataBinding.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDataConsolidate: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataConsolidate.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDataField: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataField.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDataFields: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataFields.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDataRefs: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataRefs.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDataValidation: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataValidation.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDataValidations: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataValidations.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDateTimeItem: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DateTimeItem.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDdeItem: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DdeItem.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDdeItems: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DdeItems.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDdeLink: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DdeLink.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDdeValue: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DdeValue.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDdeValues: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DdeValues.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDefinedNames: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DefinedNames.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDialogsheet: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Dialogsheet.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDifferentialFormat: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DifferentialFormat.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDifferentialFormats: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DifferentialFormats.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDiscretePr: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.DiscretePr.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetErrorItem: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ErrorItem.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetExtension: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Extension.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetExtensionList: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExtensionList.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetExternalBook: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalBook.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetExternalCell: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalCell.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetExternalDefinedNames: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalDefinedNames.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetExternalLink: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalLink.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetExternalReferences: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalReferences.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetExternalRow: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalRow.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetExternalSheetData: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalSheetData.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetExternalSheetDataSet: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalSheetDataSet.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetExternalSheetNames: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalSheetNames.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetFieldGroup: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.FieldGroup.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetFieldsUsage: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.FieldsUsage.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetFill: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Fill.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetFills: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Fills.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetFilterColumn: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.FilterColumn.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetFilters: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Filters.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetFont: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Font.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetFonts: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Fonts.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetFormat: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Format.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetFormats: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Formats.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetFunctionGroups: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.FunctionGroups.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetFutureMetadata: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.FutureMetadata.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetFutureMetadataBlock: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.FutureMetadataBlock.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetGradientFill: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.GradientFill.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetGradientStop: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.GradientStop.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetGroupItems: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.GroupItems.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetGroupLevel: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.GroupLevel.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetGroupLevels: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.GroupLevels.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetGroupMembers: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.GroupMembers.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetGroups: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Groups.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetHeaderFooter: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.HeaderFooter.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetHyperlinks: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Hyperlinks.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetIconSet: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.IconSet.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetIgnoredErrors: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.IgnoredErrors.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetIndexedColors: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.IndexedColors.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetItems: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Items.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetLevelGroup: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.LevelGroup.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMacrosheet: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Macrosheet.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMap: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Map.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMapInfo: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.MapInfo.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMdx: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Mdx.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMdxMetadata: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.MdxMetadata.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMdxSet: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.MdxSet.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMdxTuple: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.MdxTuple.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMeasureDimensionMaps: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.MeasureDimensionMaps.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMeasureGroups: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.MeasureGroups.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMemberProperties: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.MemberProperties.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMembers: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Members.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMergeCells: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.MergeCells.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMetadata: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Metadata.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMetadataBlock: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.MetadataBlock.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMetadataBlocks: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.MetadataBlocks.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMetadataStrings: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.MetadataStrings.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMetadataTypes: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.MetadataTypes.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMissingItem: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.MissingItem.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetMostRecentColors: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.MostRecentColors.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetNumberFormats: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.NumberFormats.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetNumberItem: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.NumberItem.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetObjectAnchor: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ObjectAnchor.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetObjectProperties: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ObjectProperties.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetOleItems: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.OleItems.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetOleLink: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.OleLink.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetOleObject: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.OleObject.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetOleObjects: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.OleObjects.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPageBreak: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PageBreak.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPageField: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PageField.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPageFields: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PageFields.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPages: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Pages.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetParameters: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Parameters.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPatternFill: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PatternFill.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPhoneticRun: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PhoneticRun.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotArea: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotArea.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotAreaReference: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotAreaReference.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotAreaReferences: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotAreaReferences.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotAreas: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotAreas.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotCacheDefinition: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotCacheDefinition.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotCacheKpis: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotCacheKpis.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotCacheRecords: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotCacheRecords.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotCacheServerPage: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotCacheServerPage.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotCacheSharedEntries: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotCacheSharedEntries.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotCaches: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotCaches.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotField: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotField.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotFields: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotFields.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotFilter: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotFilter.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotFilters: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotFilters.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotHierarchies: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotHierarchies.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotHierarchy: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotHierarchy.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotSelection: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotSelection.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetPivotTableDefinition: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotTableDefinition.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetProtectedRange: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ProtectedRange.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetProtectedRanges: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ProtectedRanges.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetQuery: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Query.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetQueryCache: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.QueryCache.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetQueryTable: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.QueryTable.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetQueryTableDeletedFields: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.QueryTableDeletedFields.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetQueryTableField: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.QueryTableField.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetQueryTableFields: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.QueryTableFields.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetQueryTableRefresh: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.QueryTableRefresh.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRangeSets: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.RangeSets.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRecord: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Record.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetReviewedRevisions: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ReviewedRevisions.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRevisionCellChange: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionCellChange.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRevisionDefinedName: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionDefinedName.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRevisionFormatting: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionFormatting.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRevisionHeader: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionHeader.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRevisionHeaders: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionHeaders.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRevisionMove: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionMove.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRevisionRowColumn: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionRowColumn.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRevisionSheetRename: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionSheetRename.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRevisions: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Revisions.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRichString: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.RichString.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRichTextRun: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.RichTextRun.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRow: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Row.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRowFields: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.RowFields.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRowHierarchiesUsage: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.RowHierarchiesUsage.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRowItem: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.RowItem.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRowItems: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.RowItems.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetRunProperties: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.RunProperties.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetScenario: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Scenario.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetScenarios: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Scenarios.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetServerFormats: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.ServerFormats.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetSet: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Set.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetSets: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Sets.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetSharedItems: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.SharedItems.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetSharedStringTable: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.SharedStringTable.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetSharedUser: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.SharedUser.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetSheetData: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.SheetData.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetSheetIdMap: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.SheetIdMap.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetSheetProperties: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.SheetProperties.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetSheetView: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.SheetView.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetSheetViews: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.SheetViews.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetSheets: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Sheets.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetSingleXmlCell: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.SingleXmlCell.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetSingleXmlCells: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.SingleXmlCells.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetSmartTagTypes: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.SmartTagTypes.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetSmartTags: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.SmartTags.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetSortState: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.SortState.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetStringItem: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.StringItem.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetStylesheet: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Stylesheet.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetTable: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Table.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetTableColumn: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.TableColumn.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetTableColumns: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.TableColumns.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetTableParts: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.TableParts.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetTableStyle: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.TableStyle.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetTableStyles: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.TableStyles.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetTables: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Tables.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetTextFields: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.TextFields.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetTextQueryProperties: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.TextQueryProperties.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetTupleCache: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.TupleCache.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetTuples: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Tuples.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetUsers: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Users.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetVolatileMain: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.VolatileMain.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetVolatileTopic: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.VolatileTopic.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetVolatileType: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.VolatileType.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetVolatileTypes: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.VolatileTypes.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetWebPublishItems: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.WebPublishItems.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetWebPublishObjects: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.WebPublishObjects.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetWebQueryProperties: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.WebQueryProperties.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetWorkbook: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Workbook.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetWorksheet: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.Worksheet.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetWorksheetDimensions: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.WorksheetDimensions.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetXmlCellPr: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.XmlCellPr.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetXmlColumnPr: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.XmlColumnPr.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetXmlPr: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.XmlPr.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetXmlSchemaReference: return global::RecursiveAI.OneDocument.Schema.Spreadsheet.XmlSchemaReference.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawingAbsoluteAnchor: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.AbsoluteAnchor.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawingAnchorMarker: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.AnchorMarker.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawingConnector: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.Connector.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawingConnectorNonVisual: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.ConnectorNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawingGraphicFrame: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.GraphicFrame.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawingGraphicalObjectFrameNonVisual: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.GraphicalObjectFrameNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawingGroupShape: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.GroupShape.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawingGroupShapeNonVisual: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.GroupShapeNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawingOneCellAnchor: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.OneCellAnchor.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawingPicture: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.Picture.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawingPictureNonVisual: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.PictureNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawingShape: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.Shape.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawingShapeNonVisual: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.ShapeNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawingTwoCellAnchor: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.TwoCellAnchor.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawingWorksheetDrawing: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.WorksheetDrawing.ChildKind(ns, local, out rank);
+            case ViewKind.ChartArea3DChart: return global::RecursiveAI.OneDocument.Schema.Chart.Area3DChart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartAreaChart: return global::RecursiveAI.OneDocument.Schema.Chart.AreaChart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartAreaSeries: return global::RecursiveAI.OneDocument.Schema.Chart.AreaSeries.ChildKind(ns, local, out rank);
+            case ViewKind.ChartAxDataSource: return global::RecursiveAI.OneDocument.Schema.Chart.AxDataSource.ChildKind(ns, local, out rank);
+            case ViewKind.ChartBandFmt: return global::RecursiveAI.OneDocument.Schema.Chart.BandFmt.ChildKind(ns, local, out rank);
+            case ViewKind.ChartBandFmts: return global::RecursiveAI.OneDocument.Schema.Chart.BandFmts.ChildKind(ns, local, out rank);
+            case ViewKind.ChartBar3DChart: return global::RecursiveAI.OneDocument.Schema.Chart.Bar3DChart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartBarChart: return global::RecursiveAI.OneDocument.Schema.Chart.BarChart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartBarSeries: return global::RecursiveAI.OneDocument.Schema.Chart.BarSeries.ChildKind(ns, local, out rank);
+            case ViewKind.ChartBubbleChart: return global::RecursiveAI.OneDocument.Schema.Chart.BubbleChart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartBubbleSeries: return global::RecursiveAI.OneDocument.Schema.Chart.BubbleSeries.ChildKind(ns, local, out rank);
+            case ViewKind.ChartCategoryAxis: return global::RecursiveAI.OneDocument.Schema.Chart.CategoryAxis.ChildKind(ns, local, out rank);
+            case ViewKind.ChartChart: return global::RecursiveAI.OneDocument.Schema.Chart.Chart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartChartLines: return global::RecursiveAI.OneDocument.Schema.Chart.ChartLines.ChildKind(ns, local, out rank);
+            case ViewKind.ChartChartSpace: return global::RecursiveAI.OneDocument.Schema.Chart.ChartSpace.ChildKind(ns, local, out rank);
+            case ViewKind.ChartChartText: return global::RecursiveAI.OneDocument.Schema.Chart.ChartText.ChildKind(ns, local, out rank);
+            case ViewKind.ChartCustSplit: return global::RecursiveAI.OneDocument.Schema.Chart.CustSplit.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDTable: return global::RecursiveAI.OneDocument.Schema.Chart.DTable.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDataLabel: return global::RecursiveAI.OneDocument.Schema.Chart.DataLabel.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDataLabels: return global::RecursiveAI.OneDocument.Schema.Chart.DataLabels.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDataPoint: return global::RecursiveAI.OneDocument.Schema.Chart.DataPoint.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDateAxis: return global::RecursiveAI.OneDocument.Schema.Chart.DateAxis.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDispUnitsLbl: return global::RecursiveAI.OneDocument.Schema.Chart.DispUnitsLbl.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDisplayUnits: return global::RecursiveAI.OneDocument.Schema.Chart.DisplayUnits.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDoughnutChart: return global::RecursiveAI.OneDocument.Schema.Chart.DoughnutChart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartErrorBars: return global::RecursiveAI.OneDocument.Schema.Chart.ErrorBars.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExtension: return global::RecursiveAI.OneDocument.Schema.Chart.Extension.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExtensionList: return global::RecursiveAI.OneDocument.Schema.Chart.ExtensionList.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExternalData: return global::RecursiveAI.OneDocument.Schema.Chart.ExternalData.ChildKind(ns, local, out rank);
+            case ViewKind.ChartHeaderFooter: return global::RecursiveAI.OneDocument.Schema.Chart.HeaderFooter.ChildKind(ns, local, out rank);
+            case ViewKind.ChartLayout: return global::RecursiveAI.OneDocument.Schema.Chart.Layout.ChildKind(ns, local, out rank);
+            case ViewKind.ChartLegend: return global::RecursiveAI.OneDocument.Schema.Chart.Legend.ChildKind(ns, local, out rank);
+            case ViewKind.ChartLegendEntry: return global::RecursiveAI.OneDocument.Schema.Chart.LegendEntry.ChildKind(ns, local, out rank);
+            case ViewKind.ChartLine3DChart: return global::RecursiveAI.OneDocument.Schema.Chart.Line3DChart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartLineChart: return global::RecursiveAI.OneDocument.Schema.Chart.LineChart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartLineSeries: return global::RecursiveAI.OneDocument.Schema.Chart.LineSeries.ChildKind(ns, local, out rank);
+            case ViewKind.ChartLvl: return global::RecursiveAI.OneDocument.Schema.Chart.Lvl.ChildKind(ns, local, out rank);
+            case ViewKind.ChartManualLayout: return global::RecursiveAI.OneDocument.Schema.Chart.ManualLayout.ChildKind(ns, local, out rank);
+            case ViewKind.ChartMarker: return global::RecursiveAI.OneDocument.Schema.Chart.Marker.ChildKind(ns, local, out rank);
+            case ViewKind.ChartMultiLvlStrData: return global::RecursiveAI.OneDocument.Schema.Chart.MultiLvlStrData.ChildKind(ns, local, out rank);
+            case ViewKind.ChartMultiLvlStrRef: return global::RecursiveAI.OneDocument.Schema.Chart.MultiLvlStrRef.ChildKind(ns, local, out rank);
+            case ViewKind.ChartNumData: return global::RecursiveAI.OneDocument.Schema.Chart.NumData.ChildKind(ns, local, out rank);
+            case ViewKind.ChartNumDataSource: return global::RecursiveAI.OneDocument.Schema.Chart.NumDataSource.ChildKind(ns, local, out rank);
+            case ViewKind.ChartNumRef: return global::RecursiveAI.OneDocument.Schema.Chart.NumRef.ChildKind(ns, local, out rank);
+            case ViewKind.ChartNumVal: return global::RecursiveAI.OneDocument.Schema.Chart.NumVal.ChildKind(ns, local, out rank);
+            case ViewKind.ChartOfPieChart: return global::RecursiveAI.OneDocument.Schema.Chart.OfPieChart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartPictureOptions: return global::RecursiveAI.OneDocument.Schema.Chart.PictureOptions.ChildKind(ns, local, out rank);
+            case ViewKind.ChartPie3DChart: return global::RecursiveAI.OneDocument.Schema.Chart.Pie3DChart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartPieChart: return global::RecursiveAI.OneDocument.Schema.Chart.PieChart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartPieSeries: return global::RecursiveAI.OneDocument.Schema.Chart.PieSeries.ChildKind(ns, local, out rank);
+            case ViewKind.ChartPivotFormat: return global::RecursiveAI.OneDocument.Schema.Chart.PivotFormat.ChildKind(ns, local, out rank);
+            case ViewKind.ChartPivotFormats: return global::RecursiveAI.OneDocument.Schema.Chart.PivotFormats.ChildKind(ns, local, out rank);
+            case ViewKind.ChartPivotSource: return global::RecursiveAI.OneDocument.Schema.Chart.PivotSource.ChildKind(ns, local, out rank);
+            case ViewKind.ChartPlotArea: return global::RecursiveAI.OneDocument.Schema.Chart.PlotArea.ChildKind(ns, local, out rank);
+            case ViewKind.ChartPrintSettings: return global::RecursiveAI.OneDocument.Schema.Chart.PrintSettings.ChildKind(ns, local, out rank);
+            case ViewKind.ChartProtection: return global::RecursiveAI.OneDocument.Schema.Chart.Protection.ChildKind(ns, local, out rank);
+            case ViewKind.ChartRadarChart: return global::RecursiveAI.OneDocument.Schema.Chart.RadarChart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartRadarSeries: return global::RecursiveAI.OneDocument.Schema.Chart.RadarSeries.ChildKind(ns, local, out rank);
+            case ViewKind.ChartScaling: return global::RecursiveAI.OneDocument.Schema.Chart.Scaling.ChildKind(ns, local, out rank);
+            case ViewKind.ChartScatterChart: return global::RecursiveAI.OneDocument.Schema.Chart.ScatterChart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartScatterSeries: return global::RecursiveAI.OneDocument.Schema.Chart.ScatterSeries.ChildKind(ns, local, out rank);
+            case ViewKind.ChartSerTx: return global::RecursiveAI.OneDocument.Schema.Chart.SerTx.ChildKind(ns, local, out rank);
+            case ViewKind.ChartSeriesAxis: return global::RecursiveAI.OneDocument.Schema.Chart.SeriesAxis.ChildKind(ns, local, out rank);
+            case ViewKind.ChartStockChart: return global::RecursiveAI.OneDocument.Schema.Chart.StockChart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartStrData: return global::RecursiveAI.OneDocument.Schema.Chart.StrData.ChildKind(ns, local, out rank);
+            case ViewKind.ChartStrRef: return global::RecursiveAI.OneDocument.Schema.Chart.StrRef.ChildKind(ns, local, out rank);
+            case ViewKind.ChartStrVal: return global::RecursiveAI.OneDocument.Schema.Chart.StrVal.ChildKind(ns, local, out rank);
+            case ViewKind.ChartSurface: return global::RecursiveAI.OneDocument.Schema.Chart.Surface.ChildKind(ns, local, out rank);
+            case ViewKind.ChartSurface3DChart: return global::RecursiveAI.OneDocument.Schema.Chart.Surface3DChart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartSurfaceChart: return global::RecursiveAI.OneDocument.Schema.Chart.SurfaceChart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartSurfaceSeries: return global::RecursiveAI.OneDocument.Schema.Chart.SurfaceSeries.ChildKind(ns, local, out rank);
+            case ViewKind.ChartTitle: return global::RecursiveAI.OneDocument.Schema.Chart.Title.ChildKind(ns, local, out rank);
+            case ViewKind.ChartTrendline: return global::RecursiveAI.OneDocument.Schema.Chart.Trendline.ChildKind(ns, local, out rank);
+            case ViewKind.ChartTrendlineLbl: return global::RecursiveAI.OneDocument.Schema.Chart.TrendlineLbl.ChildKind(ns, local, out rank);
+            case ViewKind.ChartUpDownBar: return global::RecursiveAI.OneDocument.Schema.Chart.UpDownBar.ChildKind(ns, local, out rank);
+            case ViewKind.ChartUpDownBars: return global::RecursiveAI.OneDocument.Schema.Chart.UpDownBars.ChildKind(ns, local, out rank);
+            case ViewKind.ChartValueAxis: return global::RecursiveAI.OneDocument.Schema.Chart.ValueAxis.ChildKind(ns, local, out rank);
+            case ViewKind.ChartView3D: return global::RecursiveAI.OneDocument.Schema.Chart.View3D.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDrawingAbsSizeAnchor: return global::RecursiveAI.OneDocument.Schema.ChartDrawing.AbsSizeAnchor.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDrawingConnector: return global::RecursiveAI.OneDocument.Schema.ChartDrawing.Connector.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDrawingConnectorNonVisual: return global::RecursiveAI.OneDocument.Schema.ChartDrawing.ConnectorNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDrawingDrawing: return global::RecursiveAI.OneDocument.Schema.ChartDrawing.Drawing.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDrawingGraphicFrame: return global::RecursiveAI.OneDocument.Schema.ChartDrawing.GraphicFrame.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDrawingGraphicFrameNonVisual: return global::RecursiveAI.OneDocument.Schema.ChartDrawing.GraphicFrameNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDrawingGroupShape: return global::RecursiveAI.OneDocument.Schema.ChartDrawing.GroupShape.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDrawingGroupShapeNonVisual: return global::RecursiveAI.OneDocument.Schema.ChartDrawing.GroupShapeNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDrawingMarker: return global::RecursiveAI.OneDocument.Schema.ChartDrawing.Marker.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDrawingPicture: return global::RecursiveAI.OneDocument.Schema.ChartDrawing.Picture.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDrawingPictureNonVisual: return global::RecursiveAI.OneDocument.Schema.ChartDrawing.PictureNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDrawingRelSizeAnchor: return global::RecursiveAI.OneDocument.Schema.ChartDrawing.RelSizeAnchor.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDrawingShape: return global::RecursiveAI.OneDocument.Schema.ChartDrawing.Shape.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDrawingShapeNonVisual: return global::RecursiveAI.OneDocument.Schema.ChartDrawing.ShapeNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramAdjLst: return global::RecursiveAI.OneDocument.Schema.Diagram.AdjLst.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramAlgorithm: return global::RecursiveAI.OneDocument.Schema.Diagram.Algorithm.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramCTCategories: return global::RecursiveAI.OneDocument.Schema.Diagram.CTCategories.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramCTStyleLabel: return global::RecursiveAI.OneDocument.Schema.Diagram.CTStyleLabel.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramCategories: return global::RecursiveAI.OneDocument.Schema.Diagram.Categories.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramChoose: return global::RecursiveAI.OneDocument.Schema.Diagram.Choose.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramColorTransform: return global::RecursiveAI.OneDocument.Schema.Diagram.ColorTransform.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramColorTransformHeader: return global::RecursiveAI.OneDocument.Schema.Diagram.ColorTransformHeader.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramColorTransformHeaderLst: return global::RecursiveAI.OneDocument.Schema.Diagram.ColorTransformHeaderLst.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramColors: return global::RecursiveAI.OneDocument.Schema.Diagram.Colors.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramConnection: return global::RecursiveAI.OneDocument.Schema.Diagram.Connection.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramConnectionList: return global::RecursiveAI.OneDocument.Schema.Diagram.ConnectionList.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramConstraint: return global::RecursiveAI.OneDocument.Schema.Diagram.Constraint.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramConstraints: return global::RecursiveAI.OneDocument.Schema.Diagram.Constraints.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramDataModel: return global::RecursiveAI.OneDocument.Schema.Diagram.DataModel.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramDiagramDefinition: return global::RecursiveAI.OneDocument.Schema.Diagram.DiagramDefinition.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramDiagramDefinitionHeader: return global::RecursiveAI.OneDocument.Schema.Diagram.DiagramDefinitionHeader.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramDiagramDefinitionHeaderLst: return global::RecursiveAI.OneDocument.Schema.Diagram.DiagramDefinitionHeaderLst.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramElemPropSet: return global::RecursiveAI.OneDocument.Schema.Diagram.ElemPropSet.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramForEach: return global::RecursiveAI.OneDocument.Schema.Diagram.ForEach.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramLayoutNode: return global::RecursiveAI.OneDocument.Schema.Diagram.LayoutNode.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramLayoutVariablePropertySet: return global::RecursiveAI.OneDocument.Schema.Diagram.LayoutVariablePropertySet.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramNumericRule: return global::RecursiveAI.OneDocument.Schema.Diagram.NumericRule.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramOtherwise: return global::RecursiveAI.OneDocument.Schema.Diagram.Otherwise.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramPoint: return global::RecursiveAI.OneDocument.Schema.Diagram.Point.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramPresentationOf: return global::RecursiveAI.OneDocument.Schema.Diagram.PresentationOf.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramPtList: return global::RecursiveAI.OneDocument.Schema.Diagram.PtList.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramRules: return global::RecursiveAI.OneDocument.Schema.Diagram.Rules.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramSDCategories: return global::RecursiveAI.OneDocument.Schema.Diagram.SDCategories.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramSampleData: return global::RecursiveAI.OneDocument.Schema.Diagram.SampleData.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramShape: return global::RecursiveAI.OneDocument.Schema.Diagram.Shape.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramStyleDefinition: return global::RecursiveAI.OneDocument.Schema.Diagram.StyleDefinition.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramStyleDefinitionHeader: return global::RecursiveAI.OneDocument.Schema.Diagram.StyleDefinitionHeader.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramStyleDefinitionHeaderLst: return global::RecursiveAI.OneDocument.Schema.Diagram.StyleDefinitionHeaderLst.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramStyleLabel: return global::RecursiveAI.OneDocument.Schema.Diagram.StyleLabel.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramTextProps: return global::RecursiveAI.OneDocument.Schema.Diagram.TextProps.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramWhen: return global::RecursiveAI.OneDocument.Schema.Diagram.When.ChildKind(ns, local, out rank);
+            case ViewKind.BibliographyAuthorType: return global::RecursiveAI.OneDocument.Schema.Bibliography.AuthorType.ChildKind(ns, local, out rank);
+            case ViewKind.BibliographyNameListType: return global::RecursiveAI.OneDocument.Schema.Bibliography.NameListType.ChildKind(ns, local, out rank);
+            case ViewKind.BibliographyNameOrCorporateType: return global::RecursiveAI.OneDocument.Schema.Bibliography.NameOrCorporateType.ChildKind(ns, local, out rank);
+            case ViewKind.BibliographyNameType: return global::RecursiveAI.OneDocument.Schema.Bibliography.NameType.ChildKind(ns, local, out rank);
+            case ViewKind.BibliographyPersonType: return global::RecursiveAI.OneDocument.Schema.Bibliography.PersonType.ChildKind(ns, local, out rank);
+            case ViewKind.BibliographySourceType: return global::RecursiveAI.OneDocument.Schema.Bibliography.SourceType.ChildKind(ns, local, out rank);
+            case ViewKind.BibliographySources: return global::RecursiveAI.OneDocument.Schema.Bibliography.Sources.ChildKind(ns, local, out rank);
+            case ViewKind.CustomXmlDataPropertiesDatastoreItem: return global::RecursiveAI.OneDocument.Schema.CustomXmlDataProperties.DatastoreItem.ChildKind(ns, local, out rank);
+            case ViewKind.CustomXmlDataPropertiesDatastoreSchemaRefs: return global::RecursiveAI.OneDocument.Schema.CustomXmlDataProperties.DatastoreSchemaRefs.ChildKind(ns, local, out rank);
+            case ViewKind.SchemaLibrarySchemaLibrary: return global::RecursiveAI.OneDocument.Schema.SchemaLibrary.SchemaLibrary.ChildKind(ns, local, out rank);
+            case ViewKind.AdditionalCharacteristicsAdditionalCharacteristics: return global::RecursiveAI.OneDocument.Schema.AdditionalCharacteristics.AdditionalCharacteristics.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2007InvertSolidFillFmt: return global::RecursiveAI.OneDocument.Schema.Chart2007.InvertSolidFillFmt.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2007PivotOptions: return global::RecursiveAI.OneDocument.Schema.Chart2007.PivotOptions.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012CategoryFilterException: return global::RecursiveAI.OneDocument.Schema.Chart2012.CategoryFilterException.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012CategoryFilterExceptions: return global::RecursiveAI.OneDocument.Schema.Chart2012.CategoryFilterExceptions.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012DataLabelFieldTable: return global::RecursiveAI.OneDocument.Schema.Chart2012.DataLabelFieldTable.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012DataLabelFieldTableEntry: return global::RecursiveAI.OneDocument.Schema.Chart2012.DataLabelFieldTableEntry.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012FilteredAreaSer: return global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredAreaSer.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012FilteredBarSer: return global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredBarSer.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012FilteredBubbleSer: return global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredBubbleSer.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012FilteredCategoryTitle: return global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredCategoryTitle.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012FilteredLineSer: return global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredLineSer.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012FilteredPieSer: return global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredPieSer.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012FilteredRadarSer: return global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredRadarSer.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012FilteredScatterSer: return global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredScatterSer.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012FilteredSeriesTitle: return global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredSeriesTitle.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012FilteredSurfaceSer: return global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredSurfaceSer.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012FormulaRef: return global::RecursiveAI.OneDocument.Schema.Chart2012.FormulaRef.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012FullRef: return global::RecursiveAI.OneDocument.Schema.Chart2012.FullRef.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012LevelRef: return global::RecursiveAI.OneDocument.Schema.Chart2012.LevelRef.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2012SeriesDataLabelsRange: return global::RecursiveAI.OneDocument.Schema.Chart2012.SeriesDataLabelsRange.ChildKind(ns, local, out rank);
+            case ViewKind.ChartStyle2012ChartStyle: return global::RecursiveAI.OneDocument.Schema.ChartStyle2012.ChartStyle.ChildKind(ns, local, out rank);
+            case ViewKind.ChartStyle2012ColorStyle: return global::RecursiveAI.OneDocument.Schema.ChartStyle2012.ColorStyle.ChildKind(ns, local, out rank);
+            case ViewKind.ChartStyle2012ColorStyleVariation: return global::RecursiveAI.OneDocument.Schema.ChartStyle2012.ColorStyleVariation.ChildKind(ns, local, out rank);
+            case ViewKind.ChartStyle2012FontReference: return global::RecursiveAI.OneDocument.Schema.ChartStyle2012.FontReference.ChildKind(ns, local, out rank);
+            case ViewKind.ChartStyle2012StyleColor: return global::RecursiveAI.OneDocument.Schema.ChartStyle2012.StyleColor.ChildKind(ns, local, out rank);
+            case ViewKind.ChartStyle2012StyleEntry: return global::RecursiveAI.OneDocument.Schema.ChartStyle2012.StyleEntry.ChildKind(ns, local, out rank);
+            case ViewKind.ChartStyle2012StyleReference: return global::RecursiveAI.OneDocument.Schema.ChartStyle2012.StyleReference.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2014CategoryFilterException: return global::RecursiveAI.OneDocument.Schema.Chart2014.CategoryFilterException.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2014CategoryFilterExceptions: return global::RecursiveAI.OneDocument.Schema.Chart2014.CategoryFilterExceptions.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2014ChartDataPointUniqueIDMap: return global::RecursiveAI.OneDocument.Schema.Chart2014.ChartDataPointUniqueIDMap.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2014ChartDataPointUniqueIDMapEntry: return global::RecursiveAI.OneDocument.Schema.Chart2014.ChartDataPointUniqueIDMapEntry.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2014MultiLvlStrFilteredLiteralCache: return global::RecursiveAI.OneDocument.Schema.Chart2014.MultiLvlStrFilteredLiteralCache.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2014NumFilteredLiteralCache: return global::RecursiveAI.OneDocument.Schema.Chart2014.NumFilteredLiteralCache.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2014PivotOptions16: return global::RecursiveAI.OneDocument.Schema.Chart2014.PivotOptions16.ChildKind(ns, local, out rank);
+            case ViewKind.Chart2014StrFilteredLiteralCache: return global::RecursiveAI.OneDocument.Schema.Chart2014.StrFilteredLiteralCache.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExAxis: return global::RecursiveAI.OneDocument.Schema.ChartEx.Axis.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExAxisTitle: return global::RecursiveAI.OneDocument.Schema.ChartEx.AxisTitle.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExAxisUnits: return global::RecursiveAI.OneDocument.Schema.ChartEx.AxisUnits.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExAxisUnitsLabel: return global::RecursiveAI.OneDocument.Schema.ChartEx.AxisUnitsLabel.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExBinning: return global::RecursiveAI.OneDocument.Schema.ChartEx.Binning.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExChart: return global::RecursiveAI.OneDocument.Schema.ChartEx.Chart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExChartData: return global::RecursiveAI.OneDocument.Schema.ChartEx.ChartData.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExChartSpace: return global::RecursiveAI.OneDocument.Schema.ChartEx.ChartSpace.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExChartTitle: return global::RecursiveAI.OneDocument.Schema.ChartEx.ChartTitle.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExClear: return global::RecursiveAI.OneDocument.Schema.ChartEx.Clear.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExCopyrights: return global::RecursiveAI.OneDocument.Schema.ChartEx.Copyrights.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExData: return global::RecursiveAI.OneDocument.Schema.ChartEx.Data.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExDataLabel: return global::RecursiveAI.OneDocument.Schema.ChartEx.DataLabel.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExDataLabels: return global::RecursiveAI.OneDocument.Schema.ChartEx.DataLabels.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExDataPoint: return global::RecursiveAI.OneDocument.Schema.ChartEx.DataPoint.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExExtension: return global::RecursiveAI.OneDocument.Schema.ChartEx.Extension.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExExtensionList: return global::RecursiveAI.OneDocument.Schema.ChartEx.ExtensionList.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExFeatureExtension: return global::RecursiveAI.OneDocument.Schema.ChartEx.FeatureExtension.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExFormatOverride: return global::RecursiveAI.OneDocument.Schema.ChartEx.FormatOverride.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExFormatOverrides: return global::RecursiveAI.OneDocument.Schema.ChartEx.FormatOverrides.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoCache: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoCache.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoChildEntities: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoChildEntities.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoChildEntitiesQuery: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoChildEntitiesQuery.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoChildEntitiesQueryResult: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoChildEntitiesQueryResult.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoChildEntitiesQueryResults: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoChildEntitiesQueryResults.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoChildTypes: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoChildTypes.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoData: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoData.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoDataEntityQueryResult: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoDataEntityQueryResult.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoDataEntityQueryResults: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoDataEntityQueryResults.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoDataPointToEntityQueryResult: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoDataPointToEntityQueryResult.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoDataPointToEntityQueryResults: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoDataPointToEntityQueryResults.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoLocation: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoLocation.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoLocationQueryResult: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoLocationQueryResult.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoLocationQueryResults: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoLocationQueryResults.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoLocations: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoLocations.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoParentEntitiesQueryResult: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoParentEntitiesQueryResult.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoParentEntitiesQueryResults: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoParentEntitiesQueryResults.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeoPolygons: return global::RecursiveAI.OneDocument.Schema.ChartEx.GeoPolygons.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGeography: return global::RecursiveAI.OneDocument.Schema.ChartEx.Geography.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExGridlines: return global::RecursiveAI.OneDocument.Schema.ChartEx.Gridlines.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExHeaderFooter: return global::RecursiveAI.OneDocument.Schema.ChartEx.HeaderFooter.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExLegend: return global::RecursiveAI.OneDocument.Schema.ChartEx.Legend.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExNumericDimension: return global::RecursiveAI.OneDocument.Schema.ChartEx.NumericDimension.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExNumericLevel: return global::RecursiveAI.OneDocument.Schema.ChartEx.NumericLevel.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExPlotArea: return global::RecursiveAI.OneDocument.Schema.ChartEx.PlotArea.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExPlotAreaRegion: return global::RecursiveAI.OneDocument.Schema.ChartEx.PlotAreaRegion.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExPlotSurface: return global::RecursiveAI.OneDocument.Schema.ChartEx.PlotSurface.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExPrintSettings: return global::RecursiveAI.OneDocument.Schema.ChartEx.PrintSettings.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExSeries: return global::RecursiveAI.OneDocument.Schema.ChartEx.Series.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExSeriesLayoutProperties: return global::RecursiveAI.OneDocument.Schema.ChartEx.SeriesLayoutProperties.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExStringDimension: return global::RecursiveAI.OneDocument.Schema.ChartEx.StringDimension.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExStringLevel: return global::RecursiveAI.OneDocument.Schema.ChartEx.StringLevel.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExSubtotals: return global::RecursiveAI.OneDocument.Schema.ChartEx.Subtotals.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExText: return global::RecursiveAI.OneDocument.Schema.ChartEx.Text.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExTextData: return global::RecursiveAI.OneDocument.Schema.ChartEx.TextData.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExTickLabels: return global::RecursiveAI.OneDocument.Schema.ChartEx.TickLabels.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExTickMarks: return global::RecursiveAI.OneDocument.Schema.ChartEx.TickMarks.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExValueColorEndPosition: return global::RecursiveAI.OneDocument.Schema.ChartEx.ValueColorEndPosition.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExValueColorMiddlePosition: return global::RecursiveAI.OneDocument.Schema.ChartEx.ValueColorMiddlePosition.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExValueColorPositions: return global::RecursiveAI.OneDocument.Schema.ChartEx.ValueColorPositions.ChildKind(ns, local, out rank);
+            case ViewKind.ChartExValueColors: return global::RecursiveAI.OneDocument.Schema.ChartEx.ValueColors.ChildKind(ns, local, out rank);
+            case ViewKind.Chart201703DataDisplayOptions16: return global::RecursiveAI.OneDocument.Schema.Chart201703.DataDisplayOptions16.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDrawing2010ContentPart: return global::RecursiveAI.OneDocument.Schema.ChartDrawing2010.ContentPart.ChildKind(ns, local, out rank);
+            case ViewKind.ChartDrawing2010ContentPartNonVisual: return global::RecursiveAI.OneDocument.Schema.ChartDrawing2010.ContentPartNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramDrawingDrawing: return global::RecursiveAI.OneDocument.Schema.DiagramDrawing.Drawing.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramDrawingGroupShape: return global::RecursiveAI.OneDocument.Schema.DiagramDrawing.GroupShape.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramDrawingGroupShapeNonVisual: return global::RecursiveAI.OneDocument.Schema.DiagramDrawing.GroupShapeNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramDrawingShape: return global::RecursiveAI.OneDocument.Schema.DiagramDrawing.Shape.ChildKind(ns, local, out rank);
+            case ViewKind.DiagramDrawingShapeNonVisual: return global::RecursiveAI.OneDocument.Schema.DiagramDrawing.ShapeNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.Diagram201611DiagramAutoBullet: return global::RecursiveAI.OneDocument.Schema.Diagram201611.DiagramAutoBullet.ChildKind(ns, local, out rank);
+            case ViewKind.Diagram201611NumberDiagramInfo: return global::RecursiveAI.OneDocument.Schema.Diagram201611.NumberDiagramInfo.ChildKind(ns, local, out rank);
+            case ViewKind.Diagram201611NumberDiagramInfoList: return global::RecursiveAI.OneDocument.Schema.Diagram201611.NumberDiagramInfoList.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCommand2013ChangesData: return global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCommand2013ConnectorChanges: return global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ConnectorChanges.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCommand2013ConnectorMonikerList: return global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ConnectorMonikerList.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCommand2013DrawingElementMonikerList: return global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.DrawingElementMonikerList.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCommand2013GraphicFrameChanges: return global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GraphicFrameChanges.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCommand2013GraphicFrameMonikerList: return global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GraphicFrameMonikerList.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCommand2013GroupShapeChanges: return global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GroupShapeChanges.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCommand2013GroupShapeMonikerList: return global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GroupShapeMonikerList.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCommand2013InkChanges: return global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.InkChanges.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCommand2013InkMonikerList: return global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.InkMonikerList.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCommand2013PictureChanges: return global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.PictureChanges.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCommand2013PictureMonikerList: return global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.PictureMonikerList.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCommand2013ShapeChanges: return global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ShapeChanges.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCommand2013ShapeMonikerList: return global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ShapeMonikerList.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCommand2013TextCharRangeMoniker: return global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.TextCharRangeMoniker.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingCommand2013TextCharRangeMonikerList: return global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.TextCharRangeMonikerList.ChildKind(ns, local, out rank);
+            case ViewKind.Model3DAmbientLight: return global::RecursiveAI.OneDocument.Schema.Model3D.AmbientLight.ChildKind(ns, local, out rank);
+            case ViewKind.Model3DDirectionalLight: return global::RecursiveAI.OneDocument.Schema.Model3D.DirectionalLight.ChildKind(ns, local, out rank);
+            case ViewKind.Model3DModel3D: return global::RecursiveAI.OneDocument.Schema.Model3D.Model3D.ChildKind(ns, local, out rank);
+            case ViewKind.Model3DModel3DCamera: return global::RecursiveAI.OneDocument.Schema.Model3D.Model3DCamera.ChildKind(ns, local, out rank);
+            case ViewKind.Model3DModel3DRaster: return global::RecursiveAI.OneDocument.Schema.Model3D.Model3DRaster.ChildKind(ns, local, out rank);
+            case ViewKind.Model3DModel3DTransform: return global::RecursiveAI.OneDocument.Schema.Model3D.Model3DTransform.ChildKind(ns, local, out rank);
+            case ViewKind.Model3DObjectViewport: return global::RecursiveAI.OneDocument.Schema.Model3D.ObjectViewport.ChildKind(ns, local, out rank);
+            case ViewKind.Model3DOrthographicProjection: return global::RecursiveAI.OneDocument.Schema.Model3D.OrthographicProjection.ChildKind(ns, local, out rank);
+            case ViewKind.Model3DPerspectiveProjection: return global::RecursiveAI.OneDocument.Schema.Model3D.PerspectiveProjection.ChildKind(ns, local, out rank);
+            case ViewKind.Model3DPointLight: return global::RecursiveAI.OneDocument.Schema.Model3D.PointLight.ChildKind(ns, local, out rank);
+            case ViewKind.Model3DScale3D: return global::RecursiveAI.OneDocument.Schema.Model3D.Scale3D.ChildKind(ns, local, out rank);
+            case ViewKind.Model3DSpotLight: return global::RecursiveAI.OneDocument.Schema.Model3D.SpotLight.ChildKind(ns, local, out rank);
+            case ViewKind.Model3DWindowViewport: return global::RecursiveAI.OneDocument.Schema.Model3D.WindowViewport.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingAnimationAnimationProperties: return global::RecursiveAI.OneDocument.Schema.DrawingAnimation.AnimationProperties.ChildKind(ns, local, out rank);
+            case ViewKind.DrawingAnimationModel3DEmbeddedAnimation: return global::RecursiveAI.OneDocument.Schema.DrawingAnimationModel3D.EmbeddedAnimation.ChildKind(ns, local, out rank);
+            case ViewKind.SketchyShapesLineSketchStyleProperties: return global::RecursiveAI.OneDocument.Schema.SketchyShapes.LineSketchStyleProperties.ChildKind(ns, local, out rank);
+            case ViewKind.SketchyShapesLineSketchTypeProperties: return global::RecursiveAI.OneDocument.Schema.SketchyShapes.LineSketchTypeProperties.ChildKind(ns, local, out rank);
+            case ViewKind.LiveFeedBackgroundBlurProperties: return global::RecursiveAI.OneDocument.Schema.LiveFeed.BackgroundBlurProperties.ChildKind(ns, local, out rank);
+            case ViewKind.LiveFeedBackgroundCustomProperties: return global::RecursiveAI.OneDocument.Schema.LiveFeed.BackgroundCustomProperties.ChildKind(ns, local, out rank);
+            case ViewKind.LiveFeedBackgroundNormalProperties: return global::RecursiveAI.OneDocument.Schema.LiveFeed.BackgroundNormalProperties.ChildKind(ns, local, out rank);
+            case ViewKind.LiveFeedBackgroundRemovedProperties: return global::RecursiveAI.OneDocument.Schema.LiveFeed.BackgroundRemovedProperties.ChildKind(ns, local, out rank);
+            case ViewKind.LiveFeedLiveFeedBackgroundProperties: return global::RecursiveAI.OneDocument.Schema.LiveFeed.LiveFeedBackgroundProperties.ChildKind(ns, local, out rank);
+            case ViewKind.LiveFeedLiveFeedProperties: return global::RecursiveAI.OneDocument.Schema.LiveFeed.LiveFeedProperties.ChildKind(ns, local, out rank);
+            case ViewKind.ScriptLinkScriptLink: return global::RecursiveAI.OneDocument.Schema.ScriptLink.ScriptLink.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawing2010ContentPart: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing2010.ContentPart.ChildKind(ns, local, out rank);
+            case ViewKind.SpreadsheetDrawing2010ContentPartNonVisual: return global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing2010.ContentPartNonVisual.ChildKind(ns, local, out rank);
+            case ViewKind.InkActionAction: return global::RecursiveAI.OneDocument.Schema.InkAction.Action.ChildKind(ns, local, out rank);
+            case ViewKind.InkActionActionData: return global::RecursiveAI.OneDocument.Schema.InkAction.ActionData.ChildKind(ns, local, out rank);
+            case ViewKind.InkActionActionDataGroup: return global::RecursiveAI.OneDocument.Schema.InkAction.ActionDataGroup.ChildKind(ns, local, out rank);
+            case ViewKind.InkActionActionGroup: return global::RecursiveAI.OneDocument.Schema.InkAction.ActionGroup.ChildKind(ns, local, out rank);
+            case ViewKind.InkActionActions: return global::RecursiveAI.OneDocument.Schema.InkAction.Actions.ChildKind(ns, local, out rank);
+            case ViewKind.Ink2010CtxNode: return global::RecursiveAI.OneDocument.Schema.Ink2010.CtxNode.ChildKind(ns, local, out rank);
+            case ViewKind.ThemeMl2012ThemeFamily: return global::RecursiveAI.OneDocument.Schema.ThemeMl2012.ThemeFamily.ChildKind(ns, local, out rank);
+            case ViewKind.Slicer2010Slicer: return global::RecursiveAI.OneDocument.Schema.Slicer2010.Slicer.ChildKind(ns, local, out rank);
+            case ViewKind.TimeSlicer2012Timeline: return global::RecursiveAI.OneDocument.Schema.TimeSlicer2012.Timeline.ChildKind(ns, local, out rank);
+            case ViewKind.ExcelMacro2006Worksheet: return global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Worksheet.ChildKind(ns, local, out rank);
+            case ViewKind.ExcelMacro2008DefinedName: return global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedName.ChildKind(ns, local, out rank);
+            case ViewKind.ExcelMacro2008DefinedNameArgumentDescriptions: return global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescriptions.ChildKind(ns, local, out rank);
+            case ViewKind.ExcelMacro2008DefinedNames: return global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNames.ChildKind(ns, local, out rank);
+            case ViewKind.WordMacro2006DocEvents: return global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents.ChildKind(ns, local, out rank);
+            case ViewKind.WordMacro2006Mcds: return global::RecursiveAI.OneDocument.Schema.WordMacro2006.Mcds.ChildKind(ns, local, out rank);
+            case ViewKind.WordMacro2006VbaSuppData: return global::RecursiveAI.OneDocument.Schema.WordMacro2006.VbaSuppData.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009CacheHierarchy: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CacheHierarchy.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009CacheSourceExt: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CacheSourceExt.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009CalculatedMember: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CalculatedMember.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009CfRule: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CfRule.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009Cfvo: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Cfvo.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009ColorScale: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ColorScale.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009ConditionalFormat: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ConditionalFormat.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009ConditionalFormats: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ConditionalFormats.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009ConditionalFormatting: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ConditionalFormatting.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009ConditionalFormattings: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ConditionalFormattings.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009Connection: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Connection.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009CustomFilters: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CustomFilters.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009DataBar: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.DataBar.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009DataValidation: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.DataValidation.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009DataValidationFormula: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.DataValidationFormula.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009DataValidations: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.DataValidations.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009DatastoreItem: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.DatastoreItem.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009FormControlPr: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.FormControlPr.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009IconSet: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.IconSet.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009IgnoredError: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.IgnoredError.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009IgnoredErrors: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.IgnoredErrors.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009ListItems: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ListItems.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009OlapSlicerCache: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCache.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009OlapSlicerCacheItem: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCacheItem.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009OlapSlicerCacheLevelData: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCacheLevelData.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009OlapSlicerCacheLevelsData: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCacheLevelsData.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009OlapSlicerCacheRange: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCacheRange.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009OlapSlicerCacheRanges: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCacheRanges.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009OlapSlicerCacheSelection: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCacheSelection.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009OlapSlicerCacheSelections: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCacheSelections.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009OleItem: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OleItem.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009PivotChange: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotChange.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009PivotChanges: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotChanges.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009PivotEdit: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotEdit.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009PivotEdits: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotEdits.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009PivotTableDefinition: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotTableDefinition.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009PivotUserEdit: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotUserEdit.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009ProtectedRange: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ProtectedRange.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009ProtectedRanges: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ProtectedRanges.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009SetLevels: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SetLevels.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009Slicer: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Slicer.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009SlicerCacheData: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerCacheData.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009SlicerCacheDefinition: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerCacheDefinition.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009SlicerCachePivotTables: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerCachePivotTables.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009SlicerCaches: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerCaches.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009SlicerRefs: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerRefs.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009SlicerStyle: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerStyle.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009SlicerStyleElements: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerStyleElements.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009SlicerStyles: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerStyles.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009Slicers: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Slicers.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009Sparkline: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Sparkline.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009SparklineGroup: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SparklineGroup.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009SparklineGroups: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SparklineGroups.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009Sparklines: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Sparklines.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009TabularSlicerCache: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TabularSlicerCache.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009TabularSlicerCacheItems: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TabularSlicerCacheItems.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009TupleItems: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TupleItems.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009TupleSet: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TupleSet.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009TupleSetHeaders: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TupleSetHeaders.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009TupleSetRow: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TupleSetRow.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2009TupleSetRows: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TupleSetRows.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010CachedUniqueNames: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.CachedUniqueNames.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010CalculatedMemberExt: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.CalculatedMemberExt.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010Connection: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.Connection.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010DataFeedPr: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.DataFeedPr.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010DataModel: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.DataModel.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010DbTables: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.DbTables.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010ModelRelationships: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.ModelRelationships.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010ModelTables: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.ModelTables.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010OledbPr: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.OledbPr.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010PivotRow: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.PivotRow.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010PivotTableData: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.PivotTableData.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010PivotTableReferences: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.PivotTableReferences.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010PivotTableServerFormats: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.PivotTableServerFormats.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010PivotTableUISettings: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.PivotTableUISettings.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010PivotValueCell: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.PivotValueCell.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010SlicerCacheHideNoData: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.SlicerCacheHideNoData.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010Survey: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.Survey.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010SurveyElementPr: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.SurveyElementPr.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010SurveyQuestion: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.SurveyQuestion.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010SurveyQuestions: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.SurveyQuestions.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010TableSlicerCache: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TableSlicerCache.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010Timeline: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.Timeline.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010TimelineCacheDefinition: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineCacheDefinition.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010TimelineCachePivotTables: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineCachePivotTables.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010TimelineCacheRefs: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineCacheRefs.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010TimelinePivotFilter: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelinePivotFilter.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010TimelineRefs: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineRefs.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010TimelineState: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineState.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010TimelineStyle: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineStyle.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010TimelineStyleElements: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineStyleElements.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010TimelineStyles: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineStyles.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010Timelines: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.Timelines.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010WebExtension: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.WebExtension.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2010WebExtensions: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.WebExtensions.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2014ModelTimeGrouping: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2014.ModelTimeGrouping.ChildKind(ns, local, out rank);
+            case ViewKind.Spreadsheet2014ModelTimeGroupings: return global::RecursiveAI.OneDocument.Schema.Spreadsheet2014.ModelTimeGroupings.ChildKind(ns, local, out rank);
+            case ViewKind.DynamicArrayDynamicArrayProperties: return global::RecursiveAI.OneDocument.Schema.DynamicArray.DynamicArrayProperties.ChildKind(ns, local, out rank);
+            case ViewKind.RichDataRichValue: return global::RecursiveAI.OneDocument.Schema.RichData.RichValue.ChildKind(ns, local, out rank);
+            case ViewKind.RichDataRichValueData: return global::RecursiveAI.OneDocument.Schema.RichData.RichValueData.ChildKind(ns, local, out rank);
+            case ViewKind.RichDataRichValueStructure: return global::RecursiveAI.OneDocument.Schema.RichData.RichValueStructure.ChildKind(ns, local, out rank);
+            case ViewKind.RichDataRichValueStructures: return global::RecursiveAI.OneDocument.Schema.RichData.RichValueStructures.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2Array: return global::RecursiveAI.OneDocument.Schema.RichData2.Array.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2ArrayData: return global::RecursiveAI.OneDocument.Schema.RichData2.ArrayData.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2CustomRichFilters: return global::RecursiveAI.OneDocument.Schema.RichData2.CustomRichFilters.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2RichFilterColumn: return global::RecursiveAI.OneDocument.Schema.RichData2.RichFilterColumn.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2RichFilters: return global::RecursiveAI.OneDocument.Schema.RichData2.RichFilters.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2RichFormatProperties: return global::RecursiveAI.OneDocument.Schema.RichData2.RichFormatProperties.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2RichStyle: return global::RecursiveAI.OneDocument.Schema.RichData2.RichStyle.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2RichStyles: return global::RecursiveAI.OneDocument.Schema.RichData2.RichStyles.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2RichStylesheet: return global::RecursiveAI.OneDocument.Schema.RichData2.RichStylesheet.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2RichValueGlobalType: return global::RecursiveAI.OneDocument.Schema.RichData2.RichValueGlobalType.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2RichValueType: return global::RecursiveAI.OneDocument.Schema.RichData2.RichValueType.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2RichValueTypeKeyFlags: return global::RecursiveAI.OneDocument.Schema.RichData2.RichValueTypeKeyFlags.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2RichValueTypeReservedKey: return global::RecursiveAI.OneDocument.Schema.RichData2.RichValueTypeReservedKey.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2RichValueTypes: return global::RecursiveAI.OneDocument.Schema.RichData2.RichValueTypes.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2RichValueTypesInfo: return global::RecursiveAI.OneDocument.Schema.RichData2.RichValueTypesInfo.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2SupportingPropertyBag: return global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBag.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2SupportingPropertyBagArray: return global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBagArray.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2SupportingPropertyBagArrayData: return global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBagArrayData.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2SupportingPropertyBagData: return global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBagData.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2SupportingPropertyBagStructure: return global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBagStructure.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2SupportingPropertyBagStructures: return global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBagStructures.ChildKind(ns, local, out rank);
+            case ViewKind.RichData2SupportingPropertyBags: return global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBags.ChildKind(ns, local, out rank);
+            case ViewKind.CalcFeaturesCalcFeatures: return global::RecursiveAI.OneDocument.Schema.CalcFeatures.CalcFeatures.ChildKind(ns, local, out rank);
+            case ViewKind.ThreadedCommentsPerson: return global::RecursiveAI.OneDocument.Schema.ThreadedComments.Person.ChildKind(ns, local, out rank);
+            case ViewKind.ThreadedCommentsPersonList: return global::RecursiveAI.OneDocument.Schema.ThreadedComments.PersonList.ChildKind(ns, local, out rank);
+            case ViewKind.ThreadedCommentsThreadedComment: return global::RecursiveAI.OneDocument.Schema.ThreadedComments.ThreadedComment.ChildKind(ns, local, out rank);
+            case ViewKind.ThreadedCommentsThreadedCommentMentions: return global::RecursiveAI.OneDocument.Schema.ThreadedComments.ThreadedCommentMentions.ChildKind(ns, local, out rank);
+            case ViewKind.ThreadedCommentsThreadedComments: return global::RecursiveAI.OneDocument.Schema.ThreadedComments.ThreadedComments.ChildKind(ns, local, out rank);
+            case ViewKind.NamedSheetViewsColumnFilter: return global::RecursiveAI.OneDocument.Schema.NamedSheetViews.ColumnFilter.ChildKind(ns, local, out rank);
+            case ViewKind.NamedSheetViewsNamedSheetView: return global::RecursiveAI.OneDocument.Schema.NamedSheetViews.NamedSheetView.ChildKind(ns, local, out rank);
+            case ViewKind.NamedSheetViewsNamedSheetViews: return global::RecursiveAI.OneDocument.Schema.NamedSheetViews.NamedSheetViews.ChildKind(ns, local, out rank);
+            case ViewKind.NamedSheetViewsNsvFilter: return global::RecursiveAI.OneDocument.Schema.NamedSheetViews.NsvFilter.ChildKind(ns, local, out rank);
+            case ViewKind.NamedSheetViewsSortRule: return global::RecursiveAI.OneDocument.Schema.NamedSheetViews.SortRule.ChildKind(ns, local, out rank);
+            case ViewKind.NamedSheetViewsSortRules: return global::RecursiveAI.OneDocument.Schema.NamedSheetViews.SortRules.ChildKind(ns, local, out rank);
+            case ViewKind.RichDataWebImageWebImageSupportingRichData: return global::RecursiveAI.OneDocument.Schema.RichDataWebImage.WebImageSupportingRichData.ChildKind(ns, local, out rank);
+            case ViewKind.RichDataWebImageWebImagesSupportingRichData: return global::RecursiveAI.OneDocument.Schema.RichDataWebImage.WebImagesSupportingRichData.ChildKind(ns, local, out rank);
+            case ViewKind.RichValueRefreshRichValueRefreshIntervals: return global::RecursiveAI.OneDocument.Schema.RichValueRefresh.RichValueRefreshIntervals.ChildKind(ns, local, out rank);
+            case ViewKind.ThreadedComments2CommentHyperlink: return global::RecursiveAI.OneDocument.Schema.ThreadedComments2.CommentHyperlink.ChildKind(ns, local, out rank);
+            case ViewKind.ThreadedComments2ThreadedComments2Ext: return global::RecursiveAI.OneDocument.Schema.ThreadedComments2.ThreadedComments2Ext.ChildKind(ns, local, out rank);
+            case ViewKind.ExternalLinks2021ExternalBookAlternateUrls: return global::RecursiveAI.OneDocument.Schema.ExternalLinks2021.ExternalBookAlternateUrls.ChildKind(ns, local, out rank);
+            case ViewKind.FeaturePropertyBagArrayFeatureProperty: return global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.ArrayFeatureProperty.ChildKind(ns, local, out rank);
+            case ViewKind.FeaturePropertyBagBagExtensions: return global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.BagExtensions.ChildKind(ns, local, out rank);
+            case ViewKind.FeaturePropertyBagDXFComplementExt: return global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.DXFComplementExt.ChildKind(ns, local, out rank);
+            case ViewKind.FeaturePropertyBagFeaturePropertyBag: return global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.FeaturePropertyBag.ChildKind(ns, local, out rank);
+            case ViewKind.FeaturePropertyBagFeaturePropertyBags: return global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.FeaturePropertyBags.ChildKind(ns, local, out rank);
+            case ViewKind.FeaturePropertyBagXfComplementExt: return global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.XfComplementExt.ChildKind(ns, local, out rank);
+            case ViewKind.PivotVersionInfoCacheVersionInfo: return global::RecursiveAI.OneDocument.Schema.PivotVersionInfo.CacheVersionInfo.ChildKind(ns, local, out rank);
+            case ViewKind.PivotVersionInfoPivotVersionInfo: return global::RecursiveAI.OneDocument.Schema.PivotVersionInfo.PivotVersionInfo.ChildKind(ns, local, out rank);
+            case ViewKind.RichValueRelRichValueRels: return global::RecursiveAI.OneDocument.Schema.RichValueRel.RichValueRels.ChildKind(ns, local, out rank);
+            case ViewKind.ExternalCodeServiceExternalCodeServiceExt: return global::RecursiveAI.OneDocument.Schema.ExternalCodeService.ExternalCodeServiceExt.ChildKind(ns, local, out rank);
+            case ViewKind.MsFormsMsForm: return global::RecursiveAI.OneDocument.Schema.MsForms.MsForm.ChildKind(ns, local, out rank);
+            case ViewKind.MsFormsMsFormsExt: return global::RecursiveAI.OneDocument.Schema.MsForms.MsFormsExt.ChildKind(ns, local, out rank);
+            case ViewKind.MsFormsQuestion: return global::RecursiveAI.OneDocument.Schema.MsForms.Question.ChildKind(ns, local, out rank);
+            case ViewKind.MsFormsQuestionExt: return global::RecursiveAI.OneDocument.Schema.MsForms.QuestionExt.ChildKind(ns, local, out rank);
+            case ViewKind.Pivot2023CalculationPivotAreaReferenceSubtotals: return global::RecursiveAI.OneDocument.Schema.Pivot2023Calculation.PivotAreaReferenceSubtotals.ChildKind(ns, local, out rank);
+            case ViewKind.Pivot2023CalculationPivotFieldSubtotals: return global::RecursiveAI.OneDocument.Schema.Pivot2023Calculation.PivotFieldSubtotals.ChildKind(ns, local, out rank);
+            case ViewKind.Pivot2023CalculationPivotTableSubtotalLineItems: return global::RecursiveAI.OneDocument.Schema.Pivot2023Calculation.PivotTableSubtotalLineItems.ChildKind(ns, local, out rank);
+            case ViewKind.PythonPython: return global::RecursiveAI.OneDocument.Schema.Python.Python.ChildKind(ns, local, out rank);
+            case ViewKind.PythonPythonEnvironmentDefinition: return global::RecursiveAI.OneDocument.Schema.Python.PythonEnvironmentDefinition.ChildKind(ns, local, out rank);
+            case ViewKind.PythonPythonInitialization: return global::RecursiveAI.OneDocument.Schema.Python.PythonInitialization.ChildKind(ns, local, out rank);
+            case ViewKind.PythonPythonScript: return global::RecursiveAI.OneDocument.Schema.Python.PythonScript.ChildKind(ns, local, out rank);
+            case ViewKind.PythonPythonScripts: return global::RecursiveAI.OneDocument.Schema.Python.PythonScripts.ChildKind(ns, local, out rank);
+            case ViewKind.ShowDataTypeIconsShowDataTypeIconsCustomSheetViewExt: return global::RecursiveAI.OneDocument.Schema.ShowDataTypeIcons.ShowDataTypeIconsCustomSheetViewExt.ChildKind(ns, local, out rank);
+            case ViewKind.ShowDataTypeIconsShowDataTypeIconsExt: return global::RecursiveAI.OneDocument.Schema.ShowDataTypeIcons.ShowDataTypeIconsExt.ChildKind(ns, local, out rank);
+            case ViewKind.WorkbookCompatibilityVersionWorkbookCompatibilityVersionExt: return global::RecursiveAI.OneDocument.Schema.WorkbookCompatibilityVersion.WorkbookCompatibilityVersionExt.ChildKind(ns, local, out rank);
+            case ViewKind.ExternalCodeService2ExternalCodeServiceImageAsInputExt: return global::RecursiveAI.OneDocument.Schema.ExternalCodeService2.ExternalCodeServiceImageAsInputExt.ChildKind(ns, local, out rank);
+            case ViewKind.PivotDataSourcePivotCacheDataSource: return global::RecursiveAI.OneDocument.Schema.PivotDataSource.PivotCacheDataSource.ChildKind(ns, local, out rank);
             default:
                 rank = -1;
                 return ViewKind.None;
@@ -3622,7 +7172,10 @@ public static class ViewFactory
             case ViewKind.DrawingAudioCDTime: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.AudioCDTime(markup)); break;
             case ViewKind.DrawingAudioFile: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.AudioFile(markup)); break;
             case ViewKind.DrawingBackdrop: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.Backdrop(markup)); break;
+            case ViewKind.DrawingBackgroundFillStyleList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFillStyleList(markup)); break;
             case ViewKind.DrawingBackgroundFormatting: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFormatting(markup)); break;
+            case ViewKind.DrawingBaseStyles: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles(markup)); break;
+            case ViewKind.DrawingBaseStylesOverride: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.BaseStylesOverride(markup)); break;
             case ViewKind.DrawingBevel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.Bevel(markup)); break;
             case ViewKind.DrawingBiLevelEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.BiLevelEffect(markup)); break;
             case ViewKind.DrawingBlendEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.BlendEffect(markup)); break;
@@ -3631,34 +7184,47 @@ public static class ViewFactory
             case ViewKind.DrawingBlurEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.BlurEffect(markup)); break;
             case ViewKind.DrawingBoolean: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.Boolean(markup)); break;
             case ViewKind.DrawingCamera: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.Camera(markup)); break;
+            case ViewKind.DrawingCell3D: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.Cell3D(markup)); break;
+            case ViewKind.DrawingClipboardStyleSheet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.ClipboardStyleSheet(markup)); break;
             case ViewKind.DrawingColor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.Color(markup)); break;
             case ViewKind.DrawingColorChangeEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.ColorChangeEffect(markup)); break;
             case ViewKind.DrawingColorMRU: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.ColorMRU(markup)); break;
             case ViewKind.DrawingColorMapping: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.ColorMapping(markup)); break;
             case ViewKind.DrawingColorMappingOverride: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.ColorMappingOverride(markup)); break;
             case ViewKind.DrawingColorReplaceEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.ColorReplaceEffect(markup)); break;
+            case ViewKind.DrawingColorScheme: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme(markup)); break;
+            case ViewKind.DrawingColorSchemeAndMapping: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeAndMapping(markup)); break;
+            case ViewKind.DrawingColorSchemeList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeList(markup)); break;
             case ViewKind.DrawingComplementTransform: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.ComplementTransform(markup)); break;
             case ViewKind.DrawingConnection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.Connection(markup)); break;
             case ViewKind.DrawingConnectionSite: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.ConnectionSite(markup)); break;
             case ViewKind.DrawingConnectionSiteList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.ConnectionSiteList(markup)); break;
             case ViewKind.DrawingConnectorLocking: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.ConnectorLocking(markup)); break;
             case ViewKind.DrawingContentPartLocking: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.ContentPartLocking(markup)); break;
+            case ViewKind.DrawingCustomColor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.CustomColor(markup)); break;
+            case ViewKind.DrawingCustomColorList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.CustomColorList(markup)); break;
             case ViewKind.DrawingCustomGeometry2D: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.CustomGeometry2D(markup)); break;
             case ViewKind.DrawingDashStop: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.DashStop(markup)); break;
             case ViewKind.DrawingDashStopList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.DashStopList(markup)); break;
+            case ViewKind.DrawingDefaultShapeDefinition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition(markup)); break;
             case ViewKind.DrawingDuotoneEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.DuotoneEffect(markup)); break;
             case ViewKind.DrawingEffectContainer: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.EffectContainer(markup)); break;
             case ViewKind.DrawingEffectList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.EffectList(markup)); break;
             case ViewKind.DrawingEffectProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.EffectProperties(markup)); break;
             case ViewKind.DrawingEffectReference: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.EffectReference(markup)); break;
+            case ViewKind.DrawingEffectStyleItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleItem(markup)); break;
+            case ViewKind.DrawingEffectStyleList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleList(markup)); break;
             case ViewKind.DrawingEmbeddedWAVAudioFile: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.EmbeddedWAVAudioFile(markup)); break;
             case ViewKind.DrawingEmptyElement: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.EmptyElement(markup)); break;
             case ViewKind.DrawingFillEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.FillEffect(markup)); break;
             case ViewKind.DrawingFillOverlayEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.FillOverlayEffect(markup)); break;
             case ViewKind.DrawingFillProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.FillProperties(markup)); break;
+            case ViewKind.DrawingFillStyleList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.FillStyleList(markup)); break;
             case ViewKind.DrawingFixedPercentage: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.FixedPercentage(markup)); break;
             case ViewKind.DrawingFlatText: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.FlatText(markup)); break;
+            case ViewKind.DrawingFontCollection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection(markup)); break;
             case ViewKind.DrawingFontReference: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.FontReference(markup)); break;
+            case ViewKind.DrawingFontScheme: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.FontScheme(markup)); break;
             case ViewKind.DrawingGammaTransform: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GammaTransform(markup)); break;
             case ViewKind.DrawingGeomGuide: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GeomGuide(markup)); break;
             case ViewKind.DrawingGeomGuideList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GeomGuideList(markup)); break;
@@ -3676,7 +7242,20 @@ public static class ViewFactory
             case ViewKind.DrawingGroupLocking: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GroupLocking(markup)); break;
             case ViewKind.DrawingGroupShapeProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GroupShapeProperties(markup)); break;
             case ViewKind.DrawingGroupTransform2D: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GroupTransform2D(markup)); break;
+            case ViewKind.DrawingGvmlConnector: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnector(markup)); break;
+            case ViewKind.DrawingGvmlConnectorNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnectorNonVisual(markup)); break;
+            case ViewKind.DrawingGvmlGraphicFrameNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicFrameNonVisual(markup)); break;
+            case ViewKind.DrawingGvmlGraphicalObjectFrame: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicalObjectFrame(markup)); break;
+            case ViewKind.DrawingGvmlGroupShape: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape(markup)); break;
+            case ViewKind.DrawingGvmlGroupShapeNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShapeNonVisual(markup)); break;
+            case ViewKind.DrawingGvmlPicture: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPicture(markup)); break;
+            case ViewKind.DrawingGvmlPictureNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPictureNonVisual(markup)); break;
+            case ViewKind.DrawingGvmlShape: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShape(markup)); break;
+            case ViewKind.DrawingGvmlShapeNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShapeNonVisual(markup)); break;
+            case ViewKind.DrawingGvmlTextShape: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GvmlTextShape(markup)); break;
+            case ViewKind.DrawingGvmlUseShapeRectangle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.GvmlUseShapeRectangle(markup)); break;
             case ViewKind.DrawingHSLEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.HSLEffect(markup)); break;
+            case ViewKind.DrawingHeaders: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.Headers(markup)); break;
             case ViewKind.DrawingHslColor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.HslColor(markup)); break;
             case ViewKind.DrawingHyperlink: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.Hyperlink(markup)); break;
             case ViewKind.DrawingInnerShadowEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.InnerShadowEffect(markup)); break;
@@ -3688,6 +7267,7 @@ public static class ViewFactory
             case ViewKind.DrawingLineJoinMiterProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.LineJoinMiterProperties(markup)); break;
             case ViewKind.DrawingLineJoinRound: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.LineJoinRound(markup)); break;
             case ViewKind.DrawingLineProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties(markup)); break;
+            case ViewKind.DrawingLineStyleList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.LineStyleList(markup)); break;
             case ViewKind.DrawingLinearShadeProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.LinearShadeProperties(markup)); break;
             case ViewKind.DrawingLuminanceEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.LuminanceEffect(markup)); break;
             case ViewKind.DrawingNoFillProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties(markup)); break;
@@ -3698,8 +7278,10 @@ public static class ViewFactory
             case ViewKind.DrawingNonVisualGraphicFrameProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGraphicFrameProperties(markup)); break;
             case ViewKind.DrawingNonVisualGroupDrawingShapeProps: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGroupDrawingShapeProps(markup)); break;
             case ViewKind.DrawingNonVisualPictureProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualPictureProperties(markup)); break;
+            case ViewKind.DrawingObjectStyleDefaults: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.ObjectStyleDefaults(markup)); break;
             case ViewKind.DrawingOfficeArtExtension: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtension(markup)); break;
             case ViewKind.DrawingOfficeArtExtensionList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList(markup)); break;
+            case ViewKind.DrawingOfficeStyleSheet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.OfficeStyleSheet(markup)); break;
             case ViewKind.DrawingOuterShadowEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.OuterShadowEffect(markup)); break;
             case ViewKind.DrawingPath2D: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.Path2D(markup)); break;
             case ViewKind.DrawingPath2DArcTo: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.Path2DArcTo(markup)); break;
@@ -3744,8 +7326,24 @@ public static class ViewFactory
             case ViewKind.DrawingSolidColorFillProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties(markup)); break;
             case ViewKind.DrawingSphereCoords: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.SphereCoords(markup)); break;
             case ViewKind.DrawingStretchInfoProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.StretchInfoProperties(markup)); break;
+            case ViewKind.DrawingStyleMatrix: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix(markup)); break;
             case ViewKind.DrawingStyleMatrixReference: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference(markup)); break;
+            case ViewKind.DrawingSupplementalFont: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.SupplementalFont(markup)); break;
             case ViewKind.DrawingSystemColor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor(markup)); break;
+            case ViewKind.DrawingTable: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.Table(markup)); break;
+            case ViewKind.DrawingTableBackgroundStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TableBackgroundStyle(markup)); break;
+            case ViewKind.DrawingTableCell: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TableCell(markup)); break;
+            case ViewKind.DrawingTableCellBorderStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle(markup)); break;
+            case ViewKind.DrawingTableCellProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties(markup)); break;
+            case ViewKind.DrawingTableCol: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TableCol(markup)); break;
+            case ViewKind.DrawingTableGrid: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TableGrid(markup)); break;
+            case ViewKind.DrawingTablePartStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle(markup)); break;
+            case ViewKind.DrawingTableProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties(markup)); break;
+            case ViewKind.DrawingTableRow: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TableRow(markup)); break;
+            case ViewKind.DrawingTableStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle(markup)); break;
+            case ViewKind.DrawingTableStyleCellStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleCellStyle(markup)); break;
+            case ViewKind.DrawingTableStyleList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleList(markup)); break;
+            case ViewKind.DrawingTableStyleTextStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle(markup)); break;
             case ViewKind.DrawingTextAutonumberBullet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TextAutonumberBullet(markup)); break;
             case ViewKind.DrawingTextBlipBullet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TextBlipBullet(markup)); break;
             case ViewKind.DrawingTextBody: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TextBody(markup)); break;
@@ -3775,6 +7373,7 @@ public static class ViewFactory
             case ViewKind.DrawingTextUnderlineFillFollowText: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TextUnderlineFillFollowText(markup)); break;
             case ViewKind.DrawingTextUnderlineFillGroupWrapper: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TextUnderlineFillGroupWrapper(markup)); break;
             case ViewKind.DrawingTextUnderlineLineFollowText: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TextUnderlineLineFollowText(markup)); break;
+            case ViewKind.DrawingThemeableLineStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle(markup)); break;
             case ViewKind.DrawingTileInfoProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TileInfoProperties(markup)); break;
             case ViewKind.DrawingTintEffect: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.TintEffect(markup)); break;
             case ViewKind.DrawingTransform2D: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D(markup)); break;
@@ -4112,6 +7711,1107 @@ public static class ViewFactory
             case ViewKind.Presentation202208TaskUnknownRecord: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Presentation202208.TaskUnknownRecord(markup)); break;
             case ViewKind.Presentation202302PlaceholderTypeACB: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Presentation202302.PlaceholderTypeACB(markup)); break;
             case ViewKind.Presentation202302PlaceholderTypeExtension: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Presentation202302.PlaceholderTypeExtension(markup)); break;
+            case ViewKind.SpreadsheetAuthors: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Authors(markup)); break;
+            case ViewKind.SpreadsheetAutoFilter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.AutoFilter(markup)); break;
+            case ViewKind.SpreadsheetAutoSortScope: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.AutoSortScope(markup)); break;
+            case ViewKind.SpreadsheetBookView: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.BookView(markup)); break;
+            case ViewKind.SpreadsheetBookViews: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.BookViews(markup)); break;
+            case ViewKind.SpreadsheetBooleanItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.BooleanItem(markup)); break;
+            case ViewKind.SpreadsheetBooleanProperty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.BooleanProperty(markup)); break;
+            case ViewKind.SpreadsheetBorder: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Border(markup)); break;
+            case ViewKind.SpreadsheetBorderProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.BorderProperties(markup)); break;
+            case ViewKind.SpreadsheetBorders: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Borders(markup)); break;
+            case ViewKind.SpreadsheetBreak: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Break(markup)); break;
+            case ViewKind.SpreadsheetCacheField: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CacheField(markup)); break;
+            case ViewKind.SpreadsheetCacheFields: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CacheFields(markup)); break;
+            case ViewKind.SpreadsheetCacheHierarchies: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CacheHierarchies(markup)); break;
+            case ViewKind.SpreadsheetCacheHierarchy: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CacheHierarchy(markup)); break;
+            case ViewKind.SpreadsheetCacheSource: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CacheSource(markup)); break;
+            case ViewKind.SpreadsheetCalculatedItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CalculatedItem(markup)); break;
+            case ViewKind.SpreadsheetCalculatedItems: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CalculatedItems(markup)); break;
+            case ViewKind.SpreadsheetCalculatedMember: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CalculatedMember(markup)); break;
+            case ViewKind.SpreadsheetCalculatedMembers: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CalculatedMembers(markup)); break;
+            case ViewKind.SpreadsheetCalculationChain: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CalculationChain(markup)); break;
+            case ViewKind.SpreadsheetCalculationChainCell: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CalculationChainCell(markup)); break;
+            case ViewKind.SpreadsheetCalculationProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CalculationProperties(markup)); break;
+            case ViewKind.SpreadsheetCell: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Cell(markup)); break;
+            case ViewKind.SpreadsheetCellAlignment: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellAlignment(markup)); break;
+            case ViewKind.SpreadsheetCellFormat: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellFormat(markup)); break;
+            case ViewKind.SpreadsheetCellFormats: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellFormats(markup)); break;
+            case ViewKind.SpreadsheetCellFormula: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellFormula(markup)); break;
+            case ViewKind.SpreadsheetCellProtection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellProtection(markup)); break;
+            case ViewKind.SpreadsheetCellSmartTag: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellSmartTag(markup)); break;
+            case ViewKind.SpreadsheetCellSmartTagProperty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellSmartTagProperty(markup)); break;
+            case ViewKind.SpreadsheetCellSmartTags: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellSmartTags(markup)); break;
+            case ViewKind.SpreadsheetCellStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellStyle(markup)); break;
+            case ViewKind.SpreadsheetCellStyleFormats: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellStyleFormats(markup)); break;
+            case ViewKind.SpreadsheetCellStyles: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellStyles(markup)); break;
+            case ViewKind.SpreadsheetCellWatch: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellWatch(markup)); break;
+            case ViewKind.SpreadsheetCellWatches: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CellWatches(markup)); break;
+            case ViewKind.SpreadsheetChartFormat: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ChartFormat(markup)); break;
+            case ViewKind.SpreadsheetChartFormats: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ChartFormats(markup)); break;
+            case ViewKind.SpreadsheetChartsheet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Chartsheet(markup)); break;
+            case ViewKind.SpreadsheetChartsheetPageSetup: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ChartsheetPageSetup(markup)); break;
+            case ViewKind.SpreadsheetChartsheetProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ChartsheetProperties(markup)); break;
+            case ViewKind.SpreadsheetChartsheetProtection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ChartsheetProtection(markup)); break;
+            case ViewKind.SpreadsheetChartsheetView: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ChartsheetView(markup)); break;
+            case ViewKind.SpreadsheetChartsheetViews: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ChartsheetViews(markup)); break;
+            case ViewKind.SpreadsheetColFields: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ColFields(markup)); break;
+            case ViewKind.SpreadsheetColHierarchiesUsage: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ColHierarchiesUsage(markup)); break;
+            case ViewKind.SpreadsheetColItems: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ColItems(markup)); break;
+            case ViewKind.SpreadsheetColor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Color(markup)); break;
+            case ViewKind.SpreadsheetColorFilter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ColorFilter(markup)); break;
+            case ViewKind.SpreadsheetColorScale: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ColorScale(markup)); break;
+            case ViewKind.SpreadsheetColors: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Colors(markup)); break;
+            case ViewKind.SpreadsheetColumn: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Column(markup)); break;
+            case ViewKind.SpreadsheetColumns: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Columns(markup)); break;
+            case ViewKind.SpreadsheetComment: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Comment(markup)); break;
+            case ViewKind.SpreadsheetCommentList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CommentList(markup)); break;
+            case ViewKind.SpreadsheetCommentProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CommentProperties(markup)); break;
+            case ViewKind.SpreadsheetComments: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Comments(markup)); break;
+            case ViewKind.SpreadsheetConditionalFormat: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ConditionalFormat(markup)); break;
+            case ViewKind.SpreadsheetConditionalFormatValueObject: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ConditionalFormatValueObject(markup)); break;
+            case ViewKind.SpreadsheetConditionalFormats: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ConditionalFormats(markup)); break;
+            case ViewKind.SpreadsheetConditionalFormatting: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ConditionalFormatting(markup)); break;
+            case ViewKind.SpreadsheetConditionalFormattingRule: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ConditionalFormattingRule(markup)); break;
+            case ViewKind.SpreadsheetConnection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Connection(markup)); break;
+            case ViewKind.SpreadsheetConnections: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Connections(markup)); break;
+            case ViewKind.SpreadsheetConsolidation: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Consolidation(markup)); break;
+            case ViewKind.SpreadsheetControl: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Control(markup)); break;
+            case ViewKind.SpreadsheetControlProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ControlProperties(markup)); break;
+            case ViewKind.SpreadsheetControls: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Controls(markup)); break;
+            case ViewKind.SpreadsheetCustomChartsheetView: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomChartsheetView(markup)); break;
+            case ViewKind.SpreadsheetCustomChartsheetViews: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomChartsheetViews(markup)); break;
+            case ViewKind.SpreadsheetCustomFilter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomFilter(markup)); break;
+            case ViewKind.SpreadsheetCustomFilters: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomFilters(markup)); break;
+            case ViewKind.SpreadsheetCustomProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomProperties(markup)); break;
+            case ViewKind.SpreadsheetCustomProperty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomProperty(markup)); break;
+            case ViewKind.SpreadsheetCustomSheetView: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomSheetView(markup)); break;
+            case ViewKind.SpreadsheetCustomSheetViews: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomSheetViews(markup)); break;
+            case ViewKind.SpreadsheetCustomWorkbookView: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomWorkbookView(markup)); break;
+            case ViewKind.SpreadsheetCustomWorkbookViews: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.CustomWorkbookViews(markup)); break;
+            case ViewKind.SpreadsheetDataBar: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataBar(markup)); break;
+            case ViewKind.SpreadsheetDataBinding: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataBinding(markup)); break;
+            case ViewKind.SpreadsheetDataConsolidate: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataConsolidate(markup)); break;
+            case ViewKind.SpreadsheetDataField: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataField(markup)); break;
+            case ViewKind.SpreadsheetDataFields: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataFields(markup)); break;
+            case ViewKind.SpreadsheetDataRef: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataRef(markup)); break;
+            case ViewKind.SpreadsheetDataRefs: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataRefs(markup)); break;
+            case ViewKind.SpreadsheetDataValidation: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataValidation(markup)); break;
+            case ViewKind.SpreadsheetDataValidations: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DataValidations(markup)); break;
+            case ViewKind.SpreadsheetDatabaseProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DatabaseProperties(markup)); break;
+            case ViewKind.SpreadsheetDateGroupItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DateGroupItem(markup)); break;
+            case ViewKind.SpreadsheetDateTimeItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DateTimeItem(markup)); break;
+            case ViewKind.SpreadsheetDdeItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DdeItem(markup)); break;
+            case ViewKind.SpreadsheetDdeItems: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DdeItems(markup)); break;
+            case ViewKind.SpreadsheetDdeLink: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DdeLink(markup)); break;
+            case ViewKind.SpreadsheetDdeValue: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DdeValue(markup)); break;
+            case ViewKind.SpreadsheetDdeValues: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DdeValues(markup)); break;
+            case ViewKind.SpreadsheetDefinedName: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DefinedName(markup)); break;
+            case ViewKind.SpreadsheetDefinedNames: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DefinedNames(markup)); break;
+            case ViewKind.SpreadsheetDeletedField: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DeletedField(markup)); break;
+            case ViewKind.SpreadsheetDialogsheet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Dialogsheet(markup)); break;
+            case ViewKind.SpreadsheetDifferentialFormat: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DifferentialFormat(markup)); break;
+            case ViewKind.SpreadsheetDifferentialFormats: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DifferentialFormats(markup)); break;
+            case ViewKind.SpreadsheetDiscretePr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DiscretePr(markup)); break;
+            case ViewKind.SpreadsheetDrawing: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Drawing(markup)); break;
+            case ViewKind.SpreadsheetDrawingHeaderFooter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DrawingHeaderFooter(markup)); break;
+            case ViewKind.SpreadsheetDynamicFilter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.DynamicFilter(markup)); break;
+            case ViewKind.SpreadsheetErrorItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ErrorItem(markup)); break;
+            case ViewKind.SpreadsheetExtension: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Extension(markup)); break;
+            case ViewKind.SpreadsheetExtensionList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExtensionList(markup)); break;
+            case ViewKind.SpreadsheetExternalBook: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalBook(markup)); break;
+            case ViewKind.SpreadsheetExternalCell: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalCell(markup)); break;
+            case ViewKind.SpreadsheetExternalDefinedName: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalDefinedName(markup)); break;
+            case ViewKind.SpreadsheetExternalDefinedNames: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalDefinedNames(markup)); break;
+            case ViewKind.SpreadsheetExternalLink: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalLink(markup)); break;
+            case ViewKind.SpreadsheetExternalReference: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalReference(markup)); break;
+            case ViewKind.SpreadsheetExternalReferences: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalReferences(markup)); break;
+            case ViewKind.SpreadsheetExternalRow: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalRow(markup)); break;
+            case ViewKind.SpreadsheetExternalSheetData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalSheetData(markup)); break;
+            case ViewKind.SpreadsheetExternalSheetDataSet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalSheetDataSet(markup)); break;
+            case ViewKind.SpreadsheetExternalSheetName: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalSheetName(markup)); break;
+            case ViewKind.SpreadsheetExternalSheetNames: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ExternalSheetNames(markup)); break;
+            case ViewKind.SpreadsheetField: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Field(markup)); break;
+            case ViewKind.SpreadsheetFieldGroup: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.FieldGroup(markup)); break;
+            case ViewKind.SpreadsheetFieldUsage: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.FieldUsage(markup)); break;
+            case ViewKind.SpreadsheetFieldsUsage: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.FieldsUsage(markup)); break;
+            case ViewKind.SpreadsheetFileRecoveryPr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.FileRecoveryPr(markup)); break;
+            case ViewKind.SpreadsheetFileSharing: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.FileSharing(markup)); break;
+            case ViewKind.SpreadsheetFileVersion: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.FileVersion(markup)); break;
+            case ViewKind.SpreadsheetFill: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Fill(markup)); break;
+            case ViewKind.SpreadsheetFills: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Fills(markup)); break;
+            case ViewKind.SpreadsheetFilter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Filter(markup)); break;
+            case ViewKind.SpreadsheetFilterColumn: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.FilterColumn(markup)); break;
+            case ViewKind.SpreadsheetFilters: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Filters(markup)); break;
+            case ViewKind.SpreadsheetFont: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Font(markup)); break;
+            case ViewKind.SpreadsheetFontFamily: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.FontFamily(markup)); break;
+            case ViewKind.SpreadsheetFontName: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.FontName(markup)); break;
+            case ViewKind.SpreadsheetFontScheme: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.FontScheme(markup)); break;
+            case ViewKind.SpreadsheetFontSize: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.FontSize(markup)); break;
+            case ViewKind.SpreadsheetFonts: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Fonts(markup)); break;
+            case ViewKind.SpreadsheetFormat: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Format(markup)); break;
+            case ViewKind.SpreadsheetFormats: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Formats(markup)); break;
+            case ViewKind.SpreadsheetFunctionGroup: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.FunctionGroup(markup)); break;
+            case ViewKind.SpreadsheetFunctionGroups: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.FunctionGroups(markup)); break;
+            case ViewKind.SpreadsheetFutureMetadata: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.FutureMetadata(markup)); break;
+            case ViewKind.SpreadsheetFutureMetadataBlock: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.FutureMetadataBlock(markup)); break;
+            case ViewKind.SpreadsheetGradientFill: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.GradientFill(markup)); break;
+            case ViewKind.SpreadsheetGradientStop: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.GradientStop(markup)); break;
+            case ViewKind.SpreadsheetGroupItems: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.GroupItems(markup)); break;
+            case ViewKind.SpreadsheetGroupLevel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.GroupLevel(markup)); break;
+            case ViewKind.SpreadsheetGroupLevels: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.GroupLevels(markup)); break;
+            case ViewKind.SpreadsheetGroupMember: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.GroupMember(markup)); break;
+            case ViewKind.SpreadsheetGroupMembers: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.GroupMembers(markup)); break;
+            case ViewKind.SpreadsheetGroups: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Groups(markup)); break;
+            case ViewKind.SpreadsheetHeaderFooter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.HeaderFooter(markup)); break;
+            case ViewKind.SpreadsheetHierarchyUsage: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.HierarchyUsage(markup)); break;
+            case ViewKind.SpreadsheetHyperlink: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Hyperlink(markup)); break;
+            case ViewKind.SpreadsheetHyperlinks: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Hyperlinks(markup)); break;
+            case ViewKind.SpreadsheetIconFilter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.IconFilter(markup)); break;
+            case ViewKind.SpreadsheetIconSet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.IconSet(markup)); break;
+            case ViewKind.SpreadsheetIgnoredError: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.IgnoredError(markup)); break;
+            case ViewKind.SpreadsheetIgnoredErrors: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.IgnoredErrors(markup)); break;
+            case ViewKind.SpreadsheetIndex: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Index(markup)); break;
+            case ViewKind.SpreadsheetIndexReference: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.IndexReference(markup)); break;
+            case ViewKind.SpreadsheetIndexedColors: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.IndexedColors(markup)); break;
+            case ViewKind.SpreadsheetInputCells: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.InputCells(markup)); break;
+            case ViewKind.SpreadsheetIntProperty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.IntProperty(markup)); break;
+            case ViewKind.SpreadsheetItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Item(markup)); break;
+            case ViewKind.SpreadsheetItems: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Items(markup)); break;
+            case ViewKind.SpreadsheetLegacyDrawing: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.LegacyDrawing(markup)); break;
+            case ViewKind.SpreadsheetLevelGroup: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.LevelGroup(markup)); break;
+            case ViewKind.SpreadsheetLocation: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Location(markup)); break;
+            case ViewKind.SpreadsheetMacrosheet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Macrosheet(markup)); break;
+            case ViewKind.SpreadsheetMap: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Map(markup)); break;
+            case ViewKind.SpreadsheetMapInfo: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MapInfo(markup)); break;
+            case ViewKind.SpreadsheetMdx: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Mdx(markup)); break;
+            case ViewKind.SpreadsheetMdxKPI: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MdxKPI(markup)); break;
+            case ViewKind.SpreadsheetMdxMemeberProp: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MdxMemeberProp(markup)); break;
+            case ViewKind.SpreadsheetMdxMetadata: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MdxMetadata(markup)); break;
+            case ViewKind.SpreadsheetMdxSet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MdxSet(markup)); break;
+            case ViewKind.SpreadsheetMdxTuple: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MdxTuple(markup)); break;
+            case ViewKind.SpreadsheetMeasureDimensionMap: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MeasureDimensionMap(markup)); break;
+            case ViewKind.SpreadsheetMeasureDimensionMaps: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MeasureDimensionMaps(markup)); break;
+            case ViewKind.SpreadsheetMeasureGroup: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MeasureGroup(markup)); break;
+            case ViewKind.SpreadsheetMeasureGroups: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MeasureGroups(markup)); break;
+            case ViewKind.SpreadsheetMember: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Member(markup)); break;
+            case ViewKind.SpreadsheetMemberProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MemberProperties(markup)); break;
+            case ViewKind.SpreadsheetMemberProperty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MemberProperty(markup)); break;
+            case ViewKind.SpreadsheetMembers: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Members(markup)); break;
+            case ViewKind.SpreadsheetMergeCell: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MergeCell(markup)); break;
+            case ViewKind.SpreadsheetMergeCells: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MergeCells(markup)); break;
+            case ViewKind.SpreadsheetMetadata: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Metadata(markup)); break;
+            case ViewKind.SpreadsheetMetadataBlock: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MetadataBlock(markup)); break;
+            case ViewKind.SpreadsheetMetadataBlocks: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MetadataBlocks(markup)); break;
+            case ViewKind.SpreadsheetMetadataRecord: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MetadataRecord(markup)); break;
+            case ViewKind.SpreadsheetMetadataStringIndex: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MetadataStringIndex(markup)); break;
+            case ViewKind.SpreadsheetMetadataStrings: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MetadataStrings(markup)); break;
+            case ViewKind.SpreadsheetMetadataType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MetadataType(markup)); break;
+            case ViewKind.SpreadsheetMetadataTypes: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MetadataTypes(markup)); break;
+            case ViewKind.SpreadsheetMissingItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MissingItem(markup)); break;
+            case ViewKind.SpreadsheetMostRecentColors: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.MostRecentColors(markup)); break;
+            case ViewKind.SpreadsheetNumberFormat: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.NumberFormat(markup)); break;
+            case ViewKind.SpreadsheetNumberFormats: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.NumberFormats(markup)); break;
+            case ViewKind.SpreadsheetNumberItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.NumberItem(markup)); break;
+            case ViewKind.SpreadsheetObjectAnchor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ObjectAnchor(markup)); break;
+            case ViewKind.SpreadsheetObjectProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ObjectProperties(markup)); break;
+            case ViewKind.SpreadsheetOlapProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.OlapProperties(markup)); break;
+            case ViewKind.SpreadsheetOleItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.OleItem(markup)); break;
+            case ViewKind.SpreadsheetOleItems: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.OleItems(markup)); break;
+            case ViewKind.SpreadsheetOleLink: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.OleLink(markup)); break;
+            case ViewKind.SpreadsheetOleObject: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.OleObject(markup)); break;
+            case ViewKind.SpreadsheetOleObjects: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.OleObjects(markup)); break;
+            case ViewKind.SpreadsheetOleSize: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.OleSize(markup)); break;
+            case ViewKind.SpreadsheetOutlineProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.OutlineProperties(markup)); break;
+            case ViewKind.SpreadsheetPageBreak: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PageBreak(markup)); break;
+            case ViewKind.SpreadsheetPageField: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PageField(markup)); break;
+            case ViewKind.SpreadsheetPageFields: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PageFields(markup)); break;
+            case ViewKind.SpreadsheetPageItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PageItem(markup)); break;
+            case ViewKind.SpreadsheetPageMargins: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PageMargins(markup)); break;
+            case ViewKind.SpreadsheetPageSetup: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PageSetup(markup)); break;
+            case ViewKind.SpreadsheetPageSetupProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PageSetupProperties(markup)); break;
+            case ViewKind.SpreadsheetPages: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Pages(markup)); break;
+            case ViewKind.SpreadsheetPane: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Pane(markup)); break;
+            case ViewKind.SpreadsheetParameter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Parameter(markup)); break;
+            case ViewKind.SpreadsheetParameters: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Parameters(markup)); break;
+            case ViewKind.SpreadsheetPatternFill: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PatternFill(markup)); break;
+            case ViewKind.SpreadsheetPhoneticProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PhoneticProperties(markup)); break;
+            case ViewKind.SpreadsheetPhoneticRun: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PhoneticRun(markup)); break;
+            case ViewKind.SpreadsheetPivotArea: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotArea(markup)); break;
+            case ViewKind.SpreadsheetPivotAreaReference: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotAreaReference(markup)); break;
+            case ViewKind.SpreadsheetPivotAreaReferences: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotAreaReferences(markup)); break;
+            case ViewKind.SpreadsheetPivotAreas: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotAreas(markup)); break;
+            case ViewKind.SpreadsheetPivotCache: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotCache(markup)); break;
+            case ViewKind.SpreadsheetPivotCacheDefinition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotCacheDefinition(markup)); break;
+            case ViewKind.SpreadsheetPivotCacheKpi: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotCacheKpi(markup)); break;
+            case ViewKind.SpreadsheetPivotCacheKpis: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotCacheKpis(markup)); break;
+            case ViewKind.SpreadsheetPivotCacheRecords: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotCacheRecords(markup)); break;
+            case ViewKind.SpreadsheetPivotCacheServerPage: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotCacheServerPage(markup)); break;
+            case ViewKind.SpreadsheetPivotCacheSharedEntries: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotCacheSharedEntries(markup)); break;
+            case ViewKind.SpreadsheetPivotCaches: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotCaches(markup)); break;
+            case ViewKind.SpreadsheetPivotDimension: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotDimension(markup)); break;
+            case ViewKind.SpreadsheetPivotField: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotField(markup)); break;
+            case ViewKind.SpreadsheetPivotFields: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotFields(markup)); break;
+            case ViewKind.SpreadsheetPivotFilter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotFilter(markup)); break;
+            case ViewKind.SpreadsheetPivotFilters: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotFilters(markup)); break;
+            case ViewKind.SpreadsheetPivotHierarchies: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotHierarchies(markup)); break;
+            case ViewKind.SpreadsheetPivotHierarchy: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotHierarchy(markup)); break;
+            case ViewKind.SpreadsheetPivotSelection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotSelection(markup)); break;
+            case ViewKind.SpreadsheetPivotTableDefinition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotTableDefinition(markup)); break;
+            case ViewKind.SpreadsheetPivotTableStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PivotTableStyle(markup)); break;
+            case ViewKind.SpreadsheetPrintOptions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.PrintOptions(markup)); break;
+            case ViewKind.SpreadsheetProtectedRange: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ProtectedRange(markup)); break;
+            case ViewKind.SpreadsheetProtectedRanges: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ProtectedRanges(markup)); break;
+            case ViewKind.SpreadsheetQuery: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Query(markup)); break;
+            case ViewKind.SpreadsheetQueryCache: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.QueryCache(markup)); break;
+            case ViewKind.SpreadsheetQueryTable: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.QueryTable(markup)); break;
+            case ViewKind.SpreadsheetQueryTableDeletedFields: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.QueryTableDeletedFields(markup)); break;
+            case ViewKind.SpreadsheetQueryTableField: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.QueryTableField(markup)); break;
+            case ViewKind.SpreadsheetQueryTableFields: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.QueryTableFields(markup)); break;
+            case ViewKind.SpreadsheetQueryTableRefresh: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.QueryTableRefresh(markup)); break;
+            case ViewKind.SpreadsheetRangePr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RangePr(markup)); break;
+            case ViewKind.SpreadsheetRangeSet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RangeSet(markup)); break;
+            case ViewKind.SpreadsheetRangeSets: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RangeSets(markup)); break;
+            case ViewKind.SpreadsheetRecord: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Record(markup)); break;
+            case ViewKind.SpreadsheetReviewed: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Reviewed(markup)); break;
+            case ViewKind.SpreadsheetReviewedRevisions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ReviewedRevisions(markup)); break;
+            case ViewKind.SpreadsheetRevisionAutoFormatting: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionAutoFormatting(markup)); break;
+            case ViewKind.SpreadsheetRevisionCellChange: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionCellChange(markup)); break;
+            case ViewKind.SpreadsheetRevisionComment: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionComment(markup)); break;
+            case ViewKind.SpreadsheetRevisionConflict: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionConflict(markup)); break;
+            case ViewKind.SpreadsheetRevisionCustomView: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionCustomView(markup)); break;
+            case ViewKind.SpreadsheetRevisionDefinedName: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionDefinedName(markup)); break;
+            case ViewKind.SpreadsheetRevisionFormatting: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionFormatting(markup)); break;
+            case ViewKind.SpreadsheetRevisionHeader: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionHeader(markup)); break;
+            case ViewKind.SpreadsheetRevisionHeaders: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionHeaders(markup)); break;
+            case ViewKind.SpreadsheetRevisionInsertSheet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionInsertSheet(markup)); break;
+            case ViewKind.SpreadsheetRevisionMove: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionMove(markup)); break;
+            case ViewKind.SpreadsheetRevisionQueryTableField: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionQueryTableField(markup)); break;
+            case ViewKind.SpreadsheetRevisionRowColumn: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionRowColumn(markup)); break;
+            case ViewKind.SpreadsheetRevisionSheetRename: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RevisionSheetRename(markup)); break;
+            case ViewKind.SpreadsheetRevisions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Revisions(markup)); break;
+            case ViewKind.SpreadsheetRgbColor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RgbColor(markup)); break;
+            case ViewKind.SpreadsheetRichString: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RichString(markup)); break;
+            case ViewKind.SpreadsheetRichTextRun: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RichTextRun(markup)); break;
+            case ViewKind.SpreadsheetRow: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Row(markup)); break;
+            case ViewKind.SpreadsheetRowFields: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RowFields(markup)); break;
+            case ViewKind.SpreadsheetRowHierarchiesUsage: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RowHierarchiesUsage(markup)); break;
+            case ViewKind.SpreadsheetRowItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RowItem(markup)); break;
+            case ViewKind.SpreadsheetRowItems: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RowItems(markup)); break;
+            case ViewKind.SpreadsheetRunProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.RunProperties(markup)); break;
+            case ViewKind.SpreadsheetScenario: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Scenario(markup)); break;
+            case ViewKind.SpreadsheetScenarios: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Scenarios(markup)); break;
+            case ViewKind.SpreadsheetSelection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Selection(markup)); break;
+            case ViewKind.SpreadsheetServerFormat: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ServerFormat(markup)); break;
+            case ViewKind.SpreadsheetServerFormats: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.ServerFormats(markup)); break;
+            case ViewKind.SpreadsheetSet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Set(markup)); break;
+            case ViewKind.SpreadsheetSets: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Sets(markup)); break;
+            case ViewKind.SpreadsheetSharedItems: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SharedItems(markup)); break;
+            case ViewKind.SpreadsheetSharedStringTable: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SharedStringTable(markup)); break;
+            case ViewKind.SpreadsheetSharedUser: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SharedUser(markup)); break;
+            case ViewKind.SpreadsheetSheet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Sheet(markup)); break;
+            case ViewKind.SpreadsheetSheetBackgroundPicture: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SheetBackgroundPicture(markup)); break;
+            case ViewKind.SpreadsheetSheetCalcPr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SheetCalcPr(markup)); break;
+            case ViewKind.SpreadsheetSheetData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SheetData(markup)); break;
+            case ViewKind.SpreadsheetSheetDimension: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SheetDimension(markup)); break;
+            case ViewKind.SpreadsheetSheetFormatProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SheetFormatProperties(markup)); break;
+            case ViewKind.SpreadsheetSheetId: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SheetId(markup)); break;
+            case ViewKind.SpreadsheetSheetIdMap: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SheetIdMap(markup)); break;
+            case ViewKind.SpreadsheetSheetProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SheetProperties(markup)); break;
+            case ViewKind.SpreadsheetSheetProtection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SheetProtection(markup)); break;
+            case ViewKind.SpreadsheetSheetView: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SheetView(markup)); break;
+            case ViewKind.SpreadsheetSheetViews: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SheetViews(markup)); break;
+            case ViewKind.SpreadsheetSheets: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Sheets(markup)); break;
+            case ViewKind.SpreadsheetSingleXmlCell: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SingleXmlCell(markup)); break;
+            case ViewKind.SpreadsheetSingleXmlCells: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SingleXmlCells(markup)); break;
+            case ViewKind.SpreadsheetSmartTagProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SmartTagProperties(markup)); break;
+            case ViewKind.SpreadsheetSmartTagType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SmartTagType(markup)); break;
+            case ViewKind.SpreadsheetSmartTagTypes: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SmartTagTypes(markup)); break;
+            case ViewKind.SpreadsheetSmartTags: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SmartTags(markup)); break;
+            case ViewKind.SpreadsheetSortCondition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SortCondition(markup)); break;
+            case ViewKind.SpreadsheetSortState: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.SortState(markup)); break;
+            case ViewKind.SpreadsheetStringItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.StringItem(markup)); break;
+            case ViewKind.SpreadsheetStylesheet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Stylesheet(markup)); break;
+            case ViewKind.SpreadsheetTable: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Table(markup)); break;
+            case ViewKind.SpreadsheetTableColumn: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.TableColumn(markup)); break;
+            case ViewKind.SpreadsheetTableColumns: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.TableColumns(markup)); break;
+            case ViewKind.SpreadsheetTableFormula: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.TableFormula(markup)); break;
+            case ViewKind.SpreadsheetTableMissing: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.TableMissing(markup)); break;
+            case ViewKind.SpreadsheetTablePart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.TablePart(markup)); break;
+            case ViewKind.SpreadsheetTableParts: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.TableParts(markup)); break;
+            case ViewKind.SpreadsheetTableStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.TableStyle(markup)); break;
+            case ViewKind.SpreadsheetTableStyleElement: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.TableStyleElement(markup)); break;
+            case ViewKind.SpreadsheetTableStyleInfo: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.TableStyleInfo(markup)); break;
+            case ViewKind.SpreadsheetTableStyles: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.TableStyles(markup)); break;
+            case ViewKind.SpreadsheetTables: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Tables(markup)); break;
+            case ViewKind.SpreadsheetTextField: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.TextField(markup)); break;
+            case ViewKind.SpreadsheetTextFields: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.TextFields(markup)); break;
+            case ViewKind.SpreadsheetTextQueryProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.TextQueryProperties(markup)); break;
+            case ViewKind.SpreadsheetTop10Filter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Top10Filter(markup)); break;
+            case ViewKind.SpreadsheetTuple: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Tuple(markup)); break;
+            case ViewKind.SpreadsheetTupleCache: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.TupleCache(markup)); break;
+            case ViewKind.SpreadsheetTuples: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Tuples(markup)); break;
+            case ViewKind.SpreadsheetUnderlineProperty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.UnderlineProperty(markup)); break;
+            case ViewKind.SpreadsheetUndoInfo: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.UndoInfo(markup)); break;
+            case ViewKind.SpreadsheetUsers: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Users(markup)); break;
+            case ViewKind.SpreadsheetVerticalAlignFontProperty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.VerticalAlignFontProperty(markup)); break;
+            case ViewKind.SpreadsheetVolatileMain: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.VolatileMain(markup)); break;
+            case ViewKind.SpreadsheetVolatileTopic: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.VolatileTopic(markup)); break;
+            case ViewKind.SpreadsheetVolatileTopicReference: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.VolatileTopicReference(markup)); break;
+            case ViewKind.SpreadsheetVolatileType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.VolatileType(markup)); break;
+            case ViewKind.SpreadsheetVolatileTypes: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.VolatileTypes(markup)); break;
+            case ViewKind.SpreadsheetWebPublishItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.WebPublishItem(markup)); break;
+            case ViewKind.SpreadsheetWebPublishItems: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.WebPublishItems(markup)); break;
+            case ViewKind.SpreadsheetWebPublishObject: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.WebPublishObject(markup)); break;
+            case ViewKind.SpreadsheetWebPublishObjects: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.WebPublishObjects(markup)); break;
+            case ViewKind.SpreadsheetWebPublishing: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.WebPublishing(markup)); break;
+            case ViewKind.SpreadsheetWebQueryProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.WebQueryProperties(markup)); break;
+            case ViewKind.SpreadsheetWorkbook: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Workbook(markup)); break;
+            case ViewKind.SpreadsheetWorkbookProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.WorkbookProperties(markup)); break;
+            case ViewKind.SpreadsheetWorkbookProtection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.WorkbookProtection(markup)); break;
+            case ViewKind.SpreadsheetWorksheet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.Worksheet(markup)); break;
+            case ViewKind.SpreadsheetWorksheetDimensions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.WorksheetDimensions(markup)); break;
+            case ViewKind.SpreadsheetWorksheetSource: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.WorksheetSource(markup)); break;
+            case ViewKind.SpreadsheetXStringElement: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.XStringElement(markup)); break;
+            case ViewKind.SpreadsheetXmlCellPr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.XmlCellPr(markup)); break;
+            case ViewKind.SpreadsheetXmlColumnPr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.XmlColumnPr(markup)); break;
+            case ViewKind.SpreadsheetXmlPr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.XmlPr(markup)); break;
+            case ViewKind.SpreadsheetXmlSchemaReference: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet.XmlSchemaReference(markup)); break;
+            case ViewKind.SpreadsheetDrawingAbsoluteAnchor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.AbsoluteAnchor(markup)); break;
+            case ViewKind.SpreadsheetDrawingAnchorClientData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.AnchorClientData(markup)); break;
+            case ViewKind.SpreadsheetDrawingAnchorMarker: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.AnchorMarker(markup)); break;
+            case ViewKind.SpreadsheetDrawingConnector: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.Connector(markup)); break;
+            case ViewKind.SpreadsheetDrawingConnectorNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.ConnectorNonVisual(markup)); break;
+            case ViewKind.SpreadsheetDrawingGraphicFrame: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.GraphicFrame(markup)); break;
+            case ViewKind.SpreadsheetDrawingGraphicalObjectFrameNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.GraphicalObjectFrameNonVisual(markup)); break;
+            case ViewKind.SpreadsheetDrawingGroupShape: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.GroupShape(markup)); break;
+            case ViewKind.SpreadsheetDrawingGroupShapeNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.GroupShapeNonVisual(markup)); break;
+            case ViewKind.SpreadsheetDrawingOneCellAnchor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.OneCellAnchor(markup)); break;
+            case ViewKind.SpreadsheetDrawingPicture: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.Picture(markup)); break;
+            case ViewKind.SpreadsheetDrawingPictureNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.PictureNonVisual(markup)); break;
+            case ViewKind.SpreadsheetDrawingRel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.Rel(markup)); break;
+            case ViewKind.SpreadsheetDrawingShape: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.Shape(markup)); break;
+            case ViewKind.SpreadsheetDrawingShapeNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.ShapeNonVisual(markup)); break;
+            case ViewKind.SpreadsheetDrawingTwoCellAnchor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.TwoCellAnchor(markup)); break;
+            case ViewKind.SpreadsheetDrawingWorksheetDrawing: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing.WorksheetDrawing(markup)); break;
+            case ViewKind.ChartArea3DChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Area3DChart(markup)); break;
+            case ViewKind.ChartAreaChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.AreaChart(markup)); break;
+            case ViewKind.ChartAreaSeries: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.AreaSeries(markup)); break;
+            case ViewKind.ChartAxDataSource: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.AxDataSource(markup)); break;
+            case ViewKind.ChartAxPos: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.AxPos(markup)); break;
+            case ViewKind.ChartAxisUnit: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.AxisUnit(markup)); break;
+            case ViewKind.ChartBandFmt: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.BandFmt(markup)); break;
+            case ViewKind.ChartBandFmts: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.BandFmts(markup)); break;
+            case ViewKind.ChartBar3DChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Bar3DChart(markup)); break;
+            case ViewKind.ChartBarChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.BarChart(markup)); break;
+            case ViewKind.ChartBarDir: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.BarDir(markup)); break;
+            case ViewKind.ChartBarGrouping: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.BarGrouping(markup)); break;
+            case ViewKind.ChartBarSeries: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.BarSeries(markup)); break;
+            case ViewKind.ChartBoolean: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Boolean(markup)); break;
+            case ViewKind.ChartBubbleChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.BubbleChart(markup)); break;
+            case ViewKind.ChartBubbleScale: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.BubbleScale(markup)); break;
+            case ViewKind.ChartBubbleSeries: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.BubbleSeries(markup)); break;
+            case ViewKind.ChartBuiltInUnit: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.BuiltInUnit(markup)); break;
+            case ViewKind.ChartCategoryAxis: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.CategoryAxis(markup)); break;
+            case ViewKind.ChartChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Chart(markup)); break;
+            case ViewKind.ChartChartLines: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.ChartLines(markup)); break;
+            case ViewKind.ChartChartSpace: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.ChartSpace(markup)); break;
+            case ViewKind.ChartChartText: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.ChartText(markup)); break;
+            case ViewKind.ChartCrossBetween: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.CrossBetween(markup)); break;
+            case ViewKind.ChartCrosses: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Crosses(markup)); break;
+            case ViewKind.ChartCustSplit: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.CustSplit(markup)); break;
+            case ViewKind.ChartDLblPos: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.DLblPos(markup)); break;
+            case ViewKind.ChartDTable: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.DTable(markup)); break;
+            case ViewKind.ChartDataLabel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.DataLabel(markup)); break;
+            case ViewKind.ChartDataLabels: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.DataLabels(markup)); break;
+            case ViewKind.ChartDataPoint: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.DataPoint(markup)); break;
+            case ViewKind.ChartDateAxis: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.DateAxis(markup)); break;
+            case ViewKind.ChartDepthPercent: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.DepthPercent(markup)); break;
+            case ViewKind.ChartDispBlanksAs: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.DispBlanksAs(markup)); break;
+            case ViewKind.ChartDispUnitsLbl: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.DispUnitsLbl(markup)); break;
+            case ViewKind.ChartDisplayUnits: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.DisplayUnits(markup)); break;
+            case ViewKind.ChartDouble: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Double(markup)); break;
+            case ViewKind.ChartDoughnutChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.DoughnutChart(markup)); break;
+            case ViewKind.ChartErrBarType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.ErrBarType(markup)); break;
+            case ViewKind.ChartErrDir: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.ErrDir(markup)); break;
+            case ViewKind.ChartErrValType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.ErrValType(markup)); break;
+            case ViewKind.ChartErrorBars: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.ErrorBars(markup)); break;
+            case ViewKind.ChartExtension: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Extension(markup)); break;
+            case ViewKind.ChartExtensionList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.ExtensionList(markup)); break;
+            case ViewKind.ChartExternalData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.ExternalData(markup)); break;
+            case ViewKind.ChartFirstSliceAng: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.FirstSliceAng(markup)); break;
+            case ViewKind.ChartGapAmount: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.GapAmount(markup)); break;
+            case ViewKind.ChartGrouping: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Grouping(markup)); break;
+            case ViewKind.ChartHPercent: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.HPercent(markup)); break;
+            case ViewKind.ChartHeaderFooter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.HeaderFooter(markup)); break;
+            case ViewKind.ChartHoleSize: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.HoleSize(markup)); break;
+            case ViewKind.ChartLayout: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Layout(markup)); break;
+            case ViewKind.ChartLayoutMode: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.LayoutMode(markup)); break;
+            case ViewKind.ChartLayoutTarget: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.LayoutTarget(markup)); break;
+            case ViewKind.ChartLblAlgn: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.LblAlgn(markup)); break;
+            case ViewKind.ChartLblOffset: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.LblOffset(markup)); break;
+            case ViewKind.ChartLegend: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Legend(markup)); break;
+            case ViewKind.ChartLegendEntry: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.LegendEntry(markup)); break;
+            case ViewKind.ChartLegendPos: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.LegendPos(markup)); break;
+            case ViewKind.ChartLine3DChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Line3DChart(markup)); break;
+            case ViewKind.ChartLineChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.LineChart(markup)); break;
+            case ViewKind.ChartLineSeries: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.LineSeries(markup)); break;
+            case ViewKind.ChartLogBase: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.LogBase(markup)); break;
+            case ViewKind.ChartLvl: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Lvl(markup)); break;
+            case ViewKind.ChartManualLayout: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.ManualLayout(markup)); break;
+            case ViewKind.ChartMarker: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Marker(markup)); break;
+            case ViewKind.ChartMarkerSize: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.MarkerSize(markup)); break;
+            case ViewKind.ChartMarkerStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.MarkerStyle(markup)); break;
+            case ViewKind.ChartMultiLvlStrData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.MultiLvlStrData(markup)); break;
+            case ViewKind.ChartMultiLvlStrRef: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.MultiLvlStrRef(markup)); break;
+            case ViewKind.ChartNumData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.NumData(markup)); break;
+            case ViewKind.ChartNumDataSource: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.NumDataSource(markup)); break;
+            case ViewKind.ChartNumRef: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.NumRef(markup)); break;
+            case ViewKind.ChartNumVal: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.NumVal(markup)); break;
+            case ViewKind.ChartNumberFormat: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.NumberFormat(markup)); break;
+            case ViewKind.ChartOfPieChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.OfPieChart(markup)); break;
+            case ViewKind.ChartOfPieType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.OfPieType(markup)); break;
+            case ViewKind.ChartOrder: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Order(markup)); break;
+            case ViewKind.ChartOrientation: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Orientation(markup)); break;
+            case ViewKind.ChartOverlap: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Overlap(markup)); break;
+            case ViewKind.ChartPageMargins: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.PageMargins(markup)); break;
+            case ViewKind.ChartPageSetup: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.PageSetup(markup)); break;
+            case ViewKind.ChartPeriod: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Period(markup)); break;
+            case ViewKind.ChartPerspective: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Perspective(markup)); break;
+            case ViewKind.ChartPictureFormat: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.PictureFormat(markup)); break;
+            case ViewKind.ChartPictureOptions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.PictureOptions(markup)); break;
+            case ViewKind.ChartPictureStackUnit: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.PictureStackUnit(markup)); break;
+            case ViewKind.ChartPie3DChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Pie3DChart(markup)); break;
+            case ViewKind.ChartPieChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.PieChart(markup)); break;
+            case ViewKind.ChartPieSeries: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.PieSeries(markup)); break;
+            case ViewKind.ChartPivotFormat: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.PivotFormat(markup)); break;
+            case ViewKind.ChartPivotFormats: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.PivotFormats(markup)); break;
+            case ViewKind.ChartPivotSource: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.PivotSource(markup)); break;
+            case ViewKind.ChartPlotArea: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.PlotArea(markup)); break;
+            case ViewKind.ChartPrintSettings: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.PrintSettings(markup)); break;
+            case ViewKind.ChartProtection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Protection(markup)); break;
+            case ViewKind.ChartRadarChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.RadarChart(markup)); break;
+            case ViewKind.ChartRadarSeries: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.RadarSeries(markup)); break;
+            case ViewKind.ChartRadarStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.RadarStyle(markup)); break;
+            case ViewKind.ChartRelId: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.RelId(markup)); break;
+            case ViewKind.ChartRotX: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.RotX(markup)); break;
+            case ViewKind.ChartRotY: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.RotY(markup)); break;
+            case ViewKind.ChartScaling: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Scaling(markup)); break;
+            case ViewKind.ChartScatterChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.ScatterChart(markup)); break;
+            case ViewKind.ChartScatterSeries: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.ScatterSeries(markup)); break;
+            case ViewKind.ChartScatterStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.ScatterStyle(markup)); break;
+            case ViewKind.ChartSecondPieSize: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.SecondPieSize(markup)); break;
+            case ViewKind.ChartSerTx: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.SerTx(markup)); break;
+            case ViewKind.ChartSeriesAxis: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.SeriesAxis(markup)); break;
+            case ViewKind.ChartShape: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Shape(markup)); break;
+            case ViewKind.ChartSizeRepresents: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.SizeRepresents(markup)); break;
+            case ViewKind.ChartSkip: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Skip(markup)); break;
+            case ViewKind.ChartSplitType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.SplitType(markup)); break;
+            case ViewKind.ChartStockChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.StockChart(markup)); break;
+            case ViewKind.ChartStrData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.StrData(markup)); break;
+            case ViewKind.ChartStrRef: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.StrRef(markup)); break;
+            case ViewKind.ChartStrVal: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.StrVal(markup)); break;
+            case ViewKind.ChartStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Style(markup)); break;
+            case ViewKind.ChartSurface: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Surface(markup)); break;
+            case ViewKind.ChartSurface3DChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Surface3DChart(markup)); break;
+            case ViewKind.ChartSurfaceChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.SurfaceChart(markup)); break;
+            case ViewKind.ChartSurfaceSeries: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.SurfaceSeries(markup)); break;
+            case ViewKind.ChartTextLanguageID: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.TextLanguageID(markup)); break;
+            case ViewKind.ChartThickness: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Thickness(markup)); break;
+            case ViewKind.ChartTickLblPos: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.TickLblPos(markup)); break;
+            case ViewKind.ChartTickMark: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.TickMark(markup)); break;
+            case ViewKind.ChartTimeUnit: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.TimeUnit(markup)); break;
+            case ViewKind.ChartTitle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Title(markup)); break;
+            case ViewKind.ChartTrendline: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.Trendline(markup)); break;
+            case ViewKind.ChartTrendlineLbl: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.TrendlineLbl(markup)); break;
+            case ViewKind.ChartTrendlineType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.TrendlineType(markup)); break;
+            case ViewKind.ChartUnsignedInt: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.UnsignedInt(markup)); break;
+            case ViewKind.ChartUpDownBar: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.UpDownBar(markup)); break;
+            case ViewKind.ChartUpDownBars: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.UpDownBars(markup)); break;
+            case ViewKind.ChartValueAxis: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.ValueAxis(markup)); break;
+            case ViewKind.ChartView3D: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart.View3D(markup)); break;
+            case ViewKind.ChartDrawingAbsSizeAnchor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing.AbsSizeAnchor(markup)); break;
+            case ViewKind.ChartDrawingConnector: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing.Connector(markup)); break;
+            case ViewKind.ChartDrawingConnectorNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing.ConnectorNonVisual(markup)); break;
+            case ViewKind.ChartDrawingDrawing: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing.Drawing(markup)); break;
+            case ViewKind.ChartDrawingGraphicFrame: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing.GraphicFrame(markup)); break;
+            case ViewKind.ChartDrawingGraphicFrameNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing.GraphicFrameNonVisual(markup)); break;
+            case ViewKind.ChartDrawingGroupShape: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing.GroupShape(markup)); break;
+            case ViewKind.ChartDrawingGroupShapeNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing.GroupShapeNonVisual(markup)); break;
+            case ViewKind.ChartDrawingMarker: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing.Marker(markup)); break;
+            case ViewKind.ChartDrawingPicture: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing.Picture(markup)); break;
+            case ViewKind.ChartDrawingPictureNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing.PictureNonVisual(markup)); break;
+            case ViewKind.ChartDrawingRelSizeAnchor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing.RelSizeAnchor(markup)); break;
+            case ViewKind.ChartDrawingShape: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing.Shape(markup)); break;
+            case ViewKind.ChartDrawingShapeNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing.ShapeNonVisual(markup)); break;
+            case ViewKind.DiagramAdj: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Adj(markup)); break;
+            case ViewKind.DiagramAdjLst: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.AdjLst(markup)); break;
+            case ViewKind.DiagramAlgorithm: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Algorithm(markup)); break;
+            case ViewKind.DiagramAnimLvl: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.AnimLvl(markup)); break;
+            case ViewKind.DiagramAnimOne: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.AnimOne(markup)); break;
+            case ViewKind.DiagramBulletEnabled: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.BulletEnabled(markup)); break;
+            case ViewKind.DiagramCTCategories: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.CTCategories(markup)); break;
+            case ViewKind.DiagramCTCategory: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.CTCategory(markup)); break;
+            case ViewKind.DiagramCTDescription: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.CTDescription(markup)); break;
+            case ViewKind.DiagramCTName: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.CTName(markup)); break;
+            case ViewKind.DiagramCTStyleLabel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.CTStyleLabel(markup)); break;
+            case ViewKind.DiagramCategories: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Categories(markup)); break;
+            case ViewKind.DiagramCategory: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Category(markup)); break;
+            case ViewKind.DiagramChildMax: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.ChildMax(markup)); break;
+            case ViewKind.DiagramChildPref: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.ChildPref(markup)); break;
+            case ViewKind.DiagramChoose: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Choose(markup)); break;
+            case ViewKind.DiagramColorTransform: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.ColorTransform(markup)); break;
+            case ViewKind.DiagramColorTransformHeader: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.ColorTransformHeader(markup)); break;
+            case ViewKind.DiagramColorTransformHeaderLst: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.ColorTransformHeaderLst(markup)); break;
+            case ViewKind.DiagramColors: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Colors(markup)); break;
+            case ViewKind.DiagramConnection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Connection(markup)); break;
+            case ViewKind.DiagramConnectionList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.ConnectionList(markup)); break;
+            case ViewKind.DiagramConstraint: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Constraint(markup)); break;
+            case ViewKind.DiagramConstraints: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Constraints(markup)); break;
+            case ViewKind.DiagramDataModel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.DataModel(markup)); break;
+            case ViewKind.DiagramDescription: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Description(markup)); break;
+            case ViewKind.DiagramDiagramDefinition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.DiagramDefinition(markup)); break;
+            case ViewKind.DiagramDiagramDefinitionHeader: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.DiagramDefinitionHeader(markup)); break;
+            case ViewKind.DiagramDiagramDefinitionHeaderLst: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.DiagramDefinitionHeaderLst(markup)); break;
+            case ViewKind.DiagramDirection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Direction(markup)); break;
+            case ViewKind.DiagramElemPropSet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.ElemPropSet(markup)); break;
+            case ViewKind.DiagramForEach: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.ForEach(markup)); break;
+            case ViewKind.DiagramHierBranchStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.HierBranchStyle(markup)); break;
+            case ViewKind.DiagramLayoutNode: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.LayoutNode(markup)); break;
+            case ViewKind.DiagramLayoutVariablePropertySet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.LayoutVariablePropertySet(markup)); break;
+            case ViewKind.DiagramName: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Name(markup)); break;
+            case ViewKind.DiagramNumericRule: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.NumericRule(markup)); break;
+            case ViewKind.DiagramOrgChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.OrgChart(markup)); break;
+            case ViewKind.DiagramOtherwise: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Otherwise(markup)); break;
+            case ViewKind.DiagramParameter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Parameter(markup)); break;
+            case ViewKind.DiagramPoint: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Point(markup)); break;
+            case ViewKind.DiagramPresentationOf: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.PresentationOf(markup)); break;
+            case ViewKind.DiagramPtList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.PtList(markup)); break;
+            case ViewKind.DiagramRelIds: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.RelIds(markup)); break;
+            case ViewKind.DiagramResizeHandles: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.ResizeHandles(markup)); break;
+            case ViewKind.DiagramRules: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Rules(markup)); break;
+            case ViewKind.DiagramSDCategories: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.SDCategories(markup)); break;
+            case ViewKind.DiagramSDCategory: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.SDCategory(markup)); break;
+            case ViewKind.DiagramSDDescription: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.SDDescription(markup)); break;
+            case ViewKind.DiagramSDName: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.SDName(markup)); break;
+            case ViewKind.DiagramSampleData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.SampleData(markup)); break;
+            case ViewKind.DiagramShape: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.Shape(markup)); break;
+            case ViewKind.DiagramStyleDefinition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.StyleDefinition(markup)); break;
+            case ViewKind.DiagramStyleDefinitionHeader: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.StyleDefinitionHeader(markup)); break;
+            case ViewKind.DiagramStyleDefinitionHeaderLst: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.StyleDefinitionHeaderLst(markup)); break;
+            case ViewKind.DiagramStyleLabel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.StyleLabel(markup)); break;
+            case ViewKind.DiagramTextProps: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.TextProps(markup)); break;
+            case ViewKind.DiagramWhen: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram.When(markup)); break;
+            case ViewKind.BibliographyAuthorType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Bibliography.AuthorType(markup)); break;
+            case ViewKind.BibliographyNameListType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Bibliography.NameListType(markup)); break;
+            case ViewKind.BibliographyNameOrCorporateType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Bibliography.NameOrCorporateType(markup)); break;
+            case ViewKind.BibliographyNameType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Bibliography.NameType(markup)); break;
+            case ViewKind.BibliographyPersonType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Bibliography.PersonType(markup)); break;
+            case ViewKind.BibliographySourceType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Bibliography.SourceType(markup)); break;
+            case ViewKind.BibliographySources: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Bibliography.Sources(markup)); break;
+            case ViewKind.CustomXmlDataPropertiesDatastoreItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.CustomXmlDataProperties.DatastoreItem(markup)); break;
+            case ViewKind.CustomXmlDataPropertiesDatastoreSchemaRef: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.CustomXmlDataProperties.DatastoreSchemaRef(markup)); break;
+            case ViewKind.CustomXmlDataPropertiesDatastoreSchemaRefs: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.CustomXmlDataProperties.DatastoreSchemaRefs(markup)); break;
+            case ViewKind.SchemaLibrarySchema: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SchemaLibrary.Schema(markup)); break;
+            case ViewKind.SchemaLibrarySchemaLibrary: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SchemaLibrary.SchemaLibrary(markup)); break;
+            case ViewKind.AdditionalCharacteristicsAdditionalCharacteristics: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.AdditionalCharacteristics.AdditionalCharacteristics(markup)); break;
+            case ViewKind.AdditionalCharacteristicsCharacteristic: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.AdditionalCharacteristics.Characteristic(markup)); break;
+            case ViewKind.Chart2007BooleanFalse: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2007.BooleanFalse(markup)); break;
+            case ViewKind.Chart2007BooleanTrue: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2007.BooleanTrue(markup)); break;
+            case ViewKind.Chart2007InvertSolidFillFmt: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2007.InvertSolidFillFmt(markup)); break;
+            case ViewKind.Chart2007PivotOptions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2007.PivotOptions(markup)); break;
+            case ViewKind.Chart2007Style: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2007.Style(markup)); break;
+            case ViewKind.Chart2012CategoryFilterException: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.CategoryFilterException(markup)); break;
+            case ViewKind.Chart2012CategoryFilterExceptions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.CategoryFilterExceptions(markup)); break;
+            case ViewKind.Chart2012DataLabelFieldTable: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.DataLabelFieldTable(markup)); break;
+            case ViewKind.Chart2012DataLabelFieldTableEntry: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.DataLabelFieldTableEntry(markup)); break;
+            case ViewKind.Chart2012FilteredAreaSer: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredAreaSer(markup)); break;
+            case ViewKind.Chart2012FilteredBarSer: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredBarSer(markup)); break;
+            case ViewKind.Chart2012FilteredBubbleSer: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredBubbleSer(markup)); break;
+            case ViewKind.Chart2012FilteredCategoryTitle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredCategoryTitle(markup)); break;
+            case ViewKind.Chart2012FilteredLineSer: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredLineSer(markup)); break;
+            case ViewKind.Chart2012FilteredPieSer: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredPieSer(markup)); break;
+            case ViewKind.Chart2012FilteredRadarSer: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredRadarSer(markup)); break;
+            case ViewKind.Chart2012FilteredScatterSer: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredScatterSer(markup)); break;
+            case ViewKind.Chart2012FilteredSeriesTitle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredSeriesTitle(markup)); break;
+            case ViewKind.Chart2012FilteredSurfaceSer: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.FilteredSurfaceSer(markup)); break;
+            case ViewKind.Chart2012FormulaRef: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.FormulaRef(markup)); break;
+            case ViewKind.Chart2012FullRef: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.FullRef(markup)); break;
+            case ViewKind.Chart2012LevelRef: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.LevelRef(markup)); break;
+            case ViewKind.Chart2012SeriesDataLabelsRange: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2012.SeriesDataLabelsRange(markup)); break;
+            case ViewKind.ChartStyle2012ChartStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartStyle2012.ChartStyle(markup)); break;
+            case ViewKind.ChartStyle2012ColorStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartStyle2012.ColorStyle(markup)); break;
+            case ViewKind.ChartStyle2012ColorStyleVariation: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartStyle2012.ColorStyleVariation(markup)); break;
+            case ViewKind.ChartStyle2012FontReference: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartStyle2012.FontReference(markup)); break;
+            case ViewKind.ChartStyle2012MarkerLayout: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartStyle2012.MarkerLayout(markup)); break;
+            case ViewKind.ChartStyle2012StyleColor: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartStyle2012.StyleColor(markup)); break;
+            case ViewKind.ChartStyle2012StyleEntry: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartStyle2012.StyleEntry(markup)); break;
+            case ViewKind.ChartStyle2012StyleReference: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartStyle2012.StyleReference(markup)); break;
+            case ViewKind.Chart2014BooleanFalse: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2014.BooleanFalse(markup)); break;
+            case ViewKind.Chart2014CategoryFilterException: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2014.CategoryFilterException(markup)); break;
+            case ViewKind.Chart2014CategoryFilterExceptions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2014.CategoryFilterExceptions(markup)); break;
+            case ViewKind.Chart2014ChartDataPointUniqueIDMap: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2014.ChartDataPointUniqueIDMap(markup)); break;
+            case ViewKind.Chart2014ChartDataPointUniqueIDMapEntry: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2014.ChartDataPointUniqueIDMapEntry(markup)); break;
+            case ViewKind.Chart2014ChartUniqueID: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2014.ChartUniqueID(markup)); break;
+            case ViewKind.Chart2014LiteralDataChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2014.LiteralDataChart(markup)); break;
+            case ViewKind.Chart2014MultiLvlStrFilteredLiteralCache: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2014.MultiLvlStrFilteredLiteralCache(markup)); break;
+            case ViewKind.Chart2014NumFilteredLiteralCache: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2014.NumFilteredLiteralCache(markup)); break;
+            case ViewKind.Chart2014PivotOptions16: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2014.PivotOptions16(markup)); break;
+            case ViewKind.Chart2014StrFilteredLiteralCache: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart2014.StrFilteredLiteralCache(markup)); break;
+            case ViewKind.ChartExAddress: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Address(markup)); break;
+            case ViewKind.ChartExAggregation: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Aggregation(markup)); break;
+            case ViewKind.ChartExAxis: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Axis(markup)); break;
+            case ViewKind.ChartExAxisTitle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.AxisTitle(markup)); break;
+            case ViewKind.ChartExAxisUnits: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.AxisUnits(markup)); break;
+            case ViewKind.ChartExAxisUnitsLabel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.AxisUnitsLabel(markup)); break;
+            case ViewKind.ChartExBinning: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Binning(markup)); break;
+            case ViewKind.ChartExCategoryAxisScaling: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.CategoryAxisScaling(markup)); break;
+            case ViewKind.ChartExChart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Chart(markup)); break;
+            case ViewKind.ChartExChartData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.ChartData(markup)); break;
+            case ViewKind.ChartExChartSpace: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.ChartSpace(markup)); break;
+            case ViewKind.ChartExChartTitle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.ChartTitle(markup)); break;
+            case ViewKind.ChartExClear: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Clear(markup)); break;
+            case ViewKind.ChartExCopyrights: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Copyrights(markup)); break;
+            case ViewKind.ChartExData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Data(markup)); break;
+            case ViewKind.ChartExDataId: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.DataId(markup)); break;
+            case ViewKind.ChartExDataLabel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.DataLabel(markup)); break;
+            case ViewKind.ChartExDataLabelHidden: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.DataLabelHidden(markup)); break;
+            case ViewKind.ChartExDataLabelVisibilities: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.DataLabelVisibilities(markup)); break;
+            case ViewKind.ChartExDataLabels: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.DataLabels(markup)); break;
+            case ViewKind.ChartExDataPoint: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.DataPoint(markup)); break;
+            case ViewKind.ChartExExtension: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Extension(markup)); break;
+            case ViewKind.ChartExExtensionList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.ExtensionList(markup)); break;
+            case ViewKind.ChartExExternalData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.ExternalData(markup)); break;
+            case ViewKind.ChartExExtremeValueColorPosition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.ExtremeValueColorPosition(markup)); break;
+            case ViewKind.ChartExFeatureExtension: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.FeatureExtension(markup)); break;
+            case ViewKind.ChartExFormatOverride: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.FormatOverride(markup)); break;
+            case ViewKind.ChartExFormatOverrides: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.FormatOverrides(markup)); break;
+            case ViewKind.ChartExFormula: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Formula(markup)); break;
+            case ViewKind.ChartExGeoCache: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoCache(markup)); break;
+            case ViewKind.ChartExGeoChildEntities: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoChildEntities(markup)); break;
+            case ViewKind.ChartExGeoChildEntitiesQuery: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoChildEntitiesQuery(markup)); break;
+            case ViewKind.ChartExGeoChildEntitiesQueryResult: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoChildEntitiesQueryResult(markup)); break;
+            case ViewKind.ChartExGeoChildEntitiesQueryResults: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoChildEntitiesQueryResults(markup)); break;
+            case ViewKind.ChartExGeoChildTypes: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoChildTypes(markup)); break;
+            case ViewKind.ChartExGeoData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoData(markup)); break;
+            case ViewKind.ChartExGeoDataEntityQuery: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoDataEntityQuery(markup)); break;
+            case ViewKind.ChartExGeoDataEntityQueryResult: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoDataEntityQueryResult(markup)); break;
+            case ViewKind.ChartExGeoDataEntityQueryResults: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoDataEntityQueryResults(markup)); break;
+            case ViewKind.ChartExGeoDataPointQuery: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoDataPointQuery(markup)); break;
+            case ViewKind.ChartExGeoDataPointToEntityQuery: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoDataPointToEntityQuery(markup)); break;
+            case ViewKind.ChartExGeoDataPointToEntityQueryResult: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoDataPointToEntityQueryResult(markup)); break;
+            case ViewKind.ChartExGeoDataPointToEntityQueryResults: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoDataPointToEntityQueryResults(markup)); break;
+            case ViewKind.ChartExGeoEntity: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoEntity(markup)); break;
+            case ViewKind.ChartExGeoHierarchyEntity: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoHierarchyEntity(markup)); break;
+            case ViewKind.ChartExGeoLocation: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoLocation(markup)); break;
+            case ViewKind.ChartExGeoLocationQuery: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoLocationQuery(markup)); break;
+            case ViewKind.ChartExGeoLocationQueryResult: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoLocationQueryResult(markup)); break;
+            case ViewKind.ChartExGeoLocationQueryResults: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoLocationQueryResults(markup)); break;
+            case ViewKind.ChartExGeoLocations: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoLocations(markup)); break;
+            case ViewKind.ChartExGeoParentEntitiesQuery: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoParentEntitiesQuery(markup)); break;
+            case ViewKind.ChartExGeoParentEntitiesQueryResult: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoParentEntitiesQueryResult(markup)); break;
+            case ViewKind.ChartExGeoParentEntitiesQueryResults: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoParentEntitiesQueryResults(markup)); break;
+            case ViewKind.ChartExGeoParentEntity: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoParentEntity(markup)); break;
+            case ViewKind.ChartExGeoPolygon: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoPolygon(markup)); break;
+            case ViewKind.ChartExGeoPolygons: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.GeoPolygons(markup)); break;
+            case ViewKind.ChartExGeography: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Geography(markup)); break;
+            case ViewKind.ChartExGridlines: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Gridlines(markup)); break;
+            case ViewKind.ChartExHeaderFooter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.HeaderFooter(markup)); break;
+            case ViewKind.ChartExLegend: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Legend(markup)); break;
+            case ViewKind.ChartExNumberColorPosition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.NumberColorPosition(markup)); break;
+            case ViewKind.ChartExNumberFormat: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.NumberFormat(markup)); break;
+            case ViewKind.ChartExNumericDimension: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.NumericDimension(markup)); break;
+            case ViewKind.ChartExNumericLevel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.NumericLevel(markup)); break;
+            case ViewKind.ChartExNumericValue: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.NumericValue(markup)); break;
+            case ViewKind.ChartExOffset: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Offset(markup)); break;
+            case ViewKind.ChartExPageMargins: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.PageMargins(markup)); break;
+            case ViewKind.ChartExPageSetup: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.PageSetup(markup)); break;
+            case ViewKind.ChartExParentLabelLayout: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.ParentLabelLayout(markup)); break;
+            case ViewKind.ChartExPercentageColorPosition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.PercentageColorPosition(markup)); break;
+            case ViewKind.ChartExPlotArea: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.PlotArea(markup)); break;
+            case ViewKind.ChartExPlotAreaRegion: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.PlotAreaRegion(markup)); break;
+            case ViewKind.ChartExPlotSurface: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.PlotSurface(markup)); break;
+            case ViewKind.ChartExPrintSettings: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.PrintSettings(markup)); break;
+            case ViewKind.ChartExRegionLabelLayout: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.RegionLabelLayout(markup)); break;
+            case ViewKind.ChartExRelId: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.RelId(markup)); break;
+            case ViewKind.ChartExSeries: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Series(markup)); break;
+            case ViewKind.ChartExSeriesElementVisibilities: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.SeriesElementVisibilities(markup)); break;
+            case ViewKind.ChartExSeriesLayoutProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.SeriesLayoutProperties(markup)); break;
+            case ViewKind.ChartExStatistics: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Statistics(markup)); break;
+            case ViewKind.ChartExStringDimension: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.StringDimension(markup)); break;
+            case ViewKind.ChartExStringLevel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.StringLevel(markup)); break;
+            case ViewKind.ChartExStringValue: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.StringValue(markup)); break;
+            case ViewKind.ChartExSubtotalIndex: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.SubtotalIndex(markup)); break;
+            case ViewKind.ChartExSubtotals: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Subtotals(markup)); break;
+            case ViewKind.ChartExText: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.Text(markup)); break;
+            case ViewKind.ChartExTextData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.TextData(markup)); break;
+            case ViewKind.ChartExTickLabels: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.TickLabels(markup)); break;
+            case ViewKind.ChartExTickMarks: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.TickMarks(markup)); break;
+            case ViewKind.ChartExValueAxisScaling: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.ValueAxisScaling(markup)); break;
+            case ViewKind.ChartExValueColorEndPosition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.ValueColorEndPosition(markup)); break;
+            case ViewKind.ChartExValueColorMiddlePosition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.ValueColorMiddlePosition(markup)); break;
+            case ViewKind.ChartExValueColorPositions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.ValueColorPositions(markup)); break;
+            case ViewKind.ChartExValueColors: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartEx.ValueColors(markup)); break;
+            case ViewKind.Chart201703BooleanFalse: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart201703.BooleanFalse(markup)); break;
+            case ViewKind.Chart201703DataDisplayOptions16: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Chart201703.DataDisplayOptions16(markup)); break;
+            case ViewKind.ChartDrawing2010ApplicationNonVisualDrawingProps: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing2010.ApplicationNonVisualDrawingProps(markup)); break;
+            case ViewKind.ChartDrawing2010ContentPart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing2010.ContentPart(markup)); break;
+            case ViewKind.ChartDrawing2010ContentPartNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ChartDrawing2010.ContentPartNonVisual(markup)); break;
+            case ViewKind.DiagramDrawingDataModelExtBlock: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DiagramDrawing.DataModelExtBlock(markup)); break;
+            case ViewKind.DiagramDrawingDrawing: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DiagramDrawing.Drawing(markup)); break;
+            case ViewKind.DiagramDrawingGroupShape: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DiagramDrawing.GroupShape(markup)); break;
+            case ViewKind.DiagramDrawingGroupShapeNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DiagramDrawing.GroupShapeNonVisual(markup)); break;
+            case ViewKind.DiagramDrawingShape: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DiagramDrawing.Shape(markup)); break;
+            case ViewKind.DiagramDrawingShapeNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DiagramDrawing.ShapeNonVisual(markup)); break;
+            case ViewKind.Diagram2010Boolean: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram2010.Boolean(markup)); break;
+            case ViewKind.Diagram201611DiagramAutoBullet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram201611.DiagramAutoBullet(markup)); break;
+            case ViewKind.Diagram201611NumberDiagramInfo: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram201611.NumberDiagramInfo(markup)); break;
+            case ViewKind.Diagram201611NumberDiagramInfoList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Diagram201611.NumberDiagramInfoList(markup)); break;
+            case ViewKind.DrawingCommand2013ChangesData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ChangesData(markup)); break;
+            case ViewKind.DrawingCommand2013ConnectorChanges: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ConnectorChanges(markup)); break;
+            case ViewKind.DrawingCommand2013ConnectorMoniker: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ConnectorMoniker(markup)); break;
+            case ViewKind.DrawingCommand2013ConnectorMonikerList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ConnectorMonikerList(markup)); break;
+            case ViewKind.DrawingCommand2013DrawingElementMonikerList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.DrawingElementMonikerList(markup)); break;
+            case ViewKind.DrawingCommand2013GraphicFrameChanges: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GraphicFrameChanges(markup)); break;
+            case ViewKind.DrawingCommand2013GraphicFrameMoniker: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GraphicFrameMoniker(markup)); break;
+            case ViewKind.DrawingCommand2013GraphicFrameMonikerList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GraphicFrameMonikerList(markup)); break;
+            case ViewKind.DrawingCommand2013GroupShapeChanges: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GroupShapeChanges(markup)); break;
+            case ViewKind.DrawingCommand2013GroupShapeMoniker: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GroupShapeMoniker(markup)); break;
+            case ViewKind.DrawingCommand2013GroupShapeMonikerList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.GroupShapeMonikerList(markup)); break;
+            case ViewKind.DrawingCommand2013InkChanges: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.InkChanges(markup)); break;
+            case ViewKind.DrawingCommand2013InkMoniker: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.InkMoniker(markup)); break;
+            case ViewKind.DrawingCommand2013InkMonikerList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.InkMonikerList(markup)); break;
+            case ViewKind.DrawingCommand2013PictureChanges: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.PictureChanges(markup)); break;
+            case ViewKind.DrawingCommand2013PictureMoniker: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.PictureMoniker(markup)); break;
+            case ViewKind.DrawingCommand2013PictureMonikerList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.PictureMonikerList(markup)); break;
+            case ViewKind.DrawingCommand2013ShapeChanges: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ShapeChanges(markup)); break;
+            case ViewKind.DrawingCommand2013ShapeMoniker: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ShapeMoniker(markup)); break;
+            case ViewKind.DrawingCommand2013ShapeMonikerList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.ShapeMonikerList(markup)); break;
+            case ViewKind.DrawingCommand2013TextCharRangeContext: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.TextCharRangeContext(markup)); break;
+            case ViewKind.DrawingCommand2013TextCharRangeMoniker: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.TextCharRangeMoniker(markup)); break;
+            case ViewKind.DrawingCommand2013TextCharRangeMonikerList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingCommand2013.TextCharRangeMonikerList(markup)); break;
+            case ViewKind.Drawing201611PictureAttributionSourceURL: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Drawing201611.PictureAttributionSourceURL(markup)); break;
+            case ViewKind.Model3DAmbientLight: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Model3D.AmbientLight(markup)); break;
+            case ViewKind.Model3DDirectionalLight: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Model3D.DirectionalLight(markup)); break;
+            case ViewKind.Model3DModel3D: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Model3D.Model3D(markup)); break;
+            case ViewKind.Model3DModel3DCamera: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Model3D.Model3DCamera(markup)); break;
+            case ViewKind.Model3DModel3DRaster: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Model3D.Model3DRaster(markup)); break;
+            case ViewKind.Model3DModel3DTransform: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Model3D.Model3DTransform(markup)); break;
+            case ViewKind.Model3DObjectViewport: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Model3D.ObjectViewport(markup)); break;
+            case ViewKind.Model3DOrthographicProjection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Model3D.OrthographicProjection(markup)); break;
+            case ViewKind.Model3DPerspectiveProjection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Model3D.PerspectiveProjection(markup)); break;
+            case ViewKind.Model3DPointLight: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Model3D.PointLight(markup)); break;
+            case ViewKind.Model3DPositiveRatio: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Model3D.PositiveRatio(markup)); break;
+            case ViewKind.Model3DRotate3D: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Model3D.Rotate3D(markup)); break;
+            case ViewKind.Model3DScale3D: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Model3D.Scale3D(markup)); break;
+            case ViewKind.Model3DSpotLight: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Model3D.SpotLight(markup)); break;
+            case ViewKind.Model3DUnknownLight: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Model3D.UnknownLight(markup)); break;
+            case ViewKind.Model3DWindowViewport: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Model3D.WindowViewport(markup)); break;
+            case ViewKind.DrawingAnimationAnimationProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingAnimation.AnimationProperties(markup)); break;
+            case ViewKind.DrawingAnimationModel3DEmbeddedAnimation: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingAnimationModel3D.EmbeddedAnimation(markup)); break;
+            case ViewKind.DrawingAnimationModel3DPosterFrame: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DrawingAnimationModel3D.PosterFrame(markup)); break;
+            case ViewKind.SketchyShapesEmpty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SketchyShapes.Empty(markup)); break;
+            case ViewKind.SketchyShapesLineSketchStyleProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SketchyShapes.LineSketchStyleProperties(markup)); break;
+            case ViewKind.SketchyShapesLineSketchTypeProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SketchyShapes.LineSketchTypeProperties(markup)); break;
+            case ViewKind.LiveFeedBackgroundBlurProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.LiveFeed.BackgroundBlurProperties(markup)); break;
+            case ViewKind.LiveFeedBackgroundCustomProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.LiveFeed.BackgroundCustomProperties(markup)); break;
+            case ViewKind.LiveFeedBackgroundNormalProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.LiveFeed.BackgroundNormalProperties(markup)); break;
+            case ViewKind.LiveFeedBackgroundRemovedProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.LiveFeed.BackgroundRemovedProperties(markup)); break;
+            case ViewKind.LiveFeedLiveFeedBackgroundProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.LiveFeed.LiveFeedBackgroundProperties(markup)); break;
+            case ViewKind.LiveFeedLiveFeedProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.LiveFeed.LiveFeedProperties(markup)); break;
+            case ViewKind.ScriptLinkScriptLink: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ScriptLink.ScriptLink(markup)); break;
+            case ViewKind.ImageFormulaImageFormula: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ImageFormula.ImageFormula(markup)); break;
+            case ViewKind.SpreadsheetDrawing2010ApplicationNonVisualDrawingProps: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing2010.ApplicationNonVisualDrawingProps(markup)); break;
+            case ViewKind.SpreadsheetDrawing2010ContentPart: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing2010.ContentPart(markup)); break;
+            case ViewKind.SpreadsheetDrawing2010ContentPartNonVisual: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetDrawing2010.ContentPartNonVisual(markup)); break;
+            case ViewKind.InkActionAction: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.InkAction.Action(markup)); break;
+            case ViewKind.InkActionActionData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.InkAction.ActionData(markup)); break;
+            case ViewKind.InkActionActionDataGroup: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.InkAction.ActionDataGroup(markup)); break;
+            case ViewKind.InkActionActionGroup: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.InkAction.ActionGroup(markup)); break;
+            case ViewKind.InkActionActionProperty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.InkAction.ActionProperty(markup)); break;
+            case ViewKind.InkActionActions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.InkAction.Actions(markup)); break;
+            case ViewKind.Ink2010CtxLink: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Ink2010.CtxLink(markup)); break;
+            case ViewKind.Ink2010CtxNode: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Ink2010.CtxNode(markup)); break;
+            case ViewKind.Ink2010Property: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Ink2010.Property(markup)); break;
+            case ViewKind.ThemeMl2012ThemeFamily: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ThemeMl2012.ThemeFamily(markup)); break;
+            case ViewKind.Slicer2010Slicer: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Slicer2010.Slicer(markup)); break;
+            case ViewKind.TimeSlicer2012Timeline: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.TimeSlicer2012.Timeline(markup)); break;
+            case ViewKind.ExcelMacro2006Ref: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Ref(markup)); break;
+            case ViewKind.ExcelMacro2006Sqref: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Sqref(markup)); break;
+            case ViewKind.ExcelMacro2006Worksheet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExcelMacro2006.Worksheet(markup)); break;
+            case ViewKind.ExcelMacro2008DefinedName: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedName(markup)); break;
+            case ViewKind.ExcelMacro2008DefinedNameArgumentDescription: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescription(markup)); break;
+            case ViewKind.ExcelMacro2008DefinedNameArgumentDescriptions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescriptions(markup)); break;
+            case ViewKind.ExcelMacro2008DefinedNames: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNames(markup)); break;
+            case ViewKind.WordMacro2006DocEvents: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordMacro2006.DocEvents(markup)); break;
+            case ViewKind.WordMacro2006Mcd: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordMacro2006.Mcd(markup)); break;
+            case ViewKind.WordMacro2006Mcds: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordMacro2006.Mcds(markup)); break;
+            case ViewKind.WordMacro2006VbaSuppData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WordMacro2006.VbaSuppData(markup)); break;
+            case ViewKind.Spreadsheet2009CacheField: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CacheField(markup)); break;
+            case ViewKind.Spreadsheet2009CacheHierarchy: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CacheHierarchy(markup)); break;
+            case ViewKind.Spreadsheet2009CacheSourceExt: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CacheSourceExt(markup)); break;
+            case ViewKind.Spreadsheet2009CalculatedMember: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CalculatedMember(markup)); break;
+            case ViewKind.Spreadsheet2009CfIcon: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CfIcon(markup)); break;
+            case ViewKind.Spreadsheet2009CfRule: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CfRule(markup)); break;
+            case ViewKind.Spreadsheet2009Cfvo: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Cfvo(markup)); break;
+            case ViewKind.Spreadsheet2009ColorScale: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ColorScale(markup)); break;
+            case ViewKind.Spreadsheet2009ConditionalFormat: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ConditionalFormat(markup)); break;
+            case ViewKind.Spreadsheet2009ConditionalFormats: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ConditionalFormats(markup)); break;
+            case ViewKind.Spreadsheet2009ConditionalFormatting: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ConditionalFormatting(markup)); break;
+            case ViewKind.Spreadsheet2009ConditionalFormattings: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ConditionalFormattings(markup)); break;
+            case ViewKind.Spreadsheet2009Connection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Connection(markup)); break;
+            case ViewKind.Spreadsheet2009CustomFilter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CustomFilter(markup)); break;
+            case ViewKind.Spreadsheet2009CustomFilters: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.CustomFilters(markup)); break;
+            case ViewKind.Spreadsheet2009DataBar: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.DataBar(markup)); break;
+            case ViewKind.Spreadsheet2009DataField: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.DataField(markup)); break;
+            case ViewKind.Spreadsheet2009DataValidation: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.DataValidation(markup)); break;
+            case ViewKind.Spreadsheet2009DataValidationFormula: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.DataValidationFormula(markup)); break;
+            case ViewKind.Spreadsheet2009DataValidations: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.DataValidations(markup)); break;
+            case ViewKind.Spreadsheet2009DatastoreItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.DatastoreItem(markup)); break;
+            case ViewKind.Spreadsheet2009Filter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Filter(markup)); break;
+            case ViewKind.Spreadsheet2009FormControlPr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.FormControlPr(markup)); break;
+            case ViewKind.Spreadsheet2009IconFilter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.IconFilter(markup)); break;
+            case ViewKind.Spreadsheet2009IconSet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.IconSet(markup)); break;
+            case ViewKind.Spreadsheet2009IgnoredError: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.IgnoredError(markup)); break;
+            case ViewKind.Spreadsheet2009IgnoredErrors: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.IgnoredErrors(markup)); break;
+            case ViewKind.Spreadsheet2009ListItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ListItem(markup)); break;
+            case ViewKind.Spreadsheet2009ListItems: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ListItems(markup)); break;
+            case ViewKind.Spreadsheet2009OlapSlicerCache: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCache(markup)); break;
+            case ViewKind.Spreadsheet2009OlapSlicerCacheItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCacheItem(markup)); break;
+            case ViewKind.Spreadsheet2009OlapSlicerCacheItemParent: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCacheItemParent(markup)); break;
+            case ViewKind.Spreadsheet2009OlapSlicerCacheLevelData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCacheLevelData(markup)); break;
+            case ViewKind.Spreadsheet2009OlapSlicerCacheLevelsData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCacheLevelsData(markup)); break;
+            case ViewKind.Spreadsheet2009OlapSlicerCacheRange: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCacheRange(markup)); break;
+            case ViewKind.Spreadsheet2009OlapSlicerCacheRanges: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCacheRanges(markup)); break;
+            case ViewKind.Spreadsheet2009OlapSlicerCacheSelection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCacheSelection(markup)); break;
+            case ViewKind.Spreadsheet2009OlapSlicerCacheSelections: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OlapSlicerCacheSelections(markup)); break;
+            case ViewKind.Spreadsheet2009OleItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.OleItem(markup)); break;
+            case ViewKind.Spreadsheet2009PivotCacheDefinition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotCacheDefinition(markup)); break;
+            case ViewKind.Spreadsheet2009PivotChange: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotChange(markup)); break;
+            case ViewKind.Spreadsheet2009PivotChanges: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotChanges(markup)); break;
+            case ViewKind.Spreadsheet2009PivotEdit: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotEdit(markup)); break;
+            case ViewKind.Spreadsheet2009PivotEditValue: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotEditValue(markup)); break;
+            case ViewKind.Spreadsheet2009PivotEdits: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotEdits(markup)); break;
+            case ViewKind.Spreadsheet2009PivotField: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotField(markup)); break;
+            case ViewKind.Spreadsheet2009PivotHierarchy: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotHierarchy(markup)); break;
+            case ViewKind.Spreadsheet2009PivotTableDefinition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotTableDefinition(markup)); break;
+            case ViewKind.Spreadsheet2009PivotUserEdit: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.PivotUserEdit(markup)); break;
+            case ViewKind.Spreadsheet2009ProtectedRange: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ProtectedRange(markup)); break;
+            case ViewKind.Spreadsheet2009ProtectedRanges: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.ProtectedRanges(markup)); break;
+            case ViewKind.Spreadsheet2009SetLevel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SetLevel(markup)); break;
+            case ViewKind.Spreadsheet2009SetLevels: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SetLevels(markup)); break;
+            case ViewKind.Spreadsheet2009Slicer: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Slicer(markup)); break;
+            case ViewKind.Spreadsheet2009SlicerCache: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerCache(markup)); break;
+            case ViewKind.Spreadsheet2009SlicerCacheData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerCacheData(markup)); break;
+            case ViewKind.Spreadsheet2009SlicerCacheDefinition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerCacheDefinition(markup)); break;
+            case ViewKind.Spreadsheet2009SlicerCachePivotTable: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerCachePivotTable(markup)); break;
+            case ViewKind.Spreadsheet2009SlicerCachePivotTables: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerCachePivotTables(markup)); break;
+            case ViewKind.Spreadsheet2009SlicerCaches: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerCaches(markup)); break;
+            case ViewKind.Spreadsheet2009SlicerRef: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerRef(markup)); break;
+            case ViewKind.Spreadsheet2009SlicerRefs: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerRefs(markup)); break;
+            case ViewKind.Spreadsheet2009SlicerStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerStyle(markup)); break;
+            case ViewKind.Spreadsheet2009SlicerStyleElement: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerStyleElement(markup)); break;
+            case ViewKind.Spreadsheet2009SlicerStyleElements: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerStyleElements(markup)); break;
+            case ViewKind.Spreadsheet2009SlicerStyles: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SlicerStyles(markup)); break;
+            case ViewKind.Spreadsheet2009Slicers: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Slicers(markup)); break;
+            case ViewKind.Spreadsheet2009SortCondition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SortCondition(markup)); break;
+            case ViewKind.Spreadsheet2009SourceConnection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SourceConnection(markup)); break;
+            case ViewKind.Spreadsheet2009Sparkline: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Sparkline(markup)); break;
+            case ViewKind.Spreadsheet2009SparklineGroup: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SparklineGroup(markup)); break;
+            case ViewKind.Spreadsheet2009SparklineGroups: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.SparklineGroups(markup)); break;
+            case ViewKind.Spreadsheet2009Sparklines: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Sparklines(markup)); break;
+            case ViewKind.Spreadsheet2009Table: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.Table(markup)); break;
+            case ViewKind.Spreadsheet2009TabularSlicerCache: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TabularSlicerCache(markup)); break;
+            case ViewKind.Spreadsheet2009TabularSlicerCacheItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TabularSlicerCacheItem(markup)); break;
+            case ViewKind.Spreadsheet2009TabularSlicerCacheItems: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TabularSlicerCacheItems(markup)); break;
+            case ViewKind.Spreadsheet2009TupleItems: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TupleItems(markup)); break;
+            case ViewKind.Spreadsheet2009TupleSet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TupleSet(markup)); break;
+            case ViewKind.Spreadsheet2009TupleSetHeader: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TupleSetHeader(markup)); break;
+            case ViewKind.Spreadsheet2009TupleSetHeaders: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TupleSetHeaders(markup)); break;
+            case ViewKind.Spreadsheet2009TupleSetRow: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TupleSetRow(markup)); break;
+            case ViewKind.Spreadsheet2009TupleSetRowItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TupleSetRowItem(markup)); break;
+            case ViewKind.Spreadsheet2009TupleSetRows: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.TupleSetRows(markup)); break;
+            case ViewKind.Spreadsheet2009WorkbookPr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2009.WorkbookPr(markup)); break;
+            case ViewKind.Spreadsheet2010CacheHierarchy: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.CacheHierarchy(markup)); break;
+            case ViewKind.Spreadsheet2010CachedUniqueName: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.CachedUniqueName(markup)); break;
+            case ViewKind.Spreadsheet2010CachedUniqueNames: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.CachedUniqueNames(markup)); break;
+            case ViewKind.Spreadsheet2010CalculatedMember: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.CalculatedMember(markup)); break;
+            case ViewKind.Spreadsheet2010CalculatedMemberExt: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.CalculatedMemberExt(markup)); break;
+            case ViewKind.Spreadsheet2010Connection: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.Connection(markup)); break;
+            case ViewKind.Spreadsheet2010DataFeedPr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.DataFeedPr(markup)); break;
+            case ViewKind.Spreadsheet2010DataField: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.DataField(markup)); break;
+            case ViewKind.Spreadsheet2010DataModel: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.DataModel(markup)); break;
+            case ViewKind.Spreadsheet2010DbCommand: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.DbCommand(markup)); break;
+            case ViewKind.Spreadsheet2010DbTable: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.DbTable(markup)); break;
+            case ViewKind.Spreadsheet2010DbTables: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.DbTables(markup)); break;
+            case ViewKind.Spreadsheet2010FieldListActiveTabTopLevelEntity: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.FieldListActiveTabTopLevelEntity(markup)); break;
+            case ViewKind.Spreadsheet2010ModelRelationship: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.ModelRelationship(markup)); break;
+            case ViewKind.Spreadsheet2010ModelRelationships: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.ModelRelationships(markup)); break;
+            case ViewKind.Spreadsheet2010ModelTable: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.ModelTable(markup)); break;
+            case ViewKind.Spreadsheet2010ModelTables: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.ModelTables(markup)); break;
+            case ViewKind.Spreadsheet2010ModelTextPr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.ModelTextPr(markup)); break;
+            case ViewKind.Spreadsheet2010OledbPr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.OledbPr(markup)); break;
+            case ViewKind.Spreadsheet2010PivotCacheIdVersion: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.PivotCacheIdVersion(markup)); break;
+            case ViewKind.Spreadsheet2010PivotFilter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.PivotFilter(markup)); break;
+            case ViewKind.Spreadsheet2010PivotRow: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.PivotRow(markup)); break;
+            case ViewKind.Spreadsheet2010PivotTableData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.PivotTableData(markup)); break;
+            case ViewKind.Spreadsheet2010PivotTableReference: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.PivotTableReference(markup)); break;
+            case ViewKind.Spreadsheet2010PivotTableReferences: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.PivotTableReferences(markup)); break;
+            case ViewKind.Spreadsheet2010PivotTableServerFormats: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.PivotTableServerFormats(markup)); break;
+            case ViewKind.Spreadsheet2010PivotTableUISettings: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.PivotTableUISettings(markup)); break;
+            case ViewKind.Spreadsheet2010PivotValueCell: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.PivotValueCell(markup)); break;
+            case ViewKind.Spreadsheet2010PivotValueCellExtra: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.PivotValueCellExtra(markup)); break;
+            case ViewKind.Spreadsheet2010QueryTable: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.QueryTable(markup)); break;
+            case ViewKind.Spreadsheet2010RangePr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.RangePr(markup)); break;
+            case ViewKind.Spreadsheet2010SlicerCacheHideNoData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.SlicerCacheHideNoData(markup)); break;
+            case ViewKind.Spreadsheet2010SlicerCacheOlapLevelName: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.SlicerCacheOlapLevelName(markup)); break;
+            case ViewKind.Spreadsheet2010Survey: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.Survey(markup)); break;
+            case ViewKind.Spreadsheet2010SurveyElementPr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.SurveyElementPr(markup)); break;
+            case ViewKind.Spreadsheet2010SurveyQuestion: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.SurveyQuestion(markup)); break;
+            case ViewKind.Spreadsheet2010SurveyQuestions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.SurveyQuestions(markup)); break;
+            case ViewKind.Spreadsheet2010TableSlicerCache: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TableSlicerCache(markup)); break;
+            case ViewKind.Spreadsheet2010Timeline: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.Timeline(markup)); break;
+            case ViewKind.Spreadsheet2010TimelineCacheDefinition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineCacheDefinition(markup)); break;
+            case ViewKind.Spreadsheet2010TimelineCachePivotTable: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineCachePivotTable(markup)); break;
+            case ViewKind.Spreadsheet2010TimelineCachePivotTables: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineCachePivotTables(markup)); break;
+            case ViewKind.Spreadsheet2010TimelineCacheRef: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineCacheRef(markup)); break;
+            case ViewKind.Spreadsheet2010TimelineCacheRefs: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineCacheRefs(markup)); break;
+            case ViewKind.Spreadsheet2010TimelinePivotCacheDefinition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelinePivotCacheDefinition(markup)); break;
+            case ViewKind.Spreadsheet2010TimelinePivotFilter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelinePivotFilter(markup)); break;
+            case ViewKind.Spreadsheet2010TimelineRange: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineRange(markup)); break;
+            case ViewKind.Spreadsheet2010TimelineRef: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineRef(markup)); break;
+            case ViewKind.Spreadsheet2010TimelineRefs: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineRefs(markup)); break;
+            case ViewKind.Spreadsheet2010TimelineState: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineState(markup)); break;
+            case ViewKind.Spreadsheet2010TimelineStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineStyle(markup)); break;
+            case ViewKind.Spreadsheet2010TimelineStyleElement: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineStyleElement(markup)); break;
+            case ViewKind.Spreadsheet2010TimelineStyleElements: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineStyleElements(markup)); break;
+            case ViewKind.Spreadsheet2010TimelineStyles: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.TimelineStyles(markup)); break;
+            case ViewKind.Spreadsheet2010Timelines: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.Timelines(markup)); break;
+            case ViewKind.Spreadsheet2010WebExtension: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.WebExtension(markup)); break;
+            case ViewKind.Spreadsheet2010WebExtensions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.WebExtensions(markup)); break;
+            case ViewKind.Spreadsheet2010WorkbookPr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010.WorkbookPr(markup)); break;
+            case ViewKind.Spreadsheet2010AcAbsolutePath: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2010Ac.AbsolutePath(markup)); break;
+            case ViewKind.Spreadsheet2014CalculatedTimeColumn: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2014.CalculatedTimeColumn(markup)); break;
+            case ViewKind.Spreadsheet2014ModelTimeGrouping: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2014.ModelTimeGrouping(markup)); break;
+            case ViewKind.Spreadsheet2014ModelTimeGroupings: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Spreadsheet2014.ModelTimeGroupings(markup)); break;
+            case ViewKind.SpreadsheetRevision2014RevisionPtr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.SpreadsheetRevision2014.RevisionPtr(markup)); break;
+            case ViewKind.PivotDefaultLayoutPivotTableDefinition16: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.PivotDefaultLayout.PivotTableDefinition16(markup)); break;
+            case ViewKind.DynamicArrayDynamicArrayProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.DynamicArray.DynamicArrayProperties(markup)); break;
+            case ViewKind.RichDataKey: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData.Key(markup)); break;
+            case ViewKind.RichDataRichValue: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData.RichValue(markup)); break;
+            case ViewKind.RichDataRichValueBlock: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData.RichValueBlock(markup)); break;
+            case ViewKind.RichDataRichValueData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData.RichValueData(markup)); break;
+            case ViewKind.RichDataRichValueFallback: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData.RichValueFallback(markup)); break;
+            case ViewKind.RichDataRichValueStructure: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData.RichValueStructure(markup)); break;
+            case ViewKind.RichDataRichValueStructures: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData.RichValueStructures(markup)); break;
+            case ViewKind.RichDataValue: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData.Value(markup)); break;
+            case ViewKind.RichData2Array: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.Array(markup)); break;
+            case ViewKind.RichData2ArrayData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.ArrayData(markup)); break;
+            case ViewKind.RichData2ArrayValue: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.ArrayValue(markup)); break;
+            case ViewKind.RichData2CustomRichFilter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.CustomRichFilter(markup)); break;
+            case ViewKind.RichData2CustomRichFilters: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.CustomRichFilters(markup)); break;
+            case ViewKind.RichData2DynamicRichFilter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.DynamicRichFilter(markup)); break;
+            case ViewKind.RichData2RichDateGroupItem: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichDateGroupItem(markup)); break;
+            case ViewKind.RichData2RichFilter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichFilter(markup)); break;
+            case ViewKind.RichData2RichFilterColumn: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichFilterColumn(markup)); break;
+            case ViewKind.RichData2RichFilters: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichFilters(markup)); break;
+            case ViewKind.RichData2RichFormatProperties: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichFormatProperties(markup)); break;
+            case ViewKind.RichData2RichFormatProperty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichFormatProperty(markup)); break;
+            case ViewKind.RichData2RichSortCondition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichSortCondition(markup)); break;
+            case ViewKind.RichData2RichStyle: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichStyle(markup)); break;
+            case ViewKind.RichData2RichStylePropertyValue: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichStylePropertyValue(markup)); break;
+            case ViewKind.RichData2RichStyles: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichStyles(markup)); break;
+            case ViewKind.RichData2RichStylesheet: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichStylesheet(markup)); break;
+            case ViewKind.RichData2RichTop10: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichTop10(markup)); break;
+            case ViewKind.RichData2RichValueGlobalType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichValueGlobalType(markup)); break;
+            case ViewKind.RichData2RichValueType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichValueType(markup)); break;
+            case ViewKind.RichData2RichValueTypeKeyFlags: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichValueTypeKeyFlags(markup)); break;
+            case ViewKind.RichData2RichValueTypeReservedKey: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichValueTypeReservedKey(markup)); break;
+            case ViewKind.RichData2RichValueTypeReservedKeyFlag: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichValueTypeReservedKeyFlag(markup)); break;
+            case ViewKind.RichData2RichValueTypes: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichValueTypes(markup)); break;
+            case ViewKind.RichData2RichValueTypesInfo: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.RichValueTypesInfo(markup)); break;
+            case ViewKind.RichData2SupportingPropertyBag: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBag(markup)); break;
+            case ViewKind.RichData2SupportingPropertyBagArray: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBagArray(markup)); break;
+            case ViewKind.RichData2SupportingPropertyBagArrayData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBagArrayData(markup)); break;
+            case ViewKind.RichData2SupportingPropertyBagArrayValue: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBagArrayValue(markup)); break;
+            case ViewKind.RichData2SupportingPropertyBagData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBagData(markup)); break;
+            case ViewKind.RichData2SupportingPropertyBagKey: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBagKey(markup)); break;
+            case ViewKind.RichData2SupportingPropertyBagStructure: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBagStructure(markup)); break;
+            case ViewKind.RichData2SupportingPropertyBagStructures: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBagStructures(markup)); break;
+            case ViewKind.RichData2SupportingPropertyBagValue: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBagValue(markup)); break;
+            case ViewKind.RichData2SupportingPropertyBags: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichData2.SupportingPropertyBags(markup)); break;
+            case ViewKind.CalcFeaturesCalcFeature: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.CalcFeatures.CalcFeature(markup)); break;
+            case ViewKind.CalcFeaturesCalcFeatures: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.CalcFeatures.CalcFeatures(markup)); break;
+            case ViewKind.ThreadedCommentsMention: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ThreadedComments.Mention(markup)); break;
+            case ViewKind.ThreadedCommentsPerson: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ThreadedComments.Person(markup)); break;
+            case ViewKind.ThreadedCommentsPersonList: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ThreadedComments.PersonList(markup)); break;
+            case ViewKind.ThreadedCommentsThreadedComment: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ThreadedComments.ThreadedComment(markup)); break;
+            case ViewKind.ThreadedCommentsThreadedCommentMentions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ThreadedComments.ThreadedCommentMentions(markup)); break;
+            case ViewKind.ThreadedCommentsThreadedComments: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ThreadedComments.ThreadedComments(markup)); break;
+            case ViewKind.ExternalLinkPropertiesExternalLinksPr: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExternalLinkProperties.ExternalLinksPr(markup)); break;
+            case ViewKind.NamedSheetViewsColumnFilter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.NamedSheetViews.ColumnFilter(markup)); break;
+            case ViewKind.NamedSheetViewsNamedSheetView: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.NamedSheetViews.NamedSheetView(markup)); break;
+            case ViewKind.NamedSheetViewsNamedSheetViews: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.NamedSheetViews.NamedSheetViews(markup)); break;
+            case ViewKind.NamedSheetViewsNsvFilter: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.NamedSheetViews.NsvFilter(markup)); break;
+            case ViewKind.NamedSheetViewsSortRule: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.NamedSheetViews.SortRule(markup)); break;
+            case ViewKind.NamedSheetViewsSortRules: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.NamedSheetViews.SortRules(markup)); break;
+            case ViewKind.Pivot2020DataFieldFutureData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Pivot2020.DataFieldFutureData(markup)); break;
+            case ViewKind.Pivot2020Ignorable: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Pivot2020.Ignorable(markup)); break;
+            case ViewKind.RichDataWebImageWebImageSupportingRichData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichDataWebImage.WebImageSupportingRichData(markup)); break;
+            case ViewKind.RichDataWebImageWebImageSupportingRichDataRelationship: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichDataWebImage.WebImageSupportingRichDataRelationship(markup)); break;
+            case ViewKind.RichDataWebImageWebImagesSupportingRichData: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichDataWebImage.WebImagesSupportingRichData(markup)); break;
+            case ViewKind.RichValueRefreshRichValueRefreshInterval: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichValueRefresh.RichValueRefreshInterval(markup)); break;
+            case ViewKind.RichValueRefreshRichValueRefreshIntervals: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichValueRefresh.RichValueRefreshIntervals(markup)); break;
+            case ViewKind.ThreadedComments2CommentHyperlink: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ThreadedComments2.CommentHyperlink(markup)); break;
+            case ViewKind.ThreadedComments2ThreadedComments2Ext: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ThreadedComments2.ThreadedComments2Ext(markup)); break;
+            case ViewKind.ExternalLinks2021AlternateUrl: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExternalLinks2021.AlternateUrl(markup)); break;
+            case ViewKind.ExternalLinks2021ExternalBookAlternateUrls: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExternalLinks2021.ExternalBookAlternateUrls(markup)); break;
+            case ViewKind.FeaturePropertyBagArrayFeatureProperty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.ArrayFeatureProperty(markup)); break;
+            case ViewKind.FeaturePropertyBagBagExtensions: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.BagExtensions(markup)); break;
+            case ViewKind.FeaturePropertyBagBagFeatureProperty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.BagFeatureProperty(markup)); break;
+            case ViewKind.FeaturePropertyBagBoolFeatureProperty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.BoolFeatureProperty(markup)); break;
+            case ViewKind.FeaturePropertyBagDXFComplement: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.DXFComplement(markup)); break;
+            case ViewKind.FeaturePropertyBagDXFComplementExt: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.DXFComplementExt(markup)); break;
+            case ViewKind.FeaturePropertyBagDecimalFeatureProperty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.DecimalFeatureProperty(markup)); break;
+            case ViewKind.FeaturePropertyBagFeaturePropertyBag: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.FeaturePropertyBag(markup)); break;
+            case ViewKind.FeaturePropertyBagFeaturePropertyBags: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.FeaturePropertyBags(markup)); break;
+            case ViewKind.FeaturePropertyBagIntFeatureProperty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.IntFeatureProperty(markup)); break;
+            case ViewKind.FeaturePropertyBagRelFeatureProperty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.RelFeatureProperty(markup)); break;
+            case ViewKind.FeaturePropertyBagStringFeatureProperty: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.StringFeatureProperty(markup)); break;
+            case ViewKind.FeaturePropertyBagXfComplement: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.XfComplement(markup)); break;
+            case ViewKind.FeaturePropertyBagXfComplementExt: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.FeaturePropertyBag.XfComplementExt(markup)); break;
+            case ViewKind.PivotRichDataPivotCacheRichInfo: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.PivotRichData.PivotCacheRichInfo(markup)); break;
+            case ViewKind.PivotVersionInfoCacheVersionInfo: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.PivotVersionInfo.CacheVersionInfo(markup)); break;
+            case ViewKind.PivotVersionInfoPivotVersionInfo: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.PivotVersionInfo.PivotVersionInfo(markup)); break;
+            case ViewKind.RichValueRelRichValueRelRelationship: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichValueRel.RichValueRelRelationship(markup)); break;
+            case ViewKind.RichValueRelRichValueRels: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.RichValueRel.RichValueRels(markup)); break;
+            case ViewKind.ExternalCodeServiceExternalCodeService: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExternalCodeService.ExternalCodeService(markup)); break;
+            case ViewKind.ExternalCodeServiceExternalCodeServiceExt: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExternalCodeService.ExternalCodeServiceExt(markup)); break;
+            case ViewKind.MsFormsMsForm: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.MsForms.MsForm(markup)); break;
+            case ViewKind.MsFormsMsFormsExt: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.MsForms.MsFormsExt(markup)); break;
+            case ViewKind.MsFormsQuestion: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.MsForms.Question(markup)); break;
+            case ViewKind.MsFormsQuestionExt: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.MsForms.QuestionExt(markup)); break;
+            case ViewKind.Pivot2023CalculationAggregationInfo: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Pivot2023Calculation.AggregationInfo(markup)); break;
+            case ViewKind.Pivot2023CalculationFeatureSupport: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Pivot2023Calculation.FeatureSupport(markup)); break;
+            case ViewKind.Pivot2023CalculationPivotAreaReferenceSubtotals: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Pivot2023Calculation.PivotAreaReferenceSubtotals(markup)); break;
+            case ViewKind.Pivot2023CalculationPivotFieldSubtotals: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Pivot2023Calculation.PivotFieldSubtotals(markup)); break;
+            case ViewKind.Pivot2023CalculationPivotItemSubtotal: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Pivot2023Calculation.PivotItemSubtotal(markup)); break;
+            case ViewKind.Pivot2023CalculationPivotSubtotalType: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Pivot2023Calculation.PivotSubtotalType(markup)); break;
+            case ViewKind.Pivot2023CalculationPivotTableSubtotalLineItems: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Pivot2023Calculation.PivotTableSubtotalLineItems(markup)); break;
+            case ViewKind.PythonPython: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Python.Python(markup)); break;
+            case ViewKind.PythonPythonEnvironmentDefinition: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Python.PythonEnvironmentDefinition(markup)); break;
+            case ViewKind.PythonPythonInitialization: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Python.PythonInitialization(markup)); break;
+            case ViewKind.PythonPythonScript: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Python.PythonScript(markup)); break;
+            case ViewKind.PythonPythonScripts: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.Python.PythonScripts(markup)); break;
+            case ViewKind.ShowDataTypeIconsShowDataTypeIcons: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ShowDataTypeIcons.ShowDataTypeIcons(markup)); break;
+            case ViewKind.ShowDataTypeIconsShowDataTypeIconsCustomSheetViewExt: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ShowDataTypeIcons.ShowDataTypeIconsCustomSheetViewExt(markup)); break;
+            case ViewKind.ShowDataTypeIconsShowDataTypeIconsExt: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ShowDataTypeIcons.ShowDataTypeIconsExt(markup)); break;
+            case ViewKind.WorkbookCompatibilityVersionVersion: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WorkbookCompatibilityVersion.Version(markup)); break;
+            case ViewKind.WorkbookCompatibilityVersionWorkbookCompatibilityVersionExt: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.WorkbookCompatibilityVersion.WorkbookCompatibilityVersionExt(markup)); break;
+            case ViewKind.ExternalCodeService2ExternalCodeServiceImageAsInput: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExternalCodeService2.ExternalCodeServiceImageAsInput(markup)); break;
+            case ViewKind.ExternalCodeService2ExternalCodeServiceImageAsInputExt: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.ExternalCodeService2.ExternalCodeServiceImageAsInputExt(markup)); break;
+            case ViewKind.PivotDataSourcePivotCacheDataSource: visitor.Visit(new global::RecursiveAI.OneDocument.Schema.PivotDataSource.PivotCacheDataSource(markup)); break;
             default: break;
         }
     }

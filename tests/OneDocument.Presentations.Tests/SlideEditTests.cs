@@ -148,6 +148,19 @@ public class SlideEditTests
     }
 
     [Fact]
+    public void PartViewsReachTheGeneratedSlideAndLayoutTypes()
+    {
+        using Presentation deck = DeckWith("a");
+        var slide = deck.Slides[0].View;
+        Assert.NotNull(slide);
+        var view = slide.Value;
+        view.ShowMasterSp = false;
+        Assert.False(deck.Slides[0].ShowMasterShapes);
+        Assert.NotNull(deck.Slides[0].Layout?.View);
+        Assert.NotNull(deck.Slides[0].Master?.View);
+    }
+
+    [Fact]
     public void DuplicateGivesTheCopyItsOwnCreationId()
     {
         using Presentation deck = DeckWith("a");
