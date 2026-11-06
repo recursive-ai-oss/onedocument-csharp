@@ -5,10 +5,10 @@
 // </auto-generated>
 #nullable enable
 
-namespace RecursiveAI.OneDocument.Schema.Word2026Cei;
+namespace RecursiveAI.OneDocument.Schema.Wordprocessing2026Cei;
 
 /// <summary>View of the schema type <c>CT_CommentEntityInfo</c>, the type of <c>w16cei:commentEntityInfo</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct CommentEntityInfo : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2026Cei.CommentEntityInfo>
+public readonly struct CommentEntityInfo : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2026Cei.CommentEntityInfo>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -20,24 +20,24 @@ public readonly struct CommentEntityInfo : global::RecursiveAI.OneDocument.Schem
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2026Cei.CommentEntityInfo Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2026Cei.CommentEntityInfo Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2026CeiCommentEntityInfo;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2026CeiCommentEntityInfo;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2026Cei) return local.SequenceEqual("commentEntityInfo"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2026Cei) return local.SequenceEqual("commentEntityInfo"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2026Cei)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2026Cei)
         {
-            if (local.SequenceEqual("extLst"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2018ExtensionList; }
+            if (local.SequenceEqual("extLst"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2018ExtensionList; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -53,28 +53,28 @@ public readonly struct CommentEntityInfo : global::RecursiveAI.OneDocument.Schem
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2026Cei) return local.SequenceEqual("entityType"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2026Cei) return local.SequenceEqual("entityType"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w16cei:entityType</c> (xsd:unsignedInt, default <c>0</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? EntityType { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2026Cei, "entityType"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2026Cei, "entityType"u8, value); }
+    public long? EntityType { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2026Cei, "entityType"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2026Cei, "entityType"u8, value); }
 
     /// <summary>The <c>w16cei:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2018.ExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2018.ExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2026Cei, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.ExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.ExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2026Cei, "extLst"u8);
 
     /// <summary>Returns the <c>w16cei:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2018.ExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2018.ExtensionList, global::RecursiveAI.OneDocument.Schema.Word2026Cei.CommentEntityInfo>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2026Cei, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.ExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2018.ExtensionList, global::RecursiveAI.OneDocument.Schema.Wordprocessing2026Cei.CommentEntityInfo>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2026Cei, "extLst"u8);
 
     /// <summary>Removes every <c>w16cei:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2026Cei, "extLst"u8);
+    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2026Cei, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2026Cei.CommentEntityInfo> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2026Cei.CommentEntityInfo> UnknownChildren => new(_markup);
 }
 

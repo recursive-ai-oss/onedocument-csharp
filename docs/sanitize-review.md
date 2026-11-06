@@ -10,7 +10,7 @@ Each adversarial document plants one place where data can hide, with a string `P
 2. sanitising with every removable category (and, where the case names them, with those categories alone) writes a file in which the string appears in no part, unless the report says that item was kept;
 3. no part uses a relationship id the file no longer has, and no relationship points at a missing part;
 4. the file opens, and a second inspection finds nothing in a category the report calls `Removed`;
-5. LibreOffice (26.8.2, headless, on the review worker) converts the output to PDF. 64 of 64 outputs did.
+5. LibreOffice (26.8.2, headless, on the review machine) converts the output to PDF. 64 of 64 outputs did.
 
 A recorded gap is a test that is skipped while it still fails and fails when it starts to pass, so the list below cannot go stale. Nothing here ran Office; the cases for it are in `testdata/inspect/ORACLE-REQUEST.md` (section 5).
 

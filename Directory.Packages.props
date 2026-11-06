@@ -37,5 +37,6 @@
     <PackageVersion Include="SharpFuzz" Version="2.2.0" />
     <!-- The POCO source generator's compile-time dependency. It is an analyzer and never ships as a dependency. -->
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="4.14.0" />
   </ItemGroup>
 </Project>

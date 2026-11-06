@@ -5,10 +5,10 @@
 // </auto-generated>
 #nullable enable
 
-namespace RecursiveAI.OneDocument.Schema.ExcelMacro2008;
+namespace RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008;
 
 /// <summary>View of the schema type <c>CT_DefinedName</c>, the type of <c>xm2:definedName</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct DefinedName : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedName>
+public readonly struct DefinedName : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedName>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -20,24 +20,24 @@ public readonly struct DefinedName : global::RecursiveAI.OneDocument.Schema.IEle
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedName Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedName Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.ExcelMacro2008DefinedName;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.SpreadsheetMacro2008DefinedName;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2008) return local.SequenceEqual("definedName"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2008) return local.SequenceEqual("definedName"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2008)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2008)
         {
-            if (local.SequenceEqual("argumentDescriptions"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.ExcelMacro2008DefinedNameArgumentDescriptions; }
+            if (local.SequenceEqual("argumentDescriptions"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.SpreadsheetMacro2008DefinedNameArgumentDescriptions; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -61,25 +61,25 @@ public readonly struct DefinedName : global::RecursiveAI.OneDocument.Schema.IEle
     public string? Name { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "name"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "name"u8, value); }
 
     /// <summary>The <c>xm2:argumentDescriptions</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescriptions? ArgumentDescriptions => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescriptions>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2008, "argumentDescriptions"u8);
+    public global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescriptions? ArgumentDescriptions => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescriptions>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2008, "argumentDescriptions"u8);
 
     /// <summary>Returns the <c>xm2:argumentDescriptions</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescriptions GetOrAddArgumentDescriptions() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescriptions, global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedName>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2008, "argumentDescriptions"u8);
+    public global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescriptions GetOrAddArgumentDescriptions() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescriptions, global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedName>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2008, "argumentDescriptions"u8);
 
     /// <summary>Removes every <c>xm2:argumentDescriptions</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveArgumentDescriptions() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2008, "argumentDescriptions"u8);
+    public bool RemoveArgumentDescriptions() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2008, "argumentDescriptions"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedName> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedName> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_DefinedNameArgumentDescription</c>, the type of <c>xm2:argumentDescription</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct DefinedNameArgumentDescription : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescription>
+public readonly struct DefinedNameArgumentDescription : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescription>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -91,15 +91,15 @@ public readonly struct DefinedNameArgumentDescription : global::RecursiveAI.OneD
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescription Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescription Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.ExcelMacro2008DefinedNameArgumentDescription;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.SpreadsheetMacro2008DefinedNameArgumentDescription;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2008) return local.SequenceEqual("argumentDescription"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2008) return local.SequenceEqual("argumentDescription"u8);
         return false;
     }
 
@@ -127,11 +127,11 @@ public readonly struct DefinedNameArgumentDescription : global::RecursiveAI.OneD
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescription> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescription> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_DefinedNameArgumentDescriptions</c>, the type of <c>xm2:argumentDescriptions</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct DefinedNameArgumentDescriptions : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescriptions>
+public readonly struct DefinedNameArgumentDescriptions : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescriptions>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -143,24 +143,24 @@ public readonly struct DefinedNameArgumentDescriptions : global::RecursiveAI.One
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescriptions Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescriptions Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.ExcelMacro2008DefinedNameArgumentDescriptions;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.SpreadsheetMacro2008DefinedNameArgumentDescriptions;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2008) return local.SequenceEqual("argumentDescriptions"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2008) return local.SequenceEqual("argumentDescriptions"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2008)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2008)
         {
-            if (local.SequenceEqual("argumentDescription"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.ExcelMacro2008DefinedNameArgumentDescription; }
+            if (local.SequenceEqual("argumentDescription"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.SpreadsheetMacro2008DefinedNameArgumentDescription; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -184,25 +184,25 @@ public readonly struct DefinedNameArgumentDescriptions : global::RecursiveAI.One
     public long? Count { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "count"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "count"u8, value); }
 
     /// <summary>The <c>xm2:argumentDescription</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescription> ArgumentDescriptions => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2008, "argumentDescription"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescription> ArgumentDescriptions => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2008, "argumentDescription"u8);
 
     /// <summary>Adds a <c>xm2:argumentDescription</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescription AddArgumentDescription() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescription, global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescriptions>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2008, "argumentDescription"u8);
+    public global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescription AddArgumentDescription() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescription, global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescriptions>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2008, "argumentDescription"u8);
 
     /// <summary>Removes every <c>xm2:argumentDescription</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveArgumentDescription() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2008, "argumentDescription"u8);
+    public bool RemoveArgumentDescription() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2008, "argumentDescription"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNameArgumentDescriptions> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNameArgumentDescriptions> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_DefinedNames</c>, the type of <c>xm2:definedNames</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct DefinedNames : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNames>
+public readonly struct DefinedNames : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNames>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -214,24 +214,24 @@ public readonly struct DefinedNames : global::RecursiveAI.OneDocument.Schema.IEl
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNames Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNames Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.ExcelMacro2008DefinedNames;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.SpreadsheetMacro2008DefinedNames;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2008) return local.SequenceEqual("definedNames"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2008) return local.SequenceEqual("definedNames"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2008)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2008)
         {
-            if (local.SequenceEqual("definedName"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.ExcelMacro2008DefinedName; }
+            if (local.SequenceEqual("definedName"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.SpreadsheetMacro2008DefinedName; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -251,20 +251,20 @@ public readonly struct DefinedNames : global::RecursiveAI.OneDocument.Schema.IEl
     }
 
     /// <summary>The <c>xm2:definedName</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedName> DefinedNameList => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2008, "definedName"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedName> DefinedNameList => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2008, "definedName"u8);
 
     /// <summary>Adds a <c>xm2:definedName</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedName AddDefinedName() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedName, global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNames>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2008, "definedName"u8);
+    public global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedName AddDefinedName() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedName, global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNames>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2008, "definedName"u8);
 
     /// <summary>Removes every <c>xm2:definedName</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveDefinedName() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2008, "definedName"u8);
+    public bool RemoveDefinedName() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2008, "definedName"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.ExcelMacro2008.DefinedNames> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.SpreadsheetMacro2008.DefinedNames> UnknownChildren => new(_markup);
 }
 

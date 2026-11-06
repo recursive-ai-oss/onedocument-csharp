@@ -5,10 +5,10 @@
 // </auto-generated>
 #nullable enable
 
-namespace RecursiveAI.OneDocument.Schema.VmlPowerPoint;
+namespace RecursiveAI.OneDocument.Schema.VmlPresentation;
 
 /// <summary>View of the schema type <c>CT_Empty</c>, the type of <c>pvml:iscomment</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Empty : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Empty>
+public readonly struct Empty : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Empty>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -20,15 +20,15 @@ public readonly struct Empty : global::RecursiveAI.OneDocument.Schema.IElementVi
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Empty Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.VmlPresentation.Empty Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPowerPointEmpty;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPresentationEmpty;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint) return local.SequenceEqual("iscomment"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation) return local.SequenceEqual("iscomment"u8);
         return false;
     }
 
@@ -49,11 +49,11 @@ public readonly struct Empty : global::RecursiveAI.OneDocument.Schema.IElementVi
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Empty> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Empty> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_Rel</c>, the type of <c>pvml:textdata</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Rel : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel>
+public readonly struct Rel : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -65,15 +65,15 @@ public readonly struct Rel : global::RecursiveAI.OneDocument.Schema.IElementView
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPowerPointRel;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.VmlPresentationRel;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPowerPoint) return local.SequenceEqual("textdata"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.VmlPresentation) return local.SequenceEqual("textdata"u8);
         return false;
     }
 
@@ -98,6 +98,6 @@ public readonly struct Rel : global::RecursiveAI.OneDocument.Schema.IElementView
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.VmlPowerPoint.Rel> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.VmlPresentation.Rel> UnknownChildren => new(_markup);
 }
 

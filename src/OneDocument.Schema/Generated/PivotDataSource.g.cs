@@ -35,7 +35,7 @@ public readonly struct PivotCacheDataSource : global::RecursiveAI.OneDocument.Sc
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006)
         {
             if (local.SequenceEqual("f"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
         }
@@ -61,15 +61,15 @@ public readonly struct PivotCacheDataSource : global::RecursiveAI.OneDocument.Sc
     public string? Ref { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "ref"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "ref"u8, value); }
 
     /// <summary>The first <c>xm:f</c> child as a raw element (its content is not modelled); null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef? F => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? F => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>Adds a <c>xm:f</c> child where the content model puts it.</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddF() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.PivotDataSource.PivotCacheDataSource>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddF() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.PivotDataSource.PivotCacheDataSource>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>Removes every <c>xm:f</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveF() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006, "f"u8);
+    public bool RemoveF() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006, "f"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;

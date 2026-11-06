@@ -5,7 +5,7 @@
 // </auto-generated>
 #nullable enable
 
-namespace RecursiveAI.OneDocument.Schema.Word2010;
+namespace RecursiveAI.OneDocument.Schema.Wordprocessing2010;
 
 /// <summary>Values of the schema simple type <c>ST_BevelPresetType</c>. A value the schema does not list reads as <see cref="Unrecognized"/>; the attribute's <c>Text</c> property still has it.</summary>
 public enum BevelPresetTypeValue
@@ -1264,7 +1264,7 @@ public static class SchemeColorValValueText
 }
 
 /// <summary>View of the schema type <c>CT_Bevel</c>, the type of <c>w14:bevelB</c>, <c>w14:bevelT</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Bevel : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.Bevel>
+public readonly struct Bevel : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Bevel>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -1276,15 +1276,15 @@ public readonly struct Bevel : global::RecursiveAI.OneDocument.Schema.IElementVi
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.Bevel Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Bevel Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Bevel;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Bevel;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("bevelB"u8) || local.SequenceEqual("bevelT"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("bevelB"u8) || local.SequenceEqual("bevelT"u8);
         return false;
     }
 
@@ -1298,35 +1298,35 @@ public readonly struct Bevel : global::RecursiveAI.OneDocument.Schema.IElementVi
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("h"u8) || local.SequenceEqual("prst"u8) || local.SequenceEqual("w"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("h"u8) || local.SequenceEqual("prst"u8) || local.SequenceEqual("w"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:w</c> (a:ST_PositiveCoordinate). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? W { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "w"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "w"u8, value); }
+    public long? W { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "w"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "w"u8, value); }
 
     /// <summary>Attribute <c>w14:h</c> (a:ST_PositiveCoordinate). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? H { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "h"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "h"u8, value); }
+    public long? H { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "h"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "h"u8, value); }
 
     /// <summary>Attribute <c>w14:prst</c> (w14:ST_BevelPresetType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrstText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.BevelPresetTypeValue? Prst
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.BevelPresetTypeValue? Prst
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.BevelPresetTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "prst"u8, global::RecursiveAI.OneDocument.Schema.Word2010.BevelPresetTypeValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "prst"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.BevelPresetTypeValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.BevelPresetTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "prst"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.BevelPresetTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "prst"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.BevelPresetTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:prst</c>, whatever it is.</summary>
-    public string? PrstText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "prst"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "prst"u8, value); }
+    public string? PrstText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "prst"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "prst"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.Bevel> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Bevel> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_Camera</c>, the type of <c>w14:camera</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Camera : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.Camera>
+public readonly struct Camera : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Camera>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -1338,15 +1338,15 @@ public readonly struct Camera : global::RecursiveAI.OneDocument.Schema.IElementV
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.Camera Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Camera Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Camera;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Camera;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("camera"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("camera"u8);
         return false;
     }
 
@@ -1360,29 +1360,29 @@ public readonly struct Camera : global::RecursiveAI.OneDocument.Schema.IElementV
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("prst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("prst"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:prst</c> (w14:ST_PresetCameraType, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrstText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PresetCameraTypeValue? Prst
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetCameraTypeValue? Prst
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.PresetCameraTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "prst"u8, global::RecursiveAI.OneDocument.Schema.Word2010.PresetCameraTypeValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "prst"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.PresetCameraTypeValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetCameraTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "prst"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetCameraTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "prst"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetCameraTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:prst</c>, whatever it is.</summary>
-    public string? PrstText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "prst"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "prst"u8, value); }
+    public string? PrstText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "prst"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "prst"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.Camera> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Camera> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_Color</c>, the type of <c>w14:contourClr</c>, <c>w14:extrusionClr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Color : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.Color>
+public readonly struct Color : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Color>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -1394,25 +1394,25 @@ public readonly struct Color : global::RecursiveAI.OneDocument.Schema.IElementVi
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.Color Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Color Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Color;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Color;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("contourClr"u8) || local.SequenceEqual("extrusionClr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("contourClr"u8) || local.SequenceEqual("extrusionClr"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("schemeClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SchemeColor; }
-            if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SRgbColor; }
+            if (local.SequenceEqual("schemeClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SchemeColor; }
+            if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SRgbColor; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -1432,36 +1432,36 @@ public readonly struct Color : global::RecursiveAI.OneDocument.Schema.IElementVi
     }
 
     /// <summary>The <c>w14:srgbClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "srgbClr"u8);
 
     /// <summary>Returns the <c>w14:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor, global::RecursiveAI.OneDocument.Schema.Word2010.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "srgbClr"u8);
 
     /// <summary>Removes every <c>w14:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "srgbClr"u8);
+    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "srgbClr"u8);
 
     /// <summary>The <c>w14:schemeClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "schemeClr"u8);
 
     /// <summary>Returns the <c>w14:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor, global::RecursiveAI.OneDocument.Schema.Word2010.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "schemeClr"u8);
 
     /// <summary>Removes every <c>w14:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "schemeClr"u8);
+    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "schemeClr"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.Color> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Color> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_DefaultImageDpi</c>, the type of <c>w14:defaultImageDpi</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct DefaultImageDpi : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.DefaultImageDpi>
+public readonly struct DefaultImageDpi : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.DefaultImageDpi>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -1473,15 +1473,15 @@ public readonly struct DefaultImageDpi : global::RecursiveAI.OneDocument.Schema.
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.DefaultImageDpi Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.DefaultImageDpi Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010DefaultImageDpi;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010DefaultImageDpi;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("defaultImageDpi"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("defaultImageDpi"u8);
         return false;
     }
 
@@ -1495,22 +1495,22 @@ public readonly struct DefaultImageDpi : global::RecursiveAI.OneDocument.Schema.
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("val"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("val"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:val</c> (w:ST_DecimalNumber, required). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Val { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public long? Val { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.DefaultImageDpi> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.DefaultImageDpi> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_FillTextEffect</c>, the type of <c>w14:textFill</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct FillTextEffect : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.FillTextEffect>
+public readonly struct FillTextEffect : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.FillTextEffect>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -1522,26 +1522,26 @@ public readonly struct FillTextEffect : global::RecursiveAI.OneDocument.Schema.I
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.FillTextEffect Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.FillTextEffect Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010FillTextEffect;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010FillTextEffect;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("textFill"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("textFill"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("gradFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010GradientFillProperties; }
+            if (local.SequenceEqual("gradFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010GradientFillProperties; }
             if (local.SequenceEqual("noFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.WordprocessingEmpty; }
-            if (local.SequenceEqual("solidFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SolidColorFillProperties; }
+            if (local.SequenceEqual("solidFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SolidColorFillProperties; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -1561,47 +1561,47 @@ public readonly struct FillTextEffect : global::RecursiveAI.OneDocument.Schema.I
     }
 
     /// <summary>The <c>w14:noFill</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty? NoFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "noFill"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty? NoFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "noFill"u8);
 
     /// <summary>Returns the <c>w14:noFill</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty GetOrAddNoFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty, global::RecursiveAI.OneDocument.Schema.Word2010.FillTextEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "noFill"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty GetOrAddNoFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.FillTextEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "noFill"u8);
 
     /// <summary>Removes every <c>w14:noFill</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveNoFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "noFill"u8);
+    public bool RemoveNoFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "noFill"u8);
 
     /// <summary>The <c>w14:solidFill</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SolidColorFillProperties? SolidFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.SolidColorFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "solidFill"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SolidColorFillProperties? SolidFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SolidColorFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "solidFill"u8);
 
     /// <summary>Returns the <c>w14:solidFill</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SolidColorFillProperties GetOrAddSolidFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.SolidColorFillProperties, global::RecursiveAI.OneDocument.Schema.Word2010.FillTextEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "solidFill"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SolidColorFillProperties GetOrAddSolidFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SolidColorFillProperties, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.FillTextEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "solidFill"u8);
 
     /// <summary>Removes every <c>w14:solidFill</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSolidFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "solidFill"u8);
+    public bool RemoveSolidFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "solidFill"u8);
 
     /// <summary>The <c>w14:gradFill</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.GradientFillProperties? GradFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.GradientFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "gradFill"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientFillProperties? GradFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "gradFill"u8);
 
     /// <summary>Returns the <c>w14:gradFill</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.GradientFillProperties GetOrAddGradFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.GradientFillProperties, global::RecursiveAI.OneDocument.Schema.Word2010.FillTextEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "gradFill"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientFillProperties GetOrAddGradFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientFillProperties, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.FillTextEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "gradFill"u8);
 
     /// <summary>Removes every <c>w14:gradFill</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveGradFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "gradFill"u8);
+    public bool RemoveGradFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "gradFill"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.FillTextEffect> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.FillTextEffect> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_Glow</c>, the type of <c>w14:glow</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Glow : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.Glow>
+public readonly struct Glow : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Glow>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -1613,25 +1613,25 @@ public readonly struct Glow : global::RecursiveAI.OneDocument.Schema.IElementVie
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.Glow Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Glow Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Glow;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Glow;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("glow"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("glow"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("schemeClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SchemeColor; }
-            if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SRgbColor; }
+            if (local.SequenceEqual("schemeClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SchemeColor; }
+            if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SRgbColor; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -1647,44 +1647,44 @@ public readonly struct Glow : global::RecursiveAI.OneDocument.Schema.IElementVie
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("rad"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("rad"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:rad</c> (a:ST_PositiveCoordinate). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Rad { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "rad"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "rad"u8, value); }
+    public long? Rad { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "rad"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "rad"u8, value); }
 
     /// <summary>The <c>w14:srgbClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "srgbClr"u8);
 
     /// <summary>Returns the <c>w14:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor, global::RecursiveAI.OneDocument.Schema.Word2010.Glow>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Glow>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "srgbClr"u8);
 
     /// <summary>Removes every <c>w14:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "srgbClr"u8);
+    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "srgbClr"u8);
 
     /// <summary>The <c>w14:schemeClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "schemeClr"u8);
 
     /// <summary>Returns the <c>w14:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor, global::RecursiveAI.OneDocument.Schema.Word2010.Glow>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Glow>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "schemeClr"u8);
 
     /// <summary>Removes every <c>w14:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "schemeClr"u8);
+    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "schemeClr"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.Glow> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Glow> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_GradientFillProperties</c>, the type of <c>w14:gradFill</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct GradientFillProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.GradientFillProperties>
+public readonly struct GradientFillProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientFillProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -1696,26 +1696,26 @@ public readonly struct GradientFillProperties : global::RecursiveAI.OneDocument.
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.GradientFillProperties Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientFillProperties Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010GradientFillProperties;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010GradientFillProperties;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("gradFill"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("gradFill"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("gsLst"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010GradientStopList; }
-            if (local.SequenceEqual("lin"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010LinearShadeProperties; }
-            if (local.SequenceEqual("path"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010PathShadeProperties; }
+            if (local.SequenceEqual("gsLst"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010GradientStopList; }
+            if (local.SequenceEqual("lin"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010LinearShadeProperties; }
+            if (local.SequenceEqual("path"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010PathShadeProperties; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -1735,47 +1735,47 @@ public readonly struct GradientFillProperties : global::RecursiveAI.OneDocument.
     }
 
     /// <summary>The <c>w14:gsLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.GradientStopList? GsLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.GradientStopList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "gsLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStopList? GsLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStopList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "gsLst"u8);
 
     /// <summary>Returns the <c>w14:gsLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.GradientStopList GetOrAddGsLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.GradientStopList, global::RecursiveAI.OneDocument.Schema.Word2010.GradientFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "gsLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStopList GetOrAddGsLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStopList, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "gsLst"u8);
 
     /// <summary>Removes every <c>w14:gsLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveGsLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "gsLst"u8);
+    public bool RemoveGsLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "gsLst"u8);
 
     /// <summary>The <c>w14:lin</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.LinearShadeProperties? Lin => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.LinearShadeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lin"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LinearShadeProperties? Lin => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LinearShadeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lin"u8);
 
     /// <summary>Returns the <c>w14:lin</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.LinearShadeProperties GetOrAddLin() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.LinearShadeProperties, global::RecursiveAI.OneDocument.Schema.Word2010.GradientFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lin"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LinearShadeProperties GetOrAddLin() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LinearShadeProperties, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lin"u8);
 
     /// <summary>Removes every <c>w14:lin</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveLin() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lin"u8);
+    public bool RemoveLin() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lin"u8);
 
     /// <summary>The <c>w14:path</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PathShadeProperties? Path => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.PathShadeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "path"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PathShadeProperties? Path => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PathShadeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "path"u8);
 
     /// <summary>Returns the <c>w14:path</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PathShadeProperties GetOrAddPath() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.PathShadeProperties, global::RecursiveAI.OneDocument.Schema.Word2010.GradientFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "path"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PathShadeProperties GetOrAddPath() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PathShadeProperties, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "path"u8);
 
     /// <summary>Removes every <c>w14:path</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemovePath() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "path"u8);
+    public bool RemovePath() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "path"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.GradientFillProperties> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientFillProperties> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_GradientStop</c>, the type of <c>w14:gs</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct GradientStop : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.GradientStop>
+public readonly struct GradientStop : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStop>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -1787,25 +1787,25 @@ public readonly struct GradientStop : global::RecursiveAI.OneDocument.Schema.IEl
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.GradientStop Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStop Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010GradientStop;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010GradientStop;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("gs"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("gs"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("schemeClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SchemeColor; }
-            if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SRgbColor; }
+            if (local.SequenceEqual("schemeClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SchemeColor; }
+            if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SRgbColor; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -1821,47 +1821,47 @@ public readonly struct GradientStop : global::RecursiveAI.OneDocument.Schema.IEl
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("pos"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("pos"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:pos</c> (a:ST_PositiveFixedPercentage, required). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Pos { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "pos"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "pos"u8, value); }
+    public long? Pos { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "pos"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "pos"u8, value); }
 
     /// <summary>The raw text of <c>w14:pos</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? PosText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "pos"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "pos"u8, value); }
+    public string? PosText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "pos"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "pos"u8, value); }
 
     /// <summary>The <c>w14:srgbClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "srgbClr"u8);
 
     /// <summary>Returns the <c>w14:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor, global::RecursiveAI.OneDocument.Schema.Word2010.GradientStop>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStop>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "srgbClr"u8);
 
     /// <summary>Removes every <c>w14:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "srgbClr"u8);
+    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "srgbClr"u8);
 
     /// <summary>The <c>w14:schemeClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "schemeClr"u8);
 
     /// <summary>Returns the <c>w14:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor, global::RecursiveAI.OneDocument.Schema.Word2010.GradientStop>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStop>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "schemeClr"u8);
 
     /// <summary>Removes every <c>w14:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "schemeClr"u8);
+    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "schemeClr"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.GradientStop> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStop> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_GradientStopList</c>, the type of <c>w14:gsLst</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct GradientStopList : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.GradientStopList>
+public readonly struct GradientStopList : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStopList>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -1873,24 +1873,24 @@ public readonly struct GradientStopList : global::RecursiveAI.OneDocument.Schema
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.GradientStopList Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStopList Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010GradientStopList;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010GradientStopList;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("gsLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("gsLst"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("gs"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010GradientStop; }
+            if (local.SequenceEqual("gs"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010GradientStop; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -1910,25 +1910,25 @@ public readonly struct GradientStopList : global::RecursiveAI.OneDocument.Schema
     }
 
     /// <summary>The <c>w14:gs</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.GradientStop> Gses => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "gs"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStop> Gses => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "gs"u8);
 
     /// <summary>Adds a <c>w14:gs</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.GradientStop AddGs() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.GradientStop, global::RecursiveAI.OneDocument.Schema.Word2010.GradientStopList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "gs"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStop AddGs() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStop, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStopList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "gs"u8);
 
     /// <summary>Removes every <c>w14:gs</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveGs() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "gs"u8);
+    public bool RemoveGs() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "gs"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.GradientStopList> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientStopList> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_Ligatures</c>, the type of <c>w14:ligatures</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Ligatures : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.Ligatures>
+public readonly struct Ligatures : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Ligatures>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -1940,15 +1940,15 @@ public readonly struct Ligatures : global::RecursiveAI.OneDocument.Schema.IEleme
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.Ligatures Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Ligatures Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Ligatures;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Ligatures;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("ligatures"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("ligatures"u8);
         return false;
     }
 
@@ -1962,29 +1962,29 @@ public readonly struct Ligatures : global::RecursiveAI.OneDocument.Schema.IEleme
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("val"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("val"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:val</c> (w14:ST_Ligatures, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.LigaturesValue? Val
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LigaturesValue? Val
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.LigaturesValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneDocument.Schema.Word2010.LigaturesValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.LigaturesValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LigaturesValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LigaturesValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LigaturesValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:val</c>, whatever it is.</summary>
-    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.Ligatures> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Ligatures> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_LightRig</c>, the type of <c>w14:lightRig</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct LightRig : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.LightRig>
+public readonly struct LightRig : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRig>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -1996,24 +1996,24 @@ public readonly struct LightRig : global::RecursiveAI.OneDocument.Schema.IElemen
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.LightRig Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRig Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010LightRig;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010LightRig;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("lightRig"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("lightRig"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("rot"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SphereCoords; }
+            if (local.SequenceEqual("rot"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SphereCoords; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -2029,50 +2029,50 @@ public readonly struct LightRig : global::RecursiveAI.OneDocument.Schema.IElemen
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("dir"u8) || local.SequenceEqual("rig"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("dir"u8) || local.SequenceEqual("rig"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:rig</c> (w14:ST_LightRigType, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="RigText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.LightRigTypeValue? Rig
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRigTypeValue? Rig
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.LightRigTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "rig"u8, global::RecursiveAI.OneDocument.Schema.Word2010.LightRigTypeValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "rig"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.LightRigTypeValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRigTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "rig"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRigTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "rig"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRigTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:rig</c>, whatever it is.</summary>
-    public string? RigText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "rig"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "rig"u8, value); }
+    public string? RigText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "rig"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "rig"u8, value); }
 
     /// <summary>Attribute <c>w14:dir</c> (w14:ST_LightRigDirection, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="DirText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.LightRigDirectionValue? Dir
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRigDirectionValue? Dir
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.LightRigDirectionValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "dir"u8, global::RecursiveAI.OneDocument.Schema.Word2010.LightRigDirectionValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "dir"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.LightRigDirectionValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRigDirectionValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "dir"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRigDirectionValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "dir"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRigDirectionValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:dir</c>, whatever it is.</summary>
-    public string? DirText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "dir"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "dir"u8, value); }
+    public string? DirText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "dir"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "dir"u8, value); }
 
     /// <summary>The <c>w14:rot</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SphereCoords? Rot => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.SphereCoords>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "rot"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SphereCoords? Rot => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SphereCoords>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "rot"u8);
 
     /// <summary>Returns the <c>w14:rot</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SphereCoords GetOrAddRot() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.SphereCoords, global::RecursiveAI.OneDocument.Schema.Word2010.LightRig>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "rot"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SphereCoords GetOrAddRot() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SphereCoords, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRig>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "rot"u8);
 
     /// <summary>Removes every <c>w14:rot</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveRot() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "rot"u8);
+    public bool RemoveRot() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "rot"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.LightRig> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRig> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_LineJoinMiterProperties</c>, the type of <c>w14:miter</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct LineJoinMiterProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.LineJoinMiterProperties>
+public readonly struct LineJoinMiterProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LineJoinMiterProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -2084,15 +2084,15 @@ public readonly struct LineJoinMiterProperties : global::RecursiveAI.OneDocument
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.LineJoinMiterProperties Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LineJoinMiterProperties Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010LineJoinMiterProperties;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010LineJoinMiterProperties;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("miter"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("miter"u8);
         return false;
     }
 
@@ -2106,25 +2106,25 @@ public readonly struct LineJoinMiterProperties : global::RecursiveAI.OneDocument
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("lim"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("lim"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:lim</c> (a:ST_PositivePercentage). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Lim { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lim"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lim"u8, value); }
+    public long? Lim { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lim"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lim"u8, value); }
 
     /// <summary>The raw text of <c>w14:lim</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? LimText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lim"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lim"u8, value); }
+    public string? LimText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lim"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lim"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.LineJoinMiterProperties> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LineJoinMiterProperties> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_LinearShadeProperties</c>, the type of <c>w14:lin</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct LinearShadeProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.LinearShadeProperties>
+public readonly struct LinearShadeProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LinearShadeProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -2136,15 +2136,15 @@ public readonly struct LinearShadeProperties : global::RecursiveAI.OneDocument.S
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.LinearShadeProperties Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LinearShadeProperties Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010LinearShadeProperties;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010LinearShadeProperties;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("lin"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("lin"u8);
         return false;
     }
 
@@ -2158,32 +2158,32 @@ public readonly struct LinearShadeProperties : global::RecursiveAI.OneDocument.S
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("ang"u8) || local.SequenceEqual("scaled"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("ang"u8) || local.SequenceEqual("scaled"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:ang</c> (a:ST_PositiveFixedAngle). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Ang { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "ang"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "ang"u8, value); }
+    public long? Ang { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "ang"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "ang"u8, value); }
 
     /// <summary>Attribute <c>w14:scaled</c> (w14:ST_OnOff). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ScaledText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.OnOffValue? Scaled
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOffValue? Scaled
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.OnOffValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "scaled"u8, global::RecursiveAI.OneDocument.Schema.Word2010.OnOffValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "scaled"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.OnOffValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOffValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "scaled"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOffValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "scaled"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOffValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:scaled</c>, whatever it is.</summary>
-    public string? ScaledText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "scaled"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "scaled"u8, value); }
+    public string? ScaledText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "scaled"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "scaled"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.LinearShadeProperties> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LinearShadeProperties> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_LongHexNumber</c>, the type of <c>w14:docId</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct LongHexNumber : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.LongHexNumber>
+public readonly struct LongHexNumber : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LongHexNumber>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -2195,15 +2195,15 @@ public readonly struct LongHexNumber : global::RecursiveAI.OneDocument.Schema.IE
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.LongHexNumber Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LongHexNumber Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010LongHexNumber;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010LongHexNumber;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("docId"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("docId"u8);
         return false;
     }
 
@@ -2217,22 +2217,22 @@ public readonly struct LongHexNumber : global::RecursiveAI.OneDocument.Schema.IE
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("val"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("val"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:val</c> (w:ST_LongHexNumber, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
-    public string? Val { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public string? Val { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.LongHexNumber> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LongHexNumber> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_NumForm</c>, the type of <c>w14:numForm</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct NumForm : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.NumForm>
+public readonly struct NumForm : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.NumForm>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -2244,15 +2244,15 @@ public readonly struct NumForm : global::RecursiveAI.OneDocument.Schema.IElement
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.NumForm Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.NumForm Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010NumForm;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010NumForm;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("numForm"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("numForm"u8);
         return false;
     }
 
@@ -2266,29 +2266,29 @@ public readonly struct NumForm : global::RecursiveAI.OneDocument.Schema.IElement
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("val"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("val"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:val</c> (w14:ST_NumForm, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.NumFormValue? Val
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.NumFormValue? Val
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.NumFormValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneDocument.Schema.Word2010.NumFormValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.NumFormValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.NumFormValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.NumFormValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.NumFormValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:val</c>, whatever it is.</summary>
-    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.NumForm> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.NumForm> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_NumSpacing</c>, the type of <c>w14:numSpacing</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct NumSpacing : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.NumSpacing>
+public readonly struct NumSpacing : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.NumSpacing>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -2300,15 +2300,15 @@ public readonly struct NumSpacing : global::RecursiveAI.OneDocument.Schema.IElem
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.NumSpacing Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.NumSpacing Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010NumSpacing;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010NumSpacing;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("numSpacing"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("numSpacing"u8);
         return false;
     }
 
@@ -2322,29 +2322,29 @@ public readonly struct NumSpacing : global::RecursiveAI.OneDocument.Schema.IElem
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("val"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("val"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:val</c> (w14:ST_NumSpacing, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.NumSpacingValue? Val
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.NumSpacingValue? Val
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.NumSpacingValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneDocument.Schema.Word2010.NumSpacingValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.NumSpacingValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.NumSpacingValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.NumSpacingValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.NumSpacingValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:val</c>, whatever it is.</summary>
-    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.NumSpacing> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.NumSpacing> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_OnOff</c>, the type of <c>w14:checked</c>, <c>w14:cntxtAlts</c>, <c>w14:conflictMode</c>, <c>w14:discardImageEditingData</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct OnOff : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.OnOff>
+public readonly struct OnOff : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOff>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -2356,15 +2356,15 @@ public readonly struct OnOff : global::RecursiveAI.OneDocument.Schema.IElementVi
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.OnOff Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOff Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010OnOff;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010OnOff;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("checked"u8) || local.SequenceEqual("cntxtAlts"u8) || local.SequenceEqual("conflictMode"u8) || local.SequenceEqual("discardImageEditingData"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("checked"u8) || local.SequenceEqual("cntxtAlts"u8) || local.SequenceEqual("conflictMode"u8) || local.SequenceEqual("discardImageEditingData"u8);
         return false;
     }
 
@@ -2378,29 +2378,29 @@ public readonly struct OnOff : global::RecursiveAI.OneDocument.Schema.IElementVi
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("val"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("val"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:val</c> (w14:ST_OnOff). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.OnOffValue? Val
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOffValue? Val
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.OnOffValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneDocument.Schema.Word2010.OnOffValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.OnOffValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOffValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOffValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOffValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:val</c>, whatever it is.</summary>
-    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.OnOff> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOff> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_PathShadeProperties</c>, the type of <c>w14:path</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct PathShadeProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.PathShadeProperties>
+public readonly struct PathShadeProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PathShadeProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -2412,24 +2412,24 @@ public readonly struct PathShadeProperties : global::RecursiveAI.OneDocument.Sch
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.PathShadeProperties Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PathShadeProperties Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010PathShadeProperties;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010PathShadeProperties;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("path"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("path"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("fillToRect"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010RelativeRect; }
+            if (local.SequenceEqual("fillToRect"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010RelativeRect; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -2445,40 +2445,40 @@ public readonly struct PathShadeProperties : global::RecursiveAI.OneDocument.Sch
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("path"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("path"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:path</c> (w14:ST_PathShadeType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PathText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PathShadeTypeValue? Path
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PathShadeTypeValue? Path
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.PathShadeTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "path"u8, global::RecursiveAI.OneDocument.Schema.Word2010.PathShadeTypeValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "path"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.PathShadeTypeValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PathShadeTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "path"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PathShadeTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "path"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PathShadeTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:path</c>, whatever it is.</summary>
-    public string? PathText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "path"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "path"u8, value); }
+    public string? PathText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "path"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "path"u8, value); }
 
     /// <summary>The <c>w14:fillToRect</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.RelativeRect? FillToRect => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.RelativeRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "fillToRect"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.RelativeRect? FillToRect => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.RelativeRect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "fillToRect"u8);
 
     /// <summary>Returns the <c>w14:fillToRect</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.RelativeRect GetOrAddFillToRect() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.RelativeRect, global::RecursiveAI.OneDocument.Schema.Word2010.PathShadeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "fillToRect"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.RelativeRect GetOrAddFillToRect() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.RelativeRect, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PathShadeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "fillToRect"u8);
 
     /// <summary>Removes every <c>w14:fillToRect</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveFillToRect() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "fillToRect"u8);
+    public bool RemoveFillToRect() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "fillToRect"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.PathShadeProperties> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PathShadeProperties> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_Percentage</c>, the type of <c>w14:lum</c>, <c>w14:lumMod</c>, <c>w14:lumOff</c>, <c>w14:sat</c>, <c>w14:satMod</c>, <c>w14:satOff</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Percentage : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage>
+public readonly struct Percentage : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -2490,15 +2490,15 @@ public readonly struct Percentage : global::RecursiveAI.OneDocument.Schema.IElem
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.Percentage Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Percentage;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Percentage;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("lum"u8) || local.SequenceEqual("lumMod"u8) || local.SequenceEqual("lumOff"u8) || local.SequenceEqual("sat"u8) || local.SequenceEqual("satMod"u8) || local.SequenceEqual("satOff"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("lum"u8) || local.SequenceEqual("lumMod"u8) || local.SequenceEqual("lumOff"u8) || local.SequenceEqual("sat"u8) || local.SequenceEqual("satMod"u8) || local.SequenceEqual("satOff"u8);
         return false;
     }
 
@@ -2512,25 +2512,25 @@ public readonly struct Percentage : global::RecursiveAI.OneDocument.Schema.IElem
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("val"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("val"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:val</c> (a:ST_Percentage, required). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Val { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public long? Val { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>The raw text of <c>w14:val</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_PositiveFixedPercentage</c>, the type of <c>w14:alpha</c>, <c>w14:shade</c>, <c>w14:tint</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct PositiveFixedPercentage : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage>
+public readonly struct PositiveFixedPercentage : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -2542,15 +2542,15 @@ public readonly struct PositiveFixedPercentage : global::RecursiveAI.OneDocument
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010PositiveFixedPercentage;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010PositiveFixedPercentage;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("alpha"u8) || local.SequenceEqual("shade"u8) || local.SequenceEqual("tint"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("alpha"u8) || local.SequenceEqual("shade"u8) || local.SequenceEqual("tint"u8);
         return false;
     }
 
@@ -2564,25 +2564,25 @@ public readonly struct PositiveFixedPercentage : global::RecursiveAI.OneDocument
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("val"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("val"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:val</c> (a:ST_PositiveFixedPercentage, required). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Val { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public long? Val { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>The raw text of <c>w14:val</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_PositivePercentage</c>, the type of <c>w14:hueMod</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct PositivePercentage : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.PositivePercentage>
+public readonly struct PositivePercentage : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositivePercentage>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -2594,15 +2594,15 @@ public readonly struct PositivePercentage : global::RecursiveAI.OneDocument.Sche
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.PositivePercentage Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositivePercentage Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010PositivePercentage;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010PositivePercentage;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("hueMod"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("hueMod"u8);
         return false;
     }
 
@@ -2616,25 +2616,25 @@ public readonly struct PositivePercentage : global::RecursiveAI.OneDocument.Sche
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("val"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("val"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:val</c> (a:ST_PositivePercentage, required). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Val { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public long? Val { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>The raw text of <c>w14:val</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.PositivePercentage> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositivePercentage> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_PresetLineDashProperties</c>, the type of <c>w14:prstDash</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct PresetLineDashProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.PresetLineDashProperties>
+public readonly struct PresetLineDashProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetLineDashProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -2646,15 +2646,15 @@ public readonly struct PresetLineDashProperties : global::RecursiveAI.OneDocumen
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.PresetLineDashProperties Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetLineDashProperties Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010PresetLineDashProperties;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010PresetLineDashProperties;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("prstDash"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("prstDash"u8);
         return false;
     }
 
@@ -2668,29 +2668,29 @@ public readonly struct PresetLineDashProperties : global::RecursiveAI.OneDocumen
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("val"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("val"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:val</c> (w14:ST_PresetLineDashVal). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PresetLineDashValValue? Val
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetLineDashValValue? Val
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.PresetLineDashValValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneDocument.Schema.Word2010.PresetLineDashValValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.PresetLineDashValValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetLineDashValValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetLineDashValValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetLineDashValValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:val</c>, whatever it is.</summary>
-    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.PresetLineDashProperties> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetLineDashProperties> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_Props3D</c>, the type of <c>w14:props3d</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Props3D : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.Props3D>
+public readonly struct Props3D : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Props3D>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -2702,27 +2702,27 @@ public readonly struct Props3D : global::RecursiveAI.OneDocument.Schema.IElement
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.Props3D Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Props3D Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Props3D;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Props3D;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("props3d"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("props3d"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("bevelB"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Bevel; }
-            if (local.SequenceEqual("bevelT"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Bevel; }
-            if (local.SequenceEqual("contourClr"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Color; }
-            if (local.SequenceEqual("extrusionClr"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Color; }
+            if (local.SequenceEqual("bevelB"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Bevel; }
+            if (local.SequenceEqual("bevelT"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Bevel; }
+            if (local.SequenceEqual("contourClr"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Color; }
+            if (local.SequenceEqual("extrusionClr"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Color; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -2738,79 +2738,79 @@ public readonly struct Props3D : global::RecursiveAI.OneDocument.Schema.IElement
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("contourW"u8) || local.SequenceEqual("extrusionH"u8) || local.SequenceEqual("prstMaterial"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("contourW"u8) || local.SequenceEqual("extrusionH"u8) || local.SequenceEqual("prstMaterial"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:extrusionH</c> (a:ST_PositiveCoordinate). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? ExtrusionH { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "extrusionH"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "extrusionH"u8, value); }
+    public long? ExtrusionH { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "extrusionH"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "extrusionH"u8, value); }
 
     /// <summary>Attribute <c>w14:contourW</c> (a:ST_PositiveCoordinate). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? ContourW { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "contourW"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "contourW"u8, value); }
+    public long? ContourW { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "contourW"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "contourW"u8, value); }
 
     /// <summary>Attribute <c>w14:prstMaterial</c> (w14:ST_PresetMaterialType). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrstMaterialText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PresetMaterialTypeValue? PrstMaterial
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetMaterialTypeValue? PrstMaterial
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.PresetMaterialTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "prstMaterial"u8, global::RecursiveAI.OneDocument.Schema.Word2010.PresetMaterialTypeValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "prstMaterial"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.PresetMaterialTypeValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetMaterialTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "prstMaterial"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetMaterialTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "prstMaterial"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetMaterialTypeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:prstMaterial</c>, whatever it is.</summary>
-    public string? PrstMaterialText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "prstMaterial"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "prstMaterial"u8, value); }
+    public string? PrstMaterialText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "prstMaterial"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "prstMaterial"u8, value); }
 
     /// <summary>The <c>w14:bevelT</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Bevel? BevelT => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.Bevel>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "bevelT"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Bevel? BevelT => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Bevel>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "bevelT"u8);
 
     /// <summary>Returns the <c>w14:bevelT</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Bevel GetOrAddBevelT() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Bevel, global::RecursiveAI.OneDocument.Schema.Word2010.Props3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "bevelT"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Bevel GetOrAddBevelT() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Bevel, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Props3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "bevelT"u8);
 
     /// <summary>Removes every <c>w14:bevelT</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBevelT() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "bevelT"u8);
+    public bool RemoveBevelT() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "bevelT"u8);
 
     /// <summary>The <c>w14:bevelB</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Bevel? BevelB => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.Bevel>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "bevelB"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Bevel? BevelB => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Bevel>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "bevelB"u8);
 
     /// <summary>Returns the <c>w14:bevelB</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Bevel GetOrAddBevelB() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Bevel, global::RecursiveAI.OneDocument.Schema.Word2010.Props3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "bevelB"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Bevel GetOrAddBevelB() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Bevel, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Props3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "bevelB"u8);
 
     /// <summary>Removes every <c>w14:bevelB</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBevelB() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "bevelB"u8);
+    public bool RemoveBevelB() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "bevelB"u8);
 
     /// <summary>The <c>w14:extrusionClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Color? ExtrusionClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "extrusionClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Color? ExtrusionClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "extrusionClr"u8);
 
     /// <summary>Returns the <c>w14:extrusionClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Color GetOrAddExtrusionClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Color, global::RecursiveAI.OneDocument.Schema.Word2010.Props3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "extrusionClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Color GetOrAddExtrusionClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Color, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Props3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "extrusionClr"u8);
 
     /// <summary>Removes every <c>w14:extrusionClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtrusionClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "extrusionClr"u8);
+    public bool RemoveExtrusionClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "extrusionClr"u8);
 
     /// <summary>The <c>w14:contourClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Color? ContourClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "contourClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Color? ContourClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "contourClr"u8);
 
     /// <summary>Returns the <c>w14:contourClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Color GetOrAddContourClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Color, global::RecursiveAI.OneDocument.Schema.Word2010.Props3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "contourClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Color GetOrAddContourClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Color, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Props3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "contourClr"u8);
 
     /// <summary>Removes every <c>w14:contourClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveContourClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "contourClr"u8);
+    public bool RemoveContourClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "contourClr"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.Props3D> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Props3D> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_Reflection</c>, the type of <c>w14:reflection</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Reflection : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.Reflection>
+public readonly struct Reflection : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Reflection>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -2822,15 +2822,15 @@ public readonly struct Reflection : global::RecursiveAI.OneDocument.Schema.IElem
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.Reflection Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Reflection Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Reflection;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Reflection;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("reflection"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("reflection"u8);
         return false;
     }
 
@@ -2844,83 +2844,83 @@ public readonly struct Reflection : global::RecursiveAI.OneDocument.Schema.IElem
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("algn"u8) || local.SequenceEqual("blurRad"u8) || local.SequenceEqual("dir"u8) || local.SequenceEqual("dist"u8) || local.SequenceEqual("endA"u8) || local.SequenceEqual("endPos"u8) || local.SequenceEqual("fadeDir"u8) || local.SequenceEqual("kx"u8) || local.SequenceEqual("ky"u8) || local.SequenceEqual("stA"u8) || local.SequenceEqual("stPos"u8) || local.SequenceEqual("sx"u8) || local.SequenceEqual("sy"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("algn"u8) || local.SequenceEqual("blurRad"u8) || local.SequenceEqual("dir"u8) || local.SequenceEqual("dist"u8) || local.SequenceEqual("endA"u8) || local.SequenceEqual("endPos"u8) || local.SequenceEqual("fadeDir"u8) || local.SequenceEqual("kx"u8) || local.SequenceEqual("ky"u8) || local.SequenceEqual("stA"u8) || local.SequenceEqual("stPos"u8) || local.SequenceEqual("sx"u8) || local.SequenceEqual("sy"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:blurRad</c> (a:ST_PositiveCoordinate). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? BlurRad { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "blurRad"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "blurRad"u8, value); }
+    public long? BlurRad { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "blurRad"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "blurRad"u8, value); }
 
     /// <summary>Attribute <c>w14:stA</c> (a:ST_PositiveFixedPercentage). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? StA { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "stA"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "stA"u8, value); }
+    public long? StA { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "stA"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "stA"u8, value); }
 
     /// <summary>The raw text of <c>w14:stA</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? StAText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "stA"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "stA"u8, value); }
+    public string? StAText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "stA"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "stA"u8, value); }
 
     /// <summary>Attribute <c>w14:stPos</c> (a:ST_PositiveFixedPercentage). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? StPos { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "stPos"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "stPos"u8, value); }
+    public long? StPos { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "stPos"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "stPos"u8, value); }
 
     /// <summary>The raw text of <c>w14:stPos</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? StPosText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "stPos"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "stPos"u8, value); }
+    public string? StPosText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "stPos"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "stPos"u8, value); }
 
     /// <summary>Attribute <c>w14:endA</c> (a:ST_PositiveFixedPercentage). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? EndA { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "endA"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "endA"u8, value); }
+    public long? EndA { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "endA"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "endA"u8, value); }
 
     /// <summary>The raw text of <c>w14:endA</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? EndAText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "endA"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "endA"u8, value); }
+    public string? EndAText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "endA"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "endA"u8, value); }
 
     /// <summary>Attribute <c>w14:endPos</c> (a:ST_PositiveFixedPercentage). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? EndPos { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "endPos"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "endPos"u8, value); }
+    public long? EndPos { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "endPos"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "endPos"u8, value); }
 
     /// <summary>The raw text of <c>w14:endPos</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? EndPosText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "endPos"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "endPos"u8, value); }
+    public string? EndPosText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "endPos"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "endPos"u8, value); }
 
     /// <summary>Attribute <c>w14:dist</c> (a:ST_PositiveCoordinate). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Dist { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "dist"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "dist"u8, value); }
+    public long? Dist { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "dist"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "dist"u8, value); }
 
     /// <summary>Attribute <c>w14:dir</c> (a:ST_PositiveFixedAngle). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Dir { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "dir"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "dir"u8, value); }
+    public long? Dir { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "dir"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "dir"u8, value); }
 
     /// <summary>Attribute <c>w14:fadeDir</c> (a:ST_PositiveFixedAngle). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? FadeDir { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "fadeDir"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "fadeDir"u8, value); }
+    public long? FadeDir { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "fadeDir"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "fadeDir"u8, value); }
 
     /// <summary>Attribute <c>w14:sx</c> (a:ST_Percentage). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Sx { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sx"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sx"u8, value); }
+    public long? Sx { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sx"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sx"u8, value); }
 
     /// <summary>The raw text of <c>w14:sx</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? SxText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sx"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sx"u8, value); }
+    public string? SxText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sx"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sx"u8, value); }
 
     /// <summary>Attribute <c>w14:sy</c> (a:ST_Percentage). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Sy { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sy"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sy"u8, value); }
+    public long? Sy { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sy"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sy"u8, value); }
 
     /// <summary>The raw text of <c>w14:sy</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? SyText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sy"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sy"u8, value); }
+    public string? SyText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sy"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sy"u8, value); }
 
     /// <summary>Attribute <c>w14:kx</c> (a:ST_FixedAngle). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Kx { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "kx"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "kx"u8, value); }
+    public long? Kx { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "kx"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "kx"u8, value); }
 
     /// <summary>Attribute <c>w14:ky</c> (a:ST_FixedAngle). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Ky { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "ky"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "ky"u8, value); }
+    public long? Ky { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "ky"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "ky"u8, value); }
 
     /// <summary>Attribute <c>w14:algn</c> (w14:ST_RectAlignment). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AlgnText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.RectAlignmentValue? Algn
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.RectAlignmentValue? Algn
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.RectAlignmentValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "algn"u8, global::RecursiveAI.OneDocument.Schema.Word2010.RectAlignmentValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "algn"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.RectAlignmentValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.RectAlignmentValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "algn"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.RectAlignmentValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "algn"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.RectAlignmentValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:algn</c>, whatever it is.</summary>
-    public string? AlgnText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "algn"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "algn"u8, value); }
+    public string? AlgnText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "algn"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "algn"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.Reflection> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Reflection> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_RelativeRect</c>, the type of <c>w14:fillToRect</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct RelativeRect : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.RelativeRect>
+public readonly struct RelativeRect : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.RelativeRect>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -2932,15 +2932,15 @@ public readonly struct RelativeRect : global::RecursiveAI.OneDocument.Schema.IEl
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.RelativeRect Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.RelativeRect Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010RelativeRect;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010RelativeRect;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("fillToRect"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("fillToRect"u8);
         return false;
     }
 
@@ -2954,43 +2954,43 @@ public readonly struct RelativeRect : global::RecursiveAI.OneDocument.Schema.IEl
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("b"u8) || local.SequenceEqual("l"u8) || local.SequenceEqual("r"u8) || local.SequenceEqual("t"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("b"u8) || local.SequenceEqual("l"u8) || local.SequenceEqual("r"u8) || local.SequenceEqual("t"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:l</c> (a:ST_Percentage). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? L { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "l"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "l"u8, value); }
+    public long? L { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "l"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "l"u8, value); }
 
     /// <summary>The raw text of <c>w14:l</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? LText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "l"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "l"u8, value); }
+    public string? LText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "l"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "l"u8, value); }
 
     /// <summary>Attribute <c>w14:t</c> (a:ST_Percentage). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? T { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "t"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "t"u8, value); }
+    public long? T { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "t"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "t"u8, value); }
 
     /// <summary>The raw text of <c>w14:t</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? TText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "t"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "t"u8, value); }
+    public string? TText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "t"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "t"u8, value); }
 
     /// <summary>Attribute <c>w14:r</c> (a:ST_Percentage). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? R { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "r"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "r"u8, value); }
+    public long? R { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "r"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "r"u8, value); }
 
     /// <summary>The raw text of <c>w14:r</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? RText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "r"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "r"u8, value); }
+    public string? RText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "r"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "r"u8, value); }
 
     /// <summary>Attribute <c>w14:b</c> (a:ST_Percentage). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? B { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "b"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "b"u8, value); }
+    public long? B { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "b"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "b"u8, value); }
 
     /// <summary>The raw text of <c>w14:b</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? BText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "b"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "b"u8, value); }
+    public string? BText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "b"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "b"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.RelativeRect> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.RelativeRect> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_SRgbColor</c>, the type of <c>w14:srgbClr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct SRgbColor : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor>
+public readonly struct SRgbColor : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -3002,33 +3002,33 @@ public readonly struct SRgbColor : global::RecursiveAI.OneDocument.Schema.IEleme
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SRgbColor;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SRgbColor;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("srgbClr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("srgbClr"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("alpha"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010PositiveFixedPercentage; }
-            if (local.SequenceEqual("hueMod"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010PositivePercentage; }
-            if (local.SequenceEqual("lum"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Percentage; }
-            if (local.SequenceEqual("lumMod"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Percentage; }
-            if (local.SequenceEqual("lumOff"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Percentage; }
-            if (local.SequenceEqual("sat"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Percentage; }
-            if (local.SequenceEqual("satMod"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Percentage; }
-            if (local.SequenceEqual("satOff"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Percentage; }
-            if (local.SequenceEqual("shade"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010PositiveFixedPercentage; }
-            if (local.SequenceEqual("tint"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010PositiveFixedPercentage; }
+            if (local.SequenceEqual("alpha"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010PositiveFixedPercentage; }
+            if (local.SequenceEqual("hueMod"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010PositivePercentage; }
+            if (local.SequenceEqual("lum"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Percentage; }
+            if (local.SequenceEqual("lumMod"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Percentage; }
+            if (local.SequenceEqual("lumOff"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Percentage; }
+            if (local.SequenceEqual("sat"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Percentage; }
+            if (local.SequenceEqual("satMod"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Percentage; }
+            if (local.SequenceEqual("satOff"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Percentage; }
+            if (local.SequenceEqual("shade"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010PositiveFixedPercentage; }
+            if (local.SequenceEqual("tint"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010PositiveFixedPercentage; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -3044,132 +3044,132 @@ public readonly struct SRgbColor : global::RecursiveAI.OneDocument.Schema.IEleme
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("val"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("val"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:val</c> (w:ST_HexColorRGB, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
-    public string? Val { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public string? Val { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>The <c>w14:tint</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage> Tints => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "tint"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage> Tints => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "tint"u8);
 
     /// <summary>Adds a <c>w14:tint</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage AddTint() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage, global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "tint"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage AddTint() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "tint"u8);
 
     /// <summary>Removes every <c>w14:tint</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveTint() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "tint"u8);
+    public bool RemoveTint() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "tint"u8);
 
     /// <summary>The <c>w14:shade</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage> Shades => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "shade"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage> Shades => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "shade"u8);
 
     /// <summary>Adds a <c>w14:shade</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage AddShade() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage, global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "shade"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage AddShade() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "shade"u8);
 
     /// <summary>Removes every <c>w14:shade</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveShade() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "shade"u8);
+    public bool RemoveShade() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "shade"u8);
 
     /// <summary>The <c>w14:alpha</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage> Alphas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "alpha"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage> Alphas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "alpha"u8);
 
     /// <summary>Adds a <c>w14:alpha</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage AddAlpha() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage, global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "alpha"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage AddAlpha() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "alpha"u8);
 
     /// <summary>Removes every <c>w14:alpha</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAlpha() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "alpha"u8);
+    public bool RemoveAlpha() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "alpha"u8);
 
     /// <summary>The <c>w14:hueMod</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.PositivePercentage> HueMods => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "hueMod"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositivePercentage> HueMods => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "hueMod"u8);
 
     /// <summary>Adds a <c>w14:hueMod</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PositivePercentage AddHueMod() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.PositivePercentage, global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "hueMod"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositivePercentage AddHueMod() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositivePercentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "hueMod"u8);
 
     /// <summary>Removes every <c>w14:hueMod</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveHueMod() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "hueMod"u8);
+    public bool RemoveHueMod() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "hueMod"u8);
 
     /// <summary>The <c>w14:sat</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage> Sats => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sat"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage> Sats => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sat"u8);
 
     /// <summary>Adds a <c>w14:sat</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Percentage AddSat() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage, global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sat"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage AddSat() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sat"u8);
 
     /// <summary>Removes every <c>w14:sat</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSat() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sat"u8);
+    public bool RemoveSat() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sat"u8);
 
     /// <summary>The <c>w14:satOff</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage> SatOffs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "satOff"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage> SatOffs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "satOff"u8);
 
     /// <summary>Adds a <c>w14:satOff</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Percentage AddSatOff() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage, global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "satOff"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage AddSatOff() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "satOff"u8);
 
     /// <summary>Removes every <c>w14:satOff</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSatOff() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "satOff"u8);
+    public bool RemoveSatOff() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "satOff"u8);
 
     /// <summary>The <c>w14:satMod</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage> SatMods => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "satMod"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage> SatMods => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "satMod"u8);
 
     /// <summary>Adds a <c>w14:satMod</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Percentage AddSatMod() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage, global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "satMod"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage AddSatMod() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "satMod"u8);
 
     /// <summary>Removes every <c>w14:satMod</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSatMod() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "satMod"u8);
+    public bool RemoveSatMod() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "satMod"u8);
 
     /// <summary>The <c>w14:lum</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage> Lums => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lum"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage> Lums => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lum"u8);
 
     /// <summary>Adds a <c>w14:lum</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Percentage AddLum() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage, global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lum"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage AddLum() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lum"u8);
 
     /// <summary>Removes every <c>w14:lum</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveLum() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lum"u8);
+    public bool RemoveLum() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lum"u8);
 
     /// <summary>The <c>w14:lumOff</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage> LumOffs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lumOff"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage> LumOffs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lumOff"u8);
 
     /// <summary>Adds a <c>w14:lumOff</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Percentage AddLumOff() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage, global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lumOff"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage AddLumOff() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lumOff"u8);
 
     /// <summary>Removes every <c>w14:lumOff</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveLumOff() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lumOff"u8);
+    public bool RemoveLumOff() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lumOff"u8);
 
     /// <summary>The <c>w14:lumMod</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage> LumMods => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lumMod"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage> LumMods => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lumMod"u8);
 
     /// <summary>Adds a <c>w14:lumMod</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Percentage AddLumMod() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage, global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lumMod"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage AddLumMod() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lumMod"u8);
 
     /// <summary>Removes every <c>w14:lumMod</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveLumMod() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lumMod"u8);
+    public bool RemoveLumMod() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lumMod"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_Scene3D</c>, the type of <c>w14:scene3d</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Scene3D : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.Scene3D>
+public readonly struct Scene3D : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Scene3D>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -3181,25 +3181,25 @@ public readonly struct Scene3D : global::RecursiveAI.OneDocument.Schema.IElement
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.Scene3D Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Scene3D Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Scene3D;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Scene3D;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("scene3d"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("scene3d"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("camera"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Camera; }
-            if (local.SequenceEqual("lightRig"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010LightRig; }
+            if (local.SequenceEqual("camera"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Camera; }
+            if (local.SequenceEqual("lightRig"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010LightRig; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -3219,36 +3219,36 @@ public readonly struct Scene3D : global::RecursiveAI.OneDocument.Schema.IElement
     }
 
     /// <summary>The <c>w14:camera</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Camera? Camera => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.Camera>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "camera"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Camera? Camera => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Camera>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "camera"u8);
 
     /// <summary>Returns the <c>w14:camera</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Camera GetOrAddCamera() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Camera, global::RecursiveAI.OneDocument.Schema.Word2010.Scene3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "camera"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Camera GetOrAddCamera() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Camera, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Scene3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "camera"u8);
 
     /// <summary>Removes every <c>w14:camera</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveCamera() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "camera"u8);
+    public bool RemoveCamera() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "camera"u8);
 
     /// <summary>The <c>w14:lightRig</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.LightRig? LightRig => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.LightRig>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lightRig"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRig? LightRig => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRig>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lightRig"u8);
 
     /// <summary>Returns the <c>w14:lightRig</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.LightRig GetOrAddLightRig() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.LightRig, global::RecursiveAI.OneDocument.Schema.Word2010.Scene3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lightRig"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRig GetOrAddLightRig() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LightRig, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Scene3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lightRig"u8);
 
     /// <summary>Removes every <c>w14:lightRig</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveLightRig() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lightRig"u8);
+    public bool RemoveLightRig() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lightRig"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.Scene3D> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Scene3D> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_SchemeColor</c>, the type of <c>w14:schemeClr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct SchemeColor : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor>
+public readonly struct SchemeColor : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -3260,33 +3260,33 @@ public readonly struct SchemeColor : global::RecursiveAI.OneDocument.Schema.IEle
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SchemeColor;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SchemeColor;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("schemeClr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("schemeClr"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("alpha"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010PositiveFixedPercentage; }
-            if (local.SequenceEqual("hueMod"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010PositivePercentage; }
-            if (local.SequenceEqual("lum"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Percentage; }
-            if (local.SequenceEqual("lumMod"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Percentage; }
-            if (local.SequenceEqual("lumOff"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Percentage; }
-            if (local.SequenceEqual("sat"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Percentage; }
-            if (local.SequenceEqual("satMod"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Percentage; }
-            if (local.SequenceEqual("satOff"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Percentage; }
-            if (local.SequenceEqual("shade"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010PositiveFixedPercentage; }
-            if (local.SequenceEqual("tint"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010PositiveFixedPercentage; }
+            if (local.SequenceEqual("alpha"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010PositiveFixedPercentage; }
+            if (local.SequenceEqual("hueMod"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010PositivePercentage; }
+            if (local.SequenceEqual("lum"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Percentage; }
+            if (local.SequenceEqual("lumMod"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Percentage; }
+            if (local.SequenceEqual("lumOff"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Percentage; }
+            if (local.SequenceEqual("sat"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Percentage; }
+            if (local.SequenceEqual("satMod"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Percentage; }
+            if (local.SequenceEqual("satOff"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Percentage; }
+            if (local.SequenceEqual("shade"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010PositiveFixedPercentage; }
+            if (local.SequenceEqual("tint"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010PositiveFixedPercentage; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -3302,139 +3302,139 @@ public readonly struct SchemeColor : global::RecursiveAI.OneDocument.Schema.IEle
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("val"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("val"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:val</c> (w14:ST_SchemeColorVal, required). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColorValValue? Val
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColorValValue? Val
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColorValValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColorValValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColorValValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColorValValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColorValValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColorValValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:val</c>, whatever it is.</summary>
-    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>The <c>w14:tint</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage> Tints => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "tint"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage> Tints => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "tint"u8);
 
     /// <summary>Adds a <c>w14:tint</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage AddTint() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage, global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "tint"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage AddTint() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "tint"u8);
 
     /// <summary>Removes every <c>w14:tint</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveTint() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "tint"u8);
+    public bool RemoveTint() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "tint"u8);
 
     /// <summary>The <c>w14:shade</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage> Shades => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "shade"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage> Shades => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "shade"u8);
 
     /// <summary>Adds a <c>w14:shade</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage AddShade() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage, global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "shade"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage AddShade() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "shade"u8);
 
     /// <summary>Removes every <c>w14:shade</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveShade() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "shade"u8);
+    public bool RemoveShade() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "shade"u8);
 
     /// <summary>The <c>w14:alpha</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage> Alphas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "alpha"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage> Alphas => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "alpha"u8);
 
     /// <summary>Adds a <c>w14:alpha</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage AddAlpha() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.PositiveFixedPercentage, global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "alpha"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage AddAlpha() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositiveFixedPercentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "alpha"u8);
 
     /// <summary>Removes every <c>w14:alpha</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveAlpha() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "alpha"u8);
+    public bool RemoveAlpha() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "alpha"u8);
 
     /// <summary>The <c>w14:hueMod</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.PositivePercentage> HueMods => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "hueMod"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositivePercentage> HueMods => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "hueMod"u8);
 
     /// <summary>Adds a <c>w14:hueMod</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PositivePercentage AddHueMod() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.PositivePercentage, global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "hueMod"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositivePercentage AddHueMod() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PositivePercentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "hueMod"u8);
 
     /// <summary>Removes every <c>w14:hueMod</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveHueMod() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "hueMod"u8);
+    public bool RemoveHueMod() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "hueMod"u8);
 
     /// <summary>The <c>w14:sat</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage> Sats => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sat"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage> Sats => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sat"u8);
 
     /// <summary>Adds a <c>w14:sat</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Percentage AddSat() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage, global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sat"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage AddSat() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sat"u8);
 
     /// <summary>Removes every <c>w14:sat</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSat() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sat"u8);
+    public bool RemoveSat() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sat"u8);
 
     /// <summary>The <c>w14:satOff</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage> SatOffs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "satOff"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage> SatOffs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "satOff"u8);
 
     /// <summary>Adds a <c>w14:satOff</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Percentage AddSatOff() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage, global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "satOff"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage AddSatOff() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "satOff"u8);
 
     /// <summary>Removes every <c>w14:satOff</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSatOff() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "satOff"u8);
+    public bool RemoveSatOff() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "satOff"u8);
 
     /// <summary>The <c>w14:satMod</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage> SatMods => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "satMod"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage> SatMods => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "satMod"u8);
 
     /// <summary>Adds a <c>w14:satMod</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Percentage AddSatMod() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage, global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "satMod"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage AddSatMod() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "satMod"u8);
 
     /// <summary>Removes every <c>w14:satMod</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSatMod() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "satMod"u8);
+    public bool RemoveSatMod() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "satMod"u8);
 
     /// <summary>The <c>w14:lum</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage> Lums => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lum"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage> Lums => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lum"u8);
 
     /// <summary>Adds a <c>w14:lum</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Percentage AddLum() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage, global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lum"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage AddLum() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lum"u8);
 
     /// <summary>Removes every <c>w14:lum</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveLum() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lum"u8);
+    public bool RemoveLum() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lum"u8);
 
     /// <summary>The <c>w14:lumOff</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage> LumOffs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lumOff"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage> LumOffs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lumOff"u8);
 
     /// <summary>Adds a <c>w14:lumOff</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Percentage AddLumOff() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage, global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lumOff"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage AddLumOff() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lumOff"u8);
 
     /// <summary>Removes every <c>w14:lumOff</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveLumOff() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lumOff"u8);
+    public bool RemoveLumOff() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lumOff"u8);
 
     /// <summary>The <c>w14:lumMod</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage> LumMods => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lumMod"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage> LumMods => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lumMod"u8);
 
     /// <summary>Adds a <c>w14:lumMod</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.Percentage AddLumMod() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.Percentage, global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lumMod"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage AddLumMod() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Percentage, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lumMod"u8);
 
     /// <summary>Removes every <c>w14:lumMod</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveLumMod() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lumMod"u8);
+    public bool RemoveLumMod() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lumMod"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_SdtCheckbox</c>, the type of <c>w14:checkbox</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct SdtCheckbox : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckbox>
+public readonly struct SdtCheckbox : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckbox>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -3446,26 +3446,26 @@ public readonly struct SdtCheckbox : global::RecursiveAI.OneDocument.Schema.IEle
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckbox Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckbox Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SdtCheckbox;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SdtCheckbox;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("checkbox"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("checkbox"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("checked"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010OnOff; }
-            if (local.SequenceEqual("checkedState"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SdtCheckboxSymbol; }
-            if (local.SequenceEqual("uncheckedState"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SdtCheckboxSymbol; }
+            if (local.SequenceEqual("checked"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010OnOff; }
+            if (local.SequenceEqual("checkedState"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SdtCheckboxSymbol; }
+            if (local.SequenceEqual("uncheckedState"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SdtCheckboxSymbol; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -3485,47 +3485,47 @@ public readonly struct SdtCheckbox : global::RecursiveAI.OneDocument.Schema.IEle
     }
 
     /// <summary>The <c>w14:checked</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.OnOff? Checked => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.OnOff>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "checked"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOff? Checked => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOff>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "checked"u8);
 
     /// <summary>Returns the <c>w14:checked</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.OnOff GetOrAddChecked() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.OnOff, global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckbox>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "checked"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOff GetOrAddChecked() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOff, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckbox>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "checked"u8);
 
     /// <summary>Removes every <c>w14:checked</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveChecked() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "checked"u8);
+    public bool RemoveChecked() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "checked"u8);
 
     /// <summary>The <c>w14:checkedState</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckboxSymbol? CheckedState => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckboxSymbol>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "checkedState"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckboxSymbol? CheckedState => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckboxSymbol>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "checkedState"u8);
 
     /// <summary>Returns the <c>w14:checkedState</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckboxSymbol GetOrAddCheckedState() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckboxSymbol, global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckbox>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "checkedState"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckboxSymbol GetOrAddCheckedState() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckboxSymbol, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckbox>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "checkedState"u8);
 
     /// <summary>Removes every <c>w14:checkedState</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveCheckedState() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "checkedState"u8);
+    public bool RemoveCheckedState() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "checkedState"u8);
 
     /// <summary>The <c>w14:uncheckedState</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckboxSymbol? UncheckedState => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckboxSymbol>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "uncheckedState"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckboxSymbol? UncheckedState => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckboxSymbol>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "uncheckedState"u8);
 
     /// <summary>Returns the <c>w14:uncheckedState</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckboxSymbol GetOrAddUncheckedState() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckboxSymbol, global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckbox>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "uncheckedState"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckboxSymbol GetOrAddUncheckedState() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckboxSymbol, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckbox>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "uncheckedState"u8);
 
     /// <summary>Removes every <c>w14:uncheckedState</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveUncheckedState() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "uncheckedState"u8);
+    public bool RemoveUncheckedState() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "uncheckedState"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckbox> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckbox> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_SdtCheckboxSymbol</c>, the type of <c>w14:checkedState</c>, <c>w14:uncheckedState</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct SdtCheckboxSymbol : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckboxSymbol>
+public readonly struct SdtCheckboxSymbol : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckboxSymbol>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -3537,15 +3537,15 @@ public readonly struct SdtCheckboxSymbol : global::RecursiveAI.OneDocument.Schem
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckboxSymbol Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckboxSymbol Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SdtCheckboxSymbol;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SdtCheckboxSymbol;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("checkedState"u8) || local.SequenceEqual("uncheckedState"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("checkedState"u8) || local.SequenceEqual("uncheckedState"u8);
         return false;
     }
 
@@ -3559,25 +3559,25 @@ public readonly struct SdtCheckboxSymbol : global::RecursiveAI.OneDocument.Schem
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("font"u8) || local.SequenceEqual("val"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("font"u8) || local.SequenceEqual("val"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:font</c> (w:ST_String). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
-    public string? Font { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "font"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "font"u8, value); }
+    public string? Font { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "font"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "font"u8, value); }
 
     /// <summary>Attribute <c>w14:val</c> (w:ST_ShortHexNumber). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
-    public string? Val { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public string? Val { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.SdtCheckboxSymbol> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SdtCheckboxSymbol> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_Shadow</c>, the type of <c>w14:shadow</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct Shadow : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.Shadow>
+public readonly struct Shadow : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Shadow>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -3589,25 +3589,25 @@ public readonly struct Shadow : global::RecursiveAI.OneDocument.Schema.IElementV
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.Shadow Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Shadow Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010Shadow;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010Shadow;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("shadow"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("shadow"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("schemeClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SchemeColor; }
-            if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SRgbColor; }
+            if (local.SequenceEqual("schemeClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SchemeColor; }
+            if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SRgbColor; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -3623,78 +3623,78 @@ public readonly struct Shadow : global::RecursiveAI.OneDocument.Schema.IElementV
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("algn"u8) || local.SequenceEqual("blurRad"u8) || local.SequenceEqual("dir"u8) || local.SequenceEqual("dist"u8) || local.SequenceEqual("kx"u8) || local.SequenceEqual("ky"u8) || local.SequenceEqual("sx"u8) || local.SequenceEqual("sy"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("algn"u8) || local.SequenceEqual("blurRad"u8) || local.SequenceEqual("dir"u8) || local.SequenceEqual("dist"u8) || local.SequenceEqual("kx"u8) || local.SequenceEqual("ky"u8) || local.SequenceEqual("sx"u8) || local.SequenceEqual("sy"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:blurRad</c> (a:ST_PositiveCoordinate). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? BlurRad { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "blurRad"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "blurRad"u8, value); }
+    public long? BlurRad { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "blurRad"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "blurRad"u8, value); }
 
     /// <summary>Attribute <c>w14:dist</c> (a:ST_PositiveCoordinate). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Dist { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "dist"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "dist"u8, value); }
+    public long? Dist { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "dist"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "dist"u8, value); }
 
     /// <summary>Attribute <c>w14:dir</c> (a:ST_PositiveFixedAngle). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Dir { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "dir"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "dir"u8, value); }
+    public long? Dir { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "dir"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "dir"u8, value); }
 
     /// <summary>Attribute <c>w14:sx</c> (a:ST_Percentage). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Sx { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sx"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sx"u8, value); }
+    public long? Sx { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sx"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sx"u8, value); }
 
     /// <summary>The raw text of <c>w14:sx</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? SxText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sx"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sx"u8, value); }
+    public string? SxText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sx"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sx"u8, value); }
 
     /// <summary>Attribute <c>w14:sy</c> (a:ST_Percentage). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Sy { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sy"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sy"u8, value); }
+    public long? Sy { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sy"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sy"u8, value); }
 
     /// <summary>The raw text of <c>w14:sy</c>, for values that are not whole numbers (such as measures with units).</summary>
-    public string? SyText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sy"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "sy"u8, value); }
+    public string? SyText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sy"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "sy"u8, value); }
 
     /// <summary>Attribute <c>w14:kx</c> (a:ST_FixedAngle). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Kx { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "kx"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "kx"u8, value); }
+    public long? Kx { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "kx"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "kx"u8, value); }
 
     /// <summary>Attribute <c>w14:ky</c> (a:ST_FixedAngle). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Ky { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "ky"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "ky"u8, value); }
+    public long? Ky { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "ky"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "ky"u8, value); }
 
     /// <summary>Attribute <c>w14:algn</c> (w14:ST_RectAlignment). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AlgnText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.RectAlignmentValue? Algn
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.RectAlignmentValue? Algn
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.RectAlignmentValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "algn"u8, global::RecursiveAI.OneDocument.Schema.Word2010.RectAlignmentValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "algn"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.RectAlignmentValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.RectAlignmentValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "algn"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.RectAlignmentValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "algn"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.RectAlignmentValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:algn</c>, whatever it is.</summary>
-    public string? AlgnText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "algn"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "algn"u8, value); }
+    public string? AlgnText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "algn"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "algn"u8, value); }
 
     /// <summary>The <c>w14:srgbClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "srgbClr"u8);
 
     /// <summary>Returns the <c>w14:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor, global::RecursiveAI.OneDocument.Schema.Word2010.Shadow>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Shadow>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "srgbClr"u8);
 
     /// <summary>Removes every <c>w14:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "srgbClr"u8);
+    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "srgbClr"u8);
 
     /// <summary>The <c>w14:schemeClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "schemeClr"u8);
 
     /// <summary>Returns the <c>w14:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor, global::RecursiveAI.OneDocument.Schema.Word2010.Shadow>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Shadow>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "schemeClr"u8);
 
     /// <summary>Removes every <c>w14:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "schemeClr"u8);
+    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "schemeClr"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.Shadow> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.Shadow> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_SolidColorFillProperties</c>, the type of <c>w14:solidFill</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct SolidColorFillProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.SolidColorFillProperties>
+public readonly struct SolidColorFillProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SolidColorFillProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -3706,25 +3706,25 @@ public readonly struct SolidColorFillProperties : global::RecursiveAI.OneDocumen
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.SolidColorFillProperties Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SolidColorFillProperties Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SolidColorFillProperties;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SolidColorFillProperties;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("solidFill"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("solidFill"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("schemeClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SchemeColor; }
-            if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SRgbColor; }
+            if (local.SequenceEqual("schemeClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SchemeColor; }
+            if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SRgbColor; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -3744,36 +3744,36 @@ public readonly struct SolidColorFillProperties : global::RecursiveAI.OneDocumen
     }
 
     /// <summary>The <c>w14:srgbClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "srgbClr"u8);
 
     /// <summary>Returns the <c>w14:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.SRgbColor, global::RecursiveAI.OneDocument.Schema.Word2010.SolidColorFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SRgbColor, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SolidColorFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "srgbClr"u8);
 
     /// <summary>Removes every <c>w14:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "srgbClr"u8);
+    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "srgbClr"u8);
 
     /// <summary>The <c>w14:schemeClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "schemeClr"u8);
 
     /// <summary>Returns the <c>w14:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.SchemeColor, global::RecursiveAI.OneDocument.Schema.Word2010.SolidColorFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SchemeColor, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SolidColorFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "schemeClr"u8);
 
     /// <summary>Removes every <c>w14:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "schemeClr"u8);
+    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "schemeClr"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.SolidColorFillProperties> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SolidColorFillProperties> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_SphereCoords</c>, the type of <c>w14:rot</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct SphereCoords : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.SphereCoords>
+public readonly struct SphereCoords : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SphereCoords>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -3785,15 +3785,15 @@ public readonly struct SphereCoords : global::RecursiveAI.OneDocument.Schema.IEl
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.SphereCoords Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SphereCoords Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SphereCoords;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SphereCoords;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("rot"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("rot"u8);
         return false;
     }
 
@@ -3807,28 +3807,28 @@ public readonly struct SphereCoords : global::RecursiveAI.OneDocument.Schema.IEl
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("lat"u8) || local.SequenceEqual("lon"u8) || local.SequenceEqual("rev"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("lat"u8) || local.SequenceEqual("lon"u8) || local.SequenceEqual("rev"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:lat</c> (a:ST_PositiveFixedAngle, required). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Lat { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lat"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lat"u8, value); }
+    public long? Lat { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lat"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lat"u8, value); }
 
     /// <summary>Attribute <c>w14:lon</c> (a:ST_PositiveFixedAngle, required). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Lon { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lon"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "lon"u8, value); }
+    public long? Lon { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lon"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "lon"u8, value); }
 
     /// <summary>Attribute <c>w14:rev</c> (a:ST_PositiveFixedAngle, required). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Rev { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "rev"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "rev"u8, value); }
+    public long? Rev { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "rev"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "rev"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.SphereCoords> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SphereCoords> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_StyleSet</c>, the type of <c>w14:styleSet</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct StyleSet : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.StyleSet>
+public readonly struct StyleSet : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.StyleSet>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -3840,15 +3840,15 @@ public readonly struct StyleSet : global::RecursiveAI.OneDocument.Schema.IElemen
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.StyleSet Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.StyleSet Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010StyleSet;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010StyleSet;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("styleSet"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("styleSet"u8);
         return false;
     }
 
@@ -3862,32 +3862,32 @@ public readonly struct StyleSet : global::RecursiveAI.OneDocument.Schema.IElemen
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("id"u8) || local.SequenceEqual("val"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("id"u8) || local.SequenceEqual("val"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:id</c> (w:ST_UnsignedDecimalNumber, required). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? Id { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "id"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "id"u8, value); }
+    public long? Id { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "id"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "id"u8, value); }
 
     /// <summary>Attribute <c>w14:val</c> (w14:ST_OnOff). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="ValText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.OnOffValue? Val
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOffValue? Val
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.OnOffValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, global::RecursiveAI.OneDocument.Schema.Word2010.OnOffValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.OnOffValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOffValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOffValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.OnOffValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:val</c>, whatever it is.</summary>
-    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "val"u8, value); }
+    public string? ValText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "val"u8, value); }
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.StyleSet> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.StyleSet> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_StylisticSets</c>, the type of <c>w14:stylisticSets</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct StylisticSets : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.StylisticSets>
+public readonly struct StylisticSets : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.StylisticSets>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -3899,24 +3899,24 @@ public readonly struct StylisticSets : global::RecursiveAI.OneDocument.Schema.IE
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.StylisticSets Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.StylisticSets Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010StylisticSets;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010StylisticSets;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("stylisticSets"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("stylisticSets"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
-            if (local.SequenceEqual("styleSet"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010StyleSet; }
+            if (local.SequenceEqual("styleSet"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010StyleSet; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -3936,25 +3936,25 @@ public readonly struct StylisticSets : global::RecursiveAI.OneDocument.Schema.IE
     }
 
     /// <summary>The <c>w14:styleSet</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Word2010.StyleSet> StyleSets => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "styleSet"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.StyleSet> StyleSets => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "styleSet"u8);
 
     /// <summary>Adds a <c>w14:styleSet</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.StyleSet AddStyleSet() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Word2010.StyleSet, global::RecursiveAI.OneDocument.Schema.Word2010.StylisticSets>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "styleSet"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.StyleSet AddStyleSet() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.StyleSet, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.StylisticSets>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "styleSet"u8);
 
     /// <summary>Removes every <c>w14:styleSet</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveStyleSet() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "styleSet"u8);
+    public bool RemoveStyleSet() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "styleSet"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.StylisticSets> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.StylisticSets> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_TextOutlineEffect</c>, the type of <c>w14:textOutline</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct TextOutlineEffect : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.TextOutlineEffect>
+public readonly struct TextOutlineEffect : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.TextOutlineEffect>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -3966,30 +3966,30 @@ public readonly struct TextOutlineEffect : global::RecursiveAI.OneDocument.Schem
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.TextOutlineEffect Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.TextOutlineEffect Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010TextOutlineEffect;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010TextOutlineEffect;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("textOutline"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("textOutline"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
             if (local.SequenceEqual("bevel"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.WordprocessingEmpty; }
-            if (local.SequenceEqual("gradFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010GradientFillProperties; }
-            if (local.SequenceEqual("miter"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010LineJoinMiterProperties; }
+            if (local.SequenceEqual("gradFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010GradientFillProperties; }
+            if (local.SequenceEqual("miter"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010LineJoinMiterProperties; }
             if (local.SequenceEqual("noFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.WordprocessingEmpty; }
-            if (local.SequenceEqual("prstDash"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010PresetLineDashProperties; }
+            if (local.SequenceEqual("prstDash"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010PresetLineDashProperties; }
             if (local.SequenceEqual("round"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.WordprocessingEmpty; }
-            if (local.SequenceEqual("solidFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010SolidColorFillProperties; }
+            if (local.SequenceEqual("solidFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010SolidColorFillProperties; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
         if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
@@ -4005,129 +4005,129 @@ public readonly struct TextOutlineEffect : global::RecursiveAI.OneDocument.Schem
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("algn"u8) || local.SequenceEqual("cap"u8) || local.SequenceEqual("cmpd"u8) || local.SequenceEqual("w"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("algn"u8) || local.SequenceEqual("cap"u8) || local.SequenceEqual("cmpd"u8) || local.SequenceEqual("w"u8);
         return false;
     }
 
     /// <summary>Attribute <c>w14:w</c> (a:ST_LineWidth). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
-    public long? W { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "w"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "w"u8, value); }
+    public long? W { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "w"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "w"u8, value); }
 
     /// <summary>Attribute <c>w14:cap</c> (w14:ST_LineCap). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="CapText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.LineCapValue? Cap
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LineCapValue? Cap
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.LineCapValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "cap"u8, global::RecursiveAI.OneDocument.Schema.Word2010.LineCapValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "cap"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.LineCapValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LineCapValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "cap"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LineCapValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "cap"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LineCapValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:cap</c>, whatever it is.</summary>
-    public string? CapText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "cap"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "cap"u8, value); }
+    public string? CapText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "cap"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "cap"u8, value); }
 
     /// <summary>Attribute <c>w14:cmpd</c> (w14:ST_CompoundLine). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="CmpdText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.CompoundLineValue? Cmpd
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.CompoundLineValue? Cmpd
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.CompoundLineValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "cmpd"u8, global::RecursiveAI.OneDocument.Schema.Word2010.CompoundLineValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "cmpd"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.CompoundLineValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.CompoundLineValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "cmpd"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.CompoundLineValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "cmpd"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.CompoundLineValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:cmpd</c>, whatever it is.</summary>
-    public string? CmpdText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "cmpd"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "cmpd"u8, value); }
+    public string? CmpdText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "cmpd"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "cmpd"u8, value); }
 
     /// <summary>Attribute <c>w14:algn</c> (w14:ST_PenAlignment). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AlgnText"/> keeps it.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PenAlignmentValue? Algn
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PenAlignmentValue? Algn
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Word2010.PenAlignmentValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "algn"u8, global::RecursiveAI.OneDocument.Schema.Word2010.PenAlignmentValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "algn"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Word2010.PenAlignmentValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PenAlignmentValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "algn"u8, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PenAlignmentValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "algn"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PenAlignmentValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:algn</c>, whatever it is.</summary>
-    public string? AlgnText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "algn"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "algn"u8, value); }
+    public string? AlgnText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "algn"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "algn"u8, value); }
 
     /// <summary>The <c>w14:noFill</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty? NoFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "noFill"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty? NoFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "noFill"u8);
 
     /// <summary>Returns the <c>w14:noFill</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty GetOrAddNoFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty, global::RecursiveAI.OneDocument.Schema.Word2010.TextOutlineEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "noFill"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty GetOrAddNoFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.TextOutlineEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "noFill"u8);
 
     /// <summary>Removes every <c>w14:noFill</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveNoFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "noFill"u8);
+    public bool RemoveNoFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "noFill"u8);
 
     /// <summary>The <c>w14:solidFill</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SolidColorFillProperties? SolidFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.SolidColorFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "solidFill"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SolidColorFillProperties? SolidFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SolidColorFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "solidFill"u8);
 
     /// <summary>Returns the <c>w14:solidFill</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.SolidColorFillProperties GetOrAddSolidFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.SolidColorFillProperties, global::RecursiveAI.OneDocument.Schema.Word2010.TextOutlineEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "solidFill"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SolidColorFillProperties GetOrAddSolidFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.SolidColorFillProperties, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.TextOutlineEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "solidFill"u8);
 
     /// <summary>Removes every <c>w14:solidFill</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSolidFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "solidFill"u8);
+    public bool RemoveSolidFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "solidFill"u8);
 
     /// <summary>The <c>w14:gradFill</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.GradientFillProperties? GradFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.GradientFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "gradFill"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientFillProperties? GradFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "gradFill"u8);
 
     /// <summary>Returns the <c>w14:gradFill</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.GradientFillProperties GetOrAddGradFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.GradientFillProperties, global::RecursiveAI.OneDocument.Schema.Word2010.TextOutlineEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "gradFill"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientFillProperties GetOrAddGradFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.GradientFillProperties, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.TextOutlineEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "gradFill"u8);
 
     /// <summary>Removes every <c>w14:gradFill</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveGradFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "gradFill"u8);
+    public bool RemoveGradFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "gradFill"u8);
 
     /// <summary>The <c>w14:prstDash</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PresetLineDashProperties? PrstDash => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.PresetLineDashProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "prstDash"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetLineDashProperties? PrstDash => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetLineDashProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "prstDash"u8);
 
     /// <summary>Returns the <c>w14:prstDash</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.PresetLineDashProperties GetOrAddPrstDash() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.PresetLineDashProperties, global::RecursiveAI.OneDocument.Schema.Word2010.TextOutlineEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "prstDash"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetLineDashProperties GetOrAddPrstDash() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.PresetLineDashProperties, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.TextOutlineEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "prstDash"u8);
 
     /// <summary>Removes every <c>w14:prstDash</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemovePrstDash() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "prstDash"u8);
+    public bool RemovePrstDash() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "prstDash"u8);
 
     /// <summary>The <c>w14:round</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty? Round => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "round"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty? Round => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "round"u8);
 
     /// <summary>Returns the <c>w14:round</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty GetOrAddRound() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty, global::RecursiveAI.OneDocument.Schema.Word2010.TextOutlineEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "round"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty GetOrAddRound() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.TextOutlineEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "round"u8);
 
     /// <summary>Removes every <c>w14:round</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveRound() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "round"u8);
+    public bool RemoveRound() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "round"u8);
 
     /// <summary>The <c>w14:bevel</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty? Bevel => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "bevel"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty? Bevel => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "bevel"u8);
 
     /// <summary>Returns the <c>w14:bevel</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty GetOrAddBevel() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty, global::RecursiveAI.OneDocument.Schema.Word2010.TextOutlineEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "bevel"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty GetOrAddBevel() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.Empty, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.TextOutlineEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "bevel"u8);
 
     /// <summary>Removes every <c>w14:bevel</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBevel() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "bevel"u8);
+    public bool RemoveBevel() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "bevel"u8);
 
     /// <summary>The <c>w14:miter</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.LineJoinMiterProperties? Miter => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.LineJoinMiterProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "miter"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LineJoinMiterProperties? Miter => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LineJoinMiterProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "miter"u8);
 
     /// <summary>Returns the <c>w14:miter</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.LineJoinMiterProperties GetOrAddMiter() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.LineJoinMiterProperties, global::RecursiveAI.OneDocument.Schema.Word2010.TextOutlineEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "miter"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LineJoinMiterProperties GetOrAddMiter() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.LineJoinMiterProperties, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.TextOutlineEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "miter"u8);
 
     /// <summary>Removes every <c>w14:miter</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveMiter() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "miter"u8);
+    public bool RemoveMiter() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "miter"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.TextOutlineEffect> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.TextOutlineEffect> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_WordContentPart</c>, the type of <c>w14:contentPart</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct WordContentPart : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPart>
+public readonly struct WordContentPart : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPart>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -4139,25 +4139,25 @@ public readonly struct WordContentPart : global::RecursiveAI.OneDocument.Schema.
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPart Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPart Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010WordContentPart;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010WordContentPart;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("contentPart"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("contentPart"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
             if (local.SequenceEqual("extLst"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
-            if (local.SequenceEqual("nvContentPartPr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010WordContentPartNonVisual; }
+            if (local.SequenceEqual("nvContentPartPr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010WordContentPartNonVisual; }
             if (local.SequenceEqual("xfrm"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTransform2D; }
         }
         var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
@@ -4174,7 +4174,7 @@ public readonly struct WordContentPart : global::RecursiveAI.OneDocument.Schema.
     /// <inheritdoc/>
     public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("bwMode"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("bwMode"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Relationships) return local.SequenceEqual("id"u8);
         return false;
     }
@@ -4182,58 +4182,58 @@ public readonly struct WordContentPart : global::RecursiveAI.OneDocument.Schema.
     /// <summary>Attribute <c>w14:bwMode</c> (a:ST_BlackWhiteMode). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BwModeText"/> keeps it.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.BlackWhiteModeValue? BwMode
     {
-        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Drawing.BlackWhiteModeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "bwMode"u8, global::RecursiveAI.OneDocument.Schema.Drawing.BlackWhiteModeValueText.Parse);
-        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "bwMode"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Drawing.BlackWhiteModeValueText.ToText(value.Value));
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Drawing.BlackWhiteModeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "bwMode"u8, global::RecursiveAI.OneDocument.Schema.Drawing.BlackWhiteModeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "bwMode"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Drawing.BlackWhiteModeValueText.ToText(value.Value));
     }
 
     /// <summary>The raw text of <c>w14:bwMode</c>, whatever it is.</summary>
-    public string? BwModeText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "bwMode"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "bwMode"u8, value); }
+    public string? BwModeText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "bwMode"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "bwMode"u8, value); }
 
     /// <summary>Attribute <c>r:id</c> (r:ST_RelationshipId, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
     public string? Id { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Relationships, "id"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Relationships, "id"u8, value); }
 
     /// <summary>The <c>w14:nvContentPartPr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPartNonVisual? NvContentPartPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPartNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "nvContentPartPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPartNonVisual? NvContentPartPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPartNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "nvContentPartPr"u8);
 
     /// <summary>Returns the <c>w14:nvContentPartPr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPartNonVisual GetOrAddNvContentPartPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPartNonVisual, global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPart>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "nvContentPartPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPartNonVisual GetOrAddNvContentPartPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPartNonVisual, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPart>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "nvContentPartPr"u8);
 
     /// <summary>Removes every <c>w14:nvContentPartPr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveNvContentPartPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "nvContentPartPr"u8);
+    public bool RemoveNvContentPartPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "nvContentPartPr"u8);
 
     /// <summary>The <c>w14:xfrm</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D? Xfrm => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "xfrm"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D? Xfrm => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "xfrm"u8);
 
     /// <summary>Returns the <c>w14:xfrm</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D GetOrAddXfrm() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D, global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPart>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "xfrm"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D GetOrAddXfrm() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPart>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "xfrm"u8);
 
     /// <summary>Removes every <c>w14:xfrm</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveXfrm() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "xfrm"u8);
+    public bool RemoveXfrm() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "xfrm"u8);
 
     /// <summary>The <c>w14:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "extLst"u8);
 
     /// <summary>Returns the <c>w14:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPart>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPart>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "extLst"u8);
 
     /// <summary>Removes every <c>w14:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "extLst"u8);
+    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPart> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPart> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_WordContentPartNonVisual</c>, the type of <c>w14:nvContentPartPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
-public readonly struct WordContentPartNonVisual : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPartNonVisual>
+public readonly struct WordContentPartNonVisual : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPartNonVisual>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
 
@@ -4245,22 +4245,22 @@ public readonly struct WordContentPartNonVisual : global::RecursiveAI.OneDocumen
     public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPartNonVisual Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+    public static global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPartNonVisual Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
 
     /// <inheritdoc/>
-    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Word2010WordContentPartNonVisual;
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.Wordprocessing2010WordContentPartNonVisual;
 
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("nvContentPartPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("nvContentPartPr"u8);
         return false;
     }
 
     /// <inheritdoc/>
     public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010)
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010)
         {
             if (local.SequenceEqual("cNvContentPartPr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.Drawing2010NonVisualInkContentPartProperties; }
             if (local.SequenceEqual("cNvPr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingNonVisualDrawingProps; }
@@ -4283,31 +4283,31 @@ public readonly struct WordContentPartNonVisual : global::RecursiveAI.OneDocumen
     }
 
     /// <summary>The <c>w14:cNvPr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps? CNvPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "cNvPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps? CNvPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "cNvPr"u8);
 
     /// <summary>Returns the <c>w14:cNvPr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps GetOrAddCNvPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps, global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPartNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "cNvPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps GetOrAddCNvPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPartNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "cNvPr"u8);
 
     /// <summary>Removes every <c>w14:cNvPr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveCNvPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "cNvPr"u8);
+    public bool RemoveCNvPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "cNvPr"u8);
 
     /// <summary>The <c>w14:cNvContentPartPr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing2010.NonVisualInkContentPartProperties? CNvContentPartPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing2010.NonVisualInkContentPartProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "cNvContentPartPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing2010.NonVisualInkContentPartProperties? CNvContentPartPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing2010.NonVisualInkContentPartProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "cNvContentPartPr"u8);
 
     /// <summary>Returns the <c>w14:cNvContentPartPr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing2010.NonVisualInkContentPartProperties GetOrAddCNvContentPartPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing2010.NonVisualInkContentPartProperties, global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPartNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "cNvContentPartPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing2010.NonVisualInkContentPartProperties GetOrAddCNvContentPartPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing2010.NonVisualInkContentPartProperties, global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPartNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "cNvContentPartPr"u8);
 
     /// <summary>Removes every <c>w14:cNvContentPartPr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveCNvContentPartPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010, "cNvContentPartPr"u8);
+    public bool RemoveCNvContentPartPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010, "cNvContentPartPr"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Word2010.WordContentPartNonVisual> UnknownChildren => new(_markup);
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Wordprocessing2010.WordContentPartNonVisual> UnknownChildren => new(_markup);
 }
 

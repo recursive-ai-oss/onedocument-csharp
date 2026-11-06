@@ -40,8 +40,6 @@ Views per namespace:
   DrawingHyperlinkColor: 1
   DrawingSvg: 1
   DynamicArray: 1
-  ExcelMacro2006: 3
-  ExcelMacro2008: 4
   ExtendedProperties: 4
   ExternalCodeService: 2
   ExternalCodeService2: 2
@@ -103,6 +101,8 @@ Views per namespace:
   Spreadsheet2014: 3
   SpreadsheetDrawing: 17
   SpreadsheetDrawing2010: 3
+  SpreadsheetMacro2006: 3
+  SpreadsheetMacro2008: 4
   SpreadsheetRevision2014: 1
   ThemeMl2012: 1
   ThreadedComments: 6
@@ -110,25 +110,25 @@ Views per namespace:
   TimeSlicer2012: 1
   VariantTypes: 6
   Vml: 23
-  VmlExcel: 1
   VmlOffice: 25
-  VmlPowerPoint: 2
-  VmlWord: 3
-  Word2010: 38
-  Word2012: 8
-  Word2015Symex: 1
-  Word2016Cid: 2
-  Word2018: 2
-  Word2018Cex: 2
-  Word2026Cei: 1
-  WordMacro2006: 4
-  WordOEmbed: 1
+  VmlPresentation: 2
+  VmlSpreadsheet: 1
+  VmlWordprocessing: 3
   Wordprocessing: 285
+  Wordprocessing2010: 38
+  Wordprocessing2012: 8
+  Wordprocessing2015Symex: 1
+  Wordprocessing2016Cid: 2
+  Wordprocessing2018: 2
+  Wordprocessing2018Cex: 2
+  Wordprocessing2026Cei: 1
   WordprocessingCanvas: 1
   WordprocessingDrawing: 20
   WordprocessingDrawing2010: 2
   WordprocessingDrawing2012: 1
   WordprocessingGroup: 2
+  WordprocessingMacro2006: 4
+  WordprocessingOEmbed: 1
   WordprocessingShape: 3
   WorkbookCompatibilityVersion: 2
 
@@ -187,13 +187,13 @@ Constructs read as raw elements, not views (per namespace: children typed by a s
   ThreadedComments2: simple 1, anyType 0, xsd:any 0, xsd:anyAttribute 0
   VariantTypes: simple 63, anyType 0, xsd:any 0, xsd:anyAttribute 0
   Vml: simple 0, anyType 0, xsd:any 1, xsd:anyAttribute 0
-  VmlExcel: simple 67, anyType 0, xsd:any 0, xsd:anyAttribute 0
   VmlOffice: simple 3, anyType 0, xsd:any 1, xsd:anyAttribute 0
-  Word2018: simple 0, anyType 0, xsd:any 1, xsd:anyAttribute 0
-  WordMacro2006: simple 3, anyType 13, xsd:any 0, xsd:anyAttribute 0
+  VmlSpreadsheet: simple 67, anyType 0, xsd:any 0, xsd:anyAttribute 0
   Wordprocessing: simple 0, anyType 0, xsd:any 4, xsd:anyAttribute 0
+  Wordprocessing2018: simple 0, anyType 0, xsd:any 1, xsd:anyAttribute 0
   WordprocessingDrawing: simple 4, anyType 0, xsd:any 0, xsd:anyAttribute 0
   WordprocessingDrawing2010: simple 2, anyType 0, xsd:any 0, xsd:anyAttribute 0
+  WordprocessingMacro2006: simple 3, anyType 13, xsd:any 0, xsd:anyAttribute 0
 
 Strict differences (types in a Strict schema whose declared child or attribute names differ from the Transitional type):
   CT_Border: only Transitional [e:left e:right] only Strict []

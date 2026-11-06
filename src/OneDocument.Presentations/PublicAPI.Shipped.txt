@@ -1,0 +1,986 @@
+#nullable enable
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat.AnsiFontRef.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat.Bold.get -> bool?
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat.Color.get -> RecursiveAI.OneDocument.Ppt.Binary.PptColor
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat.Emboss.get -> bool?
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat.FontRef.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat.FontSize.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat.Has(int bit) -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat.Italic.get -> bool?
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat.Masks.get -> uint
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat.OldEaFontRef.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat.Position.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat.PptCharFormat() -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat.Shadow.get -> bool?
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat.Style.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat.SymbolFontRef.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat.Underline.get -> bool?
+RecursiveAI.OneDocument.Ppt.Binary.PptCharRun
+RecursiveAI.OneDocument.Ppt.Binary.PptCharRun.<Clone>$() -> RecursiveAI.OneDocument.Ppt.Binary.PptCharRun!
+RecursiveAI.OneDocument.Ppt.Binary.PptCharRun.Count.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptCharRun.Count.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptCharRun.Deconstruct(out int Count, out RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat! Format) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptCharRun.Equals(RecursiveAI.OneDocument.Ppt.Binary.PptCharRun? other) -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptCharRun.Format.get -> RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat!
+RecursiveAI.OneDocument.Ppt.Binary.PptCharRun.Format.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptCharRun.PptCharRun(int Count, RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat! Format) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptColor
+RecursiveAI.OneDocument.Ppt.Binary.PptColor.Blue.get -> byte
+RecursiveAI.OneDocument.Ppt.Binary.PptColor.Blue.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptColor.Deconstruct(out byte Red, out byte Green, out byte Blue, out byte Index) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptColor.Equals(RecursiveAI.OneDocument.Ppt.Binary.PptColor other) -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptColor.Green.get -> byte
+RecursiveAI.OneDocument.Ppt.Binary.PptColor.Green.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptColor.Index.get -> byte
+RecursiveAI.OneDocument.Ppt.Binary.PptColor.Index.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptColor.IsRgb.get -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptColor.IsScheme.get -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptColor.IsUndefined.get -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptColor.PptColor() -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptColor.PptColor(byte Red, byte Green, byte Blue, byte Index) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptColor.Red.get -> byte
+RecursiveAI.OneDocument.Ppt.Binary.PptColor.Red.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme
+RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme.<Clone>$() -> RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme!
+RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme.Colors.get -> System.Collections.Generic.IReadOnlyList<(byte Red, byte Green, byte Blue)>!
+RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme.Colors.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme.Deconstruct(out System.Collections.Generic.IReadOnlyList<(byte Red, byte Green, byte Blue)>! Colors) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme.Equals(RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme? other) -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme.PptColorScheme(System.Collections.Generic.IReadOnlyList<(byte Red, byte Green, byte Blue)>! Colors) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme.SameAs(RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme? other) -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptComment
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.<Clone>$() -> RecursiveAI.OneDocument.Ppt.Binary.PptComment!
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.Author.get -> string!
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.Author.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.Deconstruct(out string! Author, out string! Initials, out string! Text, out int Index, out System.DateTime Time, out int X, out int Y) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.Equals(RecursiveAI.OneDocument.Ppt.Binary.PptComment? other) -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.Index.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.Index.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.Initials.get -> string!
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.Initials.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.PptComment(string! Author, string! Initials, string! Text, int Index, System.DateTime Time, int X, int Y) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.Text.get -> string!
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.Text.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.Time.get -> System.DateTime
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.Time.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.X.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.X.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.Y.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptComment.Y.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptConverter
+RecursiveAI.OneDocument.Ppt.Binary.PptDeep
+RecursiveAI.OneDocument.Ppt.Binary.PptFile
+RecursiveAI.OneDocument.Ppt.Binary.PptFile.Context.get -> RecursiveAI.OneDocument.OpenContext!
+RecursiveAI.OneDocument.Ppt.Binary.PptFile.DocumentContainer.get -> RecursiveAI.OneDocument.OfficeArt.ArtRecord?
+RecursiveAI.OneDocument.Ppt.Binary.PptFile.DocumentStream.get -> System.ReadOnlyMemory<byte>
+RecursiveAI.OneDocument.Ppt.Binary.PptFile.DocumentSummaryInformation.get -> System.ReadOnlyMemory<byte>
+RecursiveAI.OneDocument.Ppt.Binary.PptFile.GetPersistObject(uint persistId) -> RecursiveAI.OneDocument.OfficeArt.ArtRecord?
+RecursiveAI.OneDocument.Ppt.Binary.PptFile.HasVbaProject.get -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptFile.PersistOffsets.get -> System.Collections.Generic.IReadOnlyDictionary<uint, long>!
+RecursiveAI.OneDocument.Ppt.Binary.PptFile.PicturesStream.get -> System.ReadOnlyMemory<byte>
+RecursiveAI.OneDocument.Ppt.Binary.PptFile.ReadContext.get -> RecursiveAI.OneDocument.OfficeArt.ArtReadContext!
+RecursiveAI.OneDocument.Ppt.Binary.PptFile.ReadRecordAt(long offset) -> RecursiveAI.OneDocument.OfficeArt.ArtRecord?
+RecursiveAI.OneDocument.Ppt.Binary.PptFile.StreamNames.get -> System.Collections.Generic.IReadOnlyList<string!>!
+RecursiveAI.OneDocument.Ppt.Binary.PptFile.SummaryInformation.get -> System.ReadOnlyMemory<byte>
+RecursiveAI.OneDocument.Ppt.Binary.PptFile.UserEdits.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit!>!
+RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun
+RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun.<Clone>$() -> RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun!
+RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun.Count.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun.Count.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun.Deconstruct(out int Count, out int LanguageId) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun.Equals(RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun? other) -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun.LanguageId.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun.LanguageId.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun.PptLanguageRun(int Count, int LanguageId) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptMaster
+RecursiveAI.OneDocument.Ppt.Binary.PptMaster.Flags.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptMaster.IsTitleMaster.get -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptMaster.MainMasterId.get -> uint
+RecursiveAI.OneDocument.Ppt.Binary.PptMaster.MasterId.get -> uint
+RecursiveAI.OneDocument.Ppt.Binary.PptMaster.TextStyles.get -> System.Collections.Generic.IReadOnlyDictionary<int, RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle!>!
+RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle
+RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle.<Clone>$() -> RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle!
+RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle.Deconstruct(out int TextType, out System.Collections.Generic.IReadOnlyList<(RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat! Paragraph, RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat! Character)>! Levels) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle.Equals(RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle? other) -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle.Levels.get -> System.Collections.Generic.IReadOnlyList<(RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat! Paragraph, RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat! Character)>!
+RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle.Levels.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle.PptMasterStyle(int TextType, System.Collections.Generic.IReadOnlyList<(RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat! Paragraph, RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat! Character)>! Levels) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle.TextType.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle.TextType.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar.<Clone>$() -> RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar!
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar.Deconstruct(out int Position, out RecursiveAI.OneDocument.Ppt.Binary.PptMetaCharKind Kind, out int FormatId) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar.Equals(RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar? other) -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar.FormatId.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar.FormatId.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar.Kind.get -> RecursiveAI.OneDocument.Ppt.Binary.PptMetaCharKind
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar.Kind.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar.Position.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar.Position.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar.PptMetaChar(int Position, RecursiveAI.OneDocument.Ppt.Binary.PptMetaCharKind Kind, int FormatId) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaCharKind
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaCharKind.DateTime = 1 -> RecursiveAI.OneDocument.Ppt.Binary.PptMetaCharKind
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaCharKind.Footer = 4 -> RecursiveAI.OneDocument.Ppt.Binary.PptMetaCharKind
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaCharKind.GenericDate = 2 -> RecursiveAI.OneDocument.Ppt.Binary.PptMetaCharKind
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaCharKind.Header = 3 -> RecursiveAI.OneDocument.Ppt.Binary.PptMetaCharKind
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaCharKind.RtfDateTime = 5 -> RecursiveAI.OneDocument.Ppt.Binary.PptMetaCharKind
+RecursiveAI.OneDocument.Ppt.Binary.PptMetaCharKind.SlideNumber = 0 -> RecursiveAI.OneDocument.Ppt.Binary.PptMetaCharKind
+RecursiveAI.OneDocument.Ppt.Binary.PptNotes
+RecursiveAI.OneDocument.Ppt.Binary.PptNotes.ListTexts.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Ppt.Binary.PptTextBody!>!
+RecursiveAI.OneDocument.Ppt.Binary.PptNotes.NotesId.get -> uint
+RecursiveAI.OneDocument.Ppt.Binary.PptNotes.SlideIdRef.get -> uint
+RecursiveAI.OneDocument.Ppt.Binary.PptPage
+RecursiveAI.OneDocument.Ppt.Binary.PptPage.ColorScheme.get -> RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme?
+RecursiveAI.OneDocument.Ppt.Binary.PptPage.Container.get -> RecursiveAI.OneDocument.OfficeArt.ArtRecord!
+RecursiveAI.OneDocument.Ppt.Binary.PptPage.Drawing.get -> RecursiveAI.OneDocument.OfficeArt.ArtDrawing?
+RecursiveAI.OneDocument.Ppt.Binary.PptPage.Owner.get -> RecursiveAI.OneDocument.Ppt.Binary.PptPresentation!
+RecursiveAI.OneDocument.Ppt.Binary.PptPage.PersistId.get -> uint
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.Alignment.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.BulletChar.get -> char
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.BulletColor.get -> RecursiveAI.OneDocument.Ppt.Binary.PptColor
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.BulletFlags.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.BulletFontRef.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.BulletSize.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.DefaultTabSize.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.FontAlign.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.Has(RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks mask) -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.HasBulletFlag.get -> bool?
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.Indent.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.LeftMargin.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.LineSpacing.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.Masks.get -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.PptParagraphFormat() -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.SpaceAfter.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.SpaceBefore.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.TabStops.get -> System.Collections.Generic.IReadOnlyList<(int Position, int Type)>!
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat.TextDirection.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.Align = 2048 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.BulletChar = 128 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.BulletColor = 32 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.BulletFont = 16 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.BulletHasColor = 4 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.BulletHasFont = 2 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.BulletHasSize = 8 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.BulletSize = 64 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.CharWrap = 131072 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.DefaultTabSize = 32768 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.FontAlign = 65536 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.HasBullet = 1 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.Indent = 1024 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.LeftMargin = 256 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.LineSpacing = 4096 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.None = 0 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.Overflow = 524288 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.SpaceAfter = 16384 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.SpaceBefore = 8192 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.TabStops = 1048576 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.TextDirection = 2097152 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks.WordWrap = 262144 -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphMasks
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun.<Clone>$() -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun!
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun.Count.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun.Count.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun.Deconstruct(out int Count, out int IndentLevel, out RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat! Format) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun.Equals(RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun? other) -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun.Format.get -> RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat!
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun.Format.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun.IndentLevel.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun.IndentLevel.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun.PptParagraphRun(int Count, int IndentLevel, RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat! Format) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.DefaultTextStyles.get -> System.Collections.Generic.IReadOnlyDictionary<int, RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle!>!
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.DrawingGroup.get -> RecursiveAI.OneDocument.OfficeArt.ArtDrawingGroup?
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.ExternalObjects.get -> RecursiveAI.OneDocument.OfficeArt.ArtRecord?
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.File.get -> RecursiveAI.OneDocument.Ppt.Binary.PptFile!
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.FirstSlideNumber.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.Fonts.get -> System.Collections.Generic.IReadOnlyList<string!>!
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.GetImage(int index) -> RecursiveAI.OneDocument.OfficeArt.ArtImage?
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.HandoutMaster.get -> RecursiveAI.OneDocument.Ppt.Binary.PptPage?
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.HasVbaProject.get -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.Hyperlinks.get -> System.Collections.Generic.IReadOnlyDictionary<uint, (string! Target, string! Name)>!
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.Masters.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Ppt.Binary.PptMaster!>!
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.NotesHeight.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.NotesMaster.get -> RecursiveAI.OneDocument.Ppt.Binary.PptNotes?
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.NotesPages.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Ppt.Binary.PptNotes!>!
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.NotesWidth.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.SlideHeight.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.SlideSizeType.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.SlideWidth.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.Slides.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Ppt.Binary.PptSlide!>!
+RecursiveAI.OneDocument.Ppt.Binary.PptRecordType
+RecursiveAI.OneDocument.Ppt.Binary.PptRuler
+RecursiveAI.OneDocument.Ppt.Binary.PptRuler.DefaultTabSize.get -> int?
+RecursiveAI.OneDocument.Ppt.Binary.PptRuler.Indent.get -> int?[]!
+RecursiveAI.OneDocument.Ppt.Binary.PptRuler.LeftMargin.get -> int?[]!
+RecursiveAI.OneDocument.Ppt.Binary.PptRuler.PptRuler() -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptRuler.TabStops.get -> System.Collections.Generic.IReadOnlyList<(int Position, int Type)>!
+RecursiveAI.OneDocument.Ppt.Binary.PptSlide
+RecursiveAI.OneDocument.Ppt.Binary.PptSlide.Flags.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptSlide.Layout.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptSlide.LayoutPlaceholders.get -> System.Collections.Generic.IReadOnlyList<int>!
+RecursiveAI.OneDocument.Ppt.Binary.PptSlide.ListTexts.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Ppt.Binary.PptTextBody!>!
+RecursiveAI.OneDocument.Ppt.Binary.PptSlide.MasterIdRef.get -> uint
+RecursiveAI.OneDocument.Ppt.Binary.PptSlide.Name.get -> string!
+RecursiveAI.OneDocument.Ppt.Binary.PptSlide.NotesIdRef.get -> uint
+RecursiveAI.OneDocument.Ppt.Binary.PptSlide.SlideId.get -> uint
+RecursiveAI.OneDocument.Ppt.Binary.PptSlide.Transition.get -> RecursiveAI.OneDocument.OfficeArt.ArtRecord?
+RecursiveAI.OneDocument.Ppt.Binary.PptText
+RecursiveAI.OneDocument.Ppt.Binary.PptTextBody
+RecursiveAI.OneDocument.Ppt.Binary.PptTextBody.CharRuns.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Ppt.Binary.PptCharRun!>!
+RecursiveAI.OneDocument.Ppt.Binary.PptTextBody.Instance.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptTextBody.Interactive.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.OfficeArt.ArtRecord!>!
+RecursiveAI.OneDocument.Ppt.Binary.PptTextBody.LanguageRuns.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun!>!
+RecursiveAI.OneDocument.Ppt.Binary.PptTextBody.MasterLevels.get -> System.Collections.Generic.IReadOnlyList<(int Count, int Level)>!
+RecursiveAI.OneDocument.Ppt.Binary.PptTextBody.MetaChars.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar!>!
+RecursiveAI.OneDocument.Ppt.Binary.PptTextBody.Offset.get -> long
+RecursiveAI.OneDocument.Ppt.Binary.PptTextBody.OutlineReference.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptTextBody.ParagraphRuns.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun!>!
+RecursiveAI.OneDocument.Ppt.Binary.PptTextBody.PptTextBody() -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptTextBody.Ruler.get -> RecursiveAI.OneDocument.Ppt.Binary.PptRuler?
+RecursiveAI.OneDocument.Ppt.Binary.PptTextBody.Text.get -> string!
+RecursiveAI.OneDocument.Ppt.Binary.PptTextBody.TextType.get -> int
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.<Clone>$() -> RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit!
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.Deconstruct(out long Offset, out long OffsetLastEdit, out long OffsetPersistDirectory, out uint DocumentPersistId, out uint PersistIdSeed, out uint LastSlideIdRef, out uint EncryptSessionPersistId) -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.DocumentPersistId.get -> uint
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.DocumentPersistId.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.EncryptSessionPersistId.get -> uint
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.EncryptSessionPersistId.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.Equals(RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit? other) -> bool
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.LastSlideIdRef.get -> uint
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.LastSlideIdRef.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.Offset.get -> long
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.Offset.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.OffsetLastEdit.get -> long
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.OffsetLastEdit.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.OffsetPersistDirectory.get -> long
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.OffsetPersistDirectory.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.PersistIdSeed.get -> uint
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.PersistIdSeed.init -> void
+RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.PptUserEdit(long Offset, long OffsetLastEdit, long OffsetPersistDirectory, uint DocumentPersistId, uint PersistIdSeed, uint LastSlideIdRef, uint EncryptSessionPersistId) -> void
+RecursiveAI.OneDocument.Presentations.AutofitKind
+RecursiveAI.OneDocument.Presentations.AutofitKind.None = 0 -> RecursiveAI.OneDocument.Presentations.AutofitKind
+RecursiveAI.OneDocument.Presentations.AutofitKind.ResizeShape = 2 -> RecursiveAI.OneDocument.Presentations.AutofitKind
+RecursiveAI.OneDocument.Presentations.AutofitKind.ShrinkText = 1 -> RecursiveAI.OneDocument.Presentations.AutofitKind
+RecursiveAI.OneDocument.Presentations.BodyFormat
+RecursiveAI.OneDocument.Presentations.BodyFormat.<Clone>$() -> RecursiveAI.OneDocument.Presentations.BodyFormat!
+RecursiveAI.OneDocument.Presentations.BodyFormat.Anchor.get -> string!
+RecursiveAI.OneDocument.Presentations.BodyFormat.Anchor.init -> void
+RecursiveAI.OneDocument.Presentations.BodyFormat.Autofit.get -> RecursiveAI.OneDocument.Presentations.AutofitKind
+RecursiveAI.OneDocument.Presentations.BodyFormat.Autofit.init -> void
+RecursiveAI.OneDocument.Presentations.BodyFormat.BodyFormat(long LeftInset, long TopInset, long RightInset, long BottomInset, string! Anchor, string! Wrap, string! Vertical, RecursiveAI.OneDocument.Presentations.AutofitKind Autofit, int? FontScale, int? LineSpacingReduction) -> void
+RecursiveAI.OneDocument.Presentations.BodyFormat.BottomInset.get -> long
+RecursiveAI.OneDocument.Presentations.BodyFormat.BottomInset.init -> void
+RecursiveAI.OneDocument.Presentations.BodyFormat.Deconstruct(out long LeftInset, out long TopInset, out long RightInset, out long BottomInset, out string! Anchor, out string! Wrap, out string! Vertical, out RecursiveAI.OneDocument.Presentations.AutofitKind Autofit, out int? FontScale, out int? LineSpacingReduction) -> void
+RecursiveAI.OneDocument.Presentations.BodyFormat.Equals(RecursiveAI.OneDocument.Presentations.BodyFormat? other) -> bool
+RecursiveAI.OneDocument.Presentations.BodyFormat.FontScale.get -> int?
+RecursiveAI.OneDocument.Presentations.BodyFormat.FontScale.init -> void
+RecursiveAI.OneDocument.Presentations.BodyFormat.LeftInset.get -> long
+RecursiveAI.OneDocument.Presentations.BodyFormat.LeftInset.init -> void
+RecursiveAI.OneDocument.Presentations.BodyFormat.LineSpacingReduction.get -> int?
+RecursiveAI.OneDocument.Presentations.BodyFormat.LineSpacingReduction.init -> void
+RecursiveAI.OneDocument.Presentations.BodyFormat.RightInset.get -> long
+RecursiveAI.OneDocument.Presentations.BodyFormat.RightInset.init -> void
+RecursiveAI.OneDocument.Presentations.BodyFormat.TopInset.get -> long
+RecursiveAI.OneDocument.Presentations.BodyFormat.TopInset.init -> void
+RecursiveAI.OneDocument.Presentations.BodyFormat.Vertical.get -> string!
+RecursiveAI.OneDocument.Presentations.BodyFormat.Vertical.init -> void
+RecursiveAI.OneDocument.Presentations.BodyFormat.Wrap.get -> string!
+RecursiveAI.OneDocument.Presentations.BodyFormat.Wrap.init -> void
+RecursiveAI.OneDocument.Presentations.BulletFormat
+RecursiveAI.OneDocument.Presentations.BulletFormat.<Clone>$() -> RecursiveAI.OneDocument.Presentations.BulletFormat!
+RecursiveAI.OneDocument.Presentations.BulletFormat.AutoNumberType.get -> string?
+RecursiveAI.OneDocument.Presentations.BulletFormat.AutoNumberType.init -> void
+RecursiveAI.OneDocument.Presentations.BulletFormat.BulletFormat(RecursiveAI.OneDocument.Presentations.BulletKind Kind, string? Character, string? Font, string? AutoNumberType, int? StartAt, int? SizePercent, RecursiveAI.OneDocument.Presentations.ColorValue? Color) -> void
+RecursiveAI.OneDocument.Presentations.BulletFormat.Character.get -> string?
+RecursiveAI.OneDocument.Presentations.BulletFormat.Character.init -> void
+RecursiveAI.OneDocument.Presentations.BulletFormat.Color.get -> RecursiveAI.OneDocument.Presentations.ColorValue?
+RecursiveAI.OneDocument.Presentations.BulletFormat.Color.init -> void
+RecursiveAI.OneDocument.Presentations.BulletFormat.Deconstruct(out RecursiveAI.OneDocument.Presentations.BulletKind Kind, out string? Character, out string? Font, out string? AutoNumberType, out int? StartAt, out int? SizePercent, out RecursiveAI.OneDocument.Presentations.ColorValue? Color) -> void
+RecursiveAI.OneDocument.Presentations.BulletFormat.Equals(RecursiveAI.OneDocument.Presentations.BulletFormat? other) -> bool
+RecursiveAI.OneDocument.Presentations.BulletFormat.Font.get -> string?
+RecursiveAI.OneDocument.Presentations.BulletFormat.Font.init -> void
+RecursiveAI.OneDocument.Presentations.BulletFormat.Kind.get -> RecursiveAI.OneDocument.Presentations.BulletKind
+RecursiveAI.OneDocument.Presentations.BulletFormat.Kind.init -> void
+RecursiveAI.OneDocument.Presentations.BulletFormat.SizePercent.get -> int?
+RecursiveAI.OneDocument.Presentations.BulletFormat.SizePercent.init -> void
+RecursiveAI.OneDocument.Presentations.BulletFormat.StartAt.get -> int?
+RecursiveAI.OneDocument.Presentations.BulletFormat.StartAt.init -> void
+RecursiveAI.OneDocument.Presentations.BulletKind
+RecursiveAI.OneDocument.Presentations.BulletKind.AutoNumber = 3 -> RecursiveAI.OneDocument.Presentations.BulletKind
+RecursiveAI.OneDocument.Presentations.BulletKind.Character = 2 -> RecursiveAI.OneDocument.Presentations.BulletKind
+RecursiveAI.OneDocument.Presentations.BulletKind.None = 1 -> RecursiveAI.OneDocument.Presentations.BulletKind
+RecursiveAI.OneDocument.Presentations.BulletKind.Picture = 4 -> RecursiveAI.OneDocument.Presentations.BulletKind
+RecursiveAI.OneDocument.Presentations.BulletKind.Unspecified = 0 -> RecursiveAI.OneDocument.Presentations.BulletKind
+RecursiveAI.OneDocument.Presentations.ColorKind
+RecursiveAI.OneDocument.Presentations.ColorKind.Other = 0 -> RecursiveAI.OneDocument.Presentations.ColorKind
+RecursiveAI.OneDocument.Presentations.ColorKind.Preset = 3 -> RecursiveAI.OneDocument.Presentations.ColorKind
+RecursiveAI.OneDocument.Presentations.ColorKind.Scheme = 2 -> RecursiveAI.OneDocument.Presentations.ColorKind
+RecursiveAI.OneDocument.Presentations.ColorKind.Srgb = 1 -> RecursiveAI.OneDocument.Presentations.ColorKind
+RecursiveAI.OneDocument.Presentations.ColorMap
+RecursiveAI.OneDocument.Presentations.ColorMap.Map(string! name) -> string?
+RecursiveAI.OneDocument.Presentations.ColorValue
+RecursiveAI.OneDocument.Presentations.ColorValue.ColorValue() -> void
+RecursiveAI.OneDocument.Presentations.ColorValue.ColorValue(RecursiveAI.OneDocument.Presentations.ColorKind Kind, string! Value) -> void
+RecursiveAI.OneDocument.Presentations.ColorValue.Deconstruct(out RecursiveAI.OneDocument.Presentations.ColorKind Kind, out string! Value) -> void
+RecursiveAI.OneDocument.Presentations.ColorValue.Equals(RecursiveAI.OneDocument.Presentations.ColorValue other) -> bool
+RecursiveAI.OneDocument.Presentations.ColorValue.Kind.get -> RecursiveAI.OneDocument.Presentations.ColorKind
+RecursiveAI.OneDocument.Presentations.ColorValue.Kind.init -> void
+RecursiveAI.OneDocument.Presentations.ColorValue.Value.get -> string!
+RecursiveAI.OneDocument.Presentations.ColorValue.Value.init -> void
+RecursiveAI.OneDocument.Presentations.CommentAuthor
+RecursiveAI.OneDocument.Presentations.CommentAuthor.<Clone>$() -> RecursiveAI.OneDocument.Presentations.CommentAuthor!
+RecursiveAI.OneDocument.Presentations.CommentAuthor.CommentAuthor(RecursiveAI.OneDocument.Presentations.CommentKind Kind, string! Id, string! Name, string? Initials) -> void
+RecursiveAI.OneDocument.Presentations.CommentAuthor.Deconstruct(out RecursiveAI.OneDocument.Presentations.CommentKind Kind, out string! Id, out string! Name, out string? Initials) -> void
+RecursiveAI.OneDocument.Presentations.CommentAuthor.Equals(RecursiveAI.OneDocument.Presentations.CommentAuthor? other) -> bool
+RecursiveAI.OneDocument.Presentations.CommentAuthor.Id.get -> string!
+RecursiveAI.OneDocument.Presentations.CommentAuthor.Id.init -> void
+RecursiveAI.OneDocument.Presentations.CommentAuthor.Initials.get -> string?
+RecursiveAI.OneDocument.Presentations.CommentAuthor.Initials.init -> void
+RecursiveAI.OneDocument.Presentations.CommentAuthor.Kind.get -> RecursiveAI.OneDocument.Presentations.CommentKind
+RecursiveAI.OneDocument.Presentations.CommentAuthor.Kind.init -> void
+RecursiveAI.OneDocument.Presentations.CommentAuthor.Name.get -> string!
+RecursiveAI.OneDocument.Presentations.CommentAuthor.Name.init -> void
+RecursiveAI.OneDocument.Presentations.CommentKind
+RecursiveAI.OneDocument.Presentations.CommentKind.Legacy = 0 -> RecursiveAI.OneDocument.Presentations.CommentKind
+RecursiveAI.OneDocument.Presentations.CommentKind.Modern = 1 -> RecursiveAI.OneDocument.Presentations.CommentKind
+RecursiveAI.OneDocument.Presentations.CustomShow
+RecursiveAI.OneDocument.Presentations.CustomShow.<Clone>$() -> RecursiveAI.OneDocument.Presentations.CustomShow!
+RecursiveAI.OneDocument.Presentations.CustomShow.CustomShow(string! Name, long? Id, System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.Slide!>! Slides) -> void
+RecursiveAI.OneDocument.Presentations.CustomShow.Deconstruct(out string! Name, out long? Id, out System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.Slide!>! Slides) -> void
+RecursiveAI.OneDocument.Presentations.CustomShow.Equals(RecursiveAI.OneDocument.Presentations.CustomShow? other) -> bool
+RecursiveAI.OneDocument.Presentations.CustomShow.Id.get -> long?
+RecursiveAI.OneDocument.Presentations.CustomShow.Id.init -> void
+RecursiveAI.OneDocument.Presentations.CustomShow.Name.get -> string!
+RecursiveAI.OneDocument.Presentations.CustomShow.Name.init -> void
+RecursiveAI.OneDocument.Presentations.CustomShow.Slides.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.Slide!>!
+RecursiveAI.OneDocument.Presentations.CustomShow.Slides.init -> void
+RecursiveAI.OneDocument.Presentations.GraphicFrameKind
+RecursiveAI.OneDocument.Presentations.GraphicFrameKind.Chart = 2 -> RecursiveAI.OneDocument.Presentations.GraphicFrameKind
+RecursiveAI.OneDocument.Presentations.GraphicFrameKind.Diagram = 3 -> RecursiveAI.OneDocument.Presentations.GraphicFrameKind
+RecursiveAI.OneDocument.Presentations.GraphicFrameKind.OleObject = 4 -> RecursiveAI.OneDocument.Presentations.GraphicFrameKind
+RecursiveAI.OneDocument.Presentations.GraphicFrameKind.Other = 0 -> RecursiveAI.OneDocument.Presentations.GraphicFrameKind
+RecursiveAI.OneDocument.Presentations.GraphicFrameKind.Table = 1 -> RecursiveAI.OneDocument.Presentations.GraphicFrameKind
+RecursiveAI.OneDocument.Presentations.HeaderFooterFlags
+RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.DateTime.get -> bool?
+RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.DateTime.init -> void
+RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.Deconstruct(out bool? SlideNumber, out bool? Header, out bool? Footer, out bool? DateTime) -> void
+RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.Equals(RecursiveAI.OneDocument.Presentations.HeaderFooterFlags other) -> bool
+RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.Footer.get -> bool?
+RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.Footer.init -> void
+RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.Header.get -> bool?
+RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.Header.init -> void
+RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.HeaderFooterFlags() -> void
+RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.HeaderFooterFlags(bool? SlideNumber, bool? Header, bool? Footer, bool? DateTime) -> void
+RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.SlideNumber.get -> bool?
+RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.SlideNumber.init -> void
+RecursiveAI.OneDocument.Presentations.NotesMaster
+RecursiveAI.OneDocument.Presentations.NotesMaster.NotesStyle.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.NotesMaster.View.get -> RecursiveAI.OneDocument.Schema.Presentation.NotesMaster?
+RecursiveAI.OneDocument.Presentations.NotesSlide
+RecursiveAI.OneDocument.Presentations.NotesSlide.Body.get -> RecursiveAI.OneDocument.Presentations.TextBody?
+RecursiveAI.OneDocument.Presentations.NotesSlide.NotesMaster.get -> RecursiveAI.OneDocument.Presentations.NotesMaster?
+RecursiveAI.OneDocument.Presentations.NotesSlide.NotesText.get -> string!
+RecursiveAI.OneDocument.Presentations.NotesSlide.Slide.get -> RecursiveAI.OneDocument.Presentations.Slide?
+RecursiveAI.OneDocument.Presentations.NotesSlide.View.get -> RecursiveAI.OneDocument.Schema.Presentation.NotesSlide?
+RecursiveAI.OneDocument.Presentations.Odf.OpenDocumentPresentation
+RecursiveAI.OneDocument.Presentations.ParagraphFormat
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.<Clone>$() -> RecursiveAI.OneDocument.Presentations.ParagraphFormat!
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.Alignment.get -> string?
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.Alignment.init -> void
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.Bullet.get -> RecursiveAI.OneDocument.Presentations.BulletFormat!
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.Bullet.init -> void
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.Deconstruct(out string? Alignment, out long? MarginLeft, out long? MarginRight, out long? Indent, out RecursiveAI.OneDocument.Presentations.Spacing? LineSpacing, out RecursiveAI.OneDocument.Presentations.Spacing? SpaceBefore, out RecursiveAI.OneDocument.Presentations.Spacing? SpaceAfter, out bool? RightToLeft, out RecursiveAI.OneDocument.Presentations.BulletFormat! Bullet, out RecursiveAI.OneDocument.Presentations.RunFormat! Run) -> void
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.Equals(RecursiveAI.OneDocument.Presentations.ParagraphFormat? other) -> bool
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.Indent.get -> long?
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.Indent.init -> void
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.LineSpacing.get -> RecursiveAI.OneDocument.Presentations.Spacing?
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.LineSpacing.init -> void
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.MarginLeft.get -> long?
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.MarginLeft.init -> void
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.MarginRight.get -> long?
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.MarginRight.init -> void
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.ParagraphFormat(string? Alignment, long? MarginLeft, long? MarginRight, long? Indent, RecursiveAI.OneDocument.Presentations.Spacing? LineSpacing, RecursiveAI.OneDocument.Presentations.Spacing? SpaceBefore, RecursiveAI.OneDocument.Presentations.Spacing? SpaceAfter, bool? RightToLeft, RecursiveAI.OneDocument.Presentations.BulletFormat! Bullet, RecursiveAI.OneDocument.Presentations.RunFormat! Run) -> void
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.RightToLeft.get -> bool?
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.RightToLeft.init -> void
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.Run.get -> RecursiveAI.OneDocument.Presentations.RunFormat!
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.Run.init -> void
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.SpaceAfter.get -> RecursiveAI.OneDocument.Presentations.Spacing?
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.SpaceAfter.init -> void
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.SpaceBefore.get -> RecursiveAI.OneDocument.Presentations.Spacing?
+RecursiveAI.OneDocument.Presentations.ParagraphFormat.SpaceBefore.init -> void
+RecursiveAI.OneDocument.Presentations.PlaceholderInfo
+RecursiveAI.OneDocument.Presentations.PlaceholderInfo.Deconstruct(out string! Type, out int Index, out string? Size, out string? Orientation, out bool HasType) -> void
+RecursiveAI.OneDocument.Presentations.PlaceholderInfo.Equals(RecursiveAI.OneDocument.Presentations.PlaceholderInfo other) -> bool
+RecursiveAI.OneDocument.Presentations.PlaceholderInfo.HasType.get -> bool
+RecursiveAI.OneDocument.Presentations.PlaceholderInfo.HasType.init -> void
+RecursiveAI.OneDocument.Presentations.PlaceholderInfo.Index.get -> int
+RecursiveAI.OneDocument.Presentations.PlaceholderInfo.Index.init -> void
+RecursiveAI.OneDocument.Presentations.PlaceholderInfo.Orientation.get -> string?
+RecursiveAI.OneDocument.Presentations.PlaceholderInfo.Orientation.init -> void
+RecursiveAI.OneDocument.Presentations.PlaceholderInfo.PlaceholderInfo() -> void
+RecursiveAI.OneDocument.Presentations.PlaceholderInfo.PlaceholderInfo(string! Type, int Index, string? Size, string? Orientation, bool HasType) -> void
+RecursiveAI.OneDocument.Presentations.PlaceholderInfo.Size.get -> string?
+RecursiveAI.OneDocument.Presentations.PlaceholderInfo.Size.init -> void
+RecursiveAI.OneDocument.Presentations.PlaceholderInfo.Type.get -> string!
+RecursiveAI.OneDocument.Presentations.PlaceholderInfo.Type.init -> void
+RecursiveAI.OneDocument.Presentations.Presentation
+RecursiveAI.OneDocument.Presentations.Presentation.AddSlide(RecursiveAI.OneDocument.Presentations.SlideLayout! layout, int? index = null) -> RecursiveAI.OneDocument.Presentations.Slide!
+RecursiveAI.OneDocument.Presentations.Presentation.AddSlide(string! layoutName, int? index = null) -> RecursiveAI.OneDocument.Presentations.Slide!
+RecursiveAI.OneDocument.Presentations.Presentation.ApplyAccessibilityFix(RecursiveAI.OneDocument.Accessibility.AccessibilityIssue! issue) -> RecursiveAI.OneDocument.Accessibility.AccessibilityFixResult
+RecursiveAI.OneDocument.Presentations.Presentation.CommentAuthors.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.CommentAuthor!>!
+RecursiveAI.OneDocument.Presentations.Presentation.CommitChanges() -> void
+RecursiveAI.OneDocument.Presentations.Presentation.Context.get -> RecursiveAI.OneDocument.OpenContext!
+RecursiveAI.OneDocument.Presentations.Presentation.ConversionLoss.get -> RecursiveAI.OneDocument.Diagnostics.LossReport?
+RecursiveAI.OneDocument.Presentations.Presentation.ConvertedFrom.get -> RecursiveAI.OneDocument.OfficeFormat?
+RecursiveAI.OneDocument.Presentations.Presentation.CustomShows.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.CustomShow!>!
+RecursiveAI.OneDocument.Presentations.Presentation.DefaultTextStyle.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.Presentation.DeleteSlide(RecursiveAI.OneDocument.Presentations.Slide! slide) -> void
+RecursiveAI.OneDocument.Presentations.Presentation.DuplicateSlide(RecursiveAI.OneDocument.Presentations.Slide! slide, int? index = null) -> RecursiveAI.OneDocument.Presentations.Slide!
+RecursiveAI.OneDocument.Presentations.Presentation.ExportLoss.get -> RecursiveAI.OneDocument.Diagnostics.LossReport?
+RecursiveAI.OneDocument.Presentations.Presentation.ExtractSlides(int start, int count) -> RecursiveAI.OneDocument.Presentations.Presentation!
+RecursiveAI.OneDocument.Presentations.Presentation.Find(string! pattern, RecursiveAI.OneDocument.Presentations.PresentationFindOptions? options = null) -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Operations.TextHit!>!
+RecursiveAI.OneDocument.Presentations.Presentation.GetVbaProject() -> RecursiveAI.OneDocument.Vba.VbaProject?
+RecursiveAI.OneDocument.Presentations.Presentation.HasUncommittedChanges.get -> bool
+RecursiveAI.OneDocument.Presentations.Presentation.HasVbaProject.get -> bool
+RecursiveAI.OneDocument.Presentations.Presentation.ImportLoss.get -> RecursiveAI.OneDocument.Diagnostics.LossReport?
+RecursiveAI.OneDocument.Presentations.Presentation.InsertSlides(System.Collections.Generic.IEnumerable<RecursiveAI.OneDocument.Presentations.Slide!>! slides, int? index = null, RecursiveAI.OneDocument.Presentations.SlideInsertOptions? options = null) -> RecursiveAI.OneDocument.Presentations.SlideInsertResult!
+RecursiveAI.OneDocument.Presentations.Presentation.IsStrict.get -> bool
+RecursiveAI.OneDocument.Presentations.Presentation.MainMarkup.get -> RecursiveAI.OneDocument.Markup.MarkupDocument!
+RecursiveAI.OneDocument.Presentations.Presentation.MainPartName.get -> string!
+RecursiveAI.OneDocument.Presentations.Presentation.MarkdownExportLoss.get -> RecursiveAI.OneDocument.Diagnostics.LossReport?
+RecursiveAI.OneDocument.Presentations.Presentation.Markup.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.Presentation.Masters.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.SlideMaster!>!
+RecursiveAI.OneDocument.Presentations.Presentation.MoveSlide(RecursiveAI.OneDocument.Presentations.Slide! slide, int newIndex) -> void
+RecursiveAI.OneDocument.Presentations.Presentation.NotesMaster.get -> RecursiveAI.OneDocument.Presentations.NotesMaster?
+RecursiveAI.OneDocument.Presentations.Presentation.Package.get -> RecursiveAI.OneDocument.Packaging.IOpcPackage!
+RecursiveAI.OneDocument.Presentations.Presentation.Protection.get -> RecursiveAI.OneDocument.Presentations.PresentationProtection!
+RecursiveAI.OneDocument.Presentations.Presentation.RemoveVbaProject() -> RecursiveAI.OneDocument.Vba.VbaRemovalReport!
+RecursiveAI.OneDocument.Presentations.Presentation.Replace(string! pattern, string! replacement, RecursiveAI.OneDocument.Presentations.PresentationReplaceOptions? options = null) -> RecursiveAI.OneDocument.Operations.ReplaceReport!
+RecursiveAI.OneDocument.Presentations.Presentation.Sanitize(RecursiveAI.OneDocument.Inspection.SanitizeOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> RecursiveAI.OneDocument.Inspection.SanitizeReport!
+RecursiveAI.OneDocument.Presentations.Presentation.SaveAsHtml(System.IO.Stream! destination, RecursiveAI.OneDocument.HtmlExportOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> void
+RecursiveAI.OneDocument.Presentations.Presentation.Sections.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.PresentationSection!>!
+RecursiveAI.OneDocument.Presentations.Presentation.SetAccessibilityTitle(string! title) -> RecursiveAI.OneDocument.Accessibility.AccessibilityFixResult
+RecursiveAI.OneDocument.Presentations.Presentation.SlideSize.get -> RecursiveAI.OneDocument.Presentations.SlideSize?
+RecursiveAI.OneDocument.Presentations.Presentation.Slides.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.Slide!>!
+RecursiveAI.OneDocument.Presentations.Presentation.SplitEvery(int slidesPerPart) -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.Presentation!>!
+RecursiveAI.OneDocument.Presentations.Presentation.ToHtml(RecursiveAI.OneDocument.HtmlExportOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> string!
+RecursiveAI.OneDocument.Presentations.Presentation.ToMarkdown(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> string!
+RecursiveAI.OneDocument.Presentations.Presentation.View.get -> RecursiveAI.OneDocument.Schema.Presentation.Presentation
+RecursiveAI.OneDocument.Presentations.Presentation.WriteMarkdown(System.IO.Stream! destination, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> void
+RecursiveAI.OneDocument.Presentations.PresentationAuthoringException
+RecursiveAI.OneDocument.Presentations.PresentationAuthoringException.PresentationAuthoringException(string! code, string! message, RecursiveAI.OneDocument.Diagnostics.DefectLocation location = default(RecursiveAI.OneDocument.Diagnostics.DefectLocation)) -> void
+RecursiveAI.OneDocument.Presentations.PresentationFindOptions
+RecursiveAI.OneDocument.Presentations.PresentationFindOptions.Parts.get -> RecursiveAI.OneDocument.Presentations.PresentationParts
+RecursiveAI.OneDocument.Presentations.PresentationFindOptions.Parts.init -> void
+RecursiveAI.OneDocument.Presentations.PresentationFindOptions.PresentationFindOptions() -> void
+RecursiveAI.OneDocument.Presentations.PresentationFindOptions.Search.get -> RecursiveAI.OneDocument.Operations.SearchOptions!
+RecursiveAI.OneDocument.Presentations.PresentationFindOptions.Search.init -> void
+RecursiveAI.OneDocument.Presentations.PresentationFormats
+RecursiveAI.OneDocument.Presentations.PresentationPart
+RecursiveAI.OneDocument.Presentations.PresentationPart.AllShapes() -> System.Collections.Generic.IEnumerable<RecursiveAI.OneDocument.Presentations.Shape!>!
+RecursiveAI.OneDocument.Presentations.PresentationPart.Markup.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.PresentationPart.MarkupTree.get -> RecursiveAI.OneDocument.Markup.MarkupDocument?
+RecursiveAI.OneDocument.Presentations.PresentationPart.Name.get -> string?
+RecursiveAI.OneDocument.Presentations.PresentationPart.Owner.get -> RecursiveAI.OneDocument.Presentations.Presentation!
+RecursiveAI.OneDocument.Presentations.PresentationPart.PartName.get -> string!
+RecursiveAI.OneDocument.Presentations.PresentationPart.Relationships.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Packaging.Relationship!>!
+RecursiveAI.OneDocument.Presentations.PresentationPart.ResolveColor(RecursiveAI.OneDocument.Presentations.ColorValue? color) -> string?
+RecursiveAI.OneDocument.Presentations.PresentationPart.ResolveSchemeColor(string! name) -> string?
+RecursiveAI.OneDocument.Presentations.PresentationPart.ShapeTreeMarkup.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.PresentationPart.Shapes.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.Shape!>!
+RecursiveAI.OneDocument.Presentations.PresentationPart.Text.get -> string!
+RecursiveAI.OneDocument.Presentations.PresentationParts
+RecursiveAI.OneDocument.Presentations.PresentationParts.All = RecursiveAI.OneDocument.Presentations.PresentationParts.Default | RecursiveAI.OneDocument.Presentations.PresentationParts.Layouts | RecursiveAI.OneDocument.Presentations.PresentationParts.Masters -> RecursiveAI.OneDocument.Presentations.PresentationParts
+RecursiveAI.OneDocument.Presentations.PresentationParts.Default = RecursiveAI.OneDocument.Presentations.PresentationParts.Slides | RecursiveAI.OneDocument.Presentations.PresentationParts.Notes -> RecursiveAI.OneDocument.Presentations.PresentationParts
+RecursiveAI.OneDocument.Presentations.PresentationParts.Layouts = 4 -> RecursiveAI.OneDocument.Presentations.PresentationParts
+RecursiveAI.OneDocument.Presentations.PresentationParts.Masters = 8 -> RecursiveAI.OneDocument.Presentations.PresentationParts
+RecursiveAI.OneDocument.Presentations.PresentationParts.None = 0 -> RecursiveAI.OneDocument.Presentations.PresentationParts
+RecursiveAI.OneDocument.Presentations.PresentationParts.Notes = 2 -> RecursiveAI.OneDocument.Presentations.PresentationParts
+RecursiveAI.OneDocument.Presentations.PresentationParts.Slides = 1 -> RecursiveAI.OneDocument.Presentations.PresentationParts
+RecursiveAI.OneDocument.Presentations.PresentationProtection
+RecursiveAI.OneDocument.Presentations.PresentationProtection.IsProtected.get -> bool
+RecursiveAI.OneDocument.Presentations.PresentationProtection.Protect(string! password, RecursiveAI.OneDocument.Protection.ProtectionOptions? options = null) -> void
+RecursiveAI.OneDocument.Presentations.PresentationProtection.Remove() -> bool
+RecursiveAI.OneDocument.Presentations.PresentationProtection.TryRemove(string! password) -> RecursiveAI.OneDocument.Protection.PasswordCheck
+RecursiveAI.OneDocument.Presentations.PresentationProtection.Verifier.get -> RecursiveAI.OneDocument.Protection.PasswordVerifier?
+RecursiveAI.OneDocument.Presentations.PresentationProtection.Verify(string! password) -> RecursiveAI.OneDocument.Protection.PasswordCheck
+RecursiveAI.OneDocument.Presentations.PresentationReplaceOptions
+RecursiveAI.OneDocument.Presentations.PresentationReplaceOptions.PresentationReplaceOptions() -> void
+RecursiveAI.OneDocument.Presentations.PresentationSection
+RecursiveAI.OneDocument.Presentations.PresentationSection.Id.get -> string?
+RecursiveAI.OneDocument.Presentations.PresentationSection.Name.get -> string!
+RecursiveAI.OneDocument.Presentations.PresentationSection.SlideIds.get -> System.Collections.Generic.IReadOnlyList<long>!
+RecursiveAI.OneDocument.Presentations.PresentationSection.Slides.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.Slide!>!
+RecursiveAI.OneDocument.Presentations.PresentationTheme
+RecursiveAI.OneDocument.Presentations.PresentationTheme.Color(string! slot) -> string?
+RecursiveAI.OneDocument.Presentations.PresentationTheme.Font(bool major, string! script = "latin") -> string?
+RecursiveAI.OneDocument.Presentations.PresentationTheme.Name.get -> string?
+RecursiveAI.OneDocument.Presentations.PresentationTheme.ResolveTypeface(string? typeface) -> string?
+RecursiveAI.OneDocument.Presentations.RunFormat
+RecursiveAI.OneDocument.Presentations.RunFormat.<Clone>$() -> RecursiveAI.OneDocument.Presentations.RunFormat!
+RecursiveAI.OneDocument.Presentations.RunFormat.Bold.get -> bool?
+RecursiveAI.OneDocument.Presentations.RunFormat.Bold.init -> void
+RecursiveAI.OneDocument.Presentations.RunFormat.Color.get -> RecursiveAI.OneDocument.Presentations.ColorValue?
+RecursiveAI.OneDocument.Presentations.RunFormat.Color.init -> void
+RecursiveAI.OneDocument.Presentations.RunFormat.Deconstruct(out int? Size, out bool? Bold, out bool? Italic, out string? Underline, out string? Strike, out string? Typeface, out RecursiveAI.OneDocument.Presentations.ColorValue? Color, out string? Language) -> void
+RecursiveAI.OneDocument.Presentations.RunFormat.Equals(RecursiveAI.OneDocument.Presentations.RunFormat? other) -> bool
+RecursiveAI.OneDocument.Presentations.RunFormat.Italic.get -> bool?
+RecursiveAI.OneDocument.Presentations.RunFormat.Italic.init -> void
+RecursiveAI.OneDocument.Presentations.RunFormat.Language.get -> string?
+RecursiveAI.OneDocument.Presentations.RunFormat.Language.init -> void
+RecursiveAI.OneDocument.Presentations.RunFormat.RunFormat(int? Size, bool? Bold, bool? Italic, string? Underline, string? Strike, string? Typeface, RecursiveAI.OneDocument.Presentations.ColorValue? Color, string? Language) -> void
+RecursiveAI.OneDocument.Presentations.RunFormat.Size.get -> int?
+RecursiveAI.OneDocument.Presentations.RunFormat.Size.init -> void
+RecursiveAI.OneDocument.Presentations.RunFormat.Strike.get -> string?
+RecursiveAI.OneDocument.Presentations.RunFormat.Strike.init -> void
+RecursiveAI.OneDocument.Presentations.RunFormat.Typeface.get -> string?
+RecursiveAI.OneDocument.Presentations.RunFormat.Typeface.init -> void
+RecursiveAI.OneDocument.Presentations.RunFormat.Underline.get -> string?
+RecursiveAI.OneDocument.Presentations.RunFormat.Underline.init -> void
+RecursiveAI.OneDocument.Presentations.Shape
+RecursiveAI.OneDocument.Presentations.Shape.AltText.get -> string?
+RecursiveAI.OneDocument.Presentations.Shape.AltText.set -> void
+RecursiveAI.OneDocument.Presentations.Shape.Bounds.get -> RecursiveAI.OneDocument.Presentations.ShapeBounds?
+RecursiveAI.OneDocument.Presentations.Shape.Children.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.Shape!>!
+RecursiveAI.OneDocument.Presentations.Shape.CommonProperties.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.Shape.FrameKind.get -> RecursiveAI.OneDocument.Presentations.GraphicFrameKind
+RecursiveAI.OneDocument.Presentations.Shape.GraphicDataUri.get -> string?
+RecursiveAI.OneDocument.Presentations.Shape.Group.get -> RecursiveAI.OneDocument.Presentations.Shape?
+RecursiveAI.OneDocument.Presentations.Shape.Id.get -> long?
+RecursiveAI.OneDocument.Presentations.Shape.ImagePartName.get -> string?
+RecursiveAI.OneDocument.Presentations.Shape.ImageRelationshipId.get -> string?
+RecursiveAI.OneDocument.Presentations.Shape.InheritanceChain.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.Shape!>!
+RecursiveAI.OneDocument.Presentations.Shape.IsHidden.get -> bool
+RecursiveAI.OneDocument.Presentations.Shape.Kind.get -> RecursiveAI.OneDocument.Presentations.ShapeKind
+RecursiveAI.OneDocument.Presentations.Shape.Markup.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.Shape.Name.get -> string!
+RecursiveAI.OneDocument.Presentations.Shape.Name.set -> void
+RecursiveAI.OneDocument.Presentations.Shape.Part.get -> RecursiveAI.OneDocument.Presentations.PresentationPart!
+RecursiveAI.OneDocument.Presentations.Shape.Placeholder.get -> RecursiveAI.OneDocument.Presentations.PlaceholderInfo?
+RecursiveAI.OneDocument.Presentations.Shape.References.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.ShapeReference>!
+RecursiveAI.OneDocument.Presentations.Shape.ResolveBodyFormat() -> RecursiveAI.OneDocument.Presentations.BodyFormat!
+RecursiveAI.OneDocument.Presentations.Shape.ResolveBounds() -> RecursiveAI.OneDocument.Presentations.ShapeBounds?
+RecursiveAI.OneDocument.Presentations.Shape.Rotation.get -> long
+RecursiveAI.OneDocument.Presentations.Shape.Table.get -> RecursiveAI.OneDocument.Presentations.Table?
+RecursiveAI.OneDocument.Presentations.Shape.Text.get -> string!
+RecursiveAI.OneDocument.Presentations.Shape.TextBody.get -> RecursiveAI.OneDocument.Presentations.TextBody?
+RecursiveAI.OneDocument.Presentations.ShapeBounds
+RecursiveAI.OneDocument.Presentations.ShapeBounds.Deconstruct(out long X, out long Y, out long Width, out long Height) -> void
+RecursiveAI.OneDocument.Presentations.ShapeBounds.Equals(RecursiveAI.OneDocument.Presentations.ShapeBounds other) -> bool
+RecursiveAI.OneDocument.Presentations.ShapeBounds.Height.get -> long
+RecursiveAI.OneDocument.Presentations.ShapeBounds.Height.init -> void
+RecursiveAI.OneDocument.Presentations.ShapeBounds.ShapeBounds() -> void
+RecursiveAI.OneDocument.Presentations.ShapeBounds.ShapeBounds(long X, long Y, long Width, long Height) -> void
+RecursiveAI.OneDocument.Presentations.ShapeBounds.Width.get -> long
+RecursiveAI.OneDocument.Presentations.ShapeBounds.Width.init -> void
+RecursiveAI.OneDocument.Presentations.ShapeBounds.X.get -> long
+RecursiveAI.OneDocument.Presentations.ShapeBounds.X.init -> void
+RecursiveAI.OneDocument.Presentations.ShapeBounds.Y.get -> long
+RecursiveAI.OneDocument.Presentations.ShapeBounds.Y.init -> void
+RecursiveAI.OneDocument.Presentations.ShapeKind
+RecursiveAI.OneDocument.Presentations.ShapeKind.AlternateContent = 6 -> RecursiveAI.OneDocument.Presentations.ShapeKind
+RecursiveAI.OneDocument.Presentations.ShapeKind.Connector = 5 -> RecursiveAI.OneDocument.Presentations.ShapeKind
+RecursiveAI.OneDocument.Presentations.ShapeKind.GraphicFrame = 4 -> RecursiveAI.OneDocument.Presentations.ShapeKind
+RecursiveAI.OneDocument.Presentations.ShapeKind.Group = 3 -> RecursiveAI.OneDocument.Presentations.ShapeKind
+RecursiveAI.OneDocument.Presentations.ShapeKind.Other = 0 -> RecursiveAI.OneDocument.Presentations.ShapeKind
+RecursiveAI.OneDocument.Presentations.ShapeKind.Picture = 2 -> RecursiveAI.OneDocument.Presentations.ShapeKind
+RecursiveAI.OneDocument.Presentations.ShapeKind.Shape = 1 -> RecursiveAI.OneDocument.Presentations.ShapeKind
+RecursiveAI.OneDocument.Presentations.ShapeReference
+RecursiveAI.OneDocument.Presentations.ShapeReference.Deconstruct(out string! RelationshipId, out string? Type, out string? PartName, out bool External) -> void
+RecursiveAI.OneDocument.Presentations.ShapeReference.Equals(RecursiveAI.OneDocument.Presentations.ShapeReference other) -> bool
+RecursiveAI.OneDocument.Presentations.ShapeReference.External.get -> bool
+RecursiveAI.OneDocument.Presentations.ShapeReference.External.init -> void
+RecursiveAI.OneDocument.Presentations.ShapeReference.PartName.get -> string?
+RecursiveAI.OneDocument.Presentations.ShapeReference.PartName.init -> void
+RecursiveAI.OneDocument.Presentations.ShapeReference.RelationshipId.get -> string!
+RecursiveAI.OneDocument.Presentations.ShapeReference.RelationshipId.init -> void
+RecursiveAI.OneDocument.Presentations.ShapeReference.ShapeReference() -> void
+RecursiveAI.OneDocument.Presentations.ShapeReference.ShapeReference(string! RelationshipId, string? Type, string? PartName, bool External) -> void
+RecursiveAI.OneDocument.Presentations.ShapeReference.Type.get -> string?
+RecursiveAI.OneDocument.Presentations.ShapeReference.Type.init -> void
+RecursiveAI.OneDocument.Presentations.Slide
+RecursiveAI.OneDocument.Presentations.Slide.AddPicture(byte[]! image, double left, double top, double width, double? height = null, string? altText = null) -> RecursiveAI.OneDocument.Presentations.Shape!
+RecursiveAI.OneDocument.Presentations.Slide.AddTable(System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<string!>!>! rows, double left, double top, double width, double rowHeight = 28.8) -> RecursiveAI.OneDocument.Presentations.Table!
+RecursiveAI.OneDocument.Presentations.Slide.AddTable(int rows, int columns, double left, double top, double width, double rowHeight = 28.8) -> RecursiveAI.OneDocument.Presentations.Table!
+RecursiveAI.OneDocument.Presentations.Slide.Comments.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.SlideComment!>!
+RecursiveAI.OneDocument.Presentations.Slide.HasAnimations.get -> bool
+RecursiveAI.OneDocument.Presentations.Slide.HasTransition.get -> bool
+RecursiveAI.OneDocument.Presentations.Slide.Id.get -> long?
+RecursiveAI.OneDocument.Presentations.Slide.Index.get -> int
+RecursiveAI.OneDocument.Presentations.Slide.IsHidden.get -> bool
+RecursiveAI.OneDocument.Presentations.Slide.IsHidden.set -> void
+RecursiveAI.OneDocument.Presentations.Slide.Layout.get -> RecursiveAI.OneDocument.Presentations.SlideLayout?
+RecursiveAI.OneDocument.Presentations.Slide.Master.get -> RecursiveAI.OneDocument.Presentations.SlideMaster?
+RecursiveAI.OneDocument.Presentations.Slide.Notes.get -> RecursiveAI.OneDocument.Presentations.NotesSlide?
+RecursiveAI.OneDocument.Presentations.Slide.RelationshipId.get -> string?
+RecursiveAI.OneDocument.Presentations.Slide.SetNotesText(string! text) -> RecursiveAI.OneDocument.Presentations.NotesSlide!
+RecursiveAI.OneDocument.Presentations.Slide.SetPlaceholderText(int index, string! text) -> RecursiveAI.OneDocument.Presentations.Shape!
+RecursiveAI.OneDocument.Presentations.Slide.SetPlaceholderText(string! placeholder, string! text) -> RecursiveAI.OneDocument.Presentations.Shape!
+RecursiveAI.OneDocument.Presentations.Slide.ShowMasterShapes.get -> bool
+RecursiveAI.OneDocument.Presentations.Slide.Title.get -> string?
+RecursiveAI.OneDocument.Presentations.Slide.View.get -> RecursiveAI.OneDocument.Schema.Presentation.Slide?
+RecursiveAI.OneDocument.Presentations.SlideComment
+RecursiveAI.OneDocument.Presentations.SlideComment.<Clone>$() -> RecursiveAI.OneDocument.Presentations.SlideComment!
+RecursiveAI.OneDocument.Presentations.SlideComment.Author.get -> string?
+RecursiveAI.OneDocument.Presentations.SlideComment.Author.init -> void
+RecursiveAI.OneDocument.Presentations.SlideComment.Created.get -> string?
+RecursiveAI.OneDocument.Presentations.SlideComment.Created.init -> void
+RecursiveAI.OneDocument.Presentations.SlideComment.Deconstruct(out RecursiveAI.OneDocument.Presentations.CommentKind Kind, out string? Author, out string? Initials, out string! Text, out string? Created, out string? Status, out System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.SlideComment!>! Replies) -> void
+RecursiveAI.OneDocument.Presentations.SlideComment.Equals(RecursiveAI.OneDocument.Presentations.SlideComment? other) -> bool
+RecursiveAI.OneDocument.Presentations.SlideComment.Initials.get -> string?
+RecursiveAI.OneDocument.Presentations.SlideComment.Initials.init -> void
+RecursiveAI.OneDocument.Presentations.SlideComment.Kind.get -> RecursiveAI.OneDocument.Presentations.CommentKind
+RecursiveAI.OneDocument.Presentations.SlideComment.Kind.init -> void
+RecursiveAI.OneDocument.Presentations.SlideComment.Replies.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.SlideComment!>!
+RecursiveAI.OneDocument.Presentations.SlideComment.Replies.init -> void
+RecursiveAI.OneDocument.Presentations.SlideComment.SlideComment(RecursiveAI.OneDocument.Presentations.CommentKind Kind, string? Author, string? Initials, string! Text, string? Created, string? Status, System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.SlideComment!>! Replies) -> void
+RecursiveAI.OneDocument.Presentations.SlideComment.Status.get -> string?
+RecursiveAI.OneDocument.Presentations.SlideComment.Status.init -> void
+RecursiveAI.OneDocument.Presentations.SlideComment.Text.get -> string!
+RecursiveAI.OneDocument.Presentations.SlideComment.Text.init -> void
+RecursiveAI.OneDocument.Presentations.SlideFormatting
+RecursiveAI.OneDocument.Presentations.SlideFormatting.KeepSource = 0 -> RecursiveAI.OneDocument.Presentations.SlideFormatting
+RecursiveAI.OneDocument.Presentations.SlideFormatting.UseDestination = 1 -> RecursiveAI.OneDocument.Presentations.SlideFormatting
+RecursiveAI.OneDocument.Presentations.SlideInsertOptions
+RecursiveAI.OneDocument.Presentations.SlideInsertOptions.Formatting.get -> RecursiveAI.OneDocument.Presentations.SlideFormatting
+RecursiveAI.OneDocument.Presentations.SlideInsertOptions.Formatting.set -> void
+RecursiveAI.OneDocument.Presentations.SlideInsertOptions.SlideInsertOptions() -> void
+RecursiveAI.OneDocument.Presentations.SlideInsertResult
+RecursiveAI.OneDocument.Presentations.SlideInsertResult.Report.get -> RecursiveAI.OneDocument.Operations.MergeReport!
+RecursiveAI.OneDocument.Presentations.SlideInsertResult.Slides.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.Slide!>!
+RecursiveAI.OneDocument.Presentations.SlideLayout
+RecursiveAI.OneDocument.Presentations.SlideLayout.HeaderFooter.get -> RecursiveAI.OneDocument.Presentations.HeaderFooterFlags
+RecursiveAI.OneDocument.Presentations.SlideLayout.Master.get -> RecursiveAI.OneDocument.Presentations.SlideMaster?
+RecursiveAI.OneDocument.Presentations.SlideLayout.ShowMasterShapes.get -> bool
+RecursiveAI.OneDocument.Presentations.SlideLayout.Type.get -> string!
+RecursiveAI.OneDocument.Presentations.SlideLayout.View.get -> RecursiveAI.OneDocument.Schema.Presentation.SlideLayout?
+RecursiveAI.OneDocument.Presentations.SlideMaster
+RecursiveAI.OneDocument.Presentations.SlideMaster.BodyStyle.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.SlideMaster.HeaderFooter.get -> RecursiveAI.OneDocument.Presentations.HeaderFooterFlags
+RecursiveAI.OneDocument.Presentations.SlideMaster.Id.get -> long?
+RecursiveAI.OneDocument.Presentations.SlideMaster.Layouts.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.SlideLayout!>!
+RecursiveAI.OneDocument.Presentations.SlideMaster.OtherStyle.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.SlideMaster.TitleStyle.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.SlideMaster.View.get -> RecursiveAI.OneDocument.Schema.Presentation.SlideMaster?
+RecursiveAI.OneDocument.Presentations.SlideSize
+RecursiveAI.OneDocument.Presentations.SlideSize.Deconstruct(out long Width, out long Height, out string? Type) -> void
+RecursiveAI.OneDocument.Presentations.SlideSize.Equals(RecursiveAI.OneDocument.Presentations.SlideSize other) -> bool
+RecursiveAI.OneDocument.Presentations.SlideSize.Height.get -> long
+RecursiveAI.OneDocument.Presentations.SlideSize.Height.init -> void
+RecursiveAI.OneDocument.Presentations.SlideSize.SlideSize() -> void
+RecursiveAI.OneDocument.Presentations.SlideSize.SlideSize(long Width, long Height, string? Type) -> void
+RecursiveAI.OneDocument.Presentations.SlideSize.Type.get -> string?
+RecursiveAI.OneDocument.Presentations.SlideSize.Type.init -> void
+RecursiveAI.OneDocument.Presentations.SlideSize.Width.get -> long
+RecursiveAI.OneDocument.Presentations.SlideSize.Width.init -> void
+RecursiveAI.OneDocument.Presentations.Spacing
+RecursiveAI.OneDocument.Presentations.Spacing.Deconstruct(out bool IsPercent, out int Value) -> void
+RecursiveAI.OneDocument.Presentations.Spacing.Equals(RecursiveAI.OneDocument.Presentations.Spacing other) -> bool
+RecursiveAI.OneDocument.Presentations.Spacing.IsPercent.get -> bool
+RecursiveAI.OneDocument.Presentations.Spacing.IsPercent.init -> void
+RecursiveAI.OneDocument.Presentations.Spacing.Spacing() -> void
+RecursiveAI.OneDocument.Presentations.Spacing.Spacing(bool IsPercent, int Value) -> void
+RecursiveAI.OneDocument.Presentations.Spacing.Value.get -> int
+RecursiveAI.OneDocument.Presentations.Spacing.Value.init -> void
+RecursiveAI.OneDocument.Presentations.Table
+RecursiveAI.OneDocument.Presentations.Table.ColumnCount.get -> int
+RecursiveAI.OneDocument.Presentations.Table.ColumnWidths.get -> System.Collections.Generic.IReadOnlyList<long>!
+RecursiveAI.OneDocument.Presentations.Table.Frame.get -> RecursiveAI.OneDocument.Presentations.Shape!
+RecursiveAI.OneDocument.Presentations.Table.HasHeaderRow.get -> bool
+RecursiveAI.OneDocument.Presentations.Table.Markup.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.Table.RowCount.get -> int
+RecursiveAI.OneDocument.Presentations.Table.Rows.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.TableRow!>!
+RecursiveAI.OneDocument.Presentations.Table.StyleId.get -> string?
+RecursiveAI.OneDocument.Presentations.Table.this[int row, int column].get -> RecursiveAI.OneDocument.Presentations.TableCell!
+RecursiveAI.OneDocument.Presentations.TableCell
+RecursiveAI.OneDocument.Presentations.TableCell.Column.get -> int
+RecursiveAI.OneDocument.Presentations.TableCell.ColumnSpan.get -> int
+RecursiveAI.OneDocument.Presentations.TableCell.IsMergedContinuation.get -> bool
+RecursiveAI.OneDocument.Presentations.TableCell.Markup.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.TableCell.Origin.get -> (int Row, int Column)
+RecursiveAI.OneDocument.Presentations.TableCell.Properties.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.TableCell.Row.get -> RecursiveAI.OneDocument.Presentations.TableRow!
+RecursiveAI.OneDocument.Presentations.TableCell.RowSpan.get -> int
+RecursiveAI.OneDocument.Presentations.TableCell.SetText(string! text) -> void
+RecursiveAI.OneDocument.Presentations.TableCell.Text.get -> string!
+RecursiveAI.OneDocument.Presentations.TableCell.TextBody.get -> RecursiveAI.OneDocument.Presentations.TextBody?
+RecursiveAI.OneDocument.Presentations.TableRow
+RecursiveAI.OneDocument.Presentations.TableRow.Cells.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.TableCell!>!
+RecursiveAI.OneDocument.Presentations.TableRow.Height.get -> long
+RecursiveAI.OneDocument.Presentations.TableRow.Index.get -> int
+RecursiveAI.OneDocument.Presentations.TableRow.Markup.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.TableRow.Table.get -> RecursiveAI.OneDocument.Presentations.Table!
+RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplate
+RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult
+RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult.<Clone>$() -> RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult!
+RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult.Deconstruct(out System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Diagnostics.Defect!>! Defects, out int SlideCount) -> void
+RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult.Defects.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Diagnostics.Defect!>!
+RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult.Defects.init -> void
+RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult.Equals(RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult? other) -> bool
+RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult.PresentationTemplateResult(System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Diagnostics.Defect!>! Defects, int SlideCount) -> void
+RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult.SlideCount.get -> int
+RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult.SlideCount.init -> void
+RecursiveAI.OneDocument.Presentations.TextBody
+RecursiveAI.OneDocument.Presentations.TextBody.AddParagraph(string! text) -> RecursiveAI.OneDocument.Presentations.TextParagraph!
+RecursiveAI.OneDocument.Presentations.TextBody.BodyProperties.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.TextBody.ListStyle.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.TextBody.Markup.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.TextBody.Paragraphs.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.TextParagraph!>!
+RecursiveAI.OneDocument.Presentations.TextBody.Part.get -> RecursiveAI.OneDocument.Presentations.PresentationPart!
+RecursiveAI.OneDocument.Presentations.TextBody.SetText(string! text) -> void
+RecursiveAI.OneDocument.Presentations.TextBody.Shape.get -> RecursiveAI.OneDocument.Presentations.Shape?
+RecursiveAI.OneDocument.Presentations.TextBody.Text.get -> string!
+RecursiveAI.OneDocument.Presentations.TextParagraph
+RecursiveAI.OneDocument.Presentations.TextParagraph.Body.get -> RecursiveAI.OneDocument.Presentations.TextBody!
+RecursiveAI.OneDocument.Presentations.TextParagraph.Level.get -> int
+RecursiveAI.OneDocument.Presentations.TextParagraph.Level.set -> void
+RecursiveAI.OneDocument.Presentations.TextParagraph.Markup.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.TextParagraph.Properties.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.TextParagraph.ResolveFormat() -> RecursiveAI.OneDocument.Presentations.ParagraphFormat!
+RecursiveAI.OneDocument.Presentations.TextParagraph.ResolveRunFormat(RecursiveAI.OneDocument.Presentations.TextRun! run) -> RecursiveAI.OneDocument.Presentations.RunFormat!
+RecursiveAI.OneDocument.Presentations.TextParagraph.Runs.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Presentations.TextRun!>!
+RecursiveAI.OneDocument.Presentations.TextParagraph.SetText(string! text) -> void
+RecursiveAI.OneDocument.Presentations.TextParagraph.Text.get -> string!
+RecursiveAI.OneDocument.Presentations.TextRun
+RecursiveAI.OneDocument.Presentations.TextRun.FieldType.get -> string?
+RecursiveAI.OneDocument.Presentations.TextRun.Kind.get -> RecursiveAI.OneDocument.Presentations.TextRunKind
+RecursiveAI.OneDocument.Presentations.TextRun.Language.get -> string?
+RecursiveAI.OneDocument.Presentations.TextRun.Markup.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.TextRun.Paragraph.get -> RecursiveAI.OneDocument.Presentations.TextParagraph!
+RecursiveAI.OneDocument.Presentations.TextRun.Properties.get -> RecursiveAI.OneDocument.Schema.MarkupRef
+RecursiveAI.OneDocument.Presentations.TextRun.Text.get -> string!
+RecursiveAI.OneDocument.Presentations.TextRun.Text.set -> void
+RecursiveAI.OneDocument.Presentations.TextRunKind
+RecursiveAI.OneDocument.Presentations.TextRunKind.Field = 2 -> RecursiveAI.OneDocument.Presentations.TextRunKind
+RecursiveAI.OneDocument.Presentations.TextRunKind.LineBreak = 1 -> RecursiveAI.OneDocument.Presentations.TextRunKind
+RecursiveAI.OneDocument.Presentations.TextRunKind.Text = 0 -> RecursiveAI.OneDocument.Presentations.TextRunKind
+abstract RecursiveAI.OneDocument.Presentations.PresentationPart.ColorMap.get -> RecursiveAI.OneDocument.Presentations.ColorMap?
+abstract RecursiveAI.OneDocument.Presentations.PresentationPart.Theme.get -> RecursiveAI.OneDocument.Presentations.PresentationTheme?
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.AnimationInfo = 4116 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.AnimationInfoAtom = 4081 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.CString = 4026 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.ColorSchemeAtom = 2032 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.Comment10 = 12000 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.Comment10Atom = 12001 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.CommentIndex10 = 12004 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.CryptSession10Container = 12052 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.CurrentUserAtom = 4086 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.DateTimeMetaCharAtom = 4087 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.DefaultRulerAtom = 4011 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.Document = 1000 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.DocumentAtom = 1001 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.Drawing = 1036 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.DrawingGroup = 1035 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.EndDocumentAtom = 1002 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.Environment = 1010 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.ExternalHyperlink = 4055 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.ExternalHyperlinkAtom = 4051 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.ExternalObjectList = 1033 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.ExternalObjectRefAtom = 3009 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.ExternalOleEmbed = 4044 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.ExternalOleEmbedAtom = 4045 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.ExternalOleLink = 4046 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.ExternalOleObjectAtom = 4035 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.ExternalOleObjectStg = 4113 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.FontCollection = 2005 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.FontEntityAtom = 4023 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.FooterMetaCharAtom = 4090 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.GenericDateMetaCharAtom = 4088 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.Handout = 4041 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.HeaderMetaCharAtom = 4089 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.HeadersFooters = 4057 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.HeadersFootersAtom = 4058 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.InteractiveInfo = 4082 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.InteractiveInfoAtom = 4083 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.List = 2000 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.MainMaster = 1016 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.MasterTextPropAtom = 4002 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.MetaFile = 4033 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.Notes = 1008 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.NotesAtom = 1009 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.OutlineTextRefAtom = 3998 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.PersistDirectoryAtom = 6002 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.PlaceholderAtom = 3011 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.ProgTags = 5000 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.RoundTripTheme12 = 1038 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.RtfDateTimeMetaCharAtom = 4117 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.Slide = 1006 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.SlideAtom = 1007 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.SlideListWithText = 4080 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.SlideNumberMetaCharAtom = 4056 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.SlidePersistAtom = 1011 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.SlideShowSlideInfoAtom = 1017 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.StyleTextPropAtom = 4001 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.TextBookmarkAtom = 4007 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.TextBytesAtom = 4008 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.TextCharFormatExceptionAtom = 4004 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.TextCharsAtom = 4000 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.TextHeaderAtom = 3999 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.TextInteractiveInfoAtom = 4063 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.TextMasterStyleAtom = 4003 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.TextParagraphFormatExceptionAtom = 4005 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.TextRulerAtom = 4006 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.TextSpecialInfoAtom = 4010 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.UserEditAtom = 4085 -> int
+const RecursiveAI.OneDocument.Ppt.Binary.PptRecordType.VbaInfo = 1023 -> int
+override RecursiveAI.OneDocument.Ppt.Binary.PptCharRun.Equals(object? obj) -> bool
+override RecursiveAI.OneDocument.Ppt.Binary.PptCharRun.GetHashCode() -> int
+override RecursiveAI.OneDocument.Ppt.Binary.PptCharRun.ToString() -> string!
+override RecursiveAI.OneDocument.Ppt.Binary.PptColor.GetHashCode() -> int
+override RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme.Equals(object? obj) -> bool
+override RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme.GetHashCode() -> int
+override RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme.ToString() -> string!
+override RecursiveAI.OneDocument.Ppt.Binary.PptComment.Equals(object? obj) -> bool
+override RecursiveAI.OneDocument.Ppt.Binary.PptComment.GetHashCode() -> int
+override RecursiveAI.OneDocument.Ppt.Binary.PptComment.ToString() -> string!
+override RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun.Equals(object? obj) -> bool
+override RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun.GetHashCode() -> int
+override RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun.ToString() -> string!
+override RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle.Equals(object? obj) -> bool
+override RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle.GetHashCode() -> int
+override RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle.ToString() -> string!
+override RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar.Equals(object? obj) -> bool
+override RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar.GetHashCode() -> int
+override RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar.ToString() -> string!
+override RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun.Equals(object? obj) -> bool
+override RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun.GetHashCode() -> int
+override RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun.ToString() -> string!
+override RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.Equals(object? obj) -> bool
+override RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.GetHashCode() -> int
+override RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.ToString() -> string!
+override RecursiveAI.OneDocument.Presentations.BodyFormat.Equals(object? obj) -> bool
+override RecursiveAI.OneDocument.Presentations.BodyFormat.GetHashCode() -> int
+override RecursiveAI.OneDocument.Presentations.BodyFormat.ToString() -> string!
+override RecursiveAI.OneDocument.Presentations.BulletFormat.Equals(object? obj) -> bool
+override RecursiveAI.OneDocument.Presentations.BulletFormat.GetHashCode() -> int
+override RecursiveAI.OneDocument.Presentations.BulletFormat.ToString() -> string!
+override RecursiveAI.OneDocument.Presentations.ColorValue.GetHashCode() -> int
+override RecursiveAI.OneDocument.Presentations.CommentAuthor.Equals(object? obj) -> bool
+override RecursiveAI.OneDocument.Presentations.CommentAuthor.GetHashCode() -> int
+override RecursiveAI.OneDocument.Presentations.CommentAuthor.ToString() -> string!
+override RecursiveAI.OneDocument.Presentations.CustomShow.Equals(object? obj) -> bool
+override RecursiveAI.OneDocument.Presentations.CustomShow.GetHashCode() -> int
+override RecursiveAI.OneDocument.Presentations.CustomShow.ToString() -> string!
+override RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.GetHashCode() -> int
+override RecursiveAI.OneDocument.Presentations.NotesMaster.ColorMap.get -> RecursiveAI.OneDocument.Presentations.ColorMap?
+override RecursiveAI.OneDocument.Presentations.NotesMaster.Theme.get -> RecursiveAI.OneDocument.Presentations.PresentationTheme?
+override RecursiveAI.OneDocument.Presentations.NotesSlide.ColorMap.get -> RecursiveAI.OneDocument.Presentations.ColorMap?
+override RecursiveAI.OneDocument.Presentations.NotesSlide.Theme.get -> RecursiveAI.OneDocument.Presentations.PresentationTheme?
+override RecursiveAI.OneDocument.Presentations.ParagraphFormat.Equals(object? obj) -> bool
+override RecursiveAI.OneDocument.Presentations.ParagraphFormat.GetHashCode() -> int
+override RecursiveAI.OneDocument.Presentations.ParagraphFormat.ToString() -> string!
+override RecursiveAI.OneDocument.Presentations.PlaceholderInfo.GetHashCode() -> int
+override RecursiveAI.OneDocument.Presentations.Presentation.CheckAccessibility(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> RecursiveAI.OneDocument.Accessibility.AccessibilityReport!
+override RecursiveAI.OneDocument.Presentations.Presentation.Kind.get -> RecursiveAI.OneDocument.OfficeKind
+override RecursiveAI.OneDocument.Presentations.Presentation.Save(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> void
+override RecursiveAI.OneDocument.Presentations.RunFormat.Equals(object? obj) -> bool
+override RecursiveAI.OneDocument.Presentations.RunFormat.GetHashCode() -> int
+override RecursiveAI.OneDocument.Presentations.RunFormat.ToString() -> string!
+override RecursiveAI.OneDocument.Presentations.ShapeBounds.GetHashCode() -> int
+override RecursiveAI.OneDocument.Presentations.ShapeReference.GetHashCode() -> int
+override RecursiveAI.OneDocument.Presentations.Slide.ColorMap.get -> RecursiveAI.OneDocument.Presentations.ColorMap?
+override RecursiveAI.OneDocument.Presentations.Slide.Theme.get -> RecursiveAI.OneDocument.Presentations.PresentationTheme?
+override RecursiveAI.OneDocument.Presentations.SlideComment.Equals(object? obj) -> bool
+override RecursiveAI.OneDocument.Presentations.SlideComment.GetHashCode() -> int
+override RecursiveAI.OneDocument.Presentations.SlideComment.ToString() -> string!
+override RecursiveAI.OneDocument.Presentations.SlideLayout.ColorMap.get -> RecursiveAI.OneDocument.Presentations.ColorMap?
+override RecursiveAI.OneDocument.Presentations.SlideLayout.Theme.get -> RecursiveAI.OneDocument.Presentations.PresentationTheme?
+override RecursiveAI.OneDocument.Presentations.SlideMaster.ColorMap.get -> RecursiveAI.OneDocument.Presentations.ColorMap?
+override RecursiveAI.OneDocument.Presentations.SlideMaster.Theme.get -> RecursiveAI.OneDocument.Presentations.PresentationTheme?
+override RecursiveAI.OneDocument.Presentations.SlideSize.GetHashCode() -> int
+override RecursiveAI.OneDocument.Presentations.Spacing.GetHashCode() -> int
+override RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult.Equals(object? obj) -> bool
+override RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult.GetHashCode() -> int
+override RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult.ToString() -> string!
+static RecursiveAI.OneDocument.Ppt.Binary.PptCharRun.operator !=(RecursiveAI.OneDocument.Ppt.Binary.PptCharRun? left, RecursiveAI.OneDocument.Ppt.Binary.PptCharRun? right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptCharRun.operator ==(RecursiveAI.OneDocument.Ppt.Binary.PptCharRun? left, RecursiveAI.OneDocument.Ppt.Binary.PptCharRun? right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptColor.operator !=(RecursiveAI.OneDocument.Ppt.Binary.PptColor left, RecursiveAI.OneDocument.Ppt.Binary.PptColor right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptColor.operator ==(RecursiveAI.OneDocument.Ppt.Binary.PptColor left, RecursiveAI.OneDocument.Ppt.Binary.PptColor right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme.Default.get -> RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme!
+static RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme.Read(RecursiveAI.OneDocument.OfficeArt.ArtRecord! record) -> RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme?
+static RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme.operator !=(RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme? left, RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme? right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme.operator ==(RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme? left, RecursiveAI.OneDocument.Ppt.Binary.PptColorScheme? right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptComment.operator !=(RecursiveAI.OneDocument.Ppt.Binary.PptComment? left, RecursiveAI.OneDocument.Ppt.Binary.PptComment? right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptComment.operator ==(RecursiveAI.OneDocument.Ppt.Binary.PptComment? left, RecursiveAI.OneDocument.Ppt.Binary.PptComment? right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptConverter.Convert(RecursiveAI.OneDocument.Ppt.Binary.PptFile! file, RecursiveAI.OneDocument.Diagnostics.ILossSink! loss, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> RecursiveAI.OneDocument.Packaging.OpcPackage!
+static RecursiveAI.OneDocument.Ppt.Binary.PptDeep.Comments(RecursiveAI.OneDocument.OfficeArt.ArtRecord! slideContainer, RecursiveAI.OneDocument.OfficeArt.ArtReadContext! context) -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Ppt.Binary.PptComment!>!
+static RecursiveAI.OneDocument.Ppt.Binary.PptDeep.FindAll(RecursiveAI.OneDocument.OfficeArt.ArtRecord! root, int type, RecursiveAI.OneDocument.OfficeArt.ArtReadContext! context) -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.OfficeArt.ArtRecord!>!
+static RecursiveAI.OneDocument.Ppt.Binary.PptFile.Open(RecursiveAI.OneDocument.IO.IByteSource! source, RecursiveAI.OneDocument.OpenContext! context, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> RecursiveAI.OneDocument.Ppt.Binary.PptFile!
+static RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun.operator !=(RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun? left, RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun? right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun.operator ==(RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun? left, RecursiveAI.OneDocument.Ppt.Binary.PptLanguageRun? right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle.operator !=(RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle? left, RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle? right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle.operator ==(RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle? left, RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle? right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar.operator !=(RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar? left, RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar? right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar.operator ==(RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar? left, RecursiveAI.OneDocument.Ppt.Binary.PptMetaChar? right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun.operator !=(RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun? left, RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun? right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun.operator ==(RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun? left, RecursiveAI.OneDocument.Ppt.Binary.PptParagraphRun? right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptPresentation.Read(RecursiveAI.OneDocument.Ppt.Binary.PptFile! file) -> RecursiveAI.OneDocument.Ppt.Binary.PptPresentation!
+static RecursiveAI.OneDocument.Ppt.Binary.PptText.ReadBodies(System.Collections.Generic.IEnumerable<RecursiveAI.OneDocument.OfficeArt.ArtRecord!>! records, RecursiveAI.OneDocument.OfficeArt.ArtReadContext! context) -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Ppt.Binary.PptTextBody!>!
+static RecursiveAI.OneDocument.Ppt.Binary.PptText.ReadMasterStyle(RecursiveAI.OneDocument.OfficeArt.ArtRecord! record, RecursiveAI.OneDocument.OfficeArt.ArtReadContext! context) -> RecursiveAI.OneDocument.Ppt.Binary.PptMasterStyle!
+static RecursiveAI.OneDocument.Ppt.Binary.PptText.TryReadCharacter(System.ReadOnlySpan<byte> data, ref int position, out RecursiveAI.OneDocument.Ppt.Binary.PptCharFormat? format) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptText.TryReadParagraph(System.ReadOnlySpan<byte> data, ref int position, out RecursiveAI.OneDocument.Ppt.Binary.PptParagraphFormat? format) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.operator !=(RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit? left, RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit? right) -> bool
+static RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit.operator ==(RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit? left, RecursiveAI.OneDocument.Ppt.Binary.PptUserEdit? right) -> bool
+static RecursiveAI.OneDocument.Presentations.BodyFormat.operator !=(RecursiveAI.OneDocument.Presentations.BodyFormat? left, RecursiveAI.OneDocument.Presentations.BodyFormat? right) -> bool
+static RecursiveAI.OneDocument.Presentations.BodyFormat.operator ==(RecursiveAI.OneDocument.Presentations.BodyFormat? left, RecursiveAI.OneDocument.Presentations.BodyFormat? right) -> bool
+static RecursiveAI.OneDocument.Presentations.BulletFormat.operator !=(RecursiveAI.OneDocument.Presentations.BulletFormat? left, RecursiveAI.OneDocument.Presentations.BulletFormat? right) -> bool
+static RecursiveAI.OneDocument.Presentations.BulletFormat.operator ==(RecursiveAI.OneDocument.Presentations.BulletFormat? left, RecursiveAI.OneDocument.Presentations.BulletFormat? right) -> bool
+static RecursiveAI.OneDocument.Presentations.ColorValue.operator !=(RecursiveAI.OneDocument.Presentations.ColorValue left, RecursiveAI.OneDocument.Presentations.ColorValue right) -> bool
+static RecursiveAI.OneDocument.Presentations.ColorValue.operator ==(RecursiveAI.OneDocument.Presentations.ColorValue left, RecursiveAI.OneDocument.Presentations.ColorValue right) -> bool
+static RecursiveAI.OneDocument.Presentations.CommentAuthor.operator !=(RecursiveAI.OneDocument.Presentations.CommentAuthor? left, RecursiveAI.OneDocument.Presentations.CommentAuthor? right) -> bool
+static RecursiveAI.OneDocument.Presentations.CommentAuthor.operator ==(RecursiveAI.OneDocument.Presentations.CommentAuthor? left, RecursiveAI.OneDocument.Presentations.CommentAuthor? right) -> bool
+static RecursiveAI.OneDocument.Presentations.CustomShow.operator !=(RecursiveAI.OneDocument.Presentations.CustomShow? left, RecursiveAI.OneDocument.Presentations.CustomShow? right) -> bool
+static RecursiveAI.OneDocument.Presentations.CustomShow.operator ==(RecursiveAI.OneDocument.Presentations.CustomShow? left, RecursiveAI.OneDocument.Presentations.CustomShow? right) -> bool
+static RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.operator !=(RecursiveAI.OneDocument.Presentations.HeaderFooterFlags left, RecursiveAI.OneDocument.Presentations.HeaderFooterFlags right) -> bool
+static RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.operator ==(RecursiveAI.OneDocument.Presentations.HeaderFooterFlags left, RecursiveAI.OneDocument.Presentations.HeaderFooterFlags right) -> bool
+static RecursiveAI.OneDocument.Presentations.Odf.OpenDocumentPresentation.ToPackage(RecursiveAI.OneDocument.IO.IByteSource! source, RecursiveAI.OneDocument.OpenContext? context = null, RecursiveAI.OneDocument.Diagnostics.ILossSink? loss = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> RecursiveAI.OneDocument.Packaging.OpcPackage!
+static RecursiveAI.OneDocument.Presentations.ParagraphFormat.operator !=(RecursiveAI.OneDocument.Presentations.ParagraphFormat? left, RecursiveAI.OneDocument.Presentations.ParagraphFormat? right) -> bool
+static RecursiveAI.OneDocument.Presentations.ParagraphFormat.operator ==(RecursiveAI.OneDocument.Presentations.ParagraphFormat? left, RecursiveAI.OneDocument.Presentations.ParagraphFormat? right) -> bool
+static RecursiveAI.OneDocument.Presentations.PlaceholderInfo.operator !=(RecursiveAI.OneDocument.Presentations.PlaceholderInfo left, RecursiveAI.OneDocument.Presentations.PlaceholderInfo right) -> bool
+static RecursiveAI.OneDocument.Presentations.PlaceholderInfo.operator ==(RecursiveAI.OneDocument.Presentations.PlaceholderInfo left, RecursiveAI.OneDocument.Presentations.PlaceholderInfo right) -> bool
+static RecursiveAI.OneDocument.Presentations.Presentation.Create(RecursiveAI.OneDocument.OpenContext? context = null) -> RecursiveAI.OneDocument.Presentations.Presentation!
+static RecursiveAI.OneDocument.Presentations.Presentation.FromPackage(RecursiveAI.OneDocument.Packaging.IOpcPackage! package, RecursiveAI.OneDocument.OpenContext? context = null, bool ownsPackage = false) -> RecursiveAI.OneDocument.Presentations.Presentation!
+static RecursiveAI.OneDocument.Presentations.Presentation.Open(RecursiveAI.OneDocument.IO.IByteSource! source, RecursiveAI.OneDocument.OpenContext? context = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> RecursiveAI.OneDocument.Presentations.Presentation!
+static RecursiveAI.OneDocument.Presentations.Presentation.Open(System.IO.Stream! stream, RecursiveAI.OneDocument.OpenContext? context = null, bool leaveOpen = true, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> RecursiveAI.OneDocument.Presentations.Presentation!
+static RecursiveAI.OneDocument.Presentations.Presentation.Open(string! path, RecursiveAI.OneDocument.OpenContext? context = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> RecursiveAI.OneDocument.Presentations.Presentation!
+static RecursiveAI.OneDocument.Presentations.PresentationFormats.Formats.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.OfficeFormat>!
+static RecursiveAI.OneDocument.Presentations.PresentationFormats.OpenDocumentFormats.get -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.OfficeFormat>!
+static RecursiveAI.OneDocument.Presentations.PresentationFormats.Register(RecursiveAI.OneDocument.Formats.FormatRegistry! registry) -> void
+static RecursiveAI.OneDocument.Presentations.RunFormat.operator !=(RecursiveAI.OneDocument.Presentations.RunFormat? left, RecursiveAI.OneDocument.Presentations.RunFormat? right) -> bool
+static RecursiveAI.OneDocument.Presentations.RunFormat.operator ==(RecursiveAI.OneDocument.Presentations.RunFormat? left, RecursiveAI.OneDocument.Presentations.RunFormat? right) -> bool
+static RecursiveAI.OneDocument.Presentations.ShapeBounds.operator !=(RecursiveAI.OneDocument.Presentations.ShapeBounds left, RecursiveAI.OneDocument.Presentations.ShapeBounds right) -> bool
+static RecursiveAI.OneDocument.Presentations.ShapeBounds.operator ==(RecursiveAI.OneDocument.Presentations.ShapeBounds left, RecursiveAI.OneDocument.Presentations.ShapeBounds right) -> bool
+static RecursiveAI.OneDocument.Presentations.ShapeReference.operator !=(RecursiveAI.OneDocument.Presentations.ShapeReference left, RecursiveAI.OneDocument.Presentations.ShapeReference right) -> bool
+static RecursiveAI.OneDocument.Presentations.ShapeReference.operator ==(RecursiveAI.OneDocument.Presentations.ShapeReference left, RecursiveAI.OneDocument.Presentations.ShapeReference right) -> bool
+static RecursiveAI.OneDocument.Presentations.SlideComment.operator !=(RecursiveAI.OneDocument.Presentations.SlideComment? left, RecursiveAI.OneDocument.Presentations.SlideComment? right) -> bool
+static RecursiveAI.OneDocument.Presentations.SlideComment.operator ==(RecursiveAI.OneDocument.Presentations.SlideComment? left, RecursiveAI.OneDocument.Presentations.SlideComment? right) -> bool
+static RecursiveAI.OneDocument.Presentations.SlideSize.operator !=(RecursiveAI.OneDocument.Presentations.SlideSize left, RecursiveAI.OneDocument.Presentations.SlideSize right) -> bool
+static RecursiveAI.OneDocument.Presentations.SlideSize.operator ==(RecursiveAI.OneDocument.Presentations.SlideSize left, RecursiveAI.OneDocument.Presentations.SlideSize right) -> bool
+static RecursiveAI.OneDocument.Presentations.Spacing.operator !=(RecursiveAI.OneDocument.Presentations.Spacing left, RecursiveAI.OneDocument.Presentations.Spacing right) -> bool
+static RecursiveAI.OneDocument.Presentations.Spacing.operator ==(RecursiveAI.OneDocument.Presentations.Spacing left, RecursiveAI.OneDocument.Presentations.Spacing right) -> bool
+static RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplate.Render(RecursiveAI.OneDocument.Presentations.Presentation! presentation, RecursiveAI.OneDocument.Templating.ITemplateData? data, RecursiveAI.OneDocument.Templating.TemplateOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult!
+static RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplate.Render(RecursiveAI.OneDocument.Presentations.Presentation! presentation, object? data, RecursiveAI.OneDocument.Templating.TemplateOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult!
+static RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplate.Render(System.IO.Stream! template, object? data, System.IO.Stream! output, RecursiveAI.OneDocument.Templating.TemplateOptions? options = null, RecursiveAI.OneDocument.OfficeFormat? format = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult!
+static RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplate.Validate(RecursiveAI.OneDocument.Presentations.Presentation! presentation, RecursiveAI.OneDocument.Templating.TemplateOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IReadOnlyList<RecursiveAI.OneDocument.Diagnostics.Defect!>!
+static RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult.operator !=(RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult? left, RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult? right) -> bool
+static RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult.operator ==(RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult? left, RecursiveAI.OneDocument.Presentations.Templating.PresentationTemplateResult? right) -> bool
+~override RecursiveAI.OneDocument.Ppt.Binary.PptColor.Equals(object obj) -> bool
+~override RecursiveAI.OneDocument.Ppt.Binary.PptColor.ToString() -> string
+~override RecursiveAI.OneDocument.Presentations.ColorValue.Equals(object obj) -> bool
+~override RecursiveAI.OneDocument.Presentations.ColorValue.ToString() -> string
+~override RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.Equals(object obj) -> bool
+~override RecursiveAI.OneDocument.Presentations.HeaderFooterFlags.ToString() -> string
+~override RecursiveAI.OneDocument.Presentations.PlaceholderInfo.Equals(object obj) -> bool
+~override RecursiveAI.OneDocument.Presentations.PlaceholderInfo.ToString() -> string
+~override RecursiveAI.OneDocument.Presentations.ShapeBounds.Equals(object obj) -> bool
+~override RecursiveAI.OneDocument.Presentations.ShapeBounds.ToString() -> string
+~override RecursiveAI.OneDocument.Presentations.ShapeReference.Equals(object obj) -> bool
+~override RecursiveAI.OneDocument.Presentations.ShapeReference.ToString() -> string
+~override RecursiveAI.OneDocument.Presentations.SlideSize.Equals(object obj) -> bool
+~override RecursiveAI.OneDocument.Presentations.SlideSize.ToString() -> string
+~override RecursiveAI.OneDocument.Presentations.Spacing.Equals(object obj) -> bool
+~override RecursiveAI.OneDocument.Presentations.Spacing.ToString() -> string

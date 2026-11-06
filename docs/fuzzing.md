@@ -2,7 +2,7 @@
 
 The 1.0 fuzz campaign: every target in `fuzz/run.sh` for 600 s under libFuzzer with SharpFuzz instrumentation (the library assemblies and OneArchive), one process and one core per target, seeded from each target's `WriteSeeds` corpus. How to run and add targets: `fuzz/README.md`.
 
-- Run with `tools/fuzz-campaign.sh prepare`, then `tools/fuzz-campaign.sh run 600 <target>...`: one build, nine to eleven targets side by side per queue job (12 cores), per-input timeout 10 s, memory limit 1024 MB.
+- Run with `tools/fuzz-campaign.sh prepare`, then `tools/fuzz-campaign.sh run 600 <target>...`: one build, nine to eleven targets side by side per job (12 cores), per-input timeout 10 s, memory limit 1024 MB.
 - Machine: 32-core x64 build host, .NET 10.0.14, libFuzzer host and SharpFuzz as pinned in the tools directory.
 - A target is clean when it finishes its 600 s with no crash, hang, out-of-memory or invariant failure. All 70 targets finished clean on the final code. In the first pass six of the 62 targets then in `fuzz/run.sh` reported findings (five distinct causes, listed below); each was fixed, and the affected targets plus the targets that share the changed code were run again for 600 s.
 - exec/s is low for the targets that build whole documents per input (`rtf`, `html`, `markdown`, `xlsb`, `richtext`, `doc`, `stream`, `pivot`); the feature counts still plateaued.
@@ -12,78 +12,78 @@ The 1.0 fuzz campaign: every target in `fuzz/run.sh` for 600 s under libFuzzer w
 
 Executions, exec/s and features are from the final 600 s run of each target.
 
-| Target | s | Executions | exec/s | Features | Crashes found | Fixed in | Final run job (remote / wq) |
-|---|---|---|---|---|---|---|---|
-| `formula` | 600 | 13,221,748 | 21,999 | 14,356 | 1 (R1C1 text of an unquoted sheet name that reads as coordinates) | `5019576` | `txvji01l` / 5299 (first run `5hl4ou2t` / 5277) |
-| `formulaeval` | 600 | 400,309 | 666 | 30,634 | 0 | - | `txvji01l` / 5299 (first run `5hl4ou2t` / 5277) |
-| `finfuncs` | 600 | 4,067,741 | 6,768 | 18,647 | 1 hang (CUMPRINC, periods past 2^53) | `9dcc11c` | `qopabahj` / 5292 (first run `5hl4ou2t` / 5277) |
-| `statfuncs` | 600 | 804,390 | 1,338 | 36,085 | 1 hang (CUMIPMT, same loop) | `9dcc11c` | `qopabahj` / 5292 (first run `5hl4ou2t` / 5277) |
-| `funcs` | 600 | 4,578,403 | 7,617 | 59,207 | 1 (PERCENTOF overflow gave infinity) | `9dcc11c` | `qopabahj` / 5292 (first run `5hl4ou2t` / 5277) |
-| `lookups` | 600 | 4,152,153 | 6,908 | 11,810 | 0 | - | `qopabahj` / 5292 (first run `5hl4ou2t` / 5277) |
-| `sniff` | 600 | 9,896,321 | 16,466 | 5,720 | 0 | - | `5hl4ou2t` / 5277 |
-| `xml` | 600 | 5,677,640 | 9,446 | 4,401 | 0 | - | `5hl4ou2t` / 5277 |
-| `markup` | 600 | 8,092,985 | 13,465 | 6,236 | 0 | - | `5hl4ou2t` / 5277 |
-| `opc` | 600 | 1,843,164 | 3,066 | 21,279 | 0 | - | `5hl4ou2t` / 5277 |
-| `cfb` | 600 | 3,752,735 | 6,244 | 7,708 | 0 | - | `5hl4ou2t` / 5277 |
-| `sdt` | 600 | 4,597,269 | 7,649 | 16,439 | 0 | - | `or2y5er3` / 5278 |
-| `sdtpath` | 600 | 8,596,140 | 14,303 | 11,042 | 0 | - | `or2y5er3` / 5278 |
-| `text` | 600 | 8,938,909 | 14,873 | 8,192 | 0 | - | `or2y5er3` / 5278 |
-| `revisions` | 600 | 7,545,259 | 12,554 | 17,734 | 0 | - | `or2y5er3` / 5278 |
-| `stories` | 600 | 5,628,271 | 9,364 | 14,298 | 0 | - | `or2y5er3` / 5278 |
-| `pptx` | 600 | 3,322,567 | 5,528 | 13,312 | 0 | - | `or2y5er3` / 5278 |
-| `fieldinstr` | 600 | 22,705,251 | 37,779 | 583 | 0 | - | `or2y5er3` / 5278 |
-| `fields` | 600 | 6,200,191 | 10,316 | 13,990 | 0 | - | `or2y5er3` / 5278 |
-| `numfmt` | 600 | 4,822,946 | 8,024 | 15,252 | 0 | - | `or2y5er3` / 5278 |
-| `numfmtfmt` | 600 | 8,182,639 | 13,615 | 12,574 | 0 | - | `or2y5er3` / 5278 |
-| `sheet` | 600 | 3,970,666 | 6,606 | 16,299 | 0 | - | `or2y5er3` / 5278 |
-| `sst` | 600 | 6,037,797 | 10,046 | 8,722 | 0 | - | `qopabahj` / 5292 (first run `pu6p88ha` / 5279) |
-| `wbpart` | 600 | 6,652,512 | 11,069 | 9,949 | 0 | - | `qopabahj` / 5292 (first run `pu6p88ha` / 5279) |
-| `styles` | 600 | 2,303,807 | 3,833 | 15,777 | 0 | - | `pu6p88ha` / 5279 |
-| `sheetfeat` | 600 | 2,403,873 | 3,999 | 14,780 | 0 | - | `pu6p88ha` / 5279 |
-| `table` | 600 | 2,077,910 | 3,457 | 8,048 | 0 | - | `pu6p88ha` / 5279 |
-| `pivot` | 600 | 207,716 | 345 | 12,059 | 0 | - | `pu6p88ha` / 5279 |
-| `csv` | 600 | 1,750,182 | 2,912 | 17,607 | 0 | - | `pu6p88ha` / 5279 |
-| `stream` | 600 | 203,223 | 338 | 13,944 | 0 | - | `pu6p88ha` / 5279 |
-| `streamwrite` | 600 | 861,776 | 1,433 | 15,294 | 0 | - | `pu6p88ha` / 5279 |
-| `template` | 600 | 770,856 | 1,280 | 30,397 | 1 hang (`{{ N:ak }}` read 24 million variable names) | `9dcc11c` | `txvji01l` / 5299 (first run `pu6p88ha` / 5279) |
-| `richtext` | 600 | 95,800 | 159 | 31,869 | 0 | - | `6q7ekipa` / 5280 |
-| `mailmerge` | 600 | 269,564 | 448 | 16,419 | 0 | - | `qopabahj` / 5292 (first run `6q7ekipa` / 5280) |
-| `math` | 600 | 8,879,988 | 14,775 | 13,007 | 0 | - | `6q7ekipa` / 5280 |
-| `sheetrender` | 600 | 2,790,610 | 4,643 | 30,885 | 0 | - | `6q7ekipa` / 5280 |
-| `rtf` | 600 | 62,931 | 104 | 32,470 | 0 | - | `6q7ekipa` / 5280 |
-| `rtftree` | 600 | 13,991,415 | 23,280 | 2,069 | 0 | - | `6q7ekipa` / 5280 |
-| `smartart` | 600 | 584,212 | 965 | 26,920 | 0 | - | `6q7ekipa` / 5280 |
-| `doc` | 600 | 124,344 | 206 | 19,564 | 0 | - | `6q7ekipa` / 5280 |
-| `sprm` | 600 | 24,230,692 | 40,317 | 422 | 0 | - | `6q7ekipa` / 5280 |
-| `xls` | 600 | 472,138 | 785 | 61,245 | 1 (lone surrogate in a string failed the shared string write) | `9dcc11c` | `txvji01l` / 5299 (first run `6q7ekipa` / 5280) |
-| `ptg` | 600 | 17,070,536 | 28,403 | 6,976 | 0 | - | `txvji01l` / 5299 (first run `6q7ekipa` / 5280) |
-| `ppt` | 600 | 2,018,855 | 3,359 | 28,455 | 0 | - | `6q7ekipa` / 5280 |
-| `xml2003` | 600 | 3,158,962 | 5,256 | 20,907 | 0 | - | `bupmujkc` / 5281 |
-| `xlsb` | 600 | 60,561 | 100 | 24,497 | 0 | - | `bupmujkc` / 5281 |
-| `olepropset` | 600 | 2,871,389 | 4,777 | 11,518 | 0 | - | `bupmujkc` / 5281 |
-| `oleobject` | 600 | 5,132,985 | 8,540 | 7,924 | 0 | - | `bupmujkc` / 5281 |
-| `encinfo` | 600 | 5,580,121 | 9,284 | 4,690 | 0 | - | `bupmujkc` / 5281 |
-| `filepass` | 600 | 8,539,304 | 14,208 | 2,260 | 0 | - | `bupmujkc` / 5281 |
-| `html` | 600 | 34,866 | 58 | 23,365 | 0 | - | `bupmujkc` / 5281 |
-| `markdown` | 600 | 48,699 | 81 | 40,700 | 0 | - | `bupmujkc` / 5281 |
-| `markdownparse` | 600 | 5,846,428 | 9,727 | 22,408 | 0 | - | `bupmujkc` / 5281 |
-| `vbacompress` | 600 | 21,427,451 | 35,652 | 365 | 0 | - | `4ejqlo5q` / 5282 |
-| `vbadir` | 600 | 2,099,559 | 3,493 | 4,749 | 0 | - | `4ejqlo5q` / 5282 |
-| `vbaproject` | 600 | 6,257,245 | 10,411 | 8,093 | 0 | - | `4ejqlo5q` / 5282 |
-| `vbaremove` | 600 | 2,083,537 | 3,466 | 3,987 | 0 | - | `4ejqlo5q` / 5282 |
-| `odfpkg` | 600 | 1,281,327 | 2,131 | 16,066 | 0 | - | `4ejqlo5q` / 5282 |
-| `odt` | 600 | 196,642 | 327 | 24,601 | 0 | - | `4ejqlo5q` / 5282 |
-| `odp` | 600 | 497,311 | 827 | 24,860 | 0 | - | `4ejqlo5q` / 5282 |
-| `ods` | 600 | 429,183 | 714 | 43,255 | 0 | - | `txvji01l` / 5299 (first run `4ejqlo5q` / 5282) |
-| `openformula` | 600 | 17,621,042 | 29,319 | 11,480 | 0 | - | `txvji01l` / 5299 (first run `4ejqlo5q` / 5282) |
-| `chart` | 600 | 7,504,495 | 12,486 | 29,498 | 6 files, 5 causes (see below) | `4d2df65` | `m69ga54w` / 005359 (first run `4bwhbkdc` / 005311) |
-| `drawing` | 600 | 6,224,984 | 10,357 | 14,296 | 6 files, 5 causes | `4d2df65` | `m69ga54w` / 005359 (first run `4bwhbkdc` / 005311) |
-| `docparts` | 600 | 2,969,882 | 4,941 | 18,050 | 0 | - | `gsgi54bm` / 005378 (first run `4bwhbkdc` / 005311, 4,879,810 executions) |
-| `docxlayout` | 600 | 564,515 | 939 | 27,858 | 1 | `4d2df65` | `f8w9urdm` / 005392 (first run `4bwhbkdc` / 005311) |
-| `pptxlayout` | 600 | 522,344 | 869 | 13,054 | 0 | - | `f8w9urdm` / 005392 (first run `4bwhbkdc` / 005311) |
-| `xlsxprint` | 600 | 3,744,253 | 6,230 | 39,047 | 1 | `4d2df65` | `gsgi54bm` / 005378 (first run `4bwhbkdc` / 005311) |
-| `metafile` | 600 | 258,236 | 427 | 6,912 | 3 files, 3 causes | `4d2df65` | `f8w9urdm` / 005392 (first run `4bwhbkdc` / 005311) |
-| `operations` | 600 | 113,410 | 188 | 28,158 | 0 | - | `f8w9urdm` / 005392 (first run `4bwhbkdc` / 005311) |
+| Target | s | Executions | exec/s | Features | Crashes found | Fixed in |
+|---|---|---|---|---|---|---|
+| `formula` | 600 | 13,221,748 | 21,999 | 14,356 | 1 (R1C1 text of an unquoted sheet name that reads as coordinates) | `5019576` |
+| `formulaeval` | 600 | 400,309 | 666 | 30,634 | 0 | - |
+| `finfuncs` | 600 | 4,067,741 | 6,768 | 18,647 | 1 hang (CUMPRINC, periods past 2^53) | `9dcc11c` |
+| `statfuncs` | 600 | 804,390 | 1,338 | 36,085 | 1 hang (CUMIPMT, same loop) | `9dcc11c` |
+| `funcs` | 600 | 4,578,403 | 7,617 | 59,207 | 1 (PERCENTOF overflow gave infinity) | `9dcc11c` |
+| `lookups` | 600 | 4,152,153 | 6,908 | 11,810 | 0 | - |
+| `sniff` | 600 | 9,896,321 | 16,466 | 5,720 | 0 | - |
+| `xml` | 600 | 5,677,640 | 9,446 | 4,401 | 0 | - |
+| `markup` | 600 | 8,092,985 | 13,465 | 6,236 | 0 | - |
+| `opc` | 600 | 1,843,164 | 3,066 | 21,279 | 0 | - |
+| `cfb` | 600 | 3,752,735 | 6,244 | 7,708 | 0 | - |
+| `sdt` | 600 | 4,597,269 | 7,649 | 16,439 | 0 | - |
+| `sdtpath` | 600 | 8,596,140 | 14,303 | 11,042 | 0 | - |
+| `text` | 600 | 8,938,909 | 14,873 | 8,192 | 0 | - |
+| `revisions` | 600 | 7,545,259 | 12,554 | 17,734 | 0 | - |
+| `stories` | 600 | 5,628,271 | 9,364 | 14,298 | 0 | - |
+| `pptx` | 600 | 3,322,567 | 5,528 | 13,312 | 0 | - |
+| `fieldinstr` | 600 | 22,705,251 | 37,779 | 583 | 0 | - |
+| `fields` | 600 | 6,200,191 | 10,316 | 13,990 | 0 | - |
+| `numfmt` | 600 | 4,822,946 | 8,024 | 15,252 | 0 | - |
+| `numfmtfmt` | 600 | 8,182,639 | 13,615 | 12,574 | 0 | - |
+| `sheet` | 600 | 3,970,666 | 6,606 | 16,299 | 0 | - |
+| `sst` | 600 | 6,037,797 | 10,046 | 8,722 | 0 | - |
+| `wbpart` | 600 | 6,652,512 | 11,069 | 9,949 | 0 | - |
+| `styles` | 600 | 2,303,807 | 3,833 | 15,777 | 0 | - |
+| `sheetfeat` | 600 | 2,403,873 | 3,999 | 14,780 | 0 | - |
+| `table` | 600 | 2,077,910 | 3,457 | 8,048 | 0 | - |
+| `pivot` | 600 | 207,716 | 345 | 12,059 | 0 | - |
+| `csv` | 600 | 1,750,182 | 2,912 | 17,607 | 0 | - |
+| `stream` | 600 | 203,223 | 338 | 13,944 | 0 | - |
+| `streamwrite` | 600 | 861,776 | 1,433 | 15,294 | 0 | - |
+| `template` | 600 | 770,856 | 1,280 | 30,397 | 1 hang (`{{ N:ak }}` read 24 million variable names) | `9dcc11c` |
+| `richtext` | 600 | 95,800 | 159 | 31,869 | 0 | - |
+| `mailmerge` | 600 | 269,564 | 448 | 16,419 | 0 | - |
+| `math` | 600 | 8,879,988 | 14,775 | 13,007 | 0 | - |
+| `sheetrender` | 600 | 2,790,610 | 4,643 | 30,885 | 0 | - |
+| `rtf` | 600 | 62,931 | 104 | 32,470 | 0 | - |
+| `rtftree` | 600 | 13,991,415 | 23,280 | 2,069 | 0 | - |
+| `smartart` | 600 | 584,212 | 965 | 26,920 | 0 | - |
+| `doc` | 600 | 124,344 | 206 | 19,564 | 0 | - |
+| `sprm` | 600 | 24,230,692 | 40,317 | 422 | 0 | - |
+| `xls` | 600 | 472,138 | 785 | 61,245 | 1 (lone surrogate in a string failed the shared string write) | `9dcc11c` |
+| `ptg` | 600 | 17,070,536 | 28,403 | 6,976 | 0 | - |
+| `ppt` | 600 | 2,018,855 | 3,359 | 28,455 | 0 | - |
+| `xml2003` | 600 | 3,158,962 | 5,256 | 20,907 | 0 | - |
+| `xlsb` | 600 | 60,561 | 100 | 24,497 | 0 | - |
+| `olepropset` | 600 | 2,871,389 | 4,777 | 11,518 | 0 | - |
+| `oleobject` | 600 | 5,132,985 | 8,540 | 7,924 | 0 | - |
+| `encinfo` | 600 | 5,580,121 | 9,284 | 4,690 | 0 | - |
+| `filepass` | 600 | 8,539,304 | 14,208 | 2,260 | 0 | - |
+| `html` | 600 | 34,866 | 58 | 23,365 | 0 | - |
+| `markdown` | 600 | 48,699 | 81 | 40,700 | 0 | - |
+| `markdownparse` | 600 | 5,846,428 | 9,727 | 22,408 | 0 | - |
+| `vbacompress` | 600 | 21,427,451 | 35,652 | 365 | 0 | - |
+| `vbadir` | 600 | 2,099,559 | 3,493 | 4,749 | 0 | - |
+| `vbaproject` | 600 | 6,257,245 | 10,411 | 8,093 | 0 | - |
+| `vbaremove` | 600 | 2,083,537 | 3,466 | 3,987 | 0 | - |
+| `odfpkg` | 600 | 1,281,327 | 2,131 | 16,066 | 0 | - |
+| `odt` | 600 | 196,642 | 327 | 24,601 | 0 | - |
+| `odp` | 600 | 497,311 | 827 | 24,860 | 0 | - |
+| `ods` | 600 | 429,183 | 714 | 43,255 | 0 | - |
+| `openformula` | 600 | 17,621,042 | 29,319 | 11,480 | 0 | - |
+| `chart` | 600 | 7,504,495 | 12,486 | 29,498 | 6 files, 5 causes (see below) | `4d2df65` |
+| `drawing` | 600 | 6,224,984 | 10,357 | 14,296 | 6 files, 5 causes | `4d2df65` |
+| `docparts` | 600 | 2,969,882 | 4,941 | 18,050 | 0 | - |
+| `docxlayout` | 600 | 564,515 | 939 | 27,858 | 1 | `4d2df65` |
+| `pptxlayout` | 600 | 522,344 | 869 | 13,054 | 0 | - |
+| `xlsxprint` | 600 | 3,744,253 | 6,230 | 39,047 | 1 | `4d2df65` |
+| `metafile` | 600 | 258,236 | 427 | 6,912 | 3 files, 3 causes | `4d2df65` |
+| `operations` | 600 | 113,410 | 188 | 28,158 | 0 | - |
 
 
 ## Findings

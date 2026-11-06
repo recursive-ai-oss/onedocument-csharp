@@ -465,7 +465,7 @@ public readonly struct NonVisualInkContentPartProperties : global::RecursiveAI.O
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing2010) return local.SequenceEqual("cNvContentPartPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing2010) return local.SequenceEqual("cNvContentPartPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2010) return local.SequenceEqual("cNvContentPartPr"u8);
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("cNvContentPartPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing2010) return local.SequenceEqual("cNvContentPartPr"u8);
         return false;
     }
 

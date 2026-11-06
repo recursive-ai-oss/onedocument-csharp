@@ -4519,7 +4519,7 @@ public readonly struct AutoFilter : global::RecursiveAI.OneDocument.Schema.IElem
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("autoFilter"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("autoFilter"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet2010) return local.SequenceEqual("autoFilter"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("autoFilter"u8);
         return false;
@@ -7532,7 +7532,7 @@ public readonly struct CellWatches : global::RecursiveAI.OneDocument.Schema.IEle
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("cellWatches"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("cellWatches"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("cellWatches"u8);
         return false;
     }
@@ -8925,7 +8925,7 @@ public readonly struct Columns : global::RecursiveAI.OneDocument.Schema.IElement
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("cols"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("cols"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("cols"u8);
         return false;
     }
@@ -9619,7 +9619,7 @@ public readonly struct ConditionalFormatting : global::RecursiveAI.OneDocument.S
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("conditionalFormatting"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("conditionalFormatting"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("conditionalFormatting"u8);
         return false;
     }
@@ -10419,7 +10419,7 @@ public readonly struct Controls : global::RecursiveAI.OneDocument.Schema.IElemen
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("controls"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("controls"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("controls"u8);
         return false;
     }
@@ -10795,7 +10795,7 @@ public readonly struct CustomProperties : global::RecursiveAI.OneDocument.Schema
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("customProperties"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("customProperties"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("customProperties"u8);
         return false;
     }
@@ -11166,7 +11166,7 @@ public readonly struct CustomSheetViews : global::RecursiveAI.OneDocument.Schema
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("customSheetViews"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("customSheetViews"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("customSheetViews"u8);
         return false;
     }
@@ -11612,7 +11612,7 @@ public readonly struct DataConsolidate : global::RecursiveAI.OneDocument.Schema.
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("dataConsolidate"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("dataConsolidate"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("dataConsolidate"u8);
         return false;
     }
@@ -12154,7 +12154,7 @@ public readonly struct DataValidations : global::RecursiveAI.OneDocument.Schema.
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("dataValidations"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("dataValidations"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("dataValidations"u8);
         return false;
     }
@@ -13567,7 +13567,7 @@ public readonly struct Drawing : global::RecursiveAI.OneDocument.Schema.IElement
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("drawing"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("drawing"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("drawing"u8);
         return false;
     }
@@ -13961,7 +13961,7 @@ public readonly struct ExtensionList : global::RecursiveAI.OneDocument.Schema.IE
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet2009) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet2010) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DynamicArray) return local.SequenceEqual("extLst"u8);
@@ -17383,7 +17383,7 @@ public readonly struct HeaderFooter : global::RecursiveAI.OneDocument.Schema.IEl
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("headerFooter"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("headerFooter"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("headerFooter"u8);
         return false;
     }
@@ -17635,7 +17635,7 @@ public readonly struct Hyperlinks : global::RecursiveAI.OneDocument.Schema.IElem
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("hyperlinks"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("hyperlinks"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("hyperlinks"u8);
         return false;
     }
@@ -17925,7 +17925,7 @@ public readonly struct IgnoredErrors : global::RecursiveAI.OneDocument.Schema.IE
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("ignoredErrors"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("ignoredErrors"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("ignoredErrors"u8);
         return false;
     }
@@ -20235,7 +20235,7 @@ public readonly struct MergeCells : global::RecursiveAI.OneDocument.Schema.IElem
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("mergeCells"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("mergeCells"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("mergeCells"u8);
         return false;
     }
@@ -21947,7 +21947,7 @@ public readonly struct OleObjects : global::RecursiveAI.OneDocument.Schema.IElem
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("oleObjects"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("oleObjects"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("oleObjects"u8);
         return false;
     }
@@ -22122,7 +22122,7 @@ public readonly struct PageBreak : global::RecursiveAI.OneDocument.Schema.IEleme
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("colBreaks"u8) || local.SequenceEqual("rowBreaks"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("colBreaks"u8) || local.SequenceEqual("rowBreaks"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("colBreaks"u8) || local.SequenceEqual("rowBreaks"u8);
         return false;
     }
@@ -22400,7 +22400,7 @@ public readonly struct PageMargins : global::RecursiveAI.OneDocument.Schema.IEle
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("pageMargins"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("pageMargins"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("pageMargins"u8);
         return false;
     }
@@ -22465,7 +22465,7 @@ public readonly struct PageSetup : global::RecursiveAI.OneDocument.Schema.IEleme
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("pageSetup"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("pageSetup"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("pageSetup"u8);
         return false;
     }
@@ -23040,7 +23040,7 @@ public readonly struct PhoneticProperties : global::RecursiveAI.OneDocument.Sche
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("phoneticPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("phoneticPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("phoneticPr"u8);
         return false;
     }
@@ -25796,7 +25796,7 @@ public readonly struct PrintOptions : global::RecursiveAI.OneDocument.Schema.IEl
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("printOptions"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("printOptions"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("printOptions"u8);
         return false;
     }
@@ -25950,7 +25950,7 @@ public readonly struct ProtectedRanges : global::RecursiveAI.OneDocument.Schema.
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("protectedRanges"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("protectedRanges"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("protectedRanges"u8);
         return false;
     }
@@ -29666,7 +29666,7 @@ public readonly struct Scenarios : global::RecursiveAI.OneDocument.Schema.IEleme
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("scenarios"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("scenarios"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("scenarios"u8);
         return false;
     }
@@ -30508,7 +30508,7 @@ public readonly struct SheetBackgroundPicture : global::RecursiveAI.OneDocument.
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("picture"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("picture"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("picture"u8);
         return false;
     }
@@ -30558,7 +30558,7 @@ public readonly struct SheetCalcPr : global::RecursiveAI.OneDocument.Schema.IEle
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("sheetCalcPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("sheetCalcPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("sheetCalcPr"u8);
         return false;
     }
@@ -30608,7 +30608,7 @@ public readonly struct SheetData : global::RecursiveAI.OneDocument.Schema.IEleme
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("sheetData"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("sheetData"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("sheetData"u8);
         return false;
     }
@@ -30676,7 +30676,7 @@ public readonly struct SheetDimension : global::RecursiveAI.OneDocument.Schema.I
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("dimension"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("dimension"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("dimension"u8);
         return false;
     }
@@ -30726,7 +30726,7 @@ public readonly struct SheetFormatProperties : global::RecursiveAI.OneDocument.S
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("sheetFormatPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("sheetFormatPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("sheetFormatPr"u8);
         return false;
     }
@@ -30920,7 +30920,7 @@ public readonly struct SheetProperties : global::RecursiveAI.OneDocument.Schema.
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("sheetPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("sheetPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("sheetPr"u8);
         return false;
     }
@@ -31040,7 +31040,7 @@ public readonly struct SheetProtection : global::RecursiveAI.OneDocument.Schema.
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("sheetProtection"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("sheetProtection"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("sheetProtection"u8);
         return false;
     }
@@ -31318,7 +31318,7 @@ public readonly struct SheetViews : global::RecursiveAI.OneDocument.Schema.IElem
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("sheetViews"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("sheetViews"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("sheetViews"u8);
         return false;
     }
@@ -31802,7 +31802,7 @@ public readonly struct SmartTags : global::RecursiveAI.OneDocument.Schema.IEleme
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("smartTags"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("smartTags"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("smartTags"u8);
         return false;
     }
@@ -31951,7 +31951,7 @@ public readonly struct SortState : global::RecursiveAI.OneDocument.Schema.IEleme
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("sortState"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("sortState"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("sortState"u8);
         return false;
     }
@@ -32907,7 +32907,7 @@ public readonly struct TableParts : global::RecursiveAI.OneDocument.Schema.IElem
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("tableParts"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("tableParts"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("tableParts"u8);
         return false;
     }
@@ -34642,7 +34642,7 @@ public readonly struct WebPublishItems : global::RecursiveAI.OneDocument.Schema.
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ExcelMacro2006) return local.SequenceEqual("webPublishItems"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetMacro2006) return local.SequenceEqual("webPublishItems"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Spreadsheet) return local.SequenceEqual("webPublishItems"u8);
         return false;
     }
