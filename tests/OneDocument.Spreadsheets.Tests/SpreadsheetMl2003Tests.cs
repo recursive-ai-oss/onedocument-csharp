@@ -443,4 +443,20 @@ public class SpreadsheetMl2003Tests
         Assert.Contains("sml2003.no-sheets", Codes(ctx));
         Assert.Contains("sml2003.bad-value", Codes(ctx));
     }
+
+    [Fact]
+    public void VeryLongParentChainsAndLoopsAreCutNotFollowed()
+    {
+        var styles = new StringBuilder("<Styles><Style ss:ID=\"Default\"/>");
+        for (int i = 0; i < 2000; i++)
+        {
+            styles.Append("<Style ss:ID=\"s").Append(i).Append("\" ss:Parent=\"s").Append(i + 1).Append("\"><Font ss:Bold=\"1\"/></Style>");
+        }
+
+        styles.Append("<Style ss:ID=\"s2000\" ss:Parent=\"s0\"/></Styles>");
+        var ctx = new OpenContext();
+        using Workbook wb = Load(Book(styles + Sheet("<Row><Cell ss:StyleID=\"s0\"><Data ss:Type=\"String\">x</Data></Cell></Row>")), ctx);
+        Assert.Contains("sml2003.bad-style-ref", Codes(ctx));
+        Assert.Equal("x", wb.Sheets[0]["A1"].Text);
+    }
 }

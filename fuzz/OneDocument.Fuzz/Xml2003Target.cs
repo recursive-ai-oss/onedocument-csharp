@@ -2,9 +2,11 @@ using System;
 using System.IO;
 using System.Text;
 using RecursiveAI.OneDocument.Documents;
+using RecursiveAI.OneDocument.Documents.Xml2003;
 using RecursiveAI.OneDocument.Formats;
 using RecursiveAI.OneDocument.IO;
 using RecursiveAI.OneDocument.Spreadsheets;
+using RecursiveAI.OneDocument.Spreadsheets.Xml2003;
 
 namespace RecursiveAI.OneDocument.Fuzz;
 

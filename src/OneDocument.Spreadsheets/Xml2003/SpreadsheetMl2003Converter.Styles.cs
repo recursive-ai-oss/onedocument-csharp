@@ -10,7 +10,7 @@ internal sealed partial class SpreadsheetMl2003Converter
 {
     // ---- styles ---------------------------------------------------------------------------------------------------------------------
 
-    private static readonly string[] BorderPositions = ["Left", "Right", "Top", "Bottom", "DiagonalLeft", "DiagonalRight"];
+    private readonly Dictionary<string, int> _styleIdIndex = new(StringComparer.Ordinal);
 
     private void ReadStyles(MarkupNode root)
     {
@@ -97,6 +97,13 @@ internal sealed partial class SpreadsheetMl2003Converter
     private Dictionary<string, string> Resolve(string id, HashSet<string> visiting, MarkupNode at)
     {
         var merged = new Dictionary<string, string>(StringComparer.Ordinal);
+        if (visiting.Count >= _ctx.Limits.MaxRecursionDepth)
+        {
+            // A parent chain this long is hostile, and walking it recursively could exhaust the stack.
+            Defect("sml2003.bad-style-ref", DefectSeverity.Repaired, "The style '" + id + "' inherits through more than " + _ctx.Limits.MaxRecursionDepth + " parents; the chain was cut.", at);
+            return merged;
+        }
+
         if (!_styleDefs.TryGetValue(id, out Dictionary<string, string>? own) || !visiting.Add(id))
         {
             if (visiting.Contains(id))
@@ -139,6 +146,11 @@ internal sealed partial class SpreadsheetMl2003Converter
     private int StyleIndex(string? id, MarkupNode at = default)
     {
         id ??= "Default";
+        if (_styleIdIndex.TryGetValue(id, out int cached))
+        {
+            return cached;
+        }
+
         if (!_styleDefs.ContainsKey(id))
         {
             if (id != "Default")
@@ -157,14 +169,14 @@ internal sealed partial class SpreadsheetMl2003Converter
         }
 
         string k = key.ToString();
-        if (_xfIndex.TryGetValue(k, out int index))
+        if (!_xfIndex.TryGetValue(k, out int index))
         {
-            return index;
+            index = _xfs.Count;
+            _xfs.Add(resolved);
+            _xfIndex[k] = index;
         }
 
-        index = _xfs.Count;
-        _xfs.Add(resolved);
-        _xfIndex[k] = index;
+        _styleIdIndex[id] = index;
         return index;
     }
 
