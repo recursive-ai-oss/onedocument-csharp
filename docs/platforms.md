@@ -59,16 +59,15 @@ overwrite it, so the script keeps its output under `artifacts/ios` in the reposi
 ## Running on Android (emulator)
 
 ```
-ANDROID_SDK_LICENSE_ACCEPTED=yes build/mobile/fetch-android-sdk.sh   # once
-build/ci.sh android-run
+JAVA_HOME=/path/to/jdk ANDROID_SDK_ROOT=/path/to/android-sdk build/ci.sh android-run
 ```
 
-Needs Linux with `/dev/kvm` access, a JDK and the `android` workload. The SDK (command-line tools, platform tools, emulator, one
-platform, build tools and one x86_64 system image) comes from Google under the Android Software Development Kit License Agreement,
-which the person running the fetch script accepts by setting the variable; the script never accepts it by itself. `android-run.sh`
-publishes `smoke/android` (NativeAOT, warnings as errors), starts a headless emulator on a fixed port, installs the app, launches it
-and reads the `OneDocumentSmoke` tag from `logcat`. The log is `$CI_OUT/android-run.log`. The Android host and
-scripts are in the repository; the emulator run is pending (it waits on the SDK licence acceptance above).
+Needs Linux with `/dev/kvm` access, a JDK 17 or newer (`JAVA_HOME`), the `android` workload, and an Android SDK whose licence you have already accepted, with the
+emulator, platform-tools, a platform, build tools and an x86_64 system image. The script installs nothing and never changes that SDK:
+it creates its own virtual device in `ANDROID_AVD_HOME` (default `$ONEDOCUMENT_HOME/android-avd`) from the newest installed x86_64
+image. `build/mobile/android-run.sh` publishes `smoke/android` (warnings as errors), starts a headless emulator on a fixed
+port, installs the app, launches it and reads the `OneDocumentSmoke` tag from `logcat`. The log is `$CI_OUT/android-run.log`. The app is the SDK's trimmed release build with Mono; NativeAOT on Android is experimental
+and the SDK refuses it (XA1040). The run is not part of the hosted CI workflow: it runs on a build machine with KVM.
 
 ## Known browser gaps
 

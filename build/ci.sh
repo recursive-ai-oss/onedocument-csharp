@@ -6,7 +6,7 @@
 #                               and wasm-run (publishes the browser host and runs it in headless Chromium; needs the wasm-tools workload,
 #                               python3, curl and unzip), ios-run (builds the iOS app, runs it in the simulator; macOS with Xcode and
 #                               the ios workload) and android-run (builds the Android app, runs it in a headless emulator; Linux with
-#                               /dev/kvm, the android workload and the SDK from build/mobile/fetch-android-sdk.sh)
+#                               /dev/kvm, the android workload and an accepted Android SDK given by ANDROID_SDK_ROOT)
 #
 # Environment:
 #   ONEDOCUMENT_ARTIFACTS   where build output goes (default: artifacts/ at the repository root, which git ignores)

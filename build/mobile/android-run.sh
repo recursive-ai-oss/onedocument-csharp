@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 # Builds the Android smoke app, starts a headless x86_64 emulator, installs and launches the app and waits for its SMOKE-RESULT line.
 #
-# Needs Linux with /dev/kvm access, a .NET SDK with the android workload (dotnet workload install android), a JDK, and the Android
-# SDK from build/mobile/fetch-android-sdk.sh. That script downloads Google's SDK and only runs once the operator has accepted the
-# Android SDK License Agreement (see the script).
+# Needs Linux with /dev/kvm access, a .NET SDK with the android workload (dotnet workload install android), a JDK, and an Android SDK
+# whose licence the caller has already accepted, with the emulator, platform-tools, one platform, build tools and an x86_64 system
+# image. The script installs nothing and changes nothing in that SDK.
 #
 # Environment:
 #   DOTNET                the dotnet executable (default: dotnet from PATH)
-#   ANDROID_SDK_ROOT      the SDK (default: $ONEDOCUMENT_HOME/oracles/android-sdk, ONEDOCUMENT_HOME defaulting to $HOME/oneoffice)
+#   ANDROID_SDK_ROOT      the SDK (required)
+#   JAVA_HOME             a JDK 17 or newer (required; the Android build compiles Java)
+#   ANDROID_AVD_HOME      where this script's own virtual device lives (default: $ONEDOCUMENT_HOME/android-avd)
+#   ONEDOCUMENT_HOME      default $HOME/oneoffice
 #   ANDROID_ARTIFACTS     where build output goes (default: artifacts/android at the repository root, which git ignores)
 #   CI_OUT                where the log goes (default: <ANDROID_ARTIFACTS>/ci)
 #   EMULATOR_TIMEOUT      seconds to wait for the emulator to boot (default: 600)
@@ -19,24 +22,26 @@ root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$root"
 dotnet_bin="${DOTNET:-dotnet}"
 home_dir="${ONEDOCUMENT_HOME:-$HOME/oneoffice}"
-sdk="${ANDROID_SDK_ROOT:-$home_dir/oracles/android-sdk}"
+jdk="${JAVA_HOME:?set JAVA_HOME to a JDK 17 or newer}"
+sdk="${ANDROID_SDK_ROOT:?set ANDROID_SDK_ROOT to an Android SDK with the emulator and an x86_64 system image}"
 art="${ANDROID_ARTIFACTS:-$root/artifacts/android}"
 export ONEDOCUMENT_ARTIFACTS="$art"
 out="${CI_OUT:-$art/ci}"
 mkdir -p "$out"
 log="$out/android-run.log"
 : > "$log"
+export PATH="$jdk/bin:$PATH"
 adb="$sdk/platform-tools/adb"
 emu="$sdk/emulator/emulator"
-[[ -x "$adb" && -x "$emu" ]] || { echo "Android SDK not found in $sdk; run build/mobile/fetch-android-sdk.sh" >&2; exit 1; }
-export ANDROID_HOME="$sdk" ANDROID_USER_HOME="${ANDROID_USER_HOME:-$home_dir/android-home}" ANDROID_AVD_HOME="${ANDROID_AVD_HOME:-$home_dir/android-home/avd}"
+[[ -x "$adb" && -x "$emu" ]] || { echo "Android SDK not found in $sdk; pass an SDK with the emulator installed" >&2; exit 1; }
+export ANDROID_HOME="$sdk" ANDROID_USER_HOME="${ANDROID_USER_HOME:-$home_dir/android-home}" ANDROID_AVD_HOME="${ANDROID_AVD_HOME:-$home_dir/android-avd}"
 mkdir -p "$ANDROID_AVD_HOME"
 
 extra=()
 [[ -z "${NUGET_EXTRA_SOURCE:-}" ]] || extra+=("-p:RestoreAdditionalProjectSources=$NUGET_EXTRA_SOURCE")
 
-# Warnings are errors: a trim or AOT warning in the library fails this publish.
-"$dotnet_bin" publish smoke/android/AndroidSmoke.csproj -c Release "${extra[@]}" -p:AndroidSdkDirectory="$sdk" -warnaserror -v quiet -clp:NoSummary
+# Warnings are errors: a trim or AOT warning in the library fails this publish. The package is the signed release apk.
+"$dotnet_bin" publish smoke/android/AndroidSmoke.csproj -c Release "${extra[@]}" -p:AndroidSdkDirectory="$sdk" -p:JavaSdkDirectory="$jdk" -warnaserror -v quiet -clp:NoSummary
 apk="$(find "$art" -name '*-Signed.apk' | head -1)"
 [[ -n "$apk" ]] || { echo "no signed apk under $art" >&2; exit 1; }
 echo "app size: $(du -k "$apk" | cut -f1) KiB apk"
@@ -44,10 +49,38 @@ echo "app size: $(du -k "$apk" | cut -f1) KiB apk"
 # One emulator, headless, on a fixed port so this run finds its own device and stops exactly that one.
 port=5584
 serial="emulator-$port"
-image="$(cat "$sdk/system-image.txt")"
-if ! "$sdk/cmdline-tools/latest/bin/avdmanager" list avd | grep -q 'Name: onedocument-smoke'; then
-  echo no | "$sdk/cmdline-tools/latest/bin/avdmanager" create avd -n onedocument-smoke -k "$image" -d pixel_5 >/dev/null
-fi
+# The newest x86_64 system image the SDK already has. The virtual device is a small config.ini of our own in ANDROID_AVD_HOME, so
+# neither the SDK nor anyone else's device is touched and the command-line tools are not needed.
+image_dir="$(find "$sdk/system-images" -mindepth 3 -maxdepth 3 -name x86_64 | sort -V | tail -1)"
+[[ -n "$image_dir" ]] || { echo "no x86_64 system image in $sdk" >&2; exit 1; }
+sysdir="${image_dir#"$sdk"/}/"
+tag="$(basename "$(dirname "$image_dir")")"
+avd="$ANDROID_AVD_HOME/onedocument-smoke.avd"
+mkdir -p "$avd"
+printf 'avd.ini.encoding=UTF-8\npath=%s\ntarget=android-36\n' "$avd" > "$ANDROID_AVD_HOME/onedocument-smoke.ini"
+cat > "$avd/config.ini" <<CONFIG
+AvdId=onedocument-smoke
+avd.ini.displayname=onedocument-smoke
+abi.type=x86_64
+hw.cpu.arch=x86_64
+hw.cpu.ncore=4
+hw.ramSize=3072
+hw.lcd.width=720
+hw.lcd.height=1280
+hw.lcd.density=320
+hw.gpu.enabled=yes
+hw.gpu.mode=swiftshader_indirect
+hw.keyboard=yes
+hw.sdCard=no
+hw.audioInput=no
+hw.audioOutput=no
+image.sysdir.1=$sysdir
+tag.id=$tag
+tag.display=$tag
+disk.dataPartition.size=6G
+vm.heapSize=256
+CONFIG
+
 "$emu" -avd onedocument-smoke -port "$port" -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect -accel on > "$out/emulator.log" 2>&1 &
 emu_pid=$!
 cleanup() {

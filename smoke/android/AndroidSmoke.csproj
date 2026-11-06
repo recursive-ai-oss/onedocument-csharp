@@ -15,8 +15,10 @@
     <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">android-x64</RuntimeIdentifier>
     <!-- A package the emulator installs directly, not an app bundle. -->
     <AndroidPackageFormat>apk</AndroidPackageFormat>
-    <!-- Set here, not on the command line: a global PublishAot would reach the library projects, which are plain net10.0. -->
-    <PublishAot>true</PublishAot>
+    <!-- NativeAOT on Android is experimental and the SDK stops the build with XA1040, so the app is the SDK's release build: trimmed, with
+         ahead-of-time compiled assemblies on the Mono runtime. The analyzers keep trim and AOT warnings visible; warnings are errors. -->
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
     <TrimmerSingleWarn>false</TrimmerSingleWarn>
   </PropertyGroup>
 
