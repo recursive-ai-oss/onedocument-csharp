@@ -99,9 +99,9 @@ What each family does, written from Microsoft's function reference pages. Where 
 
 The function pages do not say, and the code takes the reading in brackets:
 
-1. How `MATCH` / `XMATCH` / `VLOOKUP` / `LOOKUP` binary search behaves on unsorted data and on arrays mixing types (step over other-type cells towards the low end; duplicates: the last equal element for approximate search).
+1. *(Settled against the 1.0 Excel grid, 99.5 % of the lookup grid agrees; what is left is not a search.)* `XMATCH` binary modes bisect across types in the order numbers, text, logical values, errors (an equal probe is kept and the search goes on towards the start when ascending, the end when descending); `XMATCH` next-smaller/larger scans compare across types and an empty needle is the empty text; legacy approximate `MATCH`/`VLOOKUP`/`LOOKUP` probes step up to a cell of the target's type and stop on an equal cell, taking the last of the equal run when ascending; `MATCH` type -1 over a short array is a linear read. Open: how Excel handles `MATCH` type -1 beyond short arrays (the code bisects), and where the question mark sorts among the other symbols (it sorts after the asterisk).
 2. `MATCH(x, a, )` and `VLOOKUP(x, t, i, )` with an empty argument between commas (0 / FALSE).
-3. Which duplicate a binary `XMATCH`/`XLOOKUP` exact search returns (the last).
+3. *(Settled.)* A binary `XMATCH`/`XLOOKUP` exact search returns the first of equal cells when ascending and the last when descending.
 4. `XLOOKUP` with an array `lookup_value` whose matches are rows or columns (each match is reduced to its first cell by the lifting rule).
 5. `ROW`/`COLUMN` of an array or constant (`#VALUE!`), and of a union (first area).
 6. `ROWS`/`COLUMNS` of a union.

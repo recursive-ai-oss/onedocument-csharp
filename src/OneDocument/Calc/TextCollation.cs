@@ -10,8 +10,9 @@ namespace RecursiveAI.OneDocument.Calc;
 /// </summary>
 internal static class TextCollation
 {
-    // Observed order of the ASCII symbols, lowest first (Excel 16.0.20527, English).
-    private const string Symbols = " _-,;:!?.'\"()[]{}@*/\\&#%`^+<=>|~$";
+    // Observed order of the ASCII symbols, lowest first (Excel 16.0.20527, English). The question mark sits after the asterisk, from
+    // XMATCH next-smaller and next-larger answers over "?e*", "*" and "~*"; its place among the other symbols is not settled.
+    private const string Symbols = " _-,;:!.'\"()[]{}@*?/\\&#%`^+<=>|~$";
 
     private const string Accented = "àáâãäåçèéêëìíîïñòóôõöøùúûüýÿ";
     private const string Plain = "aaaaaaceeeeiiiinoooooouuuuyy";
