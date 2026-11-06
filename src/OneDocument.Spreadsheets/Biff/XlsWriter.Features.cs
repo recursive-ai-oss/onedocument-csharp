@@ -89,11 +89,11 @@ internal sealed partial class XlsWriter
         MarkupNode po = Child(root, "printOptions");
         U16Record(0x0083, Attr(po, "horizontalCentered", false) ? 1 : 0);
         U16Record(0x0084, Attr(po, "verticalCentered", false) ? 1 : 0);
-        MarkupNode pm = Child(root, "pageMargins");
+        MarkupNode margins = Child(root, "pageMargins");
         foreach ((int type, string name, double dflt) in new[] { (0x0026, "left", 0.75), (0x0027, "right", 0.75), (0x0028, "top", 1.0), (0x0029, "bottom", 1.0) })
         {
             var b = new BiffBuffer();
-            b.F64(AttrDouble(pm, name, dflt));
+            b.F64(AttrDouble(margins, name, dflt));
             _s.Record(type, b);
         }
 
@@ -111,8 +111,8 @@ internal sealed partial class XlsWriter
         setup.U16(flags);
         setup.U16(AttrInt(ps, "horizontalDpi", 600));
         setup.U16(AttrInt(ps, "verticalDpi", 600));
-        setup.F64(AttrDouble(pm, "header", 0.5));
-        setup.F64(AttrDouble(pm, "footer", 0.5));
+        setup.F64(AttrDouble(margins, "header", 0.5));
+        setup.F64(AttrDouble(margins, "footer", 0.5));
         setup.U16(AttrInt(ps, "copies", 1));
         _s.Record(0x00A1, setup);
     }

@@ -357,7 +357,7 @@ internal sealed partial class XlsWriter
         }
 
         long dropped = 0;
-        long dynamic = 0;
+        long dynamicArrays = 0;
         foreach (CellRowView row in ws.Store.EnumerateRows())
         {
             if (row.Row > MaxRows)
@@ -404,7 +404,7 @@ internal sealed partial class XlsWriter
 
                 if (f.Kind == CellFormulaKind.Array && ws.Store.GetExtras(row.Row, col)?.Attributes?.Contains("cm=", StringComparison.Ordinal) == true)
                 {
-                    dynamic++;
+                    dynamicArrays++;
                 }
 
                 FormulaNode tree;
@@ -438,9 +438,9 @@ internal sealed partial class XlsWriter
             _loss.Report("loss.formulas", "formulas", dropped, "Formulas BIFF8 cannot express (newer functions, structured references, lambdas, external links) keep their cached values as constants.");
         }
 
-        if (dynamic > 0)
+        if (dynamicArrays > 0)
         {
-            _loss.Report("loss.dynamic-arrays", "dynamic array formulas", dynamic, "Dynamic array formulas are written as legacy array formulas over their current range.");
+            _loss.Report("loss.dynamic-arrays", "dynamic array formulas", dynamicArrays, "Dynamic array formulas are written as legacy array formulas over their current range.");
         }
     }
 
