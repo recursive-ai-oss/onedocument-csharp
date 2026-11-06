@@ -305,3 +305,17 @@ Reported in `ContentBindingReport.Warnings`. See `docx-content-controls.md`.
 | `binding.unsupported-control` | dropped | The control type cannot show a bound value (group, picture, building block …). |
 | `binding.value-not-in-list` | repaired | A drop-down value is not one of its items; the control keeps its selection. |
 | `binding.no-template-item` | dropped | A repeating section has no item to copy as its pattern. |
+
+### OfficeArt (`art.`)
+
+Reported by the shared OfficeArt reader (`RecursiveAI.OneDocument.OfficeArt`) with a `Record` location: the stream name the caller gave and the offset of the record. See `officeart.md`.
+
+| Code | Action | Meaning |
+|---|---|---|
+| `art.record-truncated` | repaired | Fewer than eight bytes remain where a record header should be; they are ignored. |
+| `art.record-overrun` | repaired | A record claims more bytes than remain in its parent or the data; it is clamped. |
+| `art.property-overrun` | repaired | A property table claims more entries, or a complex property more data, than the record holds; the excess is dropped. |
+| `art.bse-truncated` | repaired | A BLIP store entry is shorter than its fixed part; the slot is empty. |
+| `art.blip-index` | repaired | A picture refers to a BLIP index outside the store; the picture is dropped. |
+| `art.blip-missing` | repaired | A BLIP is not embedded and its offset is outside the delay (picture) stream. |
+| `art.blip-invalid` | dropped | A BLIP record is damaged, of an unknown type or compressed in a way the format does not define. |

@@ -1,0 +1,9 @@
+# OfficeArt reader
+
+`RecursiveAI.OneDocument.OfficeArt` reads the drawing layer ([MS-ODRAW]) that the binary Word, Excel and PowerPoint formats share. It is a record-level reader: it finds, bounds and decodes records and leaves their host-specific meaning to the format that embeds them.
+
+- **Records.** `ArtRecords.Parse` turns bytes into `ArtRecord` trees. A record header is eight bytes (`recVer` 4 bits, `recInstance` 12, `recType` 16, `recLen` 32); `recVer` 0xF marks a container. The PowerPoint binary format uses the same header, so the parser serves its own record stream too. A record that claims more bytes than remain is clamped and reported; the record count, record size and nesting depth limits of `OfficeLimits` apply. Every record keeps its raw bytes as a slice of the parsed buffer, so unknown records are carried without copying.
+- **Drawings.** `ArtDrawing.Parse` reads a drawing container into the patriarch group, nested groups and shapes (`ArtShape`): shape id, type (`MSOSPT`), flags, merged property tables, group coordinate space, child anchor, and the host records (`ClientAnchor`, `ClientData`, `ClientTextbox`) as raw records.
+- **Properties.** `ArtProperties` merges the primary, secondary and tertiary tables. Boolean sets are read with `GetFlag(set, flag, default)`, which honours the "use" bit 16 positions above each flag. Colours are `ArtColor` (RGB bytes plus the flag byte; the scheme-index flag is for the host to resolve). Complex properties are slices; `GetString` and `GetArray` decode UTF-16 text and `IMsoArray`.
+- **Pictures.** `ArtDrawingGroup.Parse` reads the group and its BLIP store; `ArtBlipStore.GetImage` returns the picture of a one-based index, reading it from the delay stream (`Pictures` in PowerPoint files) when it is not embedded. Metafile data is inflated within `MaxAllocationBytes`; a DIB gets a BMP file header; JPEG, PNG and TIFF bytes are returned as stored.
+- **Defects.** The `art.` codes in `defects.md`.
