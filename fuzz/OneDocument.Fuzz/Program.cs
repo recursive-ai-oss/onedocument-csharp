@@ -69,6 +69,8 @@ internal static class Program
         ["ptg"] = XlsTarget.RunPtg,
         ["xml2003"] = Xml2003Target.Run,
         ["xlsb"] = XlsbTarget.Run,
+        ["odfpkg"] = OdfTarget.RunPackage,
+        ["odt"] = OdfTarget.Run,
     };
 
     private static int Main(string[] args)
@@ -116,6 +118,7 @@ internal static class Program
                 "xls" or "ptg" => XlsTarget.WriteSeeds(args[2]),
                 "xml2003" => Xml2003Target.WriteSeeds(args[2]),
                 "xlsb" => XlsbTarget.WriteSeeds(args[2]),
+                "odfpkg" or "odt" => OdfTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }

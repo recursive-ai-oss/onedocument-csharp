@@ -53,6 +53,7 @@ internal static class DocumentSmoke
         }
 
         failures.AddRange(RtfSmoke());
+        failures.AddRange(OdfSmoke());
 
         // Mail merge: a MERGEFIELD with a picture and a switch, merged into one document per record.
         failures.AddRange(MailMergeSmoke());
@@ -84,6 +85,42 @@ internal static class DocumentSmoke
         if (back.Tables.Count() != 1 || !back.ExtractText().Contains("edited \u20ac", StringComparison.Ordinal))
         {
             failures.Add("rtf write");
+        }
+
+        return failures;
+    }
+
+    // OpenDocument text: a flat file is read into the model with a table, a list and a note, edited, written as ODT and as flat ODT, and read again.
+    private static List<string> OdfSmoke()
+    {
+        var failures = new List<string>();
+        const string flat = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><office:document xmlns:office=\"urn:oasis:names:tc:opendocument:xmlns:office:1.0\" " +
+            "xmlns:text=\"urn:oasis:names:tc:opendocument:xmlns:text:1.0\" xmlns:table=\"urn:oasis:names:tc:opendocument:xmlns:table:1.0\" office:version=\"1.3\" " +
+            "office:mimetype=\"application/vnd.oasis.opendocument.text\"><office:body><office:text><text:h text:outline-level=\"1\">Title</text:h><text:p>Hello <text:span>world</text:span></text:p>" +
+            "<text:list><text:list-item><text:p>item</text:p></text:list-item></text:list><table:table><table:table-column/><table:table-row><table:table-cell><text:p>cell</text:p></table:table-cell></table:table-row></table:table>" +
+            "<text:p>note<text:note text:note-class=\"footnote\"><text:note-body><text:p>foot</text:p></text:note-body></text:note></text:p></office:text></office:body></office:document>";
+        using var odt = new MemoryStream();
+        using var fodt = new MemoryStream();
+        using (Document d = Document.Open(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(flat))))
+        {
+            if (d.Format != OfficeFormat.Fodt || d.Tables.Count() != 1 || !d.ExtractText().Contains("Hello world", StringComparison.Ordinal) || d.ImportLoss is null)
+            {
+                failures.Add("odf open");
+            }
+
+            d.Paragraphs.First().SetText("Edited title");
+            d.SaveAs(odt, OfficeFormat.Odt);
+            d.SaveAs(fodt, OfficeFormat.Fodt);
+        }
+
+        foreach (MemoryStream written in new[] { odt, fodt })
+        {
+            written.Position = 0;
+            using Document back = Document.Open(written);
+            if (back.Tables.Count() != 1 || !back.ExtractText().Contains("Edited title", StringComparison.Ordinal) || !back.ExtractText().Contains("foot", StringComparison.Ordinal))
+            {
+                failures.Add("odf write " + back.Format);
+            }
         }
 
         return failures;

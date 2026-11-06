@@ -371,6 +371,10 @@ public sealed class OdfPackage : IDisposable
                 Report(Context, "packaging.odf-mimetype-compressed", DefectSeverity.Repaired, "The mimetype entry is compressed; it is written uncompressed when the package is saved.", MimetypeName);
             }
         }
+        else
+        {
+            Report(Context, "packaging.odf-no-mimetype", DefectSeverity.Repaired, "The package has no mimetype entry; the type is taken from the manifest or the document.", MimetypeName);
+        }
 
         if (_byName.TryGetValue(ManifestName, out Item? man))
         {
@@ -407,14 +411,24 @@ public sealed class OdfPackage : IDisposable
             _manifest.IsModified = true;
         }
 
+        // A damaged content part is reported when it is first used; probing it for the type and version must not make opening fail.
+        MarkupNode contentRoot = default;
+        try
+        {
+            contentRoot = ContentRoot;
+        }
+        catch (OfficeFormatException)
+        {
+            // Left for the first real use of the part.
+        }
+
         if (MimeType.Length == 0)
         {
-            Report(Context, "packaging.odf-no-mimetype", DefectSeverity.Repaired, "The package has no usable mimetype entry; the type was taken from the document.", MimetypeName);
-            MimeType = OdfMediaTypes.FromBody(OdfMarkup.Child(ContentRoot, OdfNamespaces.Office, "body"));
+            MimeType = OdfMediaTypes.FromBody(OdfMarkup.Child(contentRoot, OdfNamespaces.Office, "body"));
         }
 
         // The document root's own version wins over the manifest's: it is what consumers see.
-        string? v = OdfMarkup.Attribute(ContentRoot, OdfNamespaces.Office, "version");
+        string? v = OdfMarkup.Attribute(contentRoot, OdfNamespaces.Office, "version");
         if (v is not null)
         {
             Version = v;
