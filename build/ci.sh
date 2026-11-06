@@ -2,12 +2,15 @@
 # Restore, build, test, smoke-publish and pack the whole repository: what CI runs on linux-x64, and what runs the same way on any
 # build machine.
 #
-#   build/ci.sh [step...]       steps: restore generated build test aot wasm pack (default: all, in that order) and consumer (on request)
+#   build/ci.sh [step...]       steps: restore generated build test aot wasm pack (default: all, in that order), and on request consumer
+#                               and wasm-run (publishes the browser host and runs it in headless Chromium; needs the wasm-tools workload,
+#                               python3, curl and unzip)
 #
 # Environment:
 #   ONEDOCUMENT_ARTIFACTS   where build output goes (default: artifacts/ at the repository root, which git ignores)
 #   RID                   runtime identifier for the NativeAOT smoke app (default: the host's, e.g. linux-x64)
 #   DOTNET                the dotnet executable (default: dotnet from PATH)
+#   ONEDOCUMENT_HOME      where wasm-run keeps the pinned Chromium, under oracles/ (default: $HOME/oneoffice)
 #   CI_OUT                where publish and pack output go (default: <artifacts>/ci)
 set -euo pipefail
 
@@ -37,6 +40,15 @@ for step in "${steps[@]}"; do
     wasm)
       # Builds the browser host; a headless-browser run is a separate step.
       "$dotnet_bin" build smoke/wasm/WasmSmoke.csproj -c "$config"
+      ;;
+    wasm-run)
+      # Publishes the browser host with warnings as errors (no trim or AOT warning), serves it on localhost and runs it in the pinned
+      # headless Chromium. The console log lands in $out/wasm-run.log; the exit code is the result.
+      mkdir -p "$out"
+      "$dotnet_bin" publish smoke/wasm/WasmSmoke.csproj -c "$config" -o "$out/wasm" -warnaserror
+      echo "app size: $(du -sh "$out/wasm/wwwroot" | cut -f1) published, $(find "$out/wasm/wwwroot" -name '*.br' -printf '%s\n' | awk '{s+=$1} END {printf "%.1f MiB", s/1048576}') brotli-compressed"
+      chrome="$(build/wasm/fetch-chromium.sh)"
+      python3 build/wasm/run-browser.py --root "$out/wasm/wwwroot" --chrome "$chrome" --log "$out/wasm-run.log"
       ;;
     consumer)
       # Applications that reference the packages as packages (from a throwaway local pack) and call the Office statics with no
