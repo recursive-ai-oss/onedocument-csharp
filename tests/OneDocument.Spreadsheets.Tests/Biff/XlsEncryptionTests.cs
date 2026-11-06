@@ -115,6 +115,27 @@ public class XlsEncryptionTests
     }
 
     [Fact]
+    public void PropertiesOfAPasswordSavedWorkbookAreReadAfterDecryption()
+    {
+        using Workbook wb = Workbook.Create();
+        var props = new RecursiveAI.OneDocument.Properties.DocumentProperties(wb.Package);
+        props.Core.Title = "Quarterly";
+        props.Extended.Company = "Analytical Engines";
+        props.Commit();
+        using var secret = new MemoryStream();
+        wb.SaveAs(secret, OfficeFormat.Xls, "p@ss word");
+
+        // The property streams stay in the clear next to the encrypted workbook stream.
+        using RecursiveAI.OneDocument.Cfb.CfbPackage cfb = RecursiveAI.OneDocument.Cfb.CfbPackage.Open(ByteSource.FromMemory(secret.ToArray()));
+        Assert.NotNull(cfb.FindPart("/" + RecursiveAI.OneDocument.Ole.OlePropertySets.SummaryInformationStreamName));
+
+        using Workbook back = XlsConverter.ToWorkbook(ByteSource.FromMemory(secret.ToArray()), new OpenContext(password: "p@ss word"));
+        var read = new RecursiveAI.OneDocument.Properties.DocumentProperties(back.Package);
+        Assert.Equal("Quarterly", read.Core.Title);
+        Assert.Equal("Analytical Engines", read.Extended.Company);
+    }
+
+    [Fact]
     public void EncryptingKeepsSheetPositionsPointingAtTheirBof()
     {
         byte[] encrypted = XlsEncryption.Encrypt(PlainWorkbookStream("plain-basic.xls"), "pw", 1);
