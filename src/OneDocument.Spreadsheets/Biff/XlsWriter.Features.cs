@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Globalization;
 using System.Text;
 using RecursiveAI.OneDocument.Markup;
@@ -8,8 +9,6 @@ namespace RecursiveAI.OneDocument.Spreadsheets.Biff;
 internal sealed partial class XlsWriter
 {
     private sealed record NoteOut(int Row, int Col, string Author, string Text);
-
-    private Dictionary<Worksheet, List<NoteOut>>? _notes;
 
     // ---- page setup, breaks, protection ----
 
@@ -147,9 +146,9 @@ internal sealed partial class XlsWriter
             _loss.Report("loss.protection-password", "sheet protection password", 1, "A modern password hash cannot be stored as a BIFF8 password; the sheet is protected without one.");
         }
 
-        foreach (MarkupAttribute a in sp.Attributes)
+        foreach (MarkupAttributeRef a in sp.Attributes)
         {
-            string n = Encoding.UTF8.GetString(a.Name);
+            string n = Encoding.UTF8.GetString(a.LocalName);
             if (n is not ("sheet" or "objects" or "scenarios" or "password" or "algorithmName" or "hashValue" or "saltValue" or "spinCount"))
             {
                 _loss.Report("loss.protection-options", "sheet protection permissions", 1, "The permissions a protected sheet allows (formatting, inserting, sorting, ...) are not written.");
@@ -458,8 +457,8 @@ internal sealed partial class XlsWriter
         int type = dv.Type switch
         {
             DataValidationType.None => 0,
-            DataValidationType.Whole => 1,
-            DataValidationType.Decimal => 2,
+            DataValidationType.WholeNumber => 1,
+            DataValidationType.DecimalNumber => 2,
             DataValidationType.List => 3,
             DataValidationType.Date => 4,
             DataValidationType.Time => 5,

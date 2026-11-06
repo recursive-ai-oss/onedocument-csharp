@@ -1,3 +1,5 @@
+using RecursiveAI.OneDocument.NumberFormats;
+using System.Linq;
 namespace RecursiveAI.OneDocument.Spreadsheets.Biff;
 
 internal sealed partial class XlsWriter

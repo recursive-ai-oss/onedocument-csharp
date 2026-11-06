@@ -165,26 +165,44 @@ internal sealed class BiffSink
     /// <summary>The most data one record carries.</summary>
     public const int MaxData = 8224;
 
-    private readonly MemoryStream _out = new();
+    private byte[] _bytes = new byte[1024];
+    private int _length;
 
     /// <summary>The position the next record starts at.</summary>
-    public int Position => (int)_out.Length;
+    public int Position => _length;
 
     /// <summary>The stream written so far.</summary>
-    public byte[] ToArray() => _out.ToArray();
+    public byte[] ToArray() => _bytes.AsSpan(0, _length).ToArray();
+
+    /// <summary>Empties the sink for reuse.</summary>
+    public void Reset() => _length = 0;
+
+    /// <summary>Appends bytes that are already whole records.</summary>
+    public void AppendRaw(ReadOnlySpan<byte> records) => Put(records);
+
+    private void Put(ReadOnlySpan<byte> data)
+    {
+        if (_length + data.Length > _bytes.Length)
+        {
+            Array.Resize(ref _bytes, Math.Max(_bytes.Length * 2, _length + data.Length));
+        }
+
+        data.CopyTo(_bytes.AsSpan(_length));
+        _length += data.Length;
+    }
 
     /// <summary>Writes a record. Data over the limit continues in <c>CONTINUE</c> records cut at arbitrary points.</summary>
     public void Record(int type, ReadOnlySpan<byte> data)
     {
         int first = Math.Min(data.Length, MaxData);
         Header(type, first);
-        _out.Write(data[..first]);
+        Put(data[..first]);
         int done = first;
         while (done < data.Length)
         {
             int n = Math.Min(data.Length - done, MaxData);
             Header(0x003C, n);
-            _out.Write(data.Slice(done, n));
+            Put(data.Slice(done, n));
             done += n;
         }
     }
@@ -199,19 +217,11 @@ internal sealed class BiffSink
     public void Exact(int type, ReadOnlySpan<byte> data)
     {
         Header(type, data.Length);
-        _out.Write(data);
+        Put(data);
     }
 
     /// <summary>Overwrites four bytes at an earlier position (a sheet's stream offset in <c>BOUNDSHEET</c>).</summary>
-    public void PatchU32(int at, uint v)
-    {
-        long end = _out.Position;
-        _out.Position = at;
-        Span<byte> b = stackalloc byte[4]; // four fixed bytes
-        BitConverter.TryWriteBytes(b, v);
-        _out.Write(b);
-        _out.Position = end;
-    }
+    public void PatchU32(int at, uint v) => BitConverter.TryWriteBytes(_bytes.AsSpan(at, 4), v);
 
     private void Header(int type, int length)
     {
@@ -220,6 +230,6 @@ internal sealed class BiffSink
         h[1] = (byte)(type >> 8);
         h[2] = (byte)length;
         h[3] = (byte)(length >> 8);
-        _out.Write(h);
+        Put(h);
     }
 }

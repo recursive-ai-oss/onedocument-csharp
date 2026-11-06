@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Globalization;
 using RecursiveAI.OneDocument.Calc;
 using RecursiveAI.OneDocument.Diagnostics;
@@ -227,11 +228,11 @@ internal sealed partial class XlsWriter
         // An autofilter needs its hidden _FilterDatabase name even when the hub does not list it.
         for (int i = 0; i < _sheets.Count; i++)
         {
-            if (AutoFilterRange(_sheets[i]) is { } r && !_names.Any(x => x.IsBuiltIn && x.BuiltIn == 0x0D && x.SheetScope == i))
+            if (AutoFilterRange(_sheets[i]) is { } afr && !_names.Any(x => x.IsBuiltIn && x.BuiltIn == 0x0D && x.SheetScope == i))
             {
                 var info = new DefinedNameInfo { SheetScope = i, Hidden = true, IsBuiltIn = true, BuiltIn = 0x0D, Name = "_FilterDatabase" };
                 _names.Add(info);
-                _nameTexts.Add((info, QuoteSheet(_sheets[i].Name) + "!" + AbsoluteRange(r)));
+                _nameTexts.Add((info, QuoteSheet(_sheets[i].Name) + "!" + AbsoluteRange(afr)));
             }
         }
 

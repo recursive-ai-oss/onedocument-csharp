@@ -637,6 +637,10 @@ public sealed partial class Workbook : OfficeFile
         {
             Write(format, destination, cancellationToken);
         }
+        else if (format == OfficeFormat.Xls)
+        {
+            WriteXls(destination, cancellationToken);
+        }
         else if (format is OfficeFormat.Csv or OfficeFormat.Tsv)
         {
             Csv.CsvDocument.Write(this, destination, new Csv.CsvWriteOptions { Delimiter = format == OfficeFormat.Tsv ? '\t' : ',' }, null, cancellationToken);

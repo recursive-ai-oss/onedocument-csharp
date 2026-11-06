@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Globalization;
 using RecursiveAI.OneDocument.Markup;
 
@@ -55,7 +56,7 @@ internal sealed partial class XlsWriter
         return true;
     }
 
-    private CellRange? AutoFilterRange(Worksheet ws)
+    private static CellRange? AutoFilterRange(Worksheet ws)
     {
         MarkupNode af = Child(ws.LayoutMarkup, "autoFilter");
         if (!af.IsNull && af.GetAttribute("ref") is { } r && CellRange.TryParse(r, out CellRange range) && range.BottomRight.Row <= MaxRows && range.BottomRight.Column <= MaxColumns)
@@ -622,7 +623,7 @@ internal sealed partial class XlsWriter
     }
 
     // [MS-XLS] §2.4.127 Formula: the cached result is a double, or a tagged value with 0xFFFF in its last two bytes.
-    private void WriteFormulaRecord(BiffSink s, Worksheet ws, int row0, int col0, int xf, CellValue v, byte[] rgce, byte[] rgcb)
+    private static void WriteFormulaRecord(BiffSink s, Worksheet ws, int row0, int col0, int xf, CellValue v, byte[] rgce, byte[] rgcb)
     {
         var b = new BiffBuffer();
         b.U16(row0);

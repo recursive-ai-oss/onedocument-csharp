@@ -224,27 +224,17 @@ internal sealed class XlsStyleMap
 
     private void BuildFonts()
     {
+        // The records are numbered 0 to 3 and then 5 upward: number 4 is never stored, so there is no record for it.
         int count = _styles.FontCount;
         for (int i = 0; i < Math.Max(count, 1); i++)
         {
-            if (_fonts.Count == 4)
-            {
-                _fonts.Add(EncodeFont(count > 0 ? _styles.GetFont(0) : new CellFont("Arial", 10)));
-            }
-
-            CellFont f = i < count ? _styles.GetFont(i) : new CellFont("Arial", 10);
             if (_fonts.Count >= MaxFonts)
             {
                 _loss.Report("loss.fonts", "fonts", 1, "A workbook holds at most 510 fonts; cells using the others take the first font.");
                 continue;
             }
 
-            _fonts.Add(EncodeFont(f));
-        }
-
-        while (_fonts.Count < 5)
-        {
-            _fonts.Add(EncodeFont(count > 0 ? _styles.GetFont(0) : new CellFont("Arial", 10)));
+            _fonts.Add(EncodeFont(i < count ? _styles.GetFont(i) : new CellFont("Arial", 10)));
         }
     }
 
@@ -275,9 +265,9 @@ internal sealed class XlsStyleMap
 
     private int FontIndex(int hubFont)
     {
-        // The hub font k is record k below 4 and k+1 from 4 on (number 4 is skipped).
+        // The hub font k is font number k below 4 and k+1 from 4 on (number 4 is skipped).
         int idx = hubFont < 4 ? hubFont : hubFont + 1;
-        return idx < _fonts.Count && hubFont >= 0 && hubFont < Math.Max(_styles.FontCount, 1) ? idx : 0;
+        return hubFont >= 0 && hubFont < _fonts.Count ? idx : 0;
     }
 
     // ---- number formats ----
@@ -522,7 +512,7 @@ internal sealed class XlsStyleMap
         bool hasFont = d.Font is not null;
         bool hasAlc = d.Alignment is not null;
         bool hasBdr = d.Border is not null;
-        bool hasPat = d.Fill is not null;
+        bool hasPat = d.Fill is { } df0 && (df0.Pattern != FillPattern.None || df0.Gradient is not null || df0.Foreground.Kind is not (ColorKind.None or ColorKind.Auto) || df0.Background.Kind is not (ColorKind.None or ColorKind.Auto));
         bool hasProt = d.Protection is not null;
 
         // Ninch bits (A..U) say "ignore this field"; everything a differential format does not set is ignored.
@@ -641,13 +631,14 @@ internal sealed class XlsStyleMap
 
         if (hasPat)
         {
-            int fls = (int)fl.Pattern;
-            // A solid fill of a differential format keeps its colour in the background slot.
-            StyleColor main = fl.Pattern == FillPattern.Solid
+            // A differential format's fill with no pattern named is solid, and a solid fill keeps its colour in the background slot.
+            bool solid = fl.Pattern is FillPattern.Solid or FillPattern.None;
+            int fls = solid ? 1 : (int)fl.Pattern;
+            StyleColor main = solid
                 ? (fl.Background.Kind is not (ColorKind.None or ColorKind.Auto) ? fl.Background : fl.Foreground)
                 : fl.Foreground;
-            int fore = fl.Pattern == FillPattern.Solid ? Icv(main, 64) : Icv(fl.Foreground, 64);
-            int back = fl.Pattern == FillPattern.Solid ? Icv(main, 65) : Icv(fl.Background, 65);
+            int fore = solid ? Icv(main, 64) : Icv(fl.Foreground, 64);
+            int back = solid ? Icv(main, 65) : Icv(fl.Background, 65);
             b.U32((uint)((fls << 10) | (fore << 16) | (back << 23)));
         }
 
