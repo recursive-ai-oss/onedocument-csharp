@@ -1,6 +1,7 @@
 using System.Buffers.Binary;
 using RecursiveAI.OneDocument.Cfb;
 using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.Encryption;
 using RecursiveAI.OneDocument.IO;
 using RecursiveAI.OneDocument.Ole;
 using RecursiveAI.OneDocument.Packaging;
@@ -125,6 +126,7 @@ public sealed class DocFile
         // An encrypted file cannot be parsed until it is decrypted, so its protected streams are loaded and decrypted first.
         byte[]? plainTable = null;
         byte[]? plainData = null;
+        BinaryRc4Encryption? unlocked = null;
         if (DocEncryption.TryPeek(word, out DocEncryptionInfo encryption))
         {
             string encTablePath = encryption.OneTable ? "/1Table" : "/0Table";
@@ -135,7 +137,7 @@ public sealed class DocFile
             }
 
             plainData = cfb.FindPart("/Data") is { } dataPart0 ? ReadPart(dataPart0, context) : [];
-            DocEncryption.Decrypt(word, plainTable ?? [], plainData, encryption, context, encTablePath);
+            unlocked = DocEncryption.Decrypt(word, plainTable ?? [], plainData, encryption, context, encTablePath);
         }
 
         DocFib fib = DocFib.Read(word, context.Defects, WordPath);
@@ -162,6 +164,23 @@ public sealed class DocFile
         byte[] data = plainData ?? (cfb.FindPart("/Data") is { } dp ? ReadPart(dp, context) : []);
         byte[] summary = cfb.FindPart("/" + OlePropertySets.SummaryInformationStreamName) is { } sp ? ReadPart(sp, context) : [];
         byte[] documentSummary = cfb.FindPart("/" + OlePropertySets.DocumentSummaryInformationStreamName) is { } dsp ? ReadPart(dsp, context) : [];
+        if (unlocked is { DocumentPropertiesClear: false } && cfb.FindPart("/" + BinaryRc4Encryption.EncryptedSummaryStreamName) is { } encSummary
+            && unlocked.TryReadEncryptedSummary(ReadPart(encSummary, context), out IReadOnlyList<KeyValuePair<string, byte[]>> inner))
+        {
+            // [MS-OFFCRYPTO] §2.3.5.4: with fDocProps cleared the property streams live encrypted inside the summary stream.
+            foreach (KeyValuePair<string, byte[]> s in inner)
+            {
+                if (s.Key == OlePropertySets.SummaryInformationStreamName)
+                {
+                    summary = s.Value;
+                }
+                else if (s.Key == OlePropertySets.DocumentSummaryInformationStreamName)
+                {
+                    documentSummary = s.Value;
+                }
+            }
+        }
+
         OleStorageSet objects = OleStorageSet.Capture(cfb, "/ObjectPool", context);
         var names = new List<string>();
         foreach (IPackagePart p in cfb.Parts)

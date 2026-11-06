@@ -87,9 +87,28 @@ def q(ns, local):
     return "{%s}%s" % (ns, local)
 
 
+DML_TRANSITIONAL = "http://schemas.openxmlformats.org/drawingml/2006/main"
+SML_NAMESPACES = ("http://schemas.openxmlformats.org/spreadsheetml/2006/main", "http://purl.oclc.org/ooxml/spreadsheetml/main")
+
+
 def preprocess(root, understood):
-    """Apply markup compatibility in place (ECMA-376 Part 3 §10)."""
+    """Apply markup compatibility in place (ECMA-376 Part 3 §10).
+
+    One known gap between the schema and the files Excel writes is bridged here: the spreadsheet text element t
+    (shared strings, inline strings, rich runs) is declared without attributes, yet Excel writes xml:space="preserve"
+    on it so that leading and trailing spaces survive, and so do we. The attribute is dropped before validation.
+
+    The same goes for the DrawingML bullet size a:buSzPct in the Transitional schema: its type is the percent-string
+    form ("100%") only, although the union type declared beside it, and every file PowerPoint writes, use the integer in
+    1000ths of a percent ("100000"). The integer is rewritten to the string form, so its range (25% to 400%) is still checked.
+    """
     def walk(el, ignorable):
+        if el.tag in (q(n, "t") for n in SML_NAMESPACES):
+            el.attrib.pop(q(XML_NS, "space"), None)
+        elif el.tag == q(DML_TRANSITIONAL, "buSzPct"):
+            v = el.get("val", "")
+            if v.isdigit() and int(v) % 1000 == 0:
+                el.set("val", str(int(v) // 1000) + "%")
         ign = set(ignorable)
         v = el.get(q(MC, "Ignorable"))
         if v:

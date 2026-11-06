@@ -135,6 +135,87 @@ public class XlsEncryptionTests
         Assert.Equal("Analytical Engines", read.Extended.Company);
     }
 
+    /// <summary>Builds an encrypted summary stream the way [MS-OFFCRYPTO] §2.3.5.4 writes it: data first, then the descriptor array, then the two offsets.</summary>
+    private static byte[] BuildEncryptedSummary(RecursiveAI.OneDocument.Encryption.BinaryRc4Encryption enc, params (string Name, byte[] Data)[] streams)
+    {
+        var body = new List<byte>();
+        body.AddRange(new byte[8]);
+        var descriptors = new List<byte>();
+        ushort block = 0;
+        foreach ((string name, byte[] data) in streams)
+        {
+            byte[] cipher = (byte[])data.Clone();
+            enc.CreateCipher(block).Process(cipher);
+            int offset = body.Count;
+            body.AddRange(cipher);
+            descriptors.AddRange(BitConverter.GetBytes((uint)offset));
+            descriptors.AddRange(BitConverter.GetBytes((uint)data.Length));
+            descriptors.AddRange(BitConverter.GetBytes(block));
+            descriptors.Add((byte)name.Length);
+            descriptors.Add(1);
+            descriptors.AddRange(new byte[4]);
+            descriptors.AddRange(System.Text.Encoding.Unicode.GetBytes(name + "\0"));
+            block++;
+        }
+
+        byte[] array = [.. BitConverter.GetBytes((uint)streams.Length), .. descriptors];
+        int arrayOffset = body.Count;
+        enc.CreateCipher(0).Process(array);
+        body.AddRange(array);
+        byte[] head = [.. BitConverter.GetBytes((uint)arrayOffset), .. BitConverter.GetBytes((uint)array.Length)];
+        enc.CreateCipher(0).Process(head);
+        byte[] result = body.ToArray();
+        head.CopyTo(result, 0);
+        return result;
+    }
+
+    [Fact]
+    public void PropertiesInAnEncryptedSummaryStreamAreReadWhenTheHeaderClearsFDocProps()
+    {
+        using Workbook wb = Workbook.Create();
+        var props = new RecursiveAI.OneDocument.Properties.DocumentProperties(wb.Package);
+        props.Core.Title = "Hidden title";
+        props.Extended.Company = "Hidden company";
+        props.Commit();
+        using var secret = new MemoryStream();
+        wb.SaveAs(secret, OfficeFormat.Xls, "pw");
+
+        // [MS-OFFCRYPTO] §2.3.5.4: move the property streams into an encrypted summary stream and clear fDocProps in the FilePass header.
+        using var cfb = RecursiveAI.OneDocument.Cfb.CfbPackage.Open(ByteSource.FromMemory(secret.ToArray()));
+        string summaryName = RecursiveAI.OneDocument.Ole.OlePropertySets.SummaryInformationStreamName;
+        string documentSummaryName = RecursiveAI.OneDocument.Ole.OlePropertySets.DocumentSummaryInformationStreamName;
+        byte[] summary = cfb.FindPart("/" + summaryName)!.GetBytes().ToArray();
+        byte[] documentSummary = cfb.FindPart("/" + documentSummaryName)!.GetBytes().ToArray();
+        byte[] stream = cfb.FindPart("/Workbook")!.GetBytes().ToArray();
+        Assert.True(XlsEncryption.TryFindFilePass(stream, out int fp));
+        int flags = fp + 4 + 2 + 4;
+        Assert.NotEqual(0, stream[flags] & 0x08);
+        stream[flags] &= unchecked((byte)~0x08);
+        stream[flags + 8] &= unchecked((byte)~0x08); // the copy in the EncryptionHeader itself, which the reader goes by
+        var header = RecursiveAI.OneDocument.Encryption.BinaryRc4Encryption.Parse(stream.AsSpan(fp + 6, BitConverter.ToUInt16(stream, fp + 2) - 2), default);
+        Assert.True(header.TryUnlock("pw"));
+        Assert.False(header.DocumentPropertiesClear);
+        cfb.FindPart("/Workbook")!.SetBytes(stream);
+        cfb.RemovePart("/" + summaryName);
+        cfb.RemovePart("/" + documentSummaryName);
+        cfb.AddPart("/EncryptedSummary", string.Empty, BuildEncryptedSummary(header, (summaryName, summary), (documentSummaryName, documentSummary)));
+        using var file = new MemoryStream();
+        cfb.WriteTo(file);
+
+        using Workbook back = XlsConverter.ToWorkbook(ByteSource.FromMemory(file.ToArray()), new OpenContext(password: "pw"));
+        var read = new RecursiveAI.OneDocument.Properties.DocumentProperties(back.Package);
+        Assert.Equal("Hidden title", read.Core.Title);
+        Assert.Equal("Hidden company", read.Extended.Company);
+    }
+
+    [Fact]
+    public void ADefaultPasswordIsNotTriedAfterAWrongOne()
+    {
+        byte[] file = WithWorkbookStream("plain-basic.xls", XlsEncryption.Encrypt(PlainWorkbookStream("plain-basic.xls"), PackageEncryption.DefaultPassword, 3));
+        var wrong = Assert.Throws<OfficeEncryptedException>(() => XlsConverter.ToWorkbook(ByteSource.FromMemory(file), new OpenContext(password: "not it")));
+        Assert.Equal(EncryptionProblem.PasswordIncorrect, wrong.Problem);
+    }
+
     [Fact]
     public void EncryptingKeepsSheetPositionsPointingAtTheirBof()
     {
@@ -269,7 +350,7 @@ public class XlsEncryptionTests
         Assert.Equal(EncryptionProblem.PasswordIncorrect, Assert.Throws<OfficeEncryptedException>(() => XlsConverter.ToWorkbook(ByteSource.FromMemory(secret.ToArray()), new OpenContext(password: "nope"))).Problem);
 
         // The ordinary entry points open it too, and a file path save works.
-        string path = Path.Combine(Path.GetTempPath(), "u67-" + Guid.NewGuid().ToString("N") + ".xls");
+        string path = Path.Combine(Path.GetTempPath(), "xls-encryption-" + Guid.NewGuid().ToString("N") + ".xls");
         try
         {
             wb.SaveAs(path, OfficeFormat.Xls, "p@ss word");

@@ -1,5 +1,6 @@
 using System.Buffers.Binary;
 using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.Encryption;
 using RecursiveAI.OneDocument.IO;
 using RecursiveAI.OneDocument.OfficeArt;
 using RecursiveAI.OneDocument.Packaging;
@@ -117,9 +118,12 @@ public sealed class PptFile
         file.StreamNames = names;
         file.SummaryInformation = cfb.FindPart("/" + OlePropertySets.SummaryInformationStreamName)?.GetBytes().ToArray() ?? default;
         file.DocumentSummaryInformation = cfb.FindPart("/" + OlePropertySets.DocumentSummaryInformationStreamName)?.GetBytes().ToArray() ?? default;
+        file._encryptedSummary = cfb.FindPart("/" + BinaryRc4Encryption.EncryptedSummaryStreamName)?.GetBytes().ToArray() ?? default;
         file.ReadStructure(currentUser, cancellationToken);
         return file;
     }
+
+    private ReadOnlyMemory<byte> _encryptedSummary;
 
     private void ReadStructure(ReadOnlyMemory<byte> currentUser, CancellationToken cancellationToken)
     {
@@ -193,9 +197,25 @@ public sealed class PptFile
             throw new OfficeFormatException(DefectKind.Encryption, "encryption.malformed-header", "The file is marked encrypted but no persist object holds its CryptSession10Container.", DefectLocation.InRecord(DocumentStreamName, edits[0].Offset));
         }
 
-        (byte[] document, byte[] pictures) = PptEncryption.Decrypt(DocumentStream.Span, PicturesStream.Span, _offsets, cryptOffset, Context);
+        (byte[] document, byte[] pictures, BinaryRc4Encryption header) = PptEncryption.Decrypt(DocumentStream.Span, PicturesStream.Span, _offsets, cryptOffset, Context);
         DocumentStream = document;
         PicturesStream = pictures;
+        if (!header.DocumentPropertiesClear && _encryptedSummary.Length > 0
+            && header.TryReadEncryptedSummary(_encryptedSummary.Span, out IReadOnlyList<KeyValuePair<string, byte[]>> inner))
+        {
+            // [MS-OFFCRYPTO] §2.3.5.4: with fDocProps cleared the property streams live encrypted inside the summary stream.
+            foreach (KeyValuePair<string, byte[]> s in inner)
+            {
+                if (s.Key == OlePropertySets.SummaryInformationStreamName)
+                {
+                    SummaryInformation = s.Value;
+                }
+                else if (s.Key == OlePropertySets.DocumentSummaryInformationStreamName)
+                {
+                    DocumentSummaryInformation = s.Value;
+                }
+            }
+        }
     }
 
     // [MS-PPT] §2.1.2: UserEditAtom.offsetLastEdit must be smaller than the atom's own offset; a chain that does not strictly decrease ends.

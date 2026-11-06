@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Table, section and header/footer sweep over the DOCX corpus on the worker.
+# Table, section and header/footer sweep over the DOCX corpus on a build host.
 #
 #   sweep-tables.sh OUT_DIR [VALIDATE_LIMIT]
 #

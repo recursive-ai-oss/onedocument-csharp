@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- A small program the save tests start and kill part-way through writing a large package. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RecursiveAI.OneDocument.SaveChild</RootNamespace>
+    <AssemblyName>RecursiveAI.OneDocument.SaveChild</AssemblyName>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/OneDocument/OneDocument.csproj" />
+  </ItemGroup>
+
+</Project>

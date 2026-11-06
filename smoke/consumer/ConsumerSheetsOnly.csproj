@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Core + Spreadsheets only: no registration call, and the trimmed binary holds no Documents code. -->
+  <PropertyGroup>
+    <AssemblyName>ConsumerSheetsOnly</AssemblyName>
+    <PublishAot>true</PublishAot>
+    <IsAotCompatible>true</IsAotCompatible>
+    <DefineConstants>$(DefineConstants);ONLY_SHEETS</DefineConstants>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="RecursiveAI.OneDocument.Spreadsheets" Version="$(OneDocumentVersion)" />
+  </ItemGroup>
+</Project>

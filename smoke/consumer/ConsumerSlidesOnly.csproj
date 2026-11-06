@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Core + Presentations only: no registration call, and the trimmed binary holds no Documents or Spreadsheets code. -->
+  <PropertyGroup>
+    <AssemblyName>ConsumerSlidesOnly</AssemblyName>
+    <PublishAot>true</PublishAot>
+    <IsAotCompatible>true</IsAotCompatible>
+    <DefineConstants>$(DefineConstants);ONLY_SLIDES</DefineConstants>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="RecursiveAI.OneDocument.Presentations" Version="$(OneDocumentVersion)" />
+  </ItemGroup>
+</Project>

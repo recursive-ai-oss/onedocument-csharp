@@ -35,7 +35,7 @@ public sealed record PackageEncryptionInfo(PackageEncryptionScheme Scheme, int V
 /// </summary>
 /// <remarks>
 /// A file that Office protects only against editing is encrypted with a fixed password and opens without one; when no password
-/// is given, or the one given does not match, that default (<see cref="DefaultPassword"/>) is tried before the file is refused.
+/// is given, that default (<see cref="DefaultPassword"/>) is tried; a wrong password given by the caller is never retried with it.
 /// </remarks>
 public static class PackageEncryption
 {
@@ -120,7 +120,7 @@ public static class PackageEncryption
 
         OfficeLimitException.ThrowIfExceeded(nameof(OfficeLimits.MaxPartSize), context.Limits.MaxPartSize, (long)size, where);
 
-        string?[] candidates = context.Password is null ? [DefaultPassword] : [context.Password, DefaultPassword];
+        string?[] candidates = context.Password is null ? [DefaultPassword] : [context.Password];
         foreach (string? candidate in candidates)
         {
             byte[]? plain = p.Agile is not null

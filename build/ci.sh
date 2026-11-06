@@ -12,7 +12,7 @@
 #   ONEDOCUMENT_ARTIFACTS   where build output goes (default: artifacts/ at the repository root, which git ignores)
 #   RID                   runtime identifier for the NativeAOT smoke app (default: the host's, e.g. linux-x64)
 #   DOTNET                the dotnet executable (default: dotnet from PATH)
-#   ONEDOCUMENT_HOME      where wasm-run keeps the pinned Chromium, under oracles/ (default: $HOME/oneoffice)
+#   ONEDOCUMENT_HOME      where wasm-run keeps the pinned Chromium, under oracles/ (default: $HOME/.onedocument)
 #   CI_OUT                where publish and pack output go (default: <artifacts>/ci)
 set -euo pipefail
 
@@ -71,7 +71,7 @@ for step in "${steps[@]}"; do
         "$dotnet_bin" pack "src/$project" -c "$config" -p:Version=$version -p:EnablePackageValidation=false -o "$feed"
       done
       export ONEDOCUMENT_CONSUMER_FEED="$feed" ONEDOCUMENT_CONSUMER_VERSION=$version
-      for app in ConsumerAot ConsumerDocsOnly; do
+      for app in ConsumerAot ConsumerDocsOnly ConsumerSheetsOnly ConsumerSlidesOnly; do
         "$dotnet_bin" publish "smoke/consumer/$app.csproj" -c "$config" -r "$rid" -o "$out/$app" -warnaserror
         "$out/$app/$app"
       done

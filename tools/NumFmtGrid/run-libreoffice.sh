@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Writes the grid, lets LibreOffice (headless, black box) render both workbooks to CSV "as shown", and compares with our manifest.
-# Runs on the build worker. Output under $ONEDOCUMENT_HOME/numfmt-grid/grid.
+# Runs on a build host. Output under $ONEDOCUMENT_HOME/numfmt-grid/grid.
 set -euo pipefail
 export PATH=~/dotnet10:$PATH DOTNET_ROOT=~/dotnet10 DOTNET_PROCESSOR_COUNT=4 DOTNET_CLI_TELEMETRY_OPTOUT=1 DOTNET_NOLOGO=1
 [ ! -e ~/WORKER-BENCH.lock ] || { echo "bench lock present"; exit 3; }

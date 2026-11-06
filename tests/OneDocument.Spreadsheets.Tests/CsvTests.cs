@@ -362,16 +362,22 @@ public class CsvTests
             sum += (long)Parser.Parse(s).Kind;
         }
 
-        long before = GC.GetAllocatedBytesForCurrentThread();
-        for (int i = 0; i < 1000; i++)
+        // The smallest of several runs: a collection or a pool trim triggered by a parallel test can charge one run, while an allocation
+        // made on every parse shows in all of them.
+        long allocated = AllocationProbe.Min(() =>
         {
-            foreach (string s in samples)
+            long before = GC.GetAllocatedBytesForCurrentThread();
+            for (int i = 0; i < 1000; i++)
             {
-                sum += (long)Parser.Parse(s).Kind;
+                foreach (string s in samples)
+                {
+                    sum += (long)Parser.Parse(s).Kind;
+                }
             }
-        }
 
-        Assert.Equal(0, GC.GetAllocatedBytesForCurrentThread() - before);
+            return GC.GetAllocatedBytesForCurrentThread() - before;
+        });
+        Assert.Equal(0, allocated);
         Assert.True(sum > 0);
     }
 

@@ -6,14 +6,14 @@ usage: check_with_reference.py WORK
 1. validates WORK/ours/*.ods and *.fods against the ODF 1.3 RelaxNG schema (strictly, and again without the producers' extension attributes);
 2. converts WORK/ours/*.ods to WORK/lo/*.xlsx with a spreadsheet application run headless, recalculating every formula on load,
    so that the OdsOracleTests.Compare run can set the values it read back against the values we wrote.
-Locations come from ONEDOCUMENT_HOME (default ~/oneoffice): oracles/soffice.sh, oracles/jing.sh and schemas/odf/.
+Locations come from ONEDOCUMENT_HOME (default ~/.onedocument): oracles/soffice.sh, oracles/jing.sh and schemas/odf/.
 """
 import glob
 import os
 import subprocess
 import sys
 
-HOME = os.environ.get("ONEDOCUMENT_HOME", os.path.expanduser("~/oneoffice"))
+HOME = os.environ.get("ONEDOCUMENT_HOME", os.path.expanduser("~/.onedocument"))
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 RECALC_PROFILE = """<?xml version="1.0" encoding="UTF-8"?>

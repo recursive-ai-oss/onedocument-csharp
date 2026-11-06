@@ -84,7 +84,7 @@ public sealed class RedactionTests
         string extension = file.Kind switch { OfficeKind.Document => ".docx", OfficeKind.Workbook => ".xlsx", _ => ".pptx" };
         report = file.Redact(plan, output);
         file.Dispose();
-        // The outputs can be kept for the schema validator and LibreOffice (information, run on the worker).
+        // The outputs can be kept for the schema validator and LibreOffice (information, run on a build host).
         if (Environment.GetEnvironmentVariable("ONEDOCUMENT_REDACTION_OUT") is { Length: > 0 } dir)
         {
             Directory.CreateDirectory(dir);

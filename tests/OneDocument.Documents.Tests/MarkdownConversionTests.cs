@@ -292,6 +292,9 @@ public sealed class MarkdownConversionTests
     [InlineData("www.a.b(", "")]
     public void PathologicalInputsParseInLinearTime(string unit, string tail)
     {
+        // Wall-clock time in a full parallel run is noisy (collections, busy neighbours), so the two sizes are timed together, as a pair,
+        // and the property holds if any of several pairs shows it: noise slows a pair now and then, but a quadratic parser is about
+        // 16x slower on the large input in every pair.
         static long Time(string text)
         {
             var sw = System.Diagnostics.Stopwatch.StartNew();
@@ -300,10 +303,23 @@ public sealed class MarkdownConversionTests
         }
 
         string Build(int n) => string.Concat(Enumerable.Repeat(unit, n)) + string.Concat(Enumerable.Repeat(tail, n)) + "\n";
+        string smallText = Build(50_000);
+        string largeText = Build(200_000);
         _ = Time(Build(2000));
-        long small = Math.Max(1, Time(Build(50_000)));
-        long large = Time(Build(200_000));
-        // 4x the input: linear is 4x the time; leave room for noise, a quadratic parser would be 16x.
-        Assert.True(large < small * 10 + System.Diagnostics.Stopwatch.Frequency / 20, unit + ": " + small + " -> " + large);
+        var seen = new List<string>();
+        for (int pair = 0; pair < 8; pair++)
+        {
+            long small = Math.Max(1, Time(smallText));
+            long large = Time(largeText);
+            // 4x the input: linear is 4x the time; leave room for noise.
+            if (large < small * 10 + System.Diagnostics.Stopwatch.Frequency / 20)
+            {
+                return;
+            }
+
+            seen.Add(small + " -> " + large);
+        }
+
+        Assert.Fail(unit + ": " + string.Join("; ", seen));
     }
 }

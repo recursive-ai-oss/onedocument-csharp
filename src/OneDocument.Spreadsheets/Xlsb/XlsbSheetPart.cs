@@ -289,6 +289,12 @@ internal static class XlsbSheetPart
         private void Handle()
         {
             ReadOnlySpan<byte> d = _r.Data;
+            if (_inHlinks && _r.Type != XlsbRecordType.HLink)
+            {
+                // ECMA-376 Part 1 §18.3.1.48: hyperlinks holds only hyperlink elements; whatever record follows the last one belongs after it.
+                CloseGroup(ref _inHlinks, "</hyperlinks>");
+            }
+
             switch (_r.Type)
             {
                 case XlsbRecordType.BeginSheet:

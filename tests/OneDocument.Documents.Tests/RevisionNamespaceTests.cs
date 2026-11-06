@@ -101,6 +101,22 @@ public class RevisionNamespaceTests
     }
 
     [Fact]
+    public void ARevisionInBothBranchesOfAlternateContentIsListedOnce()
+    {
+        // ECMA-376 Part 3 §9.3: the two branches are the same content in two forms, so the change inside them is one change.
+        const string Mc = "http://schemas.openxmlformats.org/markup-compatibility/2006";
+        const string Wps = "http://schemas.microsoft.com/office/word/2010/wordprocessingShape";
+        string content = "<w:txbxContent><w:p><w:ins w:id=\"7\" w:author=\"Ann\" w:date=\"2024-01-01T00:00:00Z\"><w:r><w:t>new</w:t></w:r></w:ins></w:p></w:txbxContent>";
+        string xml = $"<w:document xmlns:w=\"{TestDocs.WNs}\" xmlns:mc=\"{Mc}\" xmlns:wps=\"{Wps}\" xmlns:v=\"urn:schemas-microsoft-com:vml\"><w:body><w:p><w:r><mc:AlternateContent>" +
+            $"<mc:Choice Requires=\"wps\"><w:drawing><wps:wsp><wps:txbx>{content}</wps:txbx></wps:wsp></w:drawing></mc:Choice>" +
+            $"<mc:Fallback><w:pict><v:shape id=\"s1\"><v:textbox>{content}</v:textbox></v:shape></w:pict></mc:Fallback></mc:AlternateContent></w:r></w:p></w:body></w:document>";
+        var p = TestDocs.Package("");
+        p.FindPart("/word/document.xml")!.SetBytes(Encoding.UTF8.GetBytes(xml));
+        using Document d = Document.FromPackage(p);
+        Assert.Single(d.Revisions.Revisions);
+    }
+
+    [Fact]
     public void TextBoxCopyKeepsPrefixesDeclaredOnTheExposedBranch()
     {
         const string Mc = "http://schemas.openxmlformats.org/markup-compatibility/2006";

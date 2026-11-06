@@ -191,4 +191,65 @@ public class BinaryEncryptionTests
         _ = XorObfuscation.CreateMethod2("0123456789abcdefXYZ", out uint longVerifier);
         Assert.NotNull(XorObfuscation.TryUnlockMethod2("0123456789abcdefQRS", longVerifier));
     }
+
+    /// <summary>Builds an encrypted summary stream the way [MS-OFFCRYPTO] §2.3.5.4 writes it: data first, then the descriptor array, then the two offsets.</summary>
+    public static byte[] BuildEncryptedSummary(BinaryRc4Encryption enc, params (string Name, byte[] Data)[] streams)
+    {
+        var body = new List<byte>();
+        body.AddRange(new byte[8]);
+        var descriptors = new List<byte>();
+        ushort block = 0;
+        foreach ((string name, byte[] data) in streams)
+        {
+            byte[] cipher = (byte[])data.Clone();
+            enc.CreateCipher(block).Process(cipher);
+            int offset = body.Count;
+            body.AddRange(cipher);
+            descriptors.AddRange(BitConverter.GetBytes((uint)offset));
+            descriptors.AddRange(BitConverter.GetBytes((uint)data.Length));
+            descriptors.AddRange(BitConverter.GetBytes(block));
+            descriptors.Add((byte)name.Length);
+            descriptors.Add(1);
+            descriptors.AddRange(new byte[4]);
+            descriptors.AddRange(System.Text.Encoding.Unicode.GetBytes(name + "\0"));
+            block++;
+        }
+
+        byte[] array = [.. BitConverter.GetBytes((uint)streams.Length), .. descriptors];
+        int arrayOffset = body.Count;
+        enc.CreateCipher(0).Process(array);
+        body.AddRange(array);
+        byte[] head = [.. BitConverter.GetBytes((uint)arrayOffset), .. BitConverter.GetBytes((uint)array.Length)];
+        enc.CreateCipher(0).Process(head);
+        byte[] result = body.ToArray();
+        head.CopyTo(result, 0);
+        return result;
+    }
+
+    [Fact]
+    public void AnEncryptedSummaryStreamGivesBackItsStreams()
+    {
+        // [MS-OFFCRYPTO] §2.3.5.4: each stream has its own block key; the descriptors and the two leading fields use block 0.
+        BinaryRc4Encryption enc = BinaryRc4Encryption.Create("secret", new byte[16], new byte[16]);
+        byte[] summary = [1, 2, 3, 4, 5, 6, 7];
+        byte[] documentSummary = new byte[300];
+        new Random(5).NextBytes(documentSummary);
+        byte[] stream = BuildEncryptedSummary(enc, ("\u0005SummaryInformation", summary), ("\u0005DocumentSummaryInformation", documentSummary));
+
+        Assert.True(enc.TryReadEncryptedSummary(stream, out IReadOnlyList<KeyValuePair<string, byte[]>> streams));
+        Assert.Equal(["\u0005SummaryInformation", "\u0005DocumentSummaryInformation"], streams.Select(s => s.Key));
+        Assert.Equal(summary, streams[0].Value);
+        Assert.Equal(documentSummary, streams[1].Value);
+    }
+
+    [Fact]
+    public void AnEncryptedSummaryStreamThatLiesAboutItsSizesIsRefused()
+    {
+        BinaryRc4Encryption enc = BinaryRc4Encryption.Create("secret", new byte[16], new byte[16]);
+        byte[] stream = BuildEncryptedSummary(enc, ("a", new byte[10]));
+        Assert.False(enc.TryReadEncryptedSummary(stream.AsSpan(0, stream.Length - 5), out _));
+        Assert.False(enc.TryReadEncryptedSummary(new byte[5], out _));
+        Assert.False(enc.TryReadEncryptedSummary(new byte[64], out IReadOnlyList<KeyValuePair<string, byte[]>> none));
+        Assert.Empty(none);
+    }
 }

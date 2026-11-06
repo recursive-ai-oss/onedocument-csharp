@@ -59,6 +59,17 @@ Code that calls the archive readers wraps every call and translates what it catc
 
 `FormatRegistry` is an explicit table of readers, text extractors and writers per format. Each kind's package registers what it implements. No application code is needed: a kind package ships a small C# file (`buildTransitive/`) that MSBuild compiles into the referencing project, where a module initializer calls the package's `Register(FormatRegistry.Default)`. It is plain source, not reflection or assembly scanning, so the trimmer and NativeAOT keep exactly the kinds the application references, and a project that references only core and `.Documents` has no spreadsheet code in its binary. Set `<OneDocumentAutoRegister>false</OneDocumentAutoRegister>` to leave it out (a project that fills a custom `FormatRegistry` itself, or a non-C# project, calls `DocumentFormats.Register` / `SpreadsheetFormats.Register` explicitly). Registering twice is harmless: a later registration replaces the earlier handler. `Office` and the document types use `FormatRegistry.Default`. For a kind whose package is not referenced, the operations raise `FormatNotAvailableException` naming the format.
 
+**How a consumer gets formats registered**
+
+| You have | What to do |
+|---|---|
+| A C# project that references one or more kind packages (`.Documents`, `.Spreadsheets`, `.Presentations`, `.Rendering`) or `.All` | Nothing. The package's build file compiles its registration into your project; the `Office` statics, `Document.Open`, `Workbook.Open` and the rest find the formats at once. A project that references only `.Spreadsheets` has spreadsheet formats and no word-processing code. |
+| A project that references only core | Nothing is registered. `Office.Open` on a format whose package is missing raises `FormatNotAvailableException` naming the format. |
+| `<OneDocumentAutoRegister>false</OneDocumentAutoRegister>`, a project that is not C# (F#, Visual Basic), or a build that compiles no package build files | Call the packages' `Register` once at start-up: `DocumentFormats.Register(FormatRegistry.Default)`, `SpreadsheetFormats.Register(...)`, `PresentationFormats.Register(...)`, `RenderingFormats.Register(...)`. Pass your own `FormatRegistry` instead of `Default` to keep a private set. |
+| A library that wraps OneDocument | Do not register on behalf of the application: reference the kind packages you need and let the application's build do it, or document the `Register` calls for it. Registering twice is harmless. |
+
+The consumer applications under `smoke/consumer` check each row that needs no call: one for each single kind package, the metapackage and a NativeAOT build, all with warnings as errors and no registration line.
+
 `FormatSniffer` identifies content, never an extension. It reads a 4,096-byte prefix and, for containers, the least more it needs:
 
 1. zip signature: an entry named `mimetype` means OpenDocument and its text names the format; otherwise `[Content_Types].xml` plus the package relationship of type `.../officeDocument` name the main part, and the main part's content type names the format (Transitional and Strict spellings alike); a zip with neither is `Unknown`;

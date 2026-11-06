@@ -261,7 +261,7 @@ internal static class InspectCommand
         }
         else if (ex is OfficeException oe)
         {
-            error.WriteLine($"error {oe.Defect.Code} at {oe.Location}: {ex.Message}");
+            error.WriteLine($"error {oe.Defect.Code}{CliText.At(oe.Location)}: {ex.Message}");
         }
         else
         {

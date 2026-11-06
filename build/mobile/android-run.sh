@@ -10,7 +10,7 @@
 #   ANDROID_SDK_ROOT      the SDK (required)
 #   JAVA_HOME             a JDK 17 or newer (required; the Android build compiles Java)
 #   ANDROID_AVD_HOME      where this script's own virtual device lives (default: $ONEDOCUMENT_HOME/android-avd)
-#   ONEDOCUMENT_HOME      default $HOME/oneoffice
+#   ONEDOCUMENT_HOME      default $HOME/.onedocument
 #   ANDROID_ARTIFACTS     where build output goes (default: artifacts/android at the repository root, which git ignores)
 #   CI_OUT                where the log goes (default: <ANDROID_ARTIFACTS>/ci)
 #   EMULATOR_TIMEOUT      seconds to wait for the emulator to boot (default: 600)
@@ -21,7 +21,7 @@ set -euo pipefail
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$root"
 dotnet_bin="${DOTNET:-dotnet}"
-home_dir="${ONEDOCUMENT_HOME:-$HOME/oneoffice}"
+home_dir="${ONEDOCUMENT_HOME:-$HOME/.onedocument}"
 jdk="${JAVA_HOME:?set JAVA_HOME to a JDK 17 or newer}"
 sdk="${ANDROID_SDK_ROOT:?set ANDROID_SDK_ROOT to an Android SDK with the emulator and an x86_64 system image}"
 art="${ANDROID_ARTIFACTS:-$root/artifacts/android}"

@@ -26,7 +26,7 @@ build/ci.sh wasm-run
 It needs the `wasm-tools` workload (`dotnet workload install wasm-tools`), `python3`, `curl` and `unzip`. The step:
 
 1. publishes `smoke/wasm` with warnings as errors, so a trim or AOT warning fails it;
-2. fetches the pinned Chrome for Testing build into `$ONEDOCUMENT_HOME/oracles/chromium-<version>/` (default `~/oneoffice`), checked
+2. fetches the pinned Chrome for Testing build into `$ONEDOCUMENT_HOME/oracles/chromium-<version>/` (default `~/.onedocument`), checked
    against its SHA-256 (`build/wasm/fetch-chromium.sh`);
 3. serves the app on 127.0.0.1 and opens it in headless Chromium, which is told to resolve nothing else, so the run uses no network
    (`build/wasm/run-browser.py`);

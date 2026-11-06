@@ -32,6 +32,16 @@ public class XlsbFeatureTests
     }
 
     [Fact]
+    public void ElementsAfterTheHyperlinksStayOutsideThem()
+    {
+        // ECMA-376 Part 1 §18.3.1.48: hyperlinks holds only hyperlink elements, so printOptions after the last record is a sibling.
+        const string body = "<hyperlinks><hyperlink ref=\"A1\" location=\"Sheet1!B2\"/></hyperlinks><printOptions gridLines=\"1\"/><pageMargins left=\"0.7\" right=\"0.7\" top=\"0.75\" bottom=\"0.75\" header=\"0.3\" footer=\"0.3\"/>";
+        (string hub, _, _) = RoundTrip(body);
+        Assert.Matches("</hyperlinks>\\s*<printOptions", hub);
+        Assert.DoesNotContain("<hyperlinks/>", hub);
+    }
+
+    [Fact]
     public void DataValidationsSurviveTheBinaryForm()
     {
         const string dv = "<dataValidations count=\"3\" disablePrompts=\"1\">"

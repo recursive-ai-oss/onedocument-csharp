@@ -45,6 +45,19 @@ public class TextBoxTests
     }
 
     [Fact]
+    public void ABoxWhoseContentWasReplacedIsFoundAgainNotServedFromTheCache()
+    {
+        using Document d = Open($"<w:p><w:r><w:pict><v:rect id=\"a\"><v:textbox>{Content("Before")}</v:textbox></v:rect></w:pict></w:r></w:p>");
+        TextBox first = Assert.Single(d.TextBoxes());
+        Assert.Equal("Before", first.Text);
+        first.Container.Node.ReplaceWithXml(Encoding.UTF8.GetBytes(Content("After").Replace("<w:txbxContent>", $"<w:txbxContent xmlns:w=\"{TestDocs.WNs}\">")));
+
+        TextBox second = Assert.Single(d.TextBoxes());
+        Assert.Equal("After", second.Text);
+        Assert.NotSame(first, second);
+    }
+
+    [Fact]
     public void FindsAPlainVmlBoxAndBoxesInTables()
     {
         using Document d = Open(

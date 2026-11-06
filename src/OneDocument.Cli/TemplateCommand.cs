@@ -75,7 +75,7 @@ internal static class TemplateCommand
         {
             if (ex is OfficeException oe)
             {
-                error.WriteLine($"error {oe.Defect.Code} at {oe.Location}: {ex.Message}");
+                error.WriteLine($"error {oe.Defect.Code}{CliText.At(oe.Location)}: {ex.Message}");
             }
             else
             {
@@ -90,7 +90,7 @@ internal static class TemplateCommand
     {
         foreach (Defect d in defects)
         {
-            error.WriteLine($"{d.Severity.ToString().ToLowerInvariant()} {d.Code} at {d.Location}: {d.Message}");
+            error.WriteLine($"{d.Severity.ToString().ToLowerInvariant()} {d.Code}{CliText.At(d.Location)}: {d.Message}");
         }
     }
 }

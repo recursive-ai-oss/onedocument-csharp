@@ -1,4 +1,5 @@
 using RecursiveAI.OneDocument.Diagnostics;
+using RecursiveAI.OneDocument.Encryption;
 using RecursiveAI.OneDocument.IO;
 using RecursiveAI.OneDocument.Packaging;
 using RecursiveAI.OneDocument.Cfb;
@@ -38,6 +39,7 @@ public static class XlsConverter
             byte[] summary = [];
             byte[] documentSummary = [];
             OleStorageSet objects = OleStorageSet.Empty;
+            byte[]? encryptedSummary = null;
             ReadOnlyMemory<byte> stream;
             string path = "/";
             if (bytes.Length >= 8 && bytes.AsSpan(0, 8).SequenceEqual(CfbSignature))
@@ -54,6 +56,7 @@ public static class XlsConverter
                 // The property streams and the embedded-object storages ([MS-XLS] 2.1.2) are copied now: the compound file is released below.
                 summary = cfb.FindPart("/" + OlePropertySets.SummaryInformationStreamName)?.GetBytes().ToArray() ?? [];
                 documentSummary = cfb.FindPart("/" + OlePropertySets.DocumentSummaryInformationStreamName)?.GetBytes().ToArray() ?? [];
+                encryptedSummary = cfb.FindPart("/" + BinaryRc4Encryption.EncryptedSummaryStreamName)?.GetBytes().ToArray();
                 objects = OleStorageSet.CaptureByPrefix(cfb, "MBD", context);
                 foreach (IPackagePart p in cfb.Parts)
                 {
@@ -71,7 +74,7 @@ public static class XlsConverter
             }
 
             var importer = new XlsImporter(context, sink, cancellationToken);
-            Workbook wb = importer.Import(stream, path, hasVba, summary, documentSummary, objects);
+            Workbook wb = importer.Import(stream, path, hasVba, summary, documentSummary, objects, encryptedSummary);
             wb.ImportLoss = report;
             return wb;
         }
