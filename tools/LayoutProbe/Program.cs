@@ -129,7 +129,7 @@ internal static class Program
                 LayoutDocument layout = LayoutEngine.Layout(doc, options);
                 using (FileStream pdf = File.Create(Path.Combine(output, name + ".pdf")))
                 {
-                    DocumentRenderer.WritePdf(layout, doc, pdf, new PdfRenderOptions { Layout = options, Profile = ProfileFromEnvironment() });
+                    DocumentRenderer.WritePdf(layout, doc, pdf, new PdfRenderOptions { Layout = options, Profile = ProfileFromEnvironment(), Title = name });
                 }
 
                 File.WriteAllBytes(Path.Combine(output, name + ".png"), DocumentRenderer.RenderPng(layout.Pages[0]));
@@ -164,7 +164,7 @@ internal static class Program
                 SheetLayoutDocument layout = WorkbookRenderer.Layout(wb, options);
                 using (FileStream pdf = File.Create(Path.Combine(output, name + ".pdf")))
                 {
-                    WorkbookRenderer.WritePdf(layout, pdf, new PdfRenderOptions { Profile = ProfileFromEnvironment() });
+                    WorkbookRenderer.WritePdf(layout, pdf, new PdfRenderOptions { Profile = ProfileFromEnvironment(), Title = name });
                 }
 
                 // Every page up to eight as PNGs, so a person can look at them.
@@ -195,7 +195,7 @@ internal static class Program
             try
             {
                 using Presentation deck = Presentation.Open(file);
-                var options = new PresentationRenderOptions { Fonts = fonts, Profile = ProfileFromEnvironment(), Output = PresentationOutput.Slides };
+                var options = new PresentationRenderOptions { Fonts = fonts, Profile = ProfileFromEnvironment(), Output = PresentationOutput.Slides, Title = name };
                 PresentationRenderReport report;
                 using (FileStream pdf = File.Create(Path.Combine(output, name + ".pdf")))
                 {

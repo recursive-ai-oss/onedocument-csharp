@@ -207,6 +207,7 @@ internal sealed partial class OdtExporter
             bool titlePg = OnChild(sp, "titlePg") && !Child(sp, "titlePg").IsNull;
             foreach (string kind in new[] { "header", "footer" })
             {
+                bool defaultWritten = false;
                 foreach ((string type, string element) in new[] { ("default", kind), ("even", kind + "-left"), ("first", kind + "-first") })
                 {
                     if (type == "first" && !titlePg)
@@ -222,6 +223,14 @@ internal sealed partial class OdtExporter
                     if (!m.Refs.TryGetValue(kind + ":" + type, out string? rid))
                     {
                         continue;
+                    }
+
+                    // The ODF schema allows style:header-left and style:header-first only after a style:header (the same for footers), so
+                    // a section that has only a first-page or even-page header gets an empty default one.
+                    if (type != "default" && !m.Refs.ContainsKey(kind + ":default") && !defaultWritten)
+                    {
+                        sb.Append("<style:").Append(kind).Append("><text:p/></style:").Append(kind).Append('>');
+                        defaultWritten = true;
                     }
 
                     sb.Append('<').Append("style:").Append(element).Append('>').Append(HeaderFooterContent(rid)).Append("</style:").Append(element).Append('>');

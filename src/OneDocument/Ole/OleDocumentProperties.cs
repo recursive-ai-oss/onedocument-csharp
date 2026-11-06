@@ -114,7 +114,17 @@ public static class OleDocumentProperties
                     // [MS-OSHARED] §2.3.3.2.1.1: the edit time is a duration in 100-nanosecond units stored in a FILETIME.
                     if (v.AsFileTime() is { } edit)
                     {
-                        p.Extended.TotalTimeMinutes = (long)Math.Min(edit.Ticks / (ulong)TicksPerMinute, long.MaxValue);
+                        // The extended-properties schema (shared-documentPropertiesExtended.xsd) declares TotalTime as xsd:int; a longer duration (a file whose time field holds a stray
+                        // timestamp) cannot be written, so it is reported as lost instead of producing an invalid app.xml.
+                        ulong minutes = edit.Ticks / (ulong)TicksPerMinute;
+                        if (minutes <= int.MaxValue)
+                        {
+                            p.Extended.TotalTimeMinutes = (long)minutes;
+                        }
+                        else
+                        {
+                            Lose(lost, "SummaryInformation", prop, "edit time", "it is longer than the 2,147,483,647 minutes the extended properties can hold");
+                        }
                     }
                     else
                     {

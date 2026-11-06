@@ -134,6 +134,12 @@ public sealed partial class Workbook : OfficeFile
         {
             cancellationToken.ThrowIfCancellationRequested();
             OfficeFormat sniffed = FormatSniffer.Detect(source, context.Limits);
+            if (sniffed == OfficeFormat.Unknown && FormatSniffer.IsZipWithoutDirectory(source))
+            {
+                // A truncated or otherwise damaged zip: the package reader recovers the entries it can and reports each repair as a defect.
+                sniffed = OfficeFormat.Xlsx;
+            }
+
             if (sniffed == OfficeFormat.Unknown)
             {
                 throw new OfficeFormatException(DefectKind.Structure, "format.unrecognised", "The content is not a format OneDocument knows.");

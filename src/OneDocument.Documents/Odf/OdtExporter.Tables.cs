@@ -227,6 +227,12 @@ internal sealed partial class OdtExporter
                     }
                 }
 
+                if (gridBefore == 0 && infos[r].Count == 0)
+                {
+                    // The ODF schema needs at least one cell in a row; a row without cells in the source gets one empty cell.
+                    sb.Append("<table:table-cell office:value-type=\"string\"><text:p/></table:table-cell>");
+                }
+
                 sb.Append("</table:table-row>");
             }
 

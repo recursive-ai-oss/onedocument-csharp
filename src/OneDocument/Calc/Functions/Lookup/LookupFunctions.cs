@@ -357,7 +357,7 @@ internal static class LookupFunctions
 
         bool lookupIsRow = la.Rows == 1 && la.Columns > 1;
         CalcReference? rref = rv.Reference;
-        CellArea? area = rref is { AreaCount: 1 } && !rref.IsSpill ? rref.First : null;
+        CellArea? area = rref is { AreaCount: 1 } && !rref.IsSpill ? ev.Resolver.ClipArea(rref.First) : null;
         int retRows;
         int retCols;
         CalcArray? ra = null;
@@ -790,11 +790,8 @@ internal static class LookupFunctions
                 return Err(e);
             }
         }
-        else if (args.Length > 3)
-        {
-            a1 = false;
-        }
 
+        // Microsoft's ADDRESS page: a1 is TRUE or omitted for A1 style, so an empty argument (ADDRESS(1,1,,,"Sheet")) is A1 style too.
         if (row < 1 || row > CellArea.MaxRow || col < 1 || col > CellArea.MaxColumn || abs is < 1 or > 4)
         {
             return Err(CalcError.Value);

@@ -122,6 +122,21 @@ internal sealed class DependencyWalker(CalcBook book, FunctionRegistry registry)
                         VisitName(null, f.Name.StartsWith("_xlpm.", StringComparison.OrdinalIgnoreCase) ? f.Name[6..] : f.Name, nameDepth);
                     }
 
+                    if (GeometryOnly(f.Name))
+                    {
+                        // These functions read where a reference is, not what it holds, so a reference written directly as an argument is not
+                        // a precedent: ROW(A2) in A2 is not circular, and ROWS(A1:A9) does not wait for A1:A9.
+                        foreach (FormulaNode arg in n.Children)
+                        {
+                            if (arg.Kind is not (NodeKind.Cell or NodeKind.Area))
+                            {
+                                Visit(arg, nameDepth);
+                            }
+                        }
+
+                        return;
+                    }
+
                     break;
                 }
         }
@@ -131,6 +146,10 @@ internal sealed class DependencyWalker(CalcBook book, FunctionRegistry registry)
             Visit(child, nameDepth);
         }
     }
+
+    private static bool GeometryOnly(string name) =>
+        name.Equals("ROW", StringComparison.OrdinalIgnoreCase) || name.Equals("COLUMN", StringComparison.OrdinalIgnoreCase)
+        || name.Equals("ROWS", StringComparison.OrdinalIgnoreCase) || name.Equals("COLUMNS", StringComparison.OrdinalIgnoreCase);
 
     private void VisitName(SheetPrefix? prefix, string name, int depth)
     {

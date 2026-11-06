@@ -44,6 +44,9 @@ internal sealed class CalcWorker
     /// <summary>Formulas found to be part of a circular reference while inline.</summary>
     public HashSet<int> Circular { get; } = [];
 
+    /// <summary>The bytes of range blocks the formula being evaluated has read so far; bounded by <see cref="OfficeLimits.MaxAllocationBytes"/> per formula.</summary>
+    public long RangeBytes { get; set; }
+
     /// <summary>How deeply names are being evaluated inside each other.</summary>
     public int NameDepth { get; set; }
 
@@ -121,6 +124,14 @@ internal sealed class WorkbookResolver(CalcEngine engine) : ICalcResolver
             throw new OfficeLimitException(nameof(OfficeLimits.MaxAllocationBytes), int.MaxValue, count);
         }
 
+        // One formula may read many blocks (each under the per-array ceiling); together they stay under it too, so a workbook of
+        // wide-range formulas cannot take memory without bound. The formula then gets calc.limit-exceeded and shows #VALUE!.
+        if (CalcWorker.Current is { } reader)
+        {
+            reader.RangeBytes += count * 24;
+            OfficeLimitException.ThrowIfExceeded(nameof(OfficeLimits.MaxAllocationBytes), engine.Workbook.Limits.MaxAllocationBytes, reader.RangeBytes);
+        }
+
         CellStore store = ws.Store;
         var cells = new CalcValue[(int)count];
         List<RowData> rows = store.Rows;
@@ -155,6 +166,17 @@ internal sealed class WorkbookResolver(CalcEngine engine) : ICalcResolver
 
         engine.ApplyOverlay(si, area, cells);
         return new CalcArray(area.Rows, area.Columns, cells);
+    }
+
+    public bool IsFormula(string? sheet, int row, int column)
+    {
+        int si = Book.FindSheet(sheet, 0);
+        if (si < 0 || Book.Sheets[si].Kind != SheetKind.Worksheet)
+        {
+            return false;
+        }
+
+        return Book.Sheets[si].Store.TryGetCellWithFormula(row, column, out _, out bool hasFormula) && hasFormula;
     }
 
     public CellArea ClipArea(in CellArea area)
@@ -198,6 +220,19 @@ internal sealed class WorkbookResolver(CalcEngine engine) : ICalcResolver
         int osi = Book.FindSheet(origin.Sheet, 0);
         int scope = scopeSheet is null ? osi : Book.FindSheet(scopeSheet, -1);
         NameInfo? info = Book.FindName(name, scope);
+        if (info is null && Book.FindTable(name) is { } table)
+        {
+            // A table's name used alone stands for its data rows, as Table[#Data] does.
+            int top = table.Row1 + table.HeaderRows;
+            int bottom = table.Row2 - table.TotalsRows;
+            if (bottom < top)
+            {
+                return CalcValue.FromError(CalcError.Ref);
+            }
+
+            return CalcValue.FromReference(new CalcReference([new CellArea(Book.Sheets[table.Sheet].Name, null, top, table.Column1, bottom, table.Column2)]));
+        }
+
         if (info?.GetTree(Book) is not { } tree)
         {
             return CalcValue.FromError(CalcError.Name);

@@ -407,7 +407,9 @@ internal sealed partial class OdpExporter
         else
         {
             string type = prst.StartsWith("curved", StringComparison.Ordinal) ? "curve" : "standard";
-            sb.Append("<draw:connector").Append(common).Append(" draw:type=\"").Append(type).Append('"').Append(coords).Append('>').Append(AltChildren(shape)).Append("</draw:connector>");
+            // ODF 1.3 Part 1 (draw:connector) requires svg:viewBox; the end points carry the geometry, so the box is the connector's own extent.
+            string viewBox = " svg:viewBox=\"0 0 " + Math.Max(1, Math.Abs(x2 - x1) / 360).ToString(CultureInfo.InvariantCulture) + " " + Math.Max(1, Math.Abs(y2 - y1) / 360).ToString(CultureInfo.InvariantCulture) + "\"";
+            sb.Append("<draw:connector").Append(common).Append(" draw:type=\"").Append(type).Append('"').Append(viewBox).Append(coords).Append('>').Append(AltChildren(shape)).Append("</draw:connector>");
         }
     }
 
@@ -716,8 +718,8 @@ internal sealed partial class OdpExporter
         if (shape.TextBody is { } body && !picture)
         {
             BodyFormat bf = shape.ResolveBodyFormat();
-            attrs.Append(" fo:padding-left=\"").Append(OdpUnits.Cm(bf.LeftInset)).Append("\" fo:padding-top=\"").Append(OdpUnits.Cm(bf.TopInset)).Append("\" fo:padding-right=\"").Append(OdpUnits.Cm(bf.RightInset))
-                .Append("\" fo:padding-bottom=\"").Append(OdpUnits.Cm(bf.BottomInset)).Append('"');
+            attrs.Append(" fo:padding-left=\"").Append(OdpUnits.Cm(Math.Max(0, bf.LeftInset))).Append("\" fo:padding-top=\"").Append(OdpUnits.Cm(Math.Max(0, bf.TopInset))).Append("\" fo:padding-right=\"").Append(OdpUnits.Cm(Math.Max(0, bf.RightInset)))
+                .Append("\" fo:padding-bottom=\"").Append(OdpUnits.Cm(Math.Max(0, bf.BottomInset))).Append('"');
             attrs.Append(bf.Anchor switch { "ctr" => " draw:textarea-vertical-align=\"middle\"", "b" => " draw:textarea-vertical-align=\"bottom\"", "just" => " draw:textarea-vertical-align=\"justify\"", _ => " draw:textarea-vertical-align=\"top\"" });
             attrs.Append(bf.Wrap == "none" ? " fo:wrap-option=\"no-wrap\"" : " fo:wrap-option=\"wrap\"");
             attrs.Append(bf.Autofit switch

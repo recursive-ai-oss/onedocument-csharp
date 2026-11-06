@@ -139,7 +139,9 @@ internal static class OdfUnits
         var sb = new StringBuilder(name.Length);
         foreach (char c in name)
         {
-            if (char.IsAsciiLetterOrDigit(c) || c == '-' || c == '.')
+            // Style names are XML names without colons (NCName) in the ODF schema, which may not start with a digit, a hyphen or a full stop.
+            bool first = sb.Length == 0;
+            if (char.IsAsciiLetter(c) || (!first && (char.IsAsciiDigit(c) || c == '-' || c == '.')))
             {
                 sb.Append(c);
             }
