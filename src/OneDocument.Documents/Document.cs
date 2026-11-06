@@ -191,6 +191,7 @@ public sealed partial class Document : OfficeFile
     {
         SyncTextBoxAlternates();
         NoteEditsForRtf();
+        NoteEditsForOdf();
         Parts.Flush();
         Volatile.Read(ref _properties)?.Commit();
     }

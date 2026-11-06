@@ -13,9 +13,9 @@ namespace RecursiveAI.OneDocument.Documents;
 /// </remarks>
 public static class DocumentFormats
 {
-    /// <summary>The formats this package reads and writes: DOCX, DOCM, DOTX, DOTM, Flat OPC and RTF.</summary>
+    /// <summary>The formats this package reads and writes: DOCX, DOCM, DOTX, DOTM, Flat OPC, RTF and OpenDocument text (ODT, OTT, FODT).</summary>
     public static IReadOnlyList<OfficeFormat> Formats { get; } =
-        [OfficeFormat.Docx, OfficeFormat.Docm, OfficeFormat.Dotx, OfficeFormat.Dotm, OfficeFormat.FlatOpcDocument, OfficeFormat.Rtf];
+        [OfficeFormat.Docx, OfficeFormat.Docm, OfficeFormat.Dotx, OfficeFormat.Dotm, OfficeFormat.FlatOpcDocument, OfficeFormat.Rtf, OfficeFormat.Odt, OfficeFormat.Ott, OfficeFormat.Fodt];
 
     /// <summary>The formats this package reads but does not write: Word 2003 XML and Word 97-2003 (incl. Word 6/95) binary files, which open as a document that saves as DOCX.</summary>
     public static IReadOnlyList<OfficeFormat> ReadOnlyFormats { get; } = [OfficeFormat.Word2003Xml, OfficeFormat.Doc];
@@ -44,6 +44,10 @@ public static class DocumentFormats
                 if (format == OfficeFormat.Rtf)
                 {
                     document.WriteRtf(destination, cancellationToken);
+                }
+                else if (Document.IsOdfTextFormat(format))
+                {
+                    document.WriteOdf(format, destination, cancellationToken);
                 }
                 else
                 {
