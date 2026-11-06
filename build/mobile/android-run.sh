@@ -41,7 +41,7 @@ extra=()
 [[ -z "${NUGET_EXTRA_SOURCE:-}" ]] || extra+=("-p:RestoreAdditionalProjectSources=$NUGET_EXTRA_SOURCE")
 
 # Warnings are errors: a trim or AOT warning in the library fails this publish. The package is the signed release apk.
-"$dotnet_bin" publish smoke/android/AndroidSmoke.csproj -c Release "${extra[@]}" -p:AndroidSdkDirectory="$sdk" -p:JavaSdkDirectory="$jdk" -warnaserror -v quiet -clp:NoSummary
+"$dotnet_bin" publish smoke/android/AndroidSmoke.csproj -c Release ${extra[@]+"${extra[@]}"} -p:AndroidSdkDirectory="$sdk" -p:JavaSdkDirectory="$jdk" -warnaserror -v quiet -clp:NoSummary
 apk="$(find "$art" -name '*-Signed.apk' | head -1)"
 [[ -n "$apk" ]] || { echo "no signed apk under $art" >&2; exit 1; }
 echo "app size: $(du -k "$apk" | cut -f1) KiB apk"

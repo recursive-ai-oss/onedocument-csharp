@@ -31,7 +31,7 @@ extra=()
 [[ -z "${NUGET_EXTRA_SOURCE:-}" ]] || extra+=("-p:RestoreAdditionalProjectSources=$NUGET_EXTRA_SOURCE")
 
 # Warnings are errors in the library projects; a trim or AOT warning fails this build.
-"$dotnet_bin" build smoke/ios/IosSmoke.csproj -c Release "${extra[@]}" -warnaserror -v quiet -clp:NoSummary
+"$dotnet_bin" build smoke/ios/IosSmoke.csproj -c Release ${extra[@]+"${extra[@]}"} -warnaserror -v quiet -clp:NoSummary
 app="$(find "$art/bin/IosSmoke" -name IosSmoke.app -type d | head -1)"
 [[ -n "$app" ]] || { echo "no IosSmoke.app under $art/bin" >&2; exit 1; }
 echo "app size: $(du -sm "$app" | cut -f1) MiB on disk"

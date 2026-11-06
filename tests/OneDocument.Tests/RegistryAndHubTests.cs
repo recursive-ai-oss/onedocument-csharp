@@ -63,7 +63,8 @@ public class RegistryAndHubTests
     {
         string path = Path.Combine(Path.GetTempPath(), "onedocument-open-" + Environment.ProcessId + ".dat");
         File.WriteAllText(path, "{\\rtf1 hello}");
-        FormatRegistry.Default.RegisterReader((source, format, context, filePath, _) => new FakeFile(format, context, filePath, source), OfficeFormat.Rtf);
+        // The fake reader lets go of the file at once: a reader that keeps a read handle open cannot have Save() replace that file on Windows.
+        FormatRegistry.Default.RegisterReader((source, format, context, filePath, _) => { source.Dispose(); return new FakeFile(format, context, filePath, null); }, OfficeFormat.Rtf);
         FormatRegistry.Default.RegisterWriter((file, format, stream, _) => stream.Write(System.Text.Encoding.UTF8.GetBytes("written as " + format + " from " + file.Kind)), OfficeFormat.Rtf, OfficeFormat.Pdf);
         try
         {

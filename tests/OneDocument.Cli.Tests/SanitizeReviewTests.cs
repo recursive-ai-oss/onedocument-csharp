@@ -122,7 +122,8 @@ public partial class SanitizeReviewTests
                 }
 
                 string target = m.Groups[2].Value;
-                string full = target.StartsWith('/') ? target[1..] : System.IO.Path.GetFullPath("/" + dir + target).TrimStart('/');
+                // Part names are URIs (OPC), resolved the same way on every OS rather than as file paths.
+                string full = target.StartsWith('/') ? target[1..] : Uri.UnescapeDataString(new Uri(new Uri("http://p/" + dir), target).AbsolutePath).TrimStart('/');
                 if (!entries.ContainsKey(full))
                 {
                     o.Problems.Add(label + ": " + name + " points at missing part " + full);
