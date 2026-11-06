@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Paired validation: parts that are invalid in the output but valid in the input (information)."""
 import json, os, subprocess, sys, collections
-home = os.path.expanduser('~/oneoffice')
+home = os.environ['ONEDOCUMENT_HOME']  # holds oracles/ and schemas/
 py = home + '/oracles/venv/bin/python'
 val = 'tools/validate/validate_ooxml.py'
 schemas = ['--schemas', home + '/schemas/xsd/transitional', '--schemas', home + '/schemas/xsd/opc']
@@ -18,7 +18,7 @@ def invalid_parts(path):
             res[j['uri']] = j['errors'][:1]
     return res
 
-R = home + '/u84/probe'
+R = sys.argv[1]  # the AuthoringProbe output directory
 newly = collections.Counter()
 examples = {}
 checked = 0
