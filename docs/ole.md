@@ -24,7 +24,7 @@ byte[] stream = sets.ToArray();                                             // t
 
 ## Mapping to the package properties
 
-`OleDocumentProperties.Read(summary, documentSummary, target, context)` fills a `DocumentProperties` (core, extended and custom parts of the package) and returns a description of every property that has no counterpart. `OleDocumentProperties.Create(properties)` makes the two streams from the hub's properties for the writers of the legacy formats (it writes text as UTF-16 and reads no clock). The table is the mapping both ways.
+`OleDocumentProperties.Read(summary, documentSummary, target, context)` fills a `DocumentProperties` (core, extended and custom parts of the package) and returns a description of every property that has no counterpart. `OleDocumentProperties.Create(properties)` makes the two streams from the hub's properties for the writers of the legacy formats (the XLS writer calls it; it writes text as UTF-16 and reads no clock). The table is the mapping both ways.
 
 | Stream and identifier | Package property |
 |---|---|

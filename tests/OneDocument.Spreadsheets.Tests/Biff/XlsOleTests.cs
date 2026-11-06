@@ -31,6 +31,31 @@ public sealed class XlsOleTests
         Assert.Equal(0, wb.ImportLoss!.CountOf("loss.document-properties"));
     }
 
+    [Fact]
+    public void PropertiesSurviveWritingAnXls()
+    {
+        using Workbook wb = Workbook.Create();
+        var props = new RecursiveAI.OneDocument.Properties.DocumentProperties(wb.Package);
+        props.Core.Title = "Quarterly";
+        props.Core.Creator = "Ada";
+        props.Extended.Company = "Analytical Engines";
+        props.Custom.SetString("Project", "Atlas");
+        props.Commit();
+        byte[] bytes = XlsWriterTests.Save(wb, out LossReport loss);
+        Assert.Equal(0, loss.CountOf("loss.document-properties"));
+
+        using CfbPackage cfb = CfbPackage.Open(ByteSource.FromMemory(bytes));
+        Assert.NotNull(cfb.FindPart("/" + OlePropertySets.SummaryInformationStreamName));
+        Assert.NotNull(cfb.FindPart("/" + OlePropertySets.DocumentSummaryInformationStreamName));
+
+        using Workbook back = XlsWriterTests.Reopen(bytes);
+        var read = new RecursiveAI.OneDocument.Properties.DocumentProperties(back.Package);
+        Assert.Equal("Quarterly", read.Core.Title);
+        Assert.Equal("Ada", read.Core.Creator);
+        Assert.Equal("Analytical Engines", read.Extended.Company);
+        Assert.Equal("Atlas", read.Custom.Find("Project")!.Value.AsString);
+    }
+
     // The fixture with its streams copied into a new compound file, through a callback that may change or drop each.
     private static byte[] Rewritten(Func<string, byte[], byte[]?> edit)
     {
