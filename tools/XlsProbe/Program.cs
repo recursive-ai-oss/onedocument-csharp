@@ -53,6 +53,32 @@ internal static class Program
             return 0;
         }
 
+        if (args.Length > 2 && args[0] == "--sst")
+        {
+            // Lays out the shared string table records of one file: lengths of SST and the CONTINUE records after it.
+            var c0 = new OpenContext(new OfficeLimits { MaxPartSize = 256 << 20 });
+            using var cfb = RecursiveAI.OneDocument.Cfb.CfbPackage.Open(args[1], c0);
+            var part = cfb.FindPart("/Workbook") ?? cfb.FindPart("/Book");
+            var rs = RecursiveAI.OneDocument.Spreadsheets.Biff.BiffRecordSet.Parse(part!.GetBytes(), c0);
+            for (int i = 0; i < rs.Records.Count; i++)
+            {
+                if (rs.Records[i].Type != 0x00FC)
+                {
+                    continue;
+                }
+
+                var d = rs.Data(rs.Records[i]).Span;
+                Console.WriteLine($"SST at {rs.Records[i].Offset} len={rs.Records[i].Length} total={BitConverter.ToUInt32(d)} unique={BitConverter.ToUInt32(d[4..])}");
+                for (int k = i + 1; k < rs.Records.Count && rs.Records[k].Type == 0x003C; k++)
+                {
+                    var cd = rs.Data(rs.Records[k]).Span;
+                    Console.WriteLine($"  CONTINUE len={rs.Records[k].Length} first bytes {Convert.ToHexString(cd[..Math.Min(8, cd.Length)])}");
+                }
+            }
+
+            return 0;
+        }
+
         int max = int.MaxValue;
         bool list = args.Contains("--list");
         for (int i = 1; i + 1 < args.Length; i++)
