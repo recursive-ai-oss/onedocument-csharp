@@ -41,7 +41,7 @@ public class XlsbFeatureTests
             + "</dataValidations>";
         (string hub, string back, LossReport loss) = RoundTrip(dv);
         Assert.DoesNotContain("xb:r", hub);
-        Assert.DoesNotContain(loss.Items, i => i.Code == "xlsb.sheet-element");
+        Assert.DoesNotContain(loss.Items, i => i.Code == "loss.xlsb-sheet-element");
         foreach (string xml in new[] { hub, back })
         {
             Assert.Contains("<dataValidations count=\"3\" disablePrompts=\"1\">", xml);
@@ -86,7 +86,7 @@ public class XlsbFeatureTests
             + "</autoFilter>";
         (string hub, string back, LossReport loss) = RoundTrip(af);
         Assert.DoesNotContain("xb:r", hub);
-        Assert.DoesNotContain(loss.Items, i => i.Code == "xlsb.sheet-element" || i.Code == "xlsb.filter-element");
+        Assert.DoesNotContain(loss.Items, i => i.Code == "loss.xlsb-sheet-element" || i.Code == "loss.xlsb-filter-element");
         foreach (string xml in new[] { hub, back })
         {
             Assert.Contains("<autoFilter ref=\"A1:D20\">", xml);
@@ -130,7 +130,7 @@ public class XlsbFeatureTests
         using var bin = new MemoryStream();
         var loss = new LossReport();
         source.SaveAs(bin, OfficeFormat.Xlsb, loss);
-        Assert.DoesNotContain(loss.Items, i => i.Code is "xlsb.formula-unparsed" or "xlsb.formula-approximated");
+        Assert.DoesNotContain(loss.Items, i => i.Code is "loss.xlsb-formula-unparsed" or "loss.xlsb-formula-approximated");
         return (Workbook.Open(new MemoryStream(bin.ToArray())), bin.ToArray());
     }
 
@@ -165,7 +165,7 @@ public class XlsbFeatureTests
         using var xlsx = new MemoryStream();
         var loss = new LossReport();
         again.SaveAs(xlsx, OfficeFormat.Xlsx, loss);
-        Assert.DoesNotContain(loss.Items, i => i.Code == "xlsb.part-not-converted");
+        Assert.DoesNotContain(loss.Items, i => i.Code == "loss.xlsb-part-not-converted");
         using Workbook back = Workbook.Open(new MemoryStream(xlsx.ToArray()));
         Assert.NotNull(back.Package.FindPart("/xl/tables/table1.xml"));
         Assert.NotNull(back.Package.FindPart("/xl/comments1.xml"));
@@ -188,7 +188,7 @@ public class XlsbFeatureTests
             + "<conditionalFormatting sqref="+q+"G1:G9"+q+"><cfRule type="+q+"iconSet"+q+" priority="+q+"9"+q+"><iconSet iconSet="+q+"4Rating"+q+" reverse="+q+"1"+q+"><cfvo type="+q+"percent"+q+" val="+q+"0"+q+"/><cfvo type="+q+"percent"+q+" val="+q+"25"+q+"/><cfvo type="+q+"formula"+q+" val="+q+"$H$1"+q+"/><cfvo type="+q+"num"+q+" val="+q+"90"+q+" gte="+q+"0"+q+"/></iconSet></cfRule></conditionalFormatting>";
         (string hub, string back, LossReport loss) = RoundTrip(cf);
         Assert.DoesNotContain("xb:r", hub);
-        Assert.DoesNotContain(loss.Items, i => i.Code.StartsWith("xlsb.conditional", StringComparison.Ordinal) || i.Code == "xlsb.sheet-element");
+        Assert.DoesNotContain(loss.Items, i => i.Code.StartsWith("loss.xlsb-conditional", StringComparison.Ordinal) || i.Code == "loss.xlsb-sheet-element");
         foreach (string xml in new[] { hub, back })
         {
             Assert.Contains("<conditionalFormatting sqref="+q+"B2:B9 D2"+q+">", xml);
