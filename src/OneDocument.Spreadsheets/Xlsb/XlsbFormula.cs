@@ -738,12 +738,31 @@ public static class XlsbFormula
             string name;
             if (id == 255)
             {
-                if (count == 0 || args[0] is not NameNode nn)
+                if (count == 0)
                 {
                     throw new FormatException("user-defined function without a name");
                 }
 
+                if (args[0] is not NameNode nn)
+                {
+                    Push(new InvokeNode(args[0], args[1..]));
+                    return;
+                }
+
                 name = nn.Prefix is null ? nn.Name : nn.Prefix + nn.Name;
+                if (count == 2 && string.Equals(FunctionCallNode.StripPrefix(name), "SINGLE", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Implicit intersection is stored as a call of the future function SINGLE, the spill reference as ANCHORARRAY.
+                    Push(new UnaryNode('@', args[1]));
+                    return;
+                }
+
+                if (count == 2 && string.Equals(FunctionCallNode.StripPrefix(name), "ANCHORARRAY", StringComparison.OrdinalIgnoreCase))
+                {
+                    Push(new SpillNode(args[1]));
+                    return;
+                }
+
                 var call = new FunctionCallNode(name, args[1..]);
                 call.LeadingSpace = nn.LeadingSpace;
                 Push(call);
@@ -951,6 +970,18 @@ public static class XlsbFormula
                     break;
                 case ArrayConstantNode x:
                     EmitArray(x, cls);
+                    break;
+                case InvokeNode x:
+                    // A computed callee is the first operand of a user-defined call (function number 255), as a name is.
+                    Emit(x.Callee, Cls.Ref);
+                    foreach (FormulaNode a in x.Arguments)
+                    {
+                        Emit(a, Cls.Ref);
+                    }
+
+                    Ptg(0x02, cls);
+                    Byte(x.Arguments.Count + 1);
+                    U16(255);
                     break;
                 default:
                     Note("unsupported formula element " + n.Kind);
