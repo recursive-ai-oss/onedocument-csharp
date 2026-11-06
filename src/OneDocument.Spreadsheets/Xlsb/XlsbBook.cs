@@ -16,6 +16,8 @@ internal sealed class XlsbBook : IDisposable
     internal const string SheetBinType = "application/vnd.ms-excel.worksheet";
     internal const string StylesBinType = "application/vnd.ms-excel.styles";
     internal const string SharedStringsBinType = "application/vnd.ms-excel.sharedStrings";
+    internal const string ChartSheetBinType = "application/vnd.ms-excel.chartsheet";
+    internal const string ChartSheetXmlType = "application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml";
 
     internal const string WorkbookXmlType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml";
     internal const string WorkbookMacroXmlType = "application/vnd.ms-excel.sheet.macroEnabled.main+xml";
@@ -38,6 +40,7 @@ internal sealed class XlsbBook : IDisposable
         Worksheet,
         Styles,
         SharedStrings,
+        ChartSheet,
         Plain,
     }
 
@@ -66,6 +69,14 @@ internal sealed class XlsbBook : IDisposable
 
     /// <summary>Gets the sheet names, books, extern-sheet table and defined names formulas index into.</summary>
     public XlsbFormulaContext Formulas { get; }
+
+    /// <summary>Gets a value indicating whether the workbook holds dialog or macro sheets, which only a binary save can keep.</summary>
+    public bool HasBinarySheets { get; private set; }
+
+    private static bool IsBinarySheet(string type) =>
+        string.Equals(type, "application/vnd.ms-excel.dialogsheet", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(type, "application/vnd.ms-excel.macrosheet", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(type, "application/vnd.ms-excel.intlmacrosheet", StringComparison.OrdinalIgnoreCase);
 
     /// <summary>Gets a value indicating whether the workbook holds a macro project.</summary>
     public bool HasMacros { get; private set; }
@@ -120,13 +131,22 @@ internal sealed class XlsbBook : IDisposable
             {
                 kind = Kind.SharedStrings;
             }
+            else if (string.Equals(p.ContentType, ChartSheetBinType, StringComparison.OrdinalIgnoreCase))
+            {
+                kind = Kind.ChartSheet;
+            }
+            else if (IsBinarySheet(p.ContentType))
+            {
+                kind = Kind.Plain;
+                HasBinarySheets = true;
+            }
             else if (p.ContentType.StartsWith("application/vnd.ms-excel.", StringComparison.OrdinalIgnoreCase) || string.Equals(p.ContentType, WorkbookBinType, StringComparison.OrdinalIgnoreCase))
             {
                 HiddenParts.Add(p.Name);
                 continue;
             }
 
-            string hubName = kind is null ? p.Name : HubName(p.Name);
+            string hubName = kind is null or Kind.Plain ? p.Name : HubName(p.Name);
             var info = new PartInfo(p.Name, hubName, kind ?? Kind.Plain);
             _byHub[hubName] = info;
             _bySource[p.Name] = info;
@@ -150,6 +170,7 @@ internal sealed class XlsbBook : IDisposable
                 Kind.Worksheet => SheetXmlType,
                 Kind.Styles => StylesXmlType,
                 Kind.SharedStrings => SharedStringsXmlType,
+                Kind.ChartSheet => ChartSheetXmlType,
                 _ => p.ContentType,
             };
             IPackagePart src = p;
@@ -168,6 +189,7 @@ internal sealed class XlsbBook : IDisposable
                     EnsureStyles();
                     return XlsbSharedStringsPart.ToXml(src.GetBytes(), _context, src.Name, Fonts);
                 },
+                Kind.ChartSheet => () => XlsbChartSheetPart.ToXml(src.GetBytes(), _context, src.Name),
                 _ => () => src.GetBytes(),
             };
             Hub.AddLoadedPart(info.HubName, type, p.Length, load);
@@ -345,6 +367,8 @@ internal sealed class XlsbBook : IDisposable
                         regenerate.Add((info.HubName, info.Kind));
                     }
 
+                    break;
+                case Kind.ChartSheet:
                     break;
                 case Kind.Plain:
                     if (HubChanged(info.HubName))

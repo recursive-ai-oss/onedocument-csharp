@@ -47,7 +47,11 @@ internal static class XlsbSheetWriter
             {
                 if (c.TryRaw(out int t, out byte[] data))
                 {
-                    _w.Write(t, data);
+                    if (c.GetAttribute("d") is null)
+                    {
+                        _w.Write(t, data);
+                    }
+
                     continue;
                 }
 
@@ -354,6 +358,14 @@ internal static class XlsbSheetWriter
         private void WriteSheetData(MarkupNode sheetData)
         {
             _w.Write(XlsbRecordType.BeginSheetData);
+            foreach (MarkupNode m in root.ChildElements)
+            {
+                if (m.TryRaw(out int bt, out byte[] bd) && m.GetAttribute("d") == "b")
+                {
+                    _w.Write(bt, bd);
+                }
+            }
+
             int nextRow = 0;
             foreach (MarkupNode row in sheetData.Elements("row"))
             {
@@ -385,6 +397,14 @@ internal static class XlsbSheetWriter
                     {
                         _w.Write(t, data);
                     }
+                }
+            }
+
+            foreach (MarkupNode m in root.ChildElements)
+            {
+                if (m.TryRaw(out int et, out byte[] ed) && m.GetAttribute("d") == "e")
+                {
+                    _w.Write(et, ed);
                 }
             }
 

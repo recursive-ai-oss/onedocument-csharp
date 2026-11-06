@@ -116,6 +116,9 @@ internal static class XlsbSheetPart
         private readonly Dictionary<(int Row, int Column), bool> _arrayMasters = [];
         private bool _inRow;
         private bool _inSheetData;
+        private bool _sheetDataOpen;
+        private readonly XmlSink _beforeRows = new();
+        private readonly XmlSink _afterRows = new();
         private bool _inViews;
         private bool _inView;
         private bool _inCols;
@@ -165,6 +168,16 @@ internal static class XlsbSheetPart
 
         private void Raw() => XlsbMarkup.Raw(_x, _r.Type, _r.Data);
 
+        // The sheetData element is opened with the first row, so that records stored before the first row can be kept in front of it.
+        private void OpenSheetData()
+        {
+            if (!_sheetDataOpen)
+            {
+                _x.Raw(_beforeRows.Memory.Span).Raw("<sheetData>");
+                _sheetDataOpen = true;
+            }
+        }
+
         private void CloseRow()
         {
             if (_inRow)
@@ -184,8 +197,10 @@ internal static class XlsbSheetPart
             CloseRow();
             if (_inSheetData)
             {
-                _x.Raw("</sheetData>");
+                OpenSheetData();
+                _x.Raw("</sheetData>").Raw(_afterRows.Memory.Span);
                 _inSheetData = false;
+                _sheetDataOpen = false;
             }
 
             CloseCols();
@@ -279,13 +294,14 @@ internal static class XlsbSheetPart
                     return;
                 case XlsbRecordType.BeginSheetData:
                     CloseCols();
-                    _x.Raw("<sheetData>");
                     _inSheetData = true;
                     return;
                 case XlsbRecordType.EndSheetData:
                     CloseRow();
-                    _x.Raw("</sheetData>");
+                    OpenSheetData();
+                    _x.Raw("</sheetData>").Raw(_afterRows.Memory.Span);
                     _inSheetData = false;
+                    _sheetDataOpen = false;
                     return;
                 case XlsbRecordType.RowHdr:
                     RowHeader(d);
@@ -386,8 +402,9 @@ internal static class XlsbSheetPart
                 default:
                     if (_inSheetData && !_inRow)
                     {
-                        context.Defects.Report(new Defect(DefectKind.Record, "xlsb.record-dropped", DefectSeverity.Dropped,
-                            "A record of type " + _r.Type.ToString(CultureInfo.InvariantCulture) + " between rows has no place in the markup; it is dropped.", DefectLocation.InRecord(partName, _r.Offset)));
+                        // Records stored between rows (the markers around a sheet's unique id) are kept beside the sheetData element: d="b" before the first row, d="e" after the last.
+                        XmlSink target = _sheetDataOpen ? _afterRows : _beforeRows;
+                        target.Raw("<xb:r").Attr("d", _sheetDataOpen ? "e" : "b").Attr("t", _r.Type).Raw(">").Raw(Convert.ToBase64String(d)).Raw("</xb:r>");
                         return;
                     }
 
@@ -795,6 +812,7 @@ internal static class XlsbSheetPart
         private void RowHeader(ReadOnlySpan<byte> d)
         {
             CloseRow();
+            OpenSheetData();
             var f = new XlsbRecordFields(d);
             int row = f.I32();
             int style = f.I32();

@@ -45,6 +45,11 @@ internal static class XlsbExport
         }
 
         InMemoryPackage hub = book.Hub;
+        if (book.HasBinarySheets)
+        {
+            throw new OfficeUnsupportedException("dialog and macro sheets of a binary workbook in another format");
+        }
+
         if (format is OfficeFormat.Xlsx or OfficeFormat.Xltx && hub.Parts.Any(p => string.Equals(p.ContentType, Workbook.VbaContentType, StringComparison.OrdinalIgnoreCase)))
         {
             throw new OfficeUnsupportedException("saving a workbook that holds a macro project as a macro-free format");
