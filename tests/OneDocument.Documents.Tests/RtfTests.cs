@@ -242,7 +242,7 @@ public class RtfTests
     [Fact]
     public void EditedRtfIsWrittenAgainAndReadsBack()
     {
-        string rtf = Head + "\\pard\\plain\\s1 Caf\\'e9 \\u8364? and \\u26085?\\par \\pard\\plain\\qc\\li720 Plain {\\b bold}{\\i\\fs40  big}\\par}";
+        string rtf = Head + "\\pard\\plain\\s1 Caf\\'e9 \\u8364? and \\u26085?\\par \\pard\\plain\\qc\\li720 Plain {\\b bold}{\\i\\fs40  big} \\u26085?\\par}";
         using Document d = Open(rtf);
         d.Paragraphs.First().SetText("Changed \u20ac");
         using var output = new MemoryStream();
@@ -347,5 +347,28 @@ public class RtfTests
             {
             }
         }
+    }
+
+    [Fact]
+    public void MathZonesBecomeOfficeMathMarkup()
+    {
+        const string math = "\\pard Inline {\\mmath{\\*\\moMath\\f0{\\mf{\\mfPr{\\mctrlPr}{\\mtype bar}}{\\mnum{\\mr\\mscr0\\msty2 a}}{\\mden{\\mr b+1}}}{\\msSup{\\msSupPr{\\mctrlPr}}{\\me x}{\\msup 2}}}} end\\par";
+        using Document d = Open(Head + math + "}");
+        string xml = Xml(d);
+        Assert.Contains("<m:f><m:fPr><m:ctrlPr/><m:type m:val=\"bar\"/></m:fPr><m:num><m:r><m:rPr><m:scr m:val=\"0\"/><m:sty m:val=\"2\"/></m:rPr><m:t xml:space=\"preserve\">a</m:t></m:r></m:num>", xml, StringComparison.Ordinal);
+        Assert.Contains("<m:sSup>", xml, StringComparison.Ordinal);
+        Assert.Contains("<m:sup><m:r><m:t xml:space=\"preserve\">2</m:t></m:r></m:sup>", xml, StringComparison.Ordinal);
+        Assert.Contains("Inline a/(b+1)x^2 end", Text(d).Replace("\r\n", "\n", StringComparison.Ordinal), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void CroppedPicturesKeepTheirCropAndShownSize()
+    {
+        string hex = Convert.ToHexString(Png).ToLowerInvariant();
+        using Document d = Open(Head + "\\pard {\\pict\\picscalex400\\picscaley400\\piccropl240\\piccropr240\\piccropt180\\piccropb180\\picw64\\pich48\\picwgoal960\\pichgoal720\\pngblip " + hex + "}\\par}");
+        string xml = Xml(d);
+        Assert.Contains("<a:srcRect l=\"25000\" t=\"25000\" r=\"25000\" b=\"25000\"/>", xml, StringComparison.Ordinal);
+        // (960 - 480) twips * 400 % = 1920 twips = 1219200 EMU wide
+        Assert.Contains("<wp:extent cx=\"1219200\" cy=\"914400\"/>", xml, StringComparison.Ordinal);
     }
 }

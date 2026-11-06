@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text;
+using RecursiveAI.OneDocument.Equations;
 using RecursiveAI.OneDocument.Markup;
 using RecursiveAI.OneDocument.Packaging;
 
@@ -31,6 +32,8 @@ internal sealed partial class RtfExporter
             }
         }
     }
+
+    private readonly Dictionary<string, string> _lastStory = new(StringComparer.Ordinal);
 
     private void SectionProps(MarkupNode sect)
     {
@@ -121,6 +124,14 @@ internal sealed partial class RtfExporter
             {
                 continue;
             }
+
+            // A section without a header of a kind shows the one before it, so a part used again by the next section is written once.
+            if (_lastStory.TryGetValue(word, out string? previous) && previous == part.Name)
+            {
+                continue;
+            }
+
+            _lastStory[word] = part.Name;
 
             MarkupNode root = LoadPart(part.Name);
             if (root.IsNull)
@@ -346,8 +357,8 @@ internal sealed partial class RtfExporter
                 }
                 else if (c.LocalNameString == "oMath" || c.LocalNameString == "oMathPara")
                 {
-                    _loss.Report("loss.rtf-equation", "equations", 1, "Equations are written as their text only.");
-                    Text(c.InnerText, ins, del, default);
+                    _loss.Report("loss.rtf-equation", "equations", 1, "Equations are written as their linear text (for example (a+b)/c), not as math.");
+                    Text(MathLinearizer.Linearize(OmmlReader.Read(c, out _)), ins, del, default);
                 }
 
                 continue;

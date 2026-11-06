@@ -73,6 +73,8 @@ internal sealed partial class RtfImporter
                 return;
             case "object": ReadObject(g, st); return;
             case "shp": ReadShape(g, st); return;
+            case "mmath": ReadMath(g, st); return;
+            case "mmathPr": return;
             case "do":
                 Loss.Report("loss.rtf-drawing-object", "legacy drawing objects", 1, "Word 97 drawing objects (\\do) are not carried into the document.");
                 return;

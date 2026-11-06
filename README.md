@@ -37,7 +37,7 @@ The `Office` statics (`Office.Open`, `Office.ExtractText`, `Office.Convert`) fin
 | XLSB | planned | planned |
 | XLS (BIFF8) | planned | planned |
 | XLS (BIFF2–5), DOC, PPT, Word and Excel 2003 XML | planned | not planned |
-| RTF | planned | planned |
+| RTF | yes (`Document`; loss report; `docs/rtf.md`) | yes |
 | ODT/ODS/ODP and flat ODF | planned | planned |
 | CSV/TSV | yes | yes |
 | HTML, Markdown | planned (import) | planned (export) |

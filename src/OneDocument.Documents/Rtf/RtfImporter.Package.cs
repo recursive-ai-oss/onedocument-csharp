@@ -12,7 +12,7 @@ internal sealed partial class RtfImporter
     private const string RootNs =
         " xmlns:w=\"" + WNs + "\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"" +
         " xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"" +
-        " xmlns:pic=\"http://schemas.openxmlformats.org/drawingml/2006/picture\"";
+        " xmlns:pic=\"http://schemas.openxmlformats.org/drawingml/2006/picture\" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"";
     private const string CtPrefix = "application/vnd.openxmlformats-officedocument.wordprocessingml.";
 
     /// <summary>The document parts as a package, ready for <see cref="Document.FromPackage"/>.</summary>

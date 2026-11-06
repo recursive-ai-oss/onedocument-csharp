@@ -17,6 +17,11 @@ using RecursiveAI.OneDocument.Formats;
 //       NAME.docx (--docx), the RTF written back from the model (--rtf; its text is compared with the original's) and NAME.ours.txt (--txt)
 //   RtfProbe write <dir> <outdir>
 //       every .docx under <dir> becomes NAME.rtf through the exporter, with one JSON line each on stdout (loss codes, reread text equal)
+//   RtfProbe text <dir> <ext> <outdir>
+//       the text of every file with that extension (docx, rtf, ...) through Office.ExtractText, as NAME.txt
+//   RtfProbe similar <dirA> <dirB>
+//       for every NAME.txt in both directories, the similarity of the two texts (Dice coefficient of character 5-grams of the
+//       lower-cased text without white space), one JSON line each and a summary line
 //
 // One JSON object per file; the last line is a summary. Exit status 1 when a file raised anything but a typed error.
 internal static class Program
@@ -36,7 +41,17 @@ internal static class Program
             return Write(args[1], args[2]);
         }
 
-        Console.Error.WriteLine("usage: RtfProbe read <dir> <out.jsonl> [--docx DIR] [--rtf DIR] [--txt DIR] | RtfProbe write <dir> <outdir>");
+        if (args.Length >= 4 && args[0] == "text")
+        {
+            return TextOf(args[1], args[2], args[3]);
+        }
+
+        if (args.Length >= 3 && args[0] == "similar")
+        {
+            return Similar(args[1], args[2]);
+        }
+
+        Console.Error.WriteLine("usage: RtfProbe read <dir> <out.jsonl> [--docx DIR] [--rtf DIR] [--txt DIR] | RtfProbe write <dir> <outdir> | RtfProbe text <dir> <ext> <outdir> | RtfProbe similar <dirA> <dirB>");
         return 2;
     }
 
@@ -205,5 +220,92 @@ internal static class Program
         }
 
         return untyped > 0 ? 1 : 0;
+    }
+
+    private static int TextOf(string dir, string ext, string outDir)
+    {
+        Directory.CreateDirectory(outDir);
+        int failed = 0;
+        foreach (string path in Directory.EnumerateFiles(dir, "*." + ext, SearchOption.TopDirectoryOnly).OrderBy(p => p, StringComparer.Ordinal))
+        {
+            try
+            {
+                File.WriteAllText(Path.Combine(outDir, Path.GetFileNameWithoutExtension(path) + ".txt"), Office.ExtractText(path), new UTF8Encoding(false));
+            }
+            catch (OfficeException ex)
+            {
+                failed++;
+                Console.WriteLine(JsonSerializer.Serialize(new { file = Path.GetFileName(path), error = ex.Message }, Json));
+            }
+        }
+
+        return 0;
+    }
+
+    private static Dictionary<string, int> Grams(string text)
+    {
+        string s = Norm(text).ToLowerInvariant();
+        var d = new Dictionary<string, int>(StringComparer.Ordinal);
+        for (int i = 0; i + 5 <= s.Length; i++)
+        {
+            string g = s.Substring(i, 5);
+            d[g] = d.GetValueOrDefault(g) + 1;
+        }
+
+        return d;
+    }
+
+    private static double Dice(string a, string b)
+    {
+        Dictionary<string, int> ga = Grams(a), gb = Grams(b);
+        long ta = ga.Values.Sum(v => (long)v), tb = gb.Values.Sum(v => (long)v);
+        if (ta == 0 && tb == 0)
+        {
+            return 1;
+        }
+
+        if (ta == 0 || tb == 0)
+        {
+            return 0;
+        }
+
+        long common = 0;
+        foreach (KeyValuePair<string, int> kv in ga)
+        {
+            if (gb.TryGetValue(kv.Key, out int n))
+            {
+                common += Math.Min(kv.Value, n);
+            }
+        }
+
+        return 2.0 * common / (ta + tb);
+    }
+
+    private static int Similar(string dirA, string dirB)
+    {
+        var scores = new List<double>();
+        foreach (string a in Directory.EnumerateFiles(dirA, "*.txt").OrderBy(p => p, StringComparer.Ordinal))
+        {
+            string b = Path.Combine(dirB, Path.GetFileName(a));
+            if (!File.Exists(b))
+            {
+                continue;
+            }
+
+            double s = Dice(File.ReadAllText(a), File.ReadAllText(b));
+            scores.Add(s);
+            Console.WriteLine(JsonSerializer.Serialize(new { file = Path.GetFileNameWithoutExtension(a), dice = Math.Round(s, 4) }, Json));
+        }
+
+        scores.Sort();
+        Console.WriteLine(JsonSerializer.Serialize(new
+        {
+            kind = "summary",
+            files = scores.Count,
+            mean = scores.Count == 0 ? 0 : Math.Round(scores.Average(), 4),
+            min = scores.Count == 0 ? 0 : scores[0],
+            atLeast95 = scores.Count(x => x >= 0.95),
+        }, Json));
+        return 0;
     }
 }

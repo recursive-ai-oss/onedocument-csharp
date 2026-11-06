@@ -348,7 +348,38 @@ internal sealed partial class RtfExporter
 
     private void Drawing(MarkupNode node)
     {
+        if (node.LocalNameString == "AlternateContent")
+        {
+            // The first choice is what current Office shows; the fallback is only for readers that do not know the choice.
+            MarkupNode pick = default;
+            foreach (MarkupNode k in node.ChildElements)
+            {
+                if (k.LocalNameString == "Choice")
+                {
+                    pick = k;
+                    break;
+                }
+
+                if (k.LocalNameString == "Fallback" && pick.IsNull)
+                {
+                    pick = k;
+                }
+            }
+
+            if (!pick.IsNull)
+            {
+                foreach (MarkupNode k in pick.ChildElements)
+                {
+                    Drawing(k);
+                }
+            }
+
+            return;
+        }
+
         string? embed = null;
+        MarkupNode textBox = default;
+        int cropL = 0, cropT = 0, cropR = 0, cropB = 0;
         long cx = 0, cy = 0;
         string? descr = null;
         bool anchored = false, shape = false, other = false;
@@ -376,7 +407,21 @@ internal sealed partial class RtfExporter
                 case "anchor":
                     anchored = true;
                     break;
-                case "txbxContent" or "wsp" or "chart" or "relIds" or "sp" or "shape" or "rect" or "oval" or "group" or "wgp":
+                case "srcRect":
+                    cropL = Int(d.GetAttribute("l"));
+                    cropT = Int(d.GetAttribute("t"));
+                    cropR = Int(d.GetAttribute("r"));
+                    cropB = Int(d.GetAttribute("b"));
+                    break;
+                case "txbxContent":
+                    if (textBox.IsNull)
+                    {
+                        textBox = d;
+                    }
+
+                    shape = true;
+                    break;
+                case "wsp" or "chart" or "relIds" or "sp" or "shape" or "rect" or "oval" or "group" or "wgp":
                     shape = true;
                     break;
                 case "OLEObject":
@@ -392,6 +437,12 @@ internal sealed partial class RtfExporter
 
         if (embed is null)
         {
+            if (!textBox.IsNull)
+            {
+                ShapeText(textBox, cx, cy);
+                return;
+            }
+
             if (shape)
             {
                 _loss.Report("loss.rtf-shape", "shapes, text boxes and charts", 1, "Drawing shapes, text boxes, charts and diagrams are not written.");
@@ -448,8 +499,10 @@ internal sealed partial class RtfExporter
             cx = cy = 914400;
         }
 
-        int wGoal = (int)Math.Min(cx / 635, 31680 * 4);
-        int hGoal = (int)Math.Min(cy / 635, 31680 * 4);
+        // The size shown is what is left after cropping; \picwgoal is the size before it (RTF 1.9.1 "Pictures").
+        double keepW = Math.Max(0.01, 1 - ((cropL + cropR) / 100000.0)), keepH = Math.Max(0.01, 1 - ((cropT + cropB) / 100000.0));
+        int wGoal = (int)Math.Min(cx / 635 / keepW, 31680 * 4);
+        int hGoal = (int)Math.Min(cy / 635 / keepH, 31680 * 4);
         bool metafile = kind is "emfblip" or "wmetafile8";
         int pw = metafile ? (int)Math.Min(cx / 360, int.MaxValue) : wGoal / 15;
         int ph = metafile ? (int)Math.Min(cy / 360, int.MaxValue) : hGoal / 15;
@@ -477,8 +530,68 @@ internal sealed partial class RtfExporter
         _w.Word("pich", Math.Max(1, ph));
         _w.Word("picwgoal", Math.Max(1, wGoal));
         _w.Word("pichgoal", Math.Max(1, hGoal));
+        if (cropL != 0 || cropR != 0 || cropT != 0 || cropB != 0)
+        {
+            _w.Word("piccropl", (int)(cropL * (long)wGoal / 100000));
+            _w.Word("piccropt", (int)(cropT * (long)hGoal / 100000));
+            _w.Word("piccropr", (int)(cropR * (long)wGoal / 100000));
+            _w.Word("piccropb", (int)(cropB * (long)hGoal / 100000));
+        }
         _w.Newline();
         _w.HexData(data.AsSpan(skip));
         _w.EndGroup();
+    }
+
+    private int _shapeId = 1024;
+
+    // A text box is written as a shape with a text part (RTF 1.9.1 "Shapes"): the text stays with the document for readers that
+    // draw shapes, and this library's reader keeps it as paragraphs.
+    private void ShapeText(MarkupNode textBox, long cx, long cy)
+    {
+        _loss.Report("loss.rtf-shape-position", "text box position and wrapping", 1, "Text boxes are written as shapes in front of the text at the paragraph; their anchor, offsets and wrapping are not carried.");
+        if (cx <= 0 || cy <= 0)
+        {
+            cx = 2743200;
+            cy = 914400;
+        }
+
+        FieldState[] outer = SuspendFields();
+        _w.StartGroup();
+        _w.Word("shp");
+        _w.StartDestination("shpinst");
+        _w.Word("shpleft", 0);
+        _w.Word("shptop", 0);
+        _w.Word("shpright", (int)Math.Min(cx / 635, int.MaxValue));
+        _w.Word("shpbottom", (int)Math.Min(cy / 635, int.MaxValue));
+        _w.Word("shpfhdr", 0);
+        _w.Word("shpbxcolumn");
+        _w.Word("shpbxignore");
+        _w.Word("shpbypara");
+        _w.Word("shpbyignore");
+        _w.Word("shpwr", 3);
+        _w.Word("shpwrk", 0);
+        _w.Word("shpfblwtxt", 0);
+        _w.Word("shpz", 0);
+        _w.Word("shplid", ++_shapeId);
+        _w.StartGroup();
+        _w.Word("sp");
+        _w.StartGroup();
+        _w.Word("sn");
+        _w.Text("shapeType");
+        _w.EndGroup();
+        _w.StartGroup();
+        _w.Word("sv");
+        _w.Text("202");
+        _w.EndGroup();
+        _w.EndGroup();
+        _w.StartGroup();
+        _w.Word("shptxt");
+        _w.Newline();
+        Blocks(textBox, 0, false);
+        CloseFields();
+        _w.EndGroup();
+        _w.EndGroup();
+        _w.EndGroup();
+        ResumeFields(outer);
     }
 }

@@ -387,7 +387,7 @@ internal sealed partial class RtfImporter
     {
         public string? Format;
         public readonly List<byte> Data = [];
-        public int W, H, WGoal, HGoal, ScaleX = 100, ScaleY = 100;
+        public int W, H, WGoal, HGoal, ScaleX = 100, ScaleY = 100, CropL, CropT, CropR, CropB;
         public string? Descr;
         public int Nibble = -1;
         public bool TooBig;
@@ -423,6 +423,10 @@ internal sealed partial class RtfImporter
                         case "pichgoal": pic.HGoal = c.Parameter; break;
                         case "picscalex": pic.ScaleX = c.Parameter; break;
                         case "picscaley": pic.ScaleY = c.Parameter; break;
+                        case "piccropl": pic.CropL = c.Parameter; break;
+                        case "piccropt": pic.CropT = c.Parameter; break;
+                        case "piccropr": pic.CropR = c.Parameter; break;
+                        case "piccropb": pic.CropB = c.Parameter; break;
                     }
 
                     break;
@@ -572,7 +576,17 @@ internal sealed partial class RtfImporter
         // Size in EMU (914400 per inch = 635 per twip). \picwgoal is the desired size in twips; \picw is pixels for bitmaps and 0.01 mm for
         // metafiles (RTF 1.9.1 "Pictures").
         long cx, cy;
-        if (pic.WGoal > 0 && pic.HGoal > 0)
+        // The crops are twips of the goal size; the scale applies to what is left after cropping (checked against LibreOffice, whose
+        // writer states the scale that way: a centre crop of a quarter on each side comes with picscale 400 for a 200% display).
+        bool cropped = pic.WGoal > 0 && pic.HGoal > 0 && (pic.CropL != 0 || pic.CropR != 0 || pic.CropT != 0 || pic.CropB != 0);
+        if (cropped)
+        {
+            long vw = Math.Max(1, pic.WGoal - pic.CropL - pic.CropR);
+            long vh = Math.Max(1, pic.HGoal - pic.CropT - pic.CropB);
+            cx = vw * 635L * Math.Max(1, pic.ScaleX) / 100;
+            cy = vh * 635L * Math.Max(1, pic.ScaleY) / 100;
+        }
+        else if (pic.WGoal > 0 && pic.HGoal > 0)
         {
             cx = pic.WGoal * 635L * Math.Max(1, pic.ScaleX) / 100;
             cy = pic.HGoal * 635L * Math.Max(1, pic.ScaleY) / 100;
@@ -600,9 +614,21 @@ internal sealed partial class RtfImporter
         string xml = "<w:drawing><wp:inline distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\"><wp:extent cx=\"" + cx.ToString(CultureInfo.InvariantCulture) + "\" cy=\"" + cy.ToString(CultureInfo.InvariantCulture) +
             "\"/><wp:docPr id=\"" + X.N(docPr) + "\" name=\"Picture " + X.N(docPr) + "\"" + descr + "/><wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect=\"1\"/></wp:cNvGraphicFramePr>" +
             "<a:graphic><a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\"><pic:pic><pic:nvPicPr><pic:cNvPr id=\"" + X.N(docPr) + "\" name=\"Picture " + X.N(docPr) + "\"" + descr +
-            "/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed=\"" + rid + "\"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" +
+            "/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed=\"" + rid + "\"/>" + SrcRect(pic, cropped) + "<a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" +
             cx.ToString(CultureInfo.InvariantCulture) + "\" cy=\"" + cy.ToString(CultureInfo.InvariantCulture) + "\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing>";
         AppendOwnRun(st, xml);
+    }
+
+    // ECMA-376 Part 1 §20.1.8.55 (srcRect): crops as thousandths of a percent of the picture; negative values add padding.
+    private static string SrcRect(PictInfo pic, bool cropped)
+    {
+        if (!cropped)
+        {
+            return string.Empty;
+        }
+
+        static int P(int twips, int whole) => (int)Math.Clamp(twips * 100000L / Math.Max(1, whole), -1_000_000, 100_000);
+        return "<a:srcRect l=\"" + X.N(P(pic.CropL, pic.WGoal)) + "\" t=\"" + X.N(P(pic.CropT, pic.HGoal)) + "\" r=\"" + X.N(P(pic.CropR, pic.WGoal)) + "\" b=\"" + X.N(P(pic.CropB, pic.HGoal)) + "\"/>";
     }
 
     // [MS-WMF] 2.2.2.6: a placeable header (key 0x9AC6CDD7, bounding box, units per inch, checksum) gives a bare metafile a size.

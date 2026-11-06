@@ -15,6 +15,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `formula.` | formula text and tokens | `Formula` |
 | `numfmt.` | number-format codes | `Value` |
 | `text.` | text extraction | `Structure`, `Reference`, `Markup`, `Packaging` |
+| `rtf.` | RTF (tokenizer, group tree, hub conversion, mail layer) | `Record`, `Limit`, `Structure`, `Reference` |
 | `docx.` | the word-processing hub | `Structure`, `Reference`, `Value`, `Packaging` |
 | `csv.` | delimited text (CSV, TSV) | `Structure`, `Markup`, `Encoding`, `Value` |
 | `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
@@ -305,3 +306,22 @@ Reported in `ContentBindingReport.Warnings`. See `docx-content-controls.md`.
 | `binding.unsupported-control` | dropped | The control type cannot show a bound value (group, picture, building block …). |
 | `binding.value-not-in-list` | repaired | A drop-down value is not one of its items; the control keeps its selection. |
 | `binding.no-template-item` | dropped | A repeating section has no item to copy as its pattern. |
+| `rtf.not-rtf` | fatal | The content does not start with `{\rtf`. |
+| `rtf.damaged` | fatal | The RTF could not be converted (an unexpected failure while reading, wrapped in a typed exception; the inner exception has the cause). |
+| `rtf.export-failed` | fatal | The document could not be written as RTF (wrapped unexpected failure). |
+| `rtf.parameter-overflow` | repaired | A control word parameter does not fit in 32 bits; it was clamped. |
+| `rtf.invalid-hex-escape` | repaired | `\'` was not followed by two hexadecimal digits; it was dropped. |
+| `rtf.binary-data-truncated` | repaired | A `\bin` length is negative or runs past the end of the input; it was clamped. |
+| `rtf.truncated-token` | repaired | The input ended inside a control word or escape. |
+| `rtf.unbalanced-group-end` | repaired | A `}` without a `{`; ignored. |
+| `rtf.unclosed-groups` | repaired | The input ended with groups still open; they are closed at the end. |
+| `rtf.nesting-limit-exceeded` | dropped | Group nesting reached the limit (`MaxRecursionDepth`, at most 1000); reading stopped there. |
+| `rtf.content-limit-exceeded` | dropped | The file holds more nodes than `MaxRecordCount` allows; the rest is ignored. |
+| `rtf.invalid-picture-data` | dropped | Picture data is empty, not valid for its declared format or not a format that can be carried; the picture is left out. |
+| `rtf.picture-limit-exceeded` | dropped | A picture exceeds `MaxPartSize`, or the pictures together exceed `MaxAllocationBytes`; it is left out. |
+| `rtf.undefined-reference` | dropped | A paragraph uses a list override the list override table does not define. |
+| `rtf.unclosed-row` | repaired | A table row has cells but no `\row`; it is closed at the end of the table. |
+| `rtf.too-many-defects` | repaired | The reader's defect list reached its cap of 256; later ones are not recorded. |
+| `rtf.header-truncated`, `rtf.unknown-compression-type`, `rtf.compressed-size-mismatch`, `rtf.missing-end-marker`, `rtf.crc-mismatch`, `rtf.raw-size-mismatch`, `rtf.reference-beyond-dictionary`, `rtf.output-limit-exceeded`, `rtf.expansion-ratio-exceeded` | repaired or dropped | Compressed RTF (the mail body form): the header, size, checksum or dictionary reference is damaged, or a limit was hit; see `RtfDefectKind`. |
+| `rtf.not-encapsulated`, `rtf.ambiguous-unknown-code-page`, `rtf.lone-surrogate`, `rtf.ambiguous-html-rtf-in-plain-text` | repaired | The mail layer's de-encapsulation resolved a known ambiguity in one documented way (see `RtfDefectKind`). |
+| `rtf.nested-table-flattened`, `rtf.ambiguous-picture-format`, `rtf.ambiguous-list-level`, `rtf.ambiguous-symbol-font`, `rtf.ambiguous-bare-cell` | repaired or dropped | The mail layer's HTML conversion (`RtfHtmlConverter`) repaired or flattened something; the hub conversion reads these constructs fully. |
