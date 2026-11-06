@@ -1,6 +1,6 @@
 # Sanitiser coverage review
 
-An independent review of `Inspector` and `Sanitizer` (`docs/sanitize.md`): for every category inspection reports, does it find every instance, and does sanitising remove every instance it says it removed? The checks are committed as tests: `tests/OneDocument.Cli.Tests/ReviewScenarios.cs` builds the adversarial documents and `SanitizeReviewTests.cs` runs them.
+The project's own review (not an external audit) of `Inspector` and `Sanitizer` (`docs/sanitize.md`): for every category inspection reports, does it find every instance, and does sanitising remove every instance it says it removed? The checks are committed as tests: `tests/OneDocument.Cli.Tests/ReviewScenarios.cs` builds the adversarial documents and `SanitizeReviewTests.cs` runs them.
 
 ## Method
 

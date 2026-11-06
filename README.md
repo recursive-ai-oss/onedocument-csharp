@@ -99,8 +99,8 @@ Numbers come from the committed note or test named in the last column. Office-or
 | Operation | State |
 |---|---|
 | Find and replace, merge, append, split, protection | implemented (`docs/operations-find-replace.md`, `docs/operations-merge.md`, `docs/protection.md`) |
-| Redaction (`Office.Redact`) | implemented, writes a new file and re-reads it to verify; an independent completeness review passed (`docs/redaction-review.md`), with its open items listed there. Office opens the redacted outputs: not run (see `docs/office-oracle-1.0.md`) |
-| Inspect and sanitise (`Office.Inspect`, `Office.Sanitize`, `onedocument inspect`, `sanitize`) | implemented (`docs/sanitize.md`); the Document Inspectors that automation can run (Word 5, Excel 5, PowerPoint 4) find nothing in 36 sanitised files that open, and Office opens them without repair (`docs/office-oracle-1.0.md`); an independent coverage review passed (`docs/sanitize-review.md`) |
+| Redaction (`Office.Redact`) | implemented, writes a new file and re-reads it to verify; the project's own completeness review (not an external audit) passed (`docs/redaction-review.md`), with its open items listed there. Office opens the redacted outputs: not run (see `docs/office-oracle-1.0.md`) |
+| Inspect and sanitise (`Office.Inspect`, `Office.Sanitize`, `onedocument inspect`, `sanitize`) | implemented (`docs/sanitize.md`); the Document Inspectors that automation can run (Word 5, Excel 5, PowerPoint 4) find nothing in 36 sanitised files that open, and Office opens them without repair (`docs/office-oracle-1.0.md`); the project's own coverage review (not an external audit) passed (`docs/sanitize-review.md`) |
 | VBA read, extract, remove | implemented, never executed (`docs/vba.md`) |
 | Accessibility checking | implemented (`docs/accessibility.md`); agreement with Office's checker is **pending**: the checker has no automation interface, so it was not measured (`docs/office-oracle-1.0.md`) |
 
@@ -136,8 +136,8 @@ Stated here so they are not found by surprise.
 | `RecursiveAI.OneDocument.Schema` | Generated zero-copy typed views over every pinned schema: WordprocessingML, SpreadsheetML, PresentationML, DrawingML, charts, chartex, diagrams, VML, Office Math, the package parts and the Microsoft extension schemas; `.Spreadsheets` uses them |
 | `RecursiveAI.OneDocument.Rendering` | Layout, charts, SmartArt, equations, drawing; PDF and page-image (PNG, JPEG, TIFF, WebP, SVG) output for all three kinds |
 | `RecursiveAI.OneDocument.All` | Metapackage of every package above |
-| `RecursiveAI.OneDocument.Cryptography` | Signatures and encryption on write (no content yet; not in `All`) |
-| `onedocument` | Command-line tool: `detect`, `extract`, `recalc`, `template`, `render`, `convert`, `inspect`, `sanitize` |
+| `RecursiveAI.OneDocument.Cryptography` | Signatures and encryption on write: 1.x, not yet on NuGet (not in `All`) |
+| `RecursiveAI.OneDocument.Tool` | .NET tool; the command is `onedocument`: `detect`, `extract`, `recalc`, `template`, `render`, `convert`, `inspect`, `sanitize` |
 
 ## Building
 

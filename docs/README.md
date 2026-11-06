@@ -75,7 +75,7 @@ Normative notes on how OneDocument behaves, one page per area. The code's XML do
 | [operations-find-replace.md](operations-find-replace.md) | Find and replace across runs, cells and paragraphs |
 | [sanitize.md](sanitize.md) | Inspecting a file for hidden data and personal information, and sanitising it |
 | [redaction.md](redaction.md) | True redaction by match or region, and its verification |
-| [redaction-review.md](redaction-review.md) | The independent completeness review of redaction: method, defects found, verdict, open items |
+| [redaction-review.md](redaction-review.md) | The project's own completeness review of redaction (not an external audit): method, defects found, verdict, open items |
 
 ## Rendering
 

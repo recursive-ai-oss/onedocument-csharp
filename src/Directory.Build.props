@@ -15,9 +15,9 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <!-- 1.0.0 is the first release, so there is nothing to compare against yet. From 1.0.1 on, set PackageValidationBaselineVersion to the
-         last published version (1.0.0 first) so a pack fails on an unintended breaking change. -->
+    <!-- A pack fails on an unintended breaking change against the last published version; bump the baseline after every release. -->
     <EnablePackageValidation>true</EnablePackageValidation>
+    <PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion>
     <PackageId>$(PackagePrefix)$(MSBuildProjectName)</PackageId>
   </PropertyGroup>
 
