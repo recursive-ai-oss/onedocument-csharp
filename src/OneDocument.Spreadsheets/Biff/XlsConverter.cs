@@ -34,6 +34,7 @@ public static class XlsConverter
         {
             byte[] bytes = ReadAll(source, context.Limits);
             bool hasVba = false;
+            bool hasProperties = false;
             ReadOnlyMemory<byte> stream;
             string path = "/";
             if (bytes.Length >= 8 && bytes.AsSpan(0, 8).SequenceEqual(CfbSignature))
@@ -49,6 +50,7 @@ public static class XlsConverter
                 stream = part.GetBytes();
                 foreach (IPackagePart p in cfb.Parts)
                 {
+                    hasProperties |= p.Name.EndsWith("SummaryInformation", StringComparison.Ordinal);
                     if (p.Name.StartsWith("/_VBA_PROJECT_CUR/", StringComparison.OrdinalIgnoreCase) || p.Name.StartsWith("/_VBA_PROJECT", StringComparison.OrdinalIgnoreCase)
                         || p.Name.StartsWith("/MACROS/", StringComparison.OrdinalIgnoreCase) || p.Name.StartsWith("/_VBA_PROJECT_CUR", StringComparison.OrdinalIgnoreCase))
                     {
@@ -63,7 +65,7 @@ public static class XlsConverter
             }
 
             var importer = new XlsImporter(context, sink, cancellationToken);
-            Workbook wb = importer.Import(stream, path, hasVba);
+            Workbook wb = importer.Import(stream, path, hasVba, hasProperties);
             wb.ImportLoss = report;
             return wb;
         }

@@ -100,6 +100,7 @@ internal sealed partial class XlsImporter
     private Workbook _wb = null!;
     private readonly Dictionary<string, long> _lossCounts = [];
     private bool _hasVba;
+    private bool _hasProperties;
     private long _richStrings;
 
     public XlsImporter(OpenContext context, ILossSink loss, CancellationToken token)
@@ -126,8 +127,9 @@ internal sealed partial class XlsImporter
     }
 
     /// <summary>Converts the workbook stream to a hub workbook.</summary>
-    public Workbook Import(ReadOnlyMemory<byte> workbookStream, string path, bool hasVba)
+    public Workbook Import(ReadOnlyMemory<byte> workbookStream, string path, bool hasVba, bool hasProperties = false)
     {
+        _hasProperties = hasProperties;
         _path = path;
         _hasVba = hasVba;
         _rs = BiffRecordSet.Parse(workbookStream, _context, path);
@@ -693,6 +695,12 @@ internal sealed partial class XlsImporter
         {
             string feature = code["loss.".Length..].Replace('-', ' ');
             Lose(code, feature, n, "Not carried into the workbook (" + feature + ").");
+        }
+
+        // The property streams (title, author, …) are a separate format that is not read; they stay in the source file only.
+        if (_hasProperties)
+        {
+            Lose("loss.document-properties", "document properties", 1, "The summary-information property streams are not converted.");
         }
 
         if (_hasVba)
