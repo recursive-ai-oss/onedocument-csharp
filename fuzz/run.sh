@@ -4,7 +4,7 @@
 #   fuzz/run.sh <target> <seconds> [corpus dir] [extra libFuzzer flags...]
 #   fuzz/run.sh replay <target> <file>...      # run saved inputs once, without libFuzzer (reproduce a finding)
 #
-# Targets: formula, formulaeval, finfuncs, statfuncs, funcs, lookups, sniff, xml, markup, opc, cfb, sdt, sdtpath, text, revisions, stories, pptx, fieldinstr, fields, numfmt, numfmtfmt, sheet, sst, wbpart, styles, sheetfeat, table, pivot, csv, stream, streamwrite, template, richtext, mailmerge, math, sheetrender, rtf, rtftree, smartart, doc, sprm, xls, ptg, ppt, xml2003, xlsb, olepropset, oleobject, encinfo, filepass, html, markdown, markdownparse, vbacompress, vbadir, vbaproject, vbaremove, odfpkg, odt, odp, ods, openformula   (see fuzz/README.md)
+# Targets: formula, formulaeval, finfuncs, statfuncs, funcs, lookups, sniff, xml, markup, opc, cfb, sdt, sdtpath, text, revisions, stories, pptx, fieldinstr, fields, numfmt, numfmtfmt, sheet, sst, wbpart, styles, sheetfeat, table, pivot, csv, stream, streamwrite, template, richtext, mailmerge, math, sheetrender, rtf, rtftree, smartart, doc, sprm, xls, ptg, ppt, xml2003, xlsb, olepropset, oleobject, encinfo, filepass, html, markdown, markdownparse, vbacompress, vbadir, vbaproject, vbaremove, odfpkg, odt, odp, ods, openformula, chart, drawing, docparts, docxlayout, pptxlayout, xlsxprint, metafile, operations   (see fuzz/README.md)
 #
 # Environment (nothing is baked into the script):
 #   ONEDOCUMENT_FUZZ_WORK    required: where builds, corpora and findings go. Keep it outside the checkout.
@@ -92,6 +92,11 @@ case "$target" in
   ods) maxlen=131072 ;;
   openformula) maxlen=4096 ;;
   markdown|markdownparse) maxlen=65536 ;;
+  chart|docparts) maxlen=65536 ;;
+  drawing) maxlen=32768 ;;
+  docxlayout|pptxlayout|xlsxprint) maxlen=32768 ;;
+  metafile) maxlen=65536 ;;
+  operations) maxlen=32768 ;;
   vbacompress) maxlen=16384 ;;
   vbadir) maxlen=8192 ;;
   vbaproject) maxlen=65536 ;;

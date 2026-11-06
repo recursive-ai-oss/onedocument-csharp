@@ -429,7 +429,7 @@ internal sealed partial class ChartRenderer
         TextStyle ts = Style(lg.TextFormat, _basePt * 0.9);
         double rowH = LineHeight(ts) + 2;
         double key = lg.Position is ChartLegendPosition.Top or ChartLegendPosition.Bottom ? 14 : 14;
-        double maxText = entries.Max(e => TextWidth(e.Text, ts));
+        double maxText = entries.Select(e => TextWidth(e.Text, ts)).DefaultIfEmpty(0).Max();
         double colW = key + 5 + maxText + 14;
         Box box;
         int cols = 1;

@@ -19,6 +19,8 @@
     <!-- The SmartArt target seeds itself from the generated diagrams the tests use. -->
     <Compile Include="../../tests/OneDocument.Rendering.Tests/SmartArtSamples.cs" Link="SmartArtSamples.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/TestDocx.cs" Link="TestDocx.cs" />
+    <Compile Include="../../tests/OneDocument.Rendering.Tests/TestPptx.cs" Link="TestPptx.cs" />
+    <Compile Include="../../tools/ChartProbe/ChartSamples.cs" Link="ChartSamples.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/DrawingSamples.cs" Link="DrawingSamples.cs" />
     <Compile Include="../../tests/Shared/DocBuilder.cs" Link="DocBuilder.cs" />
     <!-- The VBA targets seed themselves from the generated projects the tests use. -->

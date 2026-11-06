@@ -292,6 +292,12 @@ public sealed class SheetPrintSettings
                     string b = colon < 0 ? text : text[(colon + 1)..];
                     if (int.TryParse(a, NumberStyles.Integer, CultureInfo.InvariantCulture, out int r1) && int.TryParse(b, NumberStyles.Integer, CultureInfo.InvariantCulture, out int r2))
                     {
+                        // A row outside the sheet (1 to 1,048,576) is no title row; the layout would index past its last row.
+                        if (r1 is < 1 or > Calc.CellArea.MaxRow || r2 is < 1 or > Calc.CellArea.MaxRow)
+                        {
+                            continue;
+                        }
+
                         titleRows = (Math.Min(r1, r2), Math.Max(r1, r2));
                     }
                     else if (CellAddress.TryParseColumn(a, out int c1) && CellAddress.TryParseColumn(b, out int c2))

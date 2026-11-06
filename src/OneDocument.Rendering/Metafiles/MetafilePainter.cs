@@ -174,8 +174,9 @@ public static class MetafilePainter
         {
             doc = MetafileDocument.Parse(data, new MetafileReadOptions { Limits = context.Limits ?? MetafileLimits.Default }, cancellationToken);
         }
-        catch (Exception ex) when (ex is OneImage.ImageException)
+        catch (Exception ex) when (ex is OneImage.ImageException or ArithmeticException or IndexOutOfRangeException)
         {
+            // The interpreter is OneImage's; an arithmetic or index failure on a damaged record is damage like any other here.
             Say(context, "render.metafile-damaged", DefectKind.Record, DefectSeverity.Dropped, "The metafile could not be read: " + ex.Message);
             return false;
         }
@@ -222,6 +223,13 @@ public static class MetafilePainter
             {
                 doc.Play(painter);
             }
+        }
+        catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or OneImage.ImageException or DisplayListLimitException)
+        {
+            // A record asked for something the display list refuses (a coordinate or size out of range). What was drawn before it stays;
+            // the open clips and transforms are closed so the list is still balanced.
+            painter.Abort();
+            Say(context, "render.metafile-damaged", DefectKind.Record, DefectSeverity.Dropped, "A record could not be drawn, and the rest of the picture is left out: " + ex.Message);
         }
         finally
         {
