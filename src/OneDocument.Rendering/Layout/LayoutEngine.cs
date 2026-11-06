@@ -50,6 +50,7 @@ public static partial class LayoutEngine
         int maxPasses = Math.Clamp(opt.MaxFieldPasses, 1, 50);
         for (int pass = 1; ; pass++)
         {
+            opt.ResultSink?.Reset();
             var env = new FieldEnv { Doc = work, Model = model, Options = opt, Facts = facts };
             var ctx = new LayoutContext(work, fonts, compat, fontTable) { Fields = env, NotePlan = NotePlan.Build(work, work.Sections, notePages) };
             env.Notes = ctx.NotePlan;
