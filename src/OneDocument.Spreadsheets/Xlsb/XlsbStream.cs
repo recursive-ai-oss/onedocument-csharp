@@ -120,6 +120,14 @@ public sealed class XlsbStreamReader : IDisposable
         return Create(OpcPackage.Open(stream, context, leaveOpen), context, cancellationToken);
     }
 
+    private static string MainPartName(OpcPackage package)
+    {
+        Relationship? main = package.GetRelationships().FirstOrDefault(r => r.Type.EndsWith("/officeDocument", StringComparison.Ordinal));
+        return main is not null && PartUri.TryResolve(null, main.Target, out PartUri uri) ? uri.Value : "/";
+    }
+
+    private string PartNameOf(string contentType) => _package.Parts.FirstOrDefault(p => string.Equals(p.ContentType, contentType, StringComparison.OrdinalIgnoreCase))?.Name ?? _workbookPart;
+
     private static XlsbStreamReader Create(OpcPackage package, OpenContext context, CancellationToken cancellation)
     {
         try
@@ -129,7 +137,7 @@ public sealed class XlsbStreamReader : IDisposable
         catch (Exception e) when (XlsbGuard.IsMalformed(e))
         {
             package.Dispose();
-            throw XlsbGuard.Typed(e, "the workbook part");
+            throw XlsbGuard.Typed(e, MainPartName(package));
         }
         catch
         {
@@ -217,7 +225,7 @@ public sealed class XlsbStreamReader : IDisposable
         }
         catch (Exception e) when (XlsbGuard.IsMalformed(e))
         {
-            throw XlsbGuard.Typed(e, "the shared string table");
+            throw XlsbGuard.Typed(e, PartNameOf(XlsbBook.SharedStringsBinType));
         }
     }
 
@@ -241,7 +249,7 @@ public sealed class XlsbStreamReader : IDisposable
         }
         catch (Exception e) when (XlsbGuard.IsMalformed(e))
         {
-            throw XlsbGuard.Typed(e, "the style sheet");
+            throw XlsbGuard.Typed(e, PartNameOf(XlsbBook.StylesBinType));
         }
     }
 
@@ -307,7 +315,7 @@ public sealed class XlsbStreamReader : IDisposable
         }
         catch (Exception e) when (XlsbGuard.IsMalformed(e))
         {
-            throw XlsbGuard.Typed(e, "the workbook part");
+            throw XlsbGuard.Typed(e, _workbookPart);
         }
     }
 
