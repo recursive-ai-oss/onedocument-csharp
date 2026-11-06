@@ -73,6 +73,31 @@ public class WorkbookTests
     }
 
     [Fact]
+    public void ViewHopEditsTheWorkbookPartAndNothingElse()
+    {
+        byte[] original = TestBook.Bytes();
+        using Workbook wb = TestBook.Open(original);
+        Assert.Equal("Other", wb.Sheets[1].View!.Value.Name);
+        Assert.True(wb.Sheets[1].Markup.IsValid);
+        var sheetView = wb.Sheets[1].View!.Value;
+        sheetView.Name = "Renamed";
+        var first = wb.View.Sheets!.Value.SheetList.ToArray()[0];
+        first.SheetId = 9;
+        byte[] saved = TestBook.Save(wb);
+        var before = TestBook.PartHashes(original);
+        var after = TestBook.PartHashes(saved);
+        foreach (string name in before.Keys.Where(k => k != "/xl/workbook.xml"))
+        {
+            Assert.Equal(before[name], after[name]);
+        }
+
+        Assert.NotEqual(before["/xl/workbook.xml"], after["/xl/workbook.xml"]);
+        using Workbook again = TestBook.Open(saved);
+        Assert.Equal("Renamed", again.Sheets[1].Name);
+        Assert.Equal(9, again.Sheets[0].SheetId);
+    }
+
+    [Fact]
     public void ForcedRewriteReadsBackEqualAndKeepsUnknownMarkup()
     {
         byte[] original = TestBook.Bytes();

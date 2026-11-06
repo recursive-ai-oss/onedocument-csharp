@@ -73,7 +73,7 @@ The generated typed views in `src/OneDocument.Schema/Generated/` are derived fro
 
 ### Microsoft Open Specifications schemas
 
-The XSD files under `schemas/ms/` are the schemas printed in Appendix A of [MS-DOCX], [MS-ODRAWXML] and [MS-PPTX] (the exact documents and revisions are in `schemas/README.md`). Their text is unchanged; `tools/schemas/pin-schemas.py` extracts them.
+The XSD files under `schemas/ms/` are the schemas printed in Appendix A of [MS-DOCX], [MS-ODRAWXML], [MS-PPTX], [MS-XLSX] and [MS-OFFMACRO2] (the exact documents and revisions are in `schemas/README.md`). Their text is unchanged, except that one missing `>` in the `excel/2006/main` schema of [MS-OFFMACRO2] is restored so the file parses; `tools/schemas/pin-schemas.py` extracts them.
 
 Licence: the Intellectual Property Rights Notice for Open Specifications Documentation, which says: "you can make copies of it in order to develop implementations of the technologies that are described in this documentation and can distribute portions of it in your implementations that use these technologies ... You can also distribute in your implementation, with or without modification, any schemas, IDLs, or code samples that are included in the documentation." The documents are also covered by Microsoft's Open Specification Promise.
 

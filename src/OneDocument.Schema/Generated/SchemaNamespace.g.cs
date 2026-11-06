@@ -144,6 +144,172 @@ public enum SchemaNamespace
     Presentation202208 = 66,
     /// <summary>http://schemas.microsoft.com/office/powerpoint/2023/02/main (p232:).</summary>
     Presentation202302 = 67,
+    /// <summary>http://schemas.openxmlformats.org/spreadsheetml/2006/main (sml:).</summary>
+    Spreadsheet = 68,
+    /// <summary>http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing (xdr:).</summary>
+    SpreadsheetDrawing = 69,
+    /// <summary>http://schemas.openxmlformats.org/drawingml/2006/chart (c:).</summary>
+    Chart = 70,
+    /// <summary>http://schemas.openxmlformats.org/drawingml/2006/chartDrawing (cdr:).</summary>
+    ChartDrawing = 71,
+    /// <summary>http://schemas.openxmlformats.org/drawingml/2006/diagram (dgm:).</summary>
+    Diagram = 72,
+    /// <summary>http://schemas.openxmlformats.org/drawingml/2006/lockedCanvas (lc:).</summary>
+    LockedCanvas = 73,
+    /// <summary>http://schemas.openxmlformats.org/officeDocument/2006/bibliography (b:).</summary>
+    Bibliography = 74,
+    /// <summary>http://schemas.openxmlformats.org/officeDocument/2006/customXml (dsp0:).</summary>
+    CustomXmlDataProperties = 75,
+    /// <summary>http://schemas.openxmlformats.org/schemaLibrary/2006/main (sl:).</summary>
+    SchemaLibrary = 76,
+    /// <summary>http://schemas.openxmlformats.org/officeDocument/2006/characteristics (ac:).</summary>
+    AdditionalCharacteristics = 77,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2007/8/2/chart (c14:).</summary>
+    Chart2007 = 78,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2012/chart (c15:).</summary>
+    Chart2012 = 79,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2012/chartStyle (cs:).</summary>
+    ChartStyle2012 = 80,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2014/chart (c16:).</summary>
+    Chart2014 = 81,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2014/chart/ac (c16ac:).</summary>
+    Chart2014Ac = 82,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2014/chartex (cx:).</summary>
+    ChartEx = 83,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2015/06/chart (c16r2:).</summary>
+    Chart201506 = 84,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2017/03/chart (c16r3:).</summary>
+    Chart201703 = 85,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2010/chartDrawing (cdr14:).</summary>
+    ChartDrawing2010 = 86,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2008/diagram (dsp:).</summary>
+    DiagramDrawing = 87,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2010/diagram (dgm14:).</summary>
+    Diagram2010 = 88,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2016/11/diagram (dgm1611:).</summary>
+    Diagram201611 = 89,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2016/12/diagram (dgm1612:).</summary>
+    Diagram201612 = 90,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2013/main/command (a13:).</summary>
+    DrawingCommand2013 = 91,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2016/11/main (a1611:).</summary>
+    Drawing201611 = 92,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2016/ink (aink:).</summary>
+    DrawingInk2016 = 93,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2017/model3d (am3d:).</summary>
+    Model3D = 94,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2018/animation (aanim:).</summary>
+    DrawingAnimation = 95,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2018/animation/model3d (aanim3d:).</summary>
+    DrawingAnimationModel3D = 96,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2018/sketchyshapes (ask:).</summary>
+    SketchyShapes = 97,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2021/livefeed (alf:).</summary>
+    LiveFeed = 98,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2021/scriptlink (asl:).</summary>
+    ScriptLink = 99,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2022/imageformula (aif:).</summary>
+    ImageFormula = 100,
+    /// <summary>http://schemas.microsoft.com/office/excel/2010/spreadsheetDrawing (xdr14:).</summary>
+    SpreadsheetDrawing2010 = 101,
+    /// <summary>http://schemas.microsoft.com/office/powerpoint/2014/inkAction (pia:).</summary>
+    InkAction = 102,
+    /// <summary>http://schemas.microsoft.com/ink/2010/main (msink:).</summary>
+    Ink2010 = 103,
+    /// <summary>http://schemas.microsoft.com/office/thememl/2012/main (thm15:).</summary>
+    ThemeMl2012 = 104,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2010/slicer (sle:).</summary>
+    Slicer2010 = 105,
+    /// <summary>http://schemas.microsoft.com/office/drawing/2012/timeslicer (tsle:).</summary>
+    TimeSlicer2012 = 106,
+    /// <summary>http://schemas.microsoft.com/office/excel/2006/main (xm:).</summary>
+    ExcelMacro2006 = 107,
+    /// <summary>http://schemas.microsoft.com/office/excel/2008/2/main (xm2:).</summary>
+    ExcelMacro2008 = 108,
+    /// <summary>http://schemas.microsoft.com/office/word/2006/wordml (wne:).</summary>
+    WordMacro2006 = 109,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2009/9/main (x14:).</summary>
+    Spreadsheet2009 = 110,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac (x14ac:).</summary>
+    Spreadsheet2009Ac = 111,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2010/11/main (x15:).</summary>
+    Spreadsheet2010 = 112,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2010/11/ac (x15ac:).</summary>
+    Spreadsheet2010Ac = 113,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2011/1/ac (x12ac:).</summary>
+    Spreadsheet2011Ac = 114,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2014/11/main (x16:).</summary>
+    Spreadsheet2014 = 115,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2014/revision (xr:).</summary>
+    SpreadsheetRevision2014 = 116,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2015/02/main (x1502:).</summary>
+    Spreadsheet2015 = 117,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2015/revision2 (xr2:).</summary>
+    SpreadsheetRevision2 = 118,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2016/revision3 (xr3:).</summary>
+    SpreadsheetRevision3 = 119,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2016/revision5 (xr5:).</summary>
+    SpreadsheetRevision5 = 120,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2016/revision6 (xr6:).</summary>
+    SpreadsheetRevision6 = 121,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2016/revision9 (xr9:).</summary>
+    SpreadsheetRevision9 = 122,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2016/revision10 (xr10:).</summary>
+    SpreadsheetRevision10 = 123,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2016/pivotdefaultlayout (xpdl:).</summary>
+    PivotDefaultLayout = 124,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2017/dynamicarray (xda:).</summary>
+    DynamicArray = 125,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2017/richdata (rd:).</summary>
+    RichData = 126,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2017/richdata2 (rd2:).</summary>
+    RichData2 = 127,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2018/08/main (x18:).</summary>
+    Spreadsheet201808 = 128,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2018/calcfeatures (xcalcf:).</summary>
+    CalcFeatures = 129,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2018/threadedcomments (tc:).</summary>
+    ThreadedComments = 130,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2019/extlinksprops (xlprops:).</summary>
+    ExternalLinkProperties = 131,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2019/namedsheetviews (nsv:).</summary>
+    NamedSheetViews = 132,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2020/pivotNov2020 (xpnov:).</summary>
+    Pivot2020 = 133,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2020/richdatawebimage (rdwi:).</summary>
+    RichDataWebImage = 134,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2020/richvaluerefresh (rvr:).</summary>
+    RichValueRefresh = 135,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2020/threadedcomments2 (tc2:).</summary>
+    ThreadedComments2 = 136,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2021/extlinks2021 (xl21:).</summary>
+    ExternalLinks2021 = 137,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2022/featurepropertybag (fpb:).</summary>
+    FeaturePropertyBag = 138,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2022/pivotRichData (prd:).</summary>
+    PivotRichData = 139,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2022/pivotVersionInfo (pvi:).</summary>
+    PivotVersionInfo = 140,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2022/richvaluerel (rvrel:).</summary>
+    RichValueRel = 141,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2023/externalCodeService (xcs:).</summary>
+    ExternalCodeService = 142,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2023/msForms (msf:).</summary>
+    MsForms = 143,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2023/pivot2023Calculation (p23c:).</summary>
+    Pivot2023Calculation = 144,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2023/python (xpy:).</summary>
+    Python = 145,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2023/showDataTypeIcons (sdti:).</summary>
+    ShowDataTypeIcons = 146,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2024/pivotAutoRefresh (par:).</summary>
+    PivotAutoRefresh = 147,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2024/workbookCompatibilityVersion (wcv:).</summary>
+    WorkbookCompatibilityVersion = 148,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2025/externalCodeService2 (xcs2:).</summary>
+    ExternalCodeService2 = 149,
+    /// <summary>http://schemas.microsoft.com/office/spreadsheetml/2025/pivotDataSource (pds:).</summary>
+    PivotDataSource = 150,
 }
 
 /// <summary>Namespace URIs and conventional prefixes for <see cref="SchemaNamespace"/>.</summary>
@@ -230,6 +396,99 @@ public static class SchemaNamespaces
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2022/06/main/command"u8)) return SchemaNamespace.Presentation2022Command;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2022/08/main"u8)) return SchemaNamespace.Presentation202208;
         if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2023/02/main"u8)) return SchemaNamespace.Presentation202302;
+        if (uri.SequenceEqual("http://schemas.openxmlformats.org/spreadsheetml/2006/main"u8)) return SchemaNamespace.Spreadsheet;
+        if (uri.SequenceEqual("http://purl.oclc.org/ooxml/spreadsheetml/main"u8)) return SchemaNamespace.Spreadsheet;
+        if (uri.SequenceEqual("http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing"u8)) return SchemaNamespace.SpreadsheetDrawing;
+        if (uri.SequenceEqual("http://purl.oclc.org/ooxml/drawingml/spreadsheetDrawing"u8)) return SchemaNamespace.SpreadsheetDrawing;
+        if (uri.SequenceEqual("http://schemas.openxmlformats.org/drawingml/2006/chart"u8)) return SchemaNamespace.Chart;
+        if (uri.SequenceEqual("http://purl.oclc.org/ooxml/drawingml/chart"u8)) return SchemaNamespace.Chart;
+        if (uri.SequenceEqual("http://schemas.openxmlformats.org/drawingml/2006/chartDrawing"u8)) return SchemaNamespace.ChartDrawing;
+        if (uri.SequenceEqual("http://purl.oclc.org/ooxml/drawingml/chartDrawing"u8)) return SchemaNamespace.ChartDrawing;
+        if (uri.SequenceEqual("http://schemas.openxmlformats.org/drawingml/2006/diagram"u8)) return SchemaNamespace.Diagram;
+        if (uri.SequenceEqual("http://purl.oclc.org/ooxml/drawingml/diagram"u8)) return SchemaNamespace.Diagram;
+        if (uri.SequenceEqual("http://schemas.openxmlformats.org/drawingml/2006/lockedCanvas"u8)) return SchemaNamespace.LockedCanvas;
+        if (uri.SequenceEqual("http://purl.oclc.org/ooxml/drawingml/lockedCanvas"u8)) return SchemaNamespace.LockedCanvas;
+        if (uri.SequenceEqual("http://schemas.openxmlformats.org/officeDocument/2006/bibliography"u8)) return SchemaNamespace.Bibliography;
+        if (uri.SequenceEqual("http://purl.oclc.org/ooxml/officeDocument/bibliography"u8)) return SchemaNamespace.Bibliography;
+        if (uri.SequenceEqual("http://schemas.openxmlformats.org/officeDocument/2006/customXml"u8)) return SchemaNamespace.CustomXmlDataProperties;
+        if (uri.SequenceEqual("http://purl.oclc.org/ooxml/officeDocument/customXml"u8)) return SchemaNamespace.CustomXmlDataProperties;
+        if (uri.SequenceEqual("http://schemas.openxmlformats.org/schemaLibrary/2006/main"u8)) return SchemaNamespace.SchemaLibrary;
+        if (uri.SequenceEqual("http://purl.oclc.org/ooxml/schemaLibrary/main"u8)) return SchemaNamespace.SchemaLibrary;
+        if (uri.SequenceEqual("http://schemas.openxmlformats.org/officeDocument/2006/characteristics"u8)) return SchemaNamespace.AdditionalCharacteristics;
+        if (uri.SequenceEqual("http://purl.oclc.org/ooxml/officeDocument/characteristics"u8)) return SchemaNamespace.AdditionalCharacteristics;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2007/8/2/chart"u8)) return SchemaNamespace.Chart2007;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2012/chart"u8)) return SchemaNamespace.Chart2012;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2012/chartStyle"u8)) return SchemaNamespace.ChartStyle2012;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2014/chart"u8)) return SchemaNamespace.Chart2014;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2014/chart/ac"u8)) return SchemaNamespace.Chart2014Ac;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2014/chartex"u8)) return SchemaNamespace.ChartEx;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2015/06/chart"u8)) return SchemaNamespace.Chart201506;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2017/03/chart"u8)) return SchemaNamespace.Chart201703;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2010/chartDrawing"u8)) return SchemaNamespace.ChartDrawing2010;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2008/diagram"u8)) return SchemaNamespace.DiagramDrawing;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2010/diagram"u8)) return SchemaNamespace.Diagram2010;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2016/11/diagram"u8)) return SchemaNamespace.Diagram201611;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2016/12/diagram"u8)) return SchemaNamespace.Diagram201612;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2013/main/command"u8)) return SchemaNamespace.DrawingCommand2013;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2016/11/main"u8)) return SchemaNamespace.Drawing201611;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2016/ink"u8)) return SchemaNamespace.DrawingInk2016;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2017/model3d"u8)) return SchemaNamespace.Model3D;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2018/animation"u8)) return SchemaNamespace.DrawingAnimation;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2018/animation/model3d"u8)) return SchemaNamespace.DrawingAnimationModel3D;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2018/sketchyshapes"u8)) return SchemaNamespace.SketchyShapes;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2021/livefeed"u8)) return SchemaNamespace.LiveFeed;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2021/scriptlink"u8)) return SchemaNamespace.ScriptLink;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2022/imageformula"u8)) return SchemaNamespace.ImageFormula;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/excel/2010/spreadsheetDrawing"u8)) return SchemaNamespace.SpreadsheetDrawing2010;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/powerpoint/2014/inkAction"u8)) return SchemaNamespace.InkAction;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/ink/2010/main"u8)) return SchemaNamespace.Ink2010;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/thememl/2012/main"u8)) return SchemaNamespace.ThemeMl2012;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2010/slicer"u8)) return SchemaNamespace.Slicer2010;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/drawing/2012/timeslicer"u8)) return SchemaNamespace.TimeSlicer2012;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/excel/2006/main"u8)) return SchemaNamespace.ExcelMacro2006;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/excel/2008/2/main"u8)) return SchemaNamespace.ExcelMacro2008;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/word/2006/wordml"u8)) return SchemaNamespace.WordMacro2006;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2009/9/main"u8)) return SchemaNamespace.Spreadsheet2009;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac"u8)) return SchemaNamespace.Spreadsheet2009Ac;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2010/11/main"u8)) return SchemaNamespace.Spreadsheet2010;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2010/11/ac"u8)) return SchemaNamespace.Spreadsheet2010Ac;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2011/1/ac"u8)) return SchemaNamespace.Spreadsheet2011Ac;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2014/11/main"u8)) return SchemaNamespace.Spreadsheet2014;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2014/revision"u8)) return SchemaNamespace.SpreadsheetRevision2014;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2015/02/main"u8)) return SchemaNamespace.Spreadsheet2015;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2015/revision2"u8)) return SchemaNamespace.SpreadsheetRevision2;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2016/revision3"u8)) return SchemaNamespace.SpreadsheetRevision3;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2016/revision5"u8)) return SchemaNamespace.SpreadsheetRevision5;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2016/revision6"u8)) return SchemaNamespace.SpreadsheetRevision6;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2016/revision9"u8)) return SchemaNamespace.SpreadsheetRevision9;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2016/revision10"u8)) return SchemaNamespace.SpreadsheetRevision10;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2016/pivotdefaultlayout"u8)) return SchemaNamespace.PivotDefaultLayout;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2017/dynamicarray"u8)) return SchemaNamespace.DynamicArray;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2017/richdata"u8)) return SchemaNamespace.RichData;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2017/richdata2"u8)) return SchemaNamespace.RichData2;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2018/08/main"u8)) return SchemaNamespace.Spreadsheet201808;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2018/calcfeatures"u8)) return SchemaNamespace.CalcFeatures;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2018/threadedcomments"u8)) return SchemaNamespace.ThreadedComments;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2019/extlinksprops"u8)) return SchemaNamespace.ExternalLinkProperties;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2019/namedsheetviews"u8)) return SchemaNamespace.NamedSheetViews;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2020/pivotNov2020"u8)) return SchemaNamespace.Pivot2020;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2020/richdatawebimage"u8)) return SchemaNamespace.RichDataWebImage;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2020/richvaluerefresh"u8)) return SchemaNamespace.RichValueRefresh;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2020/threadedcomments2"u8)) return SchemaNamespace.ThreadedComments2;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2021/extlinks2021"u8)) return SchemaNamespace.ExternalLinks2021;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2022/featurepropertybag"u8)) return SchemaNamespace.FeaturePropertyBag;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2022/pivotRichData"u8)) return SchemaNamespace.PivotRichData;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2022/pivotVersionInfo"u8)) return SchemaNamespace.PivotVersionInfo;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2022/richvaluerel"u8)) return SchemaNamespace.RichValueRel;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2023/externalCodeService"u8)) return SchemaNamespace.ExternalCodeService;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2023/msForms"u8)) return SchemaNamespace.MsForms;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2023/pivot2023Calculation"u8)) return SchemaNamespace.Pivot2023Calculation;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2023/python"u8)) return SchemaNamespace.Python;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2023/showDataTypeIcons"u8)) return SchemaNamespace.ShowDataTypeIcons;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2024/pivotAutoRefresh"u8)) return SchemaNamespace.PivotAutoRefresh;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2024/workbookCompatibilityVersion"u8)) return SchemaNamespace.WorkbookCompatibilityVersion;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2025/externalCodeService2"u8)) return SchemaNamespace.ExternalCodeService2;
+        if (uri.SequenceEqual("http://schemas.microsoft.com/office/spreadsheetml/2025/pivotDataSource"u8)) return SchemaNamespace.PivotDataSource;
         if (uri.SequenceEqual("http://www.w3.org/XML/1998/namespace"u8)) return SchemaNamespace.Xml;
         if (uri.SequenceEqual("http://schemas.openxmlformats.org/markup-compatibility/2006"u8)) return SchemaNamespace.MarkupCompatibility;
         return SchemaNamespace.Unknown;
@@ -316,6 +575,99 @@ public static class SchemaNamespaces
         if (uri == "http://schemas.microsoft.com/office/powerpoint/2022/06/main/command") return SchemaNamespace.Presentation2022Command;
         if (uri == "http://schemas.microsoft.com/office/powerpoint/2022/08/main") return SchemaNamespace.Presentation202208;
         if (uri == "http://schemas.microsoft.com/office/powerpoint/2023/02/main") return SchemaNamespace.Presentation202302;
+        if (uri == "http://schemas.openxmlformats.org/spreadsheetml/2006/main") return SchemaNamespace.Spreadsheet;
+        if (uri == "http://purl.oclc.org/ooxml/spreadsheetml/main") return SchemaNamespace.Spreadsheet;
+        if (uri == "http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing") return SchemaNamespace.SpreadsheetDrawing;
+        if (uri == "http://purl.oclc.org/ooxml/drawingml/spreadsheetDrawing") return SchemaNamespace.SpreadsheetDrawing;
+        if (uri == "http://schemas.openxmlformats.org/drawingml/2006/chart") return SchemaNamespace.Chart;
+        if (uri == "http://purl.oclc.org/ooxml/drawingml/chart") return SchemaNamespace.Chart;
+        if (uri == "http://schemas.openxmlformats.org/drawingml/2006/chartDrawing") return SchemaNamespace.ChartDrawing;
+        if (uri == "http://purl.oclc.org/ooxml/drawingml/chartDrawing") return SchemaNamespace.ChartDrawing;
+        if (uri == "http://schemas.openxmlformats.org/drawingml/2006/diagram") return SchemaNamespace.Diagram;
+        if (uri == "http://purl.oclc.org/ooxml/drawingml/diagram") return SchemaNamespace.Diagram;
+        if (uri == "http://schemas.openxmlformats.org/drawingml/2006/lockedCanvas") return SchemaNamespace.LockedCanvas;
+        if (uri == "http://purl.oclc.org/ooxml/drawingml/lockedCanvas") return SchemaNamespace.LockedCanvas;
+        if (uri == "http://schemas.openxmlformats.org/officeDocument/2006/bibliography") return SchemaNamespace.Bibliography;
+        if (uri == "http://purl.oclc.org/ooxml/officeDocument/bibliography") return SchemaNamespace.Bibliography;
+        if (uri == "http://schemas.openxmlformats.org/officeDocument/2006/customXml") return SchemaNamespace.CustomXmlDataProperties;
+        if (uri == "http://purl.oclc.org/ooxml/officeDocument/customXml") return SchemaNamespace.CustomXmlDataProperties;
+        if (uri == "http://schemas.openxmlformats.org/schemaLibrary/2006/main") return SchemaNamespace.SchemaLibrary;
+        if (uri == "http://purl.oclc.org/ooxml/schemaLibrary/main") return SchemaNamespace.SchemaLibrary;
+        if (uri == "http://schemas.openxmlformats.org/officeDocument/2006/characteristics") return SchemaNamespace.AdditionalCharacteristics;
+        if (uri == "http://purl.oclc.org/ooxml/officeDocument/characteristics") return SchemaNamespace.AdditionalCharacteristics;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2007/8/2/chart") return SchemaNamespace.Chart2007;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2012/chart") return SchemaNamespace.Chart2012;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2012/chartStyle") return SchemaNamespace.ChartStyle2012;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2014/chart") return SchemaNamespace.Chart2014;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2014/chart/ac") return SchemaNamespace.Chart2014Ac;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2014/chartex") return SchemaNamespace.ChartEx;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2015/06/chart") return SchemaNamespace.Chart201506;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2017/03/chart") return SchemaNamespace.Chart201703;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2010/chartDrawing") return SchemaNamespace.ChartDrawing2010;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2008/diagram") return SchemaNamespace.DiagramDrawing;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2010/diagram") return SchemaNamespace.Diagram2010;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2016/11/diagram") return SchemaNamespace.Diagram201611;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2016/12/diagram") return SchemaNamespace.Diagram201612;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2013/main/command") return SchemaNamespace.DrawingCommand2013;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2016/11/main") return SchemaNamespace.Drawing201611;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2016/ink") return SchemaNamespace.DrawingInk2016;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2017/model3d") return SchemaNamespace.Model3D;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2018/animation") return SchemaNamespace.DrawingAnimation;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2018/animation/model3d") return SchemaNamespace.DrawingAnimationModel3D;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2018/sketchyshapes") return SchemaNamespace.SketchyShapes;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2021/livefeed") return SchemaNamespace.LiveFeed;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2021/scriptlink") return SchemaNamespace.ScriptLink;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2022/imageformula") return SchemaNamespace.ImageFormula;
+        if (uri == "http://schemas.microsoft.com/office/excel/2010/spreadsheetDrawing") return SchemaNamespace.SpreadsheetDrawing2010;
+        if (uri == "http://schemas.microsoft.com/office/powerpoint/2014/inkAction") return SchemaNamespace.InkAction;
+        if (uri == "http://schemas.microsoft.com/ink/2010/main") return SchemaNamespace.Ink2010;
+        if (uri == "http://schemas.microsoft.com/office/thememl/2012/main") return SchemaNamespace.ThemeMl2012;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2010/slicer") return SchemaNamespace.Slicer2010;
+        if (uri == "http://schemas.microsoft.com/office/drawing/2012/timeslicer") return SchemaNamespace.TimeSlicer2012;
+        if (uri == "http://schemas.microsoft.com/office/excel/2006/main") return SchemaNamespace.ExcelMacro2006;
+        if (uri == "http://schemas.microsoft.com/office/excel/2008/2/main") return SchemaNamespace.ExcelMacro2008;
+        if (uri == "http://schemas.microsoft.com/office/word/2006/wordml") return SchemaNamespace.WordMacro2006;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2009/9/main") return SchemaNamespace.Spreadsheet2009;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac") return SchemaNamespace.Spreadsheet2009Ac;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main") return SchemaNamespace.Spreadsheet2010;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2010/11/ac") return SchemaNamespace.Spreadsheet2010Ac;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2011/1/ac") return SchemaNamespace.Spreadsheet2011Ac;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2014/11/main") return SchemaNamespace.Spreadsheet2014;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2014/revision") return SchemaNamespace.SpreadsheetRevision2014;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2015/02/main") return SchemaNamespace.Spreadsheet2015;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2015/revision2") return SchemaNamespace.SpreadsheetRevision2;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2016/revision3") return SchemaNamespace.SpreadsheetRevision3;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2016/revision5") return SchemaNamespace.SpreadsheetRevision5;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2016/revision6") return SchemaNamespace.SpreadsheetRevision6;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2016/revision9") return SchemaNamespace.SpreadsheetRevision9;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2016/revision10") return SchemaNamespace.SpreadsheetRevision10;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2016/pivotdefaultlayout") return SchemaNamespace.PivotDefaultLayout;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2017/dynamicarray") return SchemaNamespace.DynamicArray;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2017/richdata") return SchemaNamespace.RichData;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2017/richdata2") return SchemaNamespace.RichData2;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2018/08/main") return SchemaNamespace.Spreadsheet201808;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2018/calcfeatures") return SchemaNamespace.CalcFeatures;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2018/threadedcomments") return SchemaNamespace.ThreadedComments;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2019/extlinksprops") return SchemaNamespace.ExternalLinkProperties;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2019/namedsheetviews") return SchemaNamespace.NamedSheetViews;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2020/pivotNov2020") return SchemaNamespace.Pivot2020;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2020/richdatawebimage") return SchemaNamespace.RichDataWebImage;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2020/richvaluerefresh") return SchemaNamespace.RichValueRefresh;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2020/threadedcomments2") return SchemaNamespace.ThreadedComments2;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2021/extlinks2021") return SchemaNamespace.ExternalLinks2021;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2022/featurepropertybag") return SchemaNamespace.FeaturePropertyBag;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2022/pivotRichData") return SchemaNamespace.PivotRichData;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2022/pivotVersionInfo") return SchemaNamespace.PivotVersionInfo;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2022/richvaluerel") return SchemaNamespace.RichValueRel;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2023/externalCodeService") return SchemaNamespace.ExternalCodeService;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2023/msForms") return SchemaNamespace.MsForms;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2023/pivot2023Calculation") return SchemaNamespace.Pivot2023Calculation;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2023/python") return SchemaNamespace.Python;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2023/showDataTypeIcons") return SchemaNamespace.ShowDataTypeIcons;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2024/pivotAutoRefresh") return SchemaNamespace.PivotAutoRefresh;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2024/workbookCompatibilityVersion") return SchemaNamespace.WorkbookCompatibilityVersion;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2025/externalCodeService2") return SchemaNamespace.ExternalCodeService2;
+        if (uri == "http://schemas.microsoft.com/office/spreadsheetml/2025/pivotDataSource") return SchemaNamespace.PivotDataSource;
         if (uri == "http://www.w3.org/XML/1998/namespace") return SchemaNamespace.Xml;
         if (uri == "http://schemas.openxmlformats.org/markup-compatibility/2006") return SchemaNamespace.MarkupCompatibility;
         return SchemaNamespace.Unknown;
@@ -395,6 +747,89 @@ public static class SchemaNamespaces
             case SchemaNamespace.Presentation2022Command: return "http://schemas.microsoft.com/office/powerpoint/2022/06/main/command"u8;
             case SchemaNamespace.Presentation202208: return "http://schemas.microsoft.com/office/powerpoint/2022/08/main"u8;
             case SchemaNamespace.Presentation202302: return "http://schemas.microsoft.com/office/powerpoint/2023/02/main"u8;
+            case SchemaNamespace.Spreadsheet: return strict ? "http://purl.oclc.org/ooxml/spreadsheetml/main"u8 : "http://schemas.openxmlformats.org/spreadsheetml/2006/main"u8;
+            case SchemaNamespace.SpreadsheetDrawing: return strict ? "http://purl.oclc.org/ooxml/drawingml/spreadsheetDrawing"u8 : "http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing"u8;
+            case SchemaNamespace.Chart: return strict ? "http://purl.oclc.org/ooxml/drawingml/chart"u8 : "http://schemas.openxmlformats.org/drawingml/2006/chart"u8;
+            case SchemaNamespace.ChartDrawing: return strict ? "http://purl.oclc.org/ooxml/drawingml/chartDrawing"u8 : "http://schemas.openxmlformats.org/drawingml/2006/chartDrawing"u8;
+            case SchemaNamespace.Diagram: return strict ? "http://purl.oclc.org/ooxml/drawingml/diagram"u8 : "http://schemas.openxmlformats.org/drawingml/2006/diagram"u8;
+            case SchemaNamespace.LockedCanvas: return strict ? "http://purl.oclc.org/ooxml/drawingml/lockedCanvas"u8 : "http://schemas.openxmlformats.org/drawingml/2006/lockedCanvas"u8;
+            case SchemaNamespace.Bibliography: return strict ? "http://purl.oclc.org/ooxml/officeDocument/bibliography"u8 : "http://schemas.openxmlformats.org/officeDocument/2006/bibliography"u8;
+            case SchemaNamespace.CustomXmlDataProperties: return strict ? "http://purl.oclc.org/ooxml/officeDocument/customXml"u8 : "http://schemas.openxmlformats.org/officeDocument/2006/customXml"u8;
+            case SchemaNamespace.SchemaLibrary: return strict ? "http://purl.oclc.org/ooxml/schemaLibrary/main"u8 : "http://schemas.openxmlformats.org/schemaLibrary/2006/main"u8;
+            case SchemaNamespace.AdditionalCharacteristics: return strict ? "http://purl.oclc.org/ooxml/officeDocument/characteristics"u8 : "http://schemas.openxmlformats.org/officeDocument/2006/characteristics"u8;
+            case SchemaNamespace.Chart2007: return "http://schemas.microsoft.com/office/drawing/2007/8/2/chart"u8;
+            case SchemaNamespace.Chart2012: return "http://schemas.microsoft.com/office/drawing/2012/chart"u8;
+            case SchemaNamespace.ChartStyle2012: return "http://schemas.microsoft.com/office/drawing/2012/chartStyle"u8;
+            case SchemaNamespace.Chart2014: return "http://schemas.microsoft.com/office/drawing/2014/chart"u8;
+            case SchemaNamespace.Chart2014Ac: return "http://schemas.microsoft.com/office/drawing/2014/chart/ac"u8;
+            case SchemaNamespace.ChartEx: return "http://schemas.microsoft.com/office/drawing/2014/chartex"u8;
+            case SchemaNamespace.Chart201506: return "http://schemas.microsoft.com/office/drawing/2015/06/chart"u8;
+            case SchemaNamespace.Chart201703: return "http://schemas.microsoft.com/office/drawing/2017/03/chart"u8;
+            case SchemaNamespace.ChartDrawing2010: return "http://schemas.microsoft.com/office/drawing/2010/chartDrawing"u8;
+            case SchemaNamespace.DiagramDrawing: return "http://schemas.microsoft.com/office/drawing/2008/diagram"u8;
+            case SchemaNamespace.Diagram2010: return "http://schemas.microsoft.com/office/drawing/2010/diagram"u8;
+            case SchemaNamespace.Diagram201611: return "http://schemas.microsoft.com/office/drawing/2016/11/diagram"u8;
+            case SchemaNamespace.Diagram201612: return "http://schemas.microsoft.com/office/drawing/2016/12/diagram"u8;
+            case SchemaNamespace.DrawingCommand2013: return "http://schemas.microsoft.com/office/drawing/2013/main/command"u8;
+            case SchemaNamespace.Drawing201611: return "http://schemas.microsoft.com/office/drawing/2016/11/main"u8;
+            case SchemaNamespace.DrawingInk2016: return "http://schemas.microsoft.com/office/drawing/2016/ink"u8;
+            case SchemaNamespace.Model3D: return "http://schemas.microsoft.com/office/drawing/2017/model3d"u8;
+            case SchemaNamespace.DrawingAnimation: return "http://schemas.microsoft.com/office/drawing/2018/animation"u8;
+            case SchemaNamespace.DrawingAnimationModel3D: return "http://schemas.microsoft.com/office/drawing/2018/animation/model3d"u8;
+            case SchemaNamespace.SketchyShapes: return "http://schemas.microsoft.com/office/drawing/2018/sketchyshapes"u8;
+            case SchemaNamespace.LiveFeed: return "http://schemas.microsoft.com/office/drawing/2021/livefeed"u8;
+            case SchemaNamespace.ScriptLink: return "http://schemas.microsoft.com/office/drawing/2021/scriptlink"u8;
+            case SchemaNamespace.ImageFormula: return "http://schemas.microsoft.com/office/drawing/2022/imageformula"u8;
+            case SchemaNamespace.SpreadsheetDrawing2010: return "http://schemas.microsoft.com/office/excel/2010/spreadsheetDrawing"u8;
+            case SchemaNamespace.InkAction: return "http://schemas.microsoft.com/office/powerpoint/2014/inkAction"u8;
+            case SchemaNamespace.Ink2010: return "http://schemas.microsoft.com/ink/2010/main"u8;
+            case SchemaNamespace.ThemeMl2012: return "http://schemas.microsoft.com/office/thememl/2012/main"u8;
+            case SchemaNamespace.Slicer2010: return "http://schemas.microsoft.com/office/drawing/2010/slicer"u8;
+            case SchemaNamespace.TimeSlicer2012: return "http://schemas.microsoft.com/office/drawing/2012/timeslicer"u8;
+            case SchemaNamespace.ExcelMacro2006: return "http://schemas.microsoft.com/office/excel/2006/main"u8;
+            case SchemaNamespace.ExcelMacro2008: return "http://schemas.microsoft.com/office/excel/2008/2/main"u8;
+            case SchemaNamespace.WordMacro2006: return "http://schemas.microsoft.com/office/word/2006/wordml"u8;
+            case SchemaNamespace.Spreadsheet2009: return "http://schemas.microsoft.com/office/spreadsheetml/2009/9/main"u8;
+            case SchemaNamespace.Spreadsheet2009Ac: return "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac"u8;
+            case SchemaNamespace.Spreadsheet2010: return "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main"u8;
+            case SchemaNamespace.Spreadsheet2010Ac: return "http://schemas.microsoft.com/office/spreadsheetml/2010/11/ac"u8;
+            case SchemaNamespace.Spreadsheet2011Ac: return "http://schemas.microsoft.com/office/spreadsheetml/2011/1/ac"u8;
+            case SchemaNamespace.Spreadsheet2014: return "http://schemas.microsoft.com/office/spreadsheetml/2014/11/main"u8;
+            case SchemaNamespace.SpreadsheetRevision2014: return "http://schemas.microsoft.com/office/spreadsheetml/2014/revision"u8;
+            case SchemaNamespace.Spreadsheet2015: return "http://schemas.microsoft.com/office/spreadsheetml/2015/02/main"u8;
+            case SchemaNamespace.SpreadsheetRevision2: return "http://schemas.microsoft.com/office/spreadsheetml/2015/revision2"u8;
+            case SchemaNamespace.SpreadsheetRevision3: return "http://schemas.microsoft.com/office/spreadsheetml/2016/revision3"u8;
+            case SchemaNamespace.SpreadsheetRevision5: return "http://schemas.microsoft.com/office/spreadsheetml/2016/revision5"u8;
+            case SchemaNamespace.SpreadsheetRevision6: return "http://schemas.microsoft.com/office/spreadsheetml/2016/revision6"u8;
+            case SchemaNamespace.SpreadsheetRevision9: return "http://schemas.microsoft.com/office/spreadsheetml/2016/revision9"u8;
+            case SchemaNamespace.SpreadsheetRevision10: return "http://schemas.microsoft.com/office/spreadsheetml/2016/revision10"u8;
+            case SchemaNamespace.PivotDefaultLayout: return "http://schemas.microsoft.com/office/spreadsheetml/2016/pivotdefaultlayout"u8;
+            case SchemaNamespace.DynamicArray: return "http://schemas.microsoft.com/office/spreadsheetml/2017/dynamicarray"u8;
+            case SchemaNamespace.RichData: return "http://schemas.microsoft.com/office/spreadsheetml/2017/richdata"u8;
+            case SchemaNamespace.RichData2: return "http://schemas.microsoft.com/office/spreadsheetml/2017/richdata2"u8;
+            case SchemaNamespace.Spreadsheet201808: return "http://schemas.microsoft.com/office/spreadsheetml/2018/08/main"u8;
+            case SchemaNamespace.CalcFeatures: return "http://schemas.microsoft.com/office/spreadsheetml/2018/calcfeatures"u8;
+            case SchemaNamespace.ThreadedComments: return "http://schemas.microsoft.com/office/spreadsheetml/2018/threadedcomments"u8;
+            case SchemaNamespace.ExternalLinkProperties: return "http://schemas.microsoft.com/office/spreadsheetml/2019/extlinksprops"u8;
+            case SchemaNamespace.NamedSheetViews: return "http://schemas.microsoft.com/office/spreadsheetml/2019/namedsheetviews"u8;
+            case SchemaNamespace.Pivot2020: return "http://schemas.microsoft.com/office/spreadsheetml/2020/pivotNov2020"u8;
+            case SchemaNamespace.RichDataWebImage: return "http://schemas.microsoft.com/office/spreadsheetml/2020/richdatawebimage"u8;
+            case SchemaNamespace.RichValueRefresh: return "http://schemas.microsoft.com/office/spreadsheetml/2020/richvaluerefresh"u8;
+            case SchemaNamespace.ThreadedComments2: return "http://schemas.microsoft.com/office/spreadsheetml/2020/threadedcomments2"u8;
+            case SchemaNamespace.ExternalLinks2021: return "http://schemas.microsoft.com/office/spreadsheetml/2021/extlinks2021"u8;
+            case SchemaNamespace.FeaturePropertyBag: return "http://schemas.microsoft.com/office/spreadsheetml/2022/featurepropertybag"u8;
+            case SchemaNamespace.PivotRichData: return "http://schemas.microsoft.com/office/spreadsheetml/2022/pivotRichData"u8;
+            case SchemaNamespace.PivotVersionInfo: return "http://schemas.microsoft.com/office/spreadsheetml/2022/pivotVersionInfo"u8;
+            case SchemaNamespace.RichValueRel: return "http://schemas.microsoft.com/office/spreadsheetml/2022/richvaluerel"u8;
+            case SchemaNamespace.ExternalCodeService: return "http://schemas.microsoft.com/office/spreadsheetml/2023/externalCodeService"u8;
+            case SchemaNamespace.MsForms: return "http://schemas.microsoft.com/office/spreadsheetml/2023/msForms"u8;
+            case SchemaNamespace.Pivot2023Calculation: return "http://schemas.microsoft.com/office/spreadsheetml/2023/pivot2023Calculation"u8;
+            case SchemaNamespace.Python: return "http://schemas.microsoft.com/office/spreadsheetml/2023/python"u8;
+            case SchemaNamespace.ShowDataTypeIcons: return "http://schemas.microsoft.com/office/spreadsheetml/2023/showDataTypeIcons"u8;
+            case SchemaNamespace.PivotAutoRefresh: return "http://schemas.microsoft.com/office/spreadsheetml/2024/pivotAutoRefresh"u8;
+            case SchemaNamespace.WorkbookCompatibilityVersion: return "http://schemas.microsoft.com/office/spreadsheetml/2024/workbookCompatibilityVersion"u8;
+            case SchemaNamespace.ExternalCodeService2: return "http://schemas.microsoft.com/office/spreadsheetml/2025/externalCodeService2"u8;
+            case SchemaNamespace.PivotDataSource: return "http://schemas.microsoft.com/office/spreadsheetml/2025/pivotDataSource"u8;
             default: return default;
         }
     }
@@ -472,6 +907,89 @@ public static class SchemaNamespaces
             case SchemaNamespace.Presentation2022Command: return "p226c"u8;
             case SchemaNamespace.Presentation202208: return "p228"u8;
             case SchemaNamespace.Presentation202302: return "p232"u8;
+            case SchemaNamespace.Spreadsheet: return "sml"u8;
+            case SchemaNamespace.SpreadsheetDrawing: return "xdr"u8;
+            case SchemaNamespace.Chart: return "c"u8;
+            case SchemaNamespace.ChartDrawing: return "cdr"u8;
+            case SchemaNamespace.Diagram: return "dgm"u8;
+            case SchemaNamespace.LockedCanvas: return "lc"u8;
+            case SchemaNamespace.Bibliography: return "b"u8;
+            case SchemaNamespace.CustomXmlDataProperties: return "dsp0"u8;
+            case SchemaNamespace.SchemaLibrary: return "sl"u8;
+            case SchemaNamespace.AdditionalCharacteristics: return "ac"u8;
+            case SchemaNamespace.Chart2007: return "c14"u8;
+            case SchemaNamespace.Chart2012: return "c15"u8;
+            case SchemaNamespace.ChartStyle2012: return "cs"u8;
+            case SchemaNamespace.Chart2014: return "c16"u8;
+            case SchemaNamespace.Chart2014Ac: return "c16ac"u8;
+            case SchemaNamespace.ChartEx: return "cx"u8;
+            case SchemaNamespace.Chart201506: return "c16r2"u8;
+            case SchemaNamespace.Chart201703: return "c16r3"u8;
+            case SchemaNamespace.ChartDrawing2010: return "cdr14"u8;
+            case SchemaNamespace.DiagramDrawing: return "dsp"u8;
+            case SchemaNamespace.Diagram2010: return "dgm14"u8;
+            case SchemaNamespace.Diagram201611: return "dgm1611"u8;
+            case SchemaNamespace.Diagram201612: return "dgm1612"u8;
+            case SchemaNamespace.DrawingCommand2013: return "a13"u8;
+            case SchemaNamespace.Drawing201611: return "a1611"u8;
+            case SchemaNamespace.DrawingInk2016: return "aink"u8;
+            case SchemaNamespace.Model3D: return "am3d"u8;
+            case SchemaNamespace.DrawingAnimation: return "aanim"u8;
+            case SchemaNamespace.DrawingAnimationModel3D: return "aanim3d"u8;
+            case SchemaNamespace.SketchyShapes: return "ask"u8;
+            case SchemaNamespace.LiveFeed: return "alf"u8;
+            case SchemaNamespace.ScriptLink: return "asl"u8;
+            case SchemaNamespace.ImageFormula: return "aif"u8;
+            case SchemaNamespace.SpreadsheetDrawing2010: return "xdr14"u8;
+            case SchemaNamespace.InkAction: return "pia"u8;
+            case SchemaNamespace.Ink2010: return "msink"u8;
+            case SchemaNamespace.ThemeMl2012: return "thm15"u8;
+            case SchemaNamespace.Slicer2010: return "sle"u8;
+            case SchemaNamespace.TimeSlicer2012: return "tsle"u8;
+            case SchemaNamespace.ExcelMacro2006: return "xm"u8;
+            case SchemaNamespace.ExcelMacro2008: return "xm2"u8;
+            case SchemaNamespace.WordMacro2006: return "wne"u8;
+            case SchemaNamespace.Spreadsheet2009: return "x14"u8;
+            case SchemaNamespace.Spreadsheet2009Ac: return "x14ac"u8;
+            case SchemaNamespace.Spreadsheet2010: return "x15"u8;
+            case SchemaNamespace.Spreadsheet2010Ac: return "x15ac"u8;
+            case SchemaNamespace.Spreadsheet2011Ac: return "x12ac"u8;
+            case SchemaNamespace.Spreadsheet2014: return "x16"u8;
+            case SchemaNamespace.SpreadsheetRevision2014: return "xr"u8;
+            case SchemaNamespace.Spreadsheet2015: return "x1502"u8;
+            case SchemaNamespace.SpreadsheetRevision2: return "xr2"u8;
+            case SchemaNamespace.SpreadsheetRevision3: return "xr3"u8;
+            case SchemaNamespace.SpreadsheetRevision5: return "xr5"u8;
+            case SchemaNamespace.SpreadsheetRevision6: return "xr6"u8;
+            case SchemaNamespace.SpreadsheetRevision9: return "xr9"u8;
+            case SchemaNamespace.SpreadsheetRevision10: return "xr10"u8;
+            case SchemaNamespace.PivotDefaultLayout: return "xpdl"u8;
+            case SchemaNamespace.DynamicArray: return "xda"u8;
+            case SchemaNamespace.RichData: return "rd"u8;
+            case SchemaNamespace.RichData2: return "rd2"u8;
+            case SchemaNamespace.Spreadsheet201808: return "x18"u8;
+            case SchemaNamespace.CalcFeatures: return "xcalcf"u8;
+            case SchemaNamespace.ThreadedComments: return "tc"u8;
+            case SchemaNamespace.ExternalLinkProperties: return "xlprops"u8;
+            case SchemaNamespace.NamedSheetViews: return "nsv"u8;
+            case SchemaNamespace.Pivot2020: return "xpnov"u8;
+            case SchemaNamespace.RichDataWebImage: return "rdwi"u8;
+            case SchemaNamespace.RichValueRefresh: return "rvr"u8;
+            case SchemaNamespace.ThreadedComments2: return "tc2"u8;
+            case SchemaNamespace.ExternalLinks2021: return "xl21"u8;
+            case SchemaNamespace.FeaturePropertyBag: return "fpb"u8;
+            case SchemaNamespace.PivotRichData: return "prd"u8;
+            case SchemaNamespace.PivotVersionInfo: return "pvi"u8;
+            case SchemaNamespace.RichValueRel: return "rvrel"u8;
+            case SchemaNamespace.ExternalCodeService: return "xcs"u8;
+            case SchemaNamespace.MsForms: return "msf"u8;
+            case SchemaNamespace.Pivot2023Calculation: return "p23c"u8;
+            case SchemaNamespace.Python: return "xpy"u8;
+            case SchemaNamespace.ShowDataTypeIcons: return "sdti"u8;
+            case SchemaNamespace.PivotAutoRefresh: return "par"u8;
+            case SchemaNamespace.WorkbookCompatibilityVersion: return "wcv"u8;
+            case SchemaNamespace.ExternalCodeService2: return "xcs2"u8;
+            case SchemaNamespace.PivotDataSource: return "pds"u8;
             default: return default;
         }
     }

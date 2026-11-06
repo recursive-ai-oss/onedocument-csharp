@@ -93,7 +93,7 @@ internal sealed class XmlRedactor
         {
             if (replacement[i] is { } text)
             {
-                SetLeafText(segs[i].Leaf, text);
+                SetLeafText(segs[i].Leaf, segs[i].Escaped ? EncodedText.EncodeX(text) : text);
             }
         }
     }
@@ -253,9 +253,19 @@ internal sealed class XmlRedactor
             }
 
             string value = a.Value;
-            if (_ctx.Apply(value, IsIdentifierAttribute(el, a), _location, out string replaced) > 0)
+            if (Base64(value, out string reencoded))
             {
-                (edits ??= []).Add((name, replaced));
+                (edits ??= []).Add((name, reencoded));
+                _count++;
+                continue;
+            }
+
+            // SpreadsheetML names and captions use the same _xHHHH_ escapes as its strings.
+            bool escaped = OoxmlText.IsSmlNode(el);
+            string plain = escaped ? EncodedText.DecodeX(value) : value;
+            if (_ctx.Apply(plain, IsIdentifierAttribute(el, a), _location, out string replaced) > 0)
+            {
+                (edits ??= []).Add((name, escaped ? EncodedText.EncodeX(replaced) : replaced));
                 _count++;
             }
         }
@@ -267,6 +277,26 @@ internal sealed class XmlRedactor
                 el.SetAttribute(name, value);
             }
         }
+    }
+
+    // A value that is wholly base64 is binary data held as text (a custom XML blob, an embedded file). Its bytes are searched for literal matches,
+    // and for patterns when they read as text; a match is overwritten in the bytes, which keeps the length, and the value is encoded again.
+    private bool Base64(string value, out string reencoded)
+    {
+        reencoded = value;
+        if (!EncodedText.TryDecodeBase64(value, out byte[] bytes))
+        {
+            return false;
+        }
+
+        int n = BinaryText.Redact(bytes, _ctx, false, _location, patterns: EncodedText.LooksLikeText(bytes));
+        if (n == 0)
+        {
+            return false;
+        }
+
+        reencoded = EncodedText.EncodeBase64Like(value, bytes);
+        return true;
     }
 
     private static bool IsIdentifierAttribute(MarkupNode el, MarkupAttributeRef a)
@@ -291,19 +321,31 @@ internal sealed class XmlRedactor
     private void TextNode(MarkupNode node, MarkupNode parent)
     {
         string text = node.Kind == MarkupNodeKind.CData ? Encoding.UTF8.GetString(node.RawContent) : node.InnerText;
-        if (_ctx.Apply(text, IsIdentifierText(parent), _location, out string replaced) == 0)
+        string result;
+        if (Base64(text, out string reencoded))
         {
-            return;
+            result = reencoded;
+        }
+        else
+        {
+            bool escaped = OoxmlText.IsSmlNode(parent);
+            string plain = escaped ? EncodedText.DecodeX(text) : text;
+            if (_ctx.Apply(plain, IsIdentifierText(parent), _location, out string replaced) == 0)
+            {
+                return;
+            }
+
+            result = escaped ? EncodedText.EncodeX(replaced) : replaced;
         }
 
         _count++;
         if (node.Kind == MarkupNodeKind.Text)
         {
-            node.SetText(replaced);
+            node.SetText(result);
         }
         else
         {
-            parent.SetText(replaced);
+            parent.SetText(result);
         }
     }
 
@@ -336,9 +378,17 @@ internal sealed class XmlRedactor
             return;
         }
 
-        if (_ctx.Apply(v.InnerText, false, _location, out string replaced) == 0)
+        // A string result is stored with the same _xHHHH_ escapes as a string item.
+        bool textResult = t is "str" or "inlineStr";
+        string value = textResult ? EncodedText.DecodeX(v.InnerText) : v.InnerText;
+        if (_ctx.Apply(value, false, _location, out string replaced) == 0)
         {
             return;
+        }
+
+        if (textResult)
+        {
+            replaced = EncodedText.EncodeX(replaced);
         }
 
         _count++;

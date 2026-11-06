@@ -51,6 +51,7 @@ internal static class PresentationRegions
 
         var drop = plan.Regions.OfType<SlideRegion>().Select(static s => s.SlideNumber).Distinct().OrderByDescending(static n => n).ToList();
         var dropped = new List<(string? Id, string? RelId)>();
+        var droppedParts = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         foreach (int number in drop)
         {
             if (number > ids.Count)
@@ -61,6 +62,11 @@ internal static class PresentationRegions
 
             MarkupNode id = ids[number - 1];
             dropped.Add((id.GetAttribute("id"), RelId(id)));
+            if (slideParts[number - 1] is { } droppedPart)
+            {
+                droppedParts.Add(droppedPart);
+            }
+
             id.Remove();
             report.Add("region-slide", slideParts[number - 1] ?? "slide " + number, 1);
         }
@@ -68,6 +74,7 @@ internal static class PresentationRegions
         if (dropped.Count > 0)
         {
             RemoveSlideReferences(package, main, presentation, dropped, limits);
+            RemoveLinksToSlides(package, droppedParts, report, limits);
             DropSlideTitles(package, limits);
         }
 
@@ -99,6 +106,65 @@ internal static class PresentationRegions
 
         IReadOnlyList<Relationship> rels = package.GetRelationships(main);
         package.SetRelationships(main, [.. rels.Where(r => !relIds.Contains(r.Id))]);
+    }
+
+    // A slide that another slide jumps to is reachable through that link and would stay in the file whole. The link goes with the slide:
+    // the hyperlink element is removed and so is the relationship.
+    private static void RemoveLinksToSlides(OpcPackage package, HashSet<string> droppedParts, RedactionReport report, OfficeLimits limits)
+    {
+        foreach (string owner in package.Parts.Select(static p => p.Name).ToList())
+        {
+            if (droppedParts.Contains(owner))
+            {
+                continue;
+            }
+
+            var linkIds = new HashSet<string>(StringComparer.Ordinal);
+            foreach (Relationship r in package.GetRelationships(owner))
+            {
+                if (RedactionSupport.Resolve(package, owner, r) is { } target && droppedParts.Contains(target))
+                {
+                    linkIds.Add(r.Id);
+                }
+            }
+
+            if (linkIds.Count == 0)
+            {
+                continue;
+            }
+
+            MarkupDocument? doc = RedactionSupport.Load(package, owner, limits);
+            if (doc is null || doc.Root.IsNull)
+            {
+                continue;
+            }
+
+            foreach (MarkupNode e in RedactionSupport.Descendants(doc.Root).Where(e => e.LocalNameString.StartsWith("hlink", StringComparison.Ordinal) && UsesAny(e, linkIds)).ToList())
+            {
+                e.Remove();
+            }
+
+            RedactionSupport.DropUnusedRelationships(package, owner, doc, linkIds);
+            RedactionSupport.Save(package, owner, doc);
+            report.Add("region-link", owner, linkIds.Count);
+            if (package.GetRelationships(owner).Any(r => linkIds.Contains(r.Id)))
+            {
+                report.Gap("redaction.region-failed", owner, "A removed slide is still referenced from here by something other than a hyperlink, so its part was kept.");
+            }
+        }
+    }
+
+    private static bool UsesAny(MarkupNode e, HashSet<string> ids)
+    {
+        foreach (MarkupAttributeRef a in e.Attributes)
+        {
+            if (!a.IsNamespaceDeclaration && ids.Contains(a.Value))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // The extended properties list every slide title; they would outlive a removed slide.

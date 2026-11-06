@@ -3,6 +3,7 @@ using System.Text;
 using RecursiveAI.OneDocument.Diagnostics;
 using RecursiveAI.OneDocument.Markup;
 using RecursiveAI.OneDocument.Packaging;
+using MarkupRef = RecursiveAI.OneDocument.Schema.MarkupRef;
 
 namespace RecursiveAI.OneDocument.Spreadsheets;
 
@@ -124,6 +125,12 @@ public sealed partial class Worksheet
     public int Index => _workbook.Sheets.IndexOf(this);
 
     internal MarkupNode Node { get; set; }
+
+    /// <summary>Gets this sheet's <c>sheet</c> element in the workbook part: the hop from the hub to the markup layer. It is an invalid reference for a sheet added since the workbook was opened and not yet saved.</summary>
+    public MarkupRef Markup => Node.IsNull ? default : new MarkupRef(Node);
+
+    /// <summary>Gets the typed view of the <c>sheet</c> element, or null for a sheet that is not in the markup yet.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Spreadsheet.Sheet? View => Node.IsNull ? null : global::RecursiveAI.OneDocument.Schema.Spreadsheet.Sheet.Create(new MarkupRef(Node));
 
     /// <summary>Gets or sets the state: visible, hidden or very hidden. A workbook must keep one visible sheet.</summary>
     public SheetState State

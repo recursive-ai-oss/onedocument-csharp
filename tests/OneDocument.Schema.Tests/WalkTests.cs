@@ -15,7 +15,7 @@ public sealed class WalkTests
         "word/settings.xml", "word/fontTable.xml", "word/webSettings.xml", "word/commentsExtended.xml", "word/people.xml",
     ];
 
-    private sealed class Counts
+    internal sealed class Counts
     {
         public long Seen, Typed, Simple, Unknown, InsideUnknown, McWrappers, UnknownAttributes;
         public SortedDictionary<string, long> UnknownByNamespace = new(StringComparer.Ordinal);
@@ -23,7 +23,7 @@ public sealed class WalkTests
         public SortedDictionary<string, long> UnknownAttributesByNamespace = new(StringComparer.Ordinal);
     }
 
-    private struct AttributeCounter : IViewVisitor
+    internal struct AttributeCounter : IViewVisitor
     {
         public Counts Counts;
 
@@ -92,7 +92,77 @@ public sealed class WalkTests
         Assert.Equal(counts.Seen, counts.Typed + counts.Simple + counts.McWrappers + counts.Unknown + counts.InsideUnknown);
     }
 
-    private static void Walk(MarkupRef element, ViewKind kind, Counts counts)
+    /// <summary>
+    /// Walks every XML part of a folder of .xlsx, .pptx and .docx files whose root element a generated view starts (worksheets,
+    /// workbooks, styles, tables, pivots, charts, chartex, diagrams, drawings, themes…) and reports, per root vocabulary, how many
+    /// elements were reached through declared members and how many were left to <c>UnknownChildren</c>. Information only: the test
+    /// asserts that nothing throws and that the tree re-serialises unchanged. Runs when ONEDOCUMENT_SCHEMA_WALK_OFFICE names the folder.
+    /// </summary>
+    [Fact]
+    public void OfficePartsOfTheCorpusMapToViewsPerVocabulary()
+    {
+        var dir = Environment.GetEnvironmentVariable("ONEDOCUMENT_SCHEMA_WALK_OFFICE");
+        if (string.IsNullOrEmpty(dir)) { Assert.Skip("ONEDOCUMENT_SCHEMA_WALK_OFFICE is not set"); return; }
+        var max = int.TryParse(Environment.GetEnvironmentVariable("ONEDOCUMENT_SCHEMA_WALK_MAX"), out var m) ? m : int.MaxValue;
+        var groups = new SortedDictionary<string, Counts>(StringComparer.Ordinal);
+        var partsByGroup = new SortedDictionary<string, int>(StringComparer.Ordinal);
+        var files = 0;
+        var parts = 0;
+        var roundTripDiffs = 0;
+        var badZips = 0;
+        var badParts = 0;
+        var noView = new SortedDictionary<string, int>(StringComparer.Ordinal);
+        foreach (var path in Directory.EnumerateFiles(dir, "*.*", SearchOption.AllDirectories)
+            .Where(f => f.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".pptx", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".docx", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".xlsm", StringComparison.OrdinalIgnoreCase))
+            .Order(StringComparer.Ordinal).Take(max))
+        {
+            files++;
+            ZipArchive zip;
+            try { zip = ZipFile.OpenRead(path); }
+            catch (InvalidDataException) { badZips++; continue; }
+            using var _ = zip;
+            foreach (var entry in zip.Entries.OrderBy(e => e.FullName, StringComparer.Ordinal))
+            {
+                if (!entry.FullName.EndsWith(".xml", StringComparison.Ordinal) || entry.Length > 20_000_000) continue;
+                string text;
+                try { using var reader = new StreamReader(entry.Open(), new UTF8Encoding(false), true); text = reader.ReadToEnd(); }
+                catch (InvalidDataException) { badParts++; continue; }
+                TextTree tree;
+                try { tree = TextTree.Parse(text); }
+                catch (OfficeException) { badParts++; continue; }
+                var root = tree.RootRef;
+                var kind = ViewFactory.RootKind(root.Namespace, root.LocalName);
+                var group = root.NamespaceUriText + " " + root.LocalNameText;
+                if (kind == ViewKind.None) { noView[group] = noView.GetValueOrDefault(group) + 1; continue; }
+                parts++;
+                partsByGroup[group] = partsByGroup.GetValueOrDefault(group) + 1;
+                if (tree.Serialize() != text) roundTripDiffs++;
+                if (!groups.TryGetValue(group, out var counts)) groups[group] = counts = new Counts();
+                Walk(root, kind, counts);
+            }
+        }
+        var sb = new StringBuilder();
+        sb.AppendLine($"office files: {files}, parts walked: {parts}, tree re-serialisation differences: {roundTripDiffs}, unreadable zips: {badZips}, refused parts: {badParts}");
+        sb.AppendLine("root                                   parts  elements   typed  simple  unknown(top)  inside-unknown  typed-share");
+        foreach (var (g, c) in groups)
+        {
+            var share = c.Seen == 0 ? 0 : 100.0 * (c.Typed + c.Simple + c.McWrappers) / c.Seen;
+            sb.AppendLine($"{g}  parts={partsByGroup[g]} elements={c.Seen} typed={c.Typed} simple={c.Simple} mc={c.McWrappers} unknownTop={c.Unknown} insideUnknown={c.InsideUnknown} declared-share={share:F2}%");
+        }
+        sb.AppendLine("roots with no generated view (part count):");
+        foreach (var (g, n) in noView.OrderByDescending(x => x.Value).Take(40)) sb.AppendLine($"  {g}: {n}");
+        sb.AppendLine("top unknown element names:");
+        var merged = new SortedDictionary<string, long>(StringComparer.Ordinal);
+        foreach (var c in groups.Values) foreach (var (k, v) in c.UnknownNames) merged[k] = merged.GetValueOrDefault(k) + v;
+        foreach (var (k, v) in merged.OrderByDescending(x => x.Value).ThenBy(x => x.Key, StringComparer.Ordinal).Take(60)) sb.AppendLine($"  {k}: {v}");
+        var report = Environment.GetEnvironmentVariable("ONEDOCUMENT_SCHEMA_WALK_REPORT");
+        if (!string.IsNullOrEmpty(report)) File.WriteAllText(report, sb.ToString());
+        Assert.True(parts > 0, "no parts found");
+        Assert.Equal(0, roundTripDiffs);
+        foreach (var c in groups.Values) Assert.Equal(c.Seen, c.Typed + c.Simple + c.McWrappers + c.Unknown + c.InsideUnknown);
+    }
+
+    internal static void Walk(MarkupRef element, ViewKind kind, Counts counts)
     {
         counts.Seen++;
         if (kind == ViewKind.None) { counts.Unknown++; CountSubtree(element, counts); return; }

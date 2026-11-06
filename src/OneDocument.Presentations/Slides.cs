@@ -67,6 +67,9 @@ public sealed partial class Slide : PresentationPart
     {
     }
 
+    /// <summary>Gets the typed view of the part's root element, or null when the part is unreadable: the hop to the generated views.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Presentation.Slide? View => Markup.IsValid ? global::RecursiveAI.OneDocument.Schema.Presentation.Slide.Create(Markup) : null;
+
     internal override string RootName => "sld";
 
     /// <summary>Gets the slide's id (<c>p:sldId/@id</c>): at least 256, unique in the presentation, stable when slides move. Null when the presentation part does not list the slide.</summary>
@@ -221,6 +224,9 @@ public sealed class SlideLayout : PresentationPart
     {
     }
 
+    /// <summary>Gets the typed view of the part's root element, or null when the part is unreadable: the hop to the generated views.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Presentation.SlideLayout? View => Markup.IsValid ? global::RecursiveAI.OneDocument.Schema.Presentation.SlideLayout.Create(Markup) : null;
+
     internal override string RootName => "sldLayout";
 
     /// <summary>Gets the layout's master, or null when it has no master relationship (reported as <c>pptx.master-missing</c>).</summary>
@@ -271,6 +277,9 @@ public sealed class SlideMaster : PresentationPart
         : base(owner, partName)
     {
     }
+
+    /// <summary>Gets the typed view of the part's root element, or null when the part is unreadable: the hop to the generated views.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Presentation.SlideMaster? View => Markup.IsValid ? global::RecursiveAI.OneDocument.Schema.Presentation.SlideMaster.Create(Markup) : null;
 
     internal override string RootName => "sldMaster";
 
@@ -344,6 +353,9 @@ public sealed class NotesSlide : PresentationPart
     {
     }
 
+    /// <summary>Gets the typed view of the part's root element, or null when the part is unreadable: the hop to the generated views.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Presentation.NotesSlide? View => Markup.IsValid ? global::RecursiveAI.OneDocument.Schema.Presentation.NotesSlide.Create(Markup) : null;
+
     internal override string RootName => "notes";
 
     /// <summary>Gets the notes master, or null.</summary>
@@ -403,6 +415,9 @@ public sealed class NotesMaster : PresentationPart
         : base(owner, partName)
     {
     }
+
+    /// <summary>Gets the typed view of the part's root element, or null when the part is unreadable: the hop to the generated views.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Presentation.NotesMaster? View => Markup.IsValid ? global::RecursiveAI.OneDocument.Schema.Presentation.NotesMaster.Create(Markup) : null;
 
     internal override string RootName => "notesMaster";
 

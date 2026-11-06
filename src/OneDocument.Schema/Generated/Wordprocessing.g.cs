@@ -31293,6 +31293,10 @@ public readonly struct Settings : global::RecursiveAI.OneDocument.Schema.IElemen
         {
             if (local.SequenceEqual("mathPr"u8)) { rank = 83; return global::RecursiveAI.OneDocument.Schema.ViewKind.OfficeMathMathPr; }
         }
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SchemaLibrary)
+        {
+            if (local.SequenceEqual("schemaLibrary"u8)) { rank = 93; return global::RecursiveAI.OneDocument.Schema.ViewKind.SchemaLibrarySchemaLibrary; }
+        }
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing)
         {
             if (local.SequenceEqual("activeWritingStyle"u8)) { rank = 21; return global::RecursiveAI.OneDocument.Schema.ViewKind.WordprocessingWritingStyle; }
@@ -32431,6 +32435,17 @@ public readonly struct Settings : global::RecursiveAI.OneDocument.Schema.IElemen
     /// <summary>Removes every <c>w:smartTagType</c> child.</summary>
     /// <returns>True when any was removed.</returns>
     public bool RemoveSmartTagType() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing, "smartTagType"u8);
+
+    /// <summary>The <c>sl:schemaLibrary</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.SchemaLibrary.SchemaLibrary? SchemaLibrary => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.SchemaLibrary.SchemaLibrary>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SchemaLibrary, "schemaLibrary"u8);
+
+    /// <summary>Returns the <c>sl:schemaLibrary</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.SchemaLibrary.SchemaLibrary GetOrAddSchemaLibrary() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.SchemaLibrary.SchemaLibrary, global::RecursiveAI.OneDocument.Schema.Wordprocessing.Settings>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SchemaLibrary, "schemaLibrary"u8);
+
+    /// <summary>Removes every <c>sl:schemaLibrary</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveSchemaLibrary() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SchemaLibrary, "schemaLibrary"u8);
 
     /// <summary>The <c>w:shapeDefaults</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Wordprocessing.ShapeDefaults? ShapeDefaults => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Wordprocessing.ShapeDefaults>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Wordprocessing, "shapeDefaults"u8);

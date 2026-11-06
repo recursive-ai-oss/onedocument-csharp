@@ -13,7 +13,8 @@ internal enum TextRole : byte
     Break,
 }
 
-internal readonly record struct TextSegment(MarkupNode Leaf, string Text, bool Code);
+// Escaped: the text was decoded from SpreadsheetML _xHHHH_ escapes and goes back through EncodedText.EncodeX when it is written.
+internal readonly record struct TextSegment(MarkupNode Leaf, string Text, bool Code, bool Escaped = false);
 
 internal static class OoxmlText
 {
@@ -106,7 +107,9 @@ internal static class OoxmlText
                 case TextRole.Container:
                     break;
                 case TextRole.Leaf:
-                    segments.Add(new TextSegment(c, c.InnerText, false));
+                    string raw = c.InnerText;
+                    string text = IsSmlNode(c) ? EncodedText.DecodeX(raw) : raw;
+                    segments.Add(new TextSegment(c, text, false, !string.Equals(text, raw, StringComparison.Ordinal)));
                     break;
                 case TextRole.CodeLeaf:
                     segments.Add(new TextSegment(c, c.InnerText, true));
@@ -120,6 +123,8 @@ internal static class OoxmlText
             }
         }
     }
+
+    public static bool IsSmlNode(MarkupNode el) => Ns.Classify(el.NamespaceUriBytes) == NsKind.Sml;
 
     public static bool IsSml(MarkupNode el, string local) =>
         Ns.Classify(el.NamespaceUriBytes) == NsKind.Sml && el.LocalNameString == local;

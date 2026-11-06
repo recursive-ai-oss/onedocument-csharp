@@ -47,26 +47,34 @@ internal static class BinaryText
             {
                 yield return r;
             }
+
+            // Big-endian text (the name table of an embedded font, strings of an included PDF): the zero byte comes first.
+            foreach (Run r in RunsOf(data, 2, alignment, minimumRun, bigEndian: true))
+            {
+                yield return r;
+            }
         }
     }
 
     private static bool Printable(byte b) => b is >= 0x20 and <= 0x7E or 9 or 10 or 13;
 
-    private static IEnumerable<Run> RunsOf(byte[] data, int stride, int alignment, int minimumRun)
+    private static IEnumerable<Run> RunsOf(byte[] data, int stride, int alignment, int minimumRun, bool bigEndian = false)
     {
         var sb = new StringBuilder();
         int start = -1;
         for (int i = alignment; i + stride <= data.Length; i += stride)
         {
-            bool ok = Printable(data[i]) && (stride == 1 || data[i + 1] == 0);
+            // The index of the character's own byte: the second of the pair when the zero byte comes first.
+            int at = bigEndian ? i + 1 : i;
+            bool ok = Printable(data[at]) && (stride == 1 || data[bigEndian ? i : i + 1] == 0);
             if (ok)
             {
                 if (start < 0)
                 {
-                    start = i;
+                    start = at;
                 }
 
-                sb.Append((char)data[i]);
+                sb.Append((char)data[at]);
                 continue;
             }
 
@@ -89,6 +97,7 @@ internal static class BinaryText
     {
         yield return (Encoding.UTF8.GetBytes(literal), 1);
         yield return (Encoding.Unicode.GetBytes(literal), 2);
+        yield return (Encoding.BigEndianUnicode.GetBytes(literal), 3);
         bool latin1 = true;
         foreach (char c in literal)
         {
@@ -123,7 +132,7 @@ internal static class BinaryText
     }
 
     // Overwrites matches in place; returns how many.
-    public static int Redact(byte[] data, RedactionContext ctx, bool literalOnly, string location)
+    public static int Redact(byte[] data, RedactionContext ctx, bool literalOnly, string location, bool patterns = true)
     {
         int count = 0;
         foreach (RedactionMatch m in ctx.Plan.Matches)
@@ -141,6 +150,11 @@ internal static class BinaryText
                     count++;
                 }
             }
+        }
+
+        if (!patterns)
+        {
+            return count;
         }
 
         var spans = new List<(int Start, int Length)>();
@@ -185,12 +199,13 @@ internal static class BinaryText
 
     private static void Overwrite(byte[] data, int at, int length, int stride)
     {
-        if (stride == 2)
+        if (stride is 2 or 3)
         {
+            // 2: UTF-16 little-endian, the character first; 3: big-endian, the zero byte first.
             for (int k = 0; k + 1 < length; k += 2)
             {
-                data[at + k] = (byte)'X';
-                data[at + k + 1] = 0;
+                data[at + k] = stride == 2 ? (byte)'X' : (byte)0;
+                data[at + k + 1] = stride == 2 ? (byte)0 : (byte)'X';
             }
 
             return;
