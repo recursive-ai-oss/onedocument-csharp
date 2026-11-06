@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Text;
 using RecursiveAI.OneDocument.Packaging;
 using RecursiveAI.OneDocument.Diagnostics;
@@ -228,4 +229,27 @@ public class XlsbFeatureTests
             Assert.Contains("<ignoredError sqref="+q+"A1:B2"+q+" numberStoredAsText="+q+"1"+q+" formula="+q+"1"+q+"/>", xml);
         }
     }
+
+    [Fact]
+    public void GeneratedWorkbooksOpenAndConvert()
+    {
+        string dir = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Here())!, "..", "..", "testdata", "xlsb"));
+        string[] files = Directory.GetFiles(dir, "*.xlsb");
+        Assert.True(files.Length >= 5);
+        foreach (string file in files)
+        {
+            using Workbook wb = Workbook.Open(file);
+            Assert.True(wb.IsBinary);
+            Assert.Empty(wb.Defects);
+            using var xlsx = new MemoryStream();
+            wb.SaveAs(xlsx, OfficeFormat.Xlsx, new LossReport());
+            using Workbook back = Workbook.Open(new MemoryStream(xlsx.ToArray()));
+            using var bin = new MemoryStream();
+            back.SaveAs(bin, OfficeFormat.Xlsb, new LossReport());
+            using Workbook again = Workbook.Open(new MemoryStream(bin.ToArray()));
+            Assert.Equal(wb.Sheets.Count, again.Sheets.Count);
+        }
+    }
+
+    private static string Here([CallerFilePath] string path = "") => path;
 }
