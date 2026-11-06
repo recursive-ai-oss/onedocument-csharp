@@ -43,6 +43,32 @@ public sealed partial class Document
         return new DocumentMerger(this, source, options ?? new MergeOptions()).Execute(blockIndex);
     }
 
+    /// <summary>Opens the files, appends each after the first with the default options, and saves the result.</summary>
+    /// <param name="outputPath">Where the combined document is written; the format follows the extension.</param>
+    /// <param name="inputPaths">The documents in order; at least one.</param>
+    /// <returns>One report per appended file.</returns>
+    /// <exception cref="ArgumentException">No input, or an empty path.</exception>
+    public static IReadOnlyList<MergeReport> Merge(string outputPath, params string[] inputPaths)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(outputPath);
+        ArgumentNullException.ThrowIfNull(inputPaths);
+        if (inputPaths.Length == 0)
+        {
+            throw new ArgumentException("At least one input is needed.", nameof(inputPaths));
+        }
+
+        using Document first = Open(inputPaths[0]);
+        var reports = new List<MergeReport>();
+        for (int i = 1; i < inputPaths.Length; i++)
+        {
+            using Document next = Open(inputPaths[i]);
+            reports.Add(first.Append(next));
+        }
+
+        first.SaveAs(outputPath);
+        return reports;
+    }
+
     /// <summary>Makes sure the document has a <c>w:body</c> element and returns it.</summary>
     internal Markup.MarkupNode EnsureBodyElement()
     {

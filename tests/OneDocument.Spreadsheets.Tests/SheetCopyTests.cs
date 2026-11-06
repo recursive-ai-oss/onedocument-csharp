@@ -185,6 +185,17 @@ public class SheetCopyTests
     }
 
     [Fact]
+    public void Copy_AFormulaThatCannotBeReadIsCopiedAsWrittenWithAProblem()
+    {
+        using Workbook src = Source();
+        src.Sheets["Data"]["J1"].Formula = "SUM(1,";
+        using Workbook dst = Destination();
+        SheetCopyResult r = src.Sheets["Data"].CopyTo(dst);
+        Assert.Equal("SUM(1,", r.Sheet["J1"].Formula);
+        Assert.Contains(r.Report.Problems, p => p.Code == "merge.formula-unreadable" && p.Location.Address == "J1");
+    }
+
+    [Fact]
     public void Copy_WithoutADestinationIsRefused()
     {
         using Workbook src = Source();

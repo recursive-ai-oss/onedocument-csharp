@@ -454,7 +454,7 @@ public sealed partial class Presentation
         }
 
         // A master is identified by what it looks like: its own markup, its theme and its layouts in order. An identical one in the
-        // destination is reused; otherwise the master, theme and all layouts are copied (PowerPoint copies all of them too).
+        // destination is reused; otherwise the master, theme and all layouts are copied.
         private void EnsureMaster(string srcMaster)
         {
             List<string> srcLayouts = LayoutsOf(_src, srcMaster);

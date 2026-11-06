@@ -50,7 +50,7 @@ public sealed class FieldUpdateReport
 public static class DocumentFieldUpdate
 {
     /// <summary>
-    /// Updates the fields of the document the way Word does when it updates all fields, and stores the results in the file: the table of
+    /// Updates the fields of the document as an update of all fields does, and stores the results in the file: the table of
     /// contents, index and table of authorities are rebuilt as paragraphs, and <c>PAGE</c>, <c>NUMPAGES</c>, <c>SECTIONPAGES</c>,
     /// <c>SECTION</c>, <c>PAGEREF</c>, <c>NOTEREF</c>, <c>REF</c>, <c>STYLEREF</c>, <c>SEQ</c> and the date, property, <c>IF</c> and <c>=</c> fields
     /// get the result the layout computed (see <c>docs/layout-fields.md</c>). A saved file then shows the same results without Word
@@ -64,7 +64,7 @@ public static class DocumentFieldUpdate
     /// <para>The layout runs on the document, so every field that depends on pages reads the facts of the previous pass and the stored
     /// results are those of the final pass: laying the saved file out again moves no line. A field in a header or footer that shows a different
     /// result on different pages (<c>PAGE</c>) keeps its stored result and is listed in <see cref="FieldUpdateReport.Skipped"/>. A field with
-    /// <c>w:fldLock</c> is never changed. Index and authorities entries hold their page numbers as plain text, as Word writes them, and the
+    /// <c>w:fldLock</c> is never changed. Index and authorities entries hold their page numbers as plain text, and the
     /// temporary bookmarks the build uses are removed again.</para>
     /// <para>Fields that need the outside world (<c>INCLUDETEXT</c>, <c>HYPERLINK</c> targets, <c>MERGEFIELD</c>) keep their stored results. Nothing is read from the system clock unless <see cref="LayoutOptions.Clock"/> is given.</para>
     /// </remarks>

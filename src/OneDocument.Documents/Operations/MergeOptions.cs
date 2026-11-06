@@ -3,7 +3,7 @@ namespace RecursiveAI.OneDocument.Documents;
 /// <summary>How a style in the source that has the same name as a style in the destination, but a different definition, is settled.</summary>
 public enum StyleConflict
 {
-    /// <summary>Content that uses the style takes the destination's definition (what Word does when text is inserted from a file).</summary>
+    /// <summary>Content that uses the style takes the destination's definition (the choice made to follow Insert → Text from File; the comparison with Word is listed in testdata/operations).</summary>
     KeepDestination = 0,
 
     /// <summary>The destination's definition is replaced by the source's; existing destination content that uses the style changes its look.</summary>
@@ -35,7 +35,7 @@ public enum SectionHandling
 
 /// <summary>
 /// Choices for appending or inserting one document into another (<see cref="Document.Append(Document, MergeOptions?)"/>,
-/// <see cref="Document.Insert(int, Document, MergeOptions?)"/>). The defaults are what Word does for Insert → Text from File.
+/// <see cref="Document.Insert(int, Document, MergeOptions?)"/>). The defaults are chosen to follow Word's Insert → Text from File; the comparison with Word is still to be run (testdata/operations).
 /// </summary>
 public sealed class MergeOptions
 {

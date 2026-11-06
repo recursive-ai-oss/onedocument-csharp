@@ -422,4 +422,92 @@ public class MergeTests
         Assert.Contains(r.Problems, p => p.Code == "merge.relationship-missing");
         Assert.DoesNotContain("footnoteReference", dst.Body.Container.Node.OuterXml);
     }
+
+    private static InMemoryPackage WithRoot(string rootExtra, string bodyXml)
+    {
+        InMemoryPackage p = TestDocs.Package(bodyXml);
+        string xml = Encoding.UTF8.GetString(p.FindPart("/word/document.xml")!.GetBytes().Span);
+        xml = xml.Replace("<w:document ", "<w:document " + rootExtra + " ", StringComparison.Ordinal);
+        p.FindPart("/word/document.xml")!.SetBytes(Encoding.UTF8.GetBytes(xml));
+        return p;
+    }
+
+    private const string McDecl = "xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"";
+    private const string W15 = "http://schemas.microsoft.com/office/word/2012/wordml";
+
+    [Fact]
+    public void IgnorableNamespacesOfCopiedContentAreDeclaredAndListedOnTheDestinationRoot()
+    {
+        using var dst = Doc(TestDocs.Package(P("d")));
+        using var src = Doc(WithRoot($"{McDecl} xmlns:w15=\"{W15}\" mc:Ignorable=\"w15\"", "<w:p w15:foo=\"1\"><w:r><w:t>x</w:t></w:r></w:p>"));
+        MergeReport r = dst.Append(src);
+        Assert.Empty(r.Problems);
+        string root = dst.MainMarkup.Root.OuterXml;
+        Assert.Contains($"xmlns:w15=\"{W15}\"", root[..root.IndexOf('>', StringComparison.Ordinal)], StringComparison.Ordinal);
+        Assert.Contains("mc:Ignorable=\"w15\"", root, StringComparison.Ordinal);
+        using Document again = Reopen(dst);
+        Assert.Equal(["d", "x"], Texts(again));
+    }
+
+    [Fact]
+    public void APrefixTheDestinationBindsElsewhereIsAProblem()
+    {
+        using var dst = Doc(WithRoot("xmlns:w15=\"urn:other\"", P("d")));
+        using var src = Doc(WithRoot($"{McDecl} xmlns:w15=\"{W15}\" mc:Ignorable=\"w15\"", "<w:p w15:foo=\"1\"><w:r><w:t>x</w:t></w:r></w:p>"));
+        MergeReport r = dst.Append(src);
+        Assert.Contains(r.Problems, p => p.Code == "merge.namespace-prefix-clash");
+    }
+
+    [Fact]
+    public void ReferencesToThingsTheSourceLacksAreProblems()
+    {
+        using var dst = Doc(TestDocs.Package(P("d")));
+        InMemoryPackage sp = TestDocs.Package("<w:p><w:pPr><w:numPr><w:ilvl w:val=\"0\"/><w:numId w:val=\"5\"/></w:numPr></w:pPr><w:commentRangeStart w:id=\"3\"/><w:r><w:t>x</w:t></w:r><w:r><w:commentReference w:id=\"3\"/></w:r></w:p>");
+        sp.AddPart("/word/media/gone.png", "image/png", Png1);
+        sp.SetRelationships("/word/document.xml", [new Relationship("rIdGone", PartHelper.Rel + "image", "media/absent.png")]);
+        using var src = Doc(sp);
+        MergeReport r = dst.Append(src);
+        Assert.Contains(r.Problems, p => p.Code == "merge.numbering-missing");
+        Assert.Contains(r.Problems, p => p.Code == "merge.comment-missing");
+        Assert.DoesNotContain("commentReference", dst.Body.Container.Node.OuterXml, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ARelationshipToAMissingPartIsAProblem()
+    {
+        using var dst = Doc(TestDocs.Package(P("d")));
+        InMemoryPackage sp = TestDocs.Package(Pic("rIdGone", 1));
+        sp.SetRelationships("/word/document.xml", [new Relationship("rIdGone", PartHelper.Rel + "image", "media/absent.png")]);
+        using var src = Doc(sp);
+        MergeReport r = dst.Append(src);
+        Assert.Contains(r.Problems, p => p.Code == "merge.part-missing");
+    }
+
+    [Fact]
+    public void Merge_OfFilesWritesOneDocument()
+    {
+        string dir = Path.Combine(Path.GetTempPath(), "merge-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(dir);
+        try
+        {
+            string[] inputs = [Path.Combine(dir, "a.docx"), Path.Combine(dir, "b.docx"), Path.Combine(dir, "c.docx")];
+            string[] words = ["one", "two", "three"];
+            for (int i = 0; i < 3; i++)
+            {
+                using Document d = Doc(TestDocs.Package(P(words[i])));
+                d.SaveAs(inputs[i]);
+            }
+
+            string output = Path.Combine(dir, "out.docx");
+            IReadOnlyList<MergeReport> reports = Document.Merge(output, inputs);
+            Assert.Equal(2, reports.Count);
+            using Document merged = Document.Open(output);
+            Assert.Equal(words, Texts(merged));
+            Assert.Throws<ArgumentException>(() => Document.Merge(output));
+        }
+        finally
+        {
+            Directory.Delete(dir, recursive: true);
+        }
+    }
 }
