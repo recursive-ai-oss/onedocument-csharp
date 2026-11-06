@@ -319,3 +319,32 @@ Reported by the shared OfficeArt reader (`RecursiveAI.OneDocument.OfficeArt`) wi
 | `art.blip-index` | repaired | A picture refers to a BLIP index outside the store; the picture is dropped. |
 | `art.blip-missing` | repaired | A BLIP is not embedded and its offset is outside the delay (picture) stream. |
 | `art.blip-invalid` | dropped | A BLIP record is damaged, of an unknown type or compressed in a way the format does not define. |
+
+### PowerPoint binary (`ppt.`)
+
+Reported by the `.ppt` reader (`RecursiveAI.OneDocument.Ppt.Binary`) and the conversion to PresentationML, with a `Record` location in the `PowerPoint Document`
+stream (the `Current User` stream for `ppt.current-user-missing`). The conversion codes are also the items of `Presentation.ConversionLoss`. See `ppt.md`.
+
+| Code | Action | Meaning |
+|---|---|---|
+| `ppt.no-document-stream` | fatal | The compound file has no `PowerPoint Document` stream (used directly; the sniffer calls such a file unknown). |
+| `ppt.current-user-missing` | repaired | The `Current User` stream is missing or damaged; the newest edit is found by scanning. |
+| `ppt.edit-chain-broken` | repaired | A user edit offset does not lead to a `UserEditAtom`; older edits are ignored or the chain is recovered by scanning. |
+| `ppt.edit-chain-loop` | repaired | The user edit chain does not move backwards; the walk stops. |
+| `ppt.no-user-edit` | fatal | The stream holds no readable user edit, so the persist directory cannot be built. |
+| `ppt.persist-directory-missing` | dropped | A user edit points at a persist directory that is not there; the objects it defines are ignored. |
+| `ppt.persist-directory-truncated` | repaired | A directory entry lists more offsets than the record holds. |
+| `ppt.persist-object-missing` | dropped | A persist identifier is not in the directory, or its offset is outside the stream. |
+| `ppt.document-container-recovered` | repaired | The document container was found by scanning, not through the directory. |
+| `ppt.no-document-container` | fatal | Neither the directory nor a scan leads to a document container. |
+| `ppt.document-atom-missing` | repaired | No `DocumentAtom`; the default slide size is used. |
+| `ppt.master-missing` | dropped | A master list entry (or the file) has no usable master; a plain master is written. |
+| `ppt.slide-missing` | dropped | A slide list entry does not lead to a slide container; the slide is dropped. |
+| `ppt.notes-missing` | dropped | A notes list entry does not lead to a notes container. |
+| `ppt.text-style-truncated` | repaired | A paragraph, character, ruler or master style structure is cut short by the end of its record. |
+| `ppt.text-special-info-unread` | repaired | Smart tags in a text special info record are not read; later language runs are ignored. |
+| `ppt.outline-reference` | repaired | A shape refers to slide-list text that does not exist. |
+| `ppt.malformed` | fatal | A defensive wrapper: an unexpected exception while reading is reported as a format error (a bug if it is ever seen). |
+| `ppt.shape-approximated`, `ppt.shape-adjust-dropped`, `ppt.fill-approximated`, `ppt.path-escape`, `ppt.geometry-guides`, `ppt.wordart-flattened`, `ppt.picture-pict`, `ppt.picture-missing`, `ppt.table-as-group`, `ppt.table-borders-approximated`, `ppt.transition-dropped`, `ppt.animations-dropped`, `ppt.ole-object-flattened`, `ppt.vba-not-carried`, `ppt.header-footer-field`, `ppt.placeholder-unknown` | dropped | Conversion losses; meanings in `ppt.md`. |
+
+Encrypted files raise `encryption.password-required`; PowerPoint 4.0/95 files raise `unsupported.feature`.

@@ -115,12 +115,55 @@ internal sealed class PptBuilder
         return Add(Rec(0, 0, 0xFF5, U32(0, 0, (uint)lastEdit, (uint)(overrideDirectory >= 0 ? overrideDirectory : directory), 1, seed), U16(0, 0)));
     }
 
+
+    /// <summary>A shape container with the given header type and flags, property entries (id, value; complex data after), client data and text.</summary>
+    public static byte[] Shape(int spid, int type, int flags, (int Id, uint Value, byte[]? Complex)[] props, byte[]? clientData = null, byte[]? textbox = null, byte[]? anchor = null)
+    {
+        byte[] fsp = Rec(2, type, 0xF00A, U32((uint)spid, (uint)flags));
+        var fixedPart = new List<byte>();
+        var complexPart = new List<byte>();
+        foreach ((int id, uint value, byte[]? complex) in props)
+        {
+            fixedPart.AddRange(U16((ushort)(id | (complex is null ? 0 : 0x8000))));
+            fixedPart.AddRange(U32(complex is null ? value : (uint)complex.Length));
+            if (complex is not null)
+            {
+                complexPart.AddRange(complex);
+            }
+        }
+
+        byte[] fopt = props.Length == 0 ? [] : Rec(3, props.Length, 0xF00B, fixedPart.ToArray(), complexPart.ToArray());
+        byte[] a = Rec(0, 0, 0xF010, anchor ?? U16(100, 200, 4000, 1000));
+        return Rec(0xF, 0, 0xF004, fsp, fopt, a, clientData ?? [], textbox ?? []);
+    }
+
+    public static byte[] TextBody(string text) => Rec(0, 0, 0xF00D, Rec(0, 0, 0xF9F, U32(4)), Rec(0, 0, 0xFA0, Utf16(text)));
+
+    /// <summary>A presentation with one slide whose drawing holds the given shapes, written as a single edit; extras are added to the document container.</summary>
+    public static byte[] SlideWith(byte[][] shapes, byte[][]? documentExtras = null, byte[]? slideExtra = null, byte[]? pictures = null, byte[]? dggContainer = null, params (string Name, byte[] Data)[] extraStreams)
+    {
+        var b = new PptBuilder();
+        int master = b.Add(MainMaster());
+        int slide = b.Add(Rec(0xF, 0, 0x3EE, SlideAtom(1, 0x80000000, 0), Drawing(shapes), slideExtra ?? []));
+        byte[][] parts =
+        [
+            DocumentAtom(),
+            dggContainer ?? [],
+            Rec(0xF, 1, 0xFF0, Rec(0, 0, 0x3F3, U32(2, 0, 0, 0x80000000, 0))),
+            Rec(0xF, 0, 0xFF0, SlidePersist(3, 256)),
+            .. documentExtras ?? [],
+        ];
+        int doc = b.Add(Rec(0xF, 0, 0x3E8, parts));
+        int edit = b.AddEdit([(1, doc), (2, master), (3, slide)], 0, 4);
+        return File(b.Stream, CurrentUser(edit), pictures, extraStreams);
+    }
+
     public byte[] Stream => [.. _stream];
 
     public static byte[] CurrentUser(int editOffset, uint token = 0xE391C05F) =>
         Rec(0, 0, 0xFF6, U32(0x14, token, (uint)editOffset), U16(0, 0x3F4), [3, 0], U16(0), U32(8));
 
-    public static byte[] File(byte[] documentStream, byte[]? currentUser, byte[]? pictures = null)
+    public static byte[] File(byte[] documentStream, byte[]? currentUser, byte[]? pictures = null, params (string Name, byte[] Data)[] extraStreams)
     {
         using var package = CfbPackage.Create();
         package.AddPart("/PowerPoint Document", "", documentStream);
@@ -132,6 +175,11 @@ internal sealed class PptBuilder
         if (pictures is not null)
         {
             package.AddPart("/Pictures", "", pictures);
+        }
+
+        foreach ((string name, byte[] data) in extraStreams)
+        {
+            package.AddPart(name, "", data);
         }
 
         using var ms = new MemoryStream();
