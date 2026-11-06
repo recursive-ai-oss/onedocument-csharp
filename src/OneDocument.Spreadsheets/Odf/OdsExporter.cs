@@ -22,7 +22,7 @@ internal sealed partial class OdsExporter
         "\" xmlns:table=\"" + OdfNamespaces.Table + "\" xmlns:draw=\"" + OdfNamespaces.Draw + "\" xmlns:fo=\"" + OdfNamespaces.Fo +
         "\" xmlns:xlink=\"" + OdfNamespaces.XLink + "\" xmlns:dc=\"" + OdfNamespaces.DublinCore + "\" xmlns:meta=\"" + OdfNamespaces.Meta +
         "\" xmlns:number=\"" + OdfNamespaces.Number + "\" xmlns:svg=\"" + OdfNamespaces.Svg + "\" xmlns:config=\"" + OdfNamespaces.Config +
-        "\" xmlns:calcext=\"urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0\" xmlns:loext=\"" + OdfNamespaces.LibreOfficeExtension + "\" xmlns:tableooo=\"http://openoffice.org/2009/table\"";
+        "\" xmlns:calcext=\"urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0\" xmlns:loext=\"" + OdfNamespaces.LibreOfficeExtension + "\" xmlns:tableooo=\"http://openoffice.org/2009/table\" xmlns:of=\"urn:oasis:names:tc:opendocument:xmlns:of:1.2\"";
 
     private const string Decl = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 

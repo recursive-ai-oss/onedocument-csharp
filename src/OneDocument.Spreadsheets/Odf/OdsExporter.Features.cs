@@ -112,7 +112,7 @@ internal sealed partial class OdsExporter
     // An A1 formula as OpenFormula text; null when OpenFormula cannot say it.
     private string? ToOpenFormula(string a1Text)
     {
-        FormulaNode? node = ParseOrNull(a1Text);
+        FormulaNode? node = ParseOrNull(a1Text.StartsWith('=') ? a1Text[1..] : a1Text);
         if (node is null)
         {
             return null;
@@ -924,7 +924,18 @@ internal sealed partial class OdsExporter
             {
                 int.TryParse(setup.GetAttribute("fitToWidth"), NumberStyles.None, CultureInfo.InvariantCulture, out int fw);
                 int.TryParse(setup.GetAttribute("fitToHeight"), NumberStyles.None, CultureInfo.InvariantCulture, out int fh);
-                pl.Append(" style:scale-to-X=\"").Append(setup.GetAttribute("fitToWidth") is null ? 1 : fw).Append("\" style:scale-to-Y=\"").Append(setup.GetAttribute("fitToHeight") is null ? 1 : fh).Append('"');
+                int fitX = setup.GetAttribute("fitToWidth") is null ? 1 : fw;
+                int fitY = setup.GetAttribute("fitToHeight") is null ? 1 : fh;
+                // 0 means "as many pages as needed", which is the absence of the attribute.
+                if (fitX > 0)
+                {
+                    pl.Append(" style:scale-to-X=\"").Append(fitX).Append('"');
+                }
+
+                if (fitY > 0)
+                {
+                    pl.Append(" style:scale-to-Y=\"").Append(fitY).Append('"');
+                }
             }
 
             if (setup.GetAttribute("useFirstPageNumber") is "1" or "true" && int.TryParse(setup.GetAttribute("firstPageNumber"), NumberStyles.None, CultureInfo.InvariantCulture, out int first))

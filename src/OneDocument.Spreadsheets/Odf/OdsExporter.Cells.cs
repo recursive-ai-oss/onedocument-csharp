@@ -251,7 +251,9 @@ internal sealed partial class OdsExporter
 
         foreach (Merge m in x.Merges)
         {
+            // The anchor row differs from the rows below it, which are covered.
             points.Add(m.R1);
+            points.Add(m.R1 + 1);
             points.Add(m.R2 + 1);
         }
 
@@ -398,7 +400,7 @@ internal sealed partial class OdsExporter
 
         foreach (ValidationRange v in validations)
         {
-            lastCol = Math.Max(lastCol, Math.Min(v.C2, Math.Max(lastCol, v.C1)));
+            lastCol = Math.Max(lastCol, v.C2);
         }
 
         lastCol = Math.Min(lastCol, CellAddress.MaxColumns);

@@ -220,9 +220,14 @@ internal static class OdsDataStyleWriter
                     }
                     else if (item.StartsWith('$'))
                     {
+                        // [$-409] is only a locale tag; [$EUR-407] is a currency symbol with one.
                         FlushLit();
                         int dash = item.IndexOf('-', StringComparison.Ordinal);
-                        tokens.Add(new Currency(dash > 1 ? item[1..dash] : item[1..]));
+                        string symbol = dash >= 0 ? item[1..dash] : item[1..];
+                        if (symbol.Length > 0)
+                        {
+                            tokens.Add(new Currency(symbol));
+                        }
                     }
                     else if (item.Length > 0 && (item[0] is 'h' or 'H' or 'm' or 'M' or 's' or 'S'))
                     {
@@ -464,7 +469,8 @@ internal static class OdsDataStyleWriter
                     body.Append("<number:text>%</number:text>");
                     break;
                 case Currency c:
-                    body.Append("<number:currency-symbol>").Append(X(c.Symbol)).Append("</number:currency-symbol>");
+                    // Only a currency style may hold the symbol; elsewhere it is plain text.
+                    body.Append(element == "currency-style" ? "<number:currency-symbol>" + X(c.Symbol) + "</number:currency-symbol>" : "<number:text>" + X(c.Symbol) + "</number:text>");
                     break;
                 case AmPm:
                     body.Append("<number:am-pm/>");

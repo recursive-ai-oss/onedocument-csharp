@@ -35,6 +35,7 @@ internal sealed partial class OdsImporter
         public int HeaderColFirst;
         public int HeaderColLast;
         public string SheetName = string.Empty;
+        public ArrayBufferWriter<byte>? Data;
     }
 
     /// <summary>A set of cells that compresses into a list of rectangles, for a validation's or a format's range list.</summary>
@@ -192,6 +193,7 @@ internal sealed partial class OdsImporter
         double defaultWidth = DefaultColumnWidth(state);
 
         var data = new ArrayBufferWriter<byte>();
+        state.Data = data;
         var dw = new XmlWriter(data);
         dw.WriteStartElement("sheetData");
         int nextRow = 1;
@@ -651,6 +653,11 @@ internal sealed partial class OdsImporter
         int repeat = Repeat(rowNode, "number-rows-repeated");
         if (row > CellArea.MaxRow)
         {
+            if (RowHasContent(rowNode))
+            {
+                Defect("ods.row-limit", DefectKind.Limit, DefectSeverity.Dropped, "A row past the last row of a sheet was dropped.", At(rowNode));
+            }
+
             return;
         }
 
@@ -700,6 +707,11 @@ internal sealed partial class OdsImporter
             }
 
             w.WriteEndElement();
+            if (state.Data is { } buffer)
+            {
+                // The sheet part is built in memory, so its size is bounded like any other part.
+                OfficeLimitException.ThrowIfExceeded(nameof(OfficeLimits.MaxPartSize), _ctx.Limits.MaxPartSize, buffer.WrittenCount, At(rowNode));
+            }
         }
 
         if (hasContent && emit < repeat)
@@ -720,7 +732,7 @@ internal sealed partial class OdsImporter
                 continue;
             }
 
-            if (c.LocalNameString is "table-cell" or "covered-table-cell" && (CellHasContent(c) || (Repeat(c, "number-columns-repeated") < 256 && IsStyled(c))))
+            if (c.LocalNameString is "table-cell" or "covered-table-cell" && (CellHasContent(c) || A(c, Table, "content-validation-name") is not null || (Repeat(c, "number-columns-repeated") < 256 && IsStyled(c))))
             {
                 return true;
             }
@@ -731,9 +743,14 @@ internal sealed partial class OdsImporter
 
     private bool IsStyled(MarkupNode cell) => A(cell, Table, "style-name") is { } sn && StyleIndex(sn, cell) != 0;
 
+    // A cell that spans more than itself is a merged cell even when it holds nothing.
+    private static bool IsSpanned(MarkupNode cell) =>
+        (int.TryParse(A(cell, Table, "number-columns-spanned"), NumberStyles.None, CultureInfo.InvariantCulture, out int c) && c > 1)
+        || (int.TryParse(A(cell, Table, "number-rows-spanned"), NumberStyles.None, CultureInfo.InvariantCulture, out int r) && r > 1);
+
     private static bool CellHasContent(MarkupNode cell)
     {
-        if (A(cell, Office, "value-type") is not null || A(cell, Table, "formula") is not null || A(cell, Table, "content-validation-name") is not null)
+        if (A(cell, Office, "value-type") is not null || A(cell, Table, "formula") is not null || IsSpanned(cell))
         {
             return true;
         }
