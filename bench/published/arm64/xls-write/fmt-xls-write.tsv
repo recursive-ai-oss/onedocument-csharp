@@ -1,0 +1,5 @@
+row	size	reps	min_ms	median_ms	alloc_bytes_per_rep	peak_ws_mb	checksum	file_bytes
+onedocument.xls.write	n-10000	15	75.9	77.0	48964904	113	1657344	1657344
+npoi.xls.write	n-10000	3	129.8	131.2	50812376	131	1811968	1811968
+onedocument.xls.write	n-50000	3	368.6	368.8	262418824	178	8231936	8231936
+npoi.xls.write	n-50000	3	755.5	773.9	255320768	298	9003520	9003520

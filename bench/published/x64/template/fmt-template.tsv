@@ -1,0 +1,7 @@
+row	size	reps	min_ms	median_ms	alloc_bytes_per_rep	peak_ws_mb	checksum	file_bytes
+onedocument.tpl.xlsx	n-1000	15	14.5	14.7	9103088	80	15071	15071
+closedxmlreport.tpl.xlsx	n-1000	3	146.2	146.9	51242728	196	25504	25504
+onedocument.tpl.docx	n-1000	15	16.8	17.0	9913752	79	7795	7795
+onedocument.tpl.xlsx	n-5000	15	37.2	37.9	26182984	98	55231	55231
+closedxmlreport.tpl.xlsx	n-5000	3	468.0	477.8	220725712	213	90792	90792
+onedocument.tpl.docx	n-5000	15	60.9	61.3	43446000	115	30472	30472

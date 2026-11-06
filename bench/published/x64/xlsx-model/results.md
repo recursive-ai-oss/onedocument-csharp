@@ -6,7 +6,7 @@
 run: x64-xlsx-model
 group: xlsx model
 threads: 1
-load override: forced start at load 2.34 (limit 2.0)
+load override: none
 cpu: AMD Ryzen 9 7950X3D 16-Core Processor
 cores: 32 (visible to this run: 32)
 isa: pclmulqdq sse4_2 aes avx2 bmi2 avx512f sha_ni 
@@ -14,31 +14,30 @@ memory: 125 GB
 storage (inputs): /dev/nvme0n1p4 1.2T
 os: Linux 7.0.0-38-generic x86_64
 sdk: 10.0.403
-[before] 2026-11-05T06:36:33Z load1/5/15: 2.34 2.26 2.27
-[after] 2026-11-05T06:39:28Z load1/5/15: 2.12 2.16 2.22
+[before] 2026-11-06T08:08:53Z load1/5/15: 8.12 8.50 10.73
+[after] 2026-11-06T08:11:38Z load1/5/15: 1.56 5.36 9.16
 ```
 
 ## Load while running (sampled)
 
 ```text
-[during] 2026-11-05T06:36:33Z load1/5/15: 2.34 2.26 2.27
-[during] 2026-11-05T06:36:43Z load1/5/15: 2.21 2.23 2.26
-[during] 2026-11-05T06:36:53Z load1/5/15: 2.18 2.22 2.26
-[during] 2026-11-05T06:37:03Z load1/5/15: 2.07 2.20 2.25
-[during] 2026-11-05T06:37:13Z load1/5/15: 2.14 2.21 2.25
-[during] 2026-11-05T06:37:23Z load1/5/15: 2.12 2.20 2.25
-[during] 2026-11-05T06:37:33Z load1/5/15: 2.11 2.20 2.24
-[during] 2026-11-05T06:37:43Z load1/5/15: 2.09 2.19 2.24
-[during] 2026-11-05T06:37:53Z load1/5/15: 2.07 2.18 2.24
-[during] 2026-11-05T06:38:03Z load1/5/15: 2.06 2.18 2.24
-[during] 2026-11-05T06:38:13Z load1/5/15: 2.12 2.19 2.24
-[during] 2026-11-05T06:38:23Z load1/5/15: 2.02 2.16 2.23
-[during] 2026-11-05T06:38:33Z load1/5/15: 2.11 2.17 2.23
-[during] 2026-11-05T06:38:43Z load1/5/15: 2.10 2.17 2.23
-[during] 2026-11-05T06:38:53Z load1/5/15: 2.01 2.15 2.22
-[during] 2026-11-05T06:39:03Z load1/5/15: 2.17 2.18 2.23
-[during] 2026-11-05T06:39:13Z load1/5/15: 2.13 2.17 2.23
-[during] 2026-11-05T06:39:23Z load1/5/15: 2.04 2.15 2.22
+[during] 2026-11-06T08:08:54Z load1/5/15: 8.12 8.50 10.73
+[during] 2026-11-06T08:09:04Z load1/5/15: 7.03 8.26 10.62
+[during] 2026-11-06T08:09:14Z load1/5/15: 6.10 8.02 10.52
+[during] 2026-11-06T08:09:24Z load1/5/15: 5.31 7.79 10.42
+[during] 2026-11-06T08:09:34Z load1/5/15: 4.65 7.56 10.32
+[during] 2026-11-06T08:09:44Z load1/5/15: 4.09 7.34 10.22
+[during] 2026-11-06T08:09:54Z load1/5/15: 3.76 7.17 10.13
+[during] 2026-11-06T08:10:04Z load1/5/15: 3.34 6.96 10.03
+[during] 2026-11-06T08:10:14Z load1/5/15: 3.05 6.78 9.94
+[during] 2026-11-06T08:10:24Z load1/5/15: 2.73 6.59 9.84
+[during] 2026-11-06T08:10:34Z load1/5/15: 2.47 6.41 9.75
+[during] 2026-11-06T08:10:44Z load1/5/15: 2.24 6.23 9.65
+[during] 2026-11-06T08:10:54Z load1/5/15: 2.05 6.06 9.56
+[during] 2026-11-06T08:11:04Z load1/5/15: 1.89 5.89 9.47
+[during] 2026-11-06T08:11:14Z load1/5/15: 1.75 5.73 9.38
+[during] 2026-11-06T08:11:24Z load1/5/15: 1.72 5.59 9.29
+[during] 2026-11-06T08:11:34Z load1/5/15: 1.60 5.44 9.20
 ```
 
 ## Versions
@@ -53,6 +52,7 @@ MiniExcel	1.46.0
 Sylvan.Data.Excel	0.5.8
 ExcelDataReader	3.9.0
 EPPlus	4.5.3.3
+ClosedXML.Report	1.0.0
 BenchmarkDotNet	0.15.8
 ```
 
@@ -60,29 +60,29 @@ BenchmarkDotNet	0.15.8
 
 | Input | Row | Reps | Median | Min | Ratio to OneDocument | Allocated per cell | Peak working set | Checksum |
 |---|---|---:|---:|---:|---:|---:|---:|---|
-| values-10000 | onedocument.model.load | 5 | 152.4 ms | 152.0 ms | 1.00x | 92.30 B | 62 MB | 537015189 |
-| values-10000 | closedxml.model.load | 5 | 598.5 ms | 584.6 ms | 3.93x | 1611.62 B | 137 MB | 537015189 |
-| values-10000 | epplus.model.load | 5 | 184.0 ms | 183.1 ms | 1.21x | 897.06 B | 117 MB | 537015189 |
-| values-10000 | npoi.model.load | 5 | 390.9 ms | 373.7 ms | 2.56x | 1227.53 B | 173 MB | 537015189 |
-| values-100000 | onedocument.model.load | 3 | 289.4 ms | 282.7 ms | 1.00x | 54.37 B | 106 MB | 12130167350 |
-| values-100000 | closedxml.model.load | 3 | 1.73 s | 1.73 s | 5.99x | 1567.49 B | 223 MB | 12130167350 |
-| values-100000 | epplus.model.load | 3 | 2.47 s | 975.4 ms | 8.52x | 741.20 B | 246 MB | 12130167350 |
-| values-100000 | npoi.model.load | 3 | 2.14 s | 2.13 s | 7.39x | 1213.99 B | 926 MB | 12130167350 |
+| values-10000 | onedocument.model.load | 5 | 146.1 ms | 144.5 ms | 1.00x | 92.30 B | 68 MB | 537015189 |
+| values-10000 | closedxml.model.load | 5 | 609.2 ms | 604.3 ms | 4.17x | 1611.62 B | 141 MB | 537015189 |
+| values-10000 | epplus.model.load | 5 | 174.8 ms | 171.7 ms | 1.20x | 897.06 B | 121 MB | 537015189 |
+| values-10000 | npoi.model.load | 5 | 344.4 ms | 338.6 ms | 2.36x | 1227.53 B | 178 MB | 537015189 |
+| values-100000 | onedocument.model.load | 3 | 279.9 ms | 276.1 ms | 1.00x | 54.37 B | 111 MB | 12130167350 |
+| values-100000 | closedxml.model.load | 3 | 1.71 s | 1.70 s | 6.10x | 1567.49 B | 234 MB | 12130167350 |
+| values-100000 | epplus.model.load | 3 | 901.0 ms | 894.4 ms | 3.22x | 741.20 B | 255 MB | 12130167350 |
+| values-100000 | npoi.model.load | 3 | 2.05 s | 2.04 s | 7.31x | 1213.99 B | 933 MB | 12130167350 |
 
 ## Full model: open, change one cell, save
 
 | Input | Row | Reps | Median | Min | Ratio to OneDocument | Allocated per cell | Peak working set | Checksum |
 |---|---|---:|---:|---:|---:|---:|---:|---|
-| values-10000 | onedocument.model.editsave | 5 | 260.7 ms | 260.3 ms | 1.00x | 172.11 B | 69 MB | 0 |
-| values-10000 | onedocument.model.loadsave-untouched | 5 | 10.1 ms | 10.0 ms | 0.04x | 2.06 B | 46 MB | 0 |
-| values-10000 | closedxml.model.editsave | 5 | 1.03 s | 989.8 ms | 3.94x | 1782.68 B | 173 MB | 0 |
-| values-10000 | epplus.model.editsave | 5 | 346.3 ms | 345.0 ms | 1.33x | 897.09 B | 132 MB | 0 |
-| values-10000 | npoi.model.editsave | 5 | 668.5 ms | 631.9 ms | 2.56x | 1296.35 B | 176 MB | 0 |
-| values-100000 | onedocument.model.editsave | 3 | 574.4 ms | 564.0 ms | 1.00x | 173.21 B | 219 MB | 0 |
-| values-100000 | onedocument.model.loadsave-untouched | 3 | 16.5 ms | 16.3 ms | 0.03x | 0.21 B | 46 MB | 0 |
-| values-100000 | closedxml.model.editsave | 3 | 3.82 s | 3.81 s | 6.65x | 1722.54 B | 844 MB | 0 |
-| values-100000 | epplus.model.editsave | 3 | 2.04 s | 1.87 s | 3.55x | 743.20 B | 343 MB | 0 |
-| values-100000 | npoi.model.editsave | 3 | 2.83 s | 2.83 s | 4.93x | 1333.63 B | 1060 MB | 0 |
+| values-10000 | onedocument.model.editsave | 5 | 250.3 ms | 249.2 ms | 1.00x | 172.11 B | 73 MB | 0 |
+| values-10000 | onedocument.model.loadsave-untouched | 5 | 10.3 ms | 10.0 ms | 0.04x | 2.06 B | 51 MB | 0 |
+| values-10000 | closedxml.model.editsave | 5 | 762.8 ms | 751.7 ms | 3.05x | 1782.64 B | 177 MB | 0 |
+| values-10000 | epplus.model.editsave | 5 | 330.9 ms | 324.2 ms | 1.32x | 897.08 B | 136 MB | 0 |
+| values-10000 | npoi.model.editsave | 5 | 577.7 ms | 536.3 ms | 2.31x | 1296.36 B | 179 MB | 0 |
+| values-100000 | onedocument.model.editsave | 3 | 541.1 ms | 522.0 ms | 1.00x | 173.21 B | 226 MB | 0 |
+| values-100000 | onedocument.model.loadsave-untouched | 3 | 12.1 ms | 12.0 ms | 0.02x | 0.21 B | 51 MB | 0 |
+| values-100000 | closedxml.model.editsave | 3 | 3.63 s | 3.61 s | 6.70x | 1722.54 B | 850 MB | 0 |
+| values-100000 | epplus.model.editsave | 3 | 1.82 s | 1.81 s | 3.37x | 743.20 B | 356 MB | 0 |
+| values-100000 | npoi.model.editsave | 3 | 2.86 s | 2.67 s | 5.29x | 1333.63 B | 1066 MB | 0 |
 
 ## Bar: OneDocument against the fastest managed comparator
 
@@ -90,10 +90,10 @@ Ratio is OneDocument median / the fastest comparator's median for the same opera
 
 | Operation | Input | OneDocument | Fastest comparator | Comparator median | Ratio |
 |---|---|---:|---|---:|---:|
-| Full model: open and visit every cell | values-10000 | 152.4 ms | epplus.model.load | 184.0 ms | 0.83x |
-| Full model: open and visit every cell | values-100000 | 289.4 ms | closedxml.model.load | 1.73 s | 0.17x |
-| Full model: open, change one cell, save | values-10000 | 260.7 ms | epplus.model.editsave | 346.3 ms | 0.75x |
-| Full model: open, change one cell, save | values-100000 | 574.4 ms | epplus.model.editsave | 2.04 s | 0.28x |
+| Full model: open and visit every cell | values-10000 | 146.1 ms | epplus.model.load | 174.8 ms | 0.84x |
+| Full model: open and visit every cell | values-100000 | 279.9 ms | epplus.model.load | 901.0 ms | 0.31x |
+| Full model: open, change one cell, save | values-10000 | 250.3 ms | epplus.model.editsave | 330.9 ms | 0.76x |
+| Full model: open, change one cell, save | values-100000 | 541.1 ms | epplus.model.editsave | 1.82 s | 0.30x |
 
-Geometric mean of the ratios: 0.414x over 4 rows. Worst row: Full model: open and visit every cell, values-10000 at 0.83x.
+Geometric mean of the ratios: 0.491x over 4 rows. Worst row: Full model: open and visit every cell, values-10000 at 0.84x.
 

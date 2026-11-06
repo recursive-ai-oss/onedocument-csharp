@@ -1,0 +1,79 @@
+look016.dat0	ok	={1,2,3;4,5,6;7,8,9}	={1,2,3;4,5,6;7,8,9}	={1,2,3;4,5,6;7,8,9}	3	3	n:1n:2n:3n:4n:5n:6n:7n:8n:9
+look016.dat1	ok	={"apple",10,TRUE,1;"banana",20,FALSE,2;"cherry",30,TRUE,3;"date",40,FALSE,4}	={"apple",10,TRUE,1;"banana",20,FALSE,2;"cherry",30,TRUE,3;"date",40,FALSE,4}	={"apple",10,TRUE,1;"banana",20,FALSE,2;"cherry",30,TRUE,3;"date",40,FALSE,4}	4	4	s:applen:10b:Truen:1s:bananan:20b:Falsen:2s:cherryn:30b:Truen:3s:daten:40b:Falsen:4
+look016.dat2	ok	={30;20;10}	={30;20;10}	={30;20;10}	3	1	n:30n:20n:10
+look016.t9600	ok	=SCAN(0,{1,2},LAMBDA(a,1))	=SCAN(0,{1,2},LAMBDA(a,1))	=SCAN(0,{1,2},LAMBDA(a,1))	1	1	e:-2146826273
+look016.t9601	ok	=BYROW({1,2;3,4},LAMBDA(r,SUM(r)))	=BYROW({1,2;3,4},LAMBDA(r,SUM(r)))	=BYROW({1,2;3,4},LAMBDA(r,SUM(r)))	2	1	n:3n:7
+look016.t9602	ok	=BYCOL({1,2;3,4},LAMBDA(c,SUM(c)))	=BYCOL({1,2;3,4},LAMBDA(c,SUM(c)))	=BYCOL({1,2;3,4},LAMBDA(c,SUM(c)))	1	2	n:4n:6
+look016.t9603	ok	=BYROW({1,2;3,4},SUM)	=BYROW({1,2;3,4},SUM)	=BYROW({1,2;3,4},SUM)	2	1	n:3n:7
+look016.t9604	ok	=BYCOL({1,2;3,4},SUM)	=BYCOL({1,2;3,4},SUM)	=BYCOL({1,2;3,4},SUM)	1	2	n:4n:6
+look016.t9605	ok	=BYROW({1,2;3,4},LAMBDA(r,r))	=BYROW({1,2;3,4},LAMBDA(r,r))	=BYROW({1,2;3,4},LAMBDA(r,r))	1	1	e:-2146826238
+look016.t9606	ok	=BYROW({1,2},LAMBDA(a,b,1))	=BYROW({1,2},LAMBDA(a,b,1))	=BYROW({1,2},LAMBDA(a,b,1))	1	1	e:-2146826273
+look016.t9607	ok	=BYROW(5,LAMBDA(r,r))	=BYROW(5,LAMBDA(r,r))	=BYROW(5,LAMBDA(r,r))	1	1	n:5
+look016.t9608	ok	=BYROW({1,2;3,4},LAMBDA(r,ROWS(r)&"x"&COLUMNS(r)))	=BYROW({1,2;3,4},LAMBDA(r,ROWS(r)&"x"&COLUMNS(r)))	=BYROW({1,2;3,4},LAMBDA(r,ROWS(r)&"x"&COLUMNS(r)))	2	1	s:1x2s:1x2
+look016.t9609	ok	=BYCOL({1,2;3,4},LAMBDA(c,ROWS(c)&"x"&COLUMNS(c)))	=BYCOL({1,2;3,4},LAMBDA(c,ROWS(c)&"x"&COLUMNS(c)))	=BYCOL({1,2;3,4},LAMBDA(c,ROWS(c)&"x"&COLUMNS(c)))	1	2	s:2x1s:2x1
+look016.t9610	ok	=BYROW(B1:D3,LAMBDA(r,MAX(r)))	=BYROW(R[-780]C:R[-778]C[2],LAMBDA(r,MAX(r)))	=BYROW(B1:D3,LAMBDA(r,MAX(r)))	3	1	n:3n:6n:9
+look016.t9611	ok	=BYROW({1,2;3,4},LAMBDA(r,1/0))	=BYROW({1,2;3,4},LAMBDA(r,1/0))	=BYROW({1,2;3,4},LAMBDA(r,1/0))	2	1	e:-2146826281e:-2146826281
+look016.t9612	ok	=MAKEARRAY(2,3,LAMBDA(r,c,r*10+c))	=MAKEARRAY(2,3,LAMBDA(r,c,r*10+c))	=MAKEARRAY(2,3,LAMBDA(r,c,r*10+c))	2	3	n:11n:12n:13n:21n:22n:23
+look016.t9613	ok	=MAKEARRAY(0,1,LAMBDA(r,c,1))	=MAKEARRAY(0,1,LAMBDA(r,c,1))	=MAKEARRAY(0,1,LAMBDA(r,c,1))	1	1	e:-2146826273
+look016.t9614	ok	=MAKEARRAY(1,1,5)	=MAKEARRAY(1,1,5)	=MAKEARRAY(1,1,5)	1	1	e:-2146826273
+look016.t9615	ok	=MAKEARRAY(2,2,LAMBDA(r,c,{1,2}))	=MAKEARRAY(2,2,LAMBDA(r,c,{1,2}))	=MAKEARRAY(2,2,LAMBDA(r,c,{1,2}))	1	1	e:-2146826238
+look016.t9616	ok	=MAKEARRAY(1.9,2.9,LAMBDA(r,c,r+c))	=MAKEARRAY(1.9,2.9,LAMBDA(r,c,r+c))	=MAKEARRAY(1.9,2.9,LAMBDA(r,c,r+c))	1	1	e:-2146826273
+look016.t9617	ok	=MAKEARRAY("2",1,LAMBDA(r,c,r))	=MAKEARRAY("2",1,LAMBDA(r,c,r))	=MAKEARRAY("2",1,LAMBDA(r,c,r))	2	1	n:1n:2
+look016.t9618	ok	=MAKEARRAY(2,2,SUM)	=MAKEARRAY(2,2,SUM)	=MAKEARRAY(2,2,SUM)	2	2	n:2n:3n:3n:4
+look016.t9619	ok	=MAKEARRAY(2,2,LAMBDA(r,c,RANDARRAY()))	=MAKEARRAY(2,2,LAMBDA(r,c,RANDARRAY()))	=MAKEARRAY(2,2,LAMBDA(r,c,RANDARRAY()))	2	2	n:0.91580999826720655n:0.31717916145150982n:0.099792169166035283n:0.82438825385352543
+look016.t9620	ok	=MAKEARRAY({1,2},1,LAMBDA(r,c,r))	=MAKEARRAY({1,2},1,LAMBDA(r,c,r))	=MAKEARRAY({1,2},1,LAMBDA(r,c,r))	1	2	n:1n:1
+look016.t9621	ok	=MAKEARRAY(#N/A,1,LAMBDA(r,c,r))	=MAKEARRAY(#N/A,1,LAMBDA(r,c,r))	=MAKEARRAY(#N/A,1,LAMBDA(r,c,r))	1	1	e:-2146826246
+look016.t9622	ok	=LAMBDA(x,ISOMITTED(x))(1)	=LAMBDA(x,ISOMITTED(x))(1)	=LAMBDA(x,ISOMITTED(x))(1)	1	1	b:False
+look016.t9623	ok	=LAMBDA(x,ISOMITTED(x))()	=LAMBDA(x,ISOMITTED(x))()	=LAMBDA(x,ISOMITTED(x))()	1	1	e:-2146826273
+look016.t9624	ok	=LAMBDA(x,y,ISOMITTED(y))(1,)	=LAMBDA(x,y,ISOMITTED(y))(1,)	=LAMBDA(x,y,ISOMITTED(y))(1,)	1	1	b:True
+look016.t9625	ok	=LAMBDA(x,[y],ISOMITTED(y))(1)	=LAMBDA(x,[y],ISOMITTED(y))(1)	=LAMBDA(x,[y],ISOMITTED(y))(1)	1	1	b:True
+look016.t9626	ok	=LAMBDA(x,[y],IF(ISOMITTED(y),x,x+y))(1)	=LAMBDA(x,[y],IF(ISOMITTED(y),x,x+y))(1)	=LAMBDA(x,[y],IF(ISOMITTED(y),x,x+y))(1)	1	1	n:1
+look016.t9627	ok	=LAMBDA(x,[y],IF(ISOMITTED(y),x,x+y))(1,2)	=LAMBDA(x,[y],IF(ISOMITTED(y),x,x+y))(1,2)	=LAMBDA(x,[y],IF(ISOMITTED(y),x,x+y))(1,2)	1	1	n:3
+look016.t9628	ok	=ISOMITTED(1)	=ISOMITTED(1)	=ISOMITTED(1)	1	1	b:False
+look016.t9629	ok	=ISOMITTED(B1)	=ISOMITTED(R[-1920]C)	=ISOMITTED(B1)	1	1	b:False
+look016.t9630	ok	=LET(f,SUM,f(1,2))	=LET(f,SUM,f(1,2))	=LET(f,SUM,f(1,2))	1	1	n:3
+look016.t9631	ok	=LET(f,LAMBDA(x,x+1),MAP({1,2},f))	=LET(f,LAMBDA(x,x+1),MAP({1,2},f))	=LET(f,LAMBDA(x,x+1),MAP({1,2},f))	1	2	n:2n:3
+look016.t9632	ok	=SUM	=SUM	=SUM	1	1	e:-2146826238
+look016.t9633	ok	=SUM(SUM)	=SUM(SUM)	=SUM(SUM)	1	1	e:-2146826273
+look016.t9634	rejected: Exception from HRESULT: 0x800A03EC
+look016.t9635	ok	=GROUPBY({"a";"b";"a"},{1;2;3},SUM)	=GROUPBY({"a";"b";"a"},{1;2;3},SUM)	=GROUPBY({"a";"b";"a"},{1;2;3},SUM)	3	2	s:an:4s:bn:2s:Totaln:6
+look016.t9636	ok	=GROUPBY({"a";"b";"a"},{1;2;3},SUM,0,0)	=GROUPBY({"a";"b";"a"},{1;2;3},SUM,0,0)	=GROUPBY({"a";"b";"a"},{1;2;3},SUM,0,0)	2	2	s:an:4s:bn:2
+look016.t9637	ok	=GROUPBY({"a";"b";"a"},{1;2;3},SUM,0,1)	=GROUPBY({"a";"b";"a"},{1;2;3},SUM,0,1)	=GROUPBY({"a";"b";"a"},{1;2;3},SUM,0,1)	3	2	s:an:4s:bn:2s:Totaln:6
+look016.t9638	ok	=GROUPBY({"a";"b";"a"},{1;2;3},SUM,0,-1)	=GROUPBY({"a";"b";"a"},{1;2;3},SUM,0,-1)	=GROUPBY({"a";"b";"a"},{1;2;3},SUM,0,-1)	3	2	s:Totaln:6s:an:4s:bn:2
+look016.t9639	ok	=GROUPBY({"a";"b";"a"},{1;2;3},SUM,0,2)	=GROUPBY({"a";"b";"a"},{1;2;3},SUM,0,2)	=GROUPBY({"a";"b";"a"},{1;2;3},SUM,0,2)	1	1	e:-2146826273
+look016.t9640	ok	=GROUPBY({"b";"a";"b"},{1;2;3},SUM,0,0,-2)	=GROUPBY({"b";"a";"b"},{1;2;3},SUM,0,0,-2)	=GROUPBY({"b";"a";"b"},{1;2;3},SUM,0,0,-2)	2	2	s:bn:4s:an:2
+look016.t9641	ok	=GROUPBY({"b";"a";"b"},{1;2;3},SUM,0,0,2)	=GROUPBY({"b";"a";"b"},{1;2;3},SUM,0,0,2)	=GROUPBY({"b";"a";"b"},{1;2;3},SUM,0,0,2)	2	2	s:an:2s:bn:4
+look016.t9642	ok	=GROUPBY({"b";"a";"b"},{1;2;3},SUM,0,0,0)	=GROUPBY({"b";"a";"b"},{1;2;3},SUM,0,0,0)	=GROUPBY({"b";"a";"b"},{1;2;3},SUM,0,0,0)	1	1	e:-2146826273
+look016.t9643	ok	=GROUPBY({"b";"a";"b"},{1;2;3},SUM,0,0,,{TRUE;FALSE;TRUE})	=GROUPBY({"b";"a";"b"},{1;2;3},SUM,0,0,,{TRUE;FALSE;TRUE})	=GROUPBY({"b";"a";"b"},{1;2;3},SUM,0,0,,{TRUE;FALSE;TRUE})	1	2	s:bn:4
+look016.t9644	ok	=GROUPBY({"k";"a";"b"},{"v";2;3},SUM,3,0)	=GROUPBY({"k";"a";"b"},{"v";2;3},SUM,3,0)	=GROUPBY({"k";"a";"b"},{"v";2;3},SUM,3,0)	3	2	s:ks:vs:an:2s:bn:3
+look016.t9645	ok	=GROUPBY({"k";"a";"b"},{"v";2;3},SUM,1,0)	=GROUPBY({"k";"a";"b"},{"v";2;3},SUM,1,0)	=GROUPBY({"k";"a";"b"},{"v";2;3},SUM,1,0)	2	2	s:an:2s:bn:3
+look016.t9646	ok	=GROUPBY({"a";"b"},{2;3},SUM,2,0)	=GROUPBY({"a";"b"},{2;3},SUM,2,0)	=GROUPBY({"a";"b"},{2;3},SUM,2,0)	3	2	s:Row Field 1s:Value 1s:an:2s:bn:3
+look016.t9647	ok	=GROUPBY({"k";"a";"b"},{"v";2;3},SUM)	=GROUPBY({"k";"a";"b"},{"v";2;3},SUM)	=GROUPBY({"k";"a";"b"},{"v";2;3},SUM)	3	2	s:an:2s:bn:3s:Totaln:5
+look016.t9648	ok	=GROUPBY({"a";"b";"a"},{1;3;3},PERCENTOF)	=GROUPBY({"a";"b";"a"},{1;3;3},PERCENTOF)	=GROUPBY({"a";"b";"a"},{1;3;3},PERCENTOF)	3	2	s:an:0.5714285714285714s:bn:0.42857142857142855s:Totaln:1
+look016.t9649	ok	=GROUPBY({"a";"b";"a"},{1,10;3,30;3,30},SUM)	=GROUPBY({"a";"b";"a"},{1,10;3,30;3,30},SUM)	=GROUPBY({"a";"b";"a"},{1,10;3,30;3,30},SUM)	3	3	s:an:4n:40s:bn:3n:30s:Totaln:7n:70
+look016.t9650	ok	=GROUPBY({"a","x";"b","x";"a","y"},{1;2;3},SUM)	=GROUPBY({"a","x";"b","x";"a","y"},{1;2;3},SUM)	=GROUPBY({"a","x";"b","x";"a","y"},{1;2;3},SUM)	4	3	s:as:xn:1s:as:yn:3s:bs:xn:2s:Totals:n:6
+look016.t9651	ok	=GROUPBY({"a","x";"b","x";"a","y"},{1;2;3},SUM,0,2)	=GROUPBY({"a","x";"b","x";"a","y"},{1;2;3},SUM,0,2)	=GROUPBY({"a","x";"b","x";"a","y"},{1;2;3},SUM,0,2)	6	3	s:as:xn:1s:as:yn:3s:as:n:4s:bs:xn:2s:bs:n:2s:Grand Totals:n:6
+look016.t9652	ok	=GROUPBY({"a","x";"b","x";"a","y"},{1;2;3},SUM,0,0,,,1)	=GROUPBY({"a","x";"b","x";"a","y"},{1;2;3},SUM,0,0,,,1)	=GROUPBY({"a","x";"b","x";"a","y"},{1;2;3},SUM,0,0,,,1)	3	3	s:as:xn:1s:as:yn:3s:bs:xn:2
+look016.t9653	ok	=GROUPBY({"a";"b"},{1;2},LAMBDA(v,SUM(v)*2))	=GROUPBY({"a";"b"},{1;2},LAMBDA(v,SUM(v)*2))	=GROUPBY({"a";"b"},{1;2},LAMBDA(v,SUM(v)*2))	3	2	s:an:2s:bn:4s:Totaln:6
+look016.t9654	ok	=GROUPBY({"a";"b"},{1;2},5)	=GROUPBY({"a";"b"},{1;2},5)	=GROUPBY({"a";"b"},{1;2},5)	1	1	e:-2146826273
+look016.t9655	ok	=GROUPBY({"a";"b"},{1;2;3},SUM)	=GROUPBY({"a";"b"},{1;2;3},SUM)	=GROUPBY({"a";"b"},{1;2;3},SUM)	1	1	e:-2146826273
+look016.t9656	ok	=GROUPBY({"a";"b"},{1;2},LAMBDA(v,v))	=GROUPBY({"a";"b"},{1;2},LAMBDA(v,v))	=GROUPBY({"a";"b"},{1;2},LAMBDA(v,v))	3	2	s:ae:-2146826273s:be:-2146826273s:Totale:-2146826273
+look016.t9657	ok	=GROUPBY({"a";"b"},{1;2},HSTACK(SUM,SUM))	=GROUPBY({"a";"b"},{1;2},HSTACK(SUM,SUM))	=GROUPBY({"a";"b"},{1;2},HSTACK(SUM,SUM))	4	3	s:s:SUMs:SUMs:an:1n:1s:bn:2n:2s:Totaln:3n:3
+look016.t9658	ok	=GROUPBY(B61:B64,D61:D64,SUM)	=GROUPBY(R[-3600]C:R[-3597]C,R[-3600]C[2]:R[-3597]C[2],SUM)	=GROUPBY(B61:B64,D61:D64,SUM)	5	2	s:applen:0s:bananan:0s:cherryn:0s:daten:0s:Totaln:0
+look016.t9659	ok	=GROUPBY(B61:B64,D61:D64,SUM,0,0,-2)	=GROUPBY(R[-3660]C:R[-3657]C,R[-3660]C[2]:R[-3657]C[2],SUM,0,0,-2)	=GROUPBY(B61:B64,D61:D64,SUM,0,0,-2)	4	2	s:applen:0s:bananan:0s:cherryn:0s:daten:0
+look016.t9660	ok	=GROUPBY(C61:C64,D61:D64,SUM,0,0)	=GROUPBY(R[-3720]C[1]:R[-3717]C[1],R[-3720]C[2]:R[-3717]C[2],SUM,0,0)	=GROUPBY(C61:C64,D61:D64,SUM,0,0)	4	2	n:10n:0n:20n:0n:30n:0n:40n:0
+look016.t9661	ok	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM)	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM)	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM)	4	4	s:s:xs:ys:Totals:an:1n:3n:4s:bn:2s:n:2s:Totaln:3n:3n:6
+look016.t9662	ok	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM,0)	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM,0)	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM,0)	4	4	s:s:xs:ys:Totals:an:1n:3n:4s:bn:2s:n:2s:Totaln:3n:3n:6
+look016.t9663	ok	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM,0,0)	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM,0,0)	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM,0,0)	3	4	s:s:xs:ys:Totals:an:1n:3n:4s:bn:2s:n:2
+look016.t9664	ok	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM,0,0,,0)	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM,0,0,,0)	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM,0,0,,0)	3	3	s:s:xs:ys:an:1n:3s:bn:2s:
+look016.t9665	ok	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM,0,1,-1,1,-1)	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM,0,1,-1,1,-1)	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM,0,1,-1,1,-1)	4	4	s:s:ys:xs:Totals:bs:n:2n:2s:an:3n:1n:4s:Totaln:3n:3n:6
+look016.t9666	ok	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM,0,1,,1,,{TRUE;TRUE;FALSE})	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM,0,1,,1,,{TRUE;TRUE;FALSE})	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},SUM,0,1,,1,,{TRUE;TRUE;FALSE})	4	3	s:s:xs:Totals:an:1n:1s:bn:2n:2s:Totaln:3n:3
+look016.t9667	ok	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},PERCENTOF)	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},PERCENTOF)	=PIVOTBY({"a";"b";"a"},{"x";"x";"y"},{1;2;3},PERCENTOF)	4	4	s:s:xs:ys:Totals:an:0.33333333333333331n:1n:0.66666666666666663s:bn:0.66666666666666663s:n:0.33333333333333331s:Totaln:1n:1n:1
+look016.t9668	ok	=PIVOTBY({"a";"b"},{"x";"x"},{1;2},SUM,3)	=PIVOTBY({"a";"b"},{"x";"x"},{1;2},SUM,3)	=PIVOTBY({"a";"b"},{"x";"x"},{1;2},SUM,3)	5	3	s:s:xs:s:s:xs:Totals:an:1n:1s:bn:2n:2s:Totaln:2n:2
+look016.t9669	ok	=PIVOTBY({"a";"b"},{"x";"x";"x"},{1;2},SUM)	=PIVOTBY({"a";"b"},{"x";"x";"x"},{1;2},SUM)	=PIVOTBY({"a";"b"},{"x";"x";"x"},{1;2},SUM)	1	1	e:-2146826273
+look016.t9670	ok	=PERCENTOF({1,2},{1,2,3,4})	=PERCENTOF({1,2},{1,2,3,4})	=PERCENTOF({1,2},{1,2,3,4})	1	1	n:0.3
+look016.t9671	ok	=PERCENTOF(1,0)	=PERCENTOF(1,0)	=PERCENTOF(1,0)	1	1	e:-2146826281
+look016.t9672	ok	=PERCENTOF({1,"a"},{1,2})	=PERCENTOF({1,"a"},{1,2})	=PERCENTOF({1,"a"},{1,2})	1	1	n:0.33333333333333331
+look016.t9673	ok	=PERCENTOF(B1:B3,B1:D3)	=PERCENTOF(R[-4560]C:R[-4558]C,R[-4560]C:R[-4558]C[2])	=PERCENTOF(B1:B3,B1:D3)	1	1	n:0.26666666666666666
+look016.t9674	ok	=PERCENTOF(#N/A,1)	=PERCENTOF(#N/A,1)	=PERCENTOF(#N/A,1)	1	1	e:-2146826246
+look016.t9675	rejected: Exception from HRESULT: 0x800A03EC

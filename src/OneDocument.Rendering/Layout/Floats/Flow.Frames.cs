@@ -48,7 +48,7 @@ public static partial class LayoutEngine
             {
                 FormattedParagraph fp = ParagraphFormatter.Format(p, ctx, width);
                 SnapToGrid(fp);
-                height += (formatted.Count == 0 ? fp.SpaceBefore : after + fp.SpaceBefore) + Total(fp, 0, fp.Lines.Count);
+                height += (formatted.Count == 0 ? fp.SpaceBefore : Math.Max(after, fp.SpaceBefore)) + Total(fp, 0, fp.Lines.Count);
                 after = fp.SpaceAfter;
                 formatted.Add(fp);
             }
@@ -102,7 +102,7 @@ public static partial class LayoutEngine
             for (int i = 0; i < formatted.Count; i++)
             {
                 FormattedParagraph fp = formatted[i];
-                double top = cursor + (i == 0 ? fp.SpaceBefore : after + fp.SpaceBefore);
+                double top = cursor + (i == 0 ? fp.SpaceBefore : Math.Max(after, fp.SpaceBefore));
                 LayoutParagraph lp = ParagraphEmitter.Build(fp, 0, fp.Lines.Count, x, top, true, true, out double bottom, out _);
                 lp.Story = _story;
                 lp.Column = _colIndex;

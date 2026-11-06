@@ -76,6 +76,40 @@ internal static class LookupFunctions
         return ev.Resolver.GetPivotData(CalcConvert.ToText(name), first.Sheet ?? ev.Origin.Sheet, first.Row1, first.Column1, items);
     }
 
+    // Observed in Excel 16.0.20527: MATCH with match_type -1 over a short array reads the cells from the first one on, skipping cells of
+    // another type: an equal cell answers at once, the first smaller cell ends the search with the cell before it (#N/A when it is the
+    // first). On data that really is descending that is what a bisection finds; on other data it is what Excel answers. Longer
+    // arrays are bisected, which agrees on descending data and is not linear in the length.
+    private const int LinearDescendingLimit = 64;
+
+    private static int DescendingScan(in Vec v, in CalcValue target)
+    {
+        int cls = LookupSupport.Class(target);
+        int previous = -1;
+        for (int i = 0; i < v.Length; i++)
+        {
+            if (LookupSupport.Class(v[i]) != cls)
+            {
+                continue;
+            }
+
+            int c = LookupSupport.CompareSameClass(v[i], target);
+            if (c == 0)
+            {
+                return i;
+            }
+
+            if (c < 0)
+            {
+                return previous;
+            }
+
+            previous = i;
+        }
+
+        return previous;
+    }
+
     // ---- MATCH ------------------------------------------------------------------------------------------------------------
 
     // Microsoft's MATCH page: match_type 1 (default) finds the largest value <= lookup_value in ascending data, 0 the first exact
@@ -112,7 +146,31 @@ internal static class LookupFunctions
             return Err(CalcError.NA);
         }
 
-        int i = type == 0 ? LookupSupport.FindExact(v, args[0], true, false) : LookupSupport.Binary(v, args[0], type > 0, false);
+        if (args[0].Kind == ValueKind.Error)
+        {
+            return args[0];
+        }
+
+        CalcValue first = LookupSupport.Normalise(args[0]);
+        int i;
+        if (type == 0)
+        {
+            i = LookupSupport.FindExact(v, args[0], true, false);
+        }
+        else if (type < 0 && v.Length <= LinearDescendingLimit)
+        {
+            i = DescendingScan(v, first);
+        }
+        else if (type < 0 && v.Length > 0 && LookupSupport.Class(v[0]) == LookupSupport.Class(first) && LookupSupport.CompareSameClass(first, v[0]) > 0)
+        {
+            // A long range is bisected, and a value above the first cell is #N/A without probing.
+            i = -1;
+        }
+        else
+        {
+            i = LookupSupport.Binary(v, args[0], type > 0);
+        }
+
         return i < 0 ? Err(CalcError.NA) : Num(i + 1);
     }
 
@@ -151,71 +209,104 @@ internal static class LookupFunctions
     /// <summary>The XMATCH search: returns the 0-based position or -1.</summary>
     internal static int XSearch(in Vec v, in CalcValue target, int mm, int sm)
     {
-        CalcValue t = LookupSupport.Normalise(target);
+        // Observed: next-smaller and next-larger take an empty needle as sorting above every value, errors included (so next-smaller
+        // answers the last cell in that order and next-larger is #N/A); an exact search takes it as zero.
+        CalcValue t = target.Kind == ValueKind.Blank && mm is -1 or 1 ? target : LookupSupport.Normalise(target);
+        if (t.Kind == ValueKind.Error)
+        {
+            return -1;
+        }
+
+        if (mm == 2)
+        {
+            // Wildcards need a linear scan; a binary search cannot use them.
+            return sm is 2 or -2 ? LookupSupport.FindExact(v, t, true, false) : LookupSupport.FindExact(v, t, true, sm == -1);
+        }
+
         if (sm is 2 or -2)
         {
-            bool asc = sm == 2;
-            int best = LookupSupport.Binary(v, t, asc, false);
-            if (mm == 2)
-            {
-                // Wildcards need a linear scan; a binary search cannot use them.
-                return LookupSupport.FindExact(v, t, true, false);
-            }
-
-            bool equal = best >= 0 && LookupSupport.CompareSameClass(v[best], t) == 0;
-            if (equal)
-            {
-                return best;
-            }
-
-            if (mm == 0)
-            {
-                return -1;
-            }
-
-            // In ascending data the last element below the target is `best`; the next larger is best + 1. Descending is the mirror.
-            bool wantsLower = mm == -1;
-            if (asc == wantsLower)
-            {
-                return best;
-            }
-
-            int next = best + 1;
-            return next < v.Length && LookupSupport.Class(v[next]) == LookupSupport.Class(t) ? next : -1;
+            return XBinary(v, t, mm, sm == 2);
         }
 
         bool reverse = sm == -1;
-        if (mm is 0 or 2)
+        if (mm == 0)
         {
-            return LookupSupport.FindExact(v, t, mm == 2, reverse);
+            return LookupSupport.FindExact(v, t, false, reverse);
         }
 
+        // Next smaller / next larger by linear scan. Observed in Excel 16.0.20527: values of another type take part, in the order
+        // numbers, text, logical values, errors (so "b" is larger than every number); empty cells are skipped.
         int found = -1;
         int n = v.Length;
-        int cls = LookupSupport.Class(t);
         for (int k = 0; k < n; k++)
         {
             int i = reverse ? n - 1 - k : k;
             CalcValue x = v[i];
-            if (LookupSupport.Class(x) != cls)
+            if (LookupSupport.Class(x) == 4)
             {
                 continue;
             }
 
-            int c = LookupSupport.CompareSameClass(x, t);
+            int c = LookupSupport.Order(x, t);
             if (c == 0)
             {
                 return i;
             }
 
-            if ((mm == -1 && c < 0 && (found < 0 || LookupSupport.CompareSameClass(x, v[found]) > 0)) ||
-                (mm == 1 && c > 0 && (found < 0 || LookupSupport.CompareSameClass(x, v[found]) < 0)))
+            if ((mm == -1 && c < 0 && (found < 0 || LookupSupport.Order(x, v[found]) > 0)) ||
+                (mm == 1 && c > 0 && (found < 0 || LookupSupport.Order(x, v[found]) < 0)))
             {
                 found = i;
             }
         }
 
         return found;
+    }
+
+    // Observed in Excel 16.0.20527: a plain bisection that compares across types in the same order, even on data that is not in the
+    // order the mode claims. An equal probe is remembered and the search goes on towards the start of an ascending search (the first of
+    // equal cells wins) and towards the end of a descending one; without an equal cell the last probe on the wanted side answers.
+    private static int XBinary(in Vec v, in CalcValue t, int mm, bool asc)
+    {
+        int lo = 0;
+        int hi = v.Length - 1;
+        int candidate = -1;
+        int equal = -1;
+        while (lo <= hi)
+        {
+            int mid = lo + ((hi - lo) / 2);
+            int c = LookupSupport.Order(v[mid], t);
+            if (c == 0)
+            {
+                equal = mid;
+                if (asc)
+                {
+                    hi = mid - 1;
+                }
+                else
+                {
+                    lo = mid + 1;
+                }
+
+                continue;
+            }
+
+            if ((mm == -1 && c < 0) || (mm == 1 && c > 0))
+            {
+                candidate = mid;
+            }
+
+            if (asc ? c < 0 : c > 0)
+            {
+                lo = mid + 1;
+            }
+            else
+            {
+                hi = mid - 1;
+            }
+        }
+
+        return equal >= 0 ? equal : candidate;
     }
 
     private static CalcValue XMatch(Evaluator ev, ReadOnlySpan<CalcValue> args)
@@ -354,13 +445,13 @@ internal static class LookupFunctions
                 return Err(CalcError.NA);
             }
 
-            int i = LookupSupport.Binary(lv, args[0], true, false);
+            int i = LookupSupport.Binary(lv, args[0], true);
             return i < 0 || i >= rv.Length ? Err(CalcError.NA) : rv[i];
         }
 
         bool wide = arr.Columns > arr.Rows;
         Vec search = wide ? new Vec(arr, true, 0) : new Vec(arr, false, 0);
-        int k = LookupSupport.Binary(search, args[0], true, false);
+        int k = LookupSupport.Binary(search, args[0], true);
         if (k < 0)
         {
             return Err(CalcError.NA);
@@ -400,6 +491,15 @@ internal static class LookupFunctions
         }
 
         int span = horizontal ? table.Rows : table.Columns;
+        Vec search = horizontal ? new Vec(table, true, 0) : new Vec(table, false, 0);
+        int i = approx ? LookupSupport.Binary(search, args[0], true) : LookupSupport.FindExact(search, args[0], true, false);
+        if (i < 0)
+        {
+            return Err(CalcError.NA);
+        }
+
+        // Observed in Excel 16.0.20527: the lookup runs first, so a value that is not found is #N/A whatever the index is; the index is
+        // checked only for a row that was found.
         if (index < 1)
         {
             return Err(CalcError.Value);
@@ -408,13 +508,6 @@ internal static class LookupFunctions
         if (index > span)
         {
             return Err(CalcError.Ref);
-        }
-
-        Vec search = horizontal ? new Vec(table, true, 0) : new Vec(table, false, 0);
-        int i = approx ? LookupSupport.Binary(search, args[0], true, false) : LookupSupport.FindExact(search, args[0], true, false);
-        if (i < 0)
-        {
-            return Err(CalcError.NA);
         }
 
         return horizontal ? table[index - 1, i] : table[i, index - 1];

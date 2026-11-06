@@ -28,13 +28,28 @@
     <PackageReference Include="Sylvan.Data.Excel" />
     <PackageReference Include="ExcelDataReader" />
     <PackageReference Include="EPPlus" />
+    <PackageReference Include="ClosedXML.Report" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="../../src/OneDocument/OneDocument.csproj" />
     <ProjectReference Include="../../src/OneDocument.Documents/OneDocument.Documents.csproj" />
     <ProjectReference Include="../../src/OneDocument.Spreadsheets/OneDocument.Spreadsheets.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Presentations/OneDocument.Presentations.csproj" />
+    <ProjectReference Include="../../src/OneDocument.Rendering/OneDocument.Rendering.csproj" />
     <ProjectReference Include="../../src/OneDocument.Generators/OneDocument.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Project references do not import a package's build files, so the format-registration sources that a package reference would
+         add to this project are included directly. -->
+    <Compile Include="../../src/OneDocument.Documents/build/*.cs;../../src/OneDocument.Spreadsheets/build/*.cs;../../src/OneDocument.Presentations/build/*.cs;../../src/OneDocument.Rendering/build/*.cs" Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Small fixtures the format rows start from: a one-slide deck and a row-block template. -->
+    <Content Include="../../testdata/slides/slide-runs.pptx" Link="basedeck.pptx" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../testdata/templates/xlsx/row-block.template.xlsx" Link="template-row-block.xlsx" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,7 @@
+row	size	reps	min_ms	median_ms	alloc_bytes_per_rep	peak_ws_mb	checksum	file_bytes
+onedocument.xlsb.model	values-10000.xlsb	5	290.1	294.2	36015144	97	537015189	0
+sylvan.xlsb.read	values-10000.xlsb	15	6.8	6.9	527088	59	537015189	0
+exceldatareader.xlsb.read	values-10000.xlsb	15	25.4	25.9	8579208	67	537015189	0
+onedocument.xlsb.model	values-50000.xlsb	3	596.8	1097.4	204442120	239	4189564533	0
+sylvan.xlsb.read	values-50000.xlsb	15	31.5	31.6	527088	59	4189564533	0
+exceldatareader.xlsb.read	values-50000.xlsb	3	325.7	328.1	41539208	99	4189564533	0

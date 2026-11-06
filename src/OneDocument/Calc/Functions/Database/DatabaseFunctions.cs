@@ -68,13 +68,16 @@ internal static class DatabaseFunctions
             return fieldArg;
         }
 
-        if (db.Rows < 1 || db.Columns < 1 || crit.Rows < 1)
+        // Observed in Excel 16.0.20527: a criteria block of a single row (a header with nothing under it) or a single value is #VALUE!.
+        if (db.Rows < 1 || db.Columns < 1 || crit.Rows < 2)
         {
             return Fx.Err(CalcError.Value);
         }
 
         // The field is a column number (1-based) or a header text, compared ignoring case.
         int column = -1;
+        // Observed: DCOUNT and DCOUNTA may leave the field out, and then count the records that match.
+        bool countRecords = a[1].IsMissing && (kind is Kind.Count or Kind.CountA);
         if (fieldArg.Kind == ValueKind.Array)
         {
             return Fx.Err(CalcError.Value);
@@ -95,13 +98,14 @@ internal static class DatabaseFunctions
         else if (fieldArg.Kind is ValueKind.Number or ValueKind.Boolean)
         {
             double n = Math.Truncate(fieldArg.Number);
-            if (n >= 1 && n <= db.Columns && fieldArg.Kind == ValueKind.Number)
+            // Observed: TRUE names the first column, as the number 1 does.
+            if (n >= 1 && n <= db.Columns)
             {
                 column = (int)n - 1;
             }
         }
 
-        if (column < 0)
+        if (column < 0 && !countRecords)
         {
             return Fx.Err(CalcError.Value);
         }
@@ -187,7 +191,8 @@ internal static class DatabaseFunctions
 
             if (match)
             {
-                picked.Add(db[r, column]);
+                // A record counted without a field stands for a non-empty value.
+                picked.Add(column < 0 ? CalcValue.FromNumber(1) : db[r, column]);
             }
         }
 

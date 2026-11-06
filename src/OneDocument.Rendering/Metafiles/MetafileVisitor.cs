@@ -64,10 +64,56 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
         L.PushClipRect(Id(), _dest);
     }
 
+    // Clips and transforms the painter has open above the destination clip, innermost last (true is a clip). A damaged file can make a
+    // drawing call throw part-way through; Abort closes whatever is still open so the display list stays balanced.
+    private readonly Stack<bool> _open = new();
+
+    private void PushClipPath(PathBuffer path, FillRule rule)
+    {
+        L.PushClipPath(Id(), path, rule);
+        _open.Push(true);
+    }
+
+    private void PushTransform(Matrix3x2 m)
+    {
+        L.PushTransform(Id(), m);
+        _open.Push(false);
+    }
+
+    private void PopClip()
+    {
+        L.PopClip();
+        _open.Pop();
+    }
+
+    private void PopTransform()
+    {
+        L.PopTransform();
+        _open.Pop();
+    }
+
+    /// <summary>Closes every clip and transform still open after a drawing call failed.</summary>
+    internal void Abort()
+    {
+        while (_open.Count > 0)
+        {
+            if (_open.Pop())
+            {
+                L.PopClip();
+            }
+            else
+            {
+                L.PopTransform();
+            }
+        }
+
+        _emitted = 0;
+    }
+
     internal void End()
     {
         PopEmitted();
-        L.PopClip();
+        L.PopClip(); // the destination clip pushed by Begin
         if (_ctx.Tagged)
         {
             L.EndTag();
@@ -185,9 +231,9 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
             Matrix3x2 m = Matrix3x2.CreateScale((float)(pr.Width / img.Width), (float)(pr.Height / img.Height))
                 * Matrix3x2.CreateTranslation((float)pr.Left, (float)pr.Top) * _toPage;
             var rect = new RectF(0, 0, img.Width, img.Height);
-            L.PushTransform(Id(), m);
+            PushTransform(m);
             L.DrawImage(Id(), handle, rect, rect, ImageSampling.Smooth);
-            L.PopTransform();
+            PopTransform();
             return true;
         }
         catch (Exception ex) when (ex is ArgumentException or OneImage.ImageException or InvalidOperationException)
@@ -293,7 +339,7 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
     {
         for (int i = 0; i < _emitted; i++)
         {
-            L.PopClip();
+            PopClip();
         }
 
         _emitted = 0;
@@ -309,7 +355,7 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
         PopEmitted();
         foreach (ClipEntry e in _clip)
         {
-            L.PushClipPath(Id(), e.Path, e.Rule);
+            PushClipPath(e.Path, e.Rule);
         }
 
         _emitted = _clip.Count;
@@ -373,7 +419,7 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
     private void FillLinear(PathBuffer pb, FillRule rule, LinearGradientBrushSpec g)
     {
         Matrix3x2 m = g.Transform * Final;
-        Vector2 p0 = Vector2.Transform(g.Start, m), p1 = Vector2.Transform(g.End, m);
+        Vector2 p0 = Page(g.Start, m), p1 = Page(g.End, m);
         if (g.Stops.Count == 0)
         {
             return;
@@ -400,11 +446,11 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
     private void FillPathGradient(PathBuffer pb, FillRule rule, PathGradientBrushSpec g)
     {
         Matrix3x2 m = g.Transform * Final;
-        Vector2 c = Vector2.Transform(g.Center, m);
+        Vector2 c = Page(g.Center, m);
         float radius = 0;
         foreach (Vector2 b in g.Boundary)
         {
-            radius = MathF.Max(radius, Vector2.Distance(c, Vector2.Transform(b, m)));
+            radius = MathF.Max(radius, Vector2.Distance(c, Page(b, m)));
         }
 
         Rgba32 edge = g.BoundaryColors.Count > 0 ? g.BoundaryColors[0] : g.CenterColor;
@@ -438,12 +484,12 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
         }
 
         Bounds(pb, out float x0, out float y0, out float x1, out float y1);
-        Vector2[] corners = [Vector2.Transform(new Vector2(x0, y0), inv), Vector2.Transform(new Vector2(x1, y0), inv), Vector2.Transform(new Vector2(x1, y1), inv), Vector2.Transform(new Vector2(x0, y1), inv)];
+        Vector2[] corners = [Page(new Vector2(x0, y0), inv), Page(new Vector2(x1, y0), inv), Page(new Vector2(x1, y1), inv), Page(new Vector2(x0, y1), inv)];
         float bx0 = corners.Min(p => p.X), by0 = corners.Min(p => p.Y), bx1 = corners.Max(p => p.X), by1 = corners.Max(p => p.Y);
         ImageHandle handle = _ctx.Images.Add(new RgbaImage(img.Width, img.Height, img.Pixels.ToArray()));
         var tile = new RectF(0, 0, img.Width, img.Height);
-        L.PushClipPath(Id(), Clone(pb), rule);
-        L.PushTransform(Id(), m);
+        PushClipPath(Clone(pb), rule);
+        PushTransform(m);
         if (t.Wrap == EdgeWrap.Clamp)
         {
             L.DrawImage(Id(), handle, tile, tile, ImageSampling.Smooth);
@@ -453,8 +499,8 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
             L.DrawImageTiled(Id(), handle, tile, tile, new RectF(bx0, by0, bx1 - bx0, by1 - by0), 0, 0, ImageSampling.Smooth);
         }
 
-        L.PopTransform();
-        L.PopClip();
+        PopTransform();
+        PopClip();
     }
 
     // GDI+ hatch styles 0 to 5 are the six GDI patterns; they are anchored at the corner of the output.
@@ -462,7 +508,7 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
     {
         HatchKind kind = h.Style switch { 0 => HatchKind.Horizontal, 1 => HatchKind.Vertical, 2 => HatchKind.ForwardDiagonal, 3 => HatchKind.BackwardDiagonal, 4 => HatchKind.Cross, _ => HatchKind.DiagonalCross };
         Matrix3x2.Invert(_toPage, out Matrix3x2 back);
-        Vector2 origin = Vector2.Transform(new Vector2(_dest.X, _dest.Y), back);
+        Vector2 origin = Page(new Vector2(_dest.X, _dest.Y), back);
         FillHatch(pb, rule, new HatchBrushSpec(kind, h.Foreground, h.Background.A == 0 ? null : h.Background, origin));
     }
 
@@ -476,10 +522,10 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
         }
 
         Bounds(pb, out float x0, out float y0, out float x1, out float y1);
-        Vector2 o = Vector2.Transform(h.Origin, _toPage);
+        Vector2 o = Page(h.Origin, _toPage);
         // The path is cloned because the shared buffer is reused while the clip is open.
         var clipPath = Clone(pb);
-        L.PushClipPath(Id(), clipPath, rule);
+        PushClipPath(clipPath, rule);
         if (h.Background is { } bg)
         {
             L.FillRect(Id(), new RectF(x0, y0, x1 - x0, y1 - y0), Color(bg));
@@ -532,7 +578,7 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
 
         }
 
-        L.PopClip();
+        PopClip();
     }
 
     // A one-pixel-wide diagonal band between y0 and y1: x = k + dir * y, where k is passed with the origin folded in.
@@ -573,12 +619,12 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
 
         ImageHandle handle = _ctx.Images.Add(new RgbaImage(bmp.Width, bmp.Height, rgba));
         Bounds(pb, out float x0, out float y0, out float x1, out float y1);
-        Vector2 o = Vector2.Transform(p.Origin, _toPage);
-        L.PushClipPath(Id(), Clone(pb), rule);
+        Vector2 o = Page(p.Origin, _toPage);
+        PushClipPath(Clone(pb), rule);
         var src = new RectF(0, 0, bmp.Width, bmp.Height);
         // Brush bitmaps repeat unscaled in output pixels, anchored at the brush origin.
         L.DrawImageTiled(Id(), handle, src, new RectF(o.X, o.Y, bmp.Width, bmp.Height), new RectF(x0, y0, x1 - x0, y1 - y0), 0, 0, ImageSampling.Pixelated);
-        L.PopClip();
+        PopClip();
     }
 
     public override void VisitStrokePath(StrokePathCommand command)
@@ -676,12 +722,12 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
             switch (v)
             {
                 case OneImage.Metafile.PathVerb.MoveTo:
-                    b.MoveTo(Vector2.Transform(mp.Points[p++], m));
+                    b.MoveTo(Page(mp.Points[p++], m));
                     open = true;
                     break;
                 case OneImage.Metafile.PathVerb.LineTo:
                 {
-                    Vector2 pt = Vector2.Transform(mp.Points[p++], m);
+                    Vector2 pt = Page(mp.Points[p++], m);
                     if (open)
                     {
                         b.LineTo(pt);
@@ -697,7 +743,7 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
 
                 case OneImage.Metafile.PathVerb.CubicTo:
                 {
-                    Vector2 a = Vector2.Transform(mp.Points[p], m), c = Vector2.Transform(mp.Points[p + 1], m), e = Vector2.Transform(mp.Points[p + 2], m);
+                    Vector2 a = Page(mp.Points[p], m), c = Page(mp.Points[p + 1], m), e = Page(mp.Points[p + 2], m);
                     p += 3;
                     if (!open)
                     {
@@ -724,6 +770,16 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
 
     // ---- path buffers ------------------------------------------------------------------------------------------------------
 
+    // The display list refuses coordinates that are not finite or lie beyond a billion pixels. A damaged file can ask for a transform that
+    // throws points that far, so every transformed point is brought into range (what lies there is off the page either way).
+    private static Vector2 Page(Vector2 v, in Matrix3x2 m)
+    {
+        Vector2 r = Vector2.Transform(v, m);
+        return new Vector2(Bound(r.X), Bound(r.Y));
+    }
+
+    private static float Bound(float v) => float.IsFinite(v) ? Math.Clamp(v, -1e8f, 1e8f) : 0f;
+
     private static void AddPath(PathBuffer pb, MetafilePath mp, in Matrix3x2 m)
     {
         int p = 0;
@@ -734,7 +790,7 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
             {
                 case OneImage.Metafile.PathVerb.MoveTo:
                 {
-                    Vector2 a = Vector2.Transform(mp.Points[p++], m);
+                    Vector2 a = Page(mp.Points[p++], m);
                     pb.MoveTo(a.X, a.Y);
                     open = true;
                     break;
@@ -742,7 +798,7 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
 
                 case OneImage.Metafile.PathVerb.LineTo:
                 {
-                    Vector2 a = Vector2.Transform(mp.Points[p++], m);
+                    Vector2 a = Page(mp.Points[p++], m);
                     if (open)
                     {
                         pb.LineTo(a.X, a.Y);
@@ -758,7 +814,7 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
 
                 case OneImage.Metafile.PathVerb.CubicTo:
                 {
-                    Vector2 a = Vector2.Transform(mp.Points[p], m), b = Vector2.Transform(mp.Points[p + 1], m), c = Vector2.Transform(mp.Points[p + 2], m);
+                    Vector2 a = Page(mp.Points[p], m), b = Page(mp.Points[p + 1], m), c = Page(mp.Points[p + 2], m);
                     p += 3;
                     if (!open)
                     {
@@ -860,7 +916,7 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
                 _pb.Clear();
                 foreach (GradientVertex g in new[] { a, b, c })
                 {
-                    Vector2 p = Vector2.Transform(g.Position, f);
+                    Vector2 p = Page(g.Position, f);
                     if (_pb.VerbCount == 0)
                     {
                         _pb.MoveTo(p.X, p.Y);
@@ -896,13 +952,13 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
             GradientVertex second = aFirst ? b : a;
             Vector2 p0 = horizontal ? new Vector2(lx, (ty + by) / 2) : new Vector2((lx + rx) / 2, ty);
             Vector2 p1 = horizontal ? new Vector2(rx, (ty + by) / 2) : new Vector2((lx + rx) / 2, by);
-            p0 = Vector2.Transform(p0, f);
-            p1 = Vector2.Transform(p1, f);
+            p0 = Page(p0, f);
+            p1 = Page(p1, f);
             _pb.Clear();
             Vector2[] corners = [new(lx, ty), new(rx, ty), new(rx, by), new(lx, by)];
             for (int k = 0; k < 4; k++)
             {
-                Vector2 p = Vector2.Transform(corners[k], f);
+                Vector2 p = Page(corners[k], f);
                 if (k == 0)
                 {
                     _pb.MoveTo(p.X, p.Y);
@@ -1013,9 +1069,9 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
             L.PushGroup(Id(), command.ConstantAlpha / 255f);
         }
 
-        L.PushTransform(Id(), a * f);
+        PushTransform(a * f);
         L.DrawImage(Id(), handle, src, src, command.Stretch == StretchMode.Halftone ? ImageSampling.Smooth : ImageSampling.Pixelated);
-        L.PopTransform();
+        PopTransform();
         if (group)
         {
             L.PopGroup();
@@ -1051,7 +1107,7 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
         Vector2[] pts = [c.DestTopLeft, c.DestTopRight, br, c.DestBottomLeft];
         for (int i = 0; i < 4; i++)
         {
-            Vector2 p = Vector2.Transform(pts[i], f);
+            Vector2 p = Page(pts[i], f);
             if (i == 0)
             {
                 _pb.MoveTo(p.X, p.Y);
@@ -1165,7 +1221,7 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
         float baseline = command.Vertical switch { TextVerticalAlignment.Top => asc, TextVerticalAlignment.Bottom => -desc, _ => 0 };
 
         // The text lives in a local space whose unit is a page pixel; the escapement turns it about the reference point in device space.
-        Vector2 origin = Vector2.Transform(command.Origin, f);
+        Vector2 origin = Page(command.Origin, f);
         float theta = (float)(font.Escapement / 10.0 * Math.PI / 180.0);
         Matrix3x2 local = Matrix3x2.CreateRotation(-theta) * Matrix3x2.CreateTranslation(origin);
 
@@ -1174,11 +1230,11 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
         {
             var pb = new PathBuffer();
             AddRect(pb, cr, f);
-            L.PushClipPath(Id(), pb, FillRule.NonZero);
+            PushClipPath(pb, FillRule.NonZero);
             clipped = true;
         }
 
-        L.PushTransform(Id(), local);
+        PushTransform(local);
         PaintColor color = Color(command.Color);
         foreach (var seg in segments)
         {
@@ -1213,10 +1269,10 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
             L.FillRect(Id(), new RectF(x0, baseline - (emPx * 0.3f), width, thick), color);
         }
 
-        L.PopTransform();
+        PopTransform();
         if (clipped)
         {
-            L.PopClip();
+            PopClip();
         }
     }
 
@@ -1245,7 +1301,7 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
         Vector2[] pts = [new((float)r.Left, (float)r.Top), new((float)r.Right, (float)r.Top), new((float)r.Right, (float)r.Bottom), new((float)r.Left, (float)r.Bottom)];
         for (int i = 0; i < 4; i++)
         {
-            Vector2 p = Vector2.Transform(pts[i], m);
+            Vector2 p = Page(pts[i], m);
             if (i == 0)
             {
                 pb.MoveTo(p.X, p.Y);
@@ -1303,9 +1359,9 @@ internal sealed class MetafileVisitor : DrawingCommandVisitor
             L.PushGroup(Id(), (float)Math.Clamp(command.Opacity, 0, 1));
         }
 
-        L.PushTransform(Id(), a * Final);
+        PushTransform(a * Final);
         L.DrawImage(Id(), handle, src, src, command.Interpolation == ImageInterpolation.Nearest ? ImageSampling.Pixelated : ImageSampling.Smooth);
-        L.PopTransform();
+        PopTransform();
         if (group)
         {
             L.PopGroup();

@@ -4,7 +4,7 @@
 #   fuzz/run.sh <target> <seconds> [corpus dir] [extra libFuzzer flags...]
 #   fuzz/run.sh replay <target> <file>...      # run saved inputs once, without libFuzzer (reproduce a finding)
 #
-# Targets: formula, formulaeval, finfuncs, statfuncs, funcs, lookups, sniff, xml, markup, opc, cfb, sdt, sdtpath, text, revisions, stories, pptx, fieldinstr, fields, numfmt, numfmtfmt, sheet, sst, wbpart, styles, sheetfeat, table, pivot, csv, stream, streamwrite, template, richtext, mailmerge, math, sheetrender, rtf, rtftree, smartart, doc, sprm, xls, ptg, ppt, xml2003, xlsb, olepropset, oleobject, encinfo, filepass, html, markdown, markdownparse, vbacompress, vbadir, vbaproject, vbaremove, odfpkg, odt, odp, ods, openformula   (see fuzz/README.md)
+# Targets: formula, formulaeval, finfuncs, statfuncs, funcs, lookups, sniff, xml, markup, opc, cfb, sdt, sdtpath, text, revisions, stories, pptx, fieldinstr, fields, numfmt, numfmtfmt, sheet, sst, wbpart, styles, sheetfeat, table, pivot, csv, stream, streamwrite, template, richtext, mailmerge, math, sheetrender, rtf, rtftree, smartart, doc, sprm, xls, ptg, ppt, xml2003, xlsb, olepropset, oleobject, encinfo, filepass, html, markdown, markdownparse, vbacompress, vbadir, vbaproject, vbaremove, odfpkg, odt, odp, ods, openformula, chart, drawing, docparts, docxlayout, pptxlayout, xlsxprint, metafile, operations   (see fuzz/README.md)
 #
 # Environment (nothing is baked into the script):
 #   ONEDOCUMENT_FUZZ_WORK    required: where builds, corpora and findings go. Keep it outside the checkout.
@@ -14,6 +14,8 @@
 #   DOTNET               the dotnet executable (default: dotnet from PATH)
 #   FUZZ_TIMEOUT         per-input timeout in seconds (default 10)
 #   FUZZ_RSS_MB          memory limit in MB (default 1024)
+#   FUZZ_PREBUILT        a directory made by `fuzz/run.sh prepare`: runs use its plain and instrumented builds instead of
+#                        building per run, so many targets can run side by side from one build
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -27,6 +29,19 @@ host="${LIBFUZZER_DOTNET:-$tools/fuzz/libfuzzer-dotnet}"
 instrument="${SHARPFUZZ:-$tools/sharpfuzz/sharpfuzz}"
 
 mode=fuzz
+if [[ "${1:-}" == prepare ]]; then
+  # Build once, keep an uninstrumented copy (seeds, replay) and an instrumented copy (fuzzing) under $FUZZ_PREBUILT.
+  pre="${FUZZ_PREBUILT:?set FUZZ_PREBUILT to the directory to fill}"
+  [[ -x "$instrument" ]] || { echo "sharpfuzz not found at '$instrument' (set ONEDOCUMENT_FUZZ_TOOLS)" >&2; exit 2; }
+  rm -rf "$pre"; mkdir -p "$pre/plain"
+  "$dotnet_bin" build "$root/fuzz/OneDocument.Fuzz/OneDocument.Fuzz.csproj" -c Release -v quiet -clp:NoSummary -o "$pre/plain"
+  cp -r "$pre/plain" "$pre/instr"
+  for a in OneDocument OneDocument.Documents OneDocument.Spreadsheets OneDocument.Presentations OneDocument.Rendering; do
+    [[ ! -f "$pre/instr/RecursiveAI.$a.dll" ]] || "$instrument" "$pre/instr/RecursiveAI.$a.dll" >/dev/null
+  done
+  "$instrument" "$pre/instr/RecursiveAI.OneArchive.dll" >/dev/null
+  exit 0
+fi
 if [[ "${1:-}" == replay ]]; then
   mode=replay
   shift
@@ -77,6 +92,11 @@ case "$target" in
   ods) maxlen=131072 ;;
   openformula) maxlen=4096 ;;
   markdown|markdownparse) maxlen=65536 ;;
+  chart|docparts) maxlen=65536 ;;
+  drawing) maxlen=32768 ;;
+  docxlayout|pptxlayout|xlsxprint) maxlen=32768 ;;
+  metafile) maxlen=65536 ;;
+  operations) maxlen=32768 ;;
   vbacompress) maxlen=16384 ;;
   vbadir) maxlen=8192 ;;
   vbaproject) maxlen=65536 ;;
@@ -85,11 +105,14 @@ case "$target" in
 esac
 
 bin="$work/bin"
-rm -rf "$bin"
-mkdir -p "$bin"
-
-# Build once per run: release, then instrument only the library assemblies (the harness itself needs no coverage).
-"$dotnet_bin" build "$root/fuzz/OneDocument.Fuzz/OneDocument.Fuzz.csproj" -c Release -v quiet -clp:NoSummary -o "$bin"
+if [[ -n "${FUZZ_PREBUILT:-}" ]]; then
+  bin="$FUZZ_PREBUILT/plain"
+else
+  rm -rf "$bin"
+  mkdir -p "$bin"
+  # Build once per run: release, then instrument only the library assemblies (the harness itself needs no coverage).
+  "$dotnet_bin" build "$root/fuzz/OneDocument.Fuzz/OneDocument.Fuzz.csproj" -c Release -v quiet -clp:NoSummary -o "$bin"
+fi
 
 if [[ "$mode" == replay ]]; then
   ONEDOCUMENT_FUZZ_WORK="$work" "$dotnet_bin" "$bin/RecursiveAI.OneDocument.Fuzz.dll" replay "$target" "$@"
@@ -115,12 +138,17 @@ mkdir -p "$corpus" "$findings"
 "$dotnet_bin" "$bin/RecursiveAI.OneDocument.Fuzz.dll" seeds "$target" "$corpus" >/dev/null
 [[ -n "$(ls -A "$corpus")" ]] || printf '\x00' >"$corpus/seed-empty"
 
+if [[ -n "${FUZZ_PREBUILT:-}" ]]; then
+  fbin="$FUZZ_PREBUILT/instr"
+else
+  fbin="$bin"
 "$instrument" "$bin/RecursiveAI.OneDocument.dll" >/dev/null
 [[ ! -f "$bin/RecursiveAI.OneDocument.Documents.dll" ]] || "$instrument" "$bin/RecursiveAI.OneDocument.Documents.dll" >/dev/null
 [[ ! -f "$bin/RecursiveAI.OneDocument.Spreadsheets.dll" ]] || "$instrument" "$bin/RecursiveAI.OneDocument.Spreadsheets.dll" >/dev/null
 [[ ! -f "$bin/RecursiveAI.OneDocument.Presentations.dll" ]] || "$instrument" "$bin/RecursiveAI.OneDocument.Presentations.dll" >/dev/null
 [[ ! -f "$bin/RecursiveAI.OneDocument.Rendering.dll" ]] || "$instrument" "$bin/RecursiveAI.OneDocument.Rendering.dll" >/dev/null
 "$instrument" "$bin/RecursiveAI.OneArchive.dll" >/dev/null
+fi
 
 # An extra seed directory is read-only for libFuzzer: new finds go to $corpus.
 dirs=("$corpus")
@@ -128,6 +156,6 @@ dirs=("$corpus")
 
 # Run. -max_total_time bounds the run; crashes, hangs and out-of-memory inputs are written to the findings folder.
 ONEDOCUMENT_FUZZ_TARGET="$target" ONEDOCUMENT_FUZZ_WORK="$work" "$host" \
-  --target_path="$(command -v "$dotnet_bin")" --target_arg="$bin/RecursiveAI.OneDocument.Fuzz.dll" \
+  --target_path="$(command -v "$dotnet_bin")" --target_arg="$fbin/RecursiveAI.OneDocument.Fuzz.dll" \
   -max_total_time="$seconds" -timeout="${FUZZ_TIMEOUT:-10}" -rss_limit_mb="${FUZZ_RSS_MB:-1024}" \
   -max_len="$maxlen" -artifact_prefix="$findings/" -print_final_stats=1 "$@" "${dirs[@]}"

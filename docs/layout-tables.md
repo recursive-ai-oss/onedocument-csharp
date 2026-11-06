@@ -49,7 +49,7 @@ taken off the width first.
 
 ## Geometry
 
-- **Cell padding** is the cell margin (`w:tcMar` over `w:tblCellMar`, default 5.4 pt left and right, 0 top and bottom, §17.4.43) plus
+- **Cell padding** is the cell margin (`w:tcMar` over `w:tblCellMar`, 5.4 pt left and right from the default table style, 0 top and bottom, §17.4.43; *observed in Word*: with no default table style the margins are 0) plus
   half the width of the cell's border on that side; with cell spacing (`w:tblCellSpacing`, §17.4.44) the whole width, because the
   border then sits inside the cell box.
 - **Cell spacing** puts a gap between cells and around the table; each cell paints all four of its borders.

@@ -121,9 +121,10 @@ public sealed class FieldTests
         LayoutDocument l = Lay(FieldDocs.All().First(static c => c.Name == "101-toc-numbered-headings").Docx);
         List<string> entries = [.. l.Pages.SelectMany(static p => p.BodyParagraphs).Where(static p => p.Source.StyleId?.StartsWith("TOC", StringComparison.Ordinal) == true).Select(static p => p.Text)];
         Assert.Equal(4, entries.Count);
-        Assert.StartsWith("1.\tIntroduction\t", entries[0], StringComparison.Ordinal);
-        Assert.StartsWith("1.1\tBackground\t", entries[1], StringComparison.Ordinal);
-        Assert.StartsWith("2.\tMethod\t", entries[2], StringComparison.Ordinal);
+        // The levels of this numbering end their label with a space, and Word 16.0.20527 keeps that in the entry ("1. Introduction").
+        Assert.StartsWith("1. Introduction\t", entries[0], StringComparison.Ordinal);
+        Assert.StartsWith("1.1 Background\t", entries[1], StringComparison.Ordinal);
+        Assert.StartsWith("2. Method\t", entries[2], StringComparison.Ordinal);
     }
 
     [Fact]
@@ -134,8 +135,9 @@ public sealed class FieldTests
         Assert.Equal("See page 2, which is above this paragraph.", Paragraph(l, "See page"));
         // \p on another page says which page; with \n it appends the position to the number (§17.16.5.45, §17.16.5.51).
         Assert.Equal("Forward: on page 2 / i above", Paragraph(l, "Forward"));
-        // \n the paragraph's own number, \r and \w the numbers of the levels above it; the last period is dropped.
-        Assert.Equal("Clause i / 1.a.i / 1.a.i in Scope.", Paragraph(l, "Clause"));
+        // \n the paragraph's own number, \w the numbers of the levels above it; the last period is dropped. \r is relative to the last
+        // numbered paragraph before the field when the field's own paragraph has no number (Word 16.0.20527 answers "i" here).
+        Assert.Equal("Clause i / i / 1.a.i in Scope.", Paragraph(l, "Clause"));
         Assert.Equal("Page in capitals: II, in letters: b", Paragraph(l, "Page in capitals"));
     }
 

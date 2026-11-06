@@ -21,6 +21,7 @@ internal static class Versions
         sb.Append("Sylvan.Data.Excel\t").Append(Of(typeof(Sylvan.Data.Excel.ExcelDataReader))).Append('\n');
         sb.Append("ExcelDataReader\t").Append(Of(typeof(ExcelDataReader.ExcelReaderFactory))).Append('\n');
         sb.Append("EPPlus\t").Append(Of(typeof(OfficeOpenXml.ExcelPackage))).Append('\n');
+        sb.Append("ClosedXML.Report\t").Append(Of(typeof(ClosedXML.Report.XLTemplate))).Append('\n');
         sb.Append("BenchmarkDotNet\t").Append(Of(typeof(BenchmarkDotNet.Attributes.BenchmarkAttribute))).Append('\n');
         return sb.ToString();
     }

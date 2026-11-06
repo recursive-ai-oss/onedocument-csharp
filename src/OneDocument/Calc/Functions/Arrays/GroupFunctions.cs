@@ -60,7 +60,14 @@ internal static class GroupFunctions
             }
         }
 
-        return whole == 0 ? Err(CalcError.Div0) : CalcValue.FromNumber(part / whole);
+        if (whole == 0)
+        {
+            return Err(CalcError.Div0);
+        }
+
+        // A quotient that overflows (a denormal whole) is a number error, as for every other function.
+        double q = part / whole;
+        return double.IsFinite(q) ? CalcValue.FromNumber(q) : Err(CalcError.Num);
     }
 
     // ---- shared pieces ------------------------------------------------------------------------------------------------------
