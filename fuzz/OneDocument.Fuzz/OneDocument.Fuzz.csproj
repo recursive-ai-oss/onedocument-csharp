@@ -21,6 +21,8 @@
     <Compile Include="../../tests/OneDocument.Rendering.Tests/TestDocx.cs" Link="TestDocx.cs" />
     <Compile Include="../../tests/OneDocument.Rendering.Tests/DrawingSamples.cs" Link="DrawingSamples.cs" />
     <Compile Include="../../tests/Shared/DocBuilder.cs" Link="DocBuilder.cs" />
+    <!-- The VBA targets seed themselves from the generated projects the tests use. -->
+    <Compile Include="../../tests/Shared/VbaTestProject.cs" Link="VbaTestProject.cs" />
   </ItemGroup>
 
   <ItemGroup>
