@@ -115,7 +115,7 @@ internal sealed partial class OdtExporter
         var m = new MasterDef
         {
             Name = _masters.Count == 0 ? "Standard" : "MP" + OdfUnits.I(_masters.Count),
-            Layout = "pm" + OdfUnits.I(_masters.Count + 1),
+            Layout = "PageLayout" + OdfUnits.I(_masters.Count + 1),
             SectPr = s.SectPr,
             Refs = s.Refs,
         };

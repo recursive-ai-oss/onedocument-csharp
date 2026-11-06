@@ -251,6 +251,7 @@ public class OdfPackageTests
         Assert.Throws<OfficeFormatException>(() => Open(Encoding.UTF8.GetBytes("<html xmlns=\"http://www.w3.org/1999/xhtml\"/>")));
         OfficeFormatException notOdf = Assert.Throws<OfficeFormatException>(() => Open(Encoding.UTF8.GetBytes("<a/>")));
         Assert.Equal("packaging.not-odf", notOdf.Defect.Code);
+        Assert.Equal("packaging.not-odf", Assert.Throws<OfficeFormatException>(() => Open(Zip([("a.txt", "x")]))).Defect.Code);
     }
 
     [Fact]

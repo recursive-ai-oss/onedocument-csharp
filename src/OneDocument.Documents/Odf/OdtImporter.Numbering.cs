@@ -13,8 +13,6 @@ namespace RecursiveAI.OneDocument.Documents.Odf;
 // that starts a fresh numbering becomes a w:num that points at it, with start overrides when it restarts a definition already in use.
 internal sealed partial class OdtImporter
 {
-    private const string OutlineKey = "\u0001outline";
-
     private sealed class NumInstance
     {
         public int NumId;
@@ -28,15 +26,9 @@ internal sealed partial class OdtImporter
     private readonly Dictionary<string, int> _sharedNums = new(StringComparer.Ordinal);
     private readonly Dictionary<string, int> _listIdNums = new(StringComparer.Ordinal);
 
-    private MarkupNode ListStyleElement(string name)
-    {
-        if (name == OutlineKey)
-        {
-            return _styles.All.FirstOrDefault(s => s.Family == "outline")?.Element ?? default;
-        }
-
-        return _styles.Find("list", name)?.Element ?? default;
-    }
+    // The chapter numbering (text:outline-style) is a list style by another element name; headings refer to it by its style:name.
+    private MarkupNode ListStyleElement(string name) =>
+        (_styles.Find("list", name) ?? _styles.Find("outline", name))?.Element ?? default;
 
     private int AbstractFor(string styleName)
     {

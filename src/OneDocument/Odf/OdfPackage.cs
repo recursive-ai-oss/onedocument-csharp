@@ -427,6 +427,11 @@ public sealed class OdfPackage : IDisposable
             MimeType = OdfMediaTypes.FromBody(OdfMarkup.Child(contentRoot, OdfNamespaces.Office, "body"));
         }
 
+        if (MimeType.Length == 0 && contentRoot.IsNull)
+        {
+            throw new OfficeFormatException(DefectKind.Packaging, "packaging.not-odf", "The zip package is not an OpenDocument file: it has no usable mimetype and no content.xml.", DefectLocation.InPart(MimetypeName, 0));
+        }
+
         // The document root's own version wins over the manifest's: it is what consumers see.
         string? v = OdfMarkup.Attribute(contentRoot, OdfNamespaces.Office, "version");
         if (v is not null)

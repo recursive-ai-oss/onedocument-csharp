@@ -21,6 +21,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
 | `pptx.` | the PresentationML hub | `Structure`, `Reference`, `Packaging` |
 | `wml2003.`, `sml2003.` | the Office 2003 XML readers (Word, Excel) | `Structure`, `Reference`, `Value`, `Encoding`, `Formula` |
+| `odf.` | the OpenDocument text conversion (`odf.md`); the package layer reports under `packaging.` | `Structure`, `Reference`, `Value`, `Encoding`, `Limit` |
 | `calc.` | workbook calculation | `Formula`, `Limit`, `Reference` |
 | `binding.` | reading and writing rows of plain objects (`Spreadsheet.Read<T>`, `Write<T>`) | `Structure`, `Reference`, `Value` |
 | `template.` | the template engine: reading, checking and rendering templates | `Markup`, `Structure`, `Formula`, `Reference`, `Value` |
@@ -459,3 +460,30 @@ Reported by the readers of Word 2003 XML and Excel 2003 XML while they convert (
 | `sml2003.bad-date` | repaired | A `DateTime` cell does not hold an ISO 8601 date or is outside the date range; its text was kept as a string. |
 | `sml2003.bad-formula` | dropped | A cell's `ss:Formula` is not an R1C1 formula the parser reads (files written by other programs may hold OpenFormula text); the cached value stays as a constant. |
 | `sml2003.bad-value` | dropped | A bad date in the document properties. |
+
+### OpenDocument (`packaging.odf-*`, `odf.`)
+
+The package layer (`OdfPackage`, see `odf.md`) reports under `packaging.`; the text conversion reports under `odf.`. Package locations are the entry name (`mimetype`, `META-INF/manifest.xml`, `content.xml`) with a byte offset where one is known; conversion locations are `content.xml` (or the flat file) with a byte offset.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `packaging.not-odf` | fatal | A flat XML file whose root is not `office:document`, or a zip with no usable `mimetype` and no `content.xml`. |
+| `packaging.odf-no-mimetype` | repaired | The package has no `mimetype` entry; the type is taken from the manifest or the body. A flat file without `office:mimetype` is repaired the same way. |
+| `packaging.odf-mimetype-not-first` | repaired | `mimetype` is not the first entry; a saved package writes it first. |
+| `packaging.odf-mimetype-compressed` | repaired | `mimetype` is deflated; a saved package stores it. |
+| `packaging.odf-no-manifest` | repaired | There is no `META-INF/manifest.xml`; saving writes one. |
+| `packaging.odf-manifest-unreadable` | repaired | The manifest is not well-formed or its root is not `manifest:manifest`; it reads as empty. |
+| `packaging.odf-manifest-entry` | dropped | A `manifest:file-entry` has no `manifest:full-path`. |
+| `packaging.odf-manifest-missing-entry` | repaired | The manifest lists a file the package does not hold. |
+| `packaging.odf-wrong-root` | fatal | A part does not start with its root element (`office:document-content` for `content.xml`, and so on). |
+| `packaging.invalid-part-name`, `packaging.duplicate-part-name`, `packaging.zip-damaged` | as for OPC | Entry names that are empty, absolute or contain `..`; an entry stored twice (the first is used); a damaged zip directory that was recovered. |
+| `odf.no-content` | fatal | The package has no `content.xml`. |
+| `odf.not-text` | fatal | The document is not a text document (its body holds a spreadsheet or presentation). |
+| `odf.damaged` | fatal | A defensive wrapper: an unexpected exception while converting is reported as a format error (a bug if it is ever seen). |
+| `odf.export-failed` | fatal | The same, while writing OpenDocument. |
+| `odf.style-cycle` | repaired | A style's parent chain loops; the loop was cut. |
+| `odf.bad-date` | dropped | A date in `meta.xml` is not a date. |
+| `odf.unknown-change` | repaired | A change mark refers to a changed region the file does not hold. |
+| `odf.missing-picture` | dropped | A picture names a package file that is not there. |
+| `odf.bad-base64` | dropped | The inline data (`office:binary-data`) of a picture is not valid base64. |
+| `odf.repeat-capped` | dropped | A table repeats rows or cells by counts that would exceed the reader's budget (200,000 cells per table, 10,000 repeats per element); the rest were dropped. |

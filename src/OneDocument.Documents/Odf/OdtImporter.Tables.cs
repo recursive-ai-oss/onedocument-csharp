@@ -15,6 +15,10 @@ internal sealed partial class OdtImporter
 {
     private const int MaxRepeat = 10_000;
 
+    // A table may repeat rows and cells by huge counts (a repeat count is one attribute); what is written is bounded by a budget of cells.
+    private const int MaxCellsPerTable = 200_000;
+    private int _cellBudget;
+
     private sealed class TableColumn
     {
         public int Width;
@@ -124,6 +128,7 @@ internal sealed partial class OdtImporter
 
             s.Raw("</w:tblGrid>");
 
+            _cellBudget = MaxCellsPerTable;
             var rowSpanLeft = new int[gridCount + 1];
             var colSpanAt = new int[gridCount + 1];
             int emitted = 0;
@@ -136,11 +141,16 @@ internal sealed partial class OdtImporter
                     repeat = Math.Max(0, MaxRepeat - emitted);
                 }
 
-                for (int r = 0; r < repeat; r++)
+                for (int r = 0; r < repeat && _cellBudget > 0; r++)
                 {
                     EmitRow(s, row, header, columns, gridCount, rowSpanLeft, colSpanAt);
                     emitted++;
                 }
+            }
+
+            if (_cellBudget <= 0)
+            {
+                Defect(DefectKind.Limit, "odf.repeat-capped", DefectSeverity.Dropped, "A table holds more cells than the reader keeps (repeat counts); the rest were dropped.", table);
             }
 
             if (rows.Count == 0)
@@ -258,7 +268,7 @@ internal sealed partial class OdtImporter
             int repeat = Math.Clamp(ParseInt(A(c, OdfNamespaces.Table, "number-columns-repeated"), 1), 1, MaxRepeat);
             int colSpan = Math.Max(1, ParseInt(A(c, OdfNamespaces.Table, "number-columns-spanned"), 1));
             int rowSpan = Math.Max(1, ParseInt(A(c, OdfNamespaces.Table, "number-rows-spanned"), 1));
-            for (int r = 0; r < repeat && col <= gridCount + 8 && cells < MaxRepeat; r++)
+            for (int r = 0; r < repeat && col <= gridCount + 8 && cells < MaxRepeat && _cellBudget > 0; r++)
             {
                 if (skip > 0)
                 {
@@ -311,6 +321,7 @@ internal sealed partial class OdtImporter
     private void EmitCell(Story s, MarkupNode cell, List<TableColumn> columns, int col, int span, string? vMerge, int rowSpan)
     {
         _ = rowSpan;
+        _cellBudget--;
         int width = 0;
         for (int i = col; i < col + span && i < columns.Count; i++)
         {

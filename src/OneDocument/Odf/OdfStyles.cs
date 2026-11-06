@@ -158,7 +158,7 @@ public sealed class OdfStyleSet
         else if (ns == OdfNamespaces.Text && local == "outline-style")
         {
             family = "outline";
-            name = string.Empty;
+            name ??= "Outline";
         }
         else if (ns == OdfNamespaces.Style && local == "page-layout")
         {

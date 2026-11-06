@@ -7,6 +7,8 @@ namespace RecursiveAI.OneDocument.Documents.Tests;
 
 public class OdfTests
 {
+    static OdfTests() => DocumentFormats.Register(RecursiveAI.OneDocument.Formats.FormatRegistry.Default);
+
     private static string Norm(string s) => s.Replace("\r\n", "\n", StringComparison.Ordinal);
 
     private static byte[] Save(Document d, OfficeFormat format)
@@ -246,6 +248,236 @@ public class OdfTests
         Assert.Contains("loss.formatting-revisions", codes);
         Assert.False(defects.HasFatal);
     }
+
+    private const string FlatHead =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?><office:document xmlns:office=\"urn:oasis:names:tc:opendocument:xmlns:office:1.0\" xmlns:style=\"urn:oasis:names:tc:opendocument:xmlns:style:1.0\" " +
+        "xmlns:text=\"urn:oasis:names:tc:opendocument:xmlns:text:1.0\" xmlns:table=\"urn:oasis:names:tc:opendocument:xmlns:table:1.0\" xmlns:draw=\"urn:oasis:names:tc:opendocument:xmlns:drawing:1.0\" " +
+        "xmlns:fo=\"urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:svg=\"urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0\" " +
+        "xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:meta=\"urn:oasis:names:tc:opendocument:xmlns:meta:1.0\" office:version=\"1.3\" office:mimetype=\"application/vnd.oasis.opendocument.text\">";
+
+    private static Document OpenFlat(string inner, DefectCollection? defects = null) =>
+        Document.Open(new MemoryStream(Encoding.UTF8.GetBytes(FlatHead + inner + "</office:document>")), new OpenContext(defects: defects));
+
+    private static string Body(string text) => "<office:body><office:text>" + text + "</office:text></office:body>";
+
+    [Fact]
+    public void DamageIsReportedWithItsCodes()
+    {
+        var defects = new DefectCollection();
+        using (Document d = OpenFlat(
+            "<office:meta><dc:date>not a date</dc:date><dc:title>T</dc:title></office:meta><office:styles><style:style style:name=\"A\" style:family=\"paragraph\" style:parent-style-name=\"A\"/></office:styles>" +
+            Body("<text:p text:style-name=\"A\">x<text:change text:change-id=\"nope\"/></text:p><text:p><draw:frame text:anchor-type=\"as-char\"><draw:image xlink:href=\"Pictures/none.png\"/></draw:frame>" +
+            "<draw:frame text:anchor-type=\"as-char\"><draw:image><office:binary-data>!!!</office:binary-data></draw:image></draw:frame></text:p>"), defects))
+        {
+            Assert.Contains("x", d.ExtractText(), StringComparison.Ordinal);
+        }
+
+        foreach (string code in new[] { "odf.style-cycle", "odf.unknown-change", "odf.bad-date", "odf.missing-picture" })
+        {
+            Assert.Contains(defects, x => x.Code == code);
+        }
+
+        Assert.False(defects.HasFatal);
+    }
+
+    [Fact]
+    public void ABrokenImageIsDroppedAndCounted()
+    {
+        var defects = new DefectCollection();
+        using Document d = OpenFlat(Body("<text:p><draw:frame text:anchor-type=\"as-char\"><draw:image><office:binary-data>!!!</office:binary-data></draw:image></draw:frame></text:p>"), defects);
+        Assert.Contains(defects, x => x.Code == "odf.bad-base64");
+        Assert.True(d.ImportLoss!.CountOf("loss.pictures") > 0);
+    }
+
+    [Fact]
+    public void ZipWithoutContentAndWrongKindAreTypedErrors()
+    {
+        using var ms = new MemoryStream();
+        using (var zw = new RecursiveAI.OneArchive.Zip.ZipWriter(ms, leaveOpen: true))
+        {
+            byte[] mt = Encoding.ASCII.GetBytes("application/vnd.oasis.opendocument.text");
+            zw.WriteEntry(new RecursiveAI.OneArchive.Zip.ZipEntry { Name = "mimetype", Size = mt.Length }, mt);
+            zw.Finish();
+        }
+
+        OfficeFormatException none = Assert.Throws<OfficeFormatException>(() => Open(ms.ToArray()));
+        Assert.Equal("odf.no-content", none.Defect.Code);
+
+        OfficeFormatException sheet = Assert.Throws<OfficeFormatException>(() => OpenFlat("<office:body><office:spreadsheet/></office:body>"));
+        Assert.Equal("odf.not-text", sheet.Defect.Code);
+        Assert.Throws<FormatNotAvailableException>(() => Document.Open(new MemoryStream(Encoding.UTF8.GetBytes(FlatHead.Replace("opendocument.text", "opendocument.spreadsheet", StringComparison.Ordinal) + "<office:body><office:spreadsheet/></office:body></office:document>"))));
+    }
+
+    [Fact]
+    public void HugeRepeatCountsAndDeepNestingAreBounded()
+    {
+        var defects = new DefectCollection();
+        using (Document d = OpenFlat(Body("<table:table><table:table-column table:number-columns-repeated=\"1000000000\"/><table:table-row table:number-rows-repeated=\"1000000000\"><table:table-cell table:number-columns-repeated=\"1000000000\"/></table:table-row></table:table>"), defects))
+        {
+            Assert.True(d.MainMarkup.Root.OuterXml.Length < 40_000_000);
+        }
+
+        Assert.Contains(defects, x => x.Code == "odf.repeat-capped");
+
+        string nested = string.Concat(Enumerable.Repeat("<text:list><text:list-item>", 300)) + "<text:p>deep</text:p>" + string.Concat(Enumerable.Repeat("</text:list-item></text:list>", 300));
+        Assert.Throws<OfficeLimitException>(() => OpenFlat(Body(nested)));
+    }
+
+    [Fact]
+    public void EncryptedPackageIsRefusedByTheDocument()
+    {
+        using var ms = new MemoryStream();
+        using (var zw = new RecursiveAI.OneArchive.Zip.ZipWriter(ms, leaveOpen: true))
+        {
+            foreach ((string n, string c) in new[]
+            {
+                ("mimetype", "application/vnd.oasis.opendocument.text"),
+                ("META-INF/manifest.xml", "<manifest:manifest xmlns:manifest=\"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0\"><manifest:file-entry manifest:full-path=\"content.xml\" manifest:media-type=\"text/xml\"><manifest:encryption-data/></manifest:file-entry></manifest:manifest>"),
+                ("content.xml", "x"),
+            })
+            {
+                byte[] b = Encoding.UTF8.GetBytes(c);
+                zw.WriteEntry(new RecursiveAI.OneArchive.Zip.ZipEntry { Name = n, Size = b.Length }, b);
+            }
+
+            zw.Finish();
+        }
+
+        Assert.Throws<OfficeUnsupportedException>(() => Open(ms.ToArray()));
+    }
+
+    [Fact]
+    public void TheStaticsOpenConvertAndExtractByContent()
+    {
+        string dir = Path.Combine(Environment.GetEnvironmentVariable("TMPDIR") ?? Path.GetTempPath(), "odf-statics-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(dir);
+        try
+        {
+            string odt = Path.Combine(dir, "in.dat");
+            File.Copy(Fixture("lo-rich.odt"), odt);
+            string text = Norm(Office.ExtractText(odt));
+            Assert.Contains("Quarterly report", text, StringComparison.Ordinal);
+            string docx = Path.Combine(dir, "out.docx");
+            Office.Convert(odt, docx);
+            using (Document d = Document.Open(docx))
+            {
+                Assert.Equal(OfficeFormat.Docx, d.Format);
+                Assert.Contains("Quarterly report", d.ExtractText(), StringComparison.Ordinal);
+            }
+
+            string back = Path.Combine(dir, "back.odt");
+            Office.Convert(docx, back);
+            using Document b = Document.Open(back);
+            Assert.Equal(OfficeFormat.Odt, b.Format);
+            Assert.Contains("Quarterly report", b.ExtractText(), StringComparison.Ordinal);
+        }
+        finally
+        {
+            Directory.Delete(dir, recursive: true);
+        }
+    }
+
+    // Information only: opens every ODT, OTT and FODT under ONEDOCUMENT_ODF_CORPUS and writes counts, typed errors and defect codes to ONEDOCUMENT_ODF_REPORT.
+    // With ONEDOCUMENT_ODF_SOURCES (a directory holding the DOCX each file was converted from, same base name) it also compares the extracted text.
+    [Fact]
+    public void CorpusReadWhenAskedFor()
+    {
+        string? dir = Environment.GetEnvironmentVariable("ONEDOCUMENT_ODF_CORPUS");
+        string? report = Environment.GetEnvironmentVariable("ONEDOCUMENT_ODF_REPORT");
+        if (string.IsNullOrEmpty(dir) || string.IsNullOrEmpty(report))
+        {
+            return;
+        }
+
+        string? sources = Environment.GetEnvironmentVariable("ONEDOCUMENT_ODF_SOURCES");
+        int opened = 0, failed = 0, compared = 0, same = 0, saved = 0, saveFailed = 0;
+        var codes = new SortedDictionary<string, int>(StringComparer.Ordinal);
+        var errors = new SortedDictionary<string, int>(StringComparer.Ordinal);
+        var lossCodes = new SortedDictionary<string, int>(StringComparer.Ordinal);
+        var lines = new List<string>();
+        foreach (string file in Directory.EnumerateFiles(dir, "*.*", SearchOption.AllDirectories).Where(f => f.EndsWith(".odt", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".fodt", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".ott", StringComparison.OrdinalIgnoreCase)).Order(StringComparer.Ordinal))
+        {
+            var defects = new DefectCollection();
+            try
+            {
+                using Document d = Document.Open(file, new OpenContext(defects: defects));
+                opened++;
+                foreach (Defect x in defects)
+                {
+                    codes[x.Code] = codes.GetValueOrDefault(x.Code) + 1;
+                }
+
+                foreach (LossItem l in d.ImportLoss!.Items)
+                {
+                    lossCodes[l.Code] = lossCodes.GetValueOrDefault(l.Code) + 1;
+                }
+
+                string text = d.ExtractText();
+                if (sources is { Length: > 0 })
+                {
+                    string src = Path.Combine(sources, Path.GetFileNameWithoutExtension(file) + ".docx");
+                    if (File.Exists(src))
+                    {
+                        compared++;
+                        using Document s = Document.Open(src);
+                        if (Words(s.ExtractText()) == Words(text))
+                        {
+                            same++;
+                        }
+                        else
+                        {
+                            lines.Add("text differs: " + Path.GetFileName(file));
+                        }
+                    }
+                }
+
+                try
+                {
+                    using var ms = new MemoryStream();
+                    d.SaveAs(ms, OfficeFormat.Docx);
+                    d.SaveAs(ms, d.Format == OfficeFormat.Odt ? OfficeFormat.Fodt : OfficeFormat.Odt);
+                    saved++;
+                }
+                catch (OfficeException ex)
+                {
+                    saveFailed++;
+                    lines.Add("save failed: " + Path.GetFileName(file) + " " + ex.Defect.Code);
+                }
+            }
+            catch (OfficeException ex)
+            {
+                failed++;
+                errors[ex.Defect.Code] = errors.GetValueOrDefault(ex.Defect.Code) + 1;
+                lines.Add("error: " + Path.GetFileName(file) + " " + ex.Defect.Code);
+            }
+        }
+
+        var sb = new StringBuilder();
+        sb.AppendLine($"opened {opened}, typed errors {failed}, saved {saved}, save errors {saveFailed}, text compared {compared}, equal as word sequences {same}");
+        foreach (KeyValuePair<string, int> kv in errors)
+        {
+            sb.AppendLine("error " + kv.Key + " " + kv.Value);
+        }
+
+        foreach (KeyValuePair<string, int> kv in codes)
+        {
+            sb.AppendLine("defect " + kv.Key + " " + kv.Value);
+        }
+
+        foreach (KeyValuePair<string, int> kv in lossCodes)
+        {
+            sb.AppendLine("loss " + kv.Key + " " + kv.Value);
+        }
+
+        foreach (string l in lines)
+        {
+            sb.AppendLine(l);
+        }
+
+        File.WriteAllText(report, sb.ToString());
+    }
+
+    private static string Words(string text) => string.Join(' ', Norm(text).Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries));
 
     [Fact]
     public void OutputFilesForTheOracleRunsWhenAskedFor()

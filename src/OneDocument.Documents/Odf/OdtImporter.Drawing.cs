@@ -242,7 +242,7 @@ internal sealed partial class OdtImporter
         string? descr = ChildText(frame, "desc");
         OdfStyle? gs = GraphicStyle(frame);
         string anchorType = A(frame, OdfNamespaces.Text, "anchor-type") ?? "paragraph";
-        if (GraphicProp(this, gs, OdfNamespaces.Fo, "clip") is { } clip && clip.Replace("0cm", "", StringComparison.Ordinal).Any(char.IsDigit))
+        if (GraphicProp(this, gs, OdfNamespaces.Fo, "clip") is { } clip && HasCrop(clip))
         {
             Lost("loss.picture-cropping", "picture cropping", "Cropping of a picture was dropped.");
         }
@@ -265,6 +265,22 @@ internal sealed partial class OdtImporter
         sb.Append("</w:drawing></w:r>");
         s.Raw(sb.ToString());
     }
+
+    // fo:clip is rect(top, right, bottom, left) in any length unit; "rect(0in, 0in, 0in, 0in)" crops nothing.
+    private static bool HasCrop(string clip)
+    {
+        foreach (string token in clip.Split(ClipSeparators, StringSplitOptions.RemoveEmptyEntries))
+        {
+            if (OdfUnits.TryPoints(token, out double pt) && Math.Abs(pt) > 0.0001)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static readonly char[] ClipSeparators = ['(', ')', ',', ' '];
 
     private static string? ChildText(MarkupNode frame, string svgLocal)
     {
