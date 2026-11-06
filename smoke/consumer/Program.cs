@@ -34,6 +34,15 @@ internal static class Program
                 using OfficeFile f = Office.Open(docx);
                 return f.Kind == OfficeKind.Document && f.Format == OfficeFormat.Docx;
             });
+#if WITH_ALL
+            // The metapackage alone brings in the rendering package and its registration: no call names it.
+            Check(failures, "docx to pdf", () =>
+            {
+                string pdf = Path.Combine(dir, "a.pdf");
+                Office.Convert(docx, pdf);
+                return Encoding.ASCII.GetString(File.ReadAllBytes(pdf), 0, 5) == "%PDF-";
+            });
+#endif
 #if WITH_SPREADSHEETS
             Check(failures, "xlsx open", () =>
             {

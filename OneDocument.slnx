@@ -22,6 +22,14 @@
     <Project Path="tests/OneDocument.Schema.Tests/OneDocument.Schema.Tests.csproj" />
     <Project Path="tests/OneDocument.Generators.Tests/OneDocument.Generators.Tests.csproj" />
   </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/ConvertToPdf/ConvertToPdf.csproj" />
+    <Project Path="samples/TemplateToPdf/TemplateToPdf.csproj" />
+    <Project Path="samples/SpreadsheetRows/SpreadsheetRows.csproj" />
+    <Project Path="samples/LegacyDocText/LegacyDocText.csproj" />
+    <Project Path="samples/WorkbookRecalcPdf/WorkbookRecalcPdf.csproj" />
+    <Project Path="samples/DocumentRevisions/DocumentRevisions.csproj" />
+  </Folder>
   <Folder Name="/tools/">
     <Project Path="tools/ViewGenerator/ViewGenerator.csproj" />
     <Project Path="tools/RoundTrip/RoundTrip.csproj" />
@@ -32,6 +40,7 @@
     <Project Path="tools/PackageTiming/PackageTiming.csproj" />
     <Project Path="tools/MarkupProbe/MarkupProbe.csproj" />
     <Project Path="tools/PptProbe/PptProbe.csproj" />
+    <Project Path="tools/InspectProbe/InspectProbe.csproj" />
     <Project Path="tools/VbaProbe/VbaProbe.csproj" />
     <Project Path="tools/AccessibilityProbe/AccessibilityProbe.csproj" />
     <Project Path="tools/TextCompare/TextCompare.csproj" />

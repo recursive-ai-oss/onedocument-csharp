@@ -47,6 +47,7 @@
 | `xml2003` | a whole Office 2003 XML file (Word or Excel, by sniffing) | the 2003 readers: opened, saved as DOCX or XLSX, opened again, text extracted; typed rejections only |
 | `odfpkg` | a whole OpenDocument file (zip package or flat XML) | the package reader: parts, manifest, styles and metadata walked, written again as a zip and as flat XML; typed rejections only |
 | `odt` | a whole OpenDocument text file | the ODT reader and writer: opened as a document, text extracted, saved as ODT and DOCX, the ODT opened again; typed rejections only |
+| `odp` | a whole OpenDocument presentation file | the ODP reader and writer: opened as a presentation, slides and shapes walked, text extracted, saved as ODP, flat ODP and PPTX, the ODP opened again; typed rejections only |
 | `ods` | a whole OpenDocument spreadsheet (zip or flat) | the ODS reader and writer: opened as a workbook, every cell walked, saved as XLSX, ODS and flat ODS, the flat file opened again; typed rejections only |
 | `openformula` | an OpenFormula expression | the OpenFormula parser and printer: parsed, printed, parsed again; no exception may escape at all |
 | `html` | an HTML page (bytes, any encoding) | imported with small limits, extracted, written as DOCX and as HTML (page and fragment) and read again with the raw-but-safe switch; typed rejections only |

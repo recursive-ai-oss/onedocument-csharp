@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+  <fileVersion appName="xl" lastEdited="7" lowestEdited="7"/>
+  <workbookPr defaultThemeVersion="166925" date1904="0"/>
+  <bookViews><workbookView xWindow="0" yWindow="0" windowWidth="20000" windowHeight="10000" activeTab="0"/></bookViews>
+  <sheets><sheet name="Sales" sheetId="1" r:id="rId1"/><sheet name="Hidden" sheetId="2" state="hidden" r:id="rId2"/></sheets>
+  <definedNames><definedName name="Total" localSheetId="0">Sales!$B$1</definedName></definedNames>
+  <calcPr calcId="191029" fullCalcOnLoad="1"/>
+  <pivotCaches><pivotCache cacheId="1" r:id="rId3"/></pivotCaches>
+</workbook>

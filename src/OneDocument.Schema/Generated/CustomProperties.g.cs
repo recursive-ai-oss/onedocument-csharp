@@ -57,7 +57,7 @@ public readonly struct Properties : global::RecursiveAI.OneDocument.Schema.IElem
     }
 
     /// <summary>The <c>op:property</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.CustomProperties.Property> PropertiesElement => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.CustomProperties, "property"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.CustomProperties.Property> PropertyList => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.CustomProperties, "property"u8);
 
     /// <summary>Adds a <c>op:property</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>

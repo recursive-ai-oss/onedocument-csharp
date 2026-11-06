@@ -6,6 +6,7 @@ using RecursiveAI.OneDocument.Formats;
 using RecursiveAI.OneDocument.IO;
 using RecursiveAI.OneDocument.Markup;
 using RecursiveAI.OneDocument.Packaging;
+using MarkupRef = RecursiveAI.OneDocument.Schema.MarkupRef;
 
 namespace RecursiveAI.OneDocument.Spreadsheets;
 
@@ -70,6 +71,9 @@ public sealed partial class Workbook : OfficeFile
 
     /// <summary>Gets the markup tree of the workbook part: the hop from the hub to the markup layer.</summary>
     public MarkupDocument Markup => _tree;
+
+    /// <summary>Gets the typed view of the <c>workbook</c> element: the hop from the hub to the generated views.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Spreadsheet.Workbook View => global::RecursiveAI.OneDocument.Schema.Spreadsheet.Workbook.Create(new MarkupRef(_tree.Root));
 
     /// <summary>Gets a value indicating whether the workbook uses the Strict namespaces.</summary>
     public bool IsStrict => _tree.Root.NamespaceUri == MainNsStrict;

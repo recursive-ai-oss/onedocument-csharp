@@ -42,30 +42,38 @@ internal static class PackageRedactor
     private static void DropThumbnails(OpcPackage package, RedactionContext ctx, string prefix)
     {
         IReadOnlyList<Relationship> rels = package.GetRelationships();
-        if (!rels.Any(static r => r.Type == ThumbnailType))
+        if (rels.Any(static r => r.Type == ThumbnailType))
         {
-            return;
-        }
-
-        var keep = new List<Relationship>();
-        foreach (Relationship r in rels)
-        {
-            if (r.Type == ThumbnailType)
+            var keep = new List<Relationship>();
+            foreach (Relationship r in rels)
             {
-                if (r.TargetMode == RelationshipTargetMode.Internal && OpcPackage.TryResolveTarget(null, r, out PartUri target))
+                if (r.Type == ThumbnailType)
                 {
-                    package.RemovePart(target.ToString());
-                }
+                    if (r.TargetMode == RelationshipTargetMode.Internal && OpcPackage.TryResolveTarget(null, r, out PartUri target))
+                    {
+                        package.RemovePart(target.ToString());
+                    }
 
-                ctx.Report.Add("thumbnail", prefix + r.Target, 1);
+                    ctx.Report.Add("thumbnail", prefix + r.Target, 1);
+                }
+                else
+                {
+                    keep.Add(r);
+                }
             }
-            else
-            {
-                keep.Add(r);
-            }
+
+            package.SetRelationships(null, keep);
         }
 
-        package.SetRelationships(null, keep);
+        // A preview image that nothing points to is still a picture of the first page.
+        foreach (IPackagePart part in package.Parts.ToArray())
+        {
+            if (part.Name.StartsWith("/docProps/thumbnail", StringComparison.OrdinalIgnoreCase))
+            {
+                package.RemovePart(part.Name);
+                ctx.Report.Add("thumbnail", prefix + part.Name, 1);
+            }
+        }
     }
 
     private static void Part(OpcPackage package, IPackagePart part, RedactionContext ctx, string prefix, int depth)
@@ -87,7 +95,20 @@ internal static class PackageRedactor
                 {
                     using var output = new MemoryStream();
                     nested.WriteTo(output);
-                    part.SetBytes(output.ToArray());
+                    byte[] written = output.ToArray();
+                    if (ZipMetadata.Clear(written) > 0)
+                    {
+                        ctx.Report.Add("zip-metadata", location, 1);
+                    }
+
+                    part.SetBytes(written);
+                }
+                else if (HeaderMatch(bytes, ctx))
+                {
+                    byte[] copy = (byte[])bytes.Clone();
+                    ZipMetadata.Clear(copy);
+                    part.SetBytes(copy);
+                    ctx.Report.Add("zip-metadata", location, 1);
                 }
 
                 return;
@@ -117,10 +138,52 @@ internal static class PackageRedactor
         Opaque(part, bytes, ctx, location);
     }
 
+    // Does a comment, an extra field or a name in the zip headers of a nested package hold a literal match?
+    private static bool HeaderMatch(byte[] zip, RedactionContext ctx)
+    {
+        foreach (ZipMetadata.Region r in ZipMetadata.Regions(zip))
+        {
+            byte[] slice = zip.AsSpan(r.Start, r.Length).ToArray();
+            foreach (RedactionMatch m in ctx.Plan.Matches)
+            {
+                if (!m.IsRegex && BinaryText.Needles(m.PatternText).Any(n => BinaryText.Find(slice, n.Needle).Any()))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     private static void Opaque(IPackagePart part, byte[] bytes, RedactionContext ctx, string location)
     {
         bool image = IsImagePart(part.Name, part.ContentType);
-        int n = BinaryText.Redact(bytes, ctx, image, location);
+        int n = 0;
+        if (image && PngChunks.RemoveMatching(bytes, ctx, out byte[]? trimmed, out int dropped))
+        {
+            // A text chunk with a match is dropped whole, which keeps the other chunks and their checksums valid; the text can be compressed.
+            bytes = trimmed!;
+            n += dropped;
+        }
+
+        n += BinaryText.Redact(bytes, ctx, image, location);
+
+        // Streams of a compound file are searched as the reader sees them: a string across two sectors that are not neighbours is not a run of bytes in the file.
+        if (CompoundFileMap.TryRead(bytes, out List<CompoundFileMap.StreamMap> streams))
+        {
+            foreach (CompoundFileMap.StreamMap stream in streams)
+            {
+                byte[] data = stream.Read(bytes);
+                int k = BinaryText.Redact(data, ctx, false, location + "[" + stream.Path + "]");
+                if (k > 0)
+                {
+                    stream.Write(bytes, data);
+                    n += k;
+                }
+            }
+        }
+
         if (n > 0)
         {
             part.SetBytes(bytes);
@@ -174,10 +237,23 @@ internal static class PackageRedactor
                     int n = ctx.Apply(target, true, location, out string replaced);
                     if (n == 0)
                     {
-                        string unescaped = SafeUnescape(target);
-                        if (unescaped != target && ctx.Apply(unescaped, true, location, out string r2) > 0)
+                        // Decoded as far as it goes (a target can be encoded twice), then encoded the same number of times.
+                        string unescaped = target;
+                        int levels = 0;
+                        while (levels < 4 && SafeUnescape(unescaped) is var next && next != unescaped)
                         {
-                            replaced = Escape(r2);
+                            unescaped = next;
+                            levels++;
+                        }
+
+                        if (levels > 0 && ctx.Apply(unescaped, true, location, out string r2) > 0)
+                        {
+                            replaced = r2;
+                            for (int level = 0; level < levels; level++)
+                            {
+                                replaced = Escape(replaced);
+                            }
+
                             n = 1;
                         }
                     }
@@ -221,7 +297,7 @@ internal static class PackageRedactor
         foreach (byte b in Encoding.UTF8.GetBytes(s))
         {
             char c = (char)b;
-            if (b < 0x80 && (char.IsAsciiLetterOrDigit(c) || "-._~:/?#[]@!$&'()*+,;=%".Contains(c, StringComparison.Ordinal)))
+            if (b < 0x80 && (char.IsAsciiLetterOrDigit(c) || "-._~:/?#[]@!$&'()*+,;=".Contains(c, StringComparison.Ordinal)))
             {
                 sb.Append(c);
             }

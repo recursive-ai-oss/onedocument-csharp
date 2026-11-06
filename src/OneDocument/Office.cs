@@ -205,6 +205,28 @@ public static class Office
         return file.Redact(plan, destination, cancellationToken);
     }
 
+    /// <summary>Reports the hidden data and personal information in a file, category by category, with counts and locations. Nothing is changed.</summary>
+    /// <param name="path">The path.</param>
+    /// <param name="context">Limits, defect sink and password; null for the defaults.</param>
+    /// <param name="cancellationToken">Cancels the inspection.</param>
+    /// <returns>The report.</returns>
+    /// <exception cref="OfficeFormatException">The content is not a recognised format, or is damaged beyond repair.</exception>
+    public static Inspection.InspectionReport Inspect(string path, OpenContext? context = null, CancellationToken cancellationToken = default) =>
+        Inspection.Inspector.Inspect(path, context, cancellationToken);
+
+    /// <summary>
+    /// Removes the hidden data and personal information that Office's Document Inspector class of tools removes, and writes the result to a new file.
+    /// Use <see cref="Inspection.Sanitizer"/> to choose the categories.
+    /// </summary>
+    /// <param name="input">The file to read.</param>
+    /// <param name="output">The file to write.</param>
+    /// <param name="context">Limits, defect sink and password; null for the defaults.</param>
+    /// <param name="cancellationToken">Cancels the operation.</param>
+    /// <returns>What was removed, what was kept and why.</returns>
+    /// <exception cref="Inspection.SanitizeVerificationException">The result still holds something that was reported as removed; nothing was written.</exception>
+    public static Inspection.SanitizeReport Sanitize(string input, string output, OpenContext? context = null, CancellationToken cancellationToken = default) =>
+        Inspection.Sanitizer.Sanitize(input, output, null, context, cancellationToken);
+
     // Lets a file that "owns" its source be opened over a source the caller still owns: disposing it leaves the original open.
     internal sealed class BorrowedByteSource(IByteSource inner) : IByteSource
     {

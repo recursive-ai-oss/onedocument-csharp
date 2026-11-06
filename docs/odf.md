@@ -36,6 +36,10 @@ first used. Entry names that are empty, absolute or contain `..` are dropped. En
 `OfficeUnsupportedException`; ODF encryption and signatures are not implemented. The limits object passes through: part count, part size,
 expansion ratio, XML depth, no DTDs.
 
+## Presentations (`Presentation`)
+
+ODP, OTP and FODP convert into the presentation hub and out of it the same way as text: see `odp.md`.
+
 ## Text documents (`Document`)
 
 `Document.Open` accepts ODT, OTT and FODT by content (the `mimetype` entry or `office:mimetype`), never the extension. The file is converted

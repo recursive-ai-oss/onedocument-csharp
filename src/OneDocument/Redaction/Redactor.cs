@@ -33,16 +33,30 @@ internal static class Redactor
         byte[] output;
         using (OpcPackage package = OpcPackage.Open(staged, new OpenContext(file.Limits), leaveOpen: true))
         {
+            List<string>? removedByRegions = null;
             if (plan.Regions.Count > 0)
             {
+                Dictionary<string, List<string>> before = RegionResidue.Units(package, file.Limits);
                 regions(package, plan, report);
+                removedByRegions = RegionResidue.Removed(before, RegionResidue.Units(package, file.Limits));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
             PackageRedactor.Run(package, ctx, string.Empty, 0);
+            if (removedByRegions is { Count: > 0 })
+            {
+                RegionResidue.Report(removedByRegions, RegionResidue.Units(package, file.Limits), report);
+            }
+
             using var written = new MemoryStream();
             package.WriteTo(written, cancellationToken);
             output = written.ToArray();
+        }
+
+        // Untouched entries keep their zip comments and extra fields; those sit outside every part.
+        if (ZipMetadata.Clear(output) is > 0 and int cleared)
+        {
+            report.Add("zip-metadata", "/", cleared);
         }
 
         if (plan.Options.Verify)

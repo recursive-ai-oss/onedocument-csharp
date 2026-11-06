@@ -4,107 +4,140 @@
 
 OneDocument is a clean-room document processor for `net10.0` that depends only on the .NET base class library and other Recursive AI libraries. It is NativeAOT-, trim- and browser-WebAssembly-friendly: no reflection, no native code, no `System.Xml` in the document path.
 
-## Status: early preview
+- **Lossless models.** `Document`, `Workbook` and `Presentation` are views over the file's own markup. Parts you do not touch are written back byte-identical (raw zip entries, never recompressed); edits keep unknown elements, attributes, prefixes, `mc:AlternateContent` and `extLst` in order.
+- **Every layer is public:** containers and records, a lazy markup tree, generated typed views of the schemas, the hubs, and the services on top (calculation, templating, layout, operations). The `Office`, `Spreadsheet` and `Template` statics are one line over the model.
+- **Tolerant reading, typed defects.** Damage is repaired where Office repairs it and reported as a located defect (`docs/defects.md`); resource limits are on by default; nothing touches the network or runs code.
+- **Conversions say what they lose.** Every conversion between formats can return a loss report.
 
-What works today is **word-processing documents in the DOCX family**, **workbooks (XLSX family, CSV and TSV)**, and text extraction from OOXML files:
+## Status: preview, not released
 
-- **`Document`** (`RecursiveAI.OneDocument.Documents`): `Document.Open` (path, stream or byte source; the format comes from the content, never the extension), `Document.Create`, `Save()` (atomic replace), `SaveAs(path)` (format by extension; `.xml` is Flat OPC) and `SaveAs(path|stream, format)`. It opens DOCX, DOCM, DOTX, DOTM and Flat OPC; any other format raises `FormatNotAvailableException` naming it. Untouched parts are written back byte-identical and unedited zip entries are copied as stored; edits keep unknown markup, prefixes, `mc:AlternateContent` and `extLst` in order. The model covers paragraphs and runs, tables, sections, headers and footers, styles with inheritance, numbering, fields, footnotes and endnotes, comments, revisions and content controls, with generated typed views (`RecursiveAI.OneDocument.Schema`) over the same markup.
-- **Text extraction** from OOXML documents, workbooks and presentations: `Office.ExtractText(path)` and `onedocument extract <file> [-o out.txt] [--json]`; `Document.ExtractText()` for an open document, edits included.
-- **The foundation:** byte sources, one limits object, typed defects and exceptions with locations, content-based format identification, the format registry and the part/package model (OPC on zip and Flat OPC; compound files).
+Nothing is published to nuget.org yet. Read the tables below as "what the code does today and what has been checked". A cell that says **pending (1.0 gate)** has not been measured yet; nothing in it should be read as passed.
 
-- **`Workbook`** (`RecursiveAI.OneDocument.Spreadsheets`): open, edit and save XLSX, XLSM, XLTX and Flat OPC workbooks in a compact columnar cell store with styles, number formats, tables, conditional formatting, data validation, defined names and the 1900/1904 date systems. Cached values are what you read; there is no calculation yet and opening never recalculates. **Streaming** cursors read and write at constant memory with no allocation per cell, and `Spreadsheet.Read<T>` / `Spreadsheet.Write` bind plain classes and records to XLSX, CSV and TSV through a source generator (no reflection). CSV and TSV have their own reader and writer.
+## Samples
 
-Not done yet: calculation, templating, rendering, sanitising and redaction. Every other format below is planned.
+Each sample under [`samples/`](samples) is a small console program that generates its own input and runs in CI.
+
+| Task | Sample | The call |
+|---|---|---|
+| Convert a document, workbook or presentation to PDF | [`ConvertToPdf`](samples/ConvertToPdf) | `Office.Convert("deck.pptx", "deck.pdf")` |
+| Fill a template and write PDF | [`TemplateToPdf`](samples/TemplateToPdf) | `Template.Render("invoice.docx", invoice, "invoice.pdf")` |
+| Rows of plain objects to and from a workbook | [`SpreadsheetRows`](samples/SpreadsheetRows) | `Spreadsheet.Write(path, orders)`, `Spreadsheet.Read<Order>(path)` |
+| Text of a legacy `.doc` | [`LegacyDocText`](samples/LegacyDocText) | `Office.ExtractText("old.doc")` |
+| Edit a cell, recalculate, save as PDF | [`WorkbookRecalcPdf`](samples/WorkbookRecalcPdf) | `Workbook.Open`, `cell.Value =`, `wb.Recalculate()`, `wb.SaveAs("x.pdf")` |
+| Filter paragraphs by style, accept tracked changes, save | [`DocumentRevisions`](samples/DocumentRevisions) | `doc.Paragraphs.Where(...)`, `doc.Revisions.AcceptAll()`, `doc.SaveAs(...)` |
 
 ```csharp
+using RecursiveAI.OneDocument;
 using RecursiveAI.OneDocument.Documents;
 
-using var doc = Document.Open("contract.docx");
+using var doc = Document.Open("contract.docx");   // the format comes from the content, never the extension
 doc.Paragraphs.First().SetText("Master services agreement");
-doc.Save();                      // atomic; only word/document.xml changes
-string text = doc.ExtractText();
+doc.Save();                                       // atomic; only word/document.xml changes
+Office.Convert("contract.docx", "contract.pdf");  // needs the Rendering package (or the All metapackage)
 ```
 
-The `Office` statics (`Office.Open`, `Office.ExtractText`, `Office.Convert`) find readers of every kind package the application references; no registration call is needed (each kind package registers itself into the referencing C# project at build time, with no reflection, so NativeAOT and trimming keep only the kinds you use). A kind whose package is not referenced raises `FormatNotAvailableException` naming the format.
+The `Office` statics find the readers and writers of every kind package the application references; no registration call is needed (each package registers itself into the referencing C# project at build time, with no reflection). A format whose package is not referenced raises `FormatNotAvailableException` naming it. Coming from another library? See [`docs/migration/`](docs/migration).
 
 ## Formats
 
-| Format | Read | Write |
+"Untouched round trip" is open then save with no edit: for the OOXML, ODF and XLSB families every part is written back as stored; the other formats are rebuilt from the model and say so in the loss report. Details and defect codes are in the linked notes.
+
+| Format | Read | Write | Untouched round trip | Loss report | Notes |
+|---|---|---|---|---|---|
+| DOCX, DOCM, DOTX, DOTM, Flat OPC | yes | yes | parts byte-identical (`docs/contracts.md`, `DocumentOpenTests`) | n/a (native) | `docs/docx-*.md`, `docs/revisions.md` |
+| XLSX, XLSM, XLTX, XLTM, XLAM, Flat OPC | yes (model and streaming) | yes (model and streaming) | parts byte-identical (`docs/spreadsheets.md`) | n/a (native) | `docs/spreadsheets*.md` |
+| PPTX, PPTM, POTX, PPSX, Flat OPC | yes | yes | parts byte-identical (`docs/presentations.md`, `OpenAndSaveTests`) | n/a (native) | `docs/presentations.md` |
+| XLSB | yes | yes | unedited parts copied byte for byte (`docs/xlsb.md`) | n/a (native) | `docs/xlsb.md` |
+| XLS (BIFF8) | yes | yes (one clean BIFF8 dialect; RC4 CryptoAPI password optional) | rebuilt, not carried through | yes, on conversion | `docs/xls.md` |
+| XLS (BIFF2 to BIFF5) | yes | no | n/a | yes | `docs/xls.md` (layouts written from observed files) |
+| DOC (Word 97 to 2013, Word 6/95, fast-saved) | yes | no (post-1.0 on demand) | n/a | yes | `docs/doc.md` |
+| PPT (97 to 2003) | yes | no (post-1.0 on demand) | n/a | yes | `docs/ppt.md` |
+| Word 2003 XML, Excel 2003 XML | yes | no | n/a | yes | `docs/xml-2003.md` |
+| RTF 1.9.1 | yes | yes | RTF saved without an edit keeps its bytes (`docs/rtf.md`) | yes, both directions | `docs/rtf.md` |
+| ODT, OTT, flat FODT | yes | yes | entries copied raw (`docs/odf.md`) | yes | `docs/odf.md` |
+| ODP, OTP, flat FODP | yes (`Presentation`) | yes | read and saved in its own format without an edit writes the original bytes; any edit writes a package of its own (`docs/odp.md`) | yes, both directions | `docs/odp.md` |
+| ODS, FODS | pending (not on this branch yet) | pending | pending | pending | `docs/odf.md` |
+| CSV, TSV | yes | yes | n/a | writing reports dropped formulas, styles and sheets | `docs/csv.md` |
+| HTML | yes (sanitised by default) | yes (documents; workbooks and presentations at a basic level) | n/a | yes | `docs/html.md` |
+| Markdown (CommonMark, GFM) | yes | yes | n/a | yes | `docs/markdown.md` |
+| PDF (tagged; PDF/UA-1 or PDF/A-2a profiles), PNG | no | yes, for documents, workbooks and presentations | n/a | n/a | `docs/layout.md` |
+| Text | no | yes (`Office.ExtractText`) | n/a | n/a | `docs/text-extraction.md` |
+| Embedded EMF, EMF+, WMF pictures | rendered | no | carried as parts | n/a | `docs/metafiles.md` |
+
+Encrypted files open when `OpenContext.Password` is supplied: OOXML Agile and Standard, RC4, RC4 CryptoAPI and XOR for the legacy formats (`docs/encryption.md`).
+
+## Checks
+
+Numbers come from the committed note or test named in the last column. Office-oracle checks (Word, Excel and PowerPoint opening our output without a repair prompt, Office's own result for the same operation, the layout differential) are written as requests under `testdata/` and are all **pending (1.0 gate)**.
+
+| Check | Result | Source |
 |---|---|---|
-| DOCX/DOCM/DOTX/DOTM, Flat OPC | yes | yes |
-| XLSX/XLSM/XLTX/XLTM/XLAM, Flat OPC | yes (`Workbook`, streaming cursors, `Spreadsheet.Read<T>`) | yes (also streaming and `Spreadsheet.Write`) |
-| PPTX/PPTM/POTX/PPSX, Flat OPC | yes (`Presentation`) | yes |
-| XLSB | planned | planned |
-| XLS (BIFF8) | planned | planned |
-| XLS (BIFF2–8), DOC (incl. Word 6/95), PPT | yes (converted into `Workbook` / `Document` / `Presentation` with a loss report) | not planned (XLS BIFF8: planned) |
-| Word 2003 XML, Excel 2003 XML | yes (converted into `Document` / `Workbook` with a loss report) | not planned |
-| RTF | yes (`Document`; loss report; `docs/rtf.md`) | yes |
-| ODT/OTT and flat FODT | yes (`Document`; loss reports; `docs/odf.md`) | yes |
-| ODS/ODP and flat ODF spreadsheets and presentations | planned | planned |
-| CSV/TSV | yes | yes |
-| HTML | yes (`Document.FromHtml`, sanitised, loss report; `docs/html.md`) | yes (documents; workbooks and presentations at a basic level) |
-| Markdown (CommonMark, GFM) | yes (`Document`; `docs/markdown.md`) | yes (documents, workbooks, presentations) |
-| PDF, images, SVG, text | not applicable | planned (export) |
+| Untouched round trip over a public corpus, per-part hashes | pending (1.0 gate) | |
+| Written OOXML against the ECMA-376 and extension schemas | pending (1.0 gate) | |
+| Output opens in Word, Excel and PowerPoint with no repair prompt | pending (1.0 gate) | `testdata/*/ORACLE-REQUEST.md` |
+| Number formats against Excel (`TEXT` and cell display) | 7,602 of 7,602 agree on a grid; exceptions are listed | `docs/number-formats.md`, `NumberFormatExcelGridTests` |
+| Calculation: cached values reproduced over a corpus; per-function grids against Excel | pending (1.0 gate) | `docs/calc.md`, `docs/spreadsheets-calc.md` |
+| Layout: page count, line breaks and object geometry against Office's PDF export | pending (1.0 gate) | `docs/layout.md` |
+| Tagged PDF against veraPDF (PDF/UA-1, PDF/A) | pending (1.0 gate) | |
+| CommonMark and GFM conformance | 652 of 652 and 28 of 28 examples | `docs/markdown.md`, `MarkdownSpecTests` |
+| Metafiles against Windows' own pictures | 64 Windows-written metafiles compared (25 EMF, 24 EMF+, 15 WMF); per-case agreement in the note | `docs/metafiles.md`, `MetafileTests` |
+| Fuzzing, 600 s per parser | pending (1.0 gate) | `fuzz/` |
+| NativeAOT and trimming | the smoke app publishes with warnings as errors and runs | `smoke/aot`, `build/ci.sh aot` |
+| Browser WebAssembly | 25 smoke groups run in headless Chromium | `docs/platforms.md`, `build/ci.sh wasm-run` |
+| Memory | 37 retained bytes per cell on a 20M-cell styled workbook (ClosedXML 79, NPOI 360); streaming read allocates 0.08 bytes per cell at 1M rows; streaming working set 47 to 49 MB from 10k to 1M rows (x64) | `bench/README.md` |
+| Speed (preview rows, re-run at the 1.0 gate) | against the fastest managed comparator: documents geomean 0.19 (x64) and 0.18 (arm64) over 15 rows, worst 0.65 and 0.63; workbooks geomean 0.53 and 0.59 over 10 rows, worst 1.01 and 1.05 | `bench/README.md`, `bench/published/` |
 
-## Support and measurements (DOCX family)
+## Operations
 
-| Check | Result |
+| Operation | State |
 |---|---|
-| Untouched open and save, every part byte-identical | 2,763 of 2,763 readable public-web and bug-tracker documents (56,157 parts); unreadable inputs (truncated zips, a duplicate attribute) fail with typed errors |
-| One-paragraph edit changes only `word/document.xml` | 188 of 188 |
-| Edited output against the ECMA-376 schemas | no new schema errors (files invalid before an edit stay invalid in the same way) |
-| Opens in Word without a repair prompt | all 45 generated and edited test documents (tables, sections, comments, notes, fields, revisions authored and resolved, content controls; DOCX, DOTX, DOCM, Flat OPC), Word 365 build 16.0.20527 |
-| Fuzzing | every parser 600 s with no findings (libFuzzer via SharpFuzz) |
-| Speed against the fastest of the Open XML SDK 3.5.1 and NPOI 2.7.6 | geomean 0.36× (x64) and 0.29× (arm64) over load, load+save, edit and extract; worst row 1.09× (untouched save of a 1,000-page document, arm64). Parts are parsed on first use, so opening reads only the package structure. Method and tables: `bench/README.md` |
+| Find and replace, merge, append, split, protection | implemented (`docs/operations-find-replace.md`, `docs/operations-merge.md`, `docs/protection.md`) |
+| Redaction (`Office.Redact`) | implemented, writes a new file and re-reads it to verify; an independent completeness review passed (`docs/redaction-review.md`), with its open items listed there. Office check pending (1.0 gate) |
+| Inspect and sanitise (`Office.Inspect`, `Office.Sanitize`, `onedocument inspect`, `sanitize`) | implemented (`docs/sanitize.md`); coverage review pending |
+| VBA read, extract, remove | implemented, never executed (`docs/vba.md`) |
+| Accessibility checking | implemented (`docs/accessibility.md`); agreement with Office's checker pending (1.0 gate) |
 
-Deviations and gaps: band regions of table styles in rows with merged cells are not yet verified against Word; text extraction leaves out embedded objects and `altChunk` content.
+## Gaps
 
-## Support and measurements (workbooks and CSV)
+Stated here so they are not found by surprise.
 
-| Check | Result |
-|---|---|
-| Untouched open and save, every part byte-identical | 28,709 of 28,709 parts in 1,211 public-web, bug-tracker and converted workbooks that open (35 more fail with typed errors); 39,199 of 39,199 parts in a second 1,520-file set |
-| Editing one cell changes only its sheet part | 1,212 of 1,212 |
-| Edits of styles, tables, conditional formatting, data validation and names (five classes) | 1,484 of 1,484 succeed, no new schema-invalid parts on the samples checked |
-| Values against an independent converter (LibreOffice) | 208 of 210 workbooks equal (the two differences are volatile `RAND` sheets) |
-| Opens in Excel without a repair prompt | 8 of 8 edited workbooks and 3 of 3 streamed files (Excel 365 build 16.0.20527) |
-| Number formats against Excel (`TEXT` and cell display) | 7,602 of 7,602 agree in a grid of formats and values; 14 locales verified, 24 locales and 1,350 of 1,350 format names; displayed text 982 of 982 on edited workbooks (caller-side exceptions: `TEXT` argument coercion, the 255-character limit, `#` overflow and `*` fill) |
-| CSV and TSV | 89 of 89 government-corpus files field-equal after a rewrite; Excel reads our written files back 162 of 162; Excel values agree on 259 of 262 (the 3 are text that looks like a formula, kept as text on purpose) |
-| Streaming reader against the workbook model | equal on 103.5 million corpus cells; the 1M-row by 20-column output validates against the ECMA-376 schemas |
-| Fuzzing | every parser 600 s with no findings |
-| Loss reports | Writing CSV or TSV reports every dropped feature (formulas, styles, other sheets) with a `loss.` code |
-| Memory | 37 retained bytes per cell on a 20M-cell styled workbook (ClosedXML 79, NPOI 360); peak working set 908 MB (ClosedXML 1.7 GB, NPOI 15.5 GB); 0.08 allocated bytes per cell on the streaming read; constant working set from 10k to 1M rows (47 MB and 49 MB peak) |
-| Speed against the fastest of Sylvan.Data.Excel 0.5.8, MiniExcel 1.46.0, ExcelDataReader 3.9.0, ClosedXML 0.105.1, NPOI 2.7.6 and EPPlus 4.5.3.3 | geomean 0.53x (x64) and 0.59x (arm64) over streaming read, streaming write, model load and model edit-and-save; worst row 1.05x (streaming read of 100k rows on arm64; 1.01x on x64, both level with Sylvan within noise). Method and tables: `bench/README.md` |
-
-Deviations and gaps: no calculation engine; XLSB, XLS and ODS are not read yet; an Arabic-digit text format is not rendered; saving a sheet larger than 2 GB waits for the streaming writer; `xml:space` on shared-string text is not schema-checked.
+- **Encrypted output.** Encrypted files are written only for XLS (RC4 CryptoAPI). Agile OOXML and ODF encryption on write wait for the Cryptography package.
+- **Cryptography package.** `RecursiveAI.OneDocument.Cryptography` (signatures, encryption on write) has no content yet and is not part of the `All` metapackage.
+- **Browser.** WebAssembly has no `Aes` or MD5, so opening Agile or Standard encrypted OOXML and RC4-MD5 files there raises `OfficeUnsupportedException`. RC4 CryptoAPI and XOR files read normally (`docs/platforms.md`).
+- **Formula text** is en-US and invariant only; localized function names are not supported.
+- **DOC and PPT** are read-only. **Word 6/95 and BIFF2 to BIFF5** layouts come from observed files, not a specification.
+- **Metafiles.** Drawn as vector content where the interpreter supports the records; custom pen caps, line-end anchors, colour matrices and text clipping to a string's rectangle are not drawn, and some raster-operation cases fall back to a bitmap (`docs/metafiles.md`).
+- **Output formats.** PDF and PNG (first page) only: no SVG, JPEG, TIFF or WebP page export yet. HTML, Markdown and text export are on the hubs.
+- **Rendering fidelity.** Page layout is implemented from the Word, PowerPoint and Excel rules in `docs/layout*.md`; how closely it matches Office is pending (1.0 gate), and the layout notes list the places still to be checked against Word.
+- **Not executed.** Macros, OLE payloads, Power Query, the Data Model and Solver are carried and (for VBA) listed or removed, never run.
 
 ## Packages
 
 | Package | Contents |
 |---|---|
-| `RecursiveAI.OneDocument` | The core: contracts, containers, markup, format registry, OOXML text extraction |
-| `RecursiveAI.OneDocument.Documents` | Word-processing documents (DOCX family) |
-| `RecursiveAI.OneDocument.Spreadsheets` | Workbooks (XLSX family), streaming, CSV/TSV, typed row binding; calculation not yet |
-| `RecursiveAI.OneDocument.Presentations` | Presentations |
-| `RecursiveAI.OneDocument.Schema` | Generated typed views of the WordprocessingML elements, over the markup tree |
-| `RecursiveAI.OneDocument.Rendering` | Layout and PDF/image output (not yet) |
-| `RecursiveAI.OneDocument.Cryptography` | Signatures and encryption on write (not yet) |
-| `RecursiveAI.OneDocument.All` | Metapackage |
-| `onedocument` | Command-line tool: `onedocument detect <file>`, `onedocument extract <file> [-o out.txt] [--json]` |
+| `RecursiveAI.OneDocument` | Core: contracts, containers (OPC, compound files, ODF package), XML tokenizer and markup tree, format registry, formula and calc core, number formats, template engine, text extraction, RTF and VBA layers |
+| `RecursiveAI.OneDocument.Documents` | Word-processing documents: DOCX, DOC, RTF, ODT, 2003 XML, HTML, Markdown, revisions, mail merge, operations |
+| `RecursiveAI.OneDocument.Spreadsheets` | Workbooks: XLSX, XLSB, XLS, CSV/TSV, 2003 XML, calculation, pivots, streaming, typed row binding |
+| `RecursiveAI.OneDocument.Presentations` | Presentations: PPTX, PPT |
+| `RecursiveAI.OneDocument.Schema` | Generated zero-copy typed views over every pinned schema: WordprocessingML, SpreadsheetML, PresentationML, DrawingML, charts, chartex, diagrams, VML, Office Math, the package parts and the Microsoft extension schemas; `.Spreadsheets` uses them |
+| `RecursiveAI.OneDocument.Rendering` | Layout, charts, SmartArt, equations, drawing; PDF and PNG output for all three kinds |
+| `RecursiveAI.OneDocument.All` | Metapackage of every package above |
+| `RecursiveAI.OneDocument.Cryptography` | Signatures and encryption on write (no content yet; not in `All`) |
+| `onedocument` | Command-line tool: `detect`, `extract`, `recalc`, `template`, `render`, `convert`, `inspect`, `sanitize` |
 
 ## Building
 
 ```
 dotnet build OneDocument.slnx
 dotnet test --solution OneDocument.slnx
-build/ci.sh            # restore, build, test, NativeAOT smoke, WebAssembly smoke, pack
+build/ci.sh            # restore, build, test, samples, NativeAOT smoke, WebAssembly smoke, pack
 ```
 
 The .NET SDK version is pinned in `global.json`. Build output goes to `artifacts/` (ignored by git); set `ONEDOCUMENT_ARTIFACTS` to put it elsewhere.
 
 ## Layout
 
-`src/` packages, `tests/` unit tests, `tools/` harness and generator tools, `fuzz/` libFuzzer targets, `bench/` benchmarks, `smoke/` NativeAOT and WebAssembly smoke apps, `docs/` normative notes (`docs/contracts.md`).
+`src/` packages, `samples/` runnable examples, `tests/` unit tests, `tools/` harness and generator tools, `fuzz/` libFuzzer targets, `bench/` benchmarks, `smoke/` NativeAOT and WebAssembly smoke apps, `docs/` normative notes (index in [`docs/README.md`](docs/README.md)).
 
 ## Licence
 

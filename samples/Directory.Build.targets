@@ -1,0 +1,10 @@
+<Project>
+
+  <!-- The samples reference the projects, not the packages, so they take each package's registration file the way a package
+       reference would (the tool does the same). -->
+  <Import Project="../src/OneDocument.Documents/build/RecursiveAI.OneDocument.Documents.targets" />
+  <Import Project="../src/OneDocument.Spreadsheets/build/RecursiveAI.OneDocument.Spreadsheets.targets" />
+  <Import Project="../src/OneDocument.Presentations/build/RecursiveAI.OneDocument.Presentations.targets" />
+  <Import Project="../src/OneDocument.Rendering/build/RecursiveAI.OneDocument.Rendering.targets" />
+
+</Project>

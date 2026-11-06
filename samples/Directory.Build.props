@@ -1,0 +1,24 @@
+<Project>
+
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <!-- Each sample is a small console program that generates its own input, runs one task and checks the result, so CI can run it
+       with no files and no network. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>RecursiveAI.OneDocument.Samples</RootNamespace>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <EnablePackageValidation>false</EnablePackageValidation>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.IO" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.Linq" />
+    <Compile Include="$(MSBuildThisFileDirectory)Shared/SampleSupport.cs" Link="SampleSupport.cs" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)../src/OneDocument.All/OneDocument.All.csproj" />
+  </ItemGroup>
+
+</Project>
