@@ -4,7 +4,7 @@
 #   fuzz/run.sh <target> <seconds> [corpus dir] [extra libFuzzer flags...]
 #   fuzz/run.sh replay <target> <file>...      # run saved inputs once, without libFuzzer (reproduce a finding)
 #
-# Targets: formula, formulaeval, finfuncs, statfuncs, funcs, lookups, sniff, xml, markup, opc, cfb, sdt, sdtpath, text, revisions, stories, pptx, fieldinstr, fields, numfmt, numfmtfmt, sheet, sst, wbpart, styles, sheetfeat, table, pivot, csv, stream, streamwrite, template, richtext, mailmerge, math, sheetrender, rtf, rtftree, smartart, doc, sprm, xls, ptg, ppt, xml2003, xlsb, olepropset, oleobject, encinfo, filepass, html, markdown, markdownparse, vbacompress, vbadir, vbaproject, vbaremove, odfpkg, odt, odp   (see fuzz/README.md)
+# Targets: formula, formulaeval, finfuncs, statfuncs, funcs, lookups, sniff, xml, markup, opc, cfb, sdt, sdtpath, text, revisions, stories, pptx, fieldinstr, fields, numfmt, numfmtfmt, sheet, sst, wbpart, styles, sheetfeat, table, pivot, csv, stream, streamwrite, template, richtext, mailmerge, math, sheetrender, rtf, rtftree, smartart, doc, sprm, xls, ptg, ppt, xml2003, xlsb, olepropset, oleobject, encinfo, filepass, html, markdown, markdownparse, vbacompress, vbadir, vbaproject, vbaremove, odfpkg, odt, odp, ods, openformula   (see fuzz/README.md)
 #
 # Environment (nothing is baked into the script):
 #   ONEDOCUMENT_FUZZ_WORK    required: where builds, corpora and findings go. Keep it outside the checkout.
@@ -74,6 +74,8 @@ case "$target" in
   xml2003) maxlen=131072 ;;
   xlsb) maxlen=65536 ;;
   odfpkg|odt|odp) maxlen=131072 ;;
+  ods) maxlen=131072 ;;
+  openformula) maxlen=4096 ;;
   markdown|markdownparse) maxlen=65536 ;;
   vbacompress) maxlen=16384 ;;
   vbadir) maxlen=8192 ;;

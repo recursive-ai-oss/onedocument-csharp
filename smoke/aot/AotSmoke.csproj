@@ -49,6 +49,7 @@
     <Compile Include="../shared/VbaSmoke.cs" Link="VbaSmoke.cs" />
     <Compile Include="../shared/InspectSmoke.cs" Link="InspectSmoke.cs" />
     <Compile Include="../shared/Xml2003Smoke.cs" Link="Xml2003Smoke.cs" />
+    <Compile Include="../shared/OdsSmoke.cs" Link="OdsSmoke.cs" />
     <Compile Include="../shared/PocoSmoke.cs" Link="PocoSmoke.cs" />
     <Compile Include="../shared/TemplateSmoke.cs" Link="TemplateSmoke.cs" />
     <Compile Include="../shared/RenderSmoke.cs" Link="RenderSmoke.cs" />
