@@ -414,8 +414,8 @@ public class XlsWriterTests
         Assert.Contains("Bo é:first line", CommentsKey(back, back.Sheets[0]));
         Assert.Contains("https://example.com/a?b=1&c=2", LinksKey(back, back.Sheets[0]));
 
-        // Excel 16.0.20527 refuses a workbook whose notes carry the text box marker inside the shape container: it is a MsoDrawing
-        // record of its own (eight bytes, OfficeArtClientTextbox) between each note's Obj and TxO.
+        // The text box marker of each note is a MsoDrawing
+        // record of its own (eight bytes, OfficeArtClientTextbox) between the note's Obj and TxO.
         ReadOnlySpan<byte> marker = [0xEC, 0x00, 0x08, 0x00, 0x00, 0x00, 0x0D, 0xF0, 0x00, 0x00, 0x00, 0x00];
         int found = 0;
         for (int i = 0; i + marker.Length <= xls.Length; i++)
@@ -427,6 +427,32 @@ public class XlsWriterTests
         }
 
         Assert.Equal(2, found);
+
+        // The shape containers count that marker: the drawing container's declared length is the first MsoDrawing record's payload, the
+        // second note's shape record and eight bytes of marker for each note. A length that leaves the markers out is refused by Excel.
+        ReadOnlySpan<byte> dg = [0x0F, 0x00, 0x02, 0xF0];
+        ReadOnlySpan<byte> sp = [0x0F, 0x00, 0x04, 0xF0];
+        int first = IndexOfDrawingRecord(xls, dg);
+        int second = IndexOfDrawingRecord(xls, sp, first + 1);
+        Assert.True(first >= 0 && second > first);
+        int declared = 8 + BitConverter.ToInt32(xls, first + 4 + 4);
+        int firstPayload = BitConverter.ToUInt16(xls, first + 2);
+        int secondPayload = BitConverter.ToUInt16(xls, second + 2);
+        Assert.Equal(firstPayload + secondPayload + 2 * 8, declared);
+    }
+
+    // The offset of the MsoDrawing record (0x00EC) whose payload starts with the given Escher header bytes, or -1.
+    private static int IndexOfDrawingRecord(byte[] xls, ReadOnlySpan<byte> header, int from = 0)
+    {
+        for (int i = Math.Max(from, 0); i + 4 + header.Length <= xls.Length; i++)
+        {
+            if (xls[i] == 0xEC && xls[i + 1] == 0x00 && xls.AsSpan(i + 4, header.Length).SequenceEqual(header))
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     [Theory]
