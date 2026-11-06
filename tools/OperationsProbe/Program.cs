@@ -52,6 +52,7 @@ internal static class Program
                     case "docx-split": DocxSplit(a, output, i, line); break;
                     case "docx-fields": DocxFields(a, output, i, line); break;
                     case "xlsx-copy": XlsxCopy(a, output, i, line); break;
+                    case "xlsx-time": XlsxTime(a, line); break;
                     case "pptx-insert": PptxInsert(a, b, output, i, line); break;
                     case "pptx-split": PptxSplit(a, output, i, line); break;
                     default: Console.Error.WriteLine("unknown command"); return 2;
@@ -163,6 +164,23 @@ internal static class Program
         {
             p.Workbook.SaveAs(Path.Combine(output, Name(i, "sheet" + n++, ".xlsx")));
         }
+    }
+
+    // Where a sheet copy spends its time: one line per sheet with its size and the copy's duration.
+    private static void XlsxTime(string a, Dictionary<string, object?> line)
+    {
+        using Workbook src = Workbook.Open(a);
+        var sheets = new List<string>();
+        foreach (Worksheet s in src.Sheets.Where(s => s.Kind == SheetKind.Worksheet))
+        {
+            long start = Environment.TickCount64;
+            Console.Error.WriteLine(s.Name + ": " + s.Store.CellCount + " cells");
+            using Workbook dst = Workbook.Create();
+            SheetCopyResult r = s.CopyTo(dst);
+            sheets.Add(s.Name + ": " + s.Store.CellCount + " cells, " + r.Report.CountOf("formulas") + " formulas, " + (Environment.TickCount64 - start) + " ms");
+        }
+
+        line["sheets"] = sheets;
     }
 
     private static void PptxInsert(string a, string b, string output, int i, Dictionary<string, object?> line)

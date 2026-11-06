@@ -211,6 +211,43 @@ public class SheetCopyTests
     }
 
     [Fact]
+    public void Copy_HyperlinksKeepTheirTargetsAndFollowTheSheetName()
+    {
+        using Workbook built = Source();
+        var ms = new MemoryStream();
+        built.SaveAs(ms, OfficeFormat.Xlsx);
+        ms.Position = 0;
+        using Workbook src = Workbook.Open(ms);
+        string part = src.Sheets["Data"].PartName!;
+        string xml = System.Text.Encoding.UTF8.GetString(src.Package.FindPart(part)!.GetBytes().Span);
+        xml = xml.Replace("</sheetData>", "</sheetData><hyperlinks><hyperlink ref=\"A1\" r:id=\"rIdLink\"/><hyperlink ref=\"A2\" location=\"Data!B1\"/></hyperlinks>", StringComparison.Ordinal);
+        if (!xml.Contains("xmlns:r=", StringComparison.Ordinal))
+        {
+            xml = xml.Replace("<worksheet ", "<worksheet xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" ", StringComparison.Ordinal);
+        }
+
+        src.Package.FindPart(part)!.SetBytes(System.Text.Encoding.UTF8.GetBytes(xml));
+        var rels = new List<RecursiveAI.OneDocument.Packaging.Relationship>(src.Package.GetRelationships(part))
+        {
+            new("rIdLink", "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink", "https://example.org/x", RecursiveAI.OneDocument.Packaging.RelationshipTargetMode.External),
+        };
+        src.Package.SetRelationships(part, rels);
+
+        using Workbook dst = Destination();
+        dst.Sheets.Add("Data");
+        SheetCopyResult r = src.Sheets["Data"].CopyTo(dst);
+        Assert.Equal("Data (2)", r.Sheet.Name);
+        Assert.Equal(2, r.Report.CountOf("hyperlinks"));
+        dst.CommitChanges();
+        string copied = System.Text.Encoding.UTF8.GetString(dst.Package.FindPart(r.Sheet.PartName!)!.GetBytes().Span);
+        Assert.Contains("location=\"'Data (2)'!B1\"", copied, StringComparison.Ordinal);
+        string rid = System.Text.RegularExpressions.Regex.Match(copied, "<hyperlink ref=\"A1\" r:id=\"([^\"]+)\"").Groups[1].Value;
+        var link = dst.Package.GetRelationships(r.Sheet.PartName!).Single(x => x.Id == rid);
+        Assert.Equal("https://example.org/x", link.Target);
+        Assert.Equal(RecursiveAI.OneDocument.Packaging.RelationshipTargetMode.External, link.TargetMode);
+    }
+
+    [Fact]
     public void Copy_WithoutADestinationIsRefused()
     {
         using Workbook src = Source();

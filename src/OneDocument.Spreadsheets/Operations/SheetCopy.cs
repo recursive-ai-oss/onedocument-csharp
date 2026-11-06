@@ -640,6 +640,9 @@ internal sealed class SheetCopier
         string pc = Xl.Prefix(_dst.FrameRoot);
         var rels = new List<Relationship>(_dstWb.Package.GetRelationships(dstPart));
         IReadOnlyList<Relationship> srcRels = _src.PartName is { } sp ? SrcWb.Package.GetRelationships(sp) : [];
+        Dictionary<string, Relationship> srcById = srcRels.GroupBy(r => r.Id).ToDictionary(g => g.Key, g => g.First(), StringComparer.Ordinal);
+        var used = new HashSet<string>(rels.Select(r => r.Id), StringComparer.Ordinal);
+        int nextRelationship = 1;
         long count = 0;
         foreach (MarkupNode h in hs.ChildElements)
         {
@@ -663,19 +666,18 @@ internal sealed class SheetCopier
 
             if (rid.Length > 0)
             {
-                Relationship? rel = srcRels.FirstOrDefault(r => r.Id == rid);
+                Relationship? rel = srcById.GetValueOrDefault(rid);
                 if (rel is null)
                 {
                     continue;
                 }
 
-                int n = 1;
-                while (rels.Exists(r => r.Id == "rId" + n.ToString(CultureInfo.InvariantCulture)))
+                while (!used.Add("rId" + nextRelationship.ToString(CultureInfo.InvariantCulture)))
                 {
-                    n++;
+                    nextRelationship++;
                 }
 
-                string newId = "rId" + n.ToString(CultureInfo.InvariantCulture);
+                string newId = "rId" + nextRelationship.ToString(CultureInfo.InvariantCulture);
                 rels.Add(rel with { Id = newId });
                 attrs += " r:id=\"" + newId + "\"";
             }
