@@ -29,7 +29,7 @@ internal sealed class WordInspectionProvider : IInspectionProvider
     private static bool Doing(SanitizeSession? z, InspectionCategory c) => z is not null && z.Selected(c);
 
     private static bool IsContent(string ct) =>
-        ct.Contains("wordprocessingml", StringComparison.OrdinalIgnoreCase)
+        InspectionXml.IsWordMarkupType(ct)
         && (ct.EndsWith("main+xml", StringComparison.OrdinalIgnoreCase) || ct.EndsWith("header+xml", StringComparison.OrdinalIgnoreCase)
             || ct.EndsWith("footer+xml", StringComparison.OrdinalIgnoreCase) || ct.EndsWith("footnotes+xml", StringComparison.OrdinalIgnoreCase)
             || ct.EndsWith("endnotes+xml", StringComparison.OrdinalIgnoreCase) || ct.EndsWith("comments+xml", StringComparison.OrdinalIgnoreCase)

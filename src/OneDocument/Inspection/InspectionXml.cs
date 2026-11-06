@@ -80,6 +80,16 @@ public static class InspectionXml
         return list;
     }
 
+    /// <summary>
+    /// Tells whether a content type is a word-processing markup part: the usual <c>wordprocessingml</c> types and the macro-enabled
+    /// main parts, whose types are in Microsoft's own space (<c>application/vnd.ms-word.document.macroEnabled.main+xml</c>).
+    /// </summary>
+    /// <param name="contentType">The content type.</param>
+    /// <returns>True for a part written in WordprocessingML.</returns>
+    public static bool IsWordMarkupType(string contentType) =>
+        contentType.EndsWith("+xml", StringComparison.OrdinalIgnoreCase)
+        && (contentType.Contains("wordprocessingml", StringComparison.OrdinalIgnoreCase) || contentType.StartsWith("application/vnd.ms-word.", StringComparison.OrdinalIgnoreCase));
+
     /// <summary>Tells whether a node is still part of its document (it was not removed, and nothing above it was).</summary>
     /// <param name="node">The node.</param>
     /// <returns>True when attached.</returns>

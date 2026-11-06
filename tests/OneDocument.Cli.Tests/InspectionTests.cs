@@ -359,6 +359,31 @@ public class InspectionTests
     }
 
     [Fact]
+    public void A_macro_enabled_document_is_inspected_and_sanitised_like_a_plain_one()
+    {
+        string dir = Scratch();
+        byte[] bytes;
+        using (OpcPackage p = OpcPackage.Open(new MemoryStream(TortureFiles.Docx())))
+        {
+            Assert.True(p.SetPartContentType("/word/document.xml", "application/vnd.ms-word.document.macroEnabled.main+xml"));
+            using var ms = new MemoryStream();
+            p.WriteTo(ms);
+            bytes = ms.ToArray();
+        }
+
+        string input = Write(dir, "t.docm", bytes);
+        InspectionReport r = Inspector.Inspect(input);
+        Assert.Equal(OfficeFormat.Docm, r.SourceFormat);
+        Assert.Equal(5, r.CountOf(InspectionCategory.PersonalInformation));
+        Assert.Equal(2, r.CountOf(InspectionCategory.Revisions));
+        Assert.Equal(1, r.CountOf(InspectionCategory.HiddenText));
+        string output = Path.Combine(dir, "clean.docm");
+        Sanitizer.Sanitize(input, output);
+        Assert.Empty(Planted(output));
+        Assert.Equal(OfficeFormat.Docm, Office.Detect(output));
+    }
+
+    [Fact]
     public void The_defaults_leave_what_office_does_not_remove()
     {
         string dir = Scratch();

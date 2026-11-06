@@ -173,7 +173,7 @@ internal static class PackageInspection
         // sessions, not people, but they link text to the sessions that wrote it; the Document Inspector class removes them.
         if (s.Kind == OfficeKind.Document)
         {
-            foreach (IPackagePart p in s.PartsWhere(ct => ct.Contains("wordprocessingml", StringComparison.OrdinalIgnoreCase) && ct.EndsWith("+xml", StringComparison.OrdinalIgnoreCase)))
+            foreach (IPackagePart p in s.PartsWhere(InspectionXml.IsWordMarkupType))
             {
                 MarkupDocument? doc = doing ? z!.Edit(p) : s.Markup(p);
                 if (doc is null)
@@ -424,7 +424,7 @@ internal static class PackageInspection
             string ct = p.ContentType;
             bool slide = ct.EndsWith("presentationml.slide+xml", StringComparison.OrdinalIgnoreCase);
             bool excelDrawing = s.Kind == OfficeKind.Workbook && ct.EndsWith("officedocument.drawing+xml", StringComparison.OrdinalIgnoreCase);
-            bool word = s.Kind == OfficeKind.Document && ct.Contains("wordprocessingml", StringComparison.OrdinalIgnoreCase) && ct.EndsWith("+xml", StringComparison.OrdinalIgnoreCase);
+            bool word = s.Kind == OfficeKind.Document && InspectionXml.IsWordMarkupType(ct);
             if (!slide && !excelDrawing && !word)
             {
                 continue;
