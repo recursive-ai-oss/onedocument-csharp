@@ -1,0 +1,9 @@
+row	size	reps	min_ms	median_ms	alloc_bytes_per_rep	peak_ws_mb	checksum	file_bytes
+onedocument.calc.cold	calc-10000.xlsx	3	488.9	490.2	170467584	108	65982500	0
+closedxml.calc.cold	calc-10000.xlsx	3	2484.1	2484.4	243543544	207	65982500	0
+npoi.calc.cold	calc-10000.xlsx	3	1143.4	1217.3	395487056	187	65982500	0
+epplus.calc.cold	calc-10000.xlsx	3	1036.6	1237.5	435578704	135	65982500	0
+onedocument.calc.cold	calc-50000.xlsx	3	1160.6	1161.7	843351920	186	329912500	0
+closedxml.calc.cold	calc-50000.xlsx	3	57247.3	57423.8	1219541992	517	329912500	0
+npoi.calc.cold	calc-50000.xlsx	3	3138.2	3152.7	1997618264	581	329912500	0
+epplus.calc.cold	calc-50000.xlsx	3	2919.7	3118.6	2132603496	305	329912500	0

@@ -139,7 +139,7 @@ elif [[ -n "$xlsx" ]]; then
   peak=0
 fi
 if [[ $timing -eq 1 ]]; then
-  "$dotnet_bin" "$dll" --filter "$filter" --artifacts "$out/bdn" > "$out/bdn.log" 2>&1
+  "$dotnet_bin" "$dll" --filter "$filter" --artifacts "$out/bdn" --buildTimeout 1500 > "$out/bdn.log" 2>&1
 fi
 if [[ $peak -eq 1 ]]; then
   "$dotnet_bin" "$dll" peakall "$inputs" "$out/peak.tsv" > "$out/peak.log" 2>&1
