@@ -10,6 +10,7 @@ This package is the spreadsheet part of OneDocument, an early preview. It opens,
 - **Typed rows.** Mark a `partial` class, struct or record with `[SpreadsheetRow]` and `Spreadsheet.Read<T>(path)` / `Spreadsheet.Write(path, rows)` move it to and from XLSX, CSV and TSV in one call, streaming. A source generator that ships in this package writes the binding when you compile, so there is no reflection and it works under trimming and NativeAOT.
 - **Safe.** The format is found from the content, never the extension. Damage is reported as typed defects with cell addresses or part offsets, and resource limits are on by default.
 - **No setup.** `Office.Open` reaches workbooks as soon as this package is referenced; no registration call is needed.
+- **Legacy workbooks.** `Workbook.Open("old.xls")` reads Excel 2.0 to 2003 files (BIFF2 to BIFF8) into the same model, with a loss report (`Workbook.ImportLoss`); `Office.Convert("old.xls", "new.xlsx")` is one line. See `docs/xls.md`.
 - **Excel's number formats** (TEXT and cell display, 14 locales) are a shared service in the core package.
 
 ```csharp

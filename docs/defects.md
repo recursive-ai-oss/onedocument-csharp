@@ -306,6 +306,42 @@ Reported in `ContentBindingReport.Warnings`. See `docx-content-controls.md`.
 | `binding.value-not-in-list` | repaired | A drop-down value is not one of its items; the control keeps its selection. |
 | `binding.no-template-item` | dropped | A repeating section has no item to copy as its pattern. |
 
+### Legacy workbooks (`biff.`)
+
+Located by stream path and record offset (`Record` locations) unless the kind says otherwise. See `xls.md`.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `biff.truncated-record` | dropped | A record claims more data than the stream holds; it and everything after it are ignored. |
+| `biff.trailing-bytes` | dropped | Fewer than a record header of bytes follow the last record. |
+| `biff.no-bof` | fatal | The stream does not begin with a BOF record. |
+| `biff.no-workbook-stream` | fatal | A compound file has neither a `Workbook` nor a `Book` stream. |
+| `biff.no-sheet` | fatal | A BIFF2 to BIFF4 stream holds no worksheet. |
+| `biff.missing-eof` | repaired | A substream has no EOF record; it is read to the end of the stream. |
+| `biff.malformed` | fatal | An unexpected failure while reading damaged records (the inner exception names it). |
+| `biff.codepage-unavailable` | repaired | The workbook's code page is not available in the runtime; 8-bit text is read as Windows-1252. Kind `Encoding`. |
+| `biff.sheet-missing` | dropped | A sheet in the sheet list has no substream; it is left empty. |
+| `biff.sheet-name` | repaired | A sheet name is invalid or repeated; the sheet is named `Sheet<n>`. |
+| `biff.no-visible-sheet` | repaired | Every sheet is hidden; the first is shown. |
+| `biff.cell-out-of-range` | dropped | A cell lies outside the sheet. Kind `Reference`. |
+| `biff.sst-index` | dropped | A text cell refers to a shared string the table does not hold. Kind `Reference`. |
+| `biff.sst-truncated` | repaired | The shared string table ends inside a string. |
+| `biff.sst-short` | repaired | The table holds fewer strings than it declares. |
+| `biff.string-orphan` | dropped | A STRING record does not follow a formula that needs one. |
+| `biff.colinfo-range` | dropped | A column range is inverted or beyond column 255. |
+| `biff.merge-range` | dropped | A merged range is inverted or beyond column 255. |
+| `biff.formula-length` | dropped | A formula claims more token bytes than its record holds. |
+| `biff.formula-token` | dropped | A formula holds a token or function the converter does not know; the cell keeps its cached value. Kind `Formula`. |
+| `biff.formula-stack` | dropped | A formula's tokens do not reduce to one expression. Kind `Formula`. |
+| `biff.formula-exp`, `biff.formula-table` | dropped | A shared-formula or data-table token reached a place it cannot be resolved. Kind `Formula`. |
+| `biff.formula-exp-missing` | dropped | A formula refers to a shared or array formula the sheet does not define. Kind `Formula`. |
+| `biff.formula-name` | dropped | A formula uses a name or external name the file does not define (replaced by `#NAME?`). Kind `Formula`. |
+| `biff.formula-pivot-name`, `biff.formula-macro-function` | dropped | A pivot-table name or macro-command function is replaced by an error value. Kind `Formula`. |
+| `biff.formula-too-long` | dropped | A formula is longer than `OfficeLimits.MaxFormulaLength`. Kind `Formula`. |
+| `biff.formula-text-invalid` | dropped | A formula holds a character XML cannot carry (a control character in a text constant); the cell keeps its cached value. Kind `Formula`. |
+| `biff.cf-length` | dropped | A conditional-format rule is shorter than its parts. |
+| `biff.name-rejected` | dropped | A defined name is invalid in the hub and is dropped. Kind `Reference`. |
+| `biff.name-repeated` | dropped | A defined name repeats one of the same scope (LibreOffice writes some twice); the first is kept. Kind `Reference`. |
 ### OfficeArt (`art.`)
 
 Reported by the shared OfficeArt reader (`RecursiveAI.OneDocument.OfficeArt`) with a `Record` location: the stream name the caller gave and the offset of the record. See `officeart.md`.

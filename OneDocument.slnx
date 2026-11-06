@@ -26,6 +26,7 @@
     <Project Path="tools/RoundTrip/RoundTrip.csproj" />
     <Project Path="tools/LayoutProbe/LayoutProbe.csproj" />
     <Project Path="tools/PackageSweep/PackageSweep.csproj" />
+    <Project Path="tools/XlsProbe/XlsProbe.csproj" />
     <Project Path="tools/PackageTiming/PackageTiming.csproj" />
     <Project Path="tools/MarkupProbe/MarkupProbe.csproj" />
     <Project Path="tools/PptProbe/PptProbe.csproj" />

@@ -139,6 +139,11 @@ public sealed partial class Workbook : OfficeFile
                 return Csv.CsvDocument.FromSource(source, sniffed, context, cancellationToken);
             }
 
+            if (sniffed is OfficeFormat.Xls or OfficeFormat.XlsLegacy)
+            {
+                return Biff.XlsConverter.FromSource(source, context, cancellationToken);
+            }
+
             if (!IsWorkbookFormat(sniffed))
             {
                 throw new FormatNotAvailableException(sniffed, "open as a workbook:");
@@ -425,7 +430,7 @@ public sealed partial class Workbook : OfficeFile
         InsertWorkbookChild("calcPr", "<" + Pc() + "calcPr fullCalcOnLoad=\"1\"/>");
     }
 
-    private string Pc() => _tree.Root.Prefix.Length == 0 ? string.Empty : Encoding.UTF8.GetString(_tree.Root.Prefix) + ":";
+    internal string Pc() => _tree.Root.Prefix.Length == 0 ? string.Empty : Encoding.UTF8.GetString(_tree.Root.Prefix) + ":";
 
     // ECMA-376 Part 1 CT_Workbook: the child elements of workbook, in schema order.
     private static readonly string[] WorkbookOrder =
@@ -435,7 +440,7 @@ public sealed partial class Workbook : OfficeFile
         "fileRecoveryPr", "webPublishObjects", "extLst",
     ];
 
-    private void InsertWorkbookChild(string local, string xml)
+    internal void InsertWorkbookChild(string local, string xml)
     {
         int idx = Array.IndexOf(WorkbookOrder, local);
         byte[] bytes = Encoding.UTF8.GetBytes(xml);
