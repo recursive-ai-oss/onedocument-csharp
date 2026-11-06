@@ -28,6 +28,7 @@
     <Compile Include="../shared/StreamSmoke.cs" Link="StreamSmoke.cs" />
     <Compile Include="../shared/XlsbSmoke.cs" Link="XlsbSmoke.cs" />
     <Compile Include="../shared/CsvSmoke.cs" Link="CsvSmoke.cs" />
+    <Compile Include="../shared/MarkdownSmoke.cs" Link="MarkdownSmoke.cs" />
     <Compile Include="../shared/DocSmoke.cs" Link="DocSmoke.cs" />
     <Compile Include="../../tests/Shared/DocBuilder.cs" Link="DocBuilder.cs" />
     <Compile Include="../shared/XlsSmoke.cs" Link="XlsSmoke.cs" />

@@ -11,6 +11,8 @@
     <InternalsVisibleTo Include="RecursiveAI.OneDocument.Fuzz" />
     <!-- The binary-workbook formula layer builds and annotates formula trees (whitespace trivia, argument arrays). -->
     <InternalsVisibleTo Include="RecursiveAI.OneDocument.Spreadsheets" />
+    <InternalsVisibleTo Include="RecursiveAI.OneDocument.Presentations" />
+    <InternalsVisibleTo Include="RecursiveAI.OneDocument.Documents" />
   </ItemGroup>
 
   <ItemGroup>

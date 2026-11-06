@@ -186,7 +186,7 @@ public sealed partial class Document
         // the model and Office.ExtractText agree on every file.
         CommitChanges();
         // A document read from RTF is a word-processing package in memory, so its text comes from the same extractor.
-        OfficeFormat textFormat = Format == OfficeFormat.Rtf ? OfficeFormat.Docx : Format;
+        OfficeFormat textFormat = Format is OfficeFormat.Rtf or OfficeFormat.Markdown ? OfficeFormat.Docx : Format;
         if (!FormatRegistry.Default.TryGetTextExtractor(textFormat, out TextExtractionHandler? extractor))
         {
             foreach (Paragraph paragraph in Paragraphs)
@@ -213,6 +213,10 @@ public sealed partial class Document
         else if (format == OfficeFormat.Rtf)
         {
             WriteRtf(destination, cancellationToken);
+        }
+        else if (format == OfficeFormat.Markdown)
+        {
+            SaveMarkdown(destination, cancellationToken);
         }
         else
         {
