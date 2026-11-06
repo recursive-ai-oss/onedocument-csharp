@@ -58,7 +58,7 @@ The library turns both gaps into `OfficeUnsupportedException` that names the mis
 - RC4 CryptoAPI (SHA-1) and XOR obfuscation read normally, and the XLS RC4 CryptoAPI writer works (SHA-1 only);
 - unencrypted files are unaffected.
 
-The gap ends when the family's cryptography library ships; until then the library does not carry its own AES or MD5.
+This is a known limitation of 1.0: the library does not carry its own AES or MD5, and opening these encrypted files in the browser raises the typed error above. It will be revisited if users ask for it.
 
 The browser build uses invariant globalization, as every build of the library does; nothing depends on ICU.
 
