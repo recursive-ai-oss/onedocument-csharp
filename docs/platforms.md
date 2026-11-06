@@ -42,7 +42,7 @@ ahead-of-time compilation) on one thread; the whole run takes about five seconds
 build/ci.sh ios-run
 ```
 
-Needs macOS with Xcode, an iOS simulator runtime and the `ios` workload (`dotnet workload install ios`; a user-local SDK works).
+The hosted CI job runs it only when the runner image has the Xcode the `ios` workload requires, and otherwise skips it with a notice; the 1.0 iOS results come from a Mac with Xcode 27.1 and the iOS 27.1 simulator. Needs macOS with Xcode, an iOS simulator runtime and the `ios` workload (`dotnet workload install ios`; a user-local SDK works).
 `build/mobile/ios-run.sh` builds `smoke/ios` for the simulator with warnings as errors, installs it on a simulator (an existing
 device is reused and shut down afterwards; otherwise one is created and deleted), launches it and reads the app's console. The log
 is `$CI_OUT/ios-run.log`, with the same line types as the browser log; the exit code is the result (`SMOKE-RESULT ok`).

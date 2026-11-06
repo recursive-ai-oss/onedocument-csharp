@@ -86,7 +86,24 @@ jobs:
           global-json-file: global.json
       - name: iOS workload
         run: dotnet workload install ios
+      - name: Select an Xcode the iOS workload accepts
+        id: xcode
+        # The workload names the Xcode it needs; the hosted image may not have it yet. Use it if installed, otherwise skip
+        # the simulator run with a notice (docs/platforms.md records where the iOS smoke runs).
+        run: |
+          need=$(find "$DOTNET_ROOT/packs" -path '*Microsoft.iOS.Sdk*' -name 'Versions.plist' -print0 2>/dev/null | xargs -0 grep -h -A1 '<key>XcodeVersion</key>' 2>/dev/null | sed -n 's:.*<string>\(.*\)</string>.*:\1:p' | head -1)
+          [ -n "$need" ] || need=$(dotnet workload list 2>/dev/null | sed -n 's/^ios *\([0-9]*\.[0-9]*\).*/\1/p' | head -1)
+          echo "workload wants Xcode $need"
+          app=$(find /Applications -maxdepth 1 \( -name "Xcode_${need}*.app" -o -name "Xcode-${need}*.app" \) 2>/dev/null | sort -V | tail -1)
+          if [ -n "$app" ]; then
+            sudo xcode-select -s "$app/Contents/Developer"
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::Xcode $need is not on this runner image (current: $(xcodebuild -version | head -1)); iOS simulator run skipped here."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
       - name: Build the iOS smoke app, run it in the simulator
+        if: steps.xcode.outputs.run == 'true'
         env:
           CI_OUT: ${{ runner.temp }}/out
         run: build/ci.sh ios-run
