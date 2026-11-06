@@ -1,0 +1,66 @@
+# Legacy Excel workbooks (BIFF2 to BIFF8)
+
+`RecursiveAI.OneDocument.Spreadsheets.Biff` reads Excel 2.0 to 2003 workbooks and converts them to the SpreadsheetML hub (`Workbook`). Reading follows [MS-XLS] (BIFF8); the layouts of BIFF2 to BIFF5 are not in that specification and are read from the files themselves (see "What is certain" below).
+
+```csharp
+using Workbook wb = Workbook.Open("old.xls");     // sniffs the content, never the extension
+LossReport loss = wb.ImportLoss!;                   // what the hub could not carry
+wb.SaveAs("new.xlsx");                              // an ordinary workbook from here on
+Office.Convert("old.xls", "new.xlsx");
+string text = Office.ExtractText("old.xls");
+```
+
+`XlsConverter.ToWorkbook(source, context, loss, token)` is the same with an explicit loss sink. The converted workbook has no file path, so `Save()` is refused and `SaveAs` picks the format. Opening never recalculates: cached results stay as the file stored them.
+
+## Layers
+
+1. **Records** (`BiffRecordSet`, `Biff` namespace): a stream is cut into records (a 2-byte type, a 2-byte length, up to 8,224 data bytes). Every record is kept as an offset and length over the stream's bytes, unknown and future records included; nothing is copied or dropped at this layer. A record that claims more bytes than the stream holds ends the list (`biff.truncated-record`). `CONTINUE` records are joined where a reader needs them: a string split by a `CONTINUE` restarts with a new flag byte that says whether the rest is 8-bit or UTF-16 ([MS-XLS] §2.5.293).
+2. **Conversion** (`XlsConverter`): the first `BOF` gives the version; the workbook-global records (code page, fonts, formats, XFs, styles, palette, shared strings, sheet list, `SUPBOOK`/`EXTERNSHEET`, names) are read first, then each sheet substream in `BOUNDSHEET` order (found by its stored offset; when the offset points nowhere the next unused substream is taken, `biff.sheet-missing` if there is none).
+3. **Formulas** (`PtgDecoder`, `PtgEncoder`): `Ptg` tokens ([MS-XLS] §2.5.198) become the public formula tree and print as the A1 text a workbook stores. Shared formulas (`SHRFMLA` with `PtgExp` and relative `PtgRefN`) are resolved to one text per cell; array formulas become an anchor with its range, the other cells keep values; data tables become `dataTable` formulas. The encoder writes a tree back as BIFF8 tokens (references in the reference class, no evaluation hints), so `tree → tokens → tree` is exact; the writer of a later release uses it.
+
+## What carries over
+
+| Source | Hub |
+|---|---|
+| `NUMBER`, `RK`, `MULRK`, `INTEGER` | numbers (RK: the 30-bit integer or the high 30 bits of a double, divided by 100 when flagged) |
+| `LABELSST`, `LABEL`, `RSTRING` | text (rich-text runs dropped, `loss.rich-text`) |
+| `BOOLERR`, `BLANK`, `MULBLANK` | booleans, errors, styled empty cells |
+| `FORMULA` + `STRING` | formula text and the cached result (number, text, boolean, error) |
+| `XF`, `FONT`, `FORMAT`, `STYLE`, `PALETTE` | `styles.xml`: fonts, fills (all 18 patterns), borders (14 line styles, diagonals), alignment, rotation, indent, shrink, protection, number formats, cell styles. Colour indexes stay indexed (`indexed="n"`) and a custom palette becomes `indexedColors`. Formats below id 164 that the file defines are renumbered into the custom range. |
+| `ROW`, `COLINFO`, `COLWIDTH`, `DEFCOLWIDTH`, `DEFAULTROWHEIGHT` | row height (only when the file marks it manual), hidden rows and columns, outline levels, default formats |
+| `MERGEDCELLS` | merged ranges |
+| `WINDOW2`, `PANE`, `SCL` | grid lines, headers, zeros, right-to-left, zoom, frozen and split panes |
+| `NAME` | defined names (workbook and sheet scope), built-in names (print area and titles, filter database); function and macro names are dropped |
+| `HLINK` | hyperlinks (URL, file and in-document targets) |
+| `NOTE`, `OBJ`, `TXO` | comments (the text from the `TXO` of the note's object) with a plain legacy drawing so the notes show |
+| `DV` | data validation (all types, operators, messages; typed lists as a literal list) |
+| `CONDFMT`, `CF` | conditional formatting: "cell value" and "formula" rules with their differential formats (`DXFN`: font, fill, borders, number format) |
+| `SETUP`, margins, `HEADER`, `FOOTER`, centring, grid lines, breaks, `WSBOOL` | page setup, print options, header/footer, page breaks, fit-to-page, outline summary direction |
+| `PROTECT`, `OBJPROTECT`, `SCENPROTECT`, `PASSWORD` | sheet protection with the legacy 16-bit password hash |
+| `AUTOFILTERINFO` + `_FilterDatabase` | the filter range (criteria are dropped) |
+| `DATEMODE` | 1904 date system |
+| `MSODRAWINGGROUP`, `MSODRAWING` | pictures (JPEG, PNG, DIB as BMP, TIFF, EMF and WMF inflated) with their cell anchors |
+
+## Loss report
+
+`Workbook.ImportLoss` lists, with counts, what the hub could not take. Codes are `loss.<feature>`:
+`loss.charts` (chart sheets and embedded charts; their records stay in the record layer only), `loss.vba` (the macro project is not carried), `loss.macro-sheets`, `loss.macro-names`, `loss.pivot-tables`, `loss.drawing-shapes` (shapes other than pictures), `loss.form-controls`, `loss.pictures` (a picture whose blip could not be decoded), `loss.rich-text`, `loss.formulas` (formulas that could not be converted keep their cached values), `loss.external-links` (references into other workbooks: the cell keeps its cached value), `loss.hyperlinks` (a target of a kind that is not read), `loss.conditional-formats` and `loss.conditional-formats-extended` (rules of the Excel 2007 extension records: colour scales, data bars, icon sets, top/bottom, text rules), `loss.data-validation`, `loss.autofilter-criteria`, `loss.defined-names`, `loss.document-properties` (the summary-information streams are not read), `loss.legacy-cell-borders` (BIFF3 and BIFF4 cell borders and fills).
+
+## Defects
+
+Every repair is a `Record` defect located by stream path and record offset, except where noted. See `defects.md` for the table. An encrypted workbook (`FILEPASS`) raises `OfficeEncryptedException`; decryption is a separate piece of work. Any exception that is not an `OfficeException` raised while reading is turned into `biff.malformed`.
+
+## Code pages
+
+Eight-bit text in BIFF2 to BIFF5 (and in `FILEPASS`-free BIFF8 header strings) is decoded with the workbook's `CODEPAGE` through the .NET `Encoding` registry. The reader registers `CodePagesEncodingProvider` for this. A code page the runtime does not have is reported as `biff.codepage-unavailable` (kind `Encoding`) and the text is read as Windows-1252. BIFF8 compressed strings are Latin-1 by definition and do not depend on the code page.
+
+## What is certain, and what is not
+
+- **BIFF8** is read from [MS-XLS] (v20250819) and checked against files LibreOffice writes from generated inputs (`testdata/xls`: values, formulas, styles, names, merges, comments, validation, conditional formats, pictures; the test compares the converted workbook with the workbook the file was written from).
+- **BIFF5** record layouts (XF, FONT, NAME, FORMULA, BOUNDSHEET, EXTERNSHEET, narrow references) are written from the format as it appears in files; LibreOffice no longer writes BIFF5, so they are covered by hand-built streams and by the govdocs1 corpus read on the build host (counts in the release notes), not by an oracle. The XF alignment, border and fill bit positions of BIFF5 are the least certain part.
+- **BIFF2 to BIFF4**: values, text, booleans, errors, formulas, fonts, number formats and column widths. BIFF2 cells carry their format in three attribute bytes (folded into the XF table); BIFF3 and BIFF4 XF records are read for font, format, protection and horizontal alignment only.
+- Excel's own conversion of the same legacy files is the reference for open questions: the cases are listed in `testdata/xls/excel-cases.md` and are answered at the release gate.
+
+## Not converted yet
+
+Chart conversion, VBA, pivot tables, Excel 2007 conditional-format extensions (`CONDFMT12`, `CF12`), external workbook references as formulas, drawing shapes other than pictures, form controls, filter criteria, phonetic text, and the OLE objects (kept as opaque storages in the record layer's source file, not in the hub).

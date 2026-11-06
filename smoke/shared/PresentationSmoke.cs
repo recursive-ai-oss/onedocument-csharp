@@ -62,7 +62,76 @@ internal static class PresentationSmoke
             failures.Add("presentation edit");
         }
 
+        failures.AddRange(RunBinary());
         failures.AddRange(RunTemplate());
+        return failures;
+    }
+
+    // Builds a one-slide PowerPoint 97-2003 file from records, opens it through the hub (record reader, conversion to PresentationML, typed views) and
+    // reads the text back: under NativeAOT and WASM.
+    private static List<string> RunBinary()
+    {
+        var failures = new List<string>();
+        static byte[] Rec(int version, int instance, int type, params byte[][] parts)
+        {
+            int length = parts.Sum(p => p.Length);
+            var bytes = new byte[8 + length];
+            System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(bytes, (ushort)(version | (instance << 4)));
+            System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(bytes.AsSpan(2), (ushort)type);
+            System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(bytes.AsSpan(4), (uint)length);
+            int at = 8;
+            foreach (byte[] part in parts)
+            {
+                part.CopyTo(bytes, at);
+                at += part.Length;
+            }
+
+            return bytes;
+        }
+
+        static byte[] U32(params uint[] values)
+        {
+            var bytes = new byte[values.Length * 4];
+            for (int i = 0; i < values.Length; i++)
+            {
+                System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(bytes.AsSpan(i * 4), values[i]);
+            }
+
+            return bytes;
+        }
+
+        byte[] slideAtom = Rec(0, 0, 0x3EF, U32(1), new byte[8], U32(0x80000000, 0), new byte[4]);
+        byte[] patriarch = Rec(0xF, 0, 0xF004, Rec(2, 0, 0xF00A, U32(1024, 5)), Rec(1, 0, 0xF009, U32(0, 0, 5760, 4320)));
+        byte[] shape = Rec(0xF, 0, 0xF004, Rec(2, 202, 0xF00A, U32(1026, 0xA00)), Rec(0, 0, 0xF010, new byte[8]),
+            Rec(0, 0, 0xF00D, Rec(0, 0, 0xF9F, U32(4)), Rec(0, 0, 0xFA0, System.Text.Encoding.Unicode.GetBytes("binary smoke"))));
+        byte[] Drawing(params byte[][] shapes) =>
+            Rec(0xF, 0, 0x40C, Rec(0xF, 1, 0xF002, Rec(0, 1, 0xF008, U32(2, 1025)), Rec(0xF, 0, 0xF003, [patriarch, .. shapes])));
+        var stream = new List<byte>();
+        int Add(byte[] record)
+        {
+            int at = stream.Count;
+            stream.AddRange(record);
+            return at;
+        }
+
+        int master = Add(Rec(0xF, 0, 0x3F8, slideAtom, Drawing()));
+        int slide = Add(Rec(0xF, 0, 0x3EE, slideAtom, Drawing(shape)));
+        int document = Add(Rec(0xF, 0, 0x3E8, Rec(0, 0, 0x3E9, U32(5760, 4320, 4320, 5760, 1, 2, 1, 2, 0, 0), new byte[8]),
+            Rec(0xF, 1, 0xFF0, Rec(0, 0, 0x3F3, U32(2, 0, 0, 0x80000000, 0))), Rec(0xF, 0, 0xFF0, Rec(0, 0, 0x3F3, U32(3, 0, 0, 256, 0)))));
+        int directory = Add(Rec(0, 0, 0x1772, U32(1u | (3u << 20), (uint)document, (uint)master, (uint)slide)));
+        int edit = Add(Rec(0, 0, 0xFF5, U32(0, 0, 0, (uint)directory, 1, 4), new byte[4]));
+        using var package = RecursiveAI.OneDocument.Cfb.CfbPackage.Create();
+        package.AddPart("/PowerPoint Document", "", stream.ToArray());
+        package.AddPart("/Current User", "", Rec(0, 0, 0xFF6, U32(0x14, 0xE391C05F, (uint)edit), new byte[12]));
+        using var file = new MemoryStream();
+        package.WriteTo(file);
+        file.Position = 0;
+        using Presentation legacy = Presentation.Open(file);
+        if (legacy.ConvertedFrom != OfficeFormat.Ppt || legacy.Slides.Count != 1 || !legacy.Slides[0].Text.Contains("binary smoke", StringComparison.Ordinal))
+        {
+            failures.Add("presentation binary");
+        }
+
         return failures;
     }
 

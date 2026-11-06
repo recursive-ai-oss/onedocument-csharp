@@ -19,7 +19,7 @@ doc.SaveAs("contract.dotx");      // a copy, as a template
 string text = doc.ExtractText();
 ```
 
-The `Office` statics (`Office.Open`, `Office.ExtractText`) reach this package as soon as an application references it: no registration call is needed (the package adds a module initializer to your C# project at build time; set `OneDocumentAutoRegister` to `false` to opt out and call `DocumentFormats.Register(registry)` yourself). Only DOCX-family formats are supported in this release; other formats raise `FormatNotAvailableException` naming the format.
+The `Office` statics (`Office.Open`, `Office.ExtractText`) reach this package as soon as an application references it: no registration call is needed (the package adds a module initializer to your C# project at build time; set `OneDocumentAutoRegister` to `false` to opt out and call `DocumentFormats.Register(registry)` yourself). DOCX-family files are read and written. Word 97-2003 and Word 6/95 binary files (DOC) are read and converted into the same model (`Document.SourceFormat`, `Document.ImportLoss`); other formats raise `FormatNotAvailableException` naming the format.
 
 See the [repository](https://github.com/recursive-ai-oss/onedocument-csharp) for the status table and the [changelog](https://github.com/recursive-ai-oss/onedocument-csharp/blob/main/CHANGELOG.md).
 

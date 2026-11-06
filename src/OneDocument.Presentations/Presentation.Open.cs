@@ -2,6 +2,7 @@ using RecursiveAI.OneDocument.Diagnostics;
 using RecursiveAI.OneDocument.Formats;
 using RecursiveAI.OneDocument.IO;
 using RecursiveAI.OneDocument.Packaging;
+using RecursiveAI.OneDocument.Ppt.Binary;
 
 namespace RecursiveAI.OneDocument.Presentations;
 
@@ -262,6 +263,11 @@ public sealed partial class Presentation
                 throw new OfficeFormatException(DefectKind.Structure, "format.unrecognised", "The content is not a format OneDocument knows.");
             }
 
+            if (sniffed == OfficeFormat.Ppt)
+            {
+                return OpenLegacy(source, context, cancellationToken);
+            }
+
             if (!IsPresentationFormat(sniffed))
             {
                 throw new FormatNotAvailableException(sniffed, "open as a presentation:");
@@ -283,6 +289,48 @@ public sealed partial class Presentation
         {
             source.Dispose();
             throw;
+        }
+    }
+
+    /// <summary>
+    /// What did not carry over when the presentation was converted from a legacy binary file (<c>.ppt</c>): every dropped or approximated feature with a count.
+    /// Null for presentations opened from PresentationML. The same items are in <see cref="OfficeFile.Defects"/> with the record offset in the source.
+    /// </summary>
+    public LossReport? ConversionLoss { get; private set; }
+
+    /// <summary>The binary format the presentation was converted from (<see cref="OfficeFormat.Ppt"/>), or null when it was opened as PresentationML.</summary>
+    public OfficeFormat? ConvertedFrom { get; private set; }
+
+    // PowerPoint 97-2003 files are read at record level and converted to PresentationML, which the hub then holds as typed views. The result
+    // has no file path: saving writes a new PresentationML file, never over the binary original.
+    private static Presentation OpenLegacy(IByteSource source, OpenContext context, CancellationToken cancellationToken)
+    {
+        try
+        {
+            PptFile file = PptFile.Open(source, context, cancellationToken);
+            var loss = new LossReport();
+            OpcPackage package = PptConverter.Convert(file, loss, cancellationToken);
+            try
+            {
+                Presentation presentation = FromPackage(package, context, ownsPackage: true);
+                presentation.ConversionLoss = loss;
+                presentation.ConvertedFrom = OfficeFormat.Ppt;
+                return presentation;
+            }
+            catch
+            {
+                package.Dispose();
+                throw;
+            }
+        }
+        catch (Exception ex) when (ex is not (OfficeException or OperationCanceledException or IOException))
+        {
+            // Records are arbitrary bytes: whatever a damaged file provokes, the caller sees the typed exception.
+            throw new OfficeFormatException(DefectKind.Record, "ppt.malformed", "The PowerPoint file could not be read: " + ex.Message, DefectLocation.None, ex);
+        }
+        finally
+        {
+            source.Dispose();
         }
     }
 }
