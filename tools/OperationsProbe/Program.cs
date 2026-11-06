@@ -153,6 +153,15 @@ internal static class Program
                     Compare("reopen", snapNow(back), expected, failed);
                 }
 
+                // Accepting resolves the document's own tracked changes too (a deleted paragraph mark joins paragraphs), so the
+                // expected text is the same document accepted without a replacement, then replaced.
+                string[] acceptedExpected;
+                using (Document b = open())
+                {
+                    b.Revisions.AcceptAll();
+                    acceptedExpected = [.. snapNow(b).Select(t => rx.Replace(t, "X")).Where(t => t.Length > 0)];
+                }
+
                 using (Document t1 = open())
                 {
                     ReplaceReport tr = t1.Replace(pattern, "X", new DocumentReplaceOptions { Search = new SearchOptions { UseRegex = true }, TrackedAuthor = "probe", TrackedIds = RevisionIds.ContinueAfterMax });
@@ -162,7 +171,7 @@ internal static class Program
                     }
 
                     t1.Revisions.AcceptAll();
-                    Compare("accept", snapNow(t1), expected, failed, joined: true);
+                    Compare("accept", snapNow(t1), acceptedExpected, failed, joined: true);
                 }
 
                 // A document that already had tracked changes loses them on reject-all too, so the baseline is the same
