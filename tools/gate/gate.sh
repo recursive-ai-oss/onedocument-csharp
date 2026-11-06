@@ -69,7 +69,8 @@ case "$stage" in
     grep -h summary "$out"/rt-pptx/*.log
     ;;
   rt-xlsb)
-    "$dn" "$bin/XlsbProbe/XlsbProbe.dll" sweep "$corpus/bugzilla/documentfoundation" 2>&1 | tail -30
+    mkdir -p "$out/rt-xlsb"
+    "$dn" "$bin/XlsbProbe/XlsbProbe.dll" sweep "$corpus/bugzilla/documentfoundation/xlsb" > "$out/rt-xlsb/sweep.txt" 2>&1; tail -n 12 "$out/rt-xlsb/sweep.txt"
     ;;
   text)
     # text LABEL SRC_DIR EXT [N]: a deterministic sample of N files (every k-th in name order), our text and Tika's, and the similarity.
@@ -102,8 +103,9 @@ PY
     # calc LABEL DIR [SHARDS]: cached-value reproduction over every workbook (xlsx xlsm xlsb xls ods fods) under DIR.
     label="${1:?label}"; dir="${2:?dir}"; shards="${3:-3}"
     w="$out/calc/$label"; mkdir -p "$w"
+    skipargs=(); for n in ${GATE_CALC_SKIP:-}; do skipargs+=(--skip "$n"); done   # files whose recalculation needs tens of gigabytes
     for i in $(seq 0 $((shards - 1))); do
-      "$dn" "$bin/CalcSweep/CalcSweep.dll" "$dir" --shard $i/$shards --threads 1 --show 0 --out "$w" > "$w/shard-$i.log" 2>&1 &
+      "$dn" "$bin/CalcSweep/CalcSweep.dll" "$dir" --shard $i/$shards --threads 1 --show 0 --out "$w" "${skipargs[@]}" > "$w/shard-$i.log" 2>&1 &
     done
     wait
     python3 "$here/calc_summary.py" "$w" "$label" | tee "$out/calc/$label.json" | cut -c1-2500
@@ -154,6 +156,15 @@ PY
     export ONEDOCUMENT_SOFFICE="$home/oracles/soffice.sh" LO_PROFILE_ROOT="$out/lo-profiles/$label"
     "$home/oracles/venv/bin/python" "$root/tools/corpus/run_checks.py" lo --input "$w/out" --out "$w/lo" --shards "${GATE_JOBS:-3}" --max-minutes 20 --timeout 120 > /dev/null 2>&1
     cat "$w/lo/summary-lo.json" 2>/dev/null | cut -c1-600
+    rm -rf "$out/lo-profiles/$label"
+    ;;
+  check-lo)
+    # check-lo LABEL: LibreOffice opens (converts to PDF) every file in out/conv/LABEL/out; for formats with no schema check here (XLS, XLSB, RTF).
+    label="${1:?label}"
+    w="$out/conv/$label"
+    export ONEDOCUMENT_SOFFICE="$home/oracles/soffice.sh" LO_PROFILE_ROOT="$out/lo-profiles/$label"
+    "$home/oracles/venv/bin/python" "$root/tools/corpus/run_checks.py" lo --input "$w/out" --out "$w/lo" --shards "${GATE_JOBS:-3}" --max-minutes 20 --timeout 120 > /dev/null 2>&1
+    cat "$w/lo/summary-lo.json" 2>/dev/null | tr -s ' \n' ' ' | cut -c1-400; echo
     rm -rf "$out/lo-profiles/$label"
     ;;
   check-odf)

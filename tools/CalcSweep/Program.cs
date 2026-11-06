@@ -43,6 +43,7 @@ internal static class Program
         }
 
         var paths = new List<string>();
+        var skip = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         int shard = 0, shards = 1, max = int.MaxValue, show = 30, threads = 0;
         string? outDir = null;
         for (int i = 0; i < args.Length; i++)
@@ -65,6 +66,10 @@ internal static class Program
                     break;
                 case "--out":
                     outDir = args[++i];
+                    break;
+                case "--skip":
+                    // A file named here is not recalculated (one whose recalculation needs tens of gigabytes); it is counted and listed.
+                    skip.Add(args[++i]);
                     break;
                 default:
                     paths.Add(args[i]);
@@ -102,6 +107,13 @@ internal static class Program
         int opened = 0, failed = 0;
         foreach (string file in files)
         {
+            if (skip.Contains(Path.GetFileName(file)))
+            {
+                Console.WriteLine($"skipped {Path.GetFileName(file)}: named with --skip");
+                Add(totals, "skipped-by-request");
+                continue;
+            }
+
             try
             {
                 Sweep(file, registry, threads, totals, samples, unimplemented, mismatchLines);
@@ -236,6 +248,14 @@ internal static class Program
             // boolean cell type; that is the producer's encoding, not a different answer.
             bool noCache = expected == "z:";
             bool boolCache = !match && ((expected == "n:1" && actual == "b:True") || (expected == "n:0" && actual == "b:False"));
+            // A formula that spells out an error value (a reference deleted by the producer) evaluates to that error whatever another
+            // implementation cached for it; it says nothing about the engine.
+            if (!noCache && formula.Contains("#REF!", StringComparison.Ordinal) && actual == "e:#REF!" && expected.StartsWith("e:", StringComparison.Ordinal))
+            {
+                Add(totals, "error-literal-formula");
+                continue;
+            }
+
             if (noCache)
             {
                 Add(totals, "no-cached-value");

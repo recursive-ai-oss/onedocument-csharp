@@ -53,7 +53,7 @@ for p in glob.glob(d + "/mismatches-*.tsv"):
                 funcs[f[0]][fn.upper()] += 1
 testable, match = tot["testable"], tot["testable-match"]
 print(json.dumps({
-    "label": label, "files": tot["files"], "unreadable": unreadable, "formulas": tot["formulas"], "testable": testable,
+    "label": label, "files": tot["files"], "skippedByRequest": tot["skipped-by-request"], "noCachedValue": tot["no-cached-value"], "boolStoredAsNumber": tot["bool-stored-as-number"], "errorLiteralFormula": tot["error-literal-formula"], "unreadable": unreadable, "formulas": tot["formulas"], "testable": testable,
     "testableMatch": match, "floor": round(100.0 * match / testable, 3) if testable else None,
     "mismatchClasses": dict(classes), "filesWithMismatch": {k: len(v) for k, v in files_with.items()},
     "topUnimplemented": unimpl.most_common(15),

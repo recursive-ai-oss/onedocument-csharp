@@ -185,7 +185,7 @@ internal static class Program
             catch (Exception ex)
             {
                 status = "UNTYPED-EXCEPTION";
-                error = ex.GetType().Name + ": " + ex.Message;
+                error = ex.GetType().Name + ": " + ex.Message + " @ " + string.Join(" <- ", (ex.StackTrace ?? string.Empty).Split('\n').Take(4).Select(static l => l.Trim()));
                 untyped++;
             }
 #pragma warning restore CA1031

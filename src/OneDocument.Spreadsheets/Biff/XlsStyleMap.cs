@@ -383,8 +383,9 @@ internal sealed class XlsStyleMap
     {
         int numFmtId = resolved?.NumberFormatId ?? f.NumberFormatId;
         CellFont? font = resolved?.Font;
-        CellFill fill = resolved?.Fill ?? _styles.GetFill(Math.Min(f.FillId, Math.Max(_styles.FillCount - 1, 0)));
-        CellBorder border = resolved?.Border ?? _styles.GetBorder(Math.Min(f.BorderId, Math.Max(_styles.BorderCount - 1, 0)));
+        // A style sheet may list no fills or no borders at all (Excel opens such files); a format then has the empty fill and the empty border.
+        CellFill fill = resolved?.Fill ?? (_styles.FillCount == 0 ? new CellFill() : _styles.GetFill(Math.Min(f.FillId, _styles.FillCount - 1)));
+        CellBorder border = resolved?.Border ?? (_styles.BorderCount == 0 ? new CellBorder() : _styles.GetBorder(Math.Min(f.BorderId, _styles.BorderCount - 1)));
         CellAlignment al = resolved?.Alignment ?? f.Alignment ?? new CellAlignment();
         CellProtection prot = resolved?.Protection ?? f.Protection ?? new CellProtection();
         bool quote = resolved?.QuotePrefix ?? f.QuotePrefix;

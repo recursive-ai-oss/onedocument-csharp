@@ -21,7 +21,7 @@ namespace RecursiveAI.OneDocument.Tools.PackageSweep;
 /// </summary>
 internal static class Program
 {
-    private static readonly string[] OpcExtensions = [".docx", ".docm", ".dotx", ".dotm", ".xlsx", ".xlsm", ".xltx", ".xltm", ".xlam", ".pptx", ".pptm", ".potx", ".potm", ".ppsx", ".ppsm", ".ppam", ".vsdx", ".xps"];
+    private static readonly string[] OpcExtensions = [".docx", ".docm", ".dotx", ".dotm", ".xlsx", ".xlsb", ".xlsm", ".xltx", ".xltm", ".xlam", ".pptx", ".pptm", ".potx", ".potm", ".ppsx", ".ppsm", ".ppam", ".vsdx", ".xps"];
     private static readonly string[] CfbExtensions = [".doc", ".xls", ".ppt", ".dot", ".xlt", ".pot", ".pps", ".msg", ".vsd", ".wps"];
 
     private static int Main(string[] args)
