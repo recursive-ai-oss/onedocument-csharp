@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using RecursiveAI.OneDocument;
 using RecursiveAI.OneDocument.Documents;
 using RecursiveAI.OneDocument.Documents.Revisions;
+using RecursiveAI.OneDocument.Markup;
 using RecursiveAI.OneDocument.Operations;
 using RecursiveAI.OneDocument.Presentations;
 using RecursiveAI.OneDocument.Spreadsheets;
@@ -116,6 +117,11 @@ internal static class Program
             if (hit.Location.Index < flat.Count)
             {
                 (Paragraph tp, TextBox tb) = flat[hit.Location.Index];
+                if (tb.Anchor is { } host)
+                {
+                    Console.Error.WriteLine("ANCHOR " + Names(host.Markup.Node, 0, 5) + " text-length " + host.Text.Length);
+                }
+
                 Console.Error.WriteLine("SHAPE textbox kind " + tb.Kind + " alternate " + tb.Alternate.IsValid + " boxes in body " + d.Body.TextBoxes().Count + " flat " + flat.Count + " " + Mask(tp.Markup.Node.OuterXml));
             }
 
@@ -130,6 +136,21 @@ internal static class Program
 
         Paragraph p = d.Body.Paragraphs().ElementAt(hit.Location.Index);
         Console.Error.WriteLine("SHAPE paragraph " + k + " " + Mask(p.Markup.Node.OuterXml));
+    }
+
+    private static string Names(MarkupNode n, int depth, int max)
+    {
+        var sb = new StringBuilder(n.LocalNameString);
+        if (depth < max)
+        {
+            var kids = n.ChildElements.Select(c => Names(c, depth + 1, max)).ToList();
+            if (kids.Count > 0)
+            {
+                sb.Append('(').Append(string.Join(",", kids)).Append(')');
+            }
+        }
+
+        return sb.ToString();
     }
 
     private static string Mask(string xml) => Regex.Replace(xml, @"(?<=>)[^<]+(?=<)", m => Regex.Replace(m.Value, @"\p{L}", "a"));

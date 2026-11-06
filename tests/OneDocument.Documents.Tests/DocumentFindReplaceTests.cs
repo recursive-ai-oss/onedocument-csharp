@@ -283,6 +283,12 @@ public class DocumentFindReplaceTests
         Document u = TestDocs.Open("<w:p>" + drawing + Run("the end") + "</w:p>");
         Assert.Equal(1, u.Replace("the", "THE").Count);
         Assert.Contains("<w:drawing>", Xml(u));
+        // the same when the drawing sits in alternate content, as Word writes anchored shapes and text boxes
+        string alt = "<w:r><mc:AlternateContent xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"><mc:Choice Requires=\"wps\"><w:drawing/></mc:Choice><mc:Fallback><w:pict/></mc:Fallback></mc:AlternateContent></w:r>";
+        Document a = TestDocs.Open("<w:p>" + alt + Run("the end") + "</w:p>");
+        Assert.Equal(1, a.Replace("the", "THE", new DocumentReplaceOptions { TrackedAuthor = "Bob" }).Count);
+        a.Revisions.AcceptAll();
+        Assert.Contains("<mc:AlternateContent", Xml(a));
         // a drawing inside the matched text still goes with it when the change is tracked and accepted
         Document m = TestDocs.Open("<w:p>" + Run("ab") + drawing + Run("cd") + "</w:p>");
         Assert.Equal(1, m.Replace("abcd", "X", new DocumentReplaceOptions { TrackedAuthor = "Bob" }).Count);
