@@ -228,6 +228,42 @@ public class XlsEncryptionTests
     }
 
     [Fact]
+    public void WorkbookSavedWithAPasswordReopensWithItAndNotWithout()
+    {
+        using Workbook wb = Workbook.Open(Path.Combine(Dir(), "encryption", "plain-basic.xlsx"));
+        using var plainStream = new MemoryStream();
+        wb.SaveAs(plainStream, OfficeFormat.Xls);
+        using var secret = new MemoryStream();
+        wb.SaveAs(secret, OfficeFormat.Xls, "p@ss word");
+        using var again = new MemoryStream();
+        wb.SaveAs(again, OfficeFormat.Xls, "p@ss word");
+        Assert.Equal(secret.ToArray(), again.ToArray());
+        Assert.NotEqual(plainStream.ToArray(), secret.ToArray());
+        Keep("written-secret.xls", secret.ToArray());
+
+        using Workbook expected = XlsConverter.ToWorkbook(ByteSource.FromMemory(plainStream.ToArray()), new OpenContext());
+        using Workbook opened = XlsConverter.ToWorkbook(ByteSource.FromMemory(secret.ToArray()), new OpenContext(password: "p@ss word"));
+        Assert.Equal(Dump(expected), Dump(opened));
+        Assert.Equal(EncryptionProblem.PasswordRequired, Assert.Throws<OfficeEncryptedException>(() => XlsConverter.ToWorkbook(ByteSource.FromMemory(secret.ToArray()), new OpenContext())).Problem);
+        Assert.Equal(EncryptionProblem.PasswordIncorrect, Assert.Throws<OfficeEncryptedException>(() => XlsConverter.ToWorkbook(ByteSource.FromMemory(secret.ToArray()), new OpenContext(password: "nope"))).Problem);
+
+        // The ordinary entry points open it too, and a file path save works.
+        string path = Path.Combine(Path.GetTempPath(), "u67-" + Guid.NewGuid().ToString("N") + ".xls");
+        try
+        {
+            wb.SaveAs(path, OfficeFormat.Xls, "p@ss word");
+            using Workbook viaOpen = Workbook.Open(path, new OpenContext(password: "p@ss word"));
+            Assert.Equal(Dump(expected), Dump(viaOpen));
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+
+        Assert.Throws<OfficeUnsupportedException>(() => wb.SaveAs(new MemoryStream(), OfficeFormat.Xlsx, "pw"));
+    }
+
+    [Fact]
     public void NoPasswordAndWrongPasswordAreTyped()
     {
         string path = Path.Combine(Dir(), "encryption", "secret-basic.xls");
