@@ -71,6 +71,32 @@ jobs:
           path: ${{ runner.temp }}/out/wasm-run.log
           if-no-files-found: ignore
 
+  ios:
+    # The shared smoke checks in an iOS simulator, built as the SDK's trimmed, ahead-of-time compiled release app.
+    runs-on: macos-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          global-json-file: global.json
+      - name: iOS workload
+        run: dotnet workload install ios
+      - name: Build the iOS smoke app, run it in the simulator
+        env:
+          CI_OUT: ${{ runner.temp }}/out
+        run: build/ci.sh ios-run
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: ios-run-log
+          path: ${{ runner.temp }}/out/ios-run.log
+          if-no-files-found: ignore
+
   pack:
     # Builds the packages as an artifact only; nothing is pushed anywhere.
     runs-on: ubuntu-latest
