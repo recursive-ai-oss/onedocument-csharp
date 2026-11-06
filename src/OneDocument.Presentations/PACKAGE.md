@@ -2,7 +2,7 @@
 
 **Read, write, calculate, template and render Word, Excel and PowerPoint documents (OOXML, legacy binary, RTF, ODF) in pure .NET. Not affiliated with Microsoft.**
 
-This package is the presentation part of OneDocument, an early preview. It opens, edits and saves PPTX, PPTM, POTX, POTM, PPSX, PPSM, PPAM and Flat OPC presentations:
+This package is the presentation part of OneDocument (a preview, not yet published). It opens, edits and saves PPTX, PPTM, POTX, POTM, PPSX, PPSM, PPAM and Flat OPC presentations, and reads PowerPoint 97-2003 files (PPT) into the same model:
 
 - **Lossless.** Parts you did not edit are written back byte-identical. Edited parts keep unknown elements, attributes, prefixes, `mc:AlternateContent` and `extLst` in their original order; transitions and animations are never touched.
 - **Lazy.** Opening reads the package structure; the presentation part, masters, layouts and slides are read when you first use them.
