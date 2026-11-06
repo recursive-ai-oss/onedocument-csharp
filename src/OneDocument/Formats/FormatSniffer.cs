@@ -471,7 +471,14 @@ public static class FormatSniffer
 
         if (root is not { } r)
         {
-            return OfficeFormat.Unknown;
+            // A root tag longer than the prefix (Word 2003 declares dozens of namespaces) is not seen whole, but the processing instruction
+            // before it already names the application.
+            if (mso is not null && mso.Contains("Word.Document", StringComparison.Ordinal))
+            {
+                return OfficeFormat.Word2003Xml;
+            }
+
+            return mso is not null && mso.Contains("Excel.Sheet", StringComparison.Ordinal) ? OfficeFormat.Excel2003Xml : OfficeFormat.Unknown;
         }
 
         string local = r.LocalName;

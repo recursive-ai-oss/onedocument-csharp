@@ -47,7 +47,7 @@ public sealed partial class Workbook : OfficeFile
     private bool _structureChanged;
 
     private Workbook(IOpcPackage package, OfficeFormat format, OpenContext context, string mainPartName, bool ownsPackage)
-        : base(format, context, (package as OpcPackage)?.FilePath)
+        : base(format, context, package.FilePath)
     {
         Package = package;
         MainPartName = mainPartName;
@@ -78,14 +78,14 @@ public sealed partial class Workbook : OfficeFile
     internal Worksheet? FirstSheet => _sheets.Count > 0 ? _sheets[0] : null;
 
     /// <summary>
-    /// Opens a workbook from a file. The format is found from the content, never the extension: XLSX, XLSM, XLTX, XLTM, XLAM and Flat OPC are accepted.
+    /// Opens a workbook from a file. The format is found from the content, never the extension: XLSX, XLSM, XLTX, XLTM, XLAM, Flat OPC and the binary workbook (XLSB) are accepted. A binary workbook is shown through the same model (<see cref="IsBinary"/>); see the XLSB notes for what it keeps.
     /// </summary>
     /// <param name="path">The file.</param>
     /// <param name="context">Limits, defect sink and password; null for the defaults.</param>
     /// <param name="cancellationToken">Cancels the open.</param>
     /// <returns>The workbook, which the caller disposes. Only the package structure, the workbook part and its relationships are read.</returns>
     /// <exception cref="OfficeFormatException">The content is not a recognised format, or is damaged beyond repair.</exception>
-    /// <exception cref="FormatNotAvailableException">The content is another format (a document, a binary workbook…), named in the exception.</exception>
+    /// <exception cref="FormatNotAvailableException">The content is another format (a document, a legacy BIFF workbook…), named in the exception.</exception>
     /// <exception cref="OfficeLimitException">A limit was exceeded.</exception>
     /// <exception cref="IOException">The file cannot be read.</exception>
     public static Workbook Open(string path, OpenContext? context = null, CancellationToken cancellationToken = default)
@@ -119,7 +119,7 @@ public sealed partial class Workbook : OfficeFile
         OpenSource(source, context, null, cancellationToken);
 
     internal static bool IsWorkbookFormat(OfficeFormat format) =>
-        format is OfficeFormat.Xlsx or OfficeFormat.Xlsm or OfficeFormat.Xltx or OfficeFormat.Xltm or OfficeFormat.Xlam or OfficeFormat.FlatOpcWorkbook;
+        format is OfficeFormat.Xlsx or OfficeFormat.Xlsm or OfficeFormat.Xltx or OfficeFormat.Xltm or OfficeFormat.Xlam or OfficeFormat.Xlsb or OfficeFormat.FlatOpcWorkbook;
 
     internal static Workbook OpenSource(IByteSource source, OpenContext? context, string? filePath, CancellationToken cancellationToken)
     {
@@ -137,6 +137,14 @@ public sealed partial class Workbook : OfficeFile
             if (sniffed is OfficeFormat.Csv or OfficeFormat.Tsv)
             {
                 return Csv.CsvDocument.FromSource(source, sniffed, context, cancellationToken);
+            }
+
+            if (sniffed == OfficeFormat.Excel2003Xml)
+            {
+                // Converted at once into an in-memory XLSX package, so the file itself is not needed afterwards.
+                Workbook converted = Xml2003.SpreadsheetMl2003.Open(source, context, cancellationToken);
+                source.Dispose();
+                return converted;
             }
 
             if (sniffed is OfficeFormat.Xls or OfficeFormat.XlsLegacy)
@@ -186,6 +194,11 @@ public sealed partial class Workbook : OfficeFile
         }
 
         string contentType = package.FindPart(main)!.ContentType;
+        if ((string.Equals(contentType, MainXlsb, StringComparison.OrdinalIgnoreCase) || string.Equals(contentType, RecursiveAI.OneDocument.Xlsb.XlsbBook.WorkbookBinType, StringComparison.OrdinalIgnoreCase)) && package is OpcPackage binary)
+        {
+            return FromBinary(binary, context, ownsPackage);
+        }
+
         OfficeFormat format = FormatOfContentType(package, contentType);
         var wb = new Workbook(package, format, context, main, ownsPackage);
         wb.LoadMain();
@@ -624,6 +637,10 @@ public sealed partial class Workbook : OfficeFile
         {
             Write(format, destination, cancellationToken);
         }
+        else if (format == OfficeFormat.Xls)
+        {
+            WriteXls(destination, cancellationToken);
+        }
         else if (format is OfficeFormat.Csv or OfficeFormat.Tsv)
         {
             Csv.CsvDocument.Write(this, destination, new Csv.CsvWriteOptions { Delimiter = format == OfficeFormat.Tsv ? '\t' : ',' }, null, cancellationToken);
@@ -634,9 +651,14 @@ public sealed partial class Workbook : OfficeFile
         }
     }
 
-    internal void Write(OfficeFormat format, Stream destination, CancellationToken cancellationToken)
+    internal void Write(OfficeFormat format, Stream destination, CancellationToken cancellationToken, ILossSink? loss = null)
     {
         CommitChanges();
+        if (WriteBinary(format, destination, loss, cancellationToken))
+        {
+            return;
+        }
+
         if (Package is not OpcPackage opc)
         {
             throw new FormatNotAvailableException(format, "write this package as");
@@ -730,6 +752,14 @@ public sealed partial class Workbook : OfficeFile
         if (disposing && _ownsPackage)
         {
             Package.Dispose();
+        }
+
+        if (disposing)
+        {
+            if (_ownsBinary)
+            {
+                _binary?.Dispose();
+            }
         }
 
         base.Dispose(disposing);

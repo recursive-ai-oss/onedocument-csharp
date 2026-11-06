@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office"><Author>Writer</Author><LastAuthor>Editor</LastAuthor><Created>2005-06-07T08:09:10Z</Created><LastSaved>2005-06-08T09:10:11Z</LastSaved><Company>Example Co</Company><Version>11.9999</Version></DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel"><WindowHeight>9000</WindowHeight><WindowWidth>15000</WindowWidth><WindowTopX>0</WindowTopX><WindowTopY>0</WindowTopY><ActiveSheet>1</ActiveSheet><ProtectStructure>False</ProtectStructure><ProtectWindows>False</ProtectWindows></ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal"><Alignment ss:Vertical="Bottom"/><Borders/><Font/><Interior/><NumberFormat/><Protection/></Style>
+  <Style ss:ID="s21"><Font x:Family="Swiss" ss:Bold="1" ss:Size="14" ss:Color="#FF0000"/><Interior ss:Color="#FFFF99" ss:Pattern="Solid"/></Style>
+  <Style ss:ID="s22"><NumberFormat ss:Format="#,##0.00"/></Style>
+  <Style ss:ID="s23" ss:Parent="s22"><Borders><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Double" ss:Weight="3" ss:Color="#0000FF"/></Borders><Alignment ss:Horizontal="Right" ss:Indent="1"/></Style>
+  <Style ss:ID="s24"><NumberFormat ss:Format="Short Date"/></Style>
+  <Style ss:ID="s25"><NumberFormat ss:Format="0.0%"/><Protection ss:Protected="0"/></Style>
+  <Style ss:ID="s26"><Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1" ss:Rotate="90"/><Font ss:Underline="Single" ss:Italic="1"/></Style>
+ </Styles>
+ <Names><NamedRange ss:Name="Rate" ss:RefersTo="=Sales!R2C3"/><NamedRange ss:Name="AllSales" ss:RefersTo="=Sales!R2C2:R5C2"/></Names>
+ <Worksheet ss:Name="Sales">
+  <Names><NamedRange ss:Name="Print_Area" ss:RefersTo="=Sales!R1C1:R8C5"/></Names>
+  <Table ss:ExpandedColumnCount="6" ss:ExpandedRowCount="9" x:FullColumns="1" x:FullRows="1" ss:DefaultColumnWidth="60" ss:DefaultRowHeight="15">
+   <Column ss:Width="90"/><Column ss:StyleID="s22" ss:Width="72"/><Column ss:Hidden="1" ss:Width="48"/><Column ss:Index="5" ss:AutoFitWidth="0" ss:Width="110" ss:Span="1"/>
+   <Row ss:AutoFitHeight="0" ss:Height="24"><Cell ss:StyleID="s21"><Data ss:Type="String">Item</Data><NamedCell ss:Name="Header"/></Cell><Cell ss:StyleID="s21"><Data ss:Type="String">Amount</Data></Cell><Cell ss:StyleID="s21"><Data ss:Type="String">Rate</Data></Cell><Cell ss:StyleID="s21"><Data ss:Type="String">Date</Data></Cell><Cell ss:StyleID="s26"><Data ss:Type="String">Note</Data></Cell></Row>
+   <Row><Cell><Data ss:Type="String">Widgets</Data></Cell><Cell ss:StyleID="s23"><Data ss:Type="Number">1250.5</Data></Cell><Cell ss:StyleID="s25"><Data ss:Type="Number">0.075</Data></Cell><Cell ss:StyleID="s24"><Data ss:Type="DateTime">2005-03-15T00:00:00.000</Data></Cell><Cell ss:HRef="https://example.org/w" ss:HRefScreenTip="details"><Data ss:Type="String">details</Data><Comment ss:Author="Ann"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><B>Ann:</B><Font html:Color="#000000"> check the figure</Font></ss:Data></Comment></Cell></Row>
+   <Row><Cell><Data ss:Type="String">Gadgets</Data></Cell><Cell ss:StyleID="s23"><Data ss:Type="Number">830</Data></Cell><Cell ss:StyleID="s25"><Data ss:Type="Number">0.05</Data></Cell><Cell ss:StyleID="s24"><Data ss:Type="DateTime">2005-04-01T00:00:00.000</Data></Cell><Cell ss:HRef="#Totals!R1C1"><ss:Data ss:Type="String" xmlns="http://www.w3.org/TR/REC-html40">to <B>totals</B></ss:Data></Cell></Row>
+   <Row><Cell><Data ss:Type="String">Gizmos</Data></Cell><Cell ss:StyleID="s23"><Data ss:Type="Number">99.99</Data></Cell><Cell ss:StyleID="s25"><Data ss:Type="Number">0.1</Data></Cell><Cell ss:StyleID="s24"><Data ss:Type="DateTime">2005-04-20T13:30:00.000</Data></Cell><Cell><Data ss:Type="Boolean">1</Data></Cell></Row>
+   <Row><Cell><Data ss:Type="String">Doohickeys</Data></Cell><Cell ss:StyleID="s23"><Data ss:Type="Number">0</Data></Cell><Cell ss:StyleID="s25"><Data ss:Type="Number">0</Data></Cell><Cell ss:Index="5"><Data ss:Type="Error">#DIV/0!</Data></Cell></Row>
+   <Row ss:Index="7"><Cell><Data ss:Type="String">Total</Data></Cell><Cell ss:StyleID="s23" ss:Formula="=SUM(R[-5]C:R[-2]C)"><Data ss:Type="Number">2180.49</Data></Cell><Cell ss:StyleID="s25" ss:Formula="=AVERAGE(R[-5]C:R[-2]C)"><Data ss:Type="Number">0.056249999999999994</Data></Cell><Cell ss:Formula="=IF(RC[-2]&gt;1000,&quot;large&quot;,&quot;small&quot;)"><Data ss:Type="String">large</Data></Cell><Cell ss:Formula="=RC[-3]*Rate"><Data ss:Type="Number">163.53675</Data></Cell></Row>
+   <Row><Cell ss:MergeAcross="3" ss:MergeDown="0"><Data ss:Type="String">Merged footer across four columns</Data></Cell><Cell ss:Formula="=Totals!R1C1+1"><Data ss:Type="Number">11</Data></Cell></Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel"><PageSetup><Layout x:Orientation="Landscape"/><Header x:Margin="0.5" x:Data="&amp;CSales"/><Footer x:Margin="0.5" x:Data="Page &amp;P"/><PageMargins x:Bottom="0.984251969" x:Left="0.78740157499999996" x:Right="0.78740157499999996" x:Top="0.984251969"/></PageSetup><Print><ValidPrinterInfo/><PaperSizeIndex>9</PaperSizeIndex><Scale>90</Scale><HorizontalResolution>600</HorizontalResolution><VerticalResolution>600</VerticalResolution></Print><Selected/><FreezePanes/><FrozenNoSplit/><SplitHorizontal>1</SplitHorizontal><TopRowBottomPane>1</TopRowBottomPane><ActivePane>2</ActivePane><Panes><Pane><Number>3</Number></Pane><Pane><Number>2</Number><ActiveRow>1</ActiveRow></Pane></Panes><ProtectObjects>False</ProtectObjects><ProtectScenarios>False</ProtectScenarios></WorksheetOptions>
+  <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel"><Range>R2C2:R5C2</Range><Condition><Qualifier>Greater</Qualifier><Value1>1000</Value1><Format Style="color:red;font-weight:700"/></Condition><Condition><Qualifier>Between</Qualifier><Value1>1</Value1><Value2>100</Value2><Format Style="background:#FFCC99"/></Condition></ConditionalFormatting>
+  <DataValidation xmlns="urn:schemas-microsoft-com:office:excel"><Range>R2C3:R5C3</Range><Type>Decimal</Type><Qualifier>Between</Qualifier><Min>0</Min><Max>1</Max><ErrorTitle>Rate</ErrorTitle><ErrorMessage>Enter a rate between 0 and 1</ErrorMessage><InputTitle>Rate</InputTitle><InputMessage>A fraction</InputMessage></DataValidation>
+  <DataValidation xmlns="urn:schemas-microsoft-com:office:excel"><Range>R2C5:R5C5</Range><Type>List</Type><Value>"red,green,blue"</Value></DataValidation>
+  <AutoFilter x:Range="R1C1:R5C5" xmlns="urn:schemas-microsoft-com:office:excel"/>
+ </Worksheet>
+ <Worksheet ss:Name="Totals">
+  <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="2" x:FullColumns="1" x:FullRows="1">
+   <Row><Cell><Data ss:Type="Number">10</Data></Cell><Cell ss:ArrayRange="R1C2:R2C2" ss:Formula="=RC[-1]*{1;2}"><Data ss:Type="Number">10</Data></Cell></Row>
+   <Row><Cell ss:Index="2"><Data ss:Type="Number">20</Data></Cell></Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel"><DoNotDisplayGridlines/><Zoom>125</Zoom></WorksheetOptions>
+ </Worksheet>
+</Workbook>

@@ -69,6 +69,8 @@ internal static class Program
         ["ptg"] = XlsTarget.RunPtg,
         ["olepropset"] = OleTarget.RunPropertySet,
         ["oleobject"] = OleTarget.RunObject,
+        ["xml2003"] = Xml2003Target.Run,
+        ["xlsb"] = XlsbTarget.Run,
     };
 
     private static int Main(string[] args)
@@ -115,6 +117,8 @@ internal static class Program
                 "sprm" => DocTarget.WriteSprmSeeds(args[2]),
                 "xls" or "ptg" => XlsTarget.WriteSeeds(args[2]),
                 "olepropset" or "oleobject" => OleTarget.WriteSeeds(args[2]),
+                "xml2003" => Xml2003Target.WriteSeeds(args[2]),
+                "xlsb" => XlsbTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }
