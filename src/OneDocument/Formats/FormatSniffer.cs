@@ -515,7 +515,9 @@ public static class FormatSniffer
             return OfficeFormat.Svg;
         }
 
-        return local.ToLowerInvariant() is "html" or "head" or "body" ? OfficeFormat.Html : OfficeFormat.Unknown;
+        // A page or a fragment: the document element, or the first thing a fragment usually starts with.
+        return local.ToLowerInvariant() is "html" or "head" or "body" or "meta" or "title" or "style" or "p" or "div" or "h1" or "h2" or "h3" or "h4" or "h5" or "h6"
+            or "table" or "ul" or "ol" or "pre" or "blockquote" or "section" or "article" ? OfficeFormat.Html : OfficeFormat.Unknown;
     }
 
     // Flat OPC holds every part inside <pkg:part pkg:name=... pkg:contentType=...>. The main part is the one the package

@@ -24,6 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="../Shared/VbaHubFixtures.cs" Link="VbaHubFixtures.cs" />
+    <Compile Include="../Shared/VbaTestProject.cs" Link="VbaTestProject.cs" />
     <ProjectReference Include="../../src/OneDocument.Presentations/OneDocument.Presentations.csproj" />
   </ItemGroup>
 

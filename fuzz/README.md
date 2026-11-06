@@ -27,8 +27,14 @@
 | `richtext` | 1 byte (bit 0: html or markdown), the value | the document template's `html`/`markdown` converters: the rendered document saves and opens again; only a typed `OfficeException` may escape |
 | `math` | 1 option byte (bit 0: display style, bit 1: a 120 pt measure), OMML as XML | the equation reader, linear text and layout: nothing may throw, and the box extents are finite |
 | `smartart` | 1 option byte (bits 0-1: the frame size), then the data model, layout definition, colour transform, quick style and stored drawing of a diagram, separated by zero bytes | the diagram layout engine and painter: nothing may throw, every shape has finite coordinates, and the display lists validate with the stored drawing and with the layout forced |
+| `vbacompress` | raw bytes | the VBA compression decoder: it never throws, its answer and its problem agree, and a literal container of the input decodes back to the input |
+| `vbadir` | the decompressed `dir` stream | the VBA project reader: the bytes serve as the `dir` stream, as module sources and as the `PROJECT` stream; typed rejections only, and every module can be decoded and exported |
+| `vbaproject` | raw bytes (a compound file) | the VBA project reader over any compound file |
+| `vbaremove` | 1 layout byte + a stream | the project removers for Word, Excel and PowerPoint compound files: typed rejections only, and the output is a readable compound file |
 | `sheetrender` | a worksheet part (the workbook around it is fixed) | print rendering: the sheet is paged (page setup, breaks, titles, headers and footers, merges, conditional formats) and the first three pages painted; typed rejections only |
 | `rtftree` | RTF bytes | the RTF group tree (tokenizer included): nothing may throw, and every group lies inside the input |
+| `markdownparse` | Markdown text | the CommonMark and GFM parser with both option sets and a small nesting limit: nothing may throw |
+| `markdown` | Markdown text | Markdown opened as a document with small limits, written back as Markdown and DOCX and read again: only a typed `OfficeException` may escape |
 | `rtf` | RTF bytes | RTF opened as a document with small limits, its text extracted, written as DOCX and RTF and read again (the written RTF comes from the exporter): only a typed `OfficeException` may escape |
 | `doc` | a 24-bit length, the `WordDocument` stream, then the table stream (repeated as the `Data` stream) | Word binary files: the streams go into a compound file and through text extraction and the conversion into the model and out as DOCX; typed rejections only, and a `doc.malformed` fallback counts as a finding |
 | `sprm` | a property modifier list | the modifier splitter and name lookup accept any bytes |
@@ -39,6 +45,9 @@
 | `encinfo` | an `EncryptionInfo` stream or a binary encryption header | the standard, agile and extensible parsers and the RC4 headers of Word, Excel and PowerPoint, then a password against each (spin count limited); typed rejections only |
 | `filepass` | the body of a `FilePass` record | a small BIFF stream with that record, read as a workbook with a password; typed rejections only |
 | `xml2003` | a whole Office 2003 XML file (Word or Excel, by sniffing) | the 2003 readers: opened, saved as DOCX or XLSX, opened again, text extracted; typed rejections only |
+| `odfpkg` | a whole OpenDocument file (zip package or flat XML) | the package reader: parts, manifest, styles and metadata walked, written again as a zip and as flat XML; typed rejections only |
+| `odt` | a whole OpenDocument text file | the ODT reader and writer: opened as a document, text extracted, saved as ODT and DOCX, the ODT opened again; typed rejections only |
+| `html` | an HTML page (bytes, any encoding) | imported with small limits, extracted, written as DOCX and as HTML (page and fragment) and read again with the raw-but-safe switch; typed rejections only |
 | `xlsb` | one mode byte, then a replacement for the worksheet, style sheet, shared strings or workbook part of a generated binary workbook, a bare record stream, or a formula token string | the binary layer: the hub opens the book, reads every cell, saves it as SpreadsheetML; the streaming cursor walks it; tokens decode and re-encode; typed rejections only |
 | `pptx` | the presentation part, a slide, its layout, the layout's master and a comments part, separated by NUL bytes | the presentation hub wired from those parts: typed rejections only on reading; text, table-cell, add, duplicate, move and delete edits may refuse with argument or state errors, and every part that parsed before an edit parses after it |
 | `ppt` | a 4-byte Current User edit offset, then the `PowerPoint Document` stream | the PowerPoint 97-2003 reader: record level, persist directory and edit chain, conversion to PresentationML and the hub over it; only typed exceptions may come out |

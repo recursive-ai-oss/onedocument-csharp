@@ -63,6 +63,7 @@ internal static class Program
         ["sheetrender"] = SheetRenderTarget.Run,
         ["rtf"] = RtfTarget.Run,
         ["rtftree"] = RtfTarget.RunTree,
+        ["html"] = HtmlTarget.Run,
         ["doc"] = DocTarget.Run,
         ["sprm"] = DocTarget.RunSprm,
         ["xls"] = XlsTarget.Run,
@@ -72,7 +73,15 @@ internal static class Program
         ["olepropset"] = OleTarget.RunPropertySet,
         ["oleobject"] = OleTarget.RunObject,
         ["xml2003"] = Xml2003Target.Run,
+        ["markdown"] = MarkdownTarget.Run,
+        ["markdownparse"] = MarkdownTarget.RunParse,
         ["xlsb"] = XlsbTarget.Run,
+        ["odfpkg"] = OdfTarget.RunPackage,
+        ["odt"] = OdfTarget.Run,
+        ["vbacompress"] = VbaTarget.RunDecompress,
+        ["vbadir"] = VbaTarget.RunDir,
+        ["vbaproject"] = VbaTarget.RunProject,
+        ["vbaremove"] = VbaTarget.RunRemove,
     };
 
     private static int Main(string[] args)
@@ -115,13 +124,17 @@ internal static class Program
                 "smartart" => SmartArtTarget.WriteSeeds(args[2]),
                 "sheetrender" => SheetRenderTarget.WriteSeeds(args[2]),
                 "rtf" or "rtftree" => RtfTarget.WriteSeeds(args[2]),
+                "html" => HtmlTarget.WriteSeeds(args[2]),
                 "doc" => DocTarget.WriteSeeds(args[2]),
                 "sprm" => DocTarget.WriteSprmSeeds(args[2]),
                 "xls" or "ptg" => XlsTarget.WriteSeeds(args[2]),
                 "encinfo" or "filepass" => EncryptionTarget.WriteSeeds(args[2]),
                 "olepropset" or "oleobject" => OleTarget.WriteSeeds(args[2]),
                 "xml2003" => Xml2003Target.WriteSeeds(args[2]),
+                "markdown" or "markdownparse" => MarkdownTarget.WriteSeeds(args[2]),
                 "xlsb" => XlsbTarget.WriteSeeds(args[2]),
+                "odfpkg" or "odt" => OdfTarget.WriteSeeds(args[2]),
+                "vbacompress" or "vbadir" or "vbaproject" or "vbaremove" => VbaTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }

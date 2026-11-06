@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<title></title>
+<style>
+body{font-family:"Calibri";font-size:11pt;max-width:468pt;margin:1em auto}
+p,h1,h2,h3,h4,h5,h6,li{white-space:pre-wrap;margin-bottom:8pt;line-height:1.079}
+h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:normal}
+ul,ol{margin:0;padding-left:36pt}
+table{border-collapse:collapse}
+td,th{padding:0 5.4pt;vertical-align:top;font-weight:inherit;text-align:inherit}
+body{counter-reset:note}
+.noteref{counter-increment:note}
+.noteref a::after{content:counter(note)}
+.footnotes{border-top:1px solid #888;margin-top:1em}
+a[role=doc-backlink]::after{content:"\21A9"}
+.s-Heading1{margin-top:12pt;margin-bottom:0pt;break-after:avoid;font-weight:bold;font-size:16pt;color:#2F5496}
+.s-Heading2{font-size:13pt}
+</style>
+</head>
+<body>
+<h1 class="s-Heading1">Annual report</h1><h2 class="s-Heading1 s-Heading2">Overview</h2><p>Plain <strong><em>bold italic</em></strong><span style="font-size:14pt;color:#FF0000"><u> red </u></span><a href="https://example.com/a?b=1&amp;c=2">web &amp; link</a> and unsafe<span id="mark_one"></span>end<sup class="noteref"><a id="fnref-1" href="#fn-1" role="doc-noteref" aria-label="Note 1"></a></sup></p><ol><li style="margin-left:0;text-indent:0">first</li><li style="margin-left:0;text-indent:0">second<ul style="list-style-type:circle"><li style="margin-left:0;text-indent:0">nested</li></ul></li><li style="margin-left:0;text-indent:0">third</li></ol><ol start="4" type="I"><li style="margin-left:0;text-indent:0">roman</li><li style="margin-left:0;text-indent:0">roman two</li></ol><table><colgroup><col style="width:150pt"><col style="width:150pt"><col style="width:150pt"></colgroup><thead><tr><th style="border-top:0.5pt solid #000;border-left:0.5pt solid #000;border-bottom:0.5pt solid #000;border-right:0.5pt solid #000"><p>H1</p></th><th style="border-top:0.5pt solid #000;border-left:0.5pt solid #000;border-bottom:0.5pt solid #000;border-right:0.5pt solid #000"><p>H2</p></th><th style="border-top:0.5pt solid #000;border-left:0.5pt solid #000;border-bottom:0.5pt solid #000;border-right:0.5pt solid #000"><p>H3</p></th></tr></thead><tbody><tr><td colspan="2" style="border-top:0.5pt solid #000;border-left:0.5pt solid #000;border-bottom:0.5pt solid #000;border-right:0.5pt solid #000;background-color:#FFFF00"><p>wide</p></td><td rowspan="2" style="border-top:0.5pt solid #000;border-left:0.5pt solid #000;border-bottom:0.5pt solid #000;border-right:0.5pt solid #000"><p>tall</p></td></tr><tr><td style="border-top:0.5pt solid #000;border-left:0.5pt solid #000;border-bottom:0.5pt solid #000;border-right:0.5pt solid #000"><p>a</p></td><td style="border-top:0.5pt solid #000;border-left:0.5pt solid #000;border-bottom:0.5pt solid #000;border-right:0.5pt solid #000"><p>b</p></td></tr></tbody></table><p dir="rtl" style="text-align:left"><span lang="he-IL" dir="rtl">שלום</span></p><p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==" alt="a dot" width="20" height="10"></p><p>before break</p><div style="break-after:page"></div><p>after break</p><p><br></p><p style="text-align:center;margin-left:36pt">Tail A &lt; B</p><section class="footnotes" role="doc-endnotes"><ol><li id="fn-1"><p> The note text.</p><a href="#fnref-1" role="doc-backlink" aria-label="Back to the text"></a></li></ol></section>
+</body>
+</html>

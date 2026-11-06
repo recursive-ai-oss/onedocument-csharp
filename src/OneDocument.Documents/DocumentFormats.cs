@@ -13,9 +13,15 @@ namespace RecursiveAI.OneDocument.Documents;
 /// </remarks>
 public static class DocumentFormats
 {
-    /// <summary>The formats this package reads and writes: DOCX, DOCM, DOTX, DOTM, Flat OPC and RTF.</summary>
+    /// <summary>The formats this package reads and writes: DOCX, DOCM, DOTX, DOTM, Flat OPC, RTF, HTML and OpenDocument text (ODT, OTT, FODT).</summary>
     public static IReadOnlyList<OfficeFormat> Formats { get; } =
-        [OfficeFormat.Docx, OfficeFormat.Docm, OfficeFormat.Dotx, OfficeFormat.Dotm, OfficeFormat.FlatOpcDocument, OfficeFormat.Rtf];
+        [OfficeFormat.Docx, OfficeFormat.Docm, OfficeFormat.Dotx, OfficeFormat.Dotm, OfficeFormat.FlatOpcDocument, OfficeFormat.Rtf, OfficeFormat.Html, OfficeFormat.Odt, OfficeFormat.Ott, OfficeFormat.Fodt];
+
+    /// <summary>
+    /// Markdown (CommonMark with the GitHub extensions): read and written, but never recognised from content, so it is chosen by the caller or by a file
+    /// name's extension and is not in <see cref="Formats"/>, which lists what <see cref="Office.Open(string, OpenContext?, CancellationToken)"/> can return from sniffing.
+    /// </summary>
+    public static IReadOnlyList<OfficeFormat> ExplicitFormats { get; } = [OfficeFormat.Markdown];
 
     /// <summary>The formats this package reads but does not write: Word 2003 XML and Word 97-2003 (incl. Word 6/95) binary files, which open as a document that saves as DOCX.</summary>
     public static IReadOnlyList<OfficeFormat> ReadOnlyFormats { get; } = [OfficeFormat.Word2003Xml, OfficeFormat.Doc];
@@ -45,6 +51,14 @@ public static class DocumentFormats
                 {
                     document.WriteRtf(destination, cancellationToken);
                 }
+                else if (Document.IsOdfTextFormat(format))
+                {
+                    document.WriteOdf(format, destination, cancellationToken);
+                }
+                else if (format == OfficeFormat.Html)
+                {
+                    document.WriteHtml(destination, null, cancellationToken);
+                }
                 else
                 {
                     document.Write(format, destination, cancellationToken);
@@ -52,6 +66,29 @@ public static class DocumentFormats
             },
             [.. Formats]);
         registry.RegisterTemplateBinder(Templating.DocxTemplateBinder.Instance, ooxml);
+
+        // Markdown is read as such only when the caller names it (Office.Open(path, format), Office.Convert from a .md name).
+        registry.RegisterReader(
+            static (source, _, context, filePath, cancellationToken) => Document.OpenMarkdown(source, context, filePath, null, cancellationToken),
+            OfficeFormat.Markdown);
+        registry.TryGetWriter(OfficeFormat.Markdown, out WriteHandler? previousMarkdown);
+        registry.RegisterWriter(
+            (file, format, destination, cancellationToken) =>
+            {
+                if (file is Document document)
+                {
+                    document.SaveMarkdown(destination, cancellationToken);
+                }
+                else if (previousMarkdown is not null)
+                {
+                    previousMarkdown(file, format, destination, cancellationToken);
+                }
+                else
+                {
+                    throw new FormatNotAvailableException(format, "write a " + file.Kind + " as");
+                }
+            },
+            OfficeFormat.Markdown);
 
         // Word 2003 XML and Word 97-2003 (and Word 6/95) files are read only: they open as a document that saves as DOCX.
         registry.RegisterReader(

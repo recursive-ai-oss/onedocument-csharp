@@ -62,4 +62,4 @@ The new text goes into the run where the match began and keeps its character for
 
 ## Checks
 
-`tools/OperationsProbe run DIR` runs the replacement over a directory of DOCX, XLSX and PPTX files and compares the result with a plain `Regex.Replace` over the same text: after the replacement, after saving and reopening, and (documents) tracked then accepted and rejected.
+`tools/FindReplaceProbe run DIR` runs the replacement over a directory of DOCX, XLSX and PPTX files and compares the result with a plain `Regex.Replace` over the same text: after the replacement, after saving and reopening, and (documents) tracked then accepted and rejected.

@@ -12,20 +12,25 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `xml.` | the XML tokenizer and markup tree | `Markup` |
 | `biff.`, `doc.`, `ppt.`, `xlsb.` | binary record layers | `Record` |
 | `ole.` | OLE property sets and object storages | `Record`, `Value`, `Structure`, `Encoding`, `Packaging`, `Limit` |
+| `vba.` | VBA projects (reading, extraction, removal) | `Record`, `Reference`, `Packaging` |
 | `sheet.` | the workbook model | `Reference`, `Value` |
 | `formula.` | formula text and tokens | `Formula` |
 | `numfmt.` | number-format codes | `Value` |
 | `text.` | text extraction | `Structure`, `Reference`, `Markup`, `Packaging` |
 | `rtf.` | RTF (tokenizer, group tree, hub conversion, mail layer) | `Record`, `Limit`, `Structure`, `Reference` |
+| `markdown.` | Markdown (parser, hub conversion) | `Limit`, `Encoding`, `Structure` |
 | `docx.` | the word-processing hub | `Structure`, `Reference`, `Value`, `Packaging` |
 | `csv.` | delimited text (CSV, TSV) | `Structure`, `Markup`, `Encoding`, `Value` |
 | `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
 | `pptx.` | the PresentationML hub | `Structure`, `Reference`, `Packaging` |
+| `html.` | HTML import and export | `Unsupported`, `Structure` |
 | `wml2003.`, `sml2003.` | the Office 2003 XML readers (Word, Excel) | `Structure`, `Reference`, `Value`, `Encoding`, `Formula` |
+| `odf.` | the OpenDocument text conversion (`odf.md`); the package layer reports under `packaging.` | `Structure`, `Reference`, `Value`, `Encoding`, `Limit` |
 | `calc.` | workbook calculation | `Formula`, `Limit`, `Reference` |
 | `binding.` | reading and writing rows of plain objects (`Spreadsheet.Read<T>`, `Write<T>`) | `Structure`, `Reference`, `Value` |
 | `template.` | the template engine: reading, checking and rendering templates | `Markup`, `Structure`, `Formula`, `Reference`, `Value` |
 | `render.` | writing laid-out pages as PDF or images | `Structure` |
+| `merge.` | merge, append, split, sheet copy and slide insert (`MergeReport.Problems`) | `Structure` |
 
 ## Codes in use
 
@@ -344,9 +349,16 @@ Reported in `ContentBindingReport.Warnings`. See `docx-content-controls.md`.
 | `binding.unsupported-control` | dropped | The control type cannot show a bound value (group, picture, building block …). |
 | `binding.value-not-in-list` | repaired | A drop-down value is not one of its items; the control keeps its selection. |
 | `binding.no-template-item` | dropped | A repeating section has no item to copy as its pattern. |
+| `html.damaged` | fatal | The HTML could not be imported (an unexpected failure, wrapped in a typed exception; the inner exception has the cause). Any text parses as HTML, so this means a bug worth reporting with the input. |
+| `html.export-failed` | fatal | The document could not be written as HTML (wrapped unexpected failure). |
+| `html.dropped` | dropped | An element, attribute or value was left out of the import (a script, an event handler, an unsafe link, a form, a frame, an external image, hidden content, and so on); the location is the text position of the element in the decoded HTML. The loss report of the import counts the same things by kind (`loss.html-*`, see `html.md`). |
 | `rtf.not-rtf` | fatal | The content does not start with `{\rtf`. |
 | `rtf.damaged` | fatal | The RTF could not be converted (an unexpected failure while reading, wrapped in a typed exception; the inner exception has the cause). |
 | `rtf.export-failed` | fatal | The document could not be written as RTF (wrapped unexpected failure). |
+| `markdown.too-deep` | repaired | Block containers (quotes, list items) nested deeper than `OfficeLimits.MaxRecursionDepth`; the markers beyond the limit are read as text. Located by character offset of the first line over the limit. |
+| `markdown.encoding-replaced` | repaired | The Markdown is not valid UTF-8 and has no UTF-16 byte-order mark; invalid bytes were replaced by U+FFFD. Located by byte offset of the first. |
+| `markdown.damaged` | fatal | The Markdown could not be converted (an unexpected failure while importing, wrapped in a typed exception). |
+| `markdown.export-failed` | fatal | The document could not be written as Markdown (wrapped unexpected failure). |
 | `rtf.parameter-overflow` | repaired | A control word parameter does not fit in 32 bits; it was clamped. |
 | `rtf.invalid-hex-escape` | repaired | `\'` was not followed by two hexadecimal digits; it was dropped. |
 | `rtf.binary-data-truncated` | repaired | A `\bin` length is negative or runs past the end of the input; it was clamped. |
@@ -466,6 +478,38 @@ stream (the `Current User` stream for `ppt.current-user-missing`). The conversio
 
 Encrypted files are decrypted or raise `encryption.password-required`; PowerPoint 4.0/95 files raise `unsupported.feature`.
 
+### VBA projects (`vba.`)
+
+Reading is in `docs/vba.md`. Locations are `<container>!<stream path>@<offset>`: the container is the project part (`/word/vbaProject.bin`), the storage (`/Macros`, `/_VBA_PROJECT_CUR`) or `PowerPoint Document@<offset>`; the offset is into the decompressed `dir` stream or the module stream. Every code is exercised by a crafted input in `VbaDefectTests`.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `vba.project-stream-missing` | repaired | The `PROJECT` stream is missing; module kinds come from the module type records and protection is reported as none. |
+| `vba.protection-unreadable` | repaired | `CMG`, `DPB` or `GC` is present but cannot be undone; the project is reported as locked. |
+| `vba.dir-missing` | dropped | The `VBA` storage has no `dir` stream, so no module can be listed. |
+| `vba.dir-damaged` | repaired | The `dir` stream's compressed container is damaged; the records decoded before the damage are used. |
+| `vba.dir-record` | repaired | A `dir` record is cut short or has a size field the specification does not allow; reading stops there and keeps what it has. |
+| `vba.dir-record-unknown` | repaired | A `dir` record has an identifier the specification does not define; it is skipped by its size. |
+| `vba.codepage-unsupported` | repaired | The project code page is not available; Latin-1 decodes byte strings and source. |
+| `vba.module-list-short` | repaired | The module count announces more modules than the `dir` stream holds. |
+| `vba.module-stream-missing` | dropped | A module is listed but its stream is not in the `VBA` storage; the module has no source. Kind `Reference`. |
+| `vba.module-offset-invalid` | dropped | A module's source offset is past the end of its stream; the module has no source. Kind `Reference`. |
+| `vba.module-source-damaged` | repaired | A module's compressed source is damaged; the text decoded before the damage is kept. |
+| `vba.version-stream-missing` | repaired | The `_VBA_PROJECT` stream is missing; the p-code version is unknown. |
+| `vba.version-stream-short` | repaired | The `_VBA_PROJECT` stream is shorter than its seven fixed bytes. |
+| `vba.project-not-compound` | dropped | The project part is not a compound file; the project has no modules. Kind `Packaging`. |
+| `vba.workbook-stream-missing` | fatal | An Excel 97-2003 file has no `Workbook` or `Book` stream, so a removal cannot correct its record positions. |
+
+Removal reports (`VbaRemovalReport.NotDone`) carry the same style of code for what a removal left or could not do; they are notes, not defects:
+
+| Code | Meaning |
+|---|---|
+| `vba.no-macro-free-type` | The format (add-in, binary workbook) has no macro-free counterpart; the file keeps its format without a project. |
+| `vba.project-unreadable` | The project could not be read before it was removed (a limit, for example), so its modules are not counted. It is removed all the same. |
+| `vba.output-not-encrypted` | The input was encrypted; the output is written without encryption. |
+| `vba.doc-customizations-kept` | A Word file's toolbar, menu and key customizations, and a signature kept in its user variables, are not interpreted and stay. |
+| `vba.ppt-signature-kept` | A PowerPoint file's signature kept in the property sets is not looked for and stays. |
+
 ### Office 2003 XML (`wml2003.`, `sml2003.`)
 
 Reported by the readers of Word 2003 XML and Excel 2003 XML while they convert (see `xml-2003.md`). Locations are the part `/` (the file itself) with a byte offset, or a cell address for cell problems.
@@ -490,3 +534,46 @@ Reported by the readers of Word 2003 XML and Excel 2003 XML while they convert (
 | `sml2003.bad-date` | repaired | A `DateTime` cell does not hold an ISO 8601 date or is outside the date range; its text was kept as a string. |
 | `sml2003.bad-formula` | dropped | A cell's `ss:Formula` is not an R1C1 formula the parser reads (files written by other programs may hold OpenFormula text); the cached value stays as a constant. |
 | `sml2003.bad-value` | dropped | A bad date in the document properties. |
+
+### Merge, copy and insert (`merge.`)
+
+Reported in `MergeReport.Problems` (severity dropped), with the part or cell. Resolutions and loss items of the same operations have codes of the same form but are not defects; they are listed in `operations-merge.md`.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `merge.note-missing` | dropped | The copied content refers to a footnote or endnote the source does not have; the reference was left out. |
+| `merge.comment-missing` | dropped | The copied content has comment markers for a comment the source does not have; the markers were left out. |
+| `merge.relationship-missing` | dropped | A relationship id used by the copied content is not in the source part's relationships; the attribute was kept as written. |
+| `merge.part-missing` | dropped | A relationship points at a part the source does not have; the attribute was kept as written. |
+| `merge.numbering-missing` | dropped | A paragraph uses a list the source's numbering part does not define; the reference was kept. |
+| `merge.namespace-prefix-clash` | dropped | A prefix of copied ignorable markup is bound to another namespace on the destination's root. |
+| `merge.formula-unreadable` | dropped | A formula of a copied sheet does not parse; it was copied as written. |
+| `merge.sheet-part-not-copied` | dropped | A sheet has parts (drawings, comments, pivot tables …) that a sheet copy does not carry. |
+| `merge.references-left` | dropped | After a sheet move, formulas in the sheets left behind still name the moved sheet. |
+
+### OpenDocument (`packaging.odf-*`, `odf.`)
+
+The package layer (`OdfPackage`, see `odf.md`) reports under `packaging.`; the text conversion reports under `odf.`. Package locations are the entry name (`mimetype`, `META-INF/manifest.xml`, `content.xml`) with a byte offset where one is known; conversion locations are `content.xml` (or the flat file) with a byte offset.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `packaging.not-odf` | fatal | A flat XML file whose root is not `office:document`, or a zip with no usable `mimetype` and no `content.xml`. |
+| `packaging.odf-no-mimetype` | repaired | The package has no `mimetype` entry; the type is taken from the manifest or the body. A flat file without `office:mimetype` is repaired the same way. |
+| `packaging.odf-mimetype-not-first` | repaired | `mimetype` is not the first entry; a saved package writes it first. |
+| `packaging.odf-mimetype-compressed` | repaired | `mimetype` is deflated; a saved package stores it. |
+| `packaging.odf-no-manifest` | repaired | There is no `META-INF/manifest.xml`; saving writes one. |
+| `packaging.odf-manifest-unreadable` | repaired | The manifest is not well-formed or its root is not `manifest:manifest`; it reads as empty. |
+| `packaging.odf-manifest-entry` | dropped | A `manifest:file-entry` has no `manifest:full-path`. |
+| `packaging.odf-manifest-missing-entry` | repaired | The manifest lists a file the package does not hold. |
+| `packaging.odf-wrong-root` | fatal | A part does not start with its root element (`office:document-content` for `content.xml`, and so on). |
+| `packaging.invalid-part-name`, `packaging.duplicate-part-name`, `packaging.zip-damaged` | as for OPC | Entry names that are empty, absolute or contain `..`; an entry stored twice (the first is used); a damaged zip directory that was recovered. |
+| `odf.no-content` | fatal | The package has no `content.xml`. |
+| `odf.not-text` | fatal | The document is not a text document (its body holds a spreadsheet or presentation). |
+| `odf.damaged` | fatal | A defensive wrapper: an unexpected exception while converting is reported as a format error (a bug if it is ever seen). |
+| `odf.export-failed` | fatal | The same, while writing OpenDocument. |
+| `odf.style-cycle` | repaired | A style's parent chain loops; the loop was cut. |
+| `odf.bad-date` | dropped | A date in `meta.xml` is not a date. |
+| `odf.unknown-change` | repaired | A change mark refers to a changed region the file does not hold. |
+| `odf.missing-picture` | dropped | A picture names a package file that is not there. |
+| `odf.bad-base64` | dropped | The inline data (`office:binary-data`) of a picture is not valid base64. |
+| `odf.repeat-capped` | dropped | A table repeats rows or cells by counts that would exceed the reader's budget (200,000 cells per table, 10,000 repeats per element); the rest were dropped. |

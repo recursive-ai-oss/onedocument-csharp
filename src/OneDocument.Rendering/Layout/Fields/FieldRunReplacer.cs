@@ -186,5 +186,9 @@ internal static class FieldRunReplacer
             Cached = rec.Cached.ToString(),
         };
         rec.Value = FieldEvaluator.Evaluate(site, f);
+        if (rec.Value is not null)
+        {
+            s.Env.Options.ResultSink?.Record(rec.Begin, rec.Value, rec.Cached.ToString(), f.Type, s.Ctx.PageFields is not null);
+        }
     }
 }

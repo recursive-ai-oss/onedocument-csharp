@@ -115,6 +115,20 @@ public sealed class ContentTypes
         }
     }
 
+    // Removing a part leaves its type's Default behind; a caller that knows no part still uses the extension drops it.
+    internal bool RemoveDefault(string extension)
+    {
+        string key = OpcNames.Key(extension);
+        if (!_defaultByExtension.Remove(key))
+        {
+            return false;
+        }
+
+        _defaults.RemoveAll(d => OpcNames.Key(d.Extension) == key);
+        Dirty = true;
+        return true;
+    }
+
     internal void MarkClean() => Dirty = false;
 
     internal void MarkDirty() => Dirty = true;

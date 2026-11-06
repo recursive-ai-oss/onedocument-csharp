@@ -60,6 +60,11 @@ internal sealed class FieldUpdater
     // True when some table-of-contents, index or authorities field has to be built for this layout.
     public static bool NeedsBuild(FieldModel model, LayoutOptions options)
     {
+        if (options.SkipFieldBuild)
+        {
+            return false;
+        }
+
         foreach (FieldInfo fi in model.Fields)
         {
             if (IsTarget(fi) && WantsBuild(fi, options))
@@ -88,6 +93,14 @@ internal sealed class FieldUpdater
         var updater = new FieldUpdater(work, model, options, notes);
         updater.Run();
         return (work, FieldModel.Build(work));
+    }
+
+    // Builds the entries in the document itself (a persisted update) and returns how many fields were built.
+    public static int ApplyInPlace(Document doc, FieldModel model, LayoutOptions options, List<LayoutNote> notes)
+    {
+        int built = model.Fields.Count(f => IsTarget(f) && WantsBuild(f, options));
+        new FieldUpdater(doc, model, options, notes).Run();
+        return built;
     }
 
     private void Run()
@@ -689,7 +702,17 @@ internal sealed class FieldUpdater
             return $"<{W}p>{(pPr.Length == 0 ? string.Empty : $"<{W}pPr>{pPr}</{W}pPr>")}{prefixContent}{e.Content}{suffixContent}</{W}p>";
         }
 
-        string closing = pBegin == pEnd ? endXml + tail : string.Empty;
+        // A field whose old result ended in a paragraph of its own (a table of contents built before, or written by Word) would leave that
+        // paragraph behind as an empty line on every rebuild: its end character moves into the last entry instead, as for a one-paragraph field.
+        bool mergeEnd = false;
+        if (pBegin != pEnd && NextElement(end).IsNull && FirstChild(pEnd, "pPr") is var endPPr && (endPPr.IsNull || FirstChild(endPPr, "sectPr").IsNull))
+        {
+            mergeEnd = true;
+            remove.Add(end);
+        }
+
+        bool single = pBegin == pEnd || mergeEnd;
+        string closing = single ? endXml + tail : string.Empty;
 
         // The first entry goes into the field's own paragraph; the rest become paragraphs after it.
         EntryXml first = entries[0];
@@ -707,6 +730,11 @@ internal sealed class FieldUpdater
             n.Remove();
         }
 
+        if (mergeEnd)
+        {
+            pEnd.Remove();
+        }
+
         if (!oldPPr.IsNull)
         {
             oldPPr.Remove();
@@ -721,8 +749,8 @@ internal sealed class FieldUpdater
 
         if (fi.Parsed.Type == "INDEX" && fi.Parsed.Switch("c")?.Value is { } cs && int.TryParse(cs, out int columns) && columns > 1)
         {
-            MarkupNode last = pBegin != pEnd ? pEnd : pBegin;
-            for (int i = 1; pBegin == pEnd && i < entries.Count; i++)
+            MarkupNode last = single ? pBegin : pEnd;
+            for (int i = 1; single && i < entries.Count; i++)
             {
                 last = NextElement(last);
             }

@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="../Shared/VbaHubFixtures.cs" Link="VbaHubFixtures.cs" />
     <ProjectReference Include="../../src/OneDocument.Spreadsheets/OneDocument.Spreadsheets.csproj" />
     <ProjectReference Include="../../src/OneDocument.Generators/OneDocument.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>

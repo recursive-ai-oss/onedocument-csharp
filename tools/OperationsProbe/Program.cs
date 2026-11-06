@@ -1,364 +1,216 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System;
-using System.Text;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using RecursiveAI.OneDocument;
 using RecursiveAI.OneDocument.Documents;
-using RecursiveAI.OneDocument.Documents.Revisions;
-using RecursiveAI.OneDocument.Markup;
+using RecursiveAI.OneDocument.Layout;
 using RecursiveAI.OneDocument.Operations;
 using RecursiveAI.OneDocument.Presentations;
 using RecursiveAI.OneDocument.Spreadsheets;
 
-namespace RecursiveAI.OneDocument.Tools.OperationsProbe;
-
-/// <summary>
-/// Corpus driver for find and replace.
-///
-///   OperationsProbe run INPUT_DIR [--pattern REGEX] [--limit N] [--shard I/N]
-///
-/// For every DOCX, XLSX and PPTX under INPUT_DIR the text is read through the operation's own Find, the same replacement is made with
-/// a regular expression and compared with what a plain .NET Regex.Replace gives on that text (after the replacement, after saving and
-/// reopening, and for a document the same replacement made as tracked changes, accepted and rejected). One JSON line per file with the
-/// counts, the typed issues and OfficeException codes, and the checks that failed. Files are only read.
-/// </summary>
+// Runs the document operations (merge, split, sheet copy, slide insert, field update) over a directory of files and writes the results
+// to another directory, so that the outputs can be checked with the schema validator and a second consumer. One JSON line per run:
+// the operation, the inputs, counts, the number of resolutions and problems, and whether anything other than a typed error came out.
+//
+//   OperationsProbe samples <output dir>    (the small documents of testdata/operations/ORACLE-REQUEST.md)
+//   OperationsProbe docx-merge|docx-split|docx-fields|xlsx-copy|pptx-insert|pptx-split <input dir> <output dir> [max files]
 internal static class Program
 {
     private static int Main(string[] args)
     {
-        if (args.Length < 2 || args[0] != "run")
+        if (args.Length == 2 && args[0] == "samples")
         {
-            Console.Error.WriteLine("usage: OperationsProbe run INPUT_DIR [--pattern REGEX] [--limit N] [--shard I/N] [--list FILE]");
+            Samples.Write(args[1]);
+            return 0;
+        }
+
+        if (args.Length < 3)
+        {
+            Console.Error.WriteLine("usage: OperationsProbe <command> <input dir> <output dir> [max files]");
             return 2;
         }
 
-        string pattern = @"\b(?:the|of|and)\b";
-        int limit = int.MaxValue;
-        int shard = 0;
-        int shards = 1;
-        string? list = null;
-        for (int i = 2; i < args.Length; i++)
-        {
-            switch (args[i])
-            {
-                case "--pattern":
-                    pattern = args[++i];
-                    break;
-                case "--verbose":
-                    Verbose = true;
-                    break;
-                case "--list":
-                    list = args[++i];
-                    break;
-                case "--limit":
-                    limit = int.Parse(args[++i], System.Globalization.CultureInfo.InvariantCulture);
-                    break;
-                case "--shard":
-                    string[] p = args[++i].Split('/');
-                    shard = int.Parse(p[0], System.Globalization.CultureInfo.InvariantCulture);
-                    shards = int.Parse(p[1], System.Globalization.CultureInfo.InvariantCulture);
-                    break;
-            }
-        }
-
-        string[] files = [.. Directory.EnumerateFiles(args[1], "*", SearchOption.AllDirectories)
-            .Where(f => f.EndsWith(".docx", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".pptx", StringComparison.OrdinalIgnoreCase))
-            .OrderBy(f => f, StringComparer.Ordinal)];
-        if (list is not null)
-        {
-            var wanted = new HashSet<string>(File.ReadAllLines(list), StringComparer.Ordinal);
-            files = [.. files.Where(f => wanted.Contains(Path.GetRelativePath(args[1], f)))];
-        }
-
-        int n = 0;
+        string input = args[1];
+        string output = args[2];
+        int max = args.Length > 3 ? int.Parse(args[3], System.Globalization.CultureInfo.InvariantCulture) : int.MaxValue;
+        Directory.CreateDirectory(output);
+        string pattern = args[0].StartsWith("docx", StringComparison.Ordinal) ? "*.docx" : args[0].StartsWith("xlsx", StringComparison.Ordinal) ? "*.xlsx" : "*.pptx";
+        string[] files = [.. Directory.EnumerateFiles(input, pattern, SearchOption.AllDirectories).Order(StringComparer.Ordinal).Take(max)];
         int bad = 0;
-        for (int i = shard; i < files.Length && n < limit; i += shards, n++)
+        for (int i = 0; i < files.Length; i++)
         {
-            string result = Check(files[i], args[1], pattern);
-            Console.Out.WriteLine(result);
-            if (result.Contains("\"failed\":[\"", StringComparison.Ordinal))
+            string a = files[i];
+            string b = files[(i + 1) % files.Length];
+            var line = new Dictionary<string, object?> { ["op"] = args[0], ["file"] = Path.GetRelativePath(input, a), ["with"] = Path.GetRelativePath(input, b) };
+            try
             {
+                switch (args[0])
+                {
+                    case "docx-merge": DocxMerge(a, b, output, i, line); break;
+                    case "docx-split": DocxSplit(a, output, i, line); break;
+                    case "docx-fields": DocxFields(a, output, i, line); break;
+                    case "xlsx-copy": XlsxCopy(a, output, i, line); break;
+                    case "xlsx-time": XlsxTime(a, line); break;
+                    case "pptx-insert": PptxInsert(a, b, output, i, line); break;
+                    case "pptx-split": PptxSplit(a, output, i, line); break;
+                    default: Console.Error.WriteLine("unknown command"); return 2;
+                }
+
+                line["status"] = "ok";
+            }
+            catch (OfficeException ex)
+            {
+                line["status"] = "typed";
+                line["code"] = ex.Defect.Code;
+            }
+            catch (Exception ex)
+            {
+                line["status"] = "crash";
+                line["error"] = ex.GetType().Name + ": " + ex.Message;
                 bad++;
             }
+
+            Console.WriteLine(JsonSerializer.Serialize(line));
         }
 
-        Console.Error.WriteLine("files " + n + ", with failed checks " + bad);
         return bad == 0 ? 0 : 1;
     }
 
-    private static bool Verbose;
-
-    // The markup of the first paragraph whose text differs, with letters and digits masked: the structure without the content.
-    private static void ShowShape(Func<Document> open, int k)
+    private static void Summarise(MergeReport r, Dictionary<string, object?> line)
     {
+        line["counts"] = r.Counts;
+        line["resolutions"] = r.Resolutions.GroupBy(x => x.Code).ToDictionary(g => g.Key, g => g.Count());
+        line["problems"] = r.Problems.GroupBy(x => x.Code).ToDictionary(g => g.Key, g => g.Count());
+        line["loss"] = r.Loss.Items.Select(x => x.Code).ToArray();
+    }
 
-        using Document d = open();
-        TextHit? hit = d.Find(@"[\s\S]+", new DocumentFindOptions { Search = new SearchOptions { UseRegex = true } }).ElementAtOrDefault(k);
-        if (hit is not null && hit.Location.Story == "textbox" && hit.Location.Container == d.MainPartName)
+    private static string Name(int i, string what, string ext) => i.ToString("D4", System.Globalization.CultureInfo.InvariantCulture) + "-" + what + ext;
+
+    private static void DocxMerge(string a, string b, string output, int i, Dictionary<string, object?> line)
+    {
+        var variants = new (string Name, MergeOptions Options)[]
         {
-            var flat = new List<(Paragraph P, TextBox Box)>();
-            void Walk(IReadOnlyList<TextBox> boxes)
-            {
-                foreach (TextBox box in boxes)
-                {
-                    foreach (Paragraph q in box.Paragraphs())
-                    {
-                        flat.Add((q, box));
-                    }
+            ("default", new MergeOptions()),
+            ("kept", new MergeOptions { Styles = StyleConflict.KeepBoth, Numbering = NumberingContinuation.Restart, Sections = SectionHandling.KeepSource }),
+        };
+        foreach ((string name, MergeOptions options) in variants)
+        {
+            using Document dst = Document.Open(a);
+            using Document src = Document.Open(b);
+            MergeReport r = dst.Append(src, options);
+            dst.SaveAs(Path.Combine(output, Name(i, "merge-" + name, ".docx")));
+            Summarise(r, line);
+        }
+    }
 
-                    Walk(box.TextBoxes());
-                }
+    private static void DocxSplit(string a, string output, int i, Dictionary<string, object?> line)
+    {
+        using Document d = Document.Open(a);
+        int written = 0;
+        using (SplitResult byHeading = d.SplitByHeading(1))
+        {
+            foreach (DocumentPiece p in byHeading.Pieces.Take(6))
+            {
+                p.Document.SaveAs(Path.Combine(output, Name(i, "heading" + written++, ".docx")));
             }
 
-            Walk(d.Body.TextBoxes());
-            if (hit.Location.Index < flat.Count)
-            {
-                (Paragraph tp, TextBox tb) = flat[hit.Location.Index];
-                if (tb.Anchor is { } host)
-                {
-                    Console.Error.WriteLine("ANCHOR " + Names(host.Markup.Node, 0, 5) + " text-length " + host.Text.Length);
-                }
+            line["headingPieces"] = byHeading.Pieces.Count;
+        }
 
-                Console.Error.WriteLine("SHAPE textbox kind " + tb.Kind + " alternate " + tb.Alternate.IsValid + " boxes in body " + d.Body.TextBoxes().Count + " flat " + flat.Count + " " + Mask(tp.Markup.Node.OuterXml));
-            }
+        using SplitResult bySection = d.SplitBySections();
+        int s = 0;
+        foreach (DocumentPiece p in bySection.Pieces.Take(6))
+        {
+            p.Document.SaveAs(Path.Combine(output, Name(i, "section" + s++, ".docx")));
+        }
 
+        line["sectionPieces"] = bySection.Pieces.Count;
+    }
+
+    private static void DocxFields(string a, string output, int i, Dictionary<string, object?> line)
+    {
+        using Document d = Document.Open(a);
+        FieldUpdateReport r = d.UpdateFields();
+        d.SaveAs(Path.Combine(output, Name(i, "fields", ".docx")));
+        line["tablesBuilt"] = r.TablesBuilt;
+        line["updated"] = r.FieldsUpdated;
+        line["unchanged"] = r.FieldsUnchanged;
+        line["skipped"] = r.Skipped.Count;
+        line["passes"] = r.LayoutPasses;
+    }
+
+    private static void XlsxCopy(string a, string output, int i, Dictionary<string, object?> line)
+    {
+        using Workbook src = Workbook.Open(a);
+        using Workbook dst = Workbook.Create();
+        Worksheet placeholder = dst.Sheets[0];
+        Worksheet? first = src.Sheets.FirstOrDefault(s => s.Kind == SheetKind.Worksheet);
+        if (first is null)
+        {
+            line["note"] = "no worksheet";
             return;
         }
 
-        if (hit is null || hit.Location.Story != "body")
+        SheetCopyResult r = first.CopyTo(dst);
+        dst.Sheets.Remove(placeholder);
+        dst.SaveAs(Path.Combine(output, Name(i, "copy", ".xlsx")));
+        Summarise(r.Report, line);
+        using WorkbookSplitResult split = src.SplitBySheet();
+        line["sheetPieces"] = split.Pieces.Count;
+        int n = 0;
+        foreach (WorkbookPiece p in split.Pieces.Take(3))
         {
-            Console.Error.WriteLine("SHAPE paragraph " + k + " story " + hit?.Location.Story + " part " + hit?.Location.Container);
-            return;
+            p.Workbook.SaveAs(Path.Combine(output, Name(i, "sheet" + n++, ".xlsx")));
         }
-
-        Paragraph p = d.Body.Paragraphs().ElementAt(hit.Location.Index);
-        Console.Error.WriteLine("SHAPE paragraph " + k + " " + Mask(p.Markup.Node.OuterXml));
     }
 
-    private static string Names(MarkupNode n, int depth, int max)
+    // Where a sheet copy spends its time: one line per sheet with its size and the copy's duration.
+    private static void XlsxTime(string a, Dictionary<string, object?> line)
     {
-        var sb = new StringBuilder(n.LocalNameString);
-        if (depth < max)
+        using Workbook src = Workbook.Open(a);
+        var sheets = new List<string>();
+        foreach (Worksheet s in src.Sheets.Where(s => s.Kind == SheetKind.Worksheet))
         {
-            var kids = n.ChildElements.Select(c => Names(c, depth + 1, max)).ToList();
-            if (kids.Count > 0)
-            {
-                sb.Append('(').Append(string.Join(",", kids)).Append(')');
-            }
+            long start = Environment.TickCount64;
+            Console.Error.WriteLine(s.Name + ": " + s.Store.CellCount + " cells");
+            using Workbook dst = Workbook.Create();
+            SheetCopyResult r = s.CopyTo(dst);
+            sheets.Add(s.Name + ": " + s.Store.CellCount + " cells, " + r.Report.CountOf("formulas") + " formulas, " + (Environment.TickCount64 - start) + " ms");
         }
 
-        return sb.ToString();
+        line["sheets"] = sheets;
     }
 
-    private static string Mask(string xml) => Regex.Replace(xml, @"(?<=>)[^<]+(?=<)", m => Regex.Replace(m.Value, @"\p{L}", "a"));
-
-    private static string Check(string path, string root, string pattern)
+    private static void PptxInsert(string a, string b, string output, int i, Dictionary<string, object?> line)
     {
-        byte[] bytes = File.ReadAllBytes(path);
-        var failed = new List<string>();
-        int items = 0;
-        int issues = 0;
-        string status = "ok";
-        string? code = null;
-        string? issueNote = null;
+        using Presentation dst = Presentation.Open(a);
+        using Presentation src = Presentation.Open(b);
+        SlideInsertResult r = dst.InsertSlides(src.Slides.Take(8), 0);
+        dst.SaveAs(Path.Combine(output, Name(i, "insert", ".pptx")));
+        Summarise(r.Report, line);
+    }
+
+    private static void PptxSplit(string a, string output, int i, Dictionary<string, object?> line)
+    {
+        using Presentation d = Presentation.Open(a);
+        IReadOnlyList<Presentation> parts = d.SplitEvery(5);
         try
         {
-            string ext = Path.GetExtension(path).ToLowerInvariant();
-            var rx = new Regex(pattern, RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-            var options = new SearchOptions { UseRegex = true };
-            const string All = @"[\s\S]+";
-            if (ext == ".docx")
+            line["parts"] = parts.Count;
+            int n = 0;
+            foreach (Presentation p in parts.Take(4))
             {
-                Func<Document> open = () => Document.Open(new MemoryStream(bytes));
-                Func<Document, string[]> snapNow = d => [.. d.Find(All, new DocumentFindOptions { Search = options }).Select(h => h.Text)];
-                using Document d0 = open();
-                string[] before = snapNow(d0);
-                string[] expected = [.. before.Select(t => rx.Replace(t, "X")).Where(t => t.Length > 0)];
-                ReplaceReport r = d0.Replace(pattern, "X", new DocumentReplaceOptions { Search = new SearchOptions { UseRegex = true } });
-                items = r.Count;
-                issues = r.Issues.Count;
-                issueNote ??= r.Issues.Count > 0 ? r.Issues[0].Code + ": " + r.Issues[0].Message : null;
-                Compare("replace", snapNow(d0), expected, failed);
-                if (Verbose && !snapNow(d0).SequenceEqual(expected, StringComparer.Ordinal))
-                {
-                    int at = 0;
-                    string[] now = snapNow(d0);
-                    while (at < now.Length && at < expected.Length && now[at] == expected[at])
-                    {
-                        at++;
-                    }
-
-                    ShowShape(open, at);
-                }
-
-                using var ms = new MemoryStream();
-                d0.SaveAs(ms, OfficeFormat.Docx);
-                ms.Position = 0;
-                using (Document back = Document.Open(ms))
-                {
-                    Compare("reopen", snapNow(back), expected, failed);
-                }
-
-                // Accepting resolves the document's own tracked changes too (a deleted paragraph mark joins paragraphs), so the
-                // expected text is the same document accepted without a replacement, then replaced.
-                string[] acceptedExpected;
-                using (Document b = open())
-                {
-                    b.Revisions.AcceptAll();
-                    acceptedExpected = [.. snapNow(b).Select(t => rx.Replace(t, "X")).Where(t => t.Length > 0)];
-                }
-
-                using (Document t1 = open())
-                {
-                    ReplaceReport tr = t1.Replace(pattern, "X", new DocumentReplaceOptions { Search = new SearchOptions { UseRegex = true }, TrackedAuthor = "probe", TrackedIds = RevisionIds.ContinueAfterMax });
-                    if (tr.Count != r.Count)
-                    {
-                        failed.Add("tracked-count");
-                    }
-
-                    t1.Revisions.AcceptAll();
-                    string[] gotAccepted = snapNow(t1);
-                    Compare("accept", gotAccepted, acceptedExpected, failed, joined: true);
-                    if (Verbose && string.Concat(gotAccepted) != string.Concat(acceptedExpected))
-                    {
-                        string a = string.Concat(gotAccepted);
-                        string e = string.Concat(acceptedExpected);
-                        int pos = 0;
-                        while (pos < a.Length && pos < e.Length && a[pos] == e[pos])
-                        {
-                            pos++;
-                        }
-
-                        int para = 0;
-                        for (int sum = 0; para < acceptedExpected.Length && sum + acceptedExpected[para].Length <= pos; para++)
-                        {
-                            sum += acceptedExpected[para].Length;
-                        }
-
-                        Console.Error.WriteLine("ACCEPT textboxes in body now " + t1.Body.TextBoxes().Count + ", hits " + t1.Find("[\\s\\S]+", new DocumentFindOptions { Search = options, Stories = DocumentStories.TextBoxes }).Count);
-                        Console.Error.WriteLine("ACCEPT diverges in paragraph " + para + " of " + acceptedExpected.Length + " (actual has " + gotAccepted.Length + ")");
-                        ShowShape(open, para);
-                    }
-                }
-
-                // A document that already had tracked changes loses them on reject-all too, so the baseline is the same
-                // document with the changes rejected and nothing replaced.
-                string[] rejectedBaseline;
-                using (Document b = open())
-                {
-                    b.Revisions.RejectAll();
-                    rejectedBaseline = snapNow(b);
-                }
-
-                using (Document t2 = open())
-                {
-                    _ = t2.Replace(pattern, "X", new DocumentReplaceOptions { Search = new SearchOptions { UseRegex = true }, TrackedAuthor = "probe" });
-                    t2.Revisions.RejectAll();
-                    Compare("reject", snapNow(t2), rejectedBaseline, failed, joined: true);
-                }
-            }
-            else if (ext == ".xlsx")
-            {
-                using Workbook w0 = Workbook.Open(new MemoryStream(bytes));
-                string[] before = [.. w0.Find(All, new WorkbookFindOptions { Search = options }).Select(h => h.Text)];
-                string[] expected = [.. before.Select(t => rx.Replace(t, "X")).Where(t => t.Length > 0)];
-                ReplaceReport r = w0.Replace(pattern, "X", new WorkbookReplaceOptions { Search = options });
-                items = r.Count;
-                issues = r.Issues.Count;
-                issueNote ??= r.Issues.Count > 0 ? r.Issues[0].Code + ": " + r.Issues[0].Message : null;
-                Compare("replace", [.. w0.Find(All, new WorkbookFindOptions { Search = options }).Select(h => h.Text)], expected, failed);
-                using var ms = new MemoryStream();
-                w0.SaveAs(ms, w0.Format);
-                ms.Position = 0;
-                using Workbook back = Workbook.Open(ms);
-                Compare("reopen", [.. back.Find(All, new WorkbookFindOptions { Search = options }).Select(h => h.Text)], expected, failed);
-            }
-            else
-            {
-                using Presentation p0 = Presentation.Open(new MemoryStream(bytes));
-                var all = new PresentationFindOptions { Search = options, Parts = PresentationParts.All };
-                string[] before = [.. p0.Find(All, all).Select(h => h.Text)];
-                string[] expected = [.. before.Select(t => rx.Replace(t, "X")).Where(t => t.Length > 0)];
-                ReplaceReport r = p0.Replace(pattern, "X", new PresentationReplaceOptions { Search = options, Parts = PresentationParts.All });
-                items = r.Count;
-                issues = r.Issues.Count;
-                issueNote ??= r.Issues.Count > 0 ? r.Issues[0].Code + ": " + r.Issues[0].Message : null;
-                Compare("replace", [.. p0.Find(All, all).Select(h => h.Text)], expected, failed);
-                using var ms = new MemoryStream();
-                p0.SaveAs(ms, OfficeFormat.Pptx);
-                ms.Position = 0;
-                using Presentation back = Presentation.Open(ms);
-                Compare("reopen", [.. back.Find(All, all).Select(h => h.Text)], expected, failed);
+                p.SaveAs(Path.Combine(output, Name(i, "part" + n++, ".pptx")));
             }
         }
-        catch (OfficeException ex)
+        finally
         {
-            status = "typed-error";
-            code = ex.Defect.Code;
-        }
-
-        if (issues > 0)
-        {
-            // Matches the operation reported and left alone make the text differ from a plain replacement by design.
-            failed.RemoveAll(f => f is "replace" or "reopen" or "accept");
-        }
-
-        var buf = new System.Buffers.ArrayBufferWriter<byte>();
-        using (var w = new Utf8JsonWriter(buf))
-        {
-            w.WriteStartObject();
-            w.WriteString("file", Path.GetRelativePath(root, path));
-            w.WriteString("status", status);
-            if (code is not null)
+            foreach (Presentation p in parts)
             {
-                w.WriteString("code", code);
+                p.Dispose();
             }
-
-            w.WriteNumber("replacements", items);
-            w.WriteNumber("issues", issues);
-            if (issueNote is not null)
-            {
-                w.WriteString("issue", issueNote);
-            }
-
-            w.WriteStartArray("failed");
-            foreach (string f in failed)
-            {
-                w.WriteStringValue(f);
-            }
-
-            w.WriteEndArray();
-            w.WriteEndObject();
-        }
-
-        return Encoding.UTF8.GetString(buf.WrittenSpan);
-    }
-
-    // Texts compared in order; paragraphs and cells whose text is empty after the replacement are not listed by a search.
-    private static void Compare(string name, string[] actual, string[] expected, List<string> failed, bool joined = false)
-    {
-        bool same = joined ? string.Concat(actual) == string.Concat(expected) : actual.SequenceEqual(expected, StringComparer.Ordinal);
-        if (!same && Verbose)
-        {
-            // Only positions, lengths and code points are printed: the corpus text itself stays where it is.
-            string a = joined ? string.Concat(actual) : string.Join("\u0001", actual);
-            string e = joined ? string.Concat(expected) : string.Join("\u0001", expected);
-            int k = 0;
-            while (k < a.Length && k < e.Length && a[k] == e[k])
-            {
-                k++;
-            }
-
-            string Cp(string x) => string.Join(" ", x.Skip(Math.Max(0, k - 3)).Take(10).Select(c => ((int)c).ToString("X4", System.Globalization.CultureInfo.InvariantCulture)));
-            Console.Error.WriteLine("DIFF " + name + " at " + k + " lengths " + a.Length + "/" + e.Length + " counts " + actual.Length + "/" + expected.Length + " actual[" + Cp(a) + "] expected[" + Cp(e) + "]");
-        }
-
-        if (!same)
-        {
-            failed.Add(name);
         }
     }
 }

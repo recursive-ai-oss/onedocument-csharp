@@ -30,11 +30,15 @@
     <Project Path="tools/PackageTiming/PackageTiming.csproj" />
     <Project Path="tools/MarkupProbe/MarkupProbe.csproj" />
     <Project Path="tools/PptProbe/PptProbe.csproj" />
+    <Project Path="tools/VbaProbe/VbaProbe.csproj" />
+    <Project Path="tools/AccessibilityProbe/AccessibilityProbe.csproj" />
     <Project Path="tools/TextCompare/TextCompare.csproj" />
     <Project Path="tools/RevisionProbe/RevisionProbe.csproj" />
     <Project Path="tools/OperationsProbe/OperationsProbe.csproj" />
     <Project Path="tools/DocumentSweep/DocumentSweep.csproj" />
     <Project Path="tools/DocxProbe/DocxProbe.csproj" />
+    <Project Path="tools/FindReplaceProbe/FindReplaceProbe.csproj" />
+    <Project Path="tools/HtmlProbe/HtmlProbe.csproj" />
     <Project Path="tools/RtfProbe/RtfProbe.csproj" />
     <Project Path="tools/EncryptionProbe/EncryptionProbe.csproj" />
     <Project Path="tools/NumFmtGrid/NumFmtGrid.csproj" />
