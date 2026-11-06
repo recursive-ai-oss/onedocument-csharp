@@ -345,6 +345,6 @@ stream (the `Current User` stream for `ppt.current-user-missing`). The conversio
 | `ppt.text-special-info-unread` | repaired | Smart tags in a text special info record are not read; later language runs are ignored. |
 | `ppt.outline-reference` | repaired | A shape refers to slide-list text that does not exist. |
 | `ppt.malformed` | fatal | A defensive wrapper: an unexpected exception while reading is reported as a format error (a bug if it is ever seen). |
-| `ppt.shape-approximated`, `ppt.shape-adjust-dropped`, `ppt.fill-approximated`, `ppt.path-escape`, `ppt.geometry-guides`, `ppt.wordart-flattened`, `ppt.picture-pict`, `ppt.picture-missing`, `ppt.table-as-group`, `ppt.table-borders-approximated`, `ppt.transition-dropped`, `ppt.animations-dropped`, `ppt.ole-object-flattened`, `ppt.vba-not-carried`, `ppt.header-footer-field`, `ppt.placeholder-unknown` | dropped | Conversion losses; meanings in `ppt.md`. |
+| `ppt.shape-approximated`, `ppt.shape-adjust-dropped`, `ppt.fill-approximated`, `ppt.path-escape`, `ppt.geometry-guides`, `ppt.wordart-flattened`, `ppt.picture-pict`, `ppt.picture-missing`, `ppt.table-as-group`, `ppt.table-borders-approximated`, `ppt.transition-dropped`, `ppt.animations-dropped`, `ppt.ole-object-flattened`, `ppt.vba-not-carried`, `ppt.document-properties-not-carried`, `ppt.header-footer-field`, `ppt.placeholder-unknown` | dropped | Conversion losses; meanings in `ppt.md`. |
 
 Encrypted files raise `encryption.password-required`; PowerPoint 4.0/95 files raise `unsupported.feature`.

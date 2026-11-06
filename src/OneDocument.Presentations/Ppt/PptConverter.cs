@@ -246,6 +246,13 @@ public static class PptConverter
             slideIds.Add((id, PresRel(Rel.Slide, "slides/slide" + (i + 1).ToString(CultureInfo.InvariantCulture) + ".xml"), (slide.Transition is { } t && t.Payload.Length >= 12 && (t.UInt16At(10) & 4) != 0)));
         }
 
+        if (p.File.StreamNames.Any(n => n.EndsWith("SummaryInformation", StringComparison.Ordinal)))
+        {
+            // The property-set format of these streams is not read; they stay in the source file.
+            conv.Loss.Offset = -1;
+            conv.Loss.Report("ppt.document-properties-not-carried", "document properties", 1, "The summary information and document summary information streams are not read; title, author and the other document properties are not carried.");
+        }
+
         if (p.HasVbaProject)
         {
             conv.Loss.Offset = p.File.DocumentContainer?.Offset ?? -1;

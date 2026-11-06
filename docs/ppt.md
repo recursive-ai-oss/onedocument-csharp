@@ -94,6 +94,7 @@ line, a negative value is master units. Master units are 1/576 inch (1,587.5 EMU
 | `ppt.transition-dropped` | a transition type PresentationML lacks |
 | `ppt.animations-dropped` | animation effects (shape animation info, PowerPoint 2002 time nodes) |
 | `ppt.ole-object-flattened` | embedded and linked OLE objects: only the preview picture is written; the storage stays in the source file, unread |
+| `ppt.document-properties-not-carried` | the summary information streams (their property-set format is not implemented); title, author and the rest are not carried |
 | `ppt.vba-not-carried` | the VBA project |
 | `ppt.header-footer-field` | a header or footer metacharacter with no text to show |
 | `ppt.placeholder-unknown` | a placeholder type this converter does not know |
