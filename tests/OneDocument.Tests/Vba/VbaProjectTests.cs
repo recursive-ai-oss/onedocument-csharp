@@ -57,6 +57,19 @@ public sealed class VbaProjectTests
         Assert.Equal(new byte[] { 0x01 }, VbaTestProject.Compress(ReadOnlySpan<byte>.Empty));
     }
 
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(40)]
+    public void Decompress_ZeroPaddingAfterTheLastChunk_IsIgnored(int padding)
+    {
+        // Seen in a PowerPoint file written by Office: the dir stream ends with two zero bytes after its last chunk.
+        byte[] input = [.. FromHex("01 03 B0 02 61 45 00"), .. new byte[padding]];
+        Assert.True(VbaCompression.TryDecompress(input, 1 << 20, out byte[] output, out string? problem), problem);
+        Assert.Equal(73, output.Length);
+        Assert.False(VbaCompression.TryDecompress([.. input, 0x01], 1 << 20, out _, out _));
+    }
+
     [Fact]
     public void Decompress_RawChunks_AreCopied()
     {

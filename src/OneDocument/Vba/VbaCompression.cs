@@ -37,7 +37,9 @@ public static class VbaCompression
         }
 
         int pos = 1;
-        while (pos < compressed.Length)
+        // Streams written by Office can end with zero padding after the last chunk (seen in PowerPoint files); a zero header cannot be a chunk.
+        int lastData = compressed.LastIndexOfAnyExcept((byte)0);
+        while (pos <= lastData)
         {
             if (pos + 2 > compressed.Length)
             {

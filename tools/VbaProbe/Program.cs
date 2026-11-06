@@ -47,6 +47,9 @@ static int Run(string[] args)
                 return 0;
             }
 
+        case "storage" when args.Length == 3:
+            // storage <ppt> <out.bin>: the project's compound file as stored in a PowerPoint document stream (for looking at damaged ones)
+            return Storage(args[1], args[2]);
         case "remove" when args.Length == 3:
             {
                 VbaRemovalReport r = VbaRemoval.Remove(args[1], args[2]);
@@ -68,6 +71,64 @@ static int Run(string[] args)
             Console.Error.WriteLine("usage: VbaProbe scan|list|extract|remove <file>...");
             return 2;
     }
+}
+
+static int Storage(string file, string output)
+{
+    using RecursiveAI.OneDocument.Cfb.CfbPackage cfb = RecursiveAI.OneDocument.Cfb.CfbPackage.Open(file);
+    byte[] doc = cfb.FindPart("/PowerPoint Document")!.GetBytes().ToArray();
+    long pos = 0;
+    byte[]? last = null;
+    while (pos + 8 <= doc.Length)
+    {
+        int verInst = BitConverter.ToUInt16(doc, (int)pos);
+        int type = BitConverter.ToUInt16(doc, (int)pos + 2);
+        long len = BitConverter.ToUInt32(doc, (int)pos + 4);
+        if (pos + 8 + len > doc.Length)
+        {
+            break;
+        }
+
+        if (type == 0x1011 && (verInst >> 4) == 1 && len > 12)
+        {
+            try
+            {
+                using var input = new MemoryStream(doc, (int)pos + 12, (int)len - 4);
+                using var z = new System.IO.Compression.ZLibStream(input, System.IO.Compression.CompressionMode.Decompress);
+                using var ms = new MemoryStream();
+                z.CopyTo(ms);
+                byte[] b = ms.ToArray();
+                if (b.Length > 8 && b[0] == 0xD0 && b[1] == 0xCF)
+                {
+                    last = b;
+                    Console.WriteLine("record at " + pos + ", " + b.Length + " bytes");
+                }
+            }
+            catch (InvalidDataException)
+            {
+            }
+        }
+
+        pos += 8 + len;
+    }
+
+    if (last is null)
+    {
+        return 1;
+    }
+
+    File.WriteAllBytes(output, last);
+    using var inner = RecursiveAI.OneDocument.Cfb.CfbPackage.Open(RecursiveAI.OneDocument.IO.ByteSource.FromMemory(last));
+    foreach (RecursiveAI.OneDocument.Cfb.CfbStreamPart s in inner.Streams)
+    {
+        Console.WriteLine("  " + s.Name + " " + s.Length);
+        if (s.Name.Equals("/VBA/dir", StringComparison.OrdinalIgnoreCase))
+        {
+            File.WriteAllBytes(output + ".dir", s.GetBytes().ToArray());
+        }
+    }
+
+    return 0;
 }
 
 static int List(string file)
