@@ -17,10 +17,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="../../testdata/encryption/secret-basic.docx" LogicalName="fixtures.secret-basic.docx" />
+    <EmbeddedResource Include="../../testdata/encryption/plain-basic.docx" LogicalName="fixtures.plain-basic.docx" />
+    <EmbeddedResource Include="../../testdata/encryption/secret-basic.xlsx" LogicalName="fixtures.secret-basic.xlsx" />
+    <EmbeddedResource Include="../../testdata/encryption/plain-basic.xlsx" LogicalName="fixtures.plain-basic.xlsx" />
+    <EmbeddedResource Include="../../testdata/encryption/secret-basic.doc" LogicalName="fixtures.secret-basic.doc" />
+    <EmbeddedResource Include="../../testdata/encryption/secret-basic.xls" LogicalName="fixtures.secret-basic.xls" />
+    <EmbeddedResource Include="../../testdata/encryption/plain-basic.xls" LogicalName="fixtures.plain-basic.xls" />
+    <EmbeddedResource Include="../../testdata/encryption/xor-v0-basic.xls" LogicalName="fixtures.xor-v0-basic.xls" />
+    <EmbeddedResource Include="../../testdata/encryption/cryptoapi-plain-basic.xls" LogicalName="fixtures.cryptoapi-plain-basic.xls" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="../shared/SmokeChecks.cs" Link="SmokeChecks.cs" />
+    <Compile Include="../shared/PlatformSmoke.cs" Link="PlatformSmoke.cs" />
     <Compile Include="../shared/SchemaSmoke.cs" Link="SchemaSmoke.cs" />
     <Compile Include="../shared/DocumentSmoke.cs" Link="DocumentSmoke.cs" />
     <Compile Include="../shared/PresentationSmoke.cs" Link="PresentationSmoke.cs" />
+    <Compile Include="../shared/AccessibilitySmoke.cs" Link="AccessibilitySmoke.cs" />
     <Compile Include="../shared/NumFmtSmoke.cs" Link="NumFmtSmoke.cs" />
     <Compile Include="../shared/CalcSmoke.cs" Link="CalcSmoke.cs" />
     <Compile Include="../shared/SheetSmoke.cs" Link="SheetSmoke.cs" />
@@ -41,6 +55,9 @@
     <Compile Include="../shared/DrawingSmoke.cs" Link="DrawingSmoke.cs" />
     <Compile Include="../shared/SmartArtSmoke.cs" Link="SmartArtSmoke.cs" />
     <Compile Include="../shared/FloatSmoke.cs" Link="FloatSmoke.cs" />
+    <Compile Include="../shared/OperationsSmoke.cs" Link="OperationsSmoke.cs" />
+    <Compile Include="../shared/FindReplaceSmoke.cs" Link="FindReplaceSmoke.cs" />
+    <Compile Include="../shared/RedactionSmoke.cs" Link="RedactionSmoke.cs" />
     <Compile Include="../../tests/OneDocument.Schema.Tests/TextTree.cs" Link="TextTree.cs" />
     <ProjectReference Include="../../src/OneDocument/OneDocument.csproj" />
     <ProjectReference Include="../../src/OneDocument.Schema/OneDocument.Schema.csproj" />

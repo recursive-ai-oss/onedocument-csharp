@@ -101,6 +101,19 @@ public static class Office
         return FormatRegistry.Default.GetReader(format)(source, format, context, filePath, cancellationToken);
     }
 
+    /// <summary>Checks a file against Office's accessibility rules; nothing is edited or saved.</summary>
+    /// <param name="path">The path.</param>
+    /// <param name="context">Limits, defect sink and password; null for the defaults.</param>
+    /// <param name="cancellationToken">Cancels the check.</param>
+    /// <returns>The findings.</returns>
+    /// <exception cref="OfficeFormatException">The content is not a recognised format, or is damaged beyond repair.</exception>
+    /// <exception cref="FormatNotAvailableException">No reader is registered for the format.</exception>
+    public static Accessibility.AccessibilityReport CheckAccessibility(string path, OpenContext? context = null, CancellationToken cancellationToken = default)
+    {
+        using OfficeFile file = Open(path, context, cancellationToken);
+        return file.CheckAccessibility(cancellationToken);
+    }
+
     /// <summary>Extracts the text of a file, in reading order.</summary>
     /// <param name="path">The path.</param>
     /// <param name="context">Limits, defect sink and password; null for the defaults.</param>
@@ -177,6 +190,19 @@ public static class Office
         OfficeFormat named = OfficeFormats.FromExtension(source);
         using OfficeFile file = named == OfficeFormat.Markdown ? Open(source, named, context, cancellationToken) : Open(source, context, cancellationToken);
         file.SaveAs(destination, cancellationToken);
+    }
+
+    /// <summary>Removes what a plan matches or covers and writes a new file; see <see cref="OfficeFile.Redact(Redaction.RedactionPlan, string, CancellationToken)"/>.</summary>
+    /// <param name="source">The input path. It is never changed.</param>
+    /// <param name="destination">The output path; it must differ from <paramref name="source"/>.</param>
+    /// <param name="plan">What to remove and how.</param>
+    /// <param name="context">Limits, defect sink and password; null for the defaults.</param>
+    /// <param name="cancellationToken">Cancels the operation.</param>
+    /// <returns>What was removed, what could not be, and the verification verdict.</returns>
+    public static Redaction.RedactionReport Redact(string source, string destination, Redaction.RedactionPlan plan, OpenContext? context = null, CancellationToken cancellationToken = default)
+    {
+        using OfficeFile file = Open(source, context, cancellationToken);
+        return file.Redact(plan, destination, cancellationToken);
     }
 
     /// <summary>Reports the hidden data and personal information in a file, category by category, with counts and locations. Nothing is changed.</summary>

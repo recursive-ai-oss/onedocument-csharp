@@ -26,10 +26,12 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `pptx.` | the PresentationML hub | `Structure`, `Reference`, `Packaging` |
 | `html.` | HTML import and export | `Unsupported`, `Structure` |
 | `wml2003.`, `sml2003.` | the Office 2003 XML readers (Word, Excel) | `Structure`, `Reference`, `Value`, `Encoding`, `Formula` |
+| `odf.` | the OpenDocument text conversion (`odf.md`); the package layer reports under `packaging.` | `Structure`, `Reference`, `Value`, `Encoding`, `Limit` |
 | `calc.` | workbook calculation | `Formula`, `Limit`, `Reference` |
 | `binding.` | reading and writing rows of plain objects (`Spreadsheet.Read<T>`, `Write<T>`) | `Structure`, `Reference`, `Value` |
 | `template.` | the template engine: reading, checking and rendering templates | `Markup`, `Structure`, `Formula`, `Reference`, `Value` |
 | `render.` | writing laid-out pages as PDF or images | `Structure` |
+| `merge.` | merge, append, split, sheet copy and slide insert (`MergeReport.Problems`) | `Structure` |
 
 ## Codes in use
 
@@ -534,6 +536,51 @@ Reported by the readers of Word 2003 XML and Excel 2003 XML while they convert (
 | `sml2003.bad-formula` | dropped | A cell's `ss:Formula` is not an R1C1 formula the parser reads (files written by other programs may hold OpenFormula text); the cached value stays as a constant. |
 | `sml2003.bad-value` | dropped | A bad date in the document properties. |
 
+### Merge, copy and insert (`merge.`)
+
+Reported in `MergeReport.Problems` (severity dropped), with the part or cell. Resolutions and loss items of the same operations have codes of the same form but are not defects; they are listed in `operations-merge.md`.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `merge.note-missing` | dropped | The copied content refers to a footnote or endnote the source does not have; the reference was left out. |
+| `merge.comment-missing` | dropped | The copied content has comment markers for a comment the source does not have; the markers were left out. |
+| `merge.relationship-missing` | dropped | A relationship id used by the copied content is not in the source part's relationships; the attribute was kept as written. |
+| `merge.part-missing` | dropped | A relationship points at a part the source does not have; the attribute was kept as written. |
+| `merge.numbering-missing` | dropped | A paragraph uses a list the source's numbering part does not define; the reference was kept. |
+| `merge.namespace-prefix-clash` | dropped | A prefix of copied ignorable markup is bound to another namespace on the destination's root. |
+| `merge.formula-unreadable` | dropped | A formula of a copied sheet does not parse; it was copied as written. |
+| `merge.sheet-part-not-copied` | dropped | A sheet has parts (drawings, comments, pivot tables …) that a sheet copy does not carry. |
+| `merge.references-left` | dropped | After a sheet move, formulas in the sheets left behind still name the moved sheet. |
+
+### OpenDocument (`packaging.odf-*`, `odf.`)
+
+The package layer (`OdfPackage`, see `odf.md`) reports under `packaging.`; the text conversion reports under `odf.`. Package locations are the entry name (`mimetype`, `META-INF/manifest.xml`, `content.xml`) with a byte offset where one is known; conversion locations are `content.xml` (or the flat file) with a byte offset.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `packaging.not-odf` | fatal | A flat XML file whose root is not `office:document`, or a zip with no usable `mimetype` and no `content.xml`. |
+| `packaging.odf-no-mimetype` | repaired | The package has no `mimetype` entry; the type is taken from the manifest or the body. A flat file without `office:mimetype` is repaired the same way. |
+| `packaging.odf-mimetype-not-first` | repaired | `mimetype` is not the first entry; a saved package writes it first. |
+| `packaging.odf-mimetype-compressed` | repaired | `mimetype` is deflated; a saved package stores it. |
+| `packaging.odf-no-manifest` | repaired | There is no `META-INF/manifest.xml`; saving writes one. |
+| `packaging.odf-manifest-unreadable` | repaired | The manifest is not well-formed or its root is not `manifest:manifest`; it reads as empty. |
+| `packaging.odf-manifest-entry` | dropped | A `manifest:file-entry` has no `manifest:full-path`. |
+| `packaging.odf-manifest-missing-entry` | repaired | The manifest lists a file the package does not hold. |
+| `packaging.odf-wrong-root` | fatal | A part does not start with its root element (`office:document-content` for `content.xml`, and so on). |
+| `packaging.invalid-part-name`, `packaging.duplicate-part-name`, `packaging.zip-damaged` | as for OPC | Entry names that are empty, absolute or contain `..`; an entry stored twice (the first is used); a damaged zip directory that was recovered. |
+| `odf.no-content` | fatal | The package has no `content.xml`. |
+| `odf.not-text` | fatal | The document is not a text document (its body holds a spreadsheet or presentation). |
+| `odf.damaged` | fatal | A defensive wrapper: an unexpected exception while converting is reported as a format error (a bug if it is ever seen). |
+| `odf.export-failed` | fatal | The same, while writing OpenDocument. |
+| `odf.style-cycle` | repaired | A style's parent chain loops; the loop was cut. |
+| `odf.bad-date` | dropped | A date in `meta.xml` is not a date. |
+| `odf.unknown-change` | repaired | A change mark refers to a changed region the file does not hold. |
+| `odf.missing-picture` | dropped | A picture names a package file that is not there. |
+| `odf.bad-base64` | dropped | The inline data (`office:binary-data`) of a picture is not valid base64. |
+| `odf.repeat-capped` | dropped | A table repeats rows or cells by counts that would exceed the reader's budget (200,000 cells per table, 10,000 repeats per element); the rest were dropped. |
+## Redaction report codes
+
+Redaction does not report through the open-time defect list: what it could not remove or look into is in `RedactionReport.Gaps`, with codes of the form `redaction.problem` (`redaction.part-name`, `redaction.part-not-xml`, `redaction.embedded-package`, `redaction.opaque-part`, `redaction.depth`, `redaction.region-not-applicable`, `redaction.region-failed`, `redaction.shared-formula-extent`, `redaction.pivot-cache-source`, `redaction.animations-removed`). Their meaning and the tests that assert them are in `redaction.md`.
 ### Inspection and sanitising (`sanitize.`)
 
 Behaviour is in `docs/sanitize.md`. Items that sanitising leaves in place are not defects: they are `NotRemovedItem`s of the report, with the codes `sanitize.referenced`, `sanitize.unsupported-construct` and `sanitize.report-only`.
