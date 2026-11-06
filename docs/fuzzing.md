@@ -4,7 +4,7 @@ The 1.0 fuzz campaign: every target in `fuzz/run.sh` for 600 s under libFuzzer w
 
 - Run with `tools/fuzz-campaign.sh prepare`, then `tools/fuzz-campaign.sh run 600 <target>...`: one build, nine to eleven targets side by side per queue job (12 cores), per-input timeout 10 s, memory limit 1024 MB.
 - Machine: 32-core x64 build host, .NET 10.0.14, libFuzzer host and SharpFuzz as pinned in the tools directory.
-- A target is clean when it finishes its 600 s with no crash, hang, out-of-memory or invariant failure. All 62 targets finished clean on the final code. Six targets reported findings (five distinct causes, listed below); each was fixed, and the affected targets plus the targets that share the changed code were run again for 600 s.
+- A target is clean when it finishes its 600 s with no crash, hang, out-of-memory or invariant failure. All 70 targets finished clean on the final code. In the first pass six of the 62 targets then in `fuzz/run.sh` reported findings (five distinct causes, listed below); each was fixed, and the affected targets plus the targets that share the changed code were run again for 600 s.
 - exec/s is low for the targets that build whole documents per input (`rtf`, `html`, `markdown`, `xlsb`, `richtext`, `doc`, `stream`, `pivot`); the feature counts still plateaued.
 - Where a target ran twice, the row shows the final run; the first run is named in the last column.
 
@@ -76,6 +76,15 @@ Executions, exec/s and features are from the final 600 s run of each target.
 | `odp` | 600 | 497,311 | 827 | 24,860 | 0 | - | `4ejqlo5q` / 5282 |
 | `ods` | 600 | 429,183 | 714 | 43,255 | 0 | - | `txvji01l` / 5299 (first run `4ejqlo5q` / 5282) |
 | `openformula` | 600 | 17,621,042 | 29,319 | 11,480 | 0 | - | `txvji01l` / 5299 (first run `4ejqlo5q` / 5282) |
+| `chart` | 600 | 7,504,495 | 12,486 | 29,498 | 6 files, 5 causes (see below) | `4d2df65` | `m69ga54w` / 005359 (first run `4bwhbkdc` / 005311) |
+| `drawing` | 600 | 6,224,984 | 10,357 | 14,296 | 6 files, 5 causes | `4d2df65` | `m69ga54w` / 005359 (first run `4bwhbkdc` / 005311) |
+| `docparts` | 600 | 2,969,882 | 4,941 | 18,050 | 0 | - | `gsgi54bm` / 005378 (first run `4bwhbkdc` / 005311, 4,879,810 executions) |
+| `docxlayout` | 600 | 564,515 | 939 | 27,858 | 1 | `4d2df65` | `f8w9urdm` / 005392 (first run `4bwhbkdc` / 005311) |
+| `pptxlayout` | 600 | 522,344 | 869 | 13,054 | 0 | - | `f8w9urdm` / 005392 (first run `4bwhbkdc` / 005311) |
+| `xlsxprint` | 600 | 3,744,253 | 6,230 | 39,047 | 1 | `4d2df65` | `gsgi54bm` / 005378 (first run `4bwhbkdc` / 005311) |
+| `metafile` | 600 | 258,236 | 427 | 6,912 | 3 files, 3 causes | `4d2df65` | `f8w9urdm` / 005392 (first run `4bwhbkdc` / 005311) |
+| `operations` | 600 | 113,410 | 188 | 28,158 | 0 | - | `f8w9urdm` / 005392 (first run `4bwhbkdc` / 005311) |
+
 
 ## Findings
 
@@ -93,12 +102,28 @@ The `formula` target found the last one twice: the first input (`R05C2:\xff!C:B`
 
 Output changes: R1C1 formula text now quotes an unquoted sheet prefix that reads as coordinates (it is not written to any file format); the shared-string part escapes unpaired surrogates as `_xD800_`, the way Excel does.
 
+### Second pass: the targets added for the gaps
+
+Eight targets cover what the first pass listed as missing (`chart` also reads the chart-theme override part). `docparts`, `pptxlayout` and `operations` found nothing in 600 s. Everything below is in `src/OneDocument.Rendering` unless noted, and each has a reduced test in `tests/OneDocument.Rendering.Tests/FuzzRegressionTests.cs`. A common cause: OneRender's display list refuses coordinates that are not finite or lie beyond a billion pixels, sizes of zero and blur radii above 4096, and a hostile file can ask for any of them. Each painter now brings such values into range or leaves the shape out, and a list-limit exception becomes an `OfficeLimitException`.
+
+| Target | Finding | Fix | Test |
+|---|---|---|---|
+| `chart` | a bar taller than the coordinate range (a value far beyond a fixed axis maximum) | every coordinate the chart canvas writes is clamped (`Charts/ChartCanvas.cs`) | `ChartBarFarBeyondTheAxisPaints` |
+| `chart` | a font size of 1e90 and a font size of 0 | text sizes are clamped to 0 to 2000 points, and size 0 draws nothing | `ChartTextWithAnAbsurdFontSizePaints`, `ChartTextWithAZeroFontSizePaints` |
+| `chart` | `Sequence contains no elements`: a group with no series, in the axis range, the category count and the radial, legend and funnel sizing | `Max` over a possibly empty list takes a default (`Charts/ChartRenderer*.cs`) | `StackedBarGroupWithoutSeriesPaints` |
+| `chart`, `drawing` | a display-list limit (too many points, glyphs or segments) escaped as OneRender's own exception | `ChartPainter.Paint` and `DrawingPainter.DrawShapes` throw `OfficeLimitException("DisplayList")` | covered by the fuzz runs |
+| `drawing` | a path command with too few points (`<a:moveTo/>`) indexed past its arguments | such a command draws nothing (`Drawing/GeometryDefinition.cs`) | `CustomGeometryCommandWithoutPointsDrawsNothing` |
+| `drawing` | a shape placed at an offset of 1e50 EMU gave a transform beyond range | a shape whose transform is out of range is left out and noted `drawing.shape-out-of-range` (`Drawing/DrawingPainter.cs`) | `ShapeFarOffThePageIsLeftOut` |
+| `drawing` | an outline width of 1e22 EMU pushed the stroked path out of range | line widths are capped, and a path with an out-of-range coordinate is not drawn | `LineWithAnAbsurdWidthPaints` |
+| `drawing` | a shadow offset or blur radius of 1e16 | offsets are clamped to a million pixels and blur to the list's 4096 | `ShadowWithAbsurdOffsetAndBlurPaints` |
+| `xlsxprint` | a print-titles name naming row 1,048,577 indexed past the last row | a title row outside 1 to 1,048,576 is ignored (`Spreadsheets/SheetPrintSettings.cs`) | `PrintTitlesOutsideTheSheetAreIgnored` |
+| `docxlayout` | a page gutter of 6.7e14 twips put the first glyph out of range | page size and margins are clamped to a million twips in the layout (`Layout/Pages/SectionGeometry.cs`); the hub still reports the stated value | `PageWithAnAbsurdGutterPaints` |
+| `metafile` | transformed points beyond range | every transformed point is clamped (`Metafiles/MetafileVisitor.cs`) | `MetafilePathBeyondTheCoordinateRangePaints` |
+| `metafile` | a record the list refuses part-way through left clips and transforms open, and the closing pop then threw | the painter tracks what it opened, closes it on failure, reports `render.metafile-damaged` and keeps what was drawn (`Metafiles/MetafilePainter.cs`, `MetafileVisitor.cs`) | `MetafileWithARecordTheListRefusesLeavesABalancedList` (`testdata/fuzz/metafile-record-refused.emf`) |
+| `metafile` | OneImage's interpreter raised `OverflowException` on a pen record (`EmfInterpreter.CreatePen`) | the adapter reports `render.metafile-damaged` for an arithmetic or index failure from the interpreter; the defect itself is OneImage's | `MetafileThatOverflowsTheInterpreterIsReportedAsDamaged` (`testdata/fuzz/metafile-createpen-overflow.emf`) |
+
+Output changes: a drawing shape beyond range, a chart value beyond range and a metafile record the list refuses are now left out instead of failing the page; page margins above a million twips are laid out as a million.
+
 ## Parsers of untrusted input without a target
 
-Not in this unit's scope; listed for a decision. The end-to-end paths (`Office.Open` on a whole file) reach most of these through the format targets, but not with their own input shapes:
-
-- DrawingML and chart parts (`.Rendering/Charts`, `Drawing`): chart read and layout of a hostile `c:chartSpace` or `cx:` part.
-- Word styles, numbering, section and table readers as parts of their own (`Documents/Styles`, `Numbering`, `Sections`, `Tables`): reached through `text`, `stories` and `fields` only in part.
-- Document layout (`.Rendering/Layout`) on a hostile document part; only `sheetrender` and `smartart` have targets.
-- Metafile commands in `.Rendering/Metafiles` (the interpreter itself is OneImage's).
-- Inspect, sanitise, redaction and accessibility passes over hostile documents.
+None known. The first pass listed DrawingML and chart parts, the Word style, numbering, section and table readers, document and slide layout, the metafile adapter, and the inspect, sanitise, redaction and accessibility passes; the eight targets above cover them. The remaining untargeted code reads only what other targets already feed it, or is not a parser: the SVG and PNG page writers, the PDF writers (OnePDF's) and the CLI argument parser.

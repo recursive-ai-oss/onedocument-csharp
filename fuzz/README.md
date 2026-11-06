@@ -60,6 +60,14 @@
 | `sheetfeat` | a worksheet part | tables, conditional formats and validations of a worksheet read in full, then a validation, a rule, a table and a name added and the file written and read back |
 | `table` | a table part | a table read, restyled, resized and renamed; refusals are typed or documented argument errors |
 | `pivot` | a pivot table definition, or a cache definition and a table definition split by a zero byte | read through the views, refreshed against a small source sheet and written; refusals are typed |
+| `chart` | a chart part (classic or chartex) | the chart reader, the chart-theme reader and painting into a display list, which must validate |
+| `drawing` | a shape tree | the shape painter with pictures available, as a background, and every custom geometry evaluated |
+| `docparts` | document, styles, numbering and header parts split at zero bytes | style resolution, numbering, sections with their headers and footers, logical tables and table-style cells |
+| `docxlayout` | a mode byte and one part of a generated document | layout and painting of the first pages |
+| `pptxlayout` | a mode byte and one part of a generated deck | slide rendering to an uncompressed PDF |
+| `xlsxprint` | worksheet, style sheet and workbook parts split at zero bytes | page planning and painting for print |
+| `metafile` | an EMF or WMF file | our painter over the interpreter's command stream, with and without the raster fallback |
+| `operations` | a kind byte, a part index and the bytes replacing that part of a generated file | inspect, sanitise, accessibility check and redaction by match and region |
 
 Only `OfficeException` may come out of a library call: it is the typed rejection of bad input. Any other exception, a failed invariant, a hang (`-timeout`) or a memory blow-up (`-rss_limit_mb`) is a finding.
 
