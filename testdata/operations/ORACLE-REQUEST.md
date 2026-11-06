@@ -43,3 +43,5 @@ For every output also record: opens without a repair prompt (yes/no).
 ## Office run (Word, Excel and PowerPoint 16.0.20527)
 
 Answered as far as the oracle can drive the applications: see the row for this request in [`docs/office-oracle-1.0.md`](../../docs/office-oracle-1.0.md#the-other-requests). Questions not listed there as run are still open.
+
+Round two: fields and merge ran through the object model (`Fields.Update`, the table updates, `Range.InsertFile`). Field cases 100–108 and 111–112: 17 of 24 text parts identical, two fixes made, the rest explained; merge: styles agree, the second list is a new list in Word, the duplicate bookmark is dropped by Word. Split, sheet Move or Copy and slide paste are not run. Details in `docs/office-oracle-1.0.md`.

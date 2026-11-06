@@ -2,7 +2,7 @@
 # Drives desktop Office on a Windows machine and brings the answers back.
 #
 #   office-oracle.sh install
-#   office-oracle.sh run --run NAME [--instance ID] [--out DIR] [--probe|--grid|--cells|--formulas] [--pdf] [--saveas]
+#   office-oracle.sh run --run NAME [--instance ID] [--out DIR] [--probe|--grid|--cells|--formulas|--inspect] [--pdf] [--saveas]
 #                        [--lock-path WINPATH] [--lock-retry SECONDS] [--lock-wait MINUTES] [--timeout SECONDS]
 #                        [--trace] [--no-watcher] [--item-seconds N] [--keep] FILE|DIR...
 #
@@ -41,7 +41,7 @@ run)
   while [ $# -gt 0 ]; do
     case "$1" in
       --run) run=$2; shift 2;; --instance) instance=$2; shift 2;; --out) out=$2; shift 2;;
-      --probe) mode=probe; shift;; --grid) mode=grid; shift;; --cells) mode=cells; shift;; --formulas) mode=formulas; shift;; --pdf) pdf=true; shift;; --saveas) saveas=true; shift;;
+      --probe) mode=probe; shift;; --grid) mode=grid; shift;; --cells) mode=cells; shift;; --formulas) mode=formulas; shift;; --inspect) mode=inspect; shift;; --pdf) pdf=true; shift;; --saveas) saveas=true; shift;;
       --lock-path) lock=$2; shift 2;; --lock-retry) retry=$2; shift 2;; --lock-wait) wait_min=$2; shift 2;;
       --timeout) timeout=$2; shift 2;; --keep) keep=true; shift;; --trace) trace=true; shift;; --pdf-via) pdfvia=$2; shift 2;; --word-alerts) walerts=$2; shift 2;; --no-watcher) nowatch=true; shift;; --item-seconds) itemsec=$2; shift 2;;
       *) inputs+=("$1"); shift;;
@@ -61,12 +61,16 @@ import json, os, sys
 stage, run, instance, mode, pdf, saveas, lock, retry, wait_min, trace, nowatch, walerts, pdfvia, itemsec = sys.argv[1:]
 items = []
 for n in sorted(os.listdir(stage + "/in")):
-    if not os.path.isfile(stage + "/in/" + n) or n.endswith(".actions.txt") or n.endswith(".data.csv"):
+    if not os.path.isfile(stage + "/in/" + n) or n.endswith((".actions.txt", ".data.csv", ".password", ".cells.tsv")):
         continue
     it = {"file": "in\\" + n, "mode": mode, "exportPdf": pdf == "true", "saveAs": saveas == "true"}
     side = stage + "/in/" + n.rsplit(".", 1)[0] + ".actions.txt"
     if os.path.exists(side):
         it["actions"] = [l.strip() for l in open(side) if l.strip()]
+    # <file>.password holds the password of an encrypted input (one line, kept as written)
+    pw = stage + "/in/" + n + ".password"
+    if os.path.exists(pw):
+        it["password"] = open(pw, encoding="utf-8").read().rstrip("\r\n")
     items.append(it)
 job = {"run": run, "instance": instance, "maxMinutes": 25, "lockRetrySeconds": int(retry),
        "lockWaitMinutes": int(wait_min), "items": items}

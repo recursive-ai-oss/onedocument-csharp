@@ -50,3 +50,5 @@ For each file: open it in Excel and record whether Excel opens it with no repair
 ## Office run (Word, Excel and PowerPoint 16.0.20527)
 
 Answered as far as the oracle can drive the applications: see the row for this request in [`docs/office-oracle-1.0.md`](../../docs/office-oracle-1.0.md#the-other-requests). Questions not listed there as run are still open.
+
+Round two: every `.xls` we write opens in Excel with no repair prompt, including workbooks with cell notes (the earlier failure was the declared length of the note shape containers). The cell-by-cell comparison of the saved copies was not run. Details in `docs/office-oracle-1.0.md`.
