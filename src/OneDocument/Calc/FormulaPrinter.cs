@@ -189,7 +189,10 @@ public static class FormulaPrinter
         {
             if (p is not null)
             {
-                sb.Append(p.ToString());
+                // A sheet name read unquoted from A1 text may look like R1C1 coordinates (R:1Sheet2!), which R1C1 text would read as a
+                // reference; print the prefix from its parts so the name gets its quotes.
+                bool rebuild = o.Syntax == FormulaSyntax.R1C1 && p.Raw is not null && p.Raw.IndexOf('\'', StringComparison.Ordinal) < 0;
+                sb.Append(rebuild ? new SheetPrefix(p.Sheet, p.LastSheet, p.Workbook).ToString() : p.ToString());
             }
         }
 

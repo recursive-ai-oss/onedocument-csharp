@@ -36,4 +36,18 @@ public class FuzzRegressionTests
         _ = TemplateEngine.RenderText("Ha {{ N:ak }}", new Dictionary<string, object?> { ["n"] = 3 });
         Assert.True(sw.Elapsed < TimeSpan.FromSeconds(5), sw.Elapsed.ToString());
     }
+
+    // A sheet name that reads as R1C1 coordinates was printed unquoted in R1C1 text, which then parsed as a different formula.
+    [Theory]
+    [InlineData("R:1Shet3!E1")]
+    [InlineData("R05C2:x!C:B")]
+    public void R1C1TextQuotesSheetNamesThatLookLikeCoordinates(string formula)
+    {
+        var a1 = new FormulaParserOptions { FileForm = false };
+        Assert.True(FormulaParser.TryParse(formula, out FormulaNode? n, out _, a1) && n is not null);
+        var rc = new FormulaPrintOptions { Syntax = FormulaSyntax.R1C1, OriginRow = 7, OriginColumn = 5 };
+        string r1 = FormulaPrinter.Print(n, rc);
+        Assert.True(FormulaParser.TryParse(r1, out FormulaNode? back, out _, new FormulaParserOptions { Syntax = FormulaSyntax.R1C1, OriginRow = 7, OriginColumn = 5 }) && back is not null, r1);
+        Assert.Equal(r1, FormulaPrinter.Print(back, rc));
+    }
 }
