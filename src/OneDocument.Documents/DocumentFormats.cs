@@ -13,9 +13,9 @@ namespace RecursiveAI.OneDocument.Documents;
 /// </remarks>
 public static class DocumentFormats
 {
-    /// <summary>The formats this package reads and writes: DOCX, DOCM, DOTX, DOTM and Flat OPC.</summary>
+    /// <summary>The formats this package reads and writes: DOCX, DOCM, DOTX, DOTM, Flat OPC and RTF.</summary>
     public static IReadOnlyList<OfficeFormat> Formats { get; } =
-        [OfficeFormat.Docx, OfficeFormat.Docm, OfficeFormat.Dotx, OfficeFormat.Dotm, OfficeFormat.FlatOpcDocument];
+        [OfficeFormat.Docx, OfficeFormat.Docm, OfficeFormat.Dotx, OfficeFormat.Dotm, OfficeFormat.FlatOpcDocument, OfficeFormat.Rtf];
 
     /// <summary>
     /// Registers the readers and writers of <see cref="Formats"/>. Text extraction for them is already in the core package's default
@@ -25,10 +25,11 @@ public static class DocumentFormats
     public static void Register(FormatRegistry registry)
     {
         ArgumentNullException.ThrowIfNull(registry);
-        OfficeFormat[] formats = [.. Formats];
+        OfficeFormat[] ooxml = [OfficeFormat.Docx, OfficeFormat.Docm, OfficeFormat.Dotx, OfficeFormat.Dotm, OfficeFormat.FlatOpcDocument];
+        // One reader opens every format of the package: it sniffs the content and takes the RTF path when the bytes are RTF.
         registry.RegisterReader(
             static (source, _, context, filePath, cancellationToken) => Document.OpenSource(source, context, filePath, cancellationToken),
-            formats);
+            [.. Formats]);
         registry.RegisterWriter(
             static (file, format, destination, cancellationToken) =>
             {
@@ -37,23 +38,16 @@ public static class DocumentFormats
                     throw new FormatNotAvailableException(format, "write a " + file.Kind + " as");
                 }
 
-                document.Write(format, destination, cancellationToken);
-            },
-            formats);
-        registry.RegisterReader(
-            static (source, _, context, filePath, cancellationToken) => Document.OpenRtf(source, context, filePath, cancellationToken),
-            OfficeFormat.Rtf);
-        registry.RegisterWriter(
-            static (file, format, destination, cancellationToken) =>
-            {
-                if (file is not Document document)
+                if (format == OfficeFormat.Rtf)
                 {
-                    throw new FormatNotAvailableException(format, "write a " + file.Kind + " as");
+                    document.WriteRtf(destination, cancellationToken);
                 }
-
-                document.WriteRtf(destination, cancellationToken);
+                else
+                {
+                    document.Write(format, destination, cancellationToken);
+                }
             },
-            OfficeFormat.Rtf);
-        registry.RegisterTemplateBinder(Templating.DocxTemplateBinder.Instance, formats);
+            [.. Formats]);
+        registry.RegisterTemplateBinder(Templating.DocxTemplateBinder.Instance, ooxml);
     }
 }
