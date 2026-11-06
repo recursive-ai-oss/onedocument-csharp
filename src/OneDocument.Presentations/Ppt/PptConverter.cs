@@ -253,10 +253,11 @@ public static partial class PptConverter
         }
 
         int ole = p.ExternalObjects is null ? 0 : p.ExternalObjects.Children.Count(c => c.Type is PptRecordType.ExternalOleEmbed or PptRecordType.ExternalOleLink);
+        ole -= conv.OleCarried;
         if (ole > 0)
         {
             conv.Loss.Offset = p.ExternalObjects!.Offset;
-            conv.Loss.Report("ppt.ole-object-flattened", "OLE objects", ole, "Embedded and linked OLE objects are written as their preview pictures; the object data is not carried.");
+            conv.Loss.Report("ppt.ole-object-flattened", "OLE objects", ole, "OLE objects whose storage or picture is missing or unreadable are written as their preview pictures; the object data is not carried.");
         }
 
         if (authors.Count > 0)
