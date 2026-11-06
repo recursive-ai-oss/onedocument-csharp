@@ -69,6 +69,8 @@ internal static class Program
         ["ptg"] = XlsTarget.RunPtg,
         ["encinfo"] = EncryptionTarget.RunInfo,
         ["filepass"] = EncryptionTarget.RunFilePass,
+        ["olepropset"] = OleTarget.RunPropertySet,
+        ["oleobject"] = OleTarget.RunObject,
         ["xml2003"] = Xml2003Target.Run,
         ["xlsb"] = XlsbTarget.Run,
     };
@@ -117,6 +119,7 @@ internal static class Program
                 "sprm" => DocTarget.WriteSprmSeeds(args[2]),
                 "xls" or "ptg" => XlsTarget.WriteSeeds(args[2]),
                 "encinfo" or "filepass" => EncryptionTarget.WriteSeeds(args[2]),
+                "olepropset" or "oleobject" => OleTarget.WriteSeeds(args[2]),
                 "xml2003" => Xml2003Target.WriteSeeds(args[2]),
                 "xlsb" => XlsbTarget.WriteSeeds(args[2]),
                 _ => 2,

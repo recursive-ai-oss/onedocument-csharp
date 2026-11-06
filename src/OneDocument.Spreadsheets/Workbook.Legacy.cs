@@ -80,6 +80,19 @@ public sealed partial class Workbook
         // The class of an Excel 97-2003 workbook (Excel.Sheet.8).
         cfb.RootClassId = new Guid("00020820-0000-0000-C000-000000000046");
         cfb.AddPart("/Workbook", string.Empty, stream);
+        // The workbook's core, extended and custom properties go to the two property-set streams ([MS-XLS] 2.1.7.20.1).
+        var props = new RecursiveAI.OneDocument.Properties.DocumentProperties(Package, Context);
+        (byte[]? summary, byte[]? documentSummary) = RecursiveAI.OneDocument.Ole.OleDocumentProperties.Create(props);
+        if (summary is not null)
+        {
+            cfb.AddPart("/" + RecursiveAI.OneDocument.Ole.OlePropertySets.SummaryInformationStreamName, string.Empty, summary);
+        }
+
+        if (documentSummary is not null)
+        {
+            cfb.AddPart("/" + RecursiveAI.OneDocument.Ole.OlePropertySets.DocumentSummaryInformationStreamName, string.Empty, documentSummary);
+        }
+
         cfb.WriteTo(destination, cancellationToken);
         ExportLoss = loss;
     }

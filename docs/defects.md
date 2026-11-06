@@ -11,6 +11,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `packaging.` | zip, compound file, OPC, ODF packages | `Packaging` |
 | `xml.` | the XML tokenizer and markup tree | `Markup` |
 | `biff.`, `doc.`, `ppt.`, `xlsb.` | binary record layers | `Record` |
+| `ole.` | OLE property sets and object storages | `Record`, `Value`, `Structure`, `Encoding`, `Packaging`, `Limit` |
 | `sheet.` | the workbook model | `Reference`, `Value` |
 | `formula.` | formula text and tokens | `Formula` |
 | `numfmt.` | number-format codes | `Value` |
@@ -67,6 +68,9 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `doc.sepx-bad` | dropped | A section's property block runs past the `WordDocument` stream; the section has default properties. |
 | `doc.huge-papx-bad` | dropped | `sprmPHugePapx` points outside the `Data` stream; the paragraph keeps the properties it has. |
 | `doc.picture-unreadable` | dropped | A picture character has no readable picture in the `Data` stream. |
+| `doc.ole-storage-missing` | dropped | An `EMBED` or `LINK` field names an object storage (`_<number>`, [MS-DOC] `sprmCPicLocation` with `sprmCFOle2`) that the `ObjectPool` does not have; the object keeps its preview picture and is counted in `loss.doc-ole-objects`. Kind `Reference`; the location is the storage path. |
+| `doc.ole-link-unreadable` | dropped | A linked object's `\u0001Ole` stream names no file moniker the reader understands; the object keeps its preview picture. Kind `Reference`. |
+| `doc.ole-object-in-markup` | dropped | An object field sits inside tracked changes, a bookmark or a comment range, where replacing it with an object element would unbalance the markup; the object keeps its preview picture. Kind `Reference`. |
 | `doc.sprm-not-mapped` | dropped | A property modifier has no counterpart in the document model (once per modifier, with the offset of its first occurrence); the count is the `loss.doc-sprms` entry of the conversion. Kind `Unsupported`. |
 | `packaging.damaged` | fatal | The container is damaged (zip or compound-file structure) beyond what recovery repairs, or a stream cannot be read; the location holds the part or stream and the offset when known. |
 | `packaging.refused` | fatal | The container reader refused the input for safety (unsafe path, overlapping entries). |
@@ -395,7 +399,27 @@ Located by stream path and record offset (`Record` locations) unless the kind sa
 | `biff.formula-text-invalid` | dropped | A formula holds a character XML cannot carry (a control character in a text constant); the cell keeps its cached value. Kind `Formula`. |
 | `biff.cf-length` | dropped | A conditional-format rule is shorter than its parts. |
 | `biff.name-rejected` | dropped | A defined name is invalid in the hub and is dropped. Kind `Reference`. |
+| `biff.object-count-mismatch` | repaired | The shapes with object records in a sheet's drawing and the sheet's `Obj` records differ in number, so the embedded objects cannot be matched to their shapes; they stay pictures and are counted in `loss.ole-objects`. |
+| `biff.embedding-storage-missing` | dropped | An `Obj` record names an embedding storage (`MBD` and eight hex digits) the file does not have; the object keeps its picture. Kind `Reference`. |
 | `biff.name-repeated` | dropped | A defined name repeats one of the same scope (LibreOffice writes some twice); the first is kept. Kind `Reference`. |
+### OLE property sets and objects (`ole.`)
+
+Reported by `RecursiveAI.OneDocument.Ole` (see `ole.md`). Property-set defects have a `Record` location: the stream name (`/\u0005SummaryInformation`) and the byte offset in the stream. A defect in one property drops that property only.
+
+| Code | Action | Meaning |
+|---|---|---|
+| `ole.propset-header` | fatal, or repaired for the version | The stream is shorter than the 28-byte header or its byte order mark is not 0xFFFE (fatal; `TryRead` reports it and returns false), or the version is above 1 (repaired: read as 1). |
+| `ole.propset-count` | repaired | The header lists more property sets than fit, or more than 64; or a set lists more properties than its bytes can hold. The count is clamped. |
+| `ole.propset-bad-offset` | dropped | A property set starts inside the header or outside the stream; the set is dropped. |
+| `ole.propset-size` | repaired | A property set's declared size is under 8 or past the stream; the rest of the stream is read as the set. |
+| `ole.propset-truncated` | dropped (repaired for an odd UTF-16 byte count) | A property's offset is outside its set, or its value, a string, a vector or an array runs past the bytes it may use; only that property is dropped. |
+| `ole.propset-duplicate-id` | dropped | A property identifier appears twice; the first is kept. Kind `Structure`. |
+| `ole.propset-type-unsupported` | dropped | A property has a type number that is not a property type (or a code page property that is not a 16-bit integer). Kind `Unsupported` or `Value`. |
+| `ole.propset-dictionary` | dropped | The dictionary is cut short, lists more entries than fit, or names a special or repeated identifier. |
+| `ole.propset-codepage-unsupported` | repaired | The set's code page is not available in the runtime, or the set has strings and no code page property; its strings are read as Windows-1252 and the set's `CodePage` says so. Kind `Encoding`. |
+| `ole.storage-too-large` | dropped | An object storage holds more than `MaxPartSize` in one stream or more than `MaxAllocationBytes` in all; it is not copied. Kind `Limit`. |
+| `ole.storage-name-invalid` | fatal | Writing a storage as a compound file met a name a compound file cannot hold (a damaged source). Raised as `OfficeFormatException` by `OleStorageImage.ToCompoundFile`; the converters report it as a dropped object. Kind `Packaging`. |
+
 ### OfficeArt (`art.`)
 
 Reported by the shared OfficeArt reader (`RecursiveAI.OneDocument.OfficeArt`) with a `Record` location: the stream name the caller gave and the offset of the record. See `officeart.md`.
@@ -430,6 +454,8 @@ stream (the `Current User` stream for `ppt.current-user-missing`). The conversio
 | `ppt.no-document-container` | fatal | Neither the directory nor a scan leads to a document container. |
 | `ppt.document-atom-missing` | repaired | No `DocumentAtom`; the default slide size is used. |
 | `ppt.master-missing` | dropped | A master list entry (or the file) has no usable master; a plain master is written. |
+| `ppt.ole-storage-unreadable` | dropped | An `ExOleObjStg` record is not an object storage record, does not inflate, inflates to another size than it says, or its bytes are not a compound file; the object keeps its preview picture. |
+| `ppt.ole-storage-too-large` | dropped | An object storage declares a decompressed size past the limits; it is not read. Kind `Limit`. |
 | `ppt.slide-missing` | dropped | A slide list entry does not lead to a slide container; the slide is dropped. |
 | `ppt.notes-missing` | dropped | A notes list entry does not lead to a notes container. |
 | `ppt.text-style-truncated` | repaired | A paragraph, character, ruler or master style structure is cut short by the end of its record. |

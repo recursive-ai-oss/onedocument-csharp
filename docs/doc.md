@@ -35,11 +35,11 @@ Every loss is a `loss.doc-*` entry in `Document.ImportLoss`, and where a locatio
 | `loss.doc-text-boxes` | Text boxes: their text is appended after the body as paragraphs; position and frame are not kept. |
 | `loss.doc-header-text-boxes` | Text boxes in headers and footers are dropped. |
 | `loss.doc-drawing-shapes` | Shapes that are not pictures (lines, rectangles, WordArt, groups) are dropped. |
-| `loss.doc-ole-objects` | Embedded and linked objects keep their preview picture; the embedded storage is not carried over (the OLE structures are not read). |
+| `loss.doc-ole-objects` | Objects whose storage could not be carried (missing from the `ObjectPool`, a link with no readable moniker, or inside tracked changes) keep only their preview picture. Objects that could be carried are not counted: see `ole.md`. |
 | `loss.doc-form-fields` | Form fields stay plain fields; check box state and drop-down lists are dropped. |
 | `loss.doc-table-merge-split` | `sprmTMerge`/`sprmTSplit` row edits. |
 | `loss.doc-vba` | A `Macros` storage was present. |
-| `loss.doc-properties` | The summary information streams were not read (their format, [MS-OLEPS], is not covered by the patent promise this library builds on). |
+| `loss.doc-properties` | Properties of the summary information streams with no counterpart in the package (count), each named in the message: the thumbnail, the VBA signature, hyperlink lists, custom property types without an equivalent, unknown identifiers. The rest become core, extended and custom properties: see `ole.md`. |
 | `loss.doc-word6-formatting` | Word 6/95 formatting. |
 
 ## Text extraction

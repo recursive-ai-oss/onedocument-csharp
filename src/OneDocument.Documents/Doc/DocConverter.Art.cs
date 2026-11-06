@@ -61,6 +61,11 @@ internal sealed partial class DocConverter
         string rid = AddMedia(st.Part, pic.Value);
         long cx = Math.Max(1, w) * EmuPerTwip;
         long cy = Math.Max(1, h) * EmuPerTwip;
+        if (st.Marks.Count > 0 && st.Marks[^1].ObjectId is not null)
+        {
+            st.Marks[^1].Preview = (rid, cx, cy);
+        }
+
         sb.Append("<w:r>").Append(rprXml).Append("<w:drawing><wp:inline distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\"><wp:extent cx=\"").Append(cx).Append("\" cy=\"").Append(cy)
             .Append("\"/><wp:effectExtent l=\"0\" t=\"0\" r=\"0\" b=\"0\"/>").Append(GraphicXml(rid, cx, cy, _drawingId++)).Append("</wp:inline></w:drawing></w:r>");
     }
