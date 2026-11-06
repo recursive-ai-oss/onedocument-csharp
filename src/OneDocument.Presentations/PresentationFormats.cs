@@ -20,6 +20,9 @@ public static class PresentationFormats
         OfficeFormat.FlatOpcPresentation,
     ];
 
+    /// <summary>The OpenDocument presentation formats this package reads and writes: ODP, OTP and flat FODP.</summary>
+    public static IReadOnlyList<OfficeFormat> OpenDocumentFormats { get; } = [OfficeFormat.Odp, OfficeFormat.Otp, OfficeFormat.Fodp];
+
     /// <summary>
     /// Registers the readers and writers of <see cref="Formats"/>. Text extraction for them is already in the core package's default
     /// registry, and is left as it is.
@@ -43,6 +46,21 @@ public static class PresentationFormats
                 presentation.Write(format, destination, cancellationToken);
             },
             formats);
+        OfficeFormat[] odf = [.. OpenDocumentFormats];
+        registry.RegisterReader(
+            static (source, _, context, filePath, cancellationToken) => Presentation.OpenSource(source, context, filePath, cancellationToken),
+            odf);
+        registry.RegisterWriter(
+            static (file, format, destination, cancellationToken) =>
+            {
+                if (file is not Presentation presentation)
+                {
+                    throw new FormatNotAvailableException(format, "write a " + file.Kind + " as");
+                }
+
+                presentation.WriteOdf(format, destination, cancellationToken);
+            },
+            odf);
         registry.RegisterReader(
             static (source, _, context, filePath, cancellationToken) => Presentation.OpenSource(source, context, filePath, cancellationToken),
             OfficeFormat.Ppt);

@@ -25,7 +25,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `pptx.` | the PresentationML hub | `Structure`, `Reference`, `Packaging` |
 | `html.` | HTML import and export | `Unsupported`, `Structure` |
 | `wml2003.`, `sml2003.` | the Office 2003 XML readers (Word, Excel) | `Structure`, `Reference`, `Value`, `Encoding`, `Formula` |
-| `odf.` | the OpenDocument text conversion (`odf.md`); the package layer reports under `packaging.` | `Structure`, `Reference`, `Value`, `Encoding`, `Limit` |
+| `odf.`, `odp.` | the OpenDocument text and presentation conversions (`odf.md`, `odp.md`); the package layer reports under `packaging.` | `Structure`, `Reference`, `Value`, `Encoding`, `Limit` |
 | `calc.` | workbook calculation | `Formula`, `Limit`, `Reference` |
 | `binding.` | reading and writing rows of plain objects (`Spreadsheet.Read<T>`, `Write<T>`) | `Structure`, `Reference`, `Value` |
 | `template.` | the template engine: reading, checking and rendering templates | `Markup`, `Structure`, `Formula`, `Reference`, `Value` |
@@ -569,6 +569,7 @@ The package layer (`OdfPackage`, see `odf.md`) reports under `packaging.`; the t
 | `packaging.invalid-part-name`, `packaging.duplicate-part-name`, `packaging.zip-damaged` | as for OPC | Entry names that are empty, absolute or contain `..`; an entry stored twice (the first is used); a damaged zip directory that was recovered. |
 | `odf.no-content` | fatal | The package has no `content.xml`. |
 | `odf.not-text` | fatal | The document is not a text document (its body holds a spreadsheet or presentation). |
+| `odf.not-presentation` | fatal | `OpenDocumentPresentation.ToPackage` was given a file whose body is not `office:presentation`. |
 | `odf.damaged` | fatal | A defensive wrapper: an unexpected exception while converting is reported as a format error (a bug if it is ever seen). |
 | `odf.export-failed` | fatal | The same, while writing OpenDocument. |
 | `odf.style-cycle` | repaired | A style's parent chain loops; the loop was cut. |
@@ -580,3 +581,11 @@ The package layer (`OdfPackage`, see `odf.md`) reports under `packaging.`; the t
 ## Redaction report codes
 
 Redaction does not report through the open-time defect list: what it could not remove or look into is in `RedactionReport.Gaps`, with codes of the form `redaction.problem` (`redaction.part-name`, `redaction.part-not-xml`, `redaction.embedded-package`, `redaction.opaque-part`, `redaction.depth`, `redaction.region-not-applicable`, `redaction.region-failed`, `redaction.shared-formula-extent`, `redaction.pivot-cache-source`, `redaction.animations-removed`). Their meaning and the tests that assert them are in `redaction.md`.
+| `odf.repeat-capped` | dropped | A table repeats rows or cells by counts that would exceed the reader's budget (200,000 cells per text table, 50,000 per presentation table, 10,000 repeats per element); the rest were dropped. |
+| `odp.no-master-page` | repaired | The presentation has no master page; a plain one was added. |
+| `odp.missing-master-page` | repaired | A slide names a master page the file does not define; the first one was used. |
+| `odp.bad-viewbox` | dropped | A polygon or path has no usable `svg:viewBox`; it is drawn as a rectangle. |
+| `odp.bad-path` | dropped | A path holds a command that is not SVG path data; the rest of the path was dropped. |
+| `odp.empty-table` | dropped | A table has no columns or no rows. |
+| `odp.missing-fill-image` | dropped | A bitmap fill names an image the file does not hold. |
+| `odp.group-too-deep` | dropped | Groups nested more than 24 deep; the inner shapes were dropped. |

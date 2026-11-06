@@ -78,6 +78,7 @@ internal static class Program
         ["xlsb"] = XlsbTarget.Run,
         ["odfpkg"] = OdfTarget.RunPackage,
         ["odt"] = OdfTarget.Run,
+        ["odp"] = OdpTarget.Run,
         ["vbacompress"] = VbaTarget.RunDecompress,
         ["vbadir"] = VbaTarget.RunDir,
         ["vbaproject"] = VbaTarget.RunProject,
@@ -134,6 +135,7 @@ internal static class Program
                 "markdown" or "markdownparse" => MarkdownTarget.WriteSeeds(args[2]),
                 "xlsb" => XlsbTarget.WriteSeeds(args[2]),
                 "odfpkg" or "odt" => OdfTarget.WriteSeeds(args[2]),
+                "odp" => OdpTarget.WriteSeeds(args[2]),
                 "vbacompress" or "vbadir" or "vbaproject" or "vbaremove" => VbaTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
