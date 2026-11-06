@@ -86,3 +86,5 @@ Write `static void Run(ReadOnlySpan<byte> data)` that lets only `OfficeException
 ## Findings
 
 Minimize the input, save it under `testdata/fuzz/` (under 1 MB, from our own files), and add a test that feeds it and asserts a typed result.
+
+The 1.0 results table, with the findings and their fixes, is in `docs/fuzzing.md`. `tools/fuzz-campaign.sh` runs many targets side by side from one build.
