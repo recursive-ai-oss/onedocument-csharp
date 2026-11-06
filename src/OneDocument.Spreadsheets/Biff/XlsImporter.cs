@@ -3,6 +3,7 @@ using System.Text;
 using RecursiveAI.OneDocument.Calc;
 using RecursiveAI.OneDocument.Diagnostics;
 using RecursiveAI.OneDocument.IO;
+using RecursiveAI.OneDocument.Ole;
 using RecursiveAI.OneDocument.Packaging;
 
 namespace RecursiveAI.OneDocument.Spreadsheets.Biff;
@@ -100,7 +101,9 @@ internal sealed partial class XlsImporter
     private Workbook _wb = null!;
     private readonly Dictionary<string, long> _lossCounts = [];
     private bool _hasVba;
-    private bool _hasProperties;
+    private byte[] _summaryInformation = [];
+    private byte[] _documentSummaryInformation = [];
+    private OleStorageSet _objects = OleStorageSet.Empty;
     private long _richStrings;
 
     public XlsImporter(OpenContext context, ILossSink loss, CancellationToken token)
@@ -127,9 +130,11 @@ internal sealed partial class XlsImporter
     }
 
     /// <summary>Converts the workbook stream to a hub workbook.</summary>
-    public Workbook Import(ReadOnlyMemory<byte> workbookStream, string path, bool hasVba, bool hasProperties = false)
+    public Workbook Import(ReadOnlyMemory<byte> workbookStream, string path, bool hasVba, byte[]? summaryInformation = null, byte[]? documentSummaryInformation = null, OleStorageSet? objects = null)
     {
-        _hasProperties = hasProperties;
+        _summaryInformation = summaryInformation ?? [];
+        _documentSummaryInformation = documentSummaryInformation ?? [];
+        _objects = objects ?? OleStorageSet.Empty;
         _path = path;
         _hasVba = hasVba;
         _rs = BiffRecordSet.Parse(workbookStream, _context, path);
@@ -158,6 +163,7 @@ internal sealed partial class XlsImporter
         }
 
         ApplyWorkbookParts();
+        ApplyProperties();
         ReportFinalLosses();
         return _wb;
     }
@@ -695,12 +701,6 @@ internal sealed partial class XlsImporter
         {
             string feature = code["loss.".Length..].Replace('-', ' ');
             Lose(code, feature, n, "Not carried into the workbook (" + feature + ").");
-        }
-
-        // The property streams (title, author, …) are a separate format that is not read; they stay in the source file only.
-        if (_hasProperties)
-        {
-            Lose("loss.document-properties", "document properties", 1, "The summary-information property streams are not converted.");
         }
 
         if (_hasVba)

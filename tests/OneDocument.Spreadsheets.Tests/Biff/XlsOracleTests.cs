@@ -133,7 +133,6 @@ public class XlsOracleTests
     public void PicturesAreCarriedWithTheirAnchors()
     {
         using Workbook wb = XlsConverter.ToWorkbook(ByteSourceFromFile(Path.Combine(Dir, "pictures.xls")), new OpenContext());
-        Assert.True(wb.ImportLoss!.CountOf("loss.document-properties") >= 1);
         byte[] png = wb.Package.FindPart("/xl/media/image1.png")!.GetBytes().ToArray();
         byte[] jpg = wb.Package.FindPart("/xl/media/image2.jpeg")!.GetBytes().ToArray();
         Assert.Equal(new byte[] { 0x89, 0x50, 0x4E, 0x47 }, png[..4]);

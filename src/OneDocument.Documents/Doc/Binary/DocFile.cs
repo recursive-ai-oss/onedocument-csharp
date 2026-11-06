@@ -2,6 +2,7 @@ using System.Buffers.Binary;
 using RecursiveAI.OneDocument.Cfb;
 using RecursiveAI.OneDocument.Diagnostics;
 using RecursiveAI.OneDocument.IO;
+using RecursiveAI.OneDocument.Ole;
 using RecursiveAI.OneDocument.Packaging;
 
 namespace RecursiveAI.OneDocument.Doc.Binary;
@@ -45,7 +46,7 @@ public sealed class DocFile
     private readonly string[] _streamNames;
     private string? _text;
 
-    private DocFile(OpenContext context, DocFib fib, byte[] word, byte[] table, byte[] data, string tablePath, PieceTable pieces, string[] streamNames)
+    private DocFile(OpenContext context, DocFib fib, byte[] word, byte[] table, byte[] data, string tablePath, PieceTable pieces, string[] streamNames, byte[] summary, byte[] documentSummary, OleStorageSet objects)
     {
         _context = context;
         Fib = fib;
@@ -55,6 +56,9 @@ public sealed class DocFile
         TablePath = tablePath;
         Pieces = pieces;
         _streamNames = streamNames;
+        SummaryInformation = summary;
+        DocumentSummaryInformation = documentSummary;
+        Objects = objects;
     }
 
     /// <summary>The path of the <c>WordDocument</c> stream in defect locations.</summary>
@@ -74,6 +78,15 @@ public sealed class DocFile
 
     /// <summary>Gets the table stream (<c>0Table</c> or <c>1Table</c>; the <c>WordDocument</c> stream itself for Word 6/95).</summary>
     internal byte[] Table { get; }
+
+    /// <summary>Gets the <c>\u0005SummaryInformation</c> stream, empty if the file has none.</summary>
+    internal byte[] SummaryInformation { get; }
+
+    /// <summary>Gets the <c>\u0005DocumentSummaryInformation</c> stream, empty if the file has none.</summary>
+    internal byte[] DocumentSummaryInformation { get; }
+
+    /// <summary>Gets the storages of the <c>ObjectPool</c> ([MS-DOC] 2.1.4), copied at open: embedded and linked objects by their storage name (<c>_1234</c>).</summary>
+    internal OleStorageSet Objects { get; }
 
     /// <summary>Gets the <c>Data</c> stream, empty if the file has none.</summary>
     internal byte[] Data { get; }
@@ -140,6 +153,9 @@ public sealed class DocFile
         }
 
         byte[] data = cfb.FindPart("/Data") is { } dp ? ReadPart(dp, context) : [];
+        byte[] summary = cfb.FindPart("/" + OlePropertySets.SummaryInformationStreamName) is { } sp ? ReadPart(sp, context) : [];
+        byte[] documentSummary = cfb.FindPart("/" + OlePropertySets.DocumentSummaryInformationStreamName) is { } dsp ? ReadPart(dsp, context) : [];
+        OleStorageSet objects = OleStorageSet.Capture(cfb, "/ObjectPool", context);
         var names = new List<string>();
         foreach (IPackagePart p in cfb.Parts)
         {
@@ -165,7 +181,7 @@ public sealed class DocFile
             pieces = PieceTable.Read(table, clxFc, clxLcb, word.Length, context.Defects, tablePath, fib.IsLegacyWord6);
         }
 
-        return new DocFile(context, fib, word, table, data, tablePath, pieces, [.. names]);
+        return new DocFile(context, fib, word, table, data, tablePath, pieces, [.. names], summary, documentSummary, objects);
     }
 
     private static byte[] ReadPart(IPackagePart part, OpenContext context)

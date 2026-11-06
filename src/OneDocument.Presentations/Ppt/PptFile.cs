@@ -5,6 +5,7 @@ using RecursiveAI.OneDocument.OfficeArt;
 using RecursiveAI.OneDocument.Packaging;
 using System.Linq;
 using RecursiveAI.OneDocument.Cfb;
+using RecursiveAI.OneDocument.Ole;
 
 namespace RecursiveAI.OneDocument.Ppt.Binary;
 
@@ -60,6 +61,12 @@ public sealed class PptFile
     /// <summary>The names of all streams of the compound file (full paths), including those this reader does not interpret (VBA storage, summary information, embedded OLE).</summary>
     public IReadOnlyList<string> StreamNames { get; private set; } = [];
 
+    /// <summary>The <c>\u0005SummaryInformation</c> stream, or empty when the file has none.</summary>
+    public ReadOnlyMemory<byte> SummaryInformation { get; private set; }
+
+    /// <summary>The <c>\u0005DocumentSummaryInformation</c> stream, or empty when the file has none.</summary>
+    public ReadOnlyMemory<byte> DocumentSummaryInformation { get; private set; }
+
     /// <summary>True when the compound file holds a VBA project storage (<c>_VBA_PROJECT_CUR</c>); it is carried as is and never run.</summary>
     public bool HasVbaProject { get; private set; }
 
@@ -108,6 +115,8 @@ public sealed class PptFile
         }
 
         file.StreamNames = names;
+        file.SummaryInformation = cfb.FindPart("/" + OlePropertySets.SummaryInformationStreamName)?.GetBytes().ToArray() ?? default;
+        file.DocumentSummaryInformation = cfb.FindPart("/" + OlePropertySets.DocumentSummaryInformationStreamName)?.GetBytes().ToArray() ?? default;
         file.ReadStructure(currentUser, cancellationToken);
         return file;
     }

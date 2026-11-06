@@ -210,6 +210,7 @@ internal sealed partial class DocConverter
             }
         }
 
+        ApplyProperties(pkg);
         ReportLosses();
     }
 
@@ -241,16 +242,9 @@ internal sealed partial class DocConverter
         }
 
         bool macros = false;
-        bool properties = false;
         foreach (string n in _f.StreamNames)
         {
             macros |= n == "/Macros" || n.StartsWith("/Macros/", StringComparison.Ordinal);
-            properties |= n is "/\u0005SummaryInformation" or "/\u0005DocumentSummaryInformation";
-        }
-
-        if (properties)
-        {
-            _loss.Report("loss.doc-properties", "document properties", 1, "The summary information streams (title, author, dates, statistics) were not read.");
         }
 
         if (macros)

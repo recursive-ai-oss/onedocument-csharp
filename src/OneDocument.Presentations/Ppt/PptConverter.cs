@@ -12,7 +12,7 @@ namespace RecursiveAI.OneDocument.Ppt.Binary;
 /// Converts a PowerPoint 97-2003 file into a PresentationML package. The result is an ordinary in-memory package that the presentation hub
 /// opens as typed views; what has no equivalent goes to the loss report and, with its record offset, to the defects.
 /// </summary>
-public static class PptConverter
+public static partial class PptConverter
 {
     private const string Prolog = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n";
     private const string Ns = "xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" xmlns:p=\"http://schemas.openxmlformats.org/presentationml/2006/main\"";
@@ -246,13 +246,6 @@ public static class PptConverter
             slideIds.Add((id, PresRel(Rel.Slide, "slides/slide" + (i + 1).ToString(CultureInfo.InvariantCulture) + ".xml"), (slide.Transition is { } t && t.Payload.Length >= 12 && (t.UInt16At(10) & 4) != 0)));
         }
 
-        if (p.File.StreamNames.Any(n => n.EndsWith("SummaryInformation", StringComparison.Ordinal)))
-        {
-            // The property-set format of these streams is not read; they stay in the source file.
-            conv.Loss.Offset = -1;
-            conv.Loss.Report("ppt.document-properties-not-carried", "document properties", 1, "The summary information and document summary information streams are not read; title, author and the other document properties are not carried.");
-        }
-
         if (p.HasVbaProject)
         {
             conv.Loss.Offset = p.File.DocumentContainer?.Offset ?? -1;
@@ -282,6 +275,7 @@ public static class PptConverter
         WritePresentation(conv, presRels, masterRelIds, masterIds, notesMasterRel, handoutRel, slideIds, themeRel);
         package.SetRelationships(null, [new Relationship("rId1", Rel.OfficeDocument, "ppt/presentation.xml")]);
         package.SetRelationships("/ppt/presentation.xml", presRels);
+        ApplyProperties(p, package, conv);
         _ = themeRel;
     }
 

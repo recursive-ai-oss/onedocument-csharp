@@ -27,6 +27,7 @@ public static class OleDocumentProperties
 {
     private const string LinkBaseName = "_PID_LINKBASE";
     private const string HyperlinksName = "_PID_HLINKS";
+    private const string GuidName = "_PID_GUID";
     private const long TicksPerMinute = 600_000_000L;
 
     /// <summary>Reads the two property streams into the hub's properties.</summary>
@@ -40,16 +41,26 @@ public static class OleDocumentProperties
         ArgumentNullException.ThrowIfNull(target);
         context ??= new OpenContext();
         var lost = new List<string>();
-        if (!summaryInformation.IsEmpty
-            && OlePropertySets.TryRead(summaryInformation, out OlePropertySets? summary, context, "/" + OlePropertySets.SummaryInformationStreamName)
-            && summary!.FindSet(OlePropertySets.SummaryInformationFormatId) is { } s)
+        if (!summaryInformation.IsEmpty)
         {
-            ReadSummary(s, target, lost);
+            if (!OlePropertySets.TryRead(summaryInformation, out OlePropertySets? summary, context, "/" + OlePropertySets.SummaryInformationStreamName))
+            {
+                lost.Add("SummaryInformation: the stream could not be read");
+            }
+            else if (summary!.FindSet(OlePropertySets.SummaryInformationFormatId) is { } s)
+            {
+                ReadSummary(s, target, lost);
+            }
         }
 
-        if (!documentSummaryInformation.IsEmpty
-            && OlePropertySets.TryRead(documentSummaryInformation, out OlePropertySets? doc, context, "/" + OlePropertySets.DocumentSummaryInformationStreamName))
+        if (!documentSummaryInformation.IsEmpty)
         {
+            if (!OlePropertySets.TryRead(documentSummaryInformation, out OlePropertySets? doc, context, "/" + OlePropertySets.DocumentSummaryInformationStreamName))
+            {
+                lost.Add("DocumentSummaryInformation: the stream could not be read");
+                return lost;
+            }
+
             if (doc!.FindSet(OlePropertySets.DocumentSummaryInformationFormatId) is { } d)
             {
                 ReadDocumentSummary(d, target, lost);
@@ -256,9 +267,20 @@ public static class OleDocumentProperties
                 continue;
             }
 
+            if (name == GuidName)
+            {
+                // The document's identity GUID, which Office regenerates; the package has no property for it.
+                continue;
+            }
+
             if (name == HyperlinksName)
             {
-                Lose(lost, Stream + " user-defined", prop, name, "the list of hyperlinks is not carried over");
+                // An empty list is four bytes (a count of zero); a list with entries has no counterpart.
+                if (v.Value is not byte[] { Length: <= 4 })
+                {
+                    Lose(lost, Stream + " user-defined", prop, name, "the list of hyperlinks is not carried over");
+                }
+
                 continue;
             }
 

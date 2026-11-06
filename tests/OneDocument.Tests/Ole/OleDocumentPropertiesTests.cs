@@ -172,7 +172,7 @@ public class OleDocumentPropertiesTests
         {
             var defects = new DefectCollection();
             IReadOnlyList<string> lost = OleDocumentProperties.Read(new byte[5], default, target, new OpenContext(defects: defects));
-            Assert.Empty(lost);
+            Assert.Equal("SummaryInformation: the stream could not be read", Assert.Single(lost));
             Defect d = Assert.Single(defects);
             Assert.Equal("ole.propset-header", d.Code);
             Assert.Equal("/\u0005SummaryInformation", d.Location.Container);
