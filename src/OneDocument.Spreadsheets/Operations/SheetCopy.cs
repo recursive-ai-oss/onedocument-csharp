@@ -190,12 +190,51 @@ internal sealed class SheetCopier
         if (!_styleMap.TryGetValue(index, out int mapped))
         {
             // A cell format is carried by value: the destination interns the same font, fill, border and number format it already has.
-            mapped = _dstWb.Styles.GetOrAdd(CellStyleSpec.From(SrcWb.Styles.Resolve(index)));
+            CellStyleSpec spec = CellStyleSpec.From(SrcWb.Styles.Resolve(index));
+            spec = spec with { StyleName = EnsureNamedStyle(spec.StyleName) };
+            mapped = _dstWb.Styles.GetOrAdd(spec);
             _styleMap[index] = mapped;
             _r.Count("styles");
         }
 
         return mapped;
+    }
+
+    // A cell format builds on a named cell style (Normal, Comma …): the destination gets the style, with the source's definition, when it has none by that name.
+    private string? EnsureNamedStyle(string? name)
+    {
+        if (name is null || _dstWb.Styles.CellStyles.Any(c => string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase)))
+        {
+            return name;
+        }
+
+        NamedCellStyle? named = SrcWb.Styles.CellStyles.FirstOrDefault(c => string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase));
+        if (named is null || named.FormatId < 0)
+        {
+            return null;
+        }
+
+        try
+        {
+            StyleSheet s = SrcWb.Styles;
+            CellFormat f = s.GetStyleFormat(named.FormatId);
+            _dstWb.Styles.AddNamedStyle(named.Name, new CellStyleSpec
+            {
+                NumberFormatCode = s.GetNumberFormatCode(f.NumberFormatId),
+                Font = s.GetFont(f.FontId),
+                Fill = s.GetFill(f.FillId),
+                Border = s.GetBorder(f.BorderId),
+                Alignment = f.Alignment,
+                Protection = f.Protection,
+            });
+            _r.Count("cell-styles");
+            return named.Name;
+        }
+        catch (ArgumentException)
+        {
+            _r.Loss.Report("merge.cell-style-names", "Names of cell styles", 1, "A cell style the destination could not take over was dropped; cells keep its look as direct formatting.");
+            return null;
+        }
     }
 
     private bool SameDefault() => SrcWb.Styles.Resolve(0) == _dstWb.Styles.Resolve(0);

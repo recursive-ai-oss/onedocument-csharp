@@ -196,6 +196,21 @@ public class SheetCopyTests
     }
 
     [Fact]
+    public void Copy_BringsTheNamedCellStylesTheCellsBuildOn()
+    {
+        using Workbook src = Source();
+        src.Styles.AddNamedStyle("Money", new CellStyleSpec { NumberFormatCode = "#,##0.00", Font = src.Styles.GetFont(0) with { Italic = true } });
+        src.Sheets["Data"]["K1"].SetNumber(12.5);
+        src.Sheets["Data"]["K1"].StyleIndex = src.Styles.GetOrAdd(new CellStyleSpec { StyleName = "Money", NumberFormatCode = "#,##0.00", Font = src.Styles.GetFont(0) with { Italic = true } });
+        using Workbook dst = Destination();
+        SheetCopyResult r = src.Sheets["Data"].CopyTo(dst);
+        Assert.Contains(dst.Styles.CellStyles, c => c.Name == "Money");
+        Assert.Equal("Money", r.Sheet["K1"].Style.StyleName);
+        Assert.Equal("#,##0.00", r.Sheet["K1"].Style.NumberFormatCode);
+        Assert.True(r.Sheet["K1"].Style.Font.Italic);
+    }
+
+    [Fact]
     public void Copy_WithoutADestinationIsRefused()
     {
         using Workbook src = Source();
