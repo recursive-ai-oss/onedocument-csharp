@@ -41,5 +41,10 @@ public static class DocumentFormats
             },
             formats);
         registry.RegisterTemplateBinder(Templating.DocxTemplateBinder.Instance, formats);
+
+        // Word 2003 XML is read only: it opens as a document that saves as DOCX.
+        registry.RegisterReader(
+            static (source, _, context, filePath, cancellationToken) => Document.OpenSource(source, context, filePath, cancellationToken),
+            OfficeFormat.Word2003Xml);
     }
 }

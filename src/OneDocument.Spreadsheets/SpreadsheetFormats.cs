@@ -25,6 +25,11 @@ public static class SpreadsheetFormats
         registry.RegisterReader(
             static (source, _, context, filePath, cancellationToken) => Workbook.OpenSource(source, context, filePath, cancellationToken),
             delimited);
+
+        // Excel 2003 XML is read only: it opens as a workbook that saves as XLSX.
+        registry.RegisterReader(
+            static (source, _, context, filePath, cancellationToken) => Workbook.OpenSource(source, context, filePath, cancellationToken),
+            OfficeFormat.Excel2003Xml);
         registry.RegisterWriter(
             static (file, format, destination, cancellationToken) =>
             {

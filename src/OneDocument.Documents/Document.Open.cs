@@ -313,6 +313,14 @@ public sealed partial class Document
                 throw new OfficeFormatException(DefectKind.Structure, "format.unrecognised", "The content is not a format OneDocument knows.");
             }
 
+            if (sniffed == OfficeFormat.Word2003Xml)
+            {
+                // Converted at once into an in-memory DOCX package, so the file itself is not needed afterwards.
+                Document converted = Xml2003.WordMl2003.Open(source, context, cancellationToken);
+                source.Dispose();
+                return converted;
+            }
+
             if (!IsWordFormat(sniffed))
             {
                 throw new FormatNotAvailableException(sniffed, "open as a word-processing document:");
