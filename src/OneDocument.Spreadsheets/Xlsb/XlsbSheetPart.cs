@@ -130,6 +130,12 @@ internal static class XlsbSheetPart
         // A cell whose formula is a PtgExp waits here for the shared-formula or array-formula record that follows it.
         private PendingCell? _pending;
 
+        // Records of a feature the model translates whole (data validation, conditional formatting, filters) are collected up to the record that closes the group.
+        private List<XlsbGroupRecord>? _group;
+        private int _groupEnd;
+        private int _groupKind;
+        private XlsbFeatureReader? _features;
+
         private sealed class PendingCell
         {
             public int Row;
@@ -144,6 +150,17 @@ internal static class XlsbSheetPart
         {
             while (_r.Read())
             {
+                if (_group is not null)
+                {
+                    _group.Add(new XlsbGroupRecord(_r.Type, _r.Data.ToArray(), _r.Offset));
+                    if (_r.Type == _groupEnd)
+                    {
+                        FinishGroup();
+                    }
+
+                    continue;
+                }
+
                 if (_pending is not null && _r.Type != XlsbRecordType.ShrFmla && _r.Type != XlsbRecordType.ArrFmla)
                 {
                     FlushPending(null, null, null, null);
@@ -158,6 +175,39 @@ internal static class XlsbSheetPart
                 .Raw(XlsbMarkup.RelationshipNamespace).Raw("\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns:xb=\"").Raw(XlsbMarkup.Namespace).Raw("\" mc:Ignorable=\"xb\">");
             outp.Raw(_head.Memory.Span).Raw(_x.Memory.Span).Raw("</worksheet>");
             return outp.ToArray();
+        }
+
+        private const int GroupDataValidations = 1;
+
+        private void StartGroup(int kind, int endType)
+        {
+            CloseRow();
+            _group = [new XlsbGroupRecord(_r.Type, _r.Data.ToArray(), _r.Offset)];
+            _groupKind = kind;
+            _groupEnd = endType;
+        }
+
+        private void FinishGroup()
+        {
+            List<XlsbGroupRecord> group = _group!;
+            _group = null;
+            _features ??= new XlsbFeatureReader(context, partName, formulas);
+            var tmp = new XmlSink();
+            bool ok = _groupKind switch
+            {
+                GroupDataValidations => _features.DataValidations(group, tmp),
+                _ => false,
+            };
+            if (ok)
+            {
+                _x.Raw(tmp.Memory.Span);
+                return;
+            }
+
+            foreach (XlsbGroupRecord g in group)
+            {
+                XlsbMarkup.Raw(_x, g.Type, g.Data);
+            }
         }
 
         private void Short(string what)
@@ -342,6 +392,25 @@ internal static class XlsbSheetPart
                     int c1 = f.I32();
                     int c2 = f.I32();
                     _x.Raw("<mergeCell").Attr("ref", XlsbAddress.Range(r1, r2, c1, c2)).Raw("/>");
+                    return;
+                }
+
+                case XlsbRecordType.BeginDVals:
+                    StartGroup(GroupDataValidations, XlsbRecordType.EndDVals);
+                    return;
+                case XlsbRecordType.SheetProtection:
+                {
+                    CloseRow();
+                    var tmp = new XmlSink();
+                    if (XlsbFeatureReader.Protection(new XlsbGroupRecord(_r.Type, d.ToArray(), _r.Offset), tmp))
+                    {
+                        _x.Raw(tmp.Memory.Span);
+                    }
+                    else
+                    {
+                        Raw();
+                    }
+
                     return;
                 }
 

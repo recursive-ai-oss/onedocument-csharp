@@ -27,6 +27,8 @@ internal static class XlsbSheetWriter
         private readonly List<(int R1, int R2, int C1, int C2)> _arrays = [];
         private readonly Dictionary<int, (FormulaNode Node, int Row, int Column)> _shared = [];
         private double _defaultRowHeight = 15;
+        private XlsbFeatureWriter? _featuresField;
+        private XlsbFeatureWriter Features() => _featuresField ??= new XlsbFeatureWriter(_w, _d, context, partName, cx, loss);
 
         public void Run()
         {
@@ -112,6 +114,12 @@ internal static class XlsbSheetWriter
                         break;
                     }
 
+                    case "dataValidations":
+                        Features().DataValidations(c);
+                        break;
+                    case "sheetProtection":
+                        Features().Protection(c);
+                        break;
                     case "hyperlinks":
                         foreach (MarkupNode h in c.Elements("hyperlink"))
                         {
