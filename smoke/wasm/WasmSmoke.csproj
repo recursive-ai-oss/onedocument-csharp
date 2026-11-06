@@ -53,6 +53,7 @@
     <Compile Include="../shared/FloatSmoke.cs" Link="FloatSmoke.cs" />
     <Compile Include="../shared/OperationsSmoke.cs" Link="OperationsSmoke.cs" />
     <Compile Include="../shared/FindReplaceSmoke.cs" Link="FindReplaceSmoke.cs" />
+    <Compile Include="../shared/RedactionSmoke.cs" Link="RedactionSmoke.cs" />
     <Compile Include="../../tests/OneDocument.Schema.Tests/TextTree.cs" Link="TextTree.cs" />
     <ProjectReference Include="../../src/OneDocument/OneDocument.csproj" />
     <ProjectReference Include="../../src/OneDocument.Schema/OneDocument.Schema.csproj" />

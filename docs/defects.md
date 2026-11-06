@@ -577,3 +577,6 @@ The package layer (`OdfPackage`, see `odf.md`) reports under `packaging.`; the t
 | `odf.missing-picture` | dropped | A picture names a package file that is not there. |
 | `odf.bad-base64` | dropped | The inline data (`office:binary-data`) of a picture is not valid base64. |
 | `odf.repeat-capped` | dropped | A table repeats rows or cells by counts that would exceed the reader's budget (200,000 cells per table, 10,000 repeats per element); the rest were dropped. |
+## Redaction report codes
+
+Redaction does not report through the open-time defect list: what it could not remove or look into is in `RedactionReport.Gaps`, with codes of the form `redaction.problem` (`redaction.part-name`, `redaction.part-not-xml`, `redaction.embedded-package`, `redaction.opaque-part`, `redaction.depth`, `redaction.region-not-applicable`, `redaction.region-failed`, `redaction.shared-formula-extent`, `redaction.pivot-cache-source`, `redaction.animations-removed`). Their meaning and the tests that assert them are in `redaction.md`.
