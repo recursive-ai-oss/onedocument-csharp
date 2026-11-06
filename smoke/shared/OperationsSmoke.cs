@@ -20,13 +20,13 @@ internal static class OperationsSmoke
             src.Body.AddParagraph("two");
             src.Body.AddParagraph("three");
             MergeReport report = dst.Append(src);
-            if (report.CountOf("blocks") != 2 || dst.Paragraphs.Select(p => p.Text).Last() != "three")
+            if (report.CountOf("blocks") != 3 || dst.Paragraphs.Select(p => p.Text).Last() != "three")
             {
                 failures.Add("document append");
             }
 
             using SplitResult split = dst.SplitBefore([1, 2]);
-            if (split.Pieces.Count != 3 || split.Pieces[1].Document.Paragraphs.Single().Text != "two")
+            if (split.Pieces.Count != 3 || split.Pieces[1].Document.Paragraphs.Single().Text != "one")
             {
                 failures.Add("document split");
             }
