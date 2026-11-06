@@ -805,7 +805,7 @@ public static class XlsbFormula
 
     private static readonly HashSet<string> Volatile = new(StringComparer.OrdinalIgnoreCase) { "NOW", "TODAY", "RAND", "RANDBETWEEN", "OFFSET", "INDIRECT", "INFO", "CELL", "RANDARRAY" };
 
-    // Parameters Excel stores with the array class. [Agent default] taken from how these functions evaluate their arguments; Excel settles it at the 1.0 gate.
+    // Parameters Excel stores with the array class, taken from how these functions evaluate their arguments; Excel settles it at the 1.0 gate.
     private static readonly Dictionary<string, int> ArrayParams = new(StringComparer.OrdinalIgnoreCase)
     {
         ["SUMPRODUCT"] = -1, ["MMULT"] = 3, ["MDETERM"] = 1, ["MINVERSE"] = 1, ["TRANSPOSE"] = 1, ["SUMX2MY2"] = 3, ["SUMX2PY2"] = 3, ["SUMXMY2"] = 3,
