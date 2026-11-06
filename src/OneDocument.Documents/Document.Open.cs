@@ -13,7 +13,7 @@ public sealed partial class Document
     private const string MainDocx = "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml";
     private const string MainDocm = "application/vnd.ms-word.document.macroEnabled.main+xml";
     private const string MainDotx = "application/vnd.openxmlformats-officedocument.wordprocessingml.template.main+xml";
-    private const string MainDotm = "application/vnd.ms-word.template.macroEnabled.main+xml";
+    private const string MainDotm = "application/vnd.ms-word.template.macroEnabledTemplate.main+xml";
 
     // [MS-OFFMACRO2]: the VBA project is a part of this content type, related to the main part.
     private const string VbaProjectContentType = "application/vnd.ms-office.vbaProject";

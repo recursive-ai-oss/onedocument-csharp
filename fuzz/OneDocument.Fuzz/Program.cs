@@ -73,6 +73,10 @@ internal static class Program
         ["oleobject"] = OleTarget.RunObject,
         ["xml2003"] = Xml2003Target.Run,
         ["xlsb"] = XlsbTarget.Run,
+        ["vbacompress"] = VbaTarget.RunDecompress,
+        ["vbadir"] = VbaTarget.RunDir,
+        ["vbaproject"] = VbaTarget.RunProject,
+        ["vbaremove"] = VbaTarget.RunRemove,
     };
 
     private static int Main(string[] args)
@@ -122,6 +126,7 @@ internal static class Program
                 "olepropset" or "oleobject" => OleTarget.WriteSeeds(args[2]),
                 "xml2003" => Xml2003Target.WriteSeeds(args[2]),
                 "xlsb" => XlsbTarget.WriteSeeds(args[2]),
+                "vbacompress" or "vbadir" or "vbaproject" or "vbaremove" => VbaTarget.WriteSeeds(args[2]),
                 _ => 2,
             };
         }

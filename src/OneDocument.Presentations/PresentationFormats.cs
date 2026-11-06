@@ -46,6 +46,7 @@ public static class PresentationFormats
         registry.RegisterReader(
             static (source, _, context, filePath, cancellationToken) => Presentation.OpenSource(source, context, filePath, cancellationToken),
             OfficeFormat.Ppt);
+        registry.RegisterVba(PptVba.Read, PptVba.Remove, OfficeFormat.Ppt);
         registry.RegisterTemplateBinder(Templating.PresentationTemplateBinder.Instance, formats);
     }
 }

@@ -354,6 +354,45 @@ public sealed class CfbPackage : IPackage
         }
     }
 
+    /// <summary>Removes a storage with every stream and storage under it.</summary>
+    /// <param name="path">The storage's path in the form stream names take, for example <c>/Macros</c>; compared ignoring case.</param>
+    /// <returns>The number of streams removed; 0 when there is no such storage (a storage without streams is still removed).</returns>
+    public int RemoveStorage(string path)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+        ObjectDisposedException.ThrowIf(_disposed, this);
+        string root = "/" + string.Join('/', Split(path).Select(Escape));
+        string prefix = root + "/";
+        int streams = 0;
+        foreach (CfbStreamPart p in _parts.ToArray())
+        {
+            if (p.Name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+            {
+                RemovePart(p.Name);
+                streams++;
+            }
+        }
+
+        bool any = false;
+        for (int i = _storages.Count - 1; i >= 0; i--)
+        {
+            string s = _storages[i].Path;
+            if (string.Equals(s, root, StringComparison.OrdinalIgnoreCase) || s.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+            {
+                _storageNames.Remove(s);
+                _storages.RemoveAt(i);
+                any = true;
+            }
+        }
+
+        if (any)
+        {
+            _removed = true;
+        }
+
+        return streams;
+    }
+
     /// <inheritdoc />
     public bool RemovePart(string name)
     {
