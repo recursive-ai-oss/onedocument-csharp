@@ -87,6 +87,7 @@ Normative notes on how OneDocument behaves, one page per area. The code's XML do
 | [layout-fields.md](layout-fields.md) | Fields that depend on pages; table of contents and indexes |
 | [spreadsheet-rendering.md](spreadsheet-rendering.md) | Printing workbooks: pages, cell text, objects |
 | [presentation-rendering.md](presentation-rendering.md) | Slides to PDF and PNG |
+| [rendering-export.md](rendering-export.md) | Pages as PNG, JPEG, TIFF, WebP and SVG: page ranges, size, the SVG writer and its checks |
 | [drawingml-rendering.md](drawingml-rendering.md) | Shapes, pictures, groups and effects |
 | [charts.md](charts.md) | Chart reading, layout and painting |
 | [smartart.md](smartart.md) | SmartArt: stored drawings and the layout engine |

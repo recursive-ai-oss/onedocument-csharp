@@ -101,7 +101,7 @@ public static class PresentationRenderer
         }
         else
         {
-            destination.Write(RenderPng(presentation));
+            return false;
         }
 
         return true;
