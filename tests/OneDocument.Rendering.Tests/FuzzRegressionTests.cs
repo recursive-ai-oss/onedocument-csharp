@@ -189,9 +189,10 @@ public sealed class FuzzRegressionTests
         }
     }
 
-    // The interpreter (OneImage's) failed with an arithmetic overflow on a pen record; the picture is reported as damaged instead.
+    // A pen record with the most negative width made the interpreter (OneImage's, before 1.11.1) overflow. The width is now a
+    // magnitude, as GDI treats it, so the picture paints and the list stays balanced.
     [Fact]
-    public void MetafileThatOverflowsTheInterpreterIsReportedAsDamaged()
+    public void MetafileWithAnExtremePenWidthPaints()
     {
         byte[] emf = File.ReadAllBytes(Path.Combine(Path.GetDirectoryName(Here())!, "..", "..", "testdata", "fuzz", "metafile-createpen-overflow.emf"));
         var list = new DisplayList();
@@ -200,8 +201,8 @@ public sealed class FuzzRegressionTests
         var ctx = new MetafilePaintContext(list, new PictureImages(), () => ItemId.Of(++owner)) { Report = defects.Add };
         bool painted = MetafilePainter.TryPaint(emf, ctx, new RectF(0, 0, 200, 150));
         list.Validate();
-        Assert.False(painted);
-        Assert.Contains(defects, d => d.Code == "render.metafile-damaged");
+        Assert.True(painted);
+        Assert.DoesNotContain(defects, d => d.Code == "render.metafile-damaged");
     }
 
     private static string Here([System.Runtime.CompilerServices.CallerFilePath] string path = "") => path;
