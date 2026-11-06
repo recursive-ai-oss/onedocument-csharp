@@ -210,4 +210,22 @@ public class XlsbFeatureTests
             Assert.Contains("gte="+q+"0"+q, xml);
         }
     }
+
+    [Fact]
+    public void PageBreaksAndIgnoredErrorsSurviveTheBinaryForm()
+    {
+        const string q = "\"";
+        string body = "<rowBreaks count="+q+"2"+q+" manualBreakCount="+q+"2"+q+"><brk id="+q+"10"+q+" max="+q+"16383"+q+" man="+q+"1"+q+"/><brk id="+q+"20"+q+" min="+q+"1"+q+" max="+q+"5"+q+" man="+q+"1"+q+"/></rowBreaks>"
+            + "<colBreaks count="+q+"1"+q+" manualBreakCount="+q+"1"+q+"><brk id="+q+"3"+q+" max="+q+"1048575"+q+" man="+q+"1"+q+"/></colBreaks>"
+            + "<ignoredErrors><ignoredError sqref="+q+"A1:B2"+q+" numberStoredAsText="+q+"1"+q+" formula="+q+"1"+q+"/></ignoredErrors>";
+        (string hub, string back, _) = RoundTrip(body);
+        Assert.DoesNotContain("xb:r", hub);
+        foreach (string xml in new[] { hub, back })
+        {
+            Assert.Contains("<rowBreaks count="+q+"2"+q+" manualBreakCount="+q+"2"+q+">", xml);
+            Assert.Contains("<brk id="+q+"20"+q+" min="+q+"1"+q+" max="+q+"5"+q+" man="+q+"1"+q+"/>", xml);
+            Assert.Contains("<colBreaks count="+q+"1"+q, xml);
+            Assert.Contains("<ignoredError sqref="+q+"A1:B2"+q+" numberStoredAsText="+q+"1"+q+" formula="+q+"1"+q+"/>", xml);
+        }
+    }
 }

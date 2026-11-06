@@ -114,6 +114,15 @@ internal static class XlsbSheetWriter
                         break;
                     }
 
+                    case "rowBreaks":
+                        Features().Breaks(c, true);
+                        break;
+                    case "colBreaks":
+                        Features().Breaks(c, false);
+                        break;
+                    case "ignoredErrors":
+                        Features().IgnoredErrors(c);
+                        break;
                     case "conditionalFormatting":
                         XlsbConditionalFormatting.FromXml(c, _w, Features(), loss);
                         break;

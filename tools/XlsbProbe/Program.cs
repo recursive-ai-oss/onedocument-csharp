@@ -47,6 +47,9 @@ static int Sweep(string dir)
     int files = 0, opened = 0, identical = 0, converted = 0, typedFailures = 0, untyped = 0;
     long cells = 0, formulas = 0, parts = 0, partsSame = 0;
     var codes = new SortedDictionary<string, int>();
+    var lossCodes = new SortedDictionary<string, long>();
+    int again = 0, againMismatch = 0;
+    var rawTypes = new SortedDictionary<int, int>();
     foreach (string file in Directory.EnumerateFiles(dir, "*.xlsb", SearchOption.AllDirectories).Order())
     {
         files++;
@@ -74,6 +77,23 @@ static int Sweep(string dir)
 
             cells += sheetCells;
             formulas += sheetFormulas;
+            foreach (IPackagePart hp in wb.Package.Parts.Where(q => q.Name.EndsWith(".xml", StringComparison.OrdinalIgnoreCase)))
+            {
+                string xml = Encoding.UTF8.GetString(hp.GetBytes().Span);
+                int at = 0;
+                while ((at = xml.IndexOf("<xb:r", at, StringComparison.Ordinal)) >= 0)
+                {
+                    int t0 = xml.IndexOf(" t=\"", at, StringComparison.Ordinal) + 4;
+                    int t1 = xml.IndexOf('"', t0);
+                    if (int.TryParse(xml.AsSpan(t0, t1 - t0), out int rt))
+                    {
+                        rawTypes[rt] = rawTypes.GetValueOrDefault(rt) + 1;
+                    }
+
+                    at = t1;
+                }
+            }
+
             using var save = new MemoryStream();
             wb.SaveAs(save, OfficeFormat.Xlsb);
             Dictionary<string, string> before, after;
@@ -106,10 +126,49 @@ static int Sweep(string dir)
                     x.SetLength(0);
                     wb.SaveAs(x, OfficeFormat.Xlsm, loss);
                 }
+                foreach (LossItem li in loss.Items)
+                {
+                    lossCodes[li.Code] = lossCodes.GetValueOrDefault(li.Code) + li.Count;
+                }
+
                 x.Position = 0;
                 using Workbook back = Workbook.Open(x);
                 converted++;
                 conv = "ok(" + loss.Items.Count + " loss)";
+
+                // Back to a binary workbook through every writer, then compare what the model holds.
+                using var y = new MemoryStream();
+                var loss2 = new LossReport();
+                back.SaveAs(y, OfficeFormat.Xlsb, loss2);
+                foreach (LossItem li in loss2.Items)
+                {
+                    lossCodes["to-xlsb:" + li.Code] = lossCodes.GetValueOrDefault("to-xlsb:" + li.Code) + li.Count;
+                }
+
+                y.Position = 0;
+                using Workbook re = Workbook.Open(y);
+                again++;
+                int c2 = 0, f2 = 0;
+                foreach (Worksheet s in re.Sheets)
+                {
+                    if (s.Kind != SheetKind.Worksheet)
+                    {
+                        continue;
+                    }
+
+                    foreach (CellRowView row in s.Store.EnumerateRows())
+                    {
+                        c2 += row.Count;
+                    }
+
+                    f2 += CountFormulas(s);
+                }
+
+                if (c2 != sheetCells || f2 != sheetFormulas)
+                {
+                    againMismatch++;
+                    conv += " ROUNDTRIP cells " + sheetCells + "->" + c2 + " formulas " + sheetFormulas + "->" + f2;
+                }
             }
             catch (OfficeException ex)
             {
@@ -141,6 +200,17 @@ static int Sweep(string dir)
     }
 
     Console.WriteLine($"files={files} opened={opened} typed-failures={typedFailures} untyped={untyped} cells={cells} formulas={formulas} untouched-save-identical-files={identical} parts-identical={partsSame}/{parts} xlsx-converted={converted}");
+    Console.WriteLine($"binary -> SpreadsheetML -> binary: {again} files, {againMismatch} with different cell or formula counts");
+    foreach ((int t, int n) in rawTypes)
+    {
+        Console.WriteLine($"  raw record type {t}: {n}");
+    }
+
+    foreach ((string code, long n) in lossCodes)
+    {
+        Console.WriteLine($"  loss {code}: {n}");
+    }
+
     foreach ((string code, int n) in codes)
     {
         Console.WriteLine($"  {code}: {n}");

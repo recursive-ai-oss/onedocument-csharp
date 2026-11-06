@@ -181,6 +181,8 @@ internal static class XlsbSheetPart
         private const int GroupAutoFilter = 2;
         private const int GroupTableParts = 3;
         private const int GroupConditionalFormatting = 4;
+        private const int GroupBreaks = 5;
+        private const int GroupIgnoredErrors = 6;
 
         private void StartGroup(int kind, int endType)
         {
@@ -202,6 +204,8 @@ internal static class XlsbSheetPart
                 GroupAutoFilter => XlsbFilters.ToXml(group, tmp),
                 GroupTableParts => TableParts(group, tmp),
                 GroupConditionalFormatting => _features.ConditionalFormatting(group, tmp),
+                GroupBreaks => XlsbFeatureReader.Breaks(group, tmp),
+                GroupIgnoredErrors => XlsbFeatureReader.IgnoredErrors(group, tmp),
                 _ => false,
             };
             if (ok)
@@ -403,6 +407,15 @@ internal static class XlsbSheetPart
 
                 case XlsbRecordType.BeginConditionalFormatting:
                     StartGroup(GroupConditionalFormatting, XlsbRecordType.EndConditionalFormatting);
+                    return;
+                case XlsbRecordType.BeginRwBrk:
+                    StartGroup(GroupBreaks, XlsbRecordType.EndRwBrk);
+                    return;
+                case XlsbRecordType.BeginColBrk:
+                    StartGroup(GroupBreaks, XlsbRecordType.EndColBrk);
+                    return;
+                case XlsbRecordType.BeginCellIgnoreECs:
+                    StartGroup(GroupIgnoredErrors, XlsbRecordType.EndCellIgnoreECs);
                     return;
                 case XlsbRecordType.BeginListParts:
                     StartGroup(GroupTableParts, XlsbRecordType.EndListParts);

@@ -2,6 +2,7 @@ using System.Buffers.Binary;
 using System.Globalization;
 using RecursiveAI.OneDocument.Calc;
 using RecursiveAI.OneDocument.Diagnostics;
+using System.Linq;
 using RecursiveAI.OneDocument.Markup;
 
 namespace RecursiveAI.OneDocument.Xlsb;
@@ -257,6 +258,112 @@ internal sealed class XlsbFeatureReader(OpenContext context, string partName, Xl
     /// <summary>The conditional formatting group (BrtBeginConditionalFormatting … BrtEndConditionalFormatting).</summary>
     public bool ConditionalFormatting(List<XlsbGroupRecord> group, XmlSink x) => XlsbConditionalFormatting.ToXml(group, this, x);
 
+    // ------------------------------------------------------------------ page breaks and ignored errors
+
+    /// <summary>BrtBeginRwBrk / BrtBeginColBrk with their BrtBrk records ([MS-XLSB] §2.4.197, §2.4.315).</summary>
+    public static bool Breaks(List<XlsbGroupRecord> group, XmlSink x)
+    {
+        bool rows = group[0].Type == XlsbRecordType.BeginRwBrk;
+        var body = new XmlSink();
+        int count = 0;
+        int manual = 0;
+        foreach (XlsbGroupRecord r in group.Skip(1))
+        {
+            if (r.Type == XlsbRecordType.Brk)
+            {
+                var f = new XlsbRecordFields(r.Data);
+                uint id = f.U32();
+                uint min = f.U32();
+                uint max = f.U32();
+                bool man = f.U32() != 0;
+                bool pivot = f.U32() != 0;
+                if (f.Overrun)
+                {
+                    return false;
+                }
+
+                body.Raw("<brk").Attr("id", (long)id);
+                if (min != 0)
+                {
+                    body.Attr("min", (long)min);
+                }
+
+                if (max != 0)
+                {
+                    body.Attr("max", (long)max);
+                }
+
+                if (man)
+                {
+                    body.Attr("man", 1);
+                    manual++;
+                }
+                else
+                {
+                    body.Attr("man", 0);
+                }
+
+                if (pivot)
+                {
+                    body.Attr("pt", 1);
+                }
+
+                body.Raw("/>");
+                count++;
+            }
+            else if (r.Type is not (XlsbRecordType.EndRwBrk or XlsbRecordType.EndColBrk))
+            {
+                return false;
+            }
+        }
+
+        string tag = rows ? "rowBreaks" : "colBreaks";
+        x.Raw("<").Raw(tag).Attr("count", count).Attr("manualBreakCount", manual).Raw(">").Raw(body.Memory.Span).Raw("</").Raw(tag).Raw(">");
+        return true;
+    }
+
+    internal static readonly string[] IgnoredErrorFlags =
+    [
+        "evalError", "emptyCellReference", "numberStoredAsText", "formulaRange", "formula", "twoDigitTextYear", "unlockedFormula", "listDataValidation", "calculatedColumn",
+    ];
+
+    /// <summary>BrtBeginCellIgnoreECs … BrtEndCellIgnoreECs ([MS-XLSB] §2.4.16, §2.4.322).</summary>
+    public static bool IgnoredErrors(List<XlsbGroupRecord> group, XmlSink x)
+    {
+        var body = new XmlSink();
+        foreach (XlsbGroupRecord r in group.Skip(1))
+        {
+            if (r.Type == XlsbRecordType.CellIgnoreEC)
+            {
+                var f = new XlsbRecordFields(r.Data);
+                uint flags = f.U32();
+                string? sqref = ReadSqRef(ref f, out _, out _);
+                if (sqref is null || f.Overrun)
+                {
+                    return false;
+                }
+
+                body.Raw("<ignoredError").Attr("sqref", sqref);
+                for (int i = 0; i < IgnoredErrorFlags.Length; i++)
+                {
+                    if ((flags & (1u << i)) != 0)
+                    {
+                        body.Attr(IgnoredErrorFlags[i], 1);
+                    }
+                }
+
+                body.Raw("/>");
+            }
+            else if (r.Type != XlsbRecordType.EndCellIgnoreECs)
+            {
+                return false;
+            }
+        }
+
+        x.Raw("<ignoredErrors>").Raw(body.Memory.Span).Raw("</ignoredErrors>");
+        return true;
+    }
+
     // ------------------------------------------------------------------ sheet protection
 
     private static readonly string[] ProtectionFlags =
@@ -464,5 +571,65 @@ internal sealed class XlsbFeatureWriter(XlsbRecordWriter w, XlsbRecordData d, Op
         }
 
         w.Write(XlsbRecordType.SheetProtection, d);
+    }
+
+    /// <summary>The <c>rowBreaks</c> or <c>colBreaks</c> element as BrtBeginRwBrk / BrtBeginColBrk with a BrtBrk per break.</summary>
+    public void Breaks(MarkupNode c, bool rows)
+    {
+        var list = c.Elements("brk").ToList();
+        if (list.Count == 0)
+        {
+            return;
+        }
+
+        d.U32((uint)list.Count);
+        d.U32((uint)list.Count);
+        w.Write(rows ? XlsbRecordType.BeginRwBrk : XlsbRecordType.BeginColBrk, d);
+        foreach (MarkupNode b in list)
+        {
+            d.U32((uint)b.Int("id"));
+            d.U32((uint)b.Int("min"));
+            d.U32((uint)b.Int("max", rows ? 16383 : 1048575));
+            d.U32(b.Bool("man", true) ? 1u : 0);
+            d.U32(b.Bool("pt") ? 1u : 0);
+            w.Write(XlsbRecordType.Brk, d);
+        }
+
+        w.Write(rows ? XlsbRecordType.EndRwBrk : XlsbRecordType.EndColBrk);
+    }
+
+    /// <summary>The <c>ignoredErrors</c> element as BrtBeginCellIgnoreECs with a BrtCellIgnoreEC per entry.</summary>
+    public void IgnoredErrors(MarkupNode c)
+    {
+        var list = c.Elements("ignoredError").ToList();
+        if (list.Count == 0)
+        {
+            return;
+        }
+
+        w.Write(XlsbRecordType.BeginCellIgnoreECs);
+        foreach (MarkupNode e in list)
+        {
+            uint flags = 0;
+            for (int i = 0; i < XlsbFeatureReader.IgnoredErrorFlags.Length; i++)
+            {
+                if (e.Bool(XlsbFeatureReader.IgnoredErrorFlags[i]))
+                {
+                    flags |= 1u << i;
+                }
+            }
+
+            d.U32(flags);
+            if (WriteSqRef(e.Str("sqref"), d, out _, out _))
+            {
+                w.Write(XlsbRecordType.CellIgnoreEC, d);
+            }
+            else
+            {
+                d.Clear();
+            }
+        }
+
+        w.Write(XlsbRecordType.EndCellIgnoreECs);
     }
 }
