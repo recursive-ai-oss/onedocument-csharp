@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using RecursiveAI.OneDocument.Diagnostics;
 using RecursiveAI.OneDocument.OfficeArt;
@@ -29,7 +30,41 @@ internal sealed class PptConversion
     /// <summary>Slide identifier to part file name (<c>slide3.xml</c>), filled before any page is written so hyperlinks between slides can be resolved.</summary>
     public Dictionary<uint, string> SlideParts { get; } = [];
 
+    /// <summary>Shapes with animation info seen on the slide being written; reported with the slide.</summary>
+    public int AnimatedShapes { get; set; }
+
     public string? SlidePartOf(uint slideId) => SlideParts.GetValueOrDefault(slideId);
+
+    /// <summary>
+    /// The text a header or footer metacharacter stands for ([MS-PPT] §2.4.15): the page's own <c>HeadersFooters</c> container first, then the
+    /// document's default. Null when neither has a string for it.
+    /// </summary>
+    public string? HeaderFooterText(PptPage? page, PptMetaCharKind kind)
+    {
+        int instance = kind == PptMetaCharKind.Header ? 1 : 2;
+        foreach (ArtRecord? container in new[] { page?.Container.Find(PptRecordType.HeadersFooters), P.File.DocumentContainer?.Find(PptRecordType.HeadersFooters) })
+        {
+            ArtRecord? text = container?.FindAll(PptRecordType.CString).FirstOrDefault(c => c.Header.Instance == instance);
+            if (text is not null)
+            {
+                return Utf16(text.Payload.Span);
+            }
+        }
+
+        return null;
+    }
+
+    private static string Utf16(ReadOnlySpan<byte> bytes)
+    {
+        var chars = new char[bytes.Length / 2];
+        for (int i = 0; i < chars.Length; i++)
+        {
+            chars[i] = (char)System.Buffers.Binary.BinaryPrimitives.ReadUInt16LittleEndian(bytes[(i * 2)..]);
+        }
+
+        int end = Array.IndexOf(chars, '\0');
+        return new string(chars, 0, end < 0 ? chars.Length : end);
+    }
 
     public string Font(int index) => index >= 0 && index < P.Fonts.Count && P.Fonts[index].Length > 0 ? P.Fonts[index] : "Arial";
 
@@ -67,8 +102,9 @@ internal sealed class PageOut
     private readonly Dictionary<string, string> _relIndex = [];
     private int _fieldCounter;
 
-    public PageOut(PptConversion conv, PptColorScheme scheme, PptColorScheme masterScheme, string sourcePartName)
+    public PageOut(PptConversion conv, PptColorScheme scheme, PptColorScheme masterScheme, string sourcePartName, PptPage? source = null)
     {
+        Source = source;
         Conv = conv;
         Scheme = scheme;
         MasterScheme = masterScheme;
@@ -82,6 +118,9 @@ internal sealed class PageOut
     public PptColorScheme MasterScheme { get; }
 
     public string PartName { get; }
+
+    /// <summary>The slide or notes page being written, whose own header and footer strings take precedence, or null.</summary>
+    public PptPage? Source { get; }
 
     public int NextShapeId { get; set; } = 2;
 

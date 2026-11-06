@@ -3,6 +3,7 @@ using RecursiveAI.OneDocument.Diagnostics;
 using RecursiveAI.OneDocument.IO;
 using RecursiveAI.OneDocument.OfficeArt;
 using RecursiveAI.OneDocument.Packaging;
+using System.Linq;
 using RecursiveAI.OneDocument.Cfb;
 
 namespace RecursiveAI.OneDocument.Ppt.Binary;
@@ -134,6 +135,12 @@ public sealed class PptFile
         if (edits.Count == 0)
         {
             edits = RecoverChain(cancellationToken);
+        }
+
+        if (edits.Count == 0 && StreamNames.Contains("/PersistentStorage Directory"))
+        {
+            // PowerPoint 4.0 and 95 keep a persistent storage directory instead of user edits; [MS-PPT] describes only the 97 and later layout.
+            throw new OfficeUnsupportedException("PowerPoint 4.0/95 presentations (persistent storage directory)", DefectLocation.InRecord(DocumentStreamName, 0));
         }
 
         if (edits.Count == 0)

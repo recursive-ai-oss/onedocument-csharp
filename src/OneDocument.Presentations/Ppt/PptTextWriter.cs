@@ -357,8 +357,19 @@ internal static class PptTextWriter
         };
         if (type is null)
         {
-            // Header and footer metacharacters stand for the page's header and footer text, which DrawingML keeps in separate placeholders.
-            page.Conv.Loss.Report("ppt.header-footer-field", "header/footer field", 1, "A header or footer metacharacter in text has no DrawingML field; the character is dropped.");
+            // Header and footer metacharacters stand for the page's header and footer text; DrawingML has no field for them, so the text itself is written.
+            string? literal = page.Conv.HeaderFooterText(page.Source, meta.Kind);
+            if (literal is null)
+            {
+                if (page.Source is not null)
+                {
+                    page.Conv.Loss.Report("ppt.header-footer-field", "header/footer field", 1, "A header or footer metacharacter has no text in the file's header and footer records; nothing is written for it.");
+                }
+
+                return;
+            }
+
+            sb.Append("<a:r>").Append(rPr).Append("<a:t>").Append(Escape(literal)).Append("</a:t></a:r>");
             return;
         }
 

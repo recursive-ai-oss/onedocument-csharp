@@ -107,6 +107,32 @@ public static class PptConverter
             return found ?? masters[0];
         }
 
+        // Comment authors are numbered over the whole presentation before any slide is written.
+        var commentsBySlide = new Dictionary<PptSlide, IReadOnlyList<PptComment>>();
+        var authors = new List<(string Name, string Initials, int LastIndex)>();
+        foreach (PptSlide slide in p.Slides)
+        {
+            IReadOnlyList<PptComment> comments = PptDeep.Comments(slide.Container, p.File.ReadContext);
+            if (comments.Count == 0)
+            {
+                continue;
+            }
+
+            commentsBySlide[slide] = comments;
+            foreach (PptComment c in comments)
+            {
+                int at = authors.FindIndex(a => a.Name == c.Author);
+                if (at < 0)
+                {
+                    authors.Add((c.Author, c.Initials, c.Index));
+                }
+                else
+                {
+                    authors[at] = authors[at] with { LastIndex = Math.Max(authors[at].LastIndex, c.Index) };
+                }
+            }
+        }
+
         // Slides get their part numbers first so hyperlinks between slides can name them.
         for (int i = 0; i < p.Slides.Count; i++)
         {
@@ -205,7 +231,7 @@ public static class PptConverter
             ct.ThrowIfCancellationRequested();
             PptSlide slide = p.Slides[i];
             (MasterOut master, LayoutOut layout) = slideLayout[slide];
-            WriteSlide(conv, slide, i + 1, master, layout);
+            WriteSlide(conv, slide, i + 1, master, layout, commentsBySlide.GetValueOrDefault(slide), authors);
             uint id = slide.SlideId;
             if (id < 256 || id > int.MaxValue || !usedIds.Add(id))
             {
@@ -231,6 +257,19 @@ public static class PptConverter
         {
             conv.Loss.Offset = p.ExternalObjects!.Offset;
             conv.Loss.Report("ppt.ole-object-flattened", "OLE objects", ole, "Embedded and linked OLE objects are written as their preview pictures; the object data is not carried.");
+        }
+
+        if (authors.Count > 0)
+        {
+            var au = new StringBuilder("<p:cmAuthorLst " + Ns + ">");
+            for (int i = 0; i < authors.Count; i++)
+            {
+                au.Append("<p:cmAuthor id=\"").Append(i).Append("\" name=\"").Append(Escape(authors[i].Name)).Append("\" initials=\"").Append(Escape(authors[i].Initials)).Append("\" lastIdx=\"").Append(authors[i].LastIndex).Append("\" clrIdx=\"").Append(i % 6).Append("\"/>");
+            }
+
+            au.Append("</p:cmAuthorLst>");
+            package.AddPart("/ppt/commentAuthors.xml", PmlType + "commentAuthors+xml", Bytes(au.ToString()));
+            PresRel(Rel.CommentAuthors, "commentAuthors.xml");
         }
 
         WritePresentation(conv, presRels, masterRelIds, masterIds, notesMasterRel, handoutRel, slideIds, themeRel);
@@ -500,14 +539,15 @@ public static class PptConverter
 
     // ---- slides ----
 
-    private static void WriteSlide(PptConversion conv, PptSlide slide, int number, MasterOut master, LayoutOut layout)
+    private static void WriteSlide(PptConversion conv, PptSlide slide, int number, MasterOut master, LayoutOut layout, IReadOnlyList<PptComment>? comments, List<(string Name, string Initials, int LastIndex)> authors)
     {
         string partName = "/ppt/slides/slide" + number.ToString(CultureInfo.InvariantCulture) + ".xml";
         PptColorScheme masterScheme = master.Source?.ColorScheme ?? PptColorScheme.Default;
         // SlideFlags bit 1 (fMasterScheme): the slide uses the master's colours.
         PptColorScheme scheme = (slide.Flags & 2) != 0 || slide.ColorScheme is null ? masterScheme : slide.ColorScheme;
-        var page = new PageOut(conv, scheme, masterScheme, partName);
+        var page = new PageOut(conv, scheme, masterScheme, partName, slide);
         conv.Loss.Offset = slide.Container.Offset;
+        conv.AnimatedShapes = 0;
         var sb = new StringBuilder("<p:sld " + Ns);
         if ((slide.Flags & 1) == 0)
         {
@@ -550,6 +590,28 @@ public static class PptConverter
             WriteNotesSlide(conv, notes, number, slide);
         }
 
+        if (comments is { Count: > 0 })
+        {
+            string commentPart = "/ppt/comments/comment" + number.ToString(CultureInfo.InvariantCulture) + ".xml";
+            var cm = new StringBuilder("<p:cmLst " + Ns + ">");
+            foreach (PptComment c in comments)
+            {
+                int authorId = authors.FindIndex(a => a.Name == c.Author);
+                cm.Append("<p:cm authorId=\"").Append(authorId).Append("\" dt=\"").Append(c.Time.ToString("yyyy-MM-dd'T'HH:mm:ss.fff", CultureInfo.InvariantCulture)).Append("\" idx=\"").Append(Math.Max(1, c.Index)).Append("\"><p:pos x=\"").Append(c.X).Append("\" y=\"").Append(c.Y).Append("\"/><p:text>").Append(Escape(c.Text)).Append("</p:text></p:cm>");
+            }
+
+            cm.Append("</p:cmLst>");
+            conv.Package.AddPart(commentPart, PmlType + "comments+xml", Bytes(cm.ToString()));
+            rels.Add(new Relationship("rId" + (rels.Count + 1).ToString(CultureInfo.InvariantCulture), Rel.Comments, "../comments/comment" + number.ToString(CultureInfo.InvariantCulture) + ".xml"));
+        }
+
+        int animated = PptDeep.FindAll(slide.Container, 0xF144, conv.P.File.ReadContext).Count;
+        if (animated > 0 || conv.AnimatedShapes > 0)
+        {
+            conv.Loss.Report("ppt.animations-dropped", "animations", Math.Max(1, animated + conv.AnimatedShapes), "Animation effects are not converted; the shapes appear without them.");
+        }
+
+        conv.AnimatedShapes = 0;
         AppendPageRels(sb, page, rels);
         conv.Package.AddPart(partName, PmlType + "slide+xml", Bytes(sb.ToString()));
         conv.Package.SetRelationships(partName, rels);
@@ -593,6 +655,7 @@ public static class PptConverter
             20 => "<p:push dir=\"" + Dir4(direction) + "\"/>",
             21 => "<p:comb dir=\"" + (direction == 1 ? "vert" : "horz") + "\"/>",
             22 => "<p:newsflash/>",
+            23 => "<p:fade/>",
             26 => "<p:wheel spokes=\"" + Math.Clamp((int)direction, 1, 8) + "\"/>",
             27 => "<p:circle/>",
             _ => null,
@@ -649,7 +712,7 @@ public static class PptConverter
         string partName = "/ppt/notesSlides/notesSlide" + number.ToString(CultureInfo.InvariantCulture) + ".xml";
         PptColorScheme masterScheme = conv.P.NotesMaster?.ColorScheme ?? PptColorScheme.Default;
         PptColorScheme scheme = notes.ColorScheme ?? masterScheme;
-        var page = new PageOut(conv, scheme, masterScheme, partName);
+        var page = new PageOut(conv, scheme, masterScheme, partName, notes);
         conv.Loss.Offset = notes.Container.Offset;
         var sb = new StringBuilder("<p:notes " + Ns + "><p:cSld><p:spTree>" + GroupHead);
         if (notes.Drawing is { } drawing)

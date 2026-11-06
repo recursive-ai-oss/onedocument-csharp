@@ -383,9 +383,17 @@ public static class FormatSniffer
     // with an EncryptionInfo and an EncryptedPackage stream. [MS-DOC] WordDocument, [MS-XLS] Workbook, [MS-PPT] PowerPoint Document.
     private static OfficeFormat ClassifyCompoundFile(IByteSource source, OfficeLimits limits)
     {
+        // A compound file with a damaged allocation table is still readable in recovery mode, as the package reader does it; classify what
+        // it holds so that the format's reader can report the damage as defects instead of the file being called unknown.
+        OfficeFormat strict = ClassifyCompoundFile(source, limits, recovery: false);
+        return strict != OfficeFormat.Unknown ? strict : ClassifyCompoundFile(source, limits, recovery: true);
+    }
+
+    private static OfficeFormat ClassifyCompoundFile(IByteSource source, OfficeLimits limits, bool recovery)
+    {
         try
         {
-            var options = new CompoundFileReaderOptions { Limits = limits.ToArchiveLimits() };
+            var options = new CompoundFileReaderOptions { Limits = limits.ToArchiveLimits(), Recovery = recovery };
             using CompoundFileReader cfb = source.TryGetMemory(out ReadOnlyMemory<byte> memory)
                 ? new CompoundFileReader(memory, options)
                 : new CompoundFileReader(ByteSource.AsStream(source), options);

@@ -174,6 +174,10 @@ internal sealed class PptShapeWriter
         }
 
         _conv.Loss.Offset = s.Record.Offset;
+        if (s.ClientData?.Find(PptRecordType.AnimationInfo) is not null)
+        {
+            _conv.AnimatedShapes++;
+        }
 
         if (s.IsGroup)
         {
@@ -190,10 +194,10 @@ internal sealed class PptShapeWriter
         }
 
         Placeholder? ph = ReadPlaceholder(s);
-        bool picture = s.ShapeType == 75 && s.Properties.GetInt(ArtPropertyId.Pib, 0) > 0 && ph is null;
+        bool picture = s.ShapeType == 75 && s.Properties.GetInt(ArtPropertyId.Pib, 0) > 0;
         if (picture)
         {
-            WritePicture(s);
+            WritePicture(s, ph);
             return;
         }
 
@@ -203,7 +207,7 @@ internal sealed class PptShapeWriter
         }
 
         bool connector = PptShapeTypes.IsConnector(s.ShapeType) || (s.Flags & ArtShapeAttributes.Connector) != 0;
-        if (s.ShapeType == 75 && !picture)
+        if (s.ShapeType == 75 && ph is null)
         {
             _conv.Loss.Report("ppt.shape-approximated", "shape type", 1, "A picture frame without a picture is written as a rectangle.");
         }
@@ -253,20 +257,20 @@ internal sealed class PptShapeWriter
         _sb.Append("</p:grpSp>");
     }
 
-    private void WritePicture(ArtShape s)
+    private void WritePicture(ArtShape s, Placeholder? ph)
     {
         int index = s.Properties.GetInt(ArtPropertyId.Pib, 0);
         string rel = _page.AddImage(index);
         if (rel.Length == 0)
         {
             _conv.Loss.Report("ppt.picture-missing", "picture", 1, "A picture shape refers to a picture that is not in the file; the shape is written without an image.");
-            WriteSp(s, null, false);
+            WriteSp(s, ph, false);
             return;
         }
 
         ArtRect? bounds = Bounds(s);
         string head = Id(s, out _);
-        _sb.Append("<p:pic><p:nvPicPr>").Append(head).Append('>').Append(ShapeHyperlink(s)).Append("</p:cNvPr><p:cNvPicPr><a:picLocks noChangeAspect=\"1\"/></p:cNvPicPr><p:nvPr/></p:nvPicPr>");
+        _sb.Append("<p:pic><p:nvPicPr>").Append(head).Append('>').Append(ShapeHyperlink(s)).Append("</p:cNvPr><p:cNvPicPr><a:picLocks noChangeAspect=\"1\"/></p:cNvPicPr><p:nvPr>").Append(ph is { } picPh ? PlaceholderXml(picPh) : "").Append("</p:nvPr></p:nvPicPr>");
         _sb.Append("<p:blipFill><a:blip r:embed=\"").Append(rel).Append("\"/>");
         // [MS-ODRAW] §2.3.23: crops are 16.16 fractions of the picture's size; DrawingML srcRect is in 1/1000 percent.
         int top = Crop(Int(s, ArtPropertyId.CropFromTop, 0));
@@ -319,7 +323,11 @@ internal sealed class PptShapeWriter
             _sb.Append(GeometryXml(s, connector));
         }
 
-        if (!_skipText || ph is null)
+        if (WordArtText(s) is { Length: > 0 } && !_skipText)
+        {
+            _sb.Append("<a:noFill/><a:ln><a:noFill/></a:ln>");
+        }
+        else if (!_skipText || ph is null)
         {
             _sb.Append(FillXml(s));
             _sb.Append(LineXml(s));
@@ -651,8 +659,27 @@ internal sealed class PptShapeWriter
         return body;
     }
 
+    // [MS-ODRAW] §2.3.22: WordArt shapes (types 136 to 201 and the text-on-path types) carry their text in the geometry text property, not in a text box.
+    private static string? WordArtText(ArtShape s) =>
+        s.ShapeType is (>= 24 and <= 31) or (>= 136 and <= 201) ? s.Properties.GetString(0x00C0) : null;
+
     private void WriteText(ArtShape s, Placeholder? ph)
     {
+        if (WordArtText(s) is { Length: > 0 } art && !_skipText)
+        {
+            _conv.Loss.Report("ppt.wordart-flattened", "WordArt", 1, "WordArt text is written as plain text in the shape; its text effects and path are not converted.");
+            ArtColor? color = Color(s, ArtPropertyId.FillColor);
+            string fill = color is { } c ? "<a:solidFill>" + _page.ArtColorXml(c) + "</a:solidFill>" : "";
+            _sb.Append("<p:txBody><a:bodyPr wrap=\"none\" anchor=\"ctr\" rtlCol=\"0\"/><a:lstStyle/>");
+            foreach (string line in art.Replace("\r\n", "\r", StringComparison.Ordinal).Split('\r', '\n'))
+            {
+                _sb.Append("<a:p><a:pPr algn=\"ctr\"/><a:r><a:rPr lang=\"en-US\">").Append(fill).Append("</a:rPr><a:t>").Append(Escape(line)).Append("</a:t></a:r></a:p>");
+            }
+
+            _sb.Append("</p:txBody>");
+            return;
+        }
+
         PptTextBody? body = _skipText && ph is not null ? null : TextOf(s);
         if (body is null && ph is null && !HasTextProperties(s))
         {
