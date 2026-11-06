@@ -31,6 +31,51 @@ public sealed class XlsOleTests
         Assert.Equal(0, wb.ImportLoss!.CountOf("loss.document-properties"));
     }
 
+    // The fixture with its streams copied into a new compound file, through a callback that may change or drop each.
+    private static byte[] Rewritten(Func<string, byte[], byte[]?> edit)
+    {
+        using CfbPackage source = CfbPackage.Open(ByteSource.FromFile(Fixture()));
+        using CfbPackage copy = CfbPackage.Create();
+        copy.RootClassId = source.RootClassId;
+        foreach (CfbStreamPart part in source.Streams)
+        {
+            if (edit(part.Name, part.GetBytes().ToArray()) is { } bytes)
+            {
+                copy.AddPart(part.Name, string.Empty, bytes);
+            }
+        }
+
+        using var ms = new MemoryStream();
+        copy.WriteTo(ms);
+        return ms.ToArray();
+    }
+
+    [Fact]
+    public void AnObjectWhoseStorageIsMissingKeepsItsPictureAndIsReported()
+    {
+        byte[] file = Rewritten((name, data) => name.StartsWith("/MBD", StringComparison.Ordinal) ? null : data);
+        var defects = new DefectCollection();
+        using Workbook wb = XlsConverter.ToWorkbook(ByteSource.FromMemory(file), new OpenContext(defects: defects));
+        Defect d = Assert.Single(defects, x => x.Code == "biff.embedding-storage-missing");
+        Assert.Equal(DefectKind.Reference, d.Kind);
+        Assert.Equal(1, wb.ImportLoss!.CountOf("loss.ole-objects"));
+        Assert.Null(wb.Package.FindPart("/xl/embeddings/oleObject1.bin"));
+        Assert.NotNull(wb.Package.FindPart("/xl/drawings/drawing1.xml")); // the object stays a picture
+    }
+
+    [Fact]
+    public void ObjectRecordsThatDoNotMatchTheShapesLeaveTheObjectsAsPictures()
+    {
+        // One more Obj record (a group, ot 0) before the sheet's last EOF: the drawing and the records no longer pair up.
+        byte[] extra = [0x5D, 0x00, 0x1A, 0x00, 0x15, 0x00, 0x12, 0x00, 0x00, 0x00, 0x09, 0x00, 0x00, 0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x00, 0x00, 0x00, 0x00];
+        byte[] file = Rewritten((name, data) => name == "/Workbook" ? [.. data[..^4], .. extra, .. data[^4..]] : data);
+        var defects = new DefectCollection();
+        using Workbook wb = XlsConverter.ToWorkbook(ByteSource.FromMemory(file), new OpenContext(defects: defects));
+        Assert.Contains(defects, x => x.Code == "biff.object-count-mismatch" && x.Severity == DefectSeverity.Repaired);
+        Assert.Equal(1, wb.ImportLoss!.CountOf("loss.ole-objects"));
+        Assert.Null(wb.Package.FindPart("/xl/embeddings/oleObject1.bin"));
+    }
+
     [Fact]
     public void TheEmbeddedObjectIsCarriedWithItsPreviewAndAnchor()
     {

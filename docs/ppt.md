@@ -93,8 +93,8 @@ line, a negative value is master units. Master units are 1/576 inch (1,587.5 EMU
 | `ppt.table-borders-approximated` | table border lines drawn as separate shapes |
 | `ppt.transition-dropped` | a transition type PresentationML lacks |
 | `ppt.animations-dropped` | animation effects (shape animation info, PowerPoint 2002 time nodes) |
-| `ppt.ole-object-flattened` | embedded and linked OLE objects: only the preview picture is written; the storage stays in the source file, unread |
-| `ppt.document-properties-not-carried` | the summary information streams (their property-set format is not implemented); title, author and the rest are not carried |
+| `ppt.ole-object-flattened` | OLE objects whose storage or picture is missing or unreadable, and controls: only the preview picture is written. Objects that could be carried are not counted: see `ole.md` |
+| `ppt.document-properties-not-carried` | properties of the summary information streams with no counterpart in the package (the thumbnail, the VBA signature, hyperlink lists, custom types without an equivalent), each named in the message, or a stream that could not be read. The rest are carried: see `ole.md` |
 | `ppt.vba-not-carried` | the VBA project |
 | `ppt.header-footer-field` | a header or footer metacharacter with no text to show |
 | `ppt.placeholder-unknown` | a placeholder type this converter does not know |

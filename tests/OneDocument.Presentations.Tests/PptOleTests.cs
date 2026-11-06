@@ -30,6 +30,57 @@ public sealed class PptOleTests
         Assert.Contains("thumbnail", p.ConversionLoss.Items.Single(i => i.Code == "ppt.document-properties-not-carried").Message, StringComparison.Ordinal);
     }
 
+    // The fixture with the object's storage record (ExOleObjStg, compressed) changed by a callback that gets the document stream and the offset of the record.
+    private static byte[] WithStorageRecord(Action<byte[], int> change)
+    {
+        using CfbPackage source = CfbPackage.Open(ByteSource.FromFile(Fixture()));
+        using CfbPackage copy = CfbPackage.Create();
+        copy.RootClassId = source.RootClassId;
+        foreach (CfbStreamPart part in source.Streams)
+        {
+            byte[] bytes = part.GetBytes().ToArray();
+            if (part.Name == "/PowerPoint Document")
+            {
+                // A record header with version 0, instance 1 (compressed) and type 0x1011.
+                int at = bytes.AsSpan().IndexOf(new byte[] { 0x10, 0x00, 0x11, 0x10 });
+                Assert.True(at >= 0, "the fixture has a compressed object storage");
+                change(bytes, at);
+            }
+
+            copy.AddPart(part.Name, string.Empty, bytes);
+        }
+
+        using var ms = new MemoryStream();
+        copy.WriteTo(ms);
+        return ms.ToArray();
+    }
+
+    [Fact]
+    public void AStorageThatDoesNotInflateKeepsThePictureAndIsReported()
+    {
+        byte[] file = WithStorageRecord((bytes, at) =>
+        {
+            for (int i = 14; i < 30; i++)
+            {
+                bytes[at + i] ^= 0xFF; // the zlib stream after the 4-byte declared size
+            }
+        });
+        using Presentation p = Presentation.Open(new MemoryStream(file));
+        Assert.Contains(p.Defects, d => d.Code == "ppt.ole-storage-unreadable" && d.Severity == Diagnostics.DefectSeverity.Dropped);
+        Assert.Equal(1, p.ConversionLoss!.CountOf("ppt.ole-object-flattened"));
+        Assert.Null(p.Package.FindPart("/ppt/embeddings/oleObject1.bin"));
+        Assert.NotNull(p.Package.FindPart("/ppt/media/image1.png"));
+    }
+
+    [Fact]
+    public void AStorageDeclaringMoreThanTheLimitsAllowIsNotInflated()
+    {
+        byte[] file = WithStorageRecord((bytes, at) => System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(bytes.AsSpan(at + 8), 0x7FFFFFF0));
+        using Presentation p = Presentation.Open(new MemoryStream(file));
+        Assert.Contains(p.Defects, d => d.Code == "ppt.ole-storage-too-large" && d.Kind == Diagnostics.DefectKind.Limit);
+        Assert.Equal(1, p.ConversionLoss!.CountOf("ppt.ole-object-flattened"));
+    }
+
     [Fact]
     public void TheEmbeddedObjectIsCarriedAsAnObjectShape()
     {

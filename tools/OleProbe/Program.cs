@@ -32,6 +32,9 @@ internal static class Program
             return 2;
         }
 
+        RecursiveAI.OneDocument.Documents.DocumentFormats.Register(RecursiveAI.OneDocument.Formats.FormatRegistry.Default);
+        RecursiveAI.OneDocument.Spreadsheets.SpreadsheetFormats.Register(RecursiveAI.OneDocument.Formats.FormatRegistry.Default);
+        RecursiveAI.OneDocument.Presentations.PresentationFormats.Register(RecursiveAI.OneDocument.Formats.FormatRegistry.Default);
         switch (args[0])
         {
             case "streams": return Streams(args[1]);
@@ -48,9 +51,6 @@ internal static class Program
     // Converts one legacy file to its package format and lists the loss report and the defects.
     private static int ConvertFile(string input, string output)
     {
-        RecursiveAI.OneDocument.Documents.DocumentFormats.Register(RecursiveAI.OneDocument.Formats.FormatRegistry.Default);
-        RecursiveAI.OneDocument.Spreadsheets.SpreadsheetFormats.Register(RecursiveAI.OneDocument.Formats.FormatRegistry.Default);
-        RecursiveAI.OneDocument.Presentations.PresentationFormats.Register(RecursiveAI.OneDocument.Formats.FormatRegistry.Default);
         var defects = new DefectCollection();
         var ctx = new OpenContext(defects: defects);
         LossReport? loss;
@@ -204,6 +204,48 @@ internal static class Program
         }
     }
 
+    // Converts the file as the hub would and counts what came through: embedded-object parts, core properties set, objects not carried.
+    private static (string Status, int Carried, int CoreProps, long NotCarried) ConvertForCounts(string path, DefectCollection defects)
+    {
+        try
+        {
+            var ctx = new OpenContext(defects: defects);
+            string ext = Path.GetExtension(path).ToLowerInvariant();
+            IOpcPackage package;
+            LossReport? loss;
+            IDisposable owner;
+            if (ext == ".doc")
+            {
+                var d = RecursiveAI.OneDocument.Documents.Document.Open(path, ctx);
+                (owner, package, loss) = (d, d.Package, d.ImportLoss);
+            }
+            else if (ext == ".xls")
+            {
+                var w = RecursiveAI.OneDocument.Spreadsheets.Workbook.Open(path, ctx);
+                (owner, package, loss) = (w, w.Package, w.ImportLoss);
+            }
+            else
+            {
+                var p = RecursiveAI.OneDocument.Presentations.Presentation.Open(path, ctx);
+                (owner, package, loss) = (p, p.Package, p.ConversionLoss);
+            }
+
+            using (owner)
+            {
+                int carried = package.Parts.Count(x => x.Name.Contains("/embeddings/", StringComparison.Ordinal));
+                var props = new DocumentProperties(package);
+                int core = new[] { props.Core.Title, props.Core.Creator, props.Core.Subject, props.Core.Keywords, props.Core.Description, props.Core.LastModifiedBy, props.Core.Category }.Count(x => !string.IsNullOrEmpty(x))
+                    + new[] { props.Core.Created, props.Core.Modified }.Count(x => x is not null) + props.Custom.List().Count;
+                long notCarried = (loss?.CountOf("loss.doc-ole-objects") ?? 0) + (loss?.CountOf("loss.ole-objects") ?? 0) + (loss?.CountOf("ppt.ole-object-flattened") ?? 0);
+                return ("ok", carried, core, notCarried);
+            }
+        }
+        catch (OfficeException ex)
+        {
+            return ("typed:" + ex.Defect.Code, 0, 0, 0);
+        }
+    }
+
     private static int Scan(string dir, string outPath, string[] options)
     {
         int shard = 0;
@@ -222,7 +264,7 @@ internal static class Program
             .Where(f => f.EndsWith(".doc", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".xls", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".ppt", StringComparison.OrdinalIgnoreCase))
             .OrderBy(f => f, StringComparer.Ordinal).ToArray();
         using var writer = new StreamWriter(outPath, append: false, new UTF8Encoding(false));
-        writer.WriteLine("name\tstatus\tsummary\tdocsummary\tprops\tunmapped\tcustom\tobjects\tembedded\tlinked\tpackage\tdefect_codes");
+        writer.WriteLine("name\tstatus\tsummary\tdocsummary\tprops\tunmapped\tcustom\tobjects\tembedded\tlinked\tpackage\tconverted\tcarried\tcore_props\tnot_carried\tdefect_codes");
         for (int i = shard; i < files.Length; i += shards)
         {
             string f = files[i];
@@ -252,13 +294,15 @@ internal static class Program
                 }
 
                 OleObjectInfo[] objects = All(cfb, defects).Select(s => s.Describe()).ToArray();
+                (string converted, int carried, int coreProps, long notCarried) = ConvertForCounts(f, defects);
                 writer.WriteLine(string.Join('\t', Path.GetFileName(f), "ok", summary.Length > 0 ? 1 : 0, doc.Length > 0 ? 1 : 0, props, unmapped, custom, objects.Length,
                     objects.Count(o => o.Kind == OleObjectKind.Embedded), objects.Count(o => o.Kind == OleObjectKind.Linked), objects.Count(o => o.Kind == OleObjectKind.Package),
+                    converted, carried, coreProps, notCarried,
                     string.Join(',', defects.Select(d => d.Code).Distinct())));
             }
             catch (OfficeException ex)
             {
-                writer.WriteLine(string.Join('\t', Path.GetFileName(f), "typed:" + ex.Defect.Code, 0, 0, 0, 0, 0, 0, 0, 0, 0, string.Empty));
+                writer.WriteLine(string.Join('\t', Path.GetFileName(f), "typed:" + ex.Defect.Code, 0, 0, 0, 0, 0, 0, 0, 0, 0, "-", 0, 0, 0, string.Empty));
             }
         }
 

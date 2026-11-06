@@ -60,6 +60,51 @@ public sealed class DocOleTests
         Assert.Contains("Before the object", d.ExtractText(), StringComparison.Ordinal);
     }
 
+    // The fixture with its streams copied into a new compound file, through a callback that may change or drop each.
+    private static byte[] Rewritten(Func<string, byte[], byte[]?> edit)
+    {
+        using CfbPackage source = CfbPackage.Open(ByteSource.FromFile(Fixture()));
+        using CfbPackage copy = CfbPackage.Create();
+        copy.RootClassId = source.RootClassId;
+        foreach (CfbStreamPart part in source.Streams)
+        {
+            if (edit(part.Name, part.GetBytes().ToArray()) is { } bytes)
+            {
+                copy.AddPart(part.Name, string.Empty, bytes);
+            }
+        }
+
+        using var ms = new MemoryStream();
+        copy.WriteTo(ms);
+        return ms.ToArray();
+    }
+
+    [Fact]
+    public void AnObjectWhoseStorageIsMissingKeepsItsPictureAndIsReported()
+    {
+        byte[] file = Rewritten((name, data) => name.StartsWith("/ObjectPool", StringComparison.Ordinal) ? null : data);
+        var defects = new DefectCollection();
+        using Document d = Document.Open(new MemoryStream(file), new OpenContext(defects: defects));
+        Defect defect = Assert.Single(defects, x => x.Code == "doc.ole-storage-missing");
+        Assert.Equal(DefectSeverity.Dropped, defect.Severity);
+        Assert.Equal("/ObjectPool/_2147483647", defect.Location.Container);
+        Assert.Equal(1, d.ImportLoss!.CountOf("loss.doc-ole-objects"));
+        Assert.Null(d.Package.FindPart("/word/embeddings/oleObject1.bin"));
+        Assert.Contains("<w:drawing>", d.MainMarkup.Root.OuterXml, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ALinkWithoutAReadableMonikerKeepsItsPictureAndIsReported()
+    {
+        // A link whose \u0001Ole stream has the link flag and no monikers.
+        byte[] link = [0x01, 0x00, 0x00, 0x02, 0x01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        byte[] file = Rewritten((name, data) => name == "/ObjectPool/_2147483647/\u0001Ole" ? link : data);
+        var defects = new DefectCollection();
+        using Document d = Document.Open(new MemoryStream(file), new OpenContext(defects: defects));
+        Assert.Contains(defects, x => x.Code == "doc.ole-link-unreadable" && x.Kind == DefectKind.Reference);
+        Assert.Equal(1, d.ImportLoss!.CountOf("loss.doc-ole-objects"));
+    }
+
     [Fact]
     public void TheObjectStorageIsTheOneInTheFile()
     {
