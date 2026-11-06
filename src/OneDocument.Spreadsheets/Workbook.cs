@@ -165,6 +165,11 @@ public sealed partial class Workbook : OfficeFile
                 return Biff.XlsConverter.FromSource(source, context, cancellationToken);
             }
 
+            if (IsOdfSheetFormat(sniffed))
+            {
+                return OpenOds(source, context, filePath, sniffed, cancellationToken);
+            }
+
             if (!IsWorkbookFormat(sniffed))
             {
                 throw new FormatNotAvailableException(sniffed, "open as a workbook:");
@@ -512,6 +517,7 @@ public sealed partial class Workbook : OfficeFile
     /// </summary>
     public void CommitChanges()
     {
+        NoteEditsForOdf();
         bool staleChain = _structureChanged;
         foreach (Worksheet s in _sheets)
         {
@@ -653,6 +659,10 @@ public sealed partial class Workbook : OfficeFile
         else if (format == OfficeFormat.Xls)
         {
             WriteXls(destination, cancellationToken);
+        }
+        else if (IsOdfSheetFormat(format))
+        {
+            WriteOds(format, destination, cancellationToken);
         }
         else if (format == OfficeFormat.Html)
         {
