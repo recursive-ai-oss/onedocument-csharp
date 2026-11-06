@@ -4,7 +4,7 @@
 #   fuzz/run.sh <target> <seconds> [corpus dir] [extra libFuzzer flags...]
 #   fuzz/run.sh replay <target> <file>...      # run saved inputs once, without libFuzzer (reproduce a finding)
 #
-# Targets: formula, formulaeval, finfuncs, statfuncs, funcs, lookups, sniff, xml, markup, opc, cfb, sdt, sdtpath, text, revisions, stories, pptx, fieldinstr, fields, numfmt, numfmtfmt, sheet, sst, wbpart, styles, sheetfeat, table, pivot, csv, stream, streamwrite, template, richtext, mailmerge, math, sheetrender, xlsb   (see fuzz/README.md)
+# Targets: formula, formulaeval, finfuncs, statfuncs, funcs, lookups, sniff, xml, markup, opc, cfb, sdt, sdtpath, text, revisions, stories, pptx, fieldinstr, fields, numfmt, numfmtfmt, sheet, sst, wbpart, styles, sheetfeat, table, pivot, csv, stream, streamwrite, template, richtext, mailmerge, math, sheetrender, smartart, xlsb   (see fuzz/README.md)
 #
 # Environment (nothing is baked into the script):
 #   ONEDOCUMENT_FUZZ_WORK    required: where builds, corpora and findings go. Keep it outside the checkout.
@@ -58,6 +58,7 @@ case "$target" in
   mailmerge) maxlen=1024 ;;
   richtext) maxlen=4096 ;;
   math) maxlen=16384 ;;
+  smartart) maxlen=65536 ;;
   sheetrender) maxlen=65536 ;;
   xlsb) maxlen=65536 ;;
   *) echo "unknown target '$target'" >&2; exit 2 ;;

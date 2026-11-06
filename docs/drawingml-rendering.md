@@ -15,11 +15,17 @@ in CSS pixels (1 pt = 4/3 px), tagged as described at the end.
 
 A chart frame (`c:chart` or `cx:chart` with an `r:id`, in a Word drawing or a slide/worksheet `graphicFrame`) is painted by the
 `DrawingContext.ChartPainter` the host installs, at the frame's box in CSS pixels; the Word renderer installs one that loads the chart
-part through `ChartHost.Load` and paints it with `ChartHost.Paint` (see `charts.md`). Without a painter, or for a frame that is not a
-chart, the painter notes `drawing.graphic-frame`; a chart that cannot be read notes `drawing.chart-not-painted`. A metafile picture
+part through `ChartHost.Load` and paints it with `ChartHost.Paint` (see `charts.md`). Without a painter, or for a frame that is neither a
+chart nor a diagram, the painter notes `drawing.graphic-frame`; a chart that cannot be read notes `drawing.chart-not-painted`. A metafile picture
 (EMF or WMF, recognised by its bytes) is drawn through `PictureHook.TryPaint` (see `metafiles.md`), clipped to the shape's outline and
 cropped by `srcRect`; its bitmaps share the drawing's image handles. When the hook cannot draw it, the usual bitmap path runs and ends
 in the placeholder (`drawing.picture-undecodable`). Metafile defects arrive as notes `drawing.metafile-<defect code>`.
+
+A SmartArt frame (`dgm:relIds` in a Word drawing, a slide or worksheet `graphicFrame`) goes the same way to
+`DrawingContext.DiagramPainter` (`DiagramHost.CreatePainter`, see `smartart.md`): the stored `dsp:drawing` or the shapes the layout
+engine makes are painted at the frame's box through `DrawShapes`, so they are ordinary shapes with their text. A diagram that cannot be
+read notes `drawing.diagram-not-painted`. A shape's own text rectangle (`dsp:txXfrm`, [MS-ODRAWXML] §2.3.1) replaces the geometry's
+text rectangle when present.
 
 ## Geometry
 
@@ -136,7 +142,7 @@ Codes on `DrawingContext.Notes` (each once per context): `drawing.limit`, `drawi
 `drawing.pattern-approximated`, `drawing.line-gradient`, `drawing.effect-skipped`, `drawing.3d-flattened`, `drawing.graphic-frame`,
 `drawing.picture-missing`, `drawing.picture-linked`, `drawing.picture-undecodable`, `drawing.picture-effect`,
 `drawing.text-body-not-painted`, `drawing.text-not-painted`, `drawing.text-overflow`, `drawing.text-block-skipped`,
-`drawing.text-vertical-approximated`, `drawing.text-wrap-none-approximated`, `drawing.chart-not-painted`, `drawing.metafile-*`. `PaintOptions.DrawingNotes` collects them from
+`drawing.text-vertical-approximated`, `drawing.text-wrap-none-approximated`, `drawing.chart-not-painted`, `drawing.diagram-not-painted`, `drawing.metafile-*`. `PaintOptions.DrawingNotes` collects them from
 `LayoutPainter.Paint`. They are painting notes, not read defects: the file is fine, the renderer approximated.
 
 ## Checks

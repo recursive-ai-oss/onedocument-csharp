@@ -1251,6 +1251,7 @@ internal sealed class SheetPainter
                 RecursiveAI.OneDocument.Charts.ChartHost.Paint(list, chart.Chart, x, y, w, h, chart.Theme, _ctx.Fonts);
                 return true;
             };
+            c.DiagramPainter = RecursiveAI.OneDocument.Rendering.SmartArt.DiagramHost.CreatePainter(package, drawingPart, _ctx.Options.Diagrams);
             _drawingContexts[drawingPart] = c;
         }
 
