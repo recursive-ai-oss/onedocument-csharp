@@ -74,6 +74,7 @@ internal static class SmokeChecks
         failures.AddRange(Xml2003Smoke.Run());
         failures.AddRange(PocoSmoke.Run());
         failures.AddRange(TemplateSmoke.Run());
+        failures.AddRange(AccessibilitySmoke.Run());
         failures.AddRange(DocumentSmoke.Run());
         failures.AddRange(DocSmoke.Run());
         failures.AddRange(RenderSmoke.Run());
