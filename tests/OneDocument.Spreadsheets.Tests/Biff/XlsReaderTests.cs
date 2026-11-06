@@ -81,6 +81,9 @@ public class XlsReaderTests
     [InlineData(-1)]
     [InlineData(40)]
     [InlineData(60)]
+    [InlineData(10)]
+    [InlineData(11)]
+    [InlineData(12)]
     public void SharedStringsSplitByContinueRestartWithAFlagByte(int split)
     {
         string[] strings = ["short", new string('a', 60) + "Ü", "wide ✓ text that goes on and on", "tail"];

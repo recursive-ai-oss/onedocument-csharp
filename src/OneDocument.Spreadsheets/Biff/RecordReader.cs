@@ -169,7 +169,14 @@ internal sealed class RecordReader
         int left = cch;
         while (left > 0)
         {
-            Normalize();
+            // A string whose header ended a part continues in the next part, which starts with a flag byte for its characters.
+            if (_pos >= _parts[_part].Length && _part + 1 < _parts.Length)
+            {
+                _part++;
+                _pos = 0;
+                wide = (U8() & 1) != 0;
+            }
+
             if (_pos >= _parts[_part].Length)
             {
                 Overrun = true;

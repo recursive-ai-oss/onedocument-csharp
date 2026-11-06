@@ -53,7 +53,7 @@ internal static class Program
             return 0;
         }
 
-        if (args.Length > 2 && args[0] == "--sst")
+        if (args.Length > 1 && args[0] == "--sst")
         {
             // Lays out the shared string table records of one file: lengths of SST and the CONTINUE records after it.
             var c0 = new OpenContext(new OfficeLimits { MaxPartSize = 256 << 20 });
@@ -76,6 +76,14 @@ internal static class Program
                 }
             }
 
+            return 0;
+        }
+
+        if (args.Length > 2 && args[0] == "--convert")
+        {
+            // Converts one legacy workbook to XLSX (for validators and viewers).
+            using Workbook one = Workbook.Open(args[1]);
+            one.SaveAs(args[2]);
             return 0;
         }
 
