@@ -226,7 +226,8 @@ internal static partial class FinancialFunctions
         }
 
         double pmt = Pmt(r, n, pv, 0, type);
-        if (end - start < 100_000)
+        // Beyond 2^53 a double no longer advances by one, so only spans that count exactly are walked period by period.
+        if (end - start < 100_000 && end < 9_007_199_254_740_992d)
         {
             double sum = 0;
             for (double p = start; p <= end; p++)

@@ -90,7 +90,7 @@ internal static class FormulaTarget
 
         _ = FormulaPrinter.Print(n, new FormulaPrintOptions { Form = FormulaForm.Display, Locale = o.Locale });
         _ = FormulaPrinter.Print(FormulaTranslator.Translate(n, 3, -2));
-        if (HasR1C1Name(n) || System.Text.RegularExpressions.Regex.IsMatch(file, @"(?i)(^|[^\w.'])R\d*C\d*(:\w+)?!"))
+        if (HasR1C1Name(n) || System.Text.RegularExpressions.Regex.IsMatch(file, @"(?i)(^|[^\w.'])R\d*C\d*(:[^!:]*)?!"))
         {
             return; // A name or unquoted sheet name such as r, c or R1C1 reads as a reference in R1C1 text; Excel does not allow such names.
         }
