@@ -60,7 +60,7 @@ The `Office` statics find the readers and writers of every kind package the appl
 | CSV, TSV | yes | yes | n/a | writing reports dropped formulas, styles and sheets | `docs/csv.md` |
 | HTML | yes (sanitised by default) | yes (documents; workbooks and presentations at a basic level) | n/a | yes | `docs/html.md` |
 | Markdown (CommonMark, GFM) | yes | yes | n/a | yes | `docs/markdown.md` |
-| PDF (tagged; PDF/UA-1 or PDF/A-2a profiles), PNG | no | yes, for documents, workbooks and presentations | n/a | n/a | `docs/layout.md` |
+| PDF (tagged; PDF/UA-1 or PDF/A-2a profiles); PNG, JPEG, TIFF (multi-page), WebP and SVG pages | no | yes, for documents, workbooks and presentations | n/a | n/a | `docs/layout.md`, `docs/rendering-export.md` |
 | Text | no | yes (`Office.ExtractText`) | n/a | n/a | `docs/text-extraction.md` |
 | Embedded EMF, EMF+, WMF pictures | rendered | no | carried as parts | n/a | `docs/metafiles.md` |
 
@@ -107,7 +107,7 @@ Stated here so they are not found by surprise.
 - **Formula text** is en-US and invariant only; localized function names are not supported.
 - **DOC and PPT** are read-only. **Word 6/95 and BIFF2 to BIFF5** layouts come from observed files, not a specification.
 - **Metafiles.** Drawn as vector content where the interpreter supports the records; custom pen caps, line-end anchors, colour matrices and text clipping to a string's rectangle are not drawn, and some raster-operation cases fall back to a bitmap (`docs/metafiles.md`).
-- **Output formats.** PDF and PNG (first page) only: no SVG, JPEG, TIFF or WebP page export yet. HTML, Markdown and text export are on the hubs.
+- **Output formats.** PDF, and PNG, JPEG, TIFF, WebP and SVG pages (`PageExporter`; `SaveAs` and `Office.Convert` write the first page, or every page for TIFF). HTML, Markdown and text export are on the hubs.
 - **Rendering fidelity.** Page layout is implemented from the Word, PowerPoint and Excel rules in `docs/layout*.md`; how closely it matches Office is pending (1.0 gate), and the layout notes list the places still to be checked against Word.
 - **Not executed.** Macros, OLE payloads, Power Query, the Data Model and Solver are carried and (for VBA) listed or removed, never run.
 
@@ -120,7 +120,7 @@ Stated here so they are not found by surprise.
 | `RecursiveAI.OneDocument.Spreadsheets` | Workbooks: XLSX, XLSB, XLS, CSV/TSV, 2003 XML, calculation, pivots, streaming, typed row binding |
 | `RecursiveAI.OneDocument.Presentations` | Presentations: PPTX, PPT |
 | `RecursiveAI.OneDocument.Schema` | Generated zero-copy typed views over every pinned schema: WordprocessingML, SpreadsheetML, PresentationML, DrawingML, charts, chartex, diagrams, VML, Office Math, the package parts and the Microsoft extension schemas; `.Spreadsheets` uses them |
-| `RecursiveAI.OneDocument.Rendering` | Layout, charts, SmartArt, equations, drawing; PDF and PNG output for all three kinds |
+| `RecursiveAI.OneDocument.Rendering` | Layout, charts, SmartArt, equations, drawing; PDF and page-image (PNG, JPEG, TIFF, WebP, SVG) output for all three kinds |
 | `RecursiveAI.OneDocument.All` | Metapackage of every package above |
 | `RecursiveAI.OneDocument.Cryptography` | Signatures and encryption on write (no content yet; not in `All`) |
 | `onedocument` | Command-line tool: `detect`, `extract`, `recalc`, `template`, `render`, `convert`, `inspect`, `sanitize` |

@@ -118,9 +118,7 @@ public static class WorkbookRenderer
             return true;
         }
 
-        SheetLayoutDocument sheets = Layout(workbook, null, cancellationToken);
-        destination.Write(RenderPng(sheets, sheets.Pages.Count > 0 ? sheets.Pages[0] : null));
-        return true;
+        return false;
     }
 
     /// <summary>Renders one page as a PNG at <see cref="DocumentRenderer.PngDpi"/>.</summary>

@@ -6,19 +6,24 @@ using RecursiveAI.OneDocument.Presentations;
 using RecursiveAI.OneDocument.Rendering;
 using RecursiveAI.OneDocument.Rendering.Presentations;
 using RecursiveAI.OneDocument.Rendering.Spreadsheets;
+using RecursiveAI.OneDocument.Rendering.Svg;
 using RecursiveAI.OneDocument.Spreadsheets;
 
 namespace RecursiveAI.OneDocument.Cli;
 
 /// <summary>
-/// <c>onedocument render &lt;document&gt; -o &lt;out.pdf|out.png&gt; [--page n] [--font-dir dir]… [--system-fonts] [--no-tags] [--profile ua|a2a]</c>
-/// lays a document, workbook or presentation out and writes a PDF, or one page as a PNG. Font substitutions are listed on standard error.
-/// <c>onedocument convert &lt;in&gt; &lt;out&gt;</c> converts between formats by the output extension (including PDF and PNG).
+/// <c>onedocument render &lt;document&gt; -o &lt;out.pdf|out.png|out.jpg|out.tif|out.webp|out.svg&gt; [--pages 1-3,5|all] [--dpi n] [--width px] [--height px]
+/// [--quality n] [--svg-glyphs auto|text|outlines] [--transparent] [--font-dir dir]… [--system-fonts] [--no-tags] [--profile ua|a2a]</c>
+/// lays a document, workbook or presentation out and writes a PDF, or its pages as images. A TIFF holds every page asked for (all by default); the
+/// other image formats write page 1 unless <c>--pages</c> asks for more, and then one file per page, <c>out-1.png</c>, <c>out-2.png</c>…
+/// Font substitutions are listed on standard error.
+/// <c>onedocument convert &lt;in&gt; &lt;out&gt;</c> converts between formats by the output extension (including PDF and the image formats; images hold the first page).
 /// </summary>
 internal static class RenderCommand
 {
     public const string Usage =
-        "       onedocument render <document> -o <out.pdf|out.png> [--page <n>] [--font-dir <dir>]... [--system-fonts] [--no-tags] [--profile ua|a2a]\n" +
+        "       onedocument render <document> -o <out.pdf|out.png|out.jpg|out.tif|out.webp|out.svg> [--pages <1-3,5|all>] [--dpi <n>] [--width <px>] [--height <px>]\n" +
+        "                          [--quality <1-100>] [--svg-glyphs auto|text|outlines] [--transparent] [--font-dir <dir>]... [--system-fonts] [--no-tags] [--profile ua|a2a]\n" +
         "       onedocument convert <in> <out>\n";
 
     /// <summary>Runs <c>render</c>.</summary>
@@ -29,7 +34,12 @@ internal static class RenderCommand
     {
         string? input = null;
         string? output = null;
-        int page = 1;
+        string? pages = null;
+        double? dpi = null;
+        int? width = null, height = null;
+        int quality = 90;
+        bool transparent = false;
+        SvgGlyphMode glyphs = SvgGlyphMode.Auto;
         bool tags = true;
         bool systemFonts = false;
         string? profile = null;
@@ -41,9 +51,30 @@ internal static class RenderCommand
                 case "-o" or "--output" when i + 1 < args.Length:
                     output = args[++i];
                     break;
-                case "--page" when i + 1 < args.Length && int.TryParse(args[i + 1], out int p) && p > 0:
-                    page = p;
+                case "--page" or "--pages" when i + 1 < args.Length:
+                    pages = args[++i];
+                    break;
+                case "--dpi" when i + 1 < args.Length && double.TryParse(args[i + 1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double d) && d > 0:
+                    dpi = d;
                     i++;
+                    break;
+                case "--width" when i + 1 < args.Length && int.TryParse(args[i + 1], out int wpx) && wpx > 0:
+                    width = wpx;
+                    i++;
+                    break;
+                case "--height" when i + 1 < args.Length && int.TryParse(args[i + 1], out int hpx) && hpx > 0:
+                    height = hpx;
+                    i++;
+                    break;
+                case "--quality" when i + 1 < args.Length && int.TryParse(args[i + 1], out int q) && q is >= 1 and <= 100:
+                    quality = q;
+                    i++;
+                    break;
+                case "--svg-glyphs" when i + 1 < args.Length && args[i + 1] is "auto" or "text" or "outlines":
+                    glyphs = args[++i] switch { "text" => SvgGlyphMode.Text, "outlines" => SvgGlyphMode.Outlines, _ => SvgGlyphMode.Auto };
+                    break;
+                case "--transparent":
+                    transparent = true;
                     break;
                 case "--font-dir" when i + 1 < args.Length:
                     fontDirs.Add(args[++i]);
@@ -80,9 +111,31 @@ internal static class RenderCommand
         {
             var context = new OpenContext(defects: defects);
             using OfficeFile opened = Office.Open(input, context);
+            if (PageExporter.TryGetFormat(output, out PageImageFormat imageFormat))
+            {
+                FontLibrary imageFonts = Fonts(fontDirs, systemFonts);
+                if (opened is Document imageDoc)
+                {
+                    DocumentFonts.AddEmbeddedFonts(imageDoc, imageFonts);
+                }
+
+                var exportOptions = new PageExportOptions
+                {
+                    Layout = new LayoutOptions { Fonts = imageFonts },
+                    Dpi = dpi,
+                    WidthPixels = width,
+                    HeightPixels = height,
+                    Quality = quality,
+                    TransparentBackground = transparent,
+                    SvgGlyphMode = glyphs,
+                    SvgTags = tags,
+                };
+                return ExportImages(opened, output, imageFormat, pages, exportOptions, error);
+            }
+
             if (opened is not Document doc)
             {
-                return RenderOther(opened, output, page, tags, profile, Fonts(fontDirs, systemFonts), error);
+                return RenderOther(opened, output, tags, profile, Fonts(fontDirs, systemFonts), error);
             }
 
             FontLibrary fonts = Fonts(fontDirs, systemFonts);
@@ -108,20 +161,9 @@ internal static class RenderCommand
                 DocumentRenderer.WritePdf(layout, doc, buffer, options);
                 File.WriteAllBytes(output, buffer.ToArray());
             }
-            else if (ext == ".png")
-            {
-                layout = LayoutEngine.Layout(doc, layoutOptions);
-                if (page > layout.Pages.Count)
-                {
-                    error.WriteLine($"error: the document has {layout.Pages.Count} page(s); there is no page {page}.");
-                    return 1;
-                }
-
-                File.WriteAllBytes(output, DocumentRenderer.RenderPng(layout.Pages[page - 1]));
-            }
             else
             {
-                error.WriteLine("error: the output must end in .pdf or .png.");
+                error.WriteLine(OutputHint);
                 return 2;
             }
 
@@ -145,13 +187,13 @@ internal static class RenderCommand
         }
     }
 
-    // A presentation or a workbook: the same PDF and PNG output through each kind's renderer.
-    private static int RenderOther(OfficeFile file, string output, int page, bool tags, string? profile, FontLibrary fonts, TextWriter error)
+    // A presentation or a workbook: the same PDF output through each kind's renderer.
+    private static int RenderOther(OfficeFile file, string output, bool tags, string? profile, FontLibrary fonts, TextWriter error)
     {
         string ext = Path.GetExtension(output).ToLowerInvariant();
-        if (ext is not (".pdf" or ".png"))
+        if (ext != ".pdf")
         {
-            error.WriteLine("error: the output must end in .pdf or .png.");
+            error.WriteLine(OutputHint);
             return 2;
         }
 
@@ -167,20 +209,12 @@ internal static class RenderCommand
                 {
                     var options = new PresentationRenderOptions { Fonts = fonts, Tagged = tags, Profile = pdfProfile };
                     var notes = new List<string>();
-                    if (ext == ".pdf")
-                    {
-                        using var buffer = new MemoryStream();
-                        PresentationRenderReport report = PresentationRenderer.WritePdf(deck, buffer, options);
-                        File.WriteAllBytes(output, buffer.ToArray());
-                        notes.AddRange(report.FontNotes.Select(n => "warning font-substitution: " + n.Message));
-                        notes.AddRange(report.Notes.Select(n => "warning " + n.Code + ": " + n.Message));
-                        Console.WriteLine($"{report.Pages.Count} page(s) rendered; wrote {output}");
-                    }
-                    else
-                    {
-                        File.WriteAllBytes(output, PresentationRenderer.RenderPng(deck, page - 1, options));
-                        Console.WriteLine($"page {page} rendered; wrote {output}");
-                    }
+                    using var buffer = new MemoryStream();
+                    PresentationRenderReport report = PresentationRenderer.WritePdf(deck, buffer, options);
+                    File.WriteAllBytes(output, buffer.ToArray());
+                    notes.AddRange(report.FontNotes.Select(n => "warning font-substitution: " + n.Message));
+                    notes.AddRange(report.Notes.Select(n => "warning " + n.Code + ": " + n.Message));
+                    Console.WriteLine($"{report.Pages.Count} page(s) rendered; wrote {output}");
 
                     foreach (string n in notes)
                     {
@@ -195,22 +229,9 @@ internal static class RenderCommand
                     var layoutOptions = new LayoutOptions { Fonts = fonts };
                     var sheetOptions = new SheetRenderOptions { Fonts = fonts, Tagged = tags };
                     SheetLayoutDocument layout = WorkbookRenderer.Layout(book, sheetOptions);
-                    if (ext == ".pdf")
-                    {
-                        using var buffer = new MemoryStream();
-                        WorkbookRenderer.WritePdf(layout, buffer, new PdfRenderOptions { Layout = layoutOptions, Tagged = tags, Profile = pdfProfile });
-                        File.WriteAllBytes(output, buffer.ToArray());
-                    }
-                    else
-                    {
-                        if (page > layout.Pages.Count)
-                        {
-                            error.WriteLine($"error: the workbook prints {layout.Pages.Count} page(s); there is no page {page}.");
-                            return 1;
-                        }
-
-                        File.WriteAllBytes(output, WorkbookRenderer.RenderPng(layout, layout.Pages.Count > 0 ? layout.Pages[page - 1] : null));
-                    }
+                    using var buffer = new MemoryStream();
+                    WorkbookRenderer.WritePdf(layout, buffer, new PdfRenderOptions { Layout = layoutOptions, Tagged = tags, Profile = pdfProfile });
+                    File.WriteAllBytes(output, buffer.ToArray());
 
                     foreach (FontSubstitutionNote n in layout.FontNotes)
                     {
@@ -229,6 +250,65 @@ internal static class RenderCommand
             default:
                 error.WriteLine("error: rendering is available for documents, workbooks and presentations; this file is a " + file.Kind + ".");
                 return 1;
+        }
+    }
+
+    private const string OutputHint = "error: the output must end in .pdf, .png, .jpg, .tif, .webp or .svg.";
+
+    // Pages as images: one file for page 1 (or the single page asked for), one numbered file per page for several, one TIFF for all.
+    private static int ExportImages(OfficeFile file, string output, PageImageFormat format, string? pagesText, PageExportOptions options, TextWriter error)
+    {
+        PageSelection? selection = null;
+        if (pagesText is not null && !PageSelection.TryParse(pagesText, out selection!))
+        {
+            error.WriteLine("error: --pages takes page numbers and ranges such as 1-3,5, or all.");
+            return 2;
+        }
+
+        try
+        {
+            if (format == PageImageFormat.Tiff || selection is null || selection.IsSinglePage)
+            {
+                options.Pages = selection ?? (format == PageImageFormat.Tiff ? PageSelection.All : PageSelection.Page(1));
+                using var buffer = new MemoryStream();
+                PageExportReport one = PageExporter.Export(file, buffer, format, options);
+                File.WriteAllBytes(output, buffer.ToArray());
+                Notes(one, error);
+                Console.WriteLine($"{one.Exported.Count} of {one.PageCount} page(s) exported; wrote {output}");
+                return 0;
+            }
+
+            options.Pages = selection;
+            string stem = Path.Combine(Path.GetDirectoryName(output) ?? string.Empty, Path.GetFileNameWithoutExtension(output));
+            string ext = Path.GetExtension(output);
+            var written = new List<string>();
+            PageExportReport report = PageExporter.ExportPages(file, format, page =>
+            {
+                string name = stem + "-" + page.Number.ToString(System.Globalization.CultureInfo.InvariantCulture) + ext;
+                File.WriteAllBytes(name, page.Data);
+                written.Add(name);
+            }, options);
+            Notes(report, error);
+            Console.WriteLine($"{report.Exported.Count} of {report.PageCount} page(s) exported; wrote {string.Join(", ", written)}");
+            return 0;
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            error.WriteLine("error: " + ex.Message);
+            return 1;
+        }
+        catch (ArgumentException ex)
+        {
+            error.WriteLine("error: " + ex.Message);
+            return 2;
+        }
+    }
+
+    private static void Notes(PageExportReport report, TextWriter error)
+    {
+        foreach (string note in report.Notes)
+        {
+            error.WriteLine("warning " + note);
         }
     }
 
