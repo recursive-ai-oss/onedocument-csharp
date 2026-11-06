@@ -25,6 +25,7 @@ public static class SpreadsheetFormats
         ArgumentNullException.ThrowIfNull(registry);
         OfficeFormat[] formats = [.. Formats];
         registry.RegisterInspectionProvider(Inspection.ExcelInspectionProvider.Instance, OfficeKind.Workbook);
+        Streaming.BinaryTextExtractor.Register(registry);
         OfficeFormat[] delimited = [OfficeFormat.Csv, OfficeFormat.Tsv];
         registry.RegisterReader(
             static (source, _, context, filePath, cancellationToken) => Workbook.OpenSource(source, context, filePath, cancellationToken),

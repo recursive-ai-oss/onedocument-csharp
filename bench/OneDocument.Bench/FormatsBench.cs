@@ -58,8 +58,8 @@ public static class FormatsBench
     /// <summary>The rows, grouped for the report and for run slots. Each group fits one queue slot of at most 20 minutes.</summary>
     public static readonly (string Group, string[] Rows, string Kind)[] Groups =
     [
-        ("xls-read", ["onedocument.xls.model", "sylvan.xls.read", "exceldatareader.xls.read", "npoi.xls.model"], "legacy-xls"),
-        ("xlsb-read", ["onedocument.xlsb.model", "sylvan.xlsb.read", "exceldatareader.xlsb.read"], "legacy-xlsb"),
+        ("xls-read", ["onedocument.xls.model", "onedocument.xls.read", "sylvan.xls.read", "exceldatareader.xls.read", "npoi.xls.model"], "legacy-xls"),
+        ("xlsb-read", ["onedocument.xlsb.model", "onedocument.xlsb.read", "sylvan.xlsb.read", "exceldatareader.xlsb.read"], "legacy-xlsb"),
         ("xls-write", ["onedocument.xls.write", "npoi.xls.write"], "write-xls"),
         ("calc-cold", ["onedocument.calc.cold", "closedxml.calc.cold", "npoi.calc.cold", "epplus.calc.cold"], "calc"),
         ("calc-incr", ["onedocument.calc.incr", "closedxml.calc.incr", "npoi.calc.incr", "epplus.calc.incr"], "calc"),
@@ -83,6 +83,16 @@ public static class FormatsBench
                 return RunOne(args[1], args[2], args.Length == 4 ? int.Parse(args[3], CultureInfo.InvariantCulture) : 3);
             case "group" when args.Length == 4:
                 return RunGroup(args[1], args[2], args[3]);
+            case "toxlsb" when args.Length == 3:
+            {
+                // Converts a workbook to a binary workbook: the memory rows need inputs of sizes the timing rows do not use.
+                // The million-row input is far past the default allocation ceiling; this tool converts files it generated itself.
+                var limits = RecursiveAI.OneDocument.OfficeLimits.Large;
+                using HubWorkbook wb = HubWorkbook.Open(args[1], new RecursiveAI.OneDocument.OpenContext(limits));
+                wb.SaveAs(args[2], RecursiveAI.OneDocument.OfficeFormat.Xlsb);
+                return 0;
+            }
+
             case "groups":
                 foreach ((string g, string[] rows, _) in Groups)
                 {
@@ -91,7 +101,7 @@ public static class FormatsBench
 
                 return 0;
             default:
-                Console.Error.WriteLine("usage: fmtbench gen DIR | run ROW FILE|N [reps] | group NAME DIR OUT.tsv | groups");
+                Console.Error.WriteLine("usage: fmtbench gen DIR | toxlsb IN OUT | run ROW FILE|N [reps] | group NAME DIR OUT.tsv | groups");
                 return 2;
         }
     }
@@ -463,6 +473,51 @@ public static class FormatsBench
                 foreach (RecursiveAI.OneDocument.Spreadsheets.Worksheet s in wb.Sheets)
                 {
                     sum += XlsxStreamBench.VisitSheet(s);
+                }
+
+                return sum;
+            }
+
+            case "onedocument.xls.read":
+            {
+                // The forward cursor, read the way the forward readers are: the native type of each cell, text as a string.
+                long sum = 0;
+                using var book = RecursiveAI.OneDocument.Spreadsheets.Streaming.XlsStreamReader.Open(target);
+                using RecursiveAI.OneDocument.Spreadsheets.Streaming.XlsSheetCursor c = book.OpenSheet(0);
+                while (c.ReadRow())
+                {
+                    while (c.ReadCell())
+                    {
+                        sum += c.Kind switch
+                        {
+                            RecursiveAI.OneDocument.Spreadsheets.CellValueKind.Number => c.IsDate && c.TryGetDateTime(out DateTime when) ? (long)when.ToOADate() : (long)c.Number,
+                            RecursiveAI.OneDocument.Spreadsheets.CellValueKind.Boolean => c.Boolean ? 1 : 0,
+                            RecursiveAI.OneDocument.Spreadsheets.CellValueKind.Text => c.GetText().Length,
+                            _ => 0,
+                        };
+                    }
+                }
+
+                return sum;
+            }
+
+            case "onedocument.xlsb.read":
+            {
+                long sum = 0;
+                using var book = RecursiveAI.OneDocument.Spreadsheets.Streaming.XlsbStreamReader.Open(target);
+                using RecursiveAI.OneDocument.Spreadsheets.Streaming.XlsbSheetCursor c = book.OpenSheet(0);
+                while (c.ReadRow())
+                {
+                    while (c.ReadCell())
+                    {
+                        sum += c.Kind switch
+                        {
+                            RecursiveAI.OneDocument.Spreadsheets.CellValueKind.Number => c.IsDate && c.TryGetDateTime(out DateTime when) ? (long)when.ToOADate() : (long)c.Number,
+                            RecursiveAI.OneDocument.Spreadsheets.CellValueKind.Boolean => c.Boolean ? 1 : 0,
+                            RecursiveAI.OneDocument.Spreadsheets.CellValueKind.Text => c.GetText().Length,
+                            _ => 0,
+                        };
+                    }
                 }
 
                 return sum;

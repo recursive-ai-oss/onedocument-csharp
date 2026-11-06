@@ -1,6 +1,7 @@
 using RecursiveAI.OneDocument.IO;
 using RecursiveAI.OneDocument.Spreadsheets;
 using RecursiveAI.OneDocument.Spreadsheets.Biff;
+using RecursiveAI.OneDocument.Spreadsheets.Streaming;
 
 namespace RecursiveAI.OneDocument.Smoke;
 
@@ -35,6 +36,13 @@ internal static class XlsSmoke
         using var output = new MemoryStream();
         wb.SaveAs(output, OfficeFormat.Xlsx);
         if (output.Length < 500) failures.Add("xls save");
+
+        // The same bytes through the forward cursor.
+        using XlsStreamReader reader = XlsStreamReader.Open(ByteSource.FromMemory(file));
+        using XlsSheetCursor c = reader.OpenSheet("S");
+        if (!c.ReadRow() || !c.ReadCell() || c.Kind != CellValueKind.Number || c.Number != 2.5) failures.Add("xls cursor number");
+        if (!c.ReadCell() || !c.HasFormula || c.Number != 5) failures.Add("xls cursor formula result");
+        if (c.ReadCell() || c.ReadRow()) failures.Add("xls cursor end");
         return failures;
     }
 }

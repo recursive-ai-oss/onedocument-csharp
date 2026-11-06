@@ -255,7 +255,7 @@ internal sealed partial class XlsImporter
     }
 
     // [MS-XLS] §2.4.52 CodePage: 0x8000 is the Macintosh (Roman) page and 0x8001 Windows-1252; others are Windows code page numbers.
-    private static Encoding ResolveEncoding(int cp, out bool ok)
+    internal static Encoding ResolveEncoding(int cp, out bool ok)
     {
         ok = true;
         if (cp == 1200 || cp == 1201)

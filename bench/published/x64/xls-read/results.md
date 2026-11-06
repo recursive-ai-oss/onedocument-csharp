@@ -14,16 +14,16 @@ memory: 125 GB
 storage (inputs): /dev/nvme0n1p4 1.2T
 os: Linux 7.0.0-38-generic x86_64
 sdk: 10.0.403
-[before] 2026-11-06T08:15:51Z load1/5/15: 1.20 2.97 7.23
-[after] 2026-11-06T08:16:13Z load1/5/15: 1.21 2.85 7.11
+[before] 2026-11-06T12:22:57Z load1/5/15: 1.76 3.70 7.06
+[after] 2026-11-06T12:23:20Z load1/5/15: 1.50 3.48 6.90
 ```
 
 ## Load while running (sampled)
 
 ```text
-[during] 2026-11-06T08:15:52Z load1/5/15: 1.20 2.97 7.23
-[during] 2026-11-06T08:16:02Z load1/5/15: 1.25 2.92 7.17
-[during] 2026-11-06T08:16:12Z load1/5/15: 1.21 2.85 7.11
+[during] 2026-11-06T12:22:57Z load1/5/15: 1.70 3.65 7.03
+[during] 2026-11-06T12:23:07Z load1/5/15: 1.59 3.56 6.96
+[during] 2026-11-06T12:23:17Z load1/5/15: 1.50 3.48 6.90
 ```
 
 ## Versions
@@ -42,18 +42,25 @@ ClosedXML.Report	1.0.0
 BenchmarkDotNet	0.15.8
 ```
 
+## XLS read, value streaming
+
+| Input | Row | Reps | Median | Min | Ratio to OneDocument | Allocated | Peak working set | Checksum |
+|---|---|---:|---:|---:|---:|---:|---:|---|
+| values-10000.xls | onedocument.xls.read | 15 | 5.4 ms | 5.2 ms | 1.00x | 1.0 MB | 64 MB | 537015189 |
+| values-10000.xls | exceldatareader.xls.read | 15 | 30.2 ms | 30.0 ms | 5.59x | 15.5 MB | 74 MB | 537015189 |
+| values-10000.xls | sylvan.xls.read | 15 | 9.2 ms | 9.1 ms | 1.70x | 0.2 MB | 55 MB | 537015189 |
+| values-50000.xls | onedocument.xls.read | 15 | 24.6 ms | 23.9 ms | 1.00x | 1.1 MB | 67 MB | 4189564533 |
+| values-50000.xls | exceldatareader.xls.read | 3 | 289.7 ms | 284.7 ms | 11.78x | 74.9 MB | 114 MB | 4189564533 |
+| values-50000.xls | sylvan.xls.read | 15 | 44.6 ms | 44.5 ms | 1.81x | 0.3 MB | 55 MB | 4189564533 |
+
 ## XLS read, full model
 
 | Input | Row | Reps | Median | Min | Ratio to OneDocument | Allocated | Peak working set | Checksum |
 |---|---|---:|---:|---:|---:|---:|---:|---|
-| values-10000.xls | onedocument.xls.model | 15 | 47.9 ms | 47.3 ms | 1.00x | 23.6 MB | 85 MB | 537015189 |
-| values-10000.xls | exceldatareader.xls.read (strict only) | 15 | 30.3 ms | 29.9 ms | 0.63x | 15.5 MB | 73 MB | 537015189 |
-| values-10000.xls | npoi.xls.model | 5 | 140.7 ms | 136.7 ms | 2.94x | 61.6 MB | 123 MB | 537010189 |
-| values-10000.xls | sylvan.xls.read (strict only) | 15 | 9.1 ms | 9.0 ms | 0.19x | 0.2 MB | 54 MB | 537015189 |
-| values-50000.xls | onedocument.xls.model | 3 | 99.8 ms | 99.4 ms | 1.00x | 111.6 MB | 142 MB | 4189564533 |
-| values-50000.xls | exceldatareader.xls.read (strict only) | 3 | 286.1 ms | 283.4 ms | 2.87x | 74.9 MB | 113 MB | 4189564533 |
-| values-50000.xls | npoi.xls.model | 3 | 737.3 ms | 733.9 ms | 7.39x | 312.1 MB | 256 MB | 4189539533 |
-| values-50000.xls | sylvan.xls.read (strict only) | 15 | 44.0 ms | 43.6 ms | 0.44x | 0.3 MB | 54 MB | 4189564533 |
+| values-10000.xls | onedocument.xls.model | 15 | 47.6 ms | 46.7 ms | 1.00x | 23.6 MB | 85 MB | 537015189 |
+| values-10000.xls | npoi.xls.model | 5 | 135.2 ms | 134.1 ms | 2.84x | 61.6 MB | 123 MB | 537010189 |
+| values-50000.xls | onedocument.xls.model | 3 | 101.1 ms | 100.5 ms | 1.00x | 111.6 MB | 142 MB | 4189564533 |
+| values-50000.xls | npoi.xls.model | 3 | 749.9 ms | 745.6 ms | 7.42x | 312.1 MB | 256 MB | 4189539533 |
 
 ## Bar: OneDocument against the fastest like-for-like managed comparator
 
@@ -61,19 +68,10 @@ Ratio is OneDocument median / the fastest comparator's median for the same opera
 
 | Operation | Input | OneDocument | Fastest comparator | Comparator median | Ratio |
 |---|---|---:|---|---:|---:|
-| XLS read, full model | values-10000.xls | 47.9 ms | npoi.xls.model | 140.7 ms | 0.34x |
-| XLS read, full model | values-50000.xls | 99.8 ms | npoi.xls.model | 737.3 ms | 0.14x |
+| XLS read, value streaming | values-10000.xls | 5.4 ms | sylvan.xls.read | 9.2 ms | 0.59x |
+| XLS read, value streaming | values-50000.xls | 24.6 ms | sylvan.xls.read | 44.6 ms | 0.55x |
+| XLS read, full model | values-10000.xls | 47.6 ms | npoi.xls.model | 135.2 ms | 0.35x |
+| XLS read, full model | values-50000.xls | 101.1 ms | npoi.xls.model | 749.9 ms | 0.13x |
 
-Geometric mean of the ratios: 0.215x over 2 rows. Worst row: XLS read, full model, values-10000.xls at 0.34x.
-
-## Strict: also against the lighter-job comparators (forward value readers against our full model)
-
-Ratio is OneDocument median / the fastest comparator's median for the same operation and input; at or below 1.00 is faster.
-
-| Operation | Input | OneDocument | Fastest comparator | Comparator median | Ratio |
-|---|---|---:|---|---:|---:|
-| XLS read, full model | values-10000.xls | 47.9 ms | sylvan.xls.read | 9.1 ms | 5.26x |
-| XLS read, full model | values-50000.xls | 99.8 ms | sylvan.xls.read | 44.0 ms | 2.27x |
-
-Geometric mean of the ratios: 3.455x over 2 rows. Worst row: XLS read, full model, values-10000.xls at 5.26x.
+Geometric mean of the ratios: 0.352x over 4 rows. Worst row: XLS read, value streaming, values-10000.xls at 0.59x.
 

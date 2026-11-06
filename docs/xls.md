@@ -2,6 +2,8 @@
 
 `RecursiveAI.OneDocument.Spreadsheets.Biff` reads Excel 2.0 to 2003 workbooks and converts them to the SpreadsheetML hub (`Workbook`). Reading follows [MS-XLS] (BIFF8); the layouts of BIFF2 to BIFF5 are not in that specification and are read from the files themselves (see "What is certain" below).
 
+`XlsStreamReader` and its cursor read the same files forward-only, without building the workbook, for large files and for value-only jobs; `Spreadsheet.Read<T>`, `Spreadsheet.ReadRows` and `Office.ExtractText` use it. See `spreadsheets-streaming.md`.
+
 ```csharp
 using Workbook wb = Workbook.Open("old.xls");     // sniffs the content, never the extension
 LossReport loss = wb.ImportLoss!;                   // what the hub could not carry

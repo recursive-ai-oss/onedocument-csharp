@@ -95,7 +95,12 @@ internal static class RowPipeline
             case OfficeFormat.Xltm:
             case OfficeFormat.Xlam:
             case OfficeFormat.FlatOpcWorkbook:
-                return new XlsxRowSource(stream, schema, context, cancellationToken);
+                return CursorRowSource.Xlsx(stream, schema, context, cancellationToken);
+            case OfficeFormat.Xlsb:
+                return CursorRowSource.Xlsb(stream, schema, context, cancellationToken);
+            case OfficeFormat.Xls:
+            case OfficeFormat.XlsLegacy:
+                return CursorRowSource.Xls(stream, schema, context, cancellationToken);
             case OfficeFormat.Csv:
             case OfficeFormat.Tsv:
                 return new CsvRowSource(stream, format == OfficeFormat.Tsv, schema, context, cancellationToken);
@@ -139,53 +144,67 @@ internal static class RowPipeline
             yield break;
         }
 
-        if (format is not (OfficeFormat.Xlsx or OfficeFormat.Xlsm or OfficeFormat.Xltx or OfficeFormat.Xltm or OfficeFormat.Xlam or OfficeFormat.FlatOpcWorkbook))
+        IDisposable book;
+        ICellCursor cursor;
+        switch (format)
         {
-            throw format == OfficeFormat.Unknown
-                ? new OfficeFormatException(DefectKind.Structure, "format.unrecognised", "The content is not a spreadsheet or delimited text.")
-                : new FormatNotAvailableException(format, "read rows from");
-        }
-
-        using XlsxStreamReader book = XlsxStreamReader.Open(stream, ctx, leaveOpen: true, cancellationToken);
-        int index = -1;
-        for (int i = 0; i < book.Sheets.Count; i++)
-        {
-            StreamSheetInfo s = book.Sheets[i];
-            if (none.Sheet is { } wanted ? string.Equals(s.Name, wanted, StringComparison.OrdinalIgnoreCase) : s.Kind == SheetKind.Worksheet && s.State == SheetState.Visible)
+            case OfficeFormat.Xlsx or OfficeFormat.Xlsm or OfficeFormat.Xltx or OfficeFormat.Xltm or OfficeFormat.Xlam or OfficeFormat.FlatOpcWorkbook:
             {
-                index = i;
+                XlsxStreamReader xlsx = XlsxStreamReader.Open(stream, ctx, leaveOpen: true, cancellationToken);
+                book = xlsx;
+                cursor = xlsx.OpenSheet(CursorRowSource.FindSheet(xlsx.Sheets, none.Sheet));
                 break;
             }
-        }
 
-        if (index < 0)
-        {
-            throw new OfficeFormatException(DefectKind.Reference, "binding.sheet-not-found", none.Sheet is null ? "The workbook has no visible worksheet." : "The workbook has no sheet named '" + none.Sheet + "'.");
-        }
-
-        using SheetCursor cursor = book.OpenSheet(index);
-        var cells = new List<object?>();
-        while (cursor.ReadRow())
-        {
-            cells.Clear();
-            while (cursor.ReadCell())
+            case OfficeFormat.Xlsb:
             {
-                while (cells.Count < cursor.Column - 1)
-                {
-                    cells.Add(null);
-                }
-
-                cells.Add(cursor.Kind switch
-                {
-                    CellValueKind.Number => cursor.IsDate && cursor.TryGetDateTime(out DateTime d) ? d : cursor.Number,
-                    CellValueKind.Text => cursor.GetText(),
-                    CellValueKind.Boolean => cursor.Boolean,
-                    CellValueKind.Error => cursor.Error,
-                    _ => null,
-                });
+                XlsbStreamReader xlsb = XlsbStreamReader.Open(stream, ctx, leaveOpen: true, cancellationToken);
+                book = xlsb;
+                cursor = xlsb.OpenSheet(CursorRowSource.FindSheet(xlsb.Sheets, none.Sheet));
+                break;
             }
 
-            yield return [.. cells];
+            case OfficeFormat.Xls:
+            case OfficeFormat.XlsLegacy:
+            {
+                XlsStreamReader xls = XlsStreamReader.Open(stream, ctx, leaveOpen: true, cancellationToken);
+                book = xls;
+                cursor = xls.OpenSheet(CursorRowSource.FindSheet(xls.Sheets, none.Sheet));
+                break;
+            }
+
+            default:
+                throw format == OfficeFormat.Unknown
+                    ? new OfficeFormatException(DefectKind.Structure, "format.unrecognised", "The content is not a spreadsheet or delimited text.")
+                    : new FormatNotAvailableException(format, "read rows from");
+        }
+
+        using (book)
+        using (cursor)
+        {
+            var cells = new List<object?>();
+            while (cursor.ReadRow())
+            {
+                cells.Clear();
+                while (cursor.ReadCell())
+                {
+                    while (cells.Count < cursor.Column - 1)
+                    {
+                        cells.Add(null);
+                    }
+
+                    cells.Add(cursor.Kind switch
+                    {
+                        CellValueKind.Number => cursor.IsDate && cursor.TryGetDateTime(out DateTime d) ? d : cursor.Number,
+                        CellValueKind.Text => cursor.GetText(),
+                        CellValueKind.Boolean => cursor.Boolean,
+                        CellValueKind.Error => cursor.Error,
+                        _ => null,
+                    });
+                }
+
+                yield return [.. cells];
+            }
         }
     }
 

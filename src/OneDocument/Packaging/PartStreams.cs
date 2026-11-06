@@ -67,16 +67,40 @@ internal sealed class LockedStream(object gate, Stream inner) : Stream
 {
     public override bool CanRead => true;
 
-    public override bool CanSeek => false;
+    // A part stream over a container can seek when the container's own stream can (a compound file's streams do, a compressed zip entry
+    // does not); the position moves under the same lock as reads.
+    public override bool CanSeek => inner.CanSeek;
 
     public override bool CanWrite => false;
 
-    public override long Length => throw new NotSupportedException();
+    public override long Length
+    {
+        get
+        {
+            lock (gate)
+            {
+                return inner.Length;
+            }
+        }
+    }
 
     public override long Position
     {
-        get => throw new NotSupportedException();
-        set => throw new NotSupportedException();
+        get
+        {
+            lock (gate)
+            {
+                return inner.Position;
+            }
+        }
+
+        set
+        {
+            lock (gate)
+            {
+                inner.Position = value;
+            }
+        }
     }
 
     public override int Read(byte[] buffer, int offset, int count) => Read(buffer.AsSpan(offset, count));
@@ -93,7 +117,13 @@ internal sealed class LockedStream(object gate, Stream inner) : Stream
     {
     }
 
-    public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+    public override long Seek(long offset, SeekOrigin origin)
+    {
+        lock (gate)
+        {
+            return inner.Seek(offset, origin);
+        }
+    }
 
     public override void SetLength(long value) => throw new NotSupportedException();
 

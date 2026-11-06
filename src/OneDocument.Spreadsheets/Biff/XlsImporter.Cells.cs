@@ -442,7 +442,7 @@ internal sealed partial class XlsImporter
         return idx;
     }
 
-    private static double DecodeRk(uint rk)
+    internal static double DecodeRk(uint rk)
     {
         // [MS-XLS] §2.5.218 RkNumber: bit 0 divides by 100, bit 1 selects a 30-bit integer over the high 30 bits of an IEEE double.
         double v;
@@ -622,7 +622,7 @@ internal sealed partial class XlsImporter
         return m;
     }
 
-    private static CellError ErrorOf(int code) => code is >= 0 and < 0x30 ? ErrorMap[code] : CellError.Value;
+    internal static CellError ErrorOf(int code) => code is >= 0 and < 0x30 ? ErrorMap[code] : CellError.Value;
 
     private void BoolErr(SheetCtx sc, BiffRecord r)
     {

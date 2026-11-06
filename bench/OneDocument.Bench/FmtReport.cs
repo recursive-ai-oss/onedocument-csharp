@@ -15,8 +15,9 @@ internal static class FmtReport
     // (title, our row, like-for-like comparators, extra comparators counted only in the strict table)
     private static readonly (string Title, string Ours, string[] Others, string[] Strict)[] Groups =
     [
-        ("XLS read, full model", "onedocument.xls.model", ["npoi.xls.model"], ["sylvan.xls.read", "exceldatareader.xls.read"]),
-        ("XLSB read, full model", "onedocument.xlsb.model", [], ["sylvan.xlsb.read", "exceldatareader.xlsb.read"]),
+        ("XLS read, value streaming", "onedocument.xls.read", ["sylvan.xls.read", "exceldatareader.xls.read"], []),
+        ("XLSB read, value streaming", "onedocument.xlsb.read", ["sylvan.xlsb.read", "exceldatareader.xlsb.read"], []),
+        ("XLS read, full model", "onedocument.xls.model", ["npoi.xls.model"], []),
         ("XLS write (build 10 columns per row, save)", "onedocument.xls.write", ["npoi.xls.write"], []),
         ("Recalculation, cold (every formula)", "onedocument.calc.cold", ["closedxml.calc.cold", "npoi.calc.cold", "epplus.calc.cold"], []),
         ("Recalculation, incremental (one input cell changed)", "onedocument.calc.incr", ["closedxml.calc.incr", "npoi.calc.incr", "epplus.calc.incr"], []),
@@ -32,7 +33,7 @@ internal static class FmtReport
 
     // Rows with no managed comparator: published as information.
     private static readonly string[] InfoRows =
-        ["onedocument.tpl.docx", "onedocument.render.docx", "onedocument.doc.extract", "onedocument.rtf.extract", "onedocument.odt.extract", "onedocument.ods.model"];
+        ["onedocument.xlsb.model", "onedocument.tpl.docx", "onedocument.render.docx", "onedocument.doc.extract", "onedocument.rtf.extract", "onedocument.odt.extract", "onedocument.ods.model"];
 
     /// <summary>Appends the tables for every <c>fmt-*.tsv</c> in <paramref name="dir"/>; returns whether anything was written.</summary>
     public static bool Append(StringBuilder md, string dir)

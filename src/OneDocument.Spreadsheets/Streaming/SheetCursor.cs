@@ -28,7 +28,7 @@ namespace RecursiveAI.OneDocument.Spreadsheets.Streaming;
 /// <para>Failures raise <see cref="OfficeFormatException"/> or <see cref="OfficeLimitException"/> located by part and offset; repairs are reported to
 /// <see cref="OpenContext.Defects"/> with the cell address.</para>
 /// </remarks>
-public sealed class SheetCursor : IDisposable
+public sealed class SheetCursor : ICellCursor
 {
     private enum State
     {
