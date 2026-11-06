@@ -328,4 +328,24 @@ public partial class SanitizeReviewTests
     }
 
     private static string RepoPath([System.Runtime.CompilerServices.CallerFilePath] string here = "") => here;
+
+    [Fact]
+    public void Text_hidden_by_a_style_goes_and_a_run_that_overrides_it_stays()
+    {
+        ReviewScenario s = ReviewScenarios.All.Single(x => x.Name == "hid-style");
+        InspectionReport r = Inspector.Inspect(new MemoryStream(s.Bytes));
+        Assert.Equal(3, r.CountOf(InspectionCategory.HiddenText));
+        string dir = Path.Combine(Environment.GetEnvironmentVariable("TMPDIR") ?? Path.GetTempPath(), "review-style-" + Guid.NewGuid().ToString("N")[..8]);
+        Directory.CreateDirectory(dir);
+        string path = Path.Combine(dir, "out.docx");
+        using (var output = new MemoryStream())
+        {
+            Sanitizer.Sanitize(new MemoryStream(s.Bytes), output);
+            File.WriteAllBytes(path, output.ToArray());
+        }
+
+        string text = Office.ExtractText(path);
+        Assert.DoesNotContain("PLANTED", text, StringComparison.Ordinal);
+        Assert.Contains("shown-by-override", text, StringComparison.Ordinal);
+    }
 }

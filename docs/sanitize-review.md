@@ -16,7 +16,7 @@ A recorded gap is a test that is skipped while it still fails and fails when it 
 
 ## Verdict: pass, with the gaps listed
 
-Every removal the report claims holds in the 59 passing cases, the verifier no longer lets a category with kept items hide other leftovers, and each remaining gap is documented in `docs/sanitize.md` and recorded as a skipped test. A dozen defects were found and fixed (below). Five gaps remain; none is a removal that the report claims and does not perform.
+Every removal the report claims holds in the 61 passing cases, the verifier no longer lets a category with kept items hide other leftovers, and each remaining gap is documented in `docs/sanitize.md` and recorded as a skipped test. A dozen defects were found and fixed (below). Three gaps remain; none is a removal that the report claims and does not perform.
 
 ## Defects found and fixed
 
@@ -45,9 +45,9 @@ Status: **tested** = covered and exercised by a committed case; **untested** = c
 | Comments / annotations | tested (all comment parts, footnote anchors, people, orphan part) | tested (notes, threaded comments, persons, orphan part) | tested (classic, modern, authors) |
 | Revisions / tracking data | tested (inline, move ranges, table, section, styles, numbering, footnotes, headers, text boxes in Choice and Fallback, glossary kept) | tested (shared-workbook user names; change history by torture file) | tested (`changesInfo`, revision info) |
 | Document properties and personal information | tested (every core field, extended fields and link lists, docVars, rsids, attached template, mail-merge source, range permissions) | tested (file sharing, absolute path, printer settings, name and table comments, scenarios, web-publish paths) | untested beyond the shared core/app/custom parts (tested through Word and Excel) |
-| Custom XML | tested (package-level items, header bindings, inline wrappers) | untested beyond the torture file | tested (hidden-slide custom data); **documented gap**: slide and presentation tags |
+| Custom XML | tested (package-level items, header bindings, inline wrappers) | untested beyond the torture file | tested (hidden-slide custom data, tags) |
 | Headers, footers, watermarks | tested (sections, first page, orphan) | tested (first/even variants, pictures by torture file) | not applicable |
-| Hidden text | tested (tables, controls, links, notes, headers, text boxes, `val` spellings, paragraph marks); **documented gap**: hidden by a style | not applicable | not applicable |
+| Hidden text | tested (tables, controls, links, notes, headers, text boxes, `val` spellings, paragraph marks); tested (styles, `basedOn`, direct override) | not applicable | not applicable |
 | Invisible content | tested (text boxes in Choice and Fallback, headers) | tested (hidden shape by torture file) | tested (slides, layouts, groups) |
 | Off-slide content | not applicable | not applicable | tested for slides; **documented gap**: layouts and masters |
 | Hidden rows and columns | not applicable | tested (shared strings, hyperlinks, validation, formats, `calcChain`); **documented gap**: rows hidden by default (`zeroHeight`) | not applicable |
@@ -64,11 +64,11 @@ Categories we cover that Office's inspector does not: thumbnails, hidden slides,
 
 ## Remaining gaps (each a skipped test)
 
-1. **Text hidden by a style** (`hid-style`): a paragraph or character style with `w:vanish` hides the text that uses it. Not found, not removed. Option: report runs whose resolved style hides them, and remove them like direct hidden runs. Recommended, small.
-2. **Rows hidden by default** (`xl-zero-height-default`): `sheetFormatPr zeroHeight` hides every row without its own height. How Excel marks the rows that are shown needs the Office run.
-3. **Notes master and handout master text** (`ppt-notes-master`): neither reported nor removed. Office's inspector does not look there; the content is page furniture. Left as is.
-4. **Tags** (`ppt-tags`): free-form name/value pairs that add-ins store on slides and the presentation. Not reported. Option: report under `custom-xml` and remove the tag parts. Recommended.
-5. **Off-slide shapes on layouts and masters** (`ppt-layout-off-slide`): templates park instructions there on purpose; not reported.
+1. **Rows hidden by default** (`xl-zero-height-default`): `sheetFormatPr zeroHeight` hides every row without its own height. How Excel marks the rows that are shown needs the Office run.
+2. **Notes master and handout master text** (`ppt-notes-master`): neither reported nor removed. Office's inspector does not look there; the content is page furniture. Left as is.
+3. **Off-slide shapes on layouts and masters** (`ppt-layout-off-slide`): templates park instructions there on purpose; not reported.
+
+Text hidden by a style and PowerPoint tags were gaps in the first pass and are now covered (`hid-style`, `ppt-tags`): a run is hidden when its character style, or else its paragraph style, sets `vanish` through the `basedOn` chain and the run does not set `vanish` itself; tag parts are reported and removed with their references.
 
 Others stated in `docs/sanitize.md` still stand (documents' pre-2007 versions, metadata inside pictures, text in white, the contents of embedded documents).
 

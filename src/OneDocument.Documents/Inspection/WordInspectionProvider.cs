@@ -404,6 +404,7 @@ internal sealed class WordInspectionProvider : IInspectionProvider
     private static void HiddenText(InspectionSession s, SanitizeSession? z)
     {
         bool doing = Doing(z, InspectionCategory.HiddenText);
+        Dictionary<string, StyleHiding>? styles = null;
         foreach (IPackagePart p in s.PartsWhere(IsContent))
         {
             if (p.ContentType.EndsWith("comments+xml", StringComparison.OrdinalIgnoreCase))
@@ -454,6 +455,8 @@ internal sealed class WordInspectionProvider : IInspectionProvider
                     marks.Add(e);
                 }
             }
+
+            HiddenByStyle(doc, styles ??= ReadHidingStyles(s), runs);
 
             if (white > 0)
             {
@@ -513,6 +516,135 @@ internal sealed class WordInspectionProvider : IInspectionProvider
             if (removed > 0)
             {
                 z!.Removed(InspectionCategory.HiddenText, p.Name, "hidden text", removed);
+            }
+        }
+    }
+
+    private sealed record StyleHiding(string? BasedOn, bool? Vanish);
+
+    // ECMA-376 Part 1 §17.7.2 (style hierarchy) and §17.3.2.41 vanish: a style's run properties can hide the text that uses it; a style
+    // without its own setting inherits from the style it is based on. Keys are style ids.
+    private static Dictionary<string, StyleHiding> ReadHidingStyles(InspectionSession s)
+    {
+        var map = new Dictionary<string, StyleHiding>(StringComparer.Ordinal);
+        foreach (IPackagePart p in s.PartsWhere(ct => InspectionXml.IsWordMarkupType(ct) && ct.EndsWith("styles+xml", StringComparison.OrdinalIgnoreCase)))
+        {
+            if (s.Markup(p) is not { } doc)
+            {
+                continue;
+            }
+
+            foreach (MarkupNode st in InspectionXml.Children(doc.Root))
+            {
+                if (!st.LocalName.SequenceEqual("style"u8) || InspectionXml.Attr(st, "styleId"u8) is not { } id)
+                {
+                    continue;
+                }
+
+                string? basedOn = null;
+                bool? vanish = null;
+                foreach (MarkupNode c in InspectionXml.Children(st))
+                {
+                    if (c.LocalName.SequenceEqual("basedOn"u8))
+                    {
+                        basedOn = InspectionXml.Attr(c, "val"u8);
+                    }
+                    else if (c.LocalName.SequenceEqual("rPr"u8))
+                    {
+                        foreach (MarkupNode f in InspectionXml.Children(c))
+                        {
+                            if (f.LocalName.SequenceEqual("vanish"u8))
+                            {
+                                vanish = IsActive(f);
+                            }
+                        }
+                    }
+                }
+
+                map[id] = new StyleHiding(basedOn, vanish);
+            }
+        }
+
+        return map;
+    }
+
+    // The first setting found on the style or the styles it is based on; null when none sets it. The depth cap stops a basedOn cycle.
+    private static bool? ResolveHiding(Dictionary<string, StyleHiding> styles, string? id)
+    {
+        for (int depth = 0; id is not null && depth < 64 && styles.TryGetValue(id, out StyleHiding? st); depth++)
+        {
+            if (st.Vanish is { } v)
+            {
+                return v;
+            }
+
+            id = st.BasedOn;
+        }
+
+        return null;
+    }
+
+    private static string? StyleOf(MarkupNode properties, ReadOnlySpan<byte> name)
+    {
+        foreach (MarkupNode c in InspectionXml.Children(properties))
+        {
+            if (c.LocalName.SequenceEqual(name))
+            {
+                return InspectionXml.Attr(c, "val"u8);
+            }
+        }
+
+        return null;
+    }
+
+    // A run is hidden by style when it sets no vanish of its own and its character style, or else its paragraph's style, hides it.
+    private static void HiddenByStyle(MarkupDocument doc, Dictionary<string, StyleHiding> styles, List<MarkupNode> runs)
+    {
+        if (!styles.Values.Any(v => v.Vanish == true))
+        {
+            return;
+        }
+
+        foreach (MarkupNode r in InspectionXml.Descendants(doc.DocumentNode))
+        {
+            if (!InspectionXml.Is(r, "wordprocessingml"u8, "r"u8) || runs.Contains(r) || IsInChange(r) || !InspectionXml.Ancestor(r, "styles"u8).IsNull)
+            {
+                continue;
+            }
+
+            MarkupNode rPr = default;
+            foreach (MarkupNode c in InspectionXml.Children(r))
+            {
+                if (c.LocalName.SequenceEqual("rPr"u8))
+                {
+                    rPr = c;
+                }
+            }
+
+            if (!rPr.IsNull && InspectionXml.Children(rPr).Any(c => c.LocalName.SequenceEqual("vanish"u8)))
+            {
+                continue; // the run decides for itself
+            }
+
+            bool? hidden = rPr.IsNull ? null : ResolveHiding(styles, StyleOf(rPr, "rStyle"u8));
+            if (hidden is null)
+            {
+                MarkupNode para = InspectionXml.Ancestor(r, "p"u8);
+                if (!para.IsNull)
+                {
+                    foreach (MarkupNode c in InspectionXml.Children(para))
+                    {
+                        if (c.LocalName.SequenceEqual("pPr"u8))
+                        {
+                            hidden = ResolveHiding(styles, StyleOf(c, "pStyle"u8));
+                        }
+                    }
+                }
+            }
+
+            if (hidden == true && !r.InnerText.AsSpan().IsWhiteSpace())
+            {
+                runs.Add(r);
             }
         }
     }

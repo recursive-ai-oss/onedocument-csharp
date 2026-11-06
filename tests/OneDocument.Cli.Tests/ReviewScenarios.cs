@@ -152,10 +152,10 @@ internal static class ReviewScenarios
             "<w:p><w:r><w:rPr><w:vanish w:val=\"on\"/></w:rPr><w:t>PLANTED-hid-val-spellings</w:t></w:r><w:r><w:rPr><w:vanish w:val=\"true\"/></w:rPr><w:t>PLANTED-hid-val-spellings</w:t></w:r><w:r><w:rPr><w:vanish w:val=\"1\"/></w:rPr><w:t>PLANTED-hid-val-spellings</w:t></w:r></w:p>"), hid) with { Only = [hid] });
         list.Add(Doc("hid-paragraph-mark-spec-vanish", Word("<w:p><w:pPr><w:rPr><w:vanish/><w:specVanish/></w:rPr></w:pPr><w:r><w:t>joined</w:t></w:r></w:p>"), hid) with { Only = [hid] });
         {
-            Builder b = Word("<w:p><w:pPr><w:pStyle w:val=\"Sneaky\"/></w:pPr><w:r><w:t>PLANTED-hid-style</w:t></w:r></w:p><w:p><w:r><w:rPr><w:rStyle w:val=\"SneakyChar\"/></w:rPr><w:t>PLANTED-hid-style</w:t></w:r></w:p>");
+            Builder b = Word("<w:p><w:pPr><w:pStyle w:val=\"Sneaky\"/></w:pPr><w:r><w:t>PLANTED-hid-style</w:t></w:r></w:p><w:p><w:r><w:rPr><w:rStyle w:val=\"SneakyChar\"/></w:rPr><w:t>PLANTED-hid-style</w:t></w:r></w:p><w:p><w:pPr><w:pStyle w:val=\"Child\"/></w:pPr><w:r><w:t>PLANTED-hid-style</w:t></w:r><w:r><w:rPr><w:vanish w:val=\"0\"/></w:rPr><w:t>shown-by-override</w:t></w:r></w:p>");
             WordPart(b, "styles.xml", "styles+xml", OdRel + "styles",
-                "<w:styles " + s_wordNs + "><w:style w:type=\"paragraph\" w:styleId=\"Sneaky\"><w:name w:val=\"Sneaky\"/><w:rPr><w:vanish/></w:rPr></w:style><w:style w:type=\"character\" w:styleId=\"SneakyChar\"><w:name w:val=\"SneakyChar\"/><w:rPr><w:vanish/></w:rPr></w:style></w:styles>", "rIdSt");
-            list.Add(Doc("hid-style", b, hid) with { Only = [hid], Gap = "Text hidden by a paragraph or character style (w:vanish in styles.xml) is not reported or removed; only direct run formatting is." });
+                "<w:styles " + s_wordNs + "><w:style w:type=\"paragraph\" w:styleId=\"Sneaky\"><w:name w:val=\"Sneaky\"/><w:rPr><w:vanish/></w:rPr></w:style><w:style w:type=\"character\" w:styleId=\"SneakyChar\"><w:name w:val=\"SneakyChar\"/><w:rPr><w:vanish/></w:rPr></w:style><w:style w:type=\"paragraph\" w:styleId=\"Child\"><w:name w:val=\"Child\"/><w:basedOn w:val=\"Sneaky\"/></w:style></w:styles>", "rIdSt");
+            list.Add(Doc("hid-style", b, hid) with { Only = [hid] });
         }
 
         // -- comments --
@@ -585,10 +585,10 @@ internal static class ReviewScenarios
 
         {
             // Tags are free-form name/value pairs that add-ins store on slides and the presentation.
-            Builder b = Deck((Slide(Shape(2, "t", 100000, 100000, "visible"), string.Empty, "<p:custDataLst><p:tags r:id=\"rIdTg\"/></p:custDataLst>"), string.Empty));
+            Builder b = Deck((Slide(Shape(2, "t", 100000, 100000, "visible")).Replace("</p:spTree></p:cSld>", "</p:spTree><p:custDataLst><p:tags r:id=\"rIdTg\"/></p:custDataLst></p:cSld>", StringComparison.Ordinal), string.Empty));
             b.Part("/ppt/tags/tag1.xml", PCt + "tags+xml", Decl + "<p:tagLst xmlns:p=\"" + PNs + "\"><p:tag name=\"PLANTED-ppt-tags\" val=\"PLANTED-ppt-tags\"/></p:tagLst>");
             b.Rel("/ppt/slides/slide1.xml", "rIdTg", OdRel + "tags", "../tags/tag1.xml");
-            list.Add(Show("ppt-tags", b, InspectionCategory.CustomXml) with { Gap = "Tags (p:tagLst parts that add-ins store on slides and the presentation) are not reported or removed." });
+            list.Add(Show("ppt-tags", b, InspectionCategory.CustomXml));
         }
 
         {
