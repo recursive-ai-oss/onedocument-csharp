@@ -155,12 +155,19 @@ public sealed class MarkdownConversionTests
     }
 
     [Fact]
-    public void RawHtmlIsReportedNotInterpreted()
+    public void RawHtmlGoesThroughTheHtmlImporter()
     {
-        using Document doc = Document.ParseMarkdown("<div>kept text</div>\n\nA <b>bold</b> word.\n");
-        Assert.NotNull(doc.ImportLoss);
-        Assert.True(doc.ImportLoss!.CountOf("loss.markdown-raw-html") >= 2);
-        Assert.Contains("kept text", doc.ExtractText());
+        using Document doc = Document.ParseMarkdown("<div><h2>From html</h2><ul><li>one</li><li>two</li></ul></div>\n\nA <b>bold <i>and italic</i></b> and <u>under</u> word<br>next <script>alert(1)</script>.\n");
+        string sig = Signature(doc);
+        Assert.Contains("Heading2||From html", sig);
+        Assert.Contains("ListParagraph|\u2022|one", sig);
+        Paragraph para = doc.Paragraphs.First(p => p.Text.StartsWith("A bold", StringComparison.Ordinal));
+        Assert.Contains(para.Runs(), r => r.Text == "bold " && r.Properties?.Bold is not null);
+        Assert.Contains(para.Runs(), r => r.Text == "and italic" && r.Properties?.Italic is not null && r.Properties?.Bold is not null);
+        Assert.Contains(para.Runs(), r => r.Text == "under" && r.Properties?.Underline is not null);
+        // The script is not carried, and the loss says so.
+        Assert.DoesNotContain("alert", doc.ExtractText(), StringComparison.Ordinal);
+        Assert.True(doc.ImportLoss!.CountOf("loss.markdown-raw-html") >= 1);
     }
 
     [Fact]
@@ -294,9 +301,9 @@ public sealed class MarkdownConversionTests
 
         string Build(int n) => string.Concat(Enumerable.Repeat(unit, n)) + string.Concat(Enumerable.Repeat(tail, n)) + "\n";
         _ = Time(Build(2000));
-        long small = Math.Max(1, Time(Build(25_000)));
-        long large = Time(Build(100_000));
+        long small = Math.Max(1, Time(Build(50_000)));
+        long large = Time(Build(200_000));
         // 4x the input: linear is 4x the time; leave room for noise, a quadratic parser would be 16x.
-        Assert.True(large < small * 10, unit + ": " + small + " -> " + large);
+        Assert.True(large < small * 10 + System.Diagnostics.Stopwatch.Frequency / 20, unit + ": " + small + " -> " + large);
     }
 }

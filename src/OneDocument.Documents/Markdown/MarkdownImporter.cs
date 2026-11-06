@@ -487,63 +487,14 @@ internal sealed partial class MarkdownImporter
         }
     }
 
-    // The seam for raw HTML: when the HTML importer is available a block is handed to it; until then its text is kept and the markup is reported.
-    private void RawHtmlBlock(MdNode n, Ctx c, StringBuilder sb, Story story)
-    {
-        string text = HtmlText(n.Literal);
-        _loss.Report("loss.markdown-raw-html", "raw HTML", 1, "Raw HTML was not interpreted; its tags were dropped and its text kept.");
-        if (text.Length == 0)
-        {
-            return;
-        }
-
-        foreach (string para in text.Split("\n\n", StringSplitOptions.RemoveEmptyEntries))
-        {
-            sb.Append("<w:p>").Append(PPr(c.Quote > 0 ? "Quote" : null, null, c.Quote > 0 ? 720 * c.Quote : c.ListLevel >= 0 ? 720 * (c.ListLevel + 1) : 0, false, null))
-                .Append(Run(para.Trim(), false, false, false, null)).Append("</w:p>");
-        }
-
-        _ = story;
-    }
-
-    // The text between the tags, with the tags, comments and declarations removed; one scan.
-    internal static string HtmlText(string html)
-    {
-        var sb = new StringBuilder(html.Length);
-        var memo = new MdScan.HtmlMemo();
-        int i = 0;
-        while (i < html.Length)
-        {
-            if (html[i] == '<' && MdScan.TryScanHtmlTag(html, i, html.Length, memo, out int end))
-            {
-                string tag = html.Substring(i, Math.Min(end - i, 12));
-                if (tag.StartsWith("<br", StringComparison.OrdinalIgnoreCase) || tag.StartsWith("</p", StringComparison.OrdinalIgnoreCase) || tag.StartsWith("<p", StringComparison.OrdinalIgnoreCase)
-                    || tag.StartsWith("</div", StringComparison.OrdinalIgnoreCase))
-                {
-                    sb.Append("\n\n");
-                }
-
-                i = end;
-            }
-            else if (html[i] == '&' && MdText.TryEntity(html, i, out string v, out int e2))
-            {
-                sb.Append(v);
-                i = e2;
-            }
-            else
-            {
-                sb.Append(html[i]);
-                i++;
-            }
-        }
-
-        // Single line ends inside a paragraph are spaces.
-        string[] paras = sb.ToString().Split("\n\n");
-        return string.Join("\n\n", paras.Select(static p => string.Join(' ', p.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)))
-            .Where(static p => p.Length > 0));
-    }
-
     // ---- lists --------------------------------------------------------------------------------------------------------------------
+
+    private int AllocNum(bool ordered, int start, int level)
+    {
+        int numId = _nums.Count + 1;
+        _nums.Add((numId, ordered, start, level));
+        return numId;
+    }
 
     private void EmitList(MdNode list, Ctx c, StringBuilder sb, Story story, int depth, CancellationToken ct)
     {
@@ -553,8 +504,7 @@ internal sealed partial class MarkdownImporter
             _loss.Report("loss.markdown-list-depth", "list nesting", 1, "Lists nested deeper than nine levels share the ninth level.");
         }
 
-        int numId = _nums.Count + 1;
-        _nums.Add((numId, list.Ordered, list.Start, level));
+        int numId = AllocNum(list.Ordered, list.Start, level);
         Ctx inner = c with { ListLevel = level, Tight = list.Tight, Continuation = false };
         for (MdNode? item = list.FirstChild; item is not null; item = item.Next)
         {

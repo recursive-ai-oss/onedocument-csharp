@@ -12,7 +12,7 @@ internal sealed partial class MarkdownImporter
 
     // ---- inlines ------------------------------------------------------------------------------------------------------------------
 
-    private static string Run(string text, bool bold, bool italic, bool strike, string? runStyle)
+    private static string Run(string text, bool bold, bool italic, bool strike, string? runStyle, bool underline = false)
     {
         if (text.Length == 0)
         {
@@ -38,6 +38,11 @@ internal sealed partial class MarkdownImporter
         if (strike)
         {
             rpr.Append("<w:strike/>");
+        }
+
+        if (underline)
+        {
+            rpr.Append("<w:u w:val=\"single\"/>");
         }
 
         return "<w:r>" + (rpr.Length == 0 ? string.Empty : "<w:rPr>" + rpr + "</w:rPr>") + XmlSnip.RunContent("w", text) + "</w:r>";
@@ -69,8 +74,15 @@ internal sealed partial class MarkdownImporter
                     sb.Append(Run(n.Literal, f.Bold, f.Italic, f.Strike, f.RunStyle ?? "InlineCode"));
                     break;
                 case MdKind.HtmlInline:
-                    RawHtmlInline(n, sb);
-                    break;
+                    {
+                        MdNode? used = RawHtmlInline(n, f, sb, story);
+                        if (used is not null)
+                        {
+                            n = used;
+                        }
+
+                        break;
+                    }
                 case MdKind.Emph:
                     Inlines(n, f with { Italic = true }, sb, story, depth + 1);
                     break;
@@ -91,19 +103,6 @@ internal sealed partial class MarkdownImporter
                     break;
             }
         }
-    }
-
-    // The seam for inline raw HTML, as for blocks: only <br> is understood until the HTML importer takes it.
-    private void RawHtmlInline(MdNode n, StringBuilder sb)
-    {
-        string tag = n.Literal;
-        if (tag.StartsWith("<br", StringComparison.OrdinalIgnoreCase) && (tag.Length == 3 + 1 || tag.AsSpan(3).TrimEnd(">/ \t".AsSpan()).IsEmpty))
-        {
-            sb.Append("<w:r><w:br/></w:r>");
-            return;
-        }
-
-        _loss.Report("loss.markdown-raw-html", "raw HTML", 1, "Raw HTML was not interpreted; its tags were dropped and its text kept.");
     }
 
     // Web, mail and in-document targets, and relative paths, become links; any other scheme (script, file, custom) is printed as text.

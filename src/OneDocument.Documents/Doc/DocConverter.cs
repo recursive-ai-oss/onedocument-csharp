@@ -52,6 +52,7 @@ internal sealed partial class DocConverter
     private int _drawingId = 1;
     private int _textBoxes;
     private int _oleObjects;
+    private int _oleCarried;
     private int _formFields;
     private int _shapes;
     private int _unmappedSprms;
@@ -86,10 +87,10 @@ internal sealed partial class DocConverter
         internal List<Relationship> Rels { get; } = [];
 
         /// <summary>Adds a relationship from this part and returns its identifier.</summary>
-        internal string AddRel(string type, string target)
+        internal string AddRel(string type, string target, bool external = false)
         {
             string id = "rId" + (Rels.Count + 1).ToString(CultureInfo.InvariantCulture);
-            Rels.Add(new Relationship(id, type, target));
+            Rels.Add(new Relationship(id, type, target, external ? RelationshipTargetMode.External : RelationshipTargetMode.Internal));
             return id;
         }
     }

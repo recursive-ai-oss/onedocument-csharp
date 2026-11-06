@@ -31,11 +31,6 @@ internal static class MarkdownPresentation
             }
 
             string? title = slide.Title;
-            if (sb.Length > 0)
-            {
-                sb.Append('\n');
-            }
-
             string heading = "Slide " + number.ToString(CultureInfo.InvariantCulture);
             if (!string.IsNullOrWhiteSpace(title))
             {

@@ -180,7 +180,7 @@ public static class Office
     }
 
     // Lets a file that "owns" its source be opened over a source the caller still owns: disposing it leaves the original open.
-    private sealed class BorrowedByteSource(IByteSource inner) : IByteSource
+    internal sealed class BorrowedByteSource(IByteSource inner) : IByteSource
     {
         public long Length => inner.Length;
 

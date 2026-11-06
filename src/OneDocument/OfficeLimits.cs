@@ -56,6 +56,9 @@ public sealed class OfficeLimits
     /// <summary>The default for <see cref="MaxAllocationBytes"/>: 1 GiB.</summary>
     public const long DefaultMaxAllocationBytes = 1L << 30;
 
+    /// <summary>The default for <see cref="MaxEncryptionSpinCount"/>: 10,000,000, the most the encryption descriptor schema allows.</summary>
+    public const int DefaultMaxEncryptionSpinCount = 10_000_000;
+
     /// <summary>The default for <see cref="MaxDefects"/>: 10,000.</summary>
     public const int DefaultMaxDefects = 10_000;
 
@@ -137,6 +140,12 @@ public sealed class OfficeLimits
     public int MaxDefects { get; init; } = DefaultMaxDefects;
 
     /// <summary>
+    /// Gets the most password hash iterations an encrypted file may ask for. Opening an encrypted file costs that many hashes per
+    /// password tried, so a hostile header cannot stall a reader for long. Default 10,000,000 (the schema maximum); Office writes 100,000.
+    /// </summary>
+    public int MaxEncryptionSpinCount { get; init; } = DefaultMaxEncryptionSpinCount;
+
+    /// <summary>
     /// Maps the limits that apply to the container layer onto the underlying archive reader's limits: total size, entry count and
     /// expansion ratio. Path length and depth keep the archive reader's defaults.
     /// </summary>
@@ -166,6 +175,7 @@ public sealed class OfficeLimits
         Positive(MaxRecordSize, nameof(MaxRecordSize));
         Positive(MaxAllocationBytes, nameof(MaxAllocationBytes));
         Positive(MaxDefects, nameof(MaxDefects));
+        Positive(MaxEncryptionSpinCount, nameof(MaxEncryptionSpinCount));
         Positive(RegexMatchTimeoutMilliseconds, nameof(RegexMatchTimeoutMilliseconds));
     }
 

@@ -1,3 +1,4 @@
+using RecursiveAI.OneDocument.Encryption;
 using RecursiveAI.OneDocument.Diagnostics;
 using RecursiveAI.OneDocument.Formats;
 using RecursiveAI.OneDocument.IO;
@@ -149,6 +150,10 @@ public sealed partial class Presentation
         {
             Write(format, destination, cancellationToken);
         }
+        else if (format == OfficeFormat.Html)
+        {
+            WriteHtml(destination, null, cancellationToken);
+        }
         else if (format == OfficeFormat.Markdown)
         {
             WriteMarkdown(destination, cancellationToken);
@@ -265,6 +270,14 @@ public sealed partial class Presentation
             if (sniffed == OfficeFormat.Unknown)
             {
                 throw new OfficeFormatException(DefectKind.Structure, "format.unrecognised", "The content is not a format OneDocument knows.");
+            }
+
+            if (sniffed == OfficeFormat.EncryptedPackage)
+            {
+                // Decrypt to the package inside and open that as whatever it is. It has no file path, so Save() is not available.
+                IByteSource plain = ByteSource.FromMemory(PackageEncryption.DecryptCompoundFile(source, context));
+                source.Dispose();
+                return OpenSource(plain, context, null, cancellationToken);
             }
 
             if (sniffed == OfficeFormat.Ppt)

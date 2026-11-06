@@ -41,7 +41,7 @@ The `Office` statics (`Office.Open`, `Office.ExtractText`, `Office.Convert`) fin
 | RTF | yes (`Document`; loss report; `docs/rtf.md`) | yes |
 | ODT/ODS/ODP and flat ODF | planned | planned |
 | CSV/TSV | yes | yes |
-| HTML | planned (import) | planned (export) |
+| HTML | yes (`Document.FromHtml`, sanitised, loss report; `docs/html.md`) | yes (documents; workbooks and presentations at a basic level) |
 | Markdown (CommonMark, GFM) | yes (`Document`; `docs/markdown.md`) | yes (documents, workbooks, presentations) |
 | PDF, images, SVG, text | not applicable | planned (export) |
 

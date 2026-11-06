@@ -2,6 +2,7 @@ using RecursiveAI.OneDocument.Diagnostics;
 using RecursiveAI.OneDocument.IO;
 using RecursiveAI.OneDocument.Packaging;
 using RecursiveAI.OneDocument.Cfb;
+using RecursiveAI.OneDocument.Ole;
 
 namespace RecursiveAI.OneDocument.Spreadsheets.Biff;
 
@@ -34,7 +35,9 @@ public static class XlsConverter
         {
             byte[] bytes = ReadAll(source, context.Limits);
             bool hasVba = false;
-            bool hasProperties = false;
+            byte[] summary = [];
+            byte[] documentSummary = [];
+            OleStorageSet objects = OleStorageSet.Empty;
             ReadOnlyMemory<byte> stream;
             string path = "/";
             if (bytes.Length >= 8 && bytes.AsSpan(0, 8).SequenceEqual(CfbSignature))
@@ -48,9 +51,12 @@ public static class XlsConverter
 
                 path = part.Name;
                 stream = part.GetBytes();
+                // The property streams and the embedded-object storages ([MS-XLS] 2.1.2) are copied now: the compound file is released below.
+                summary = cfb.FindPart("/" + OlePropertySets.SummaryInformationStreamName)?.GetBytes().ToArray() ?? [];
+                documentSummary = cfb.FindPart("/" + OlePropertySets.DocumentSummaryInformationStreamName)?.GetBytes().ToArray() ?? [];
+                objects = OleStorageSet.CaptureByPrefix(cfb, "MBD", context);
                 foreach (IPackagePart p in cfb.Parts)
                 {
-                    hasProperties |= p.Name.EndsWith("SummaryInformation", StringComparison.Ordinal);
                     if (p.Name.StartsWith("/_VBA_PROJECT_CUR/", StringComparison.OrdinalIgnoreCase) || p.Name.StartsWith("/_VBA_PROJECT", StringComparison.OrdinalIgnoreCase)
                         || p.Name.StartsWith("/MACROS/", StringComparison.OrdinalIgnoreCase) || p.Name.StartsWith("/_VBA_PROJECT_CUR", StringComparison.OrdinalIgnoreCase))
                     {
@@ -65,7 +71,7 @@ public static class XlsConverter
             }
 
             var importer = new XlsImporter(context, sink, cancellationToken);
-            Workbook wb = importer.Import(stream, path, hasVba, hasProperties);
+            Workbook wb = importer.Import(stream, path, hasVba, summary, documentSummary, objects);
             wb.ImportLoss = report;
             return wb;
         }

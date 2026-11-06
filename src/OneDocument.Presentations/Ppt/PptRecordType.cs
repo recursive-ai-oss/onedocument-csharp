@@ -120,6 +120,9 @@ public static class PptRecordType
     /// <summary>RT_Handout: the handout master.</summary>
     public const int Handout = 0x0FC9;
 
+    /// <summary>RT_ExternalOleObjectStg: the storage of an OLE object, a persist object.</summary>
+    public const int ExternalOleObjectStg = 0x1011;
+
     /// <summary>RT_ExternalOleEmbed.</summary>
     public const int ExternalOleEmbed = 0x0FCC;
 

@@ -1,3 +1,4 @@
+using RecursiveAI.OneDocument.Encryption;
 using System.Text;
 using RecursiveAI.OneDocument.Diagnostics;
 using RecursiveAI.OneDocument.Formats;
@@ -185,8 +186,8 @@ public sealed partial class Document
         // The text of the document as it is now, edits included: write it out and read it back through the streaming extractor, so
         // the model and Office.ExtractText agree on every file.
         CommitChanges();
-        // A document read from RTF is a word-processing package in memory, so its text comes from the same extractor.
-        OfficeFormat textFormat = Format is OfficeFormat.Rtf or OfficeFormat.Markdown ? OfficeFormat.Docx : Format;
+        // A document read from RTF, HTML or Markdown is a word-processing package in memory, so its text comes from the same extractor.
+        OfficeFormat textFormat = Format is OfficeFormat.Rtf or OfficeFormat.Html or OfficeFormat.Markdown ? OfficeFormat.Docx : Format;
         if (!FormatRegistry.Default.TryGetTextExtractor(textFormat, out TextExtractionHandler? extractor))
         {
             foreach (Paragraph paragraph in Paragraphs)
@@ -213,6 +214,10 @@ public sealed partial class Document
         else if (format == OfficeFormat.Rtf)
         {
             WriteRtf(destination, cancellationToken);
+        }
+        else if (format == OfficeFormat.Html)
+        {
+            WriteHtml(destination, null, cancellationToken);
         }
         else if (format == OfficeFormat.Markdown)
         {
@@ -323,6 +328,14 @@ public sealed partial class Document
                 throw new OfficeFormatException(DefectKind.Structure, "format.unrecognised", "The content is not a format OneDocument knows.");
             }
 
+            if (sniffed == OfficeFormat.EncryptedPackage)
+            {
+                // Decrypt to the package inside and open that as whatever it is. It has no file path, so Save() is not available.
+                IByteSource plain = ByteSource.FromMemory(PackageEncryption.DecryptCompoundFile(source, context));
+                source.Dispose();
+                return OpenSource(plain, context, null, cancellationToken);
+            }
+
             if (sniffed == OfficeFormat.Word2003Xml)
             {
                 // Converted at once into an in-memory DOCX package, so the file itself is not needed afterwards.
@@ -339,6 +352,11 @@ public sealed partial class Document
             if (sniffed == OfficeFormat.Rtf)
             {
                 return OpenRtf(source, context, filePath, cancellationToken);
+            }
+
+            if (sniffed == OfficeFormat.Html)
+            {
+                return OpenHtml(source, context, filePath, cancellationToken);
             }
 
             if (!IsWordFormat(sniffed))
