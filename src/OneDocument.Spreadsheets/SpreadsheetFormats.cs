@@ -33,6 +33,10 @@ public static class SpreadsheetFormats
         registry.RegisterReader(
             static (source, _, context, filePath, cancellationToken) => Workbook.OpenSource(source, context, filePath, cancellationToken),
             [.. ReadOnlyFormats]);
+
+        registry.RegisterReader(
+            static (source, _, context, filePath, cancellationToken) => Workbook.OpenSource(source, context, filePath, cancellationToken),
+            OfficeFormat.Xls, OfficeFormat.XlsLegacy);
         registry.RegisterWriter(
             static (file, format, destination, cancellationToken) =>
             {

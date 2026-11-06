@@ -15,6 +15,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `formula.` | formula text and tokens | `Formula` |
 | `numfmt.` | number-format codes | `Value` |
 | `text.` | text extraction | `Structure`, `Reference`, `Markup`, `Packaging` |
+| `rtf.` | RTF (tokenizer, group tree, hub conversion, mail layer) | `Record`, `Limit`, `Structure`, `Reference` |
 | `docx.` | the word-processing hub | `Structure`, `Reference`, `Value`, `Packaging` |
 | `csv.` | delimited text (CSV, TSV) | `Structure`, `Markup`, `Encoding`, `Value` |
 | `xlsx.` | the SpreadsheetML workbook hub and cell store | `Structure`, `Reference`, `Value`, `Formula`, `Packaging` |
@@ -41,6 +42,28 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `render.metafile-rasterised` | repaired | The picture uses something the display list cannot express (XOR and other raster operations, triangle gradients, hatch or pattern pens, union or exclusive-or clips) and is drawn as a bitmap. |
 | `render.metafile-approximated` | repaired | A union or exclusive-or clip was drawn as a replacement (only with the raster fallback turned off). |
 | `render.metafile-font` | repaired | A font named in a picture is not available and another was used (once per family). |
+| `doc.malformed` | fatal | The Word binary reader met a structure it could not repair and stopped on an arithmetic or indexing failure; the reader normally reports its repairs under the codes below, so this code means a case worth a bug report with the file. |
+| `doc.fib-truncated` | fatal | The `WordDocument` stream is too short for the file information block (FibBase, or the counted FibRgW97/FibRgLw97 sections). |
+| `doc.bad-ident` | fatal | The stream does not start with a Word binary identifier (0xA5EC, or 0xA5DC for Word 6/95). |
+| `doc.no-word-stream` | fatal | The compound file has no `WordDocument` stream. |
+| `doc.no-table-stream` | fatal | The FIB names `0Table` or `1Table` as the table stream and the file does not have it. |
+| `doc.no-piece-table` | fatal | The `Clx` is missing, empty or holds no piece table. |
+| `doc.clx-bad` | fatal | The `Clx` holds an entry that is neither a property list (1) nor the piece table (2). |
+| `doc.clx-truncated` | repaired | The `Clx` (or a `Prc`/the piece table in it) is longer than the table stream; what fits was used. |
+| `doc.fib-pairs-truncated` | repaired | The FIB declares more offset pairs than fit in the stream; the pairs that fit were read. |
+| `doc.piece-cp-order` | repaired or dropped | A piece starts at a negative position, ends before it starts, or the first piece does not start at 0. |
+| `doc.piece-out-of-range` | repaired | A piece reads past the end of the `WordDocument` stream; its character positions are kept and the missing characters read as spaces. |
+| `doc.story-out-of-range` | repaired | A story length (`ccpFtn`, `ccpHdd` and so on) reaches past the text the piece table holds; it was clipped. |
+| `doc.codepage-unsupported` | repaired | 8-bit text of a Word 6/95 file is in a character set other than ANSI; it was read as Windows-1252. |
+| `doc.fkp-out-of-range` | dropped | A bin table entry points at a formatted disk page outside the `WordDocument` stream. |
+| `doc.fkp-bad` | dropped | A formatted disk page holds a run count that cannot fit, or a paragraph property record that runs past the page. |
+| `doc.plc-truncated` | repaired | A `Plc` runs past the end of the table stream; what fits was used. |
+| `doc.stylesheet-bad` | dropped | The stylesheet header is cut short, or a style runs past the stylesheet; styles from that point were dropped. |
+| `doc.lists-bad` | dropped | The list definitions end early; the remaining levels were dropped. |
+| `doc.sepx-bad` | dropped | A section's property block runs past the `WordDocument` stream; the section has default properties. |
+| `doc.huge-papx-bad` | dropped | `sprmPHugePapx` points outside the `Data` stream; the paragraph keeps the properties it has. |
+| `doc.picture-unreadable` | dropped | A picture character has no readable picture in the `Data` stream. |
+| `doc.sprm-not-mapped` | dropped | A property modifier has no counterpart in the document model (once per modifier, with the offset of its first occurrence); the count is the `loss.doc-sprms` entry of the conversion. Kind `Unsupported`. |
 | `packaging.damaged` | fatal | The container is damaged (zip or compound-file structure) beyond what recovery repairs, or a stream cannot be read; the location holds the part or stream and the offset when known. |
 | `packaging.refused` | fatal | The container reader refused the input for safety (unsafe path, overlapping entries). |
 | `packaging.not-a-package` | fatal | The input is neither a zip nor a Flat OPC document. |
@@ -306,6 +329,104 @@ Reported in `ContentBindingReport.Warnings`. See `docx-content-controls.md`.
 | `binding.unsupported-control` | dropped | The control type cannot show a bound value (group, picture, building block …). |
 | `binding.value-not-in-list` | repaired | A drop-down value is not one of its items; the control keeps its selection. |
 | `binding.no-template-item` | dropped | A repeating section has no item to copy as its pattern. |
+| `rtf.not-rtf` | fatal | The content does not start with `{\rtf`. |
+| `rtf.damaged` | fatal | The RTF could not be converted (an unexpected failure while reading, wrapped in a typed exception; the inner exception has the cause). |
+| `rtf.export-failed` | fatal | The document could not be written as RTF (wrapped unexpected failure). |
+| `rtf.parameter-overflow` | repaired | A control word parameter does not fit in 32 bits; it was clamped. |
+| `rtf.invalid-hex-escape` | repaired | `\'` was not followed by two hexadecimal digits; it was dropped. |
+| `rtf.binary-data-truncated` | repaired | A `\bin` length is negative or runs past the end of the input; it was clamped. |
+| `rtf.truncated-token` | repaired | The input ended inside a control word or escape. |
+| `rtf.unbalanced-group-end` | repaired | A `}` without a `{`; ignored. |
+| `rtf.unclosed-groups` | repaired | The input ended with groups still open; they are closed at the end. |
+| `rtf.nesting-limit-exceeded` | dropped | Group nesting reached the limit (`MaxRecursionDepth`, at most 1000); reading stopped there. |
+| `rtf.content-limit-exceeded` | dropped | The file holds more nodes than `MaxRecordCount` allows; the rest is ignored. |
+| `rtf.invalid-picture-data` | dropped | Picture data is empty, not valid for its declared format or not a format that can be carried; the picture is left out. |
+| `rtf.picture-limit-exceeded` | dropped | A picture exceeds `MaxPartSize`, or the pictures together exceed `MaxAllocationBytes`; it is left out. |
+| `rtf.undefined-reference` | dropped | A paragraph uses a list override the list override table does not define. |
+| `rtf.unclosed-row` | repaired | A table row has cells but no `\row`; it is closed at the end of the table. |
+| `rtf.too-many-defects` | repaired | The reader's defect list reached its cap of 256; later ones are not recorded. |
+| `rtf.header-truncated`, `rtf.unknown-compression-type`, `rtf.compressed-size-mismatch`, `rtf.missing-end-marker`, `rtf.crc-mismatch`, `rtf.raw-size-mismatch`, `rtf.reference-beyond-dictionary`, `rtf.output-limit-exceeded`, `rtf.expansion-ratio-exceeded` | repaired or dropped | Compressed RTF (the mail body form): the header, size, checksum or dictionary reference is damaged, or a limit was hit; see `RtfDefectKind`. |
+| `rtf.not-encapsulated`, `rtf.ambiguous-unknown-code-page`, `rtf.lone-surrogate`, `rtf.ambiguous-html-rtf-in-plain-text` | repaired | The mail layer's de-encapsulation resolved a known ambiguity in one documented way (see `RtfDefectKind`). |
+| `rtf.nested-table-flattened`, `rtf.ambiguous-picture-format`, `rtf.ambiguous-list-level`, `rtf.ambiguous-symbol-font`, `rtf.ambiguous-bare-cell` | repaired or dropped | The mail layer's HTML conversion (`RtfHtmlConverter`) repaired or flattened something; the hub conversion reads these constructs fully. |
+
+### Legacy workbooks (`biff.`)
+
+Located by stream path and record offset (`Record` locations) unless the kind says otherwise. See `xls.md`.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `biff.truncated-record` | dropped | A record claims more data than the stream holds; it and everything after it are ignored. |
+| `biff.trailing-bytes` | dropped | Fewer than a record header of bytes follow the last record. |
+| `biff.no-bof` | fatal | The stream does not begin with a BOF record. |
+| `biff.no-workbook-stream` | fatal | A compound file has neither a `Workbook` nor a `Book` stream. |
+| `biff.no-sheet` | fatal | A BIFF2 to BIFF4 stream holds no worksheet. |
+| `biff.missing-eof` | repaired | A substream has no EOF record; it is read to the end of the stream. |
+| `biff.malformed` | fatal | An unexpected failure while reading damaged records (the inner exception names it). |
+| `biff.codepage-unavailable` | repaired | The workbook's code page is not available in the runtime; 8-bit text is read as Windows-1252. Kind `Encoding`. |
+| `biff.sheet-missing` | dropped | A sheet in the sheet list has no substream; it is left empty. |
+| `biff.sheet-name` | repaired | A sheet name is invalid or repeated; the sheet is named `Sheet<n>`. |
+| `biff.no-visible-sheet` | repaired | Every sheet is hidden; the first is shown. |
+| `biff.cell-out-of-range` | dropped | A cell lies outside the sheet. Kind `Reference`. |
+| `biff.sst-index` | dropped | A text cell refers to a shared string the table does not hold. Kind `Reference`. |
+| `biff.sst-truncated` | repaired | The shared string table ends inside a string. |
+| `biff.sst-short` | repaired | The table holds fewer strings than it declares. |
+| `biff.string-orphan` | dropped | A STRING record does not follow a formula that needs one. |
+| `biff.colinfo-range` | dropped | A column range is inverted or beyond column 255. |
+| `biff.merge-range` | dropped | A merged range is inverted or beyond column 255. |
+| `biff.formula-length` | dropped | A formula claims more token bytes than its record holds. |
+| `biff.formula-token` | dropped | A formula holds a token or function the converter does not know; the cell keeps its cached value. Kind `Formula`. |
+| `biff.formula-stack` | dropped | A formula's tokens do not reduce to one expression. Kind `Formula`. |
+| `biff.formula-exp`, `biff.formula-table` | dropped | A shared-formula or data-table token reached a place it cannot be resolved. Kind `Formula`. |
+| `biff.formula-exp-missing` | dropped | A formula refers to a shared or array formula the sheet does not define. Kind `Formula`. |
+| `biff.formula-name` | dropped | A formula uses a name or external name the file does not define (replaced by `#NAME?`). Kind `Formula`. |
+| `biff.formula-pivot-name`, `biff.formula-macro-function` | dropped | A pivot-table name or macro-command function is replaced by an error value. Kind `Formula`. |
+| `biff.formula-too-long` | dropped | A formula is longer than `OfficeLimits.MaxFormulaLength`. Kind `Formula`. |
+| `biff.formula-text-invalid` | dropped | A formula holds a character XML cannot carry (a control character in a text constant); the cell keeps its cached value. Kind `Formula`. |
+| `biff.cf-length` | dropped | A conditional-format rule is shorter than its parts. |
+| `biff.name-rejected` | dropped | A defined name is invalid in the hub and is dropped. Kind `Reference`. |
+| `biff.name-repeated` | dropped | A defined name repeats one of the same scope (LibreOffice writes some twice); the first is kept. Kind `Reference`. |
+### OfficeArt (`art.`)
+
+Reported by the shared OfficeArt reader (`RecursiveAI.OneDocument.OfficeArt`) with a `Record` location: the stream name the caller gave and the offset of the record. See `officeart.md`.
+
+| Code | Action | Meaning |
+|---|---|---|
+| `art.record-truncated` | repaired | Fewer than eight bytes remain where a record header should be; they are ignored. |
+| `art.record-overrun` | repaired | A record claims more bytes than remain in its parent or the data; it is clamped. |
+| `art.property-overrun` | repaired | A property table claims more entries, or a complex property more data, than the record holds; the excess is dropped. |
+| `art.bse-truncated` | repaired | A BLIP store entry is shorter than its fixed part; the slot is empty. |
+| `art.blip-index` | repaired | A picture refers to a BLIP index outside the store; the picture is dropped. |
+| `art.blip-missing` | repaired | A BLIP is not embedded and its offset is outside the delay (picture) stream. |
+| `art.blip-invalid` | dropped | A BLIP record is damaged, of an unknown type or compressed in a way the format does not define. |
+
+### PowerPoint binary (`ppt.`)
+
+Reported by the `.ppt` reader (`RecursiveAI.OneDocument.Ppt.Binary`) and the conversion to PresentationML, with a `Record` location in the `PowerPoint Document`
+stream (the `Current User` stream for `ppt.current-user-missing`). The conversion codes are also the items of `Presentation.ConversionLoss`. See `ppt.md`.
+
+| Code | Action | Meaning |
+|---|---|---|
+| `ppt.no-document-stream` | fatal | The compound file has no `PowerPoint Document` stream (used directly; the sniffer calls such a file unknown). |
+| `ppt.current-user-missing` | repaired | The `Current User` stream is missing or damaged; the newest edit is found by scanning. |
+| `ppt.edit-chain-broken` | repaired | A user edit offset does not lead to a `UserEditAtom`; older edits are ignored or the chain is recovered by scanning. |
+| `ppt.edit-chain-loop` | repaired | The user edit chain does not move backwards; the walk stops. |
+| `ppt.no-user-edit` | fatal | The stream holds no readable user edit, so the persist directory cannot be built. |
+| `ppt.persist-directory-missing` | dropped | A user edit points at a persist directory that is not there; the objects it defines are ignored. |
+| `ppt.persist-directory-truncated` | repaired | A directory entry lists more offsets than the record holds. |
+| `ppt.persist-object-missing` | dropped | A persist identifier is not in the directory, or its offset is outside the stream. |
+| `ppt.document-container-recovered` | repaired | The document container was found by scanning, not through the directory. |
+| `ppt.no-document-container` | fatal | Neither the directory nor a scan leads to a document container. |
+| `ppt.document-atom-missing` | repaired | No `DocumentAtom`; the default slide size is used. |
+| `ppt.master-missing` | dropped | A master list entry (or the file) has no usable master; a plain master is written. |
+| `ppt.slide-missing` | dropped | A slide list entry does not lead to a slide container; the slide is dropped. |
+| `ppt.notes-missing` | dropped | A notes list entry does not lead to a notes container. |
+| `ppt.text-style-truncated` | repaired | A paragraph, character, ruler or master style structure is cut short by the end of its record. |
+| `ppt.text-special-info-unread` | repaired | Smart tags in a text special info record are not read; later language runs are ignored. |
+| `ppt.outline-reference` | repaired | A shape refers to slide-list text that does not exist. |
+| `ppt.malformed` | fatal | A defensive wrapper: an unexpected exception while reading is reported as a format error (a bug if it is ever seen). |
+| `ppt.shape-approximated`, `ppt.shape-adjust-dropped`, `ppt.fill-approximated`, `ppt.path-escape`, `ppt.geometry-guides`, `ppt.wordart-flattened`, `ppt.picture-pict`, `ppt.picture-missing`, `ppt.table-as-group`, `ppt.table-borders-approximated`, `ppt.transition-dropped`, `ppt.animations-dropped`, `ppt.ole-object-flattened`, `ppt.vba-not-carried`, `ppt.document-properties-not-carried`, `ppt.header-footer-field`, `ppt.placeholder-unknown` | dropped | Conversion losses; meanings in `ppt.md`. |
+
+Encrypted files raise `encryption.password-required`; PowerPoint 4.0/95 files raise `unsupported.feature`.
 
 ### Office 2003 XML (`wml2003.`, `sml2003.`)
 

@@ -24,6 +24,9 @@
     <Compile Include="../shared/PivotSmoke.cs" Link="PivotSmoke.cs" />
     <Compile Include="../shared/StreamSmoke.cs" Link="StreamSmoke.cs" />
     <Compile Include="../shared/CsvSmoke.cs" Link="CsvSmoke.cs" />
+    <Compile Include="../shared/DocSmoke.cs" Link="DocSmoke.cs" />
+    <Compile Include="../../tests/Shared/DocBuilder.cs" Link="DocBuilder.cs" />
+    <Compile Include="../shared/XlsSmoke.cs" Link="XlsSmoke.cs" />
     <Compile Include="../shared/Xml2003Smoke.cs" Link="Xml2003Smoke.cs" />
     <Compile Include="../shared/PocoSmoke.cs" Link="PocoSmoke.cs" />
     <Compile Include="../shared/TemplateSmoke.cs" Link="TemplateSmoke.cs" />

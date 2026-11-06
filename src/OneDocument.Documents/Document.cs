@@ -190,6 +190,7 @@ public sealed partial class Document : OfficeFile
     public void CommitChanges()
     {
         SyncTextBoxAlternates();
+        NoteEditsForRtf();
         Parts.Flush();
         Volatile.Read(ref _properties)?.Commit();
     }
