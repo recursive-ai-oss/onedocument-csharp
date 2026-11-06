@@ -198,8 +198,9 @@ internal sealed class OlePropsReader
                     {
                         _codePage = (ushort)s;
                         _codePageKnown = true;
-                        set.CodePage = _codePage;
                         set.HasCodePageProperty = true;
+                        _encoding = ResolveEncoding(o); // an unavailable code page is reported here and the set is read as Windows-1252
+                        set.CodePage = _codePage;
                     }
                     else
                     {
