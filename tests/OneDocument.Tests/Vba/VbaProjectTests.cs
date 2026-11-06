@@ -50,6 +50,14 @@ public sealed class VbaProjectTests
     }
 
     [Fact]
+    public void Decompress_ContainerWithNoChunks_IsEmpty()
+    {
+        Assert.True(VbaCompression.TryDecompress(new byte[] { 0x01 }, 1 << 20, out byte[] output, out _));
+        Assert.Empty(output);
+        Assert.Equal(new byte[] { 0x01 }, VbaTestProject.Compress(ReadOnlySpan<byte>.Empty));
+    }
+
+    [Fact]
     public void Decompress_RawChunks_AreCopied()
     {
         byte[] data = new byte[8192];

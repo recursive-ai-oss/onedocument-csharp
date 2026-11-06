@@ -49,6 +49,11 @@ internal sealed class VbaTestProject
     {
         var o = new List<byte> { 0x01 };
         int pos = 0;
+        if (data.IsEmpty)
+        {
+            return [.. o]; // a container with no chunks
+        }
+
         do
         {
             int take = Math.Min(3000, data.Length - pos); // 3000 literals and their flag bytes fit the 12-bit chunk size field
