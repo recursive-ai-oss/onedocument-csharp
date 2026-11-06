@@ -435,7 +435,7 @@ public class OdsOracleTests
                 untyped++;
             }
 
-            string codes = string.Join(',', ((DefectCollection)ctx.Defects).GroupBy(static d => d.Code).OrderBy(static g => g.Key, StringComparer.Ordinal).Select(static g => g.Key + "=" + g.Count()));
+            string codes = string.Join(',', ((DefectCollection)ctx.Defects).GroupBy(static d => d.Code).OrderBy(static g => g.Key, StringComparer.Ordinal).Select(static g => g.Key + "=" + g.Count() + " [" + g.First().Message + " @" + g.First().Location + "]"));
             lines.Add(Path.GetFileName(f) + "\t" + outcome + "\t" + cells.ToString(CultureInfo.InvariantCulture) + "\t" + codes);
         }
 

@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using RecursiveAI.OneDocument.Calc;
+using RecursiveAI.OneDocument.Calc.OpenFormula;
 using RecursiveAI.OneDocument.Diagnostics;
 using RecursiveAI.OneDocument.Markup;
 using RecursiveAI.OneDocument.Markup.Xml;
@@ -68,7 +69,7 @@ internal sealed partial class OdsImporter
                     continue;
                 }
 
-                string? text = FormulaText(expression, n, "names", name);
+                string? text = JoinedReferences(expression) ?? FormulaText(expression, n, "names", name);
                 if (text is null)
                 {
                     continue;
@@ -99,6 +100,57 @@ internal sealed partial class OdsImporter
                 _names.Add(new DefinedNameInfo(safe, formula, scope, false));
             }
         }
+    }
+
+    // Print titles and solver ranges are written as several references separated by ';' at the top level, which is not one OpenFormula expression;
+    // a workbook stores them as a comma-separated list. Null when the expression is a single expression.
+    private string? JoinedReferences(string expression)
+    {
+        int start = expression.StartsWith("of:=", StringComparison.Ordinal) ? 4 : 0;
+        var parts = new List<string>();
+        int depth = 0;
+        int from = start;
+        bool quoted = false;
+        for (int i = start; i < expression.Length; i++)
+        {
+            char c = expression[i];
+            if (c is '\'' or '"')
+            {
+                quoted = !quoted;
+            }
+            else if (!quoted && c is '[' or '(' or '{')
+            {
+                depth++;
+            }
+            else if (!quoted && c is ']' or ')' or '}')
+            {
+                depth--;
+            }
+            else if (!quoted && depth == 0 && c == ';')
+            {
+                parts.Add(expression[from..i]);
+                from = i + 1;
+            }
+        }
+
+        if (parts.Count == 0)
+        {
+            return null;
+        }
+
+        parts.Add(expression[from..]);
+        var texts = new List<string>(parts.Count);
+        foreach (string part in parts)
+        {
+            if (!OpenFormulaParser.TryParse(part, out FormulaNode? node, out _, new OpenFormulaParseOptions { Limits = _ctx.Limits }) || node is not { Kind: NodeKind.Cell or NodeKind.Area })
+            {
+                return null;
+            }
+
+            texts.Add(FormulaText("of:=" + part, default!, "names", string.Empty) ?? string.Empty);
+        }
+
+        return texts.Contains(string.Empty) ? null : string.Join(',', texts);
     }
 
     private string SheetNameAt(int index)

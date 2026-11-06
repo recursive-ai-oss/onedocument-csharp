@@ -1176,6 +1176,23 @@ internal sealed partial class OdsImporter
     private bool TryDateSerial(string iso, out double serial)
     {
         serial = 0;
+
+        // A fraction of a second longer than seven digits (some writers keep nanoseconds) is past DateTime's precision and is cut.
+        int dot = iso.IndexOf('.', StringComparison.Ordinal);
+        if (dot >= 0)
+        {
+            int end = dot + 1;
+            while (end < iso.Length && char.IsAsciiDigit(iso[end]))
+            {
+                end++;
+            }
+
+            if (end - dot - 1 > 7)
+            {
+                iso = iso[..(dot + 8)] + iso[end..];
+            }
+        }
+
         if (!DateTime.TryParse(iso, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out DateTime value))
         {
             return false;

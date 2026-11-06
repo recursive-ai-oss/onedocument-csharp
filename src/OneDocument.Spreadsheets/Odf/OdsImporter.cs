@@ -611,6 +611,13 @@ internal sealed partial class OdsImporter
         string dialect = colon > 0 && colon + 1 < formula.Length && formula[colon + 1] == '=' ? formula[..colon].ToLowerInvariant() : "of";
         FormulaNode? node;
         FormulaSyntaxError error;
+
+        // A cell whose formula attribute holds only the prefix has nothing to read; its cached value is the cell.
+        if (colon > 0 && string.IsNullOrWhiteSpace(formula[(colon + 2)..]))
+        {
+            return null;
+        }
+
         if (dialect == "of")
         {
             if (!OpenFormulaParser.TryParse(formula, out node, out error, new OpenFormulaParseOptions { Limits = _ctx.Limits }))

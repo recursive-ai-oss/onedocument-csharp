@@ -487,4 +487,17 @@ public class OdsTests
             OpenDocumentSheet.ToPackage(RecursiveAI.OneDocument.IO.ByteSource.FromMemory(Encoding.UTF8.GetBytes(text)), null, loss));
         Assert.Equal("ods.not-spreadsheet", e.Defect.Code);
     }
+
+    [Fact]
+    public void Print_titles_written_as_several_references_empty_formulas_and_long_fractions_are_read()
+    {
+        var ctx = new OpenContext();
+        using Workbook wb = Fods(
+            "<table:table table:name=\"S\"><table:table-row><table:table-cell table:formula=\"of:=\" office:value-type=\"float\" office:value=\"7\"/>" +
+            "<table:table-cell office:value-type=\"date\" office:date-value=\"2020-01-02T00:00:17.000000202\"/></table:table-row></table:table>" +
+            "<table:named-expressions><table:named-expression table:name=\"Excel_BuiltIn_Print_Titles\" table:base-cell-address=\"$S.$A$1\" table:expression=\"of:=[$S.$A:.$B];[$S.$1:.$2]\"/></table:named-expressions>",
+            context: ctx);
+        Assert.Equal(7, wb.Sheets["S"]["A1"].Number);
+        Assert.Empty(((DefectCollection)ctx.Defects).Select(static d => d.Code + ": " + d.Message));
+    }
 }
