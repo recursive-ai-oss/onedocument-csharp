@@ -31,6 +31,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `binding.` | reading and writing rows of plain objects (`Spreadsheet.Read<T>`, `Write<T>`) | `Structure`, `Reference`, `Value` |
 | `template.` | the template engine: reading, checking and rendering templates | `Markup`, `Structure`, `Formula`, `Reference`, `Value` |
 | `render.` | writing laid-out pages as PDF or images | `Structure` |
+| `merge.` | merge, append, split, sheet copy and slide insert (`MergeReport.Problems`) | `Structure` |
 
 ## Codes in use
 
@@ -535,6 +536,22 @@ Reported by the readers of Word 2003 XML and Excel 2003 XML while they convert (
 | `sml2003.bad-formula` | dropped | A cell's `ss:Formula` is not an R1C1 formula the parser reads (files written by other programs may hold OpenFormula text); the cached value stays as a constant. |
 | `sml2003.bad-value` | dropped | A bad date in the document properties. |
 
+### Merge, copy and insert (`merge.`)
+
+Reported in `MergeReport.Problems` (severity dropped), with the part or cell. Resolutions and loss items of the same operations have codes of the same form but are not defects; they are listed in `operations-merge.md`.
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `merge.note-missing` | dropped | The copied content refers to a footnote or endnote the source does not have; the reference was left out. |
+| `merge.comment-missing` | dropped | The copied content has comment markers for a comment the source does not have; the markers were left out. |
+| `merge.relationship-missing` | dropped | A relationship id used by the copied content is not in the source part's relationships; the attribute was kept as written. |
+| `merge.part-missing` | dropped | A relationship points at a part the source does not have; the attribute was kept as written. |
+| `merge.numbering-missing` | dropped | A paragraph uses a list the source's numbering part does not define; the reference was kept. |
+| `merge.namespace-prefix-clash` | dropped | A prefix of copied ignorable markup is bound to another namespace on the destination's root. |
+| `merge.formula-unreadable` | dropped | A formula of a copied sheet does not parse; it was copied as written. |
+| `merge.sheet-part-not-copied` | dropped | A sheet has parts (drawings, comments, pivot tables …) that a sheet copy does not carry. |
+| `merge.references-left` | dropped | After a sheet move, formulas in the sheets left behind still name the moved sheet. |
+
 ### OpenDocument (`packaging.odf-*`, `odf.`)
 
 The package layer (`OdfPackage`, see `odf.md`) reports under `packaging.`; the text conversion reports under `odf.`. Package locations are the entry name (`mimetype`, `META-INF/manifest.xml`, `content.xml`) with a byte offset where one is known; conversion locations are `content.xml` (or the flat file) with a byte offset.
@@ -590,3 +607,7 @@ See `ods.md`. Locations are `content.xml` (or the flat file) with a byte offset,
 | `openformula.too-long`, `openformula.too-deep` | fatal for the formula | The formula is longer or nests deeper than `OfficeLimits.MaxFormulaLength` or `MaxFormulaDepth`. |
 
 The printer reports through `OpenFormulaProblem` (not defects): `openformula.function` (a function other readers do not know; still written), and `openformula.spill`, `openformula.structured-reference`, `openformula.member-path`, `openformula.invoke`, `openformula.unknown-node`, `openformula.error` (the AST has no OpenFormula form; the formula is not written and its cached value stays).
+
+## Redaction report codes
+
+Redaction does not report through the open-time defect list: what it could not remove or look into is in `RedactionReport.Gaps`, with codes of the form `redaction.problem` (`redaction.part-name`, `redaction.part-not-xml`, `redaction.embedded-package`, `redaction.opaque-part`, `redaction.depth`, `redaction.region-not-applicable`, `redaction.region-failed`, `redaction.shared-formula-extent`, `redaction.pivot-cache-source`, `redaction.animations-removed`). Their meaning and the tests that assert them are in `redaction.md`.

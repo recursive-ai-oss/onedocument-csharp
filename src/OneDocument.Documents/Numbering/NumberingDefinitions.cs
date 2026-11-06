@@ -380,6 +380,13 @@ public sealed partial class NumberingDefinitions
 
     // --- editing ---
 
+    /// <summary>Creates the part when missing and returns its root; used by operations that move lists between documents.</summary>
+    internal MarkupRef EnsureRootForMerge()
+    {
+        EnsurePart();
+        return _markup;
+    }
+
     private void EnsurePart()
     {
         if (_markup.IsValid)

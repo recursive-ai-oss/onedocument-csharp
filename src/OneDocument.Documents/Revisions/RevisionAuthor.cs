@@ -980,6 +980,7 @@ public sealed partial class RevisionAuthor
         IsolateBoundary(paragraph, end);
         IsolateBoundary(paragraph, start);
         List<MarkupNode> runs = RunsInRange(paragraph, start, end, includeTrailingZeroWidth);
+        SkipLeadingObjects(runs);
         var rest = new List<MarkupNode>();
         foreach (MarkupNode r in runs)
         {
