@@ -17,8 +17,11 @@ public static class DocumentFormats
     public static IReadOnlyList<OfficeFormat> Formats { get; } =
         [OfficeFormat.Docx, OfficeFormat.Docm, OfficeFormat.Dotx, OfficeFormat.Dotm, OfficeFormat.FlatOpcDocument];
 
+    /// <summary>The formats this package reads but does not write: Word 2003 XML, which opens as a document that saves as DOCX.</summary>
+    public static IReadOnlyList<OfficeFormat> ReadOnlyFormats { get; } = [OfficeFormat.Word2003Xml];
+
     /// <summary>
-    /// Registers the readers and writers of <see cref="Formats"/>. Text extraction for them is already in the core package's default
+    /// Registers the readers and writers of <see cref="Formats"/> and the readers of <see cref="ReadOnlyFormats"/>. Text extraction for them is already in the core package's default
     /// registry, and is left as it is.
     /// </summary>
     /// <param name="registry">The registry to fill.</param>
@@ -45,6 +48,6 @@ public static class DocumentFormats
         // Word 2003 XML is read only: it opens as a document that saves as DOCX.
         registry.RegisterReader(
             static (source, _, context, filePath, cancellationToken) => Document.OpenSource(source, context, filePath, cancellationToken),
-            OfficeFormat.Word2003Xml);
+            [.. ReadOnlyFormats]);
     }
 }

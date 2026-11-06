@@ -12,7 +12,10 @@ public static class SpreadsheetFormats
     public static IReadOnlyList<OfficeFormat> Formats { get; } =
         [OfficeFormat.Xlsx, OfficeFormat.Xlsm, OfficeFormat.Xltx, OfficeFormat.Xltm, OfficeFormat.Xlam, OfficeFormat.FlatOpcWorkbook];
 
-    /// <summary>Registers the readers and writers of <see cref="Formats"/>.</summary>
+    /// <summary>The formats this package reads but does not write: Excel 2003 XML, which opens as a workbook that saves as XLSX.</summary>
+    public static IReadOnlyList<OfficeFormat> ReadOnlyFormats { get; } = [OfficeFormat.Excel2003Xml];
+
+    /// <summary>Registers the readers and writers of <see cref="Formats"/> and the readers of <see cref="ReadOnlyFormats"/>.</summary>
     /// <param name="registry">The registry to fill.</param>
     public static void Register(FormatRegistry registry)
     {
@@ -29,7 +32,7 @@ public static class SpreadsheetFormats
         // Excel 2003 XML is read only: it opens as a workbook that saves as XLSX.
         registry.RegisterReader(
             static (source, _, context, filePath, cancellationToken) => Workbook.OpenSource(source, context, filePath, cancellationToken),
-            OfficeFormat.Excel2003Xml);
+            [.. ReadOnlyFormats]);
         registry.RegisterWriter(
             static (file, format, destination, cancellationToken) =>
             {
