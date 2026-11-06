@@ -35,7 +35,8 @@ Normative notes on how OneDocument behaves, one page per area. The code's XML do
 | [xml-2003.md](xml-2003.md) | Word 2003 XML and Excel 2003 XML (read-only conversion) |
 | [html.md](html.md) | HTML import (sanitised) and export |
 | [markdown.md](markdown.md) | CommonMark and GFM import and export |
-| [odf.md](odf.md) | OpenDocument package layer and conversions |
+| [odf.md](odf.md) | OpenDocument package layer and text-document conversions |
+| [odp.md](odp.md) | OpenDocument presentations (ODP, OTP, FODP) read and write |
 
 ## Workbooks
 
@@ -71,6 +72,9 @@ Normative notes on how OneDocument behaves, one page per area. The code's XML do
 | [mail-merge.md](mail-merge.md) | Word mail merge |
 | [operations-merge.md](operations-merge.md) | Merge, append, split and persisted field update |
 | [operations-find-replace.md](operations-find-replace.md) | Find and replace across runs, cells and paragraphs |
+| [sanitize.md](sanitize.md) | Inspecting a file for hidden data and personal information, and sanitising it |
+| [redaction.md](redaction.md) | True redaction by match or region, and its verification |
+| [redaction-review.md](redaction-review.md) | The independent completeness review of redaction: method, defects found, verdict, open items |
 
 ## Rendering
 

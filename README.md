@@ -55,7 +55,8 @@ The `Office` statics find the readers and writers of every kind package the appl
 | Word 2003 XML, Excel 2003 XML | yes | no | n/a | yes | `docs/xml-2003.md` |
 | RTF 1.9.1 | yes | yes | RTF saved without an edit keeps its bytes (`docs/rtf.md`) | yes, both directions | `docs/rtf.md` |
 | ODT, OTT, flat FODT | yes | yes | entries copied raw (`docs/odf.md`) | yes | `docs/odf.md` |
-| ODS, ODP, flat FODS, FODP | pending (not on this branch yet) | pending | pending | pending | `docs/odf.md` |
+| ODP, OTP, flat FODP | yes (`Presentation`) | yes | read and saved in its own format without an edit writes the original bytes; any edit writes a package of its own (`docs/odp.md`) | yes, both directions | `docs/odp.md` |
+| ODS, FODS | pending (not on this branch yet) | pending | pending | pending | `docs/odf.md` |
 | CSV, TSV | yes | yes | n/a | writing reports dropped formulas, styles and sheets | `docs/csv.md` |
 | HTML | yes (sanitised by default) | yes (documents; workbooks and presentations at a basic level) | n/a | yes | `docs/html.md` |
 | Markdown (CommonMark, GFM) | yes | yes | n/a | yes | `docs/markdown.md` |
@@ -86,6 +87,16 @@ Numbers come from the committed note or test named in the last column. Office-or
 | Memory | 37 retained bytes per cell on a 20M-cell styled workbook (ClosedXML 79, NPOI 360); streaming read allocates 0.08 bytes per cell at 1M rows; streaming working set 47 to 49 MB from 10k to 1M rows (x64) | `bench/README.md` |
 | Speed (preview rows, re-run at the 1.0 gate) | against the fastest managed comparator: documents geomean 0.19 (x64) and 0.18 (arm64) over 15 rows, worst 0.65 and 0.63; workbooks geomean 0.53 and 0.59 over 10 rows, worst 1.01 and 1.05 | `bench/README.md`, `bench/published/` |
 
+## Operations
+
+| Operation | State |
+|---|---|
+| Find and replace, merge, append, split, protection | implemented (`docs/operations-find-replace.md`, `docs/operations-merge.md`, `docs/protection.md`) |
+| Redaction (`Office.Redact`) | implemented, writes a new file and re-reads it to verify; an independent completeness review passed (`docs/redaction-review.md`), with its open items listed there. Office check pending (1.0 gate) |
+| Inspect and sanitise (`Office.Inspect`, `Office.Sanitize`, `onedocument inspect`, `sanitize`) | implemented (`docs/sanitize.md`); coverage review pending |
+| VBA read, extract, remove | implemented, never executed (`docs/vba.md`) |
+| Accessibility checking | implemented (`docs/accessibility.md`); agreement with Office's checker pending (1.0 gate) |
+
 ## Gaps
 
 Stated here so they are not found by surprise.
@@ -108,7 +119,7 @@ Stated here so they are not found by surprise.
 | `RecursiveAI.OneDocument.Documents` | Word-processing documents: DOCX, DOC, RTF, ODT, 2003 XML, HTML, Markdown, revisions, mail merge, operations |
 | `RecursiveAI.OneDocument.Spreadsheets` | Workbooks: XLSX, XLSB, XLS, CSV/TSV, 2003 XML, calculation, pivots, streaming, typed row binding |
 | `RecursiveAI.OneDocument.Presentations` | Presentations: PPTX, PPT |
-| `RecursiveAI.OneDocument.Schema` | Generated typed views over the schema elements |
+| `RecursiveAI.OneDocument.Schema` | Generated zero-copy typed views over every pinned schema: WordprocessingML, SpreadsheetML, PresentationML, DrawingML, charts, chartex, diagrams, VML, Office Math, the package parts and the Microsoft extension schemas; `.Spreadsheets` uses them |
 | `RecursiveAI.OneDocument.Rendering` | Layout, charts, SmartArt, equations, drawing; PDF and PNG output for all three kinds |
 | `RecursiveAI.OneDocument.All` | Metapackage of every package above |
 | `RecursiveAI.OneDocument.Cryptography` | Signatures and encryption on write (no content yet; not in `All`) |

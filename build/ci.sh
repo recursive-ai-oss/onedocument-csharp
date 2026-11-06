@@ -61,7 +61,8 @@ for step in "${steps[@]}"; do
     consumer)
       # Applications that reference the packages as packages (from a throwaway local pack) and call the Office statics with no
       # registration line: under NativeAOT with warnings as errors, with and without the spreadsheet package.
-      feed="$out/consumer-feed"; version=0.0.0-consumer.1
+      # A new version each run: a reused package cache would otherwise serve the assemblies of an earlier run.
+      feed="$out/consumer-feed"; version="0.0.0-consumer.$(date +%s)"
       for project in OneDocument OneDocument.Schema OneDocument.Documents OneDocument.Spreadsheets OneDocument.Presentations OneDocument.Rendering OneDocument.All; do
         "$dotnet_bin" pack "src/$project" -c "$config" -p:Version=$version -p:EnablePackageValidation=false -o "$feed"
       done
