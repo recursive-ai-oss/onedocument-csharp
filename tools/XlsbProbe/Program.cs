@@ -14,17 +14,19 @@ using RecursiveAI.OneDocument.Spreadsheets.Csv;
 //   XlsbProbe sweep <dir>            open, read every cell, save untouched, convert to SpreadsheetML; one line per file and a summary
 //   XlsbProbe xml <file> [part]      print a part as the workbook hub sees it (default: the workbook part)
 //   XlsbProbe csv <file> <out-dir>   write every sheet as CSV (cell values only) for comparison with another converter
+//   XlsbProbe generate <out-dir>     write the generated binary workbooks (and manifest.tsv) that are checked in desktop Excel
 return args.Length == 0 ? Usage() : args[0] switch
 {
     "sweep" => Sweep(args[1]),
     "xml" => Xml(args[1], args.Length > 2 ? args[2] : null),
     "csv" => WriteCsv(args[1], args[2]),
+    "generate" => Generator.Run(args[1]),
     _ => Usage(),
 };
 
 static int Usage()
 {
-    Console.Error.WriteLine("usage: XlsbProbe sweep <dir> | xml <file> [part] | csv <file> <out-dir>");
+    Console.Error.WriteLine("usage: XlsbProbe sweep <dir> | xml <file> [part] | csv <file> <out-dir> | generate <out-dir>");
     return 2;
 }
 

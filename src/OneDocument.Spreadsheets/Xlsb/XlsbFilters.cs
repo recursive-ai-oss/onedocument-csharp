@@ -246,8 +246,8 @@ internal static class XlsbFilters
         return true;
     }
 
-    // The field is named fAnd; [MS-XLSB] §2.4.40 describes 0 as the AND relationship, which Excel's behaviour decides at the gate.
-    internal const int AndValue = 1;
+    // The field is named fAnd, but [MS-XLSB] §2.4.40 describes 0 as the AND relationship and 1 as OR; LibreOffice reads our files the same way. Excel settles it at the gate.
+    internal const int AndValue = 0;
 
     private static bool Custom(byte[] data, XmlSink x)
     {
@@ -419,7 +419,12 @@ internal static class XlsbFilters
                     w.Write(XlsbRecordType.BeginCustomFilters, d);
                     foreach (MarkupNode item in k.Elements("customFilter"))
                     {
-                        int op = Math.Max(2, Array.IndexOf(CustomOperators, item.Str("operator", "equal")));
+                        int op = Array.IndexOf(CustomOperators, item.Str("operator", "equal"));
+                        if (op < 1)
+                        {
+                            op = 2;
+                        }
+
                         string val = item.Str("val");
                         bool number = double.TryParse(val, NumberStyles.Float, CultureInfo.InvariantCulture, out double num);
                         d.U8(number ? 4 : 6);
