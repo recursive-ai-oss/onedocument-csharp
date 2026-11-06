@@ -378,19 +378,11 @@ internal static class XlsbSheetPart
                 case XlsbRecordType.LegacyDrawing:
                     RelElement("legacyDrawing", d);
                     return;
-                case XlsbRecordType.BeginListParts:
-                    _x.Raw("<tableParts>");
+                case XlsbRecordType.BeginHeaderFooter:
+                    HeaderFooter(d);
                     return;
-                case XlsbRecordType.EndListParts:
-                    _x.Raw("</tableParts>");
+                case XlsbRecordType.EndHeaderFooter:
                     return;
-                case XlsbRecordType.ListPart:
-                {
-                    var f = new XlsbRecordFields(d);
-                    _x.Raw("<tablePart").Attr("r:id", f.NullableWideString() ?? string.Empty).Raw("/>");
-                    return;
-                }
-
                 default:
                     if (_inSheetData && !_inRow)
                     {
@@ -1181,6 +1173,50 @@ internal static class XlsbSheetPart
             }
 
             _x.Raw("/>");
+        }
+
+        private void HeaderFooter(ReadOnlySpan<byte> d)
+        {
+            var f = new XlsbRecordFields(d);
+            int flags = f.U16();
+            string?[] strings = new string?[6];
+            for (int i = 0; i < 6; i++)
+            {
+                strings[i] = f.NullableWideString();
+            }
+
+            _x.Raw("<headerFooter");
+            if ((flags & 1) != 0)
+            {
+                _x.Attr("differentOddEven", 1);
+            }
+
+            if ((flags & 2) != 0)
+            {
+                _x.Attr("differentFirst", 1);
+            }
+
+            if ((flags & 4) == 0)
+            {
+                _x.Attr("scaleWithDoc", 0);
+            }
+
+            if ((flags & 8) == 0)
+            {
+                _x.Attr("alignWithMargins", 0);
+            }
+
+            _x.Raw(">");
+            string[] names = ["oddHeader", "oddFooter", "evenHeader", "evenFooter", "firstHeader", "firstFooter"];
+            for (int i = 0; i < 6; i++)
+            {
+                if (strings[i] is { Length: > 0 } t)
+                {
+                    _x.Raw("<").Raw(names[i]).Raw(">").Text(t).Raw("</").Raw(names[i]).Raw(">");
+                }
+            }
+
+            _x.Raw("</headerFooter>");
         }
 
         private void PageSetup(ReadOnlySpan<byte> d)

@@ -47,7 +47,7 @@ public sealed partial class Workbook : OfficeFile
     private bool _structureChanged;
 
     private Workbook(IOpcPackage package, OfficeFormat format, OpenContext context, string mainPartName, bool ownsPackage)
-        : base(format, context, (package as OpcPackage)?.FilePath)
+        : base(format, context, package.FilePath)
     {
         Package = package;
         MainPartName = mainPartName;
@@ -119,7 +119,7 @@ public sealed partial class Workbook : OfficeFile
         OpenSource(source, context, null, cancellationToken);
 
     internal static bool IsWorkbookFormat(OfficeFormat format) =>
-        format is OfficeFormat.Xlsx or OfficeFormat.Xlsm or OfficeFormat.Xltx or OfficeFormat.Xltm or OfficeFormat.Xlam or OfficeFormat.FlatOpcWorkbook;
+        format is OfficeFormat.Xlsx or OfficeFormat.Xlsm or OfficeFormat.Xltx or OfficeFormat.Xltm or OfficeFormat.Xlam or OfficeFormat.Xlsb or OfficeFormat.FlatOpcWorkbook;
 
     internal static Workbook OpenSource(IByteSource source, OpenContext? context, string? filePath, CancellationToken cancellationToken)
     {
@@ -181,6 +181,11 @@ public sealed partial class Workbook : OfficeFile
         }
 
         string contentType = package.FindPart(main)!.ContentType;
+        if ((string.Equals(contentType, MainXlsb, StringComparison.OrdinalIgnoreCase) || string.Equals(contentType, RecursiveAI.OneDocument.Xlsb.XlsbBook.WorkbookBinType, StringComparison.OrdinalIgnoreCase)) && package is OpcPackage binary)
+        {
+            return FromBinary(binary, context, ownsPackage);
+        }
+
         OfficeFormat format = FormatOfContentType(package, contentType);
         var wb = new Workbook(package, format, context, main, ownsPackage);
         wb.LoadMain();
@@ -629,9 +634,14 @@ public sealed partial class Workbook : OfficeFile
         }
     }
 
-    internal void Write(OfficeFormat format, Stream destination, CancellationToken cancellationToken)
+    internal void Write(OfficeFormat format, Stream destination, CancellationToken cancellationToken, ILossSink? loss = null)
     {
         CommitChanges();
+        if (WriteBinary(format, destination, loss, cancellationToken))
+        {
+            return;
+        }
+
         if (Package is not OpcPackage opc)
         {
             throw new FormatNotAvailableException(format, "write this package as");
@@ -725,6 +735,14 @@ public sealed partial class Workbook : OfficeFile
         if (disposing && _ownsPackage)
         {
             Package.Dispose();
+        }
+
+        if (disposing)
+        {
+            if (_ownsBinary)
+            {
+                _binary?.Dispose();
+            }
         }
 
         base.Dispose(disposing);

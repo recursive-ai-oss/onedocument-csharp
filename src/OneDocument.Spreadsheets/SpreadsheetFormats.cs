@@ -8,9 +8,9 @@ namespace RecursiveAI.OneDocument.Spreadsheets;
 /// </summary>
 public static class SpreadsheetFormats
 {
-    /// <summary>The formats this package reads and writes: XLSX, XLSM, XLTX, XLTM, XLAM and Flat OPC.</summary>
+    /// <summary>The formats this package reads and writes: XLSX, XLSM, XLTX, XLTM, XLAM, XLSB and Flat OPC.</summary>
     public static IReadOnlyList<OfficeFormat> Formats { get; } =
-        [OfficeFormat.Xlsx, OfficeFormat.Xlsm, OfficeFormat.Xltx, OfficeFormat.Xltm, OfficeFormat.Xlam, OfficeFormat.FlatOpcWorkbook];
+        [OfficeFormat.Xlsx, OfficeFormat.Xlsm, OfficeFormat.Xltx, OfficeFormat.Xltm, OfficeFormat.Xlam, OfficeFormat.Xlsb, OfficeFormat.FlatOpcWorkbook];
 
     /// <summary>Registers the readers and writers of <see cref="Formats"/>.</summary>
     /// <param name="registry">The registry to fill.</param>
