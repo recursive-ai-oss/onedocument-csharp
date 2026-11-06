@@ -115,7 +115,7 @@ no text shows no bullet and takes no number. Schemes: arabic, alpha (a, b … z,
 `ParenR`, `ParenBoth` or `Plain`; other schemes are numbered as arabic with a period.
 
 **Equations** (`a14:m` holding `m:oMath` or `m:oMathPara` in an `mc:Choice`) are laid out by the equation layout (`equations` in `layout.md`) as one
-unbreakable inline box on the baseline at the run's size and colour, tagged as a `Figure` whose alternative text is the equation's linear
+unbreakable inline box on the baseline at the run's size and colour, tagged as a `Formula` whose alternative text is the equation's linear
 form; the `Fallback` is not drawn.
 
 ## Autofit
@@ -173,8 +173,7 @@ Each page is a `Sect`. A title or centre-title placeholder's paragraphs are `H1`
 paragraphs are `L` > `LI` > `Lbl` + `LBody` (consecutive ones share a list); tables are `Table` > `TR` > `TH`/`TD` with spans, the
 first row always being header cells (PDF/UA wants a header in every table, so a table that does not mark `firstRow` still gets one); pictures, charts and diagrams are `Figure` with alternative text;
 connectors and objects marked decorative are artifacts; backgrounds, master and layout shapes, date, footer and slide-number
-placeholders, and shape fills are artifacts. Reading order is the shape-tree order. `Note`, `Reference`, `TOC` and artifact kinds
-wait for OneRender's roles (see `layout.md`).
+placeholders, and shape fills are artifacts. Reading order is the shape-tree order. Equations are `Formula`. Artifact kinds are not set on slides (see `layout.md` for the Word kinds).
 
 ## Limits and defects
 

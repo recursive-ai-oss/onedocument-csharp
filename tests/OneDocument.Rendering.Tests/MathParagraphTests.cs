@@ -105,7 +105,7 @@ public sealed class MathParagraphTests
     }
 
     [Fact]
-    public void EquationsAreTaggedFiguresWithTheirLinearTextAsAlternativeText()
+    public void EquationsAreTaggedFormulasWithTheirLinearTextAsAlternativeText()
     {
         RenderingFormats.Register(RecursiveAI.OneDocument.Formats.FormatRegistry.Default);
         using Document d = Document.Open(new MemoryStream(TestDocx.Bytes(Inline("See ", Frac(R("a"), R("b")), " there") + Display(Rad(R("x"))))), leaveOpen: false);
@@ -113,7 +113,7 @@ public sealed class MathParagraphTests
         DocumentRenderer.WritePdf(d, ms, new PdfRenderOptions { Layout = new LayoutOptions { Fonts = TestFonts.Library } });
         using var pdf = OnePdf.PdfDocument.Open(ms.ToArray());
         OnePdf.PdfStructureTree tree = pdf.StructureTree ?? throw new InvalidOperationException("no structure tree");
-        string[] alts = [.. tree.Elements().Where(e => e.Type == "Figure").Select(e => e.Dictionary.GetString("Alt")?.GetText() ?? string.Empty)];
+        string[] alts = [.. tree.Elements().Where(e => e.Type == "Formula").Select(e => e.Dictionary.GetString("Alt")?.GetText() ?? string.Empty)];
         Assert.True(alts.Contains("a/b"), string.Join("|", alts));
         Assert.Contains("\u221Ax", alts);
     }

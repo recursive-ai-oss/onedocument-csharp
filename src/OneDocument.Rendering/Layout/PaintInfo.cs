@@ -18,6 +18,7 @@ internal sealed class RunPaintInfo
     public double BaselineShift; // points, positive raises
     public double Scale = 1.0; // horizontal glyph scale (w:w / 100)
     public bool IsArtifact;
+    public bool IsReference; // a note reference mark or the result of a REF, PAGEREF or NOTEREF field: tagged as a reference
     public string Leader = string.Empty; // tab leader: dot, hyphen, underscore, middleDot, heavy; empty for none
 }
 

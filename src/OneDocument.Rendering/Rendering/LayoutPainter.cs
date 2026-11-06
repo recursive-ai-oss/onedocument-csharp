@@ -30,6 +30,10 @@ public sealed class PaintOptions
 
     /// <summary>Gets or sets how SmartArt diagrams are painted: stored drawing or regenerated layout, and a report callback. Null takes the defaults (stored drawing unless missing or stale).</summary>
     public SmartArt.DiagramOptions? Diagrams { get; set; }
+
+    // PDF/UA-1 §7.9 wants an /ID on every Note element and OneRender's PDF writer does not write one yet, so a PDF/UA file tags note bodies
+    // as Div until it does. Set from the PDF profile; display lists for other uses keep the Note role.
+    internal bool NotesAsDivs { get; set; }
 }
 
 /// <summary>
@@ -166,8 +170,29 @@ public static class LayoutPainter
         private void PaintBlocks(IEnumerable<LayoutNode> blocks)
         {
             bool listOpen = false;
+            bool tocOpen = false;
             foreach (LayoutNode node in blocks)
             {
+                // A run of table-of-contents entries is one TOC with a TOCI per entry (ISO 32000-1 §14.8.4.3.3).
+                bool isToc = Tagged && node is LayoutParagraph { Story: LayoutStory.Body, NoteRole: null } tocCandidate && IsTocEntry(tocCandidate);
+                if (tocOpen && !isToc)
+                {
+                    List.EndTag();
+                    tocOpen = false;
+                }
+
+                if (isToc && !tocOpen)
+                {
+                    if (listOpen)
+                    {
+                        List.EndTag();
+                        listOpen = false;
+                    }
+
+                    List.BeginTag(Id(), TagRole.TOC);
+                    tocOpen = true;
+                }
+
                 if (node is LayoutTable table)
                 {
                     if (listOpen)
@@ -199,7 +224,7 @@ public static class LayoutPainter
 
                 if (p.Story is LayoutStory.Header or LayoutStory.Footer)
                 {
-                    // Headers and footers are pagination artifacts (OneRender has no finer role for them yet).
+                    // Headers and footers (page numbers included) are pagination artifacts, typed Header or Footer.
                     if (listOpen)
                     {
                         List.EndTag();
@@ -209,7 +234,7 @@ public static class LayoutPainter
                     _untagged++;
                     if (options.Tagged)
                     {
-                        List.BeginTag(Id(), TagRole.Artifact);
+                        List.BeginTag(Id(), ArtifactType.Pagination, p.Story == LayoutStory.Header ? ArtifactSubtype.Header : ArtifactSubtype.Footer);
                     }
 
                     PaintParagraph(p, false);
@@ -222,7 +247,7 @@ public static class LayoutPainter
                     continue;
                 }
 
-                bool inList = p.Label is not null && Tagged;
+                bool inList = p.Label is not null && Tagged && !isToc;
                 if (listOpen && !inList)
                 {
                     List.EndTag();
@@ -235,16 +260,34 @@ public static class LayoutPainter
                     listOpen = true;
                 }
 
+                if (isToc)
+                {
+                    List.BeginTag(Id(), TagRole.TOCI);
+                }
+
                 PaintParagraph(p, inList);
+                if (isToc)
+                {
+                    List.EndTag();
+                }
             }
 
             if (listOpen)
             {
                 List.EndTag();
             }
+
+            if (tocOpen)
+            {
+                List.EndTag();
+            }
         }
 
-        // A footnote is a Div (OneRender has no Note role yet); separators and the continuation notice are page furniture, so artifacts.
+        // Table-of-contents entries use the built-in styles TOC 1 to TOC 9 (style ids TOC1 to TOC9).
+        private static bool IsTocEntry(LayoutParagraph p) =>
+            p.Source.StyleId is { Length: 4 } id && id.StartsWith("TOC", StringComparison.OrdinalIgnoreCase) && char.IsAsciiDigit(id[3]) && id[3] != '0';
+
+        // A footnote or endnote is a Note; separators and the continuation notice are page furniture, so layout artifacts.
         private void PaintNoteBlock(LayoutNoteBlock block)
         {
             bool furniture = block.Role is LayoutNoteRole.Separator or LayoutNoteRole.ContinuationSeparator or LayoutNoteRole.ContinuationNotice;
@@ -255,7 +298,14 @@ public static class LayoutPainter
 
             if (options.Tagged)
             {
-                List.BeginTag(Id(), furniture ? TagRole.Artifact : TagRole.Div);
+                if (furniture)
+                {
+                    List.BeginTag(Id(), ArtifactType.Layout);
+                }
+                else
+                {
+                    List.BeginTag(Id(), options.NotesAsDivs ? TagRole.Div : TagRole.Note);
+                }
             }
 
             PaintBlocks(block.Children);
@@ -285,7 +335,7 @@ public static class LayoutPainter
                 bool artifact = row.IsRepeatedHeader && options.Tagged && _untagged == 0;
                 if (artifact)
                 {
-                    List.BeginTag(Id(), TagRole.Artifact);
+                    List.BeginTag(Id(), ArtifactType.Pagination);
                     _untagged++;
                 }
                 else if (Tagged)
@@ -520,7 +570,7 @@ public static class LayoutPainter
                 _untagged++;
                 if (options.Tagged)
                 {
-                    List.BeginTag(Id(), TagRole.Artifact);
+                    List.BeginTag(Id(), ArtifactType.Pagination, f.Story == LayoutStory.Header ? ArtifactSubtype.Header : f.Story == LayoutStory.Footer ? ArtifactSubtype.Footer : ArtifactSubtype.None);
                 }
             }
 
@@ -724,7 +774,14 @@ public static class LayoutPainter
         {
             if (options.Tagged)
             {
-                List.BeginTag(Id(), TagRole.Artifact);
+                if (d.DecorationKind == LayoutDecorationKind.Watermark)
+                {
+                    List.BeginTag(Id(), ArtifactType.Pagination, ArtifactSubtype.Watermark);
+                }
+                else
+                {
+                    List.BeginTag(Id(), ArtifactType.Layout);
+                }
             }
 
             var x = new float[g.X.Length];
@@ -910,6 +967,12 @@ public static class LayoutPainter
 
             bool link = Tagged && paint.LinkTarget is not null && run.RunKind == LayoutRunKind.Text;
             bool span = Tagged && !link && paint.Language is { Length: > 0 } lang && !string.Equals(lang, options.Language, StringComparison.OrdinalIgnoreCase);
+            bool reference = Tagged && paint.IsReference && run.RunKind == LayoutRunKind.Text;
+            if (reference)
+            {
+                List.BeginTag(Id(), TagRole.Reference);
+            }
+
             if (link)
             {
                 List.BeginTag(Id(), TagRole.Link, linkTarget: paint.LinkTarget, language: null);
@@ -954,10 +1017,15 @@ public static class LayoutPainter
             {
                 List.EndTag();
             }
+
+            if (reference)
+            {
+                List.EndTag();
+            }
         }
 
         // An equation: glyphs and rules in the box's own coordinates (first baseline, y down), tagged as one figure whose alternative
-        // text is the equation's linear form (OneRender has no formula role).
+        // text is the equation's linear form (the Formula role keeps alt text).
         private void PaintMath(LayoutRun run, LayoutLine line)
         {
             if (run.Math is not { } box)
@@ -968,7 +1036,7 @@ public static class LayoutPainter
             bool tagged = Tagged;
             if (tagged)
             {
-                List.BeginTag(Id(), TagRole.Figure, altText: box.LinearText);
+                List.BeginTag(Id(), TagRole.Formula, altText: box.LinearText);
             }
 
             double ox = run.Bounds.X;

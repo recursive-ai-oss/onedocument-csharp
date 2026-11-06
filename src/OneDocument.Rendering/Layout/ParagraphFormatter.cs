@@ -224,6 +224,7 @@ internal static partial class ParagraphFormatter
         var charRun = new List<int>();
         Dictionary<int, MathSpan>? maths = null;
         var drawings = new Dictionary<int, InlineDrawing>();
+        HashSet<Run> crossReferences = CrossReferenceScanner.ResultRuns(runs);
         foreach ((Run? run, string? link, OtherInline? mathElement) in runs)
         {
             if (mathElement is not null)
@@ -235,6 +236,7 @@ internal static partial class ParagraphFormatter
             }
 
             RunInfo info = ReadRun(ctx, run!, link);
+            info.Paint.IsReference = crossReferences.Contains(run!);
             if (info.Hidden)
             {
                 // Hidden text takes no space (ECMA-376 Part 1 §17.3.2.41, vanish).
@@ -248,6 +250,7 @@ internal static partial class ParagraphFormatter
             {
                 // A reference mark links to its note and the note's own mark links back (the PDF backend writes the link when the host declares the target).
                 info.Paint.LinkTarget ??= noteLink;
+                info.Paint.IsReference |= ctx.CurrentNote is null;
                 fp.HasNoteRefs |= run is not null && ctx.NoteRefs.ContainsKey(run) && ctx.CurrentNote is null;
             }
 
@@ -1759,6 +1762,7 @@ internal static partial class ParagraphFormatter
         BaselineShift = p.BaselineShift,
         Scale = p.Scale,
         IsArtifact = p.IsArtifact,
+        IsReference = p.IsReference,
         Leader = p.Leader,
     };
 }
