@@ -228,7 +228,7 @@ public sealed class VbaProjectTests
         VbaProject p = Read(t.Build(), out _);
         VbaModule m = p.Modules[0];
         Assert.True(m.HasPerformanceCache);
-        Assert.False(m.SourceAvailable);
+        Assert.Empty(m.SourceBytes.ToArray()); // an empty source container: the text was blanked, the cache kept
         Assert.True(p.HasPCode);
         Assert.Equal((ushort)0x00B3, p.PerformanceCacheVersion);
         Assert.True(p.SourceAndPCodeMayDisagree);
