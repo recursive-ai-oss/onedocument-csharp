@@ -365,6 +365,20 @@ function Invoke-ExcelFormulas($app, $item, $path, $outDir, $res) {
             $p = $line.Split("`t")
             $tests.Add(@{ id = $p[0]; how = $p[1]; text = (& $un $p[2]) })
         }
+        # Data the tests read: a sidecar <name>.cells.tsv (address<TAB>value) is entered first. A number is entered as a number, =TRUE as
+        # the logical TRUE, an empty value leaves the cell empty and any other text is entered as text (a leading = or an operator is kept).
+        $cellsPath = [IO.Path]::ChangeExtension($path, '.cells.tsv')
+        if (Test-Path -LiteralPath $cellsPath) {
+            foreach ($cl in [IO.File]::ReadAllLines($cellsPath, $utf8)) {
+                $cp = $cl.Split("`t")
+                if ($cp.Length -lt 2 -or $cp[1].Length -eq 0) { continue }
+                $target = $ws.Range($cp[0])
+                $num = 0.0
+                if ($cp[1] -eq '=TRUE') { $target.Value2 = $true }
+                elseif ([double]::TryParse($cp[1], [Globalization.NumberStyles]::Float, [Globalization.CultureInfo]::InvariantCulture, [ref]$num)) { $target.Value2 = $num }
+                else { $target.NumberFormat = '@'; $target.Value2 = [string]$cp[1] }
+            }
+        }
         $entered = @{}
         for ($i = 0; $i -lt $tests.Count; $i++) {
             $t = $tests[$i]

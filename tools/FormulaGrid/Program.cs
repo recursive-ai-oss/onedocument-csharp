@@ -412,9 +412,40 @@ internal static class Program
         return sb.ToString();
     }
 
-    private sealed class Blank : ICalcResolver
+    /// <summary>The cells a grid's <c>*.cells.tsv</c> sidecars enter before the formulas (the database block), blank everywhere else.</summary>
+    private sealed class DataCells(Dictionary<(int Row, int Column), CalcValue> cells) : ICalcResolver
     {
-        public CalcValue GetCell(string? sheet, int row, int column) => CalcValue.Blank;
+        public CalcValue GetCell(string? sheet, int row, int column) => cells.TryGetValue((row, column), out CalcValue v) ? v : CalcValue.Blank;
+    }
+
+    private static DataCells LoadDataCells(string dir)
+    {
+        var cells = new Dictionary<(int, int), CalcValue>();
+        foreach (string f in Directory.EnumerateFiles(dir, "*.cells.tsv"))
+        {
+            foreach (string line in File.ReadAllLines(f))
+            {
+                string[] p = line.Split('\t');
+                if (p.Length < 2 || p[1].Length == 0)
+                {
+                    continue;
+                }
+
+                int i = 0;
+                int col = 0;
+                while (i < p[0].Length && char.IsAsciiLetter(p[0][i]))
+                {
+                    col = (col * 26) + (char.ToUpperInvariant(p[0][i]) - 'A' + 1);
+                    i++;
+                }
+
+                int row = int.Parse(p[0][i..], CultureInfo.InvariantCulture);
+                cells[(row, col)] = p[1] == "=TRUE" ? CalcValue.True
+                    : double.TryParse(p[1], NumberStyles.Float, CultureInfo.InvariantCulture, out double d) ? CalcValue.FromNumber(d) : CalcValue.FromText(p[1]);
+            }
+        }
+
+        return new DataCells(cells);
     }
 
     private static int Compare(string testDir, string answerDir)
@@ -468,7 +499,7 @@ internal static class Program
         _ = literals;
         var counts = new Dictionary<string, (int Total, int Bad)>();
         var bad = new List<string>();
-        var ev = new Evaluator(new Blank());
+        var ev = new Evaluator(LoadDataCells(testDir));
         foreach (Test t in order)
         {
             string cat = new string(t.Id.TakeWhile(char.IsLetter).ToArray());
