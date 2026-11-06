@@ -216,11 +216,9 @@ internal sealed class XlsbBook : IDisposable
         {
             return translate();
         }
-        catch (Exception e) when (e is FormatException or IndexOutOfRangeException or ArgumentException or InvalidOperationException
-            or OverflowException or InvalidCastException or NullReferenceException or KeyNotFoundException or ArithmeticException
-            or InsufficientExecutionStackException or System.Text.DecoderFallbackException)
+        catch (Exception e) when (XlsbGuard.IsMalformed(e))
         {
-            throw new OfficeFormatException(DefectKind.Record, "xlsb.part-unreadable", "The part could not be read: " + e.Message, DefectLocation.InPart(partName), e);
+            throw XlsbGuard.Typed(e, partName);
         }
     }
 

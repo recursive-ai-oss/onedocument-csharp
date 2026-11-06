@@ -126,6 +126,11 @@ public sealed class XlsbStreamReader : IDisposable
         {
             return new XlsbStreamReader(package, context, cancellation);
         }
+        catch (Exception e) when (XlsbGuard.IsMalformed(e))
+        {
+            package.Dispose();
+            throw XlsbGuard.Typed(e, "the workbook part");
+        }
         catch
         {
             package.Dispose();
@@ -206,6 +211,18 @@ public sealed class XlsbStreamReader : IDisposable
 
     internal XlsbStrings Strings()
     {
+        try
+        {
+            return StringsCore();
+        }
+        catch (Exception e) when (XlsbGuard.IsMalformed(e))
+        {
+            throw XlsbGuard.Typed(e, "the shared string table");
+        }
+    }
+
+    private XlsbStrings StringsCore()
+    {
         if (_strings is not null)
         {
             return _strings;
@@ -217,6 +234,18 @@ public sealed class XlsbStreamReader : IDisposable
     }
 
     private void EnsureStyles()
+    {
+        try
+        {
+            EnsureStylesCore();
+        }
+        catch (Exception e) when (XlsbGuard.IsMalformed(e))
+        {
+            throw XlsbGuard.Typed(e, "the style sheet");
+        }
+    }
+
+    private void EnsureStylesCore()
     {
         if (_dateStyles is not null)
         {
@@ -271,6 +300,18 @@ public sealed class XlsbStreamReader : IDisposable
     }
 
     internal XlsbFormulaContext Formulas()
+    {
+        try
+        {
+            return FormulasCore();
+        }
+        catch (Exception e) when (XlsbGuard.IsMalformed(e))
+        {
+            throw XlsbGuard.Typed(e, "the workbook part");
+        }
+    }
+
+    private XlsbFormulaContext FormulasCore()
     {
         if (_formulas is not null)
         {
@@ -503,6 +544,18 @@ public sealed class XlsbSheetCursor : IDisposable
     /// <exception cref="OperationCanceledException">The cancellation token given to the reader was cancelled.</exception>
     public bool ReadRow()
     {
+        try
+        {
+            return ReadRowCore();
+        }
+        catch (Exception e) when (XlsbGuard.IsMalformed(e))
+        {
+            throw XlsbGuard.Typed(e, _partName);
+        }
+    }
+
+    private bool ReadRowCore()
+    {
         _cancellation.ThrowIfCancellationRequested();
         _inRow = false;
         if (_ended || _reader is null)
@@ -676,6 +729,18 @@ public sealed class XlsbSheetCursor : IDisposable
     /// <returns>The formula without the leading equals sign, or an empty string.</returns>
     public string GetFormula()
     {
+        try
+        {
+            return GetFormulaCore();
+        }
+        catch (Exception e) when (XlsbGuard.IsMalformed(e))
+        {
+            throw XlsbGuard.Typed(e, _partName);
+        }
+    }
+
+    private string GetFormulaCore()
+    {
         if (!_hasFormula || _formulaLength == 0)
         {
             return string.Empty;
@@ -690,6 +755,18 @@ public sealed class XlsbSheetCursor : IDisposable
     /// <summary>Moves to the next cell of the current row.</summary>
     /// <returns>True when a cell is available.</returns>
     public bool ReadCell()
+    {
+        try
+        {
+            return ReadCellCore();
+        }
+        catch (Exception e) when (XlsbGuard.IsMalformed(e))
+        {
+            throw XlsbGuard.Typed(e, _partName);
+        }
+    }
+
+    private bool ReadCellCore()
     {
         if (!_inRow || _reader is null)
         {
