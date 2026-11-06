@@ -1115,6 +1115,46 @@ public static class LineEndWidthValueText
     };
 }
 
+/// <summary>Values of the schema simple type <c>ST_OnOffStyleType</c>. A value the schema does not list reads as <see cref="Unrecognized"/>; the attribute's <c>Text</c> property still has it.</summary>
+public enum OnOffStyleTypeValue
+{
+    /// <summary>The attribute holds a value this enumeration does not list.</summary>
+    Unrecognized = 0,
+    /// <summary>The value <c>on</c>.</summary>
+    On,
+    /// <summary>The value <c>off</c>.</summary>
+    Off,
+    /// <summary>The value <c>def</c>.</summary>
+    Def,
+}
+
+/// <summary>Parsing and spelling of <see cref="OnOffStyleTypeValue"/>.</summary>
+public static class OnOffStyleTypeValueText
+{
+    /// <summary>Parses the attribute text (UTF-8); unlisted text gives <see cref="OnOffStyleTypeValue.Unrecognized"/>.</summary>
+    /// <param name="raw">The attribute value.</param>
+    /// <returns>The member.</returns>
+    public static OnOffStyleTypeValue Parse(ReadOnlySpan<byte> raw)
+    {
+        if (raw.SequenceEqual("on"u8)) return OnOffStyleTypeValue.On;
+        if (raw.SequenceEqual("off"u8)) return OnOffStyleTypeValue.Off;
+        if (raw.SequenceEqual("def"u8)) return OnOffStyleTypeValue.Def;
+        return OnOffStyleTypeValue.Unrecognized;
+    }
+
+    /// <summary>The text written for a member.</summary>
+    /// <param name="value">The member.</param>
+    /// <returns>The schema spelling.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">The member is <c>Unrecognized</c>, which has no spelling.</exception>
+    public static string ToText(this OnOffStyleTypeValue value) => value switch
+    {
+        OnOffStyleTypeValue.On => "on",
+        OnOffStyleTypeValue.Off => "off",
+        OnOffStyleTypeValue.Def => "def",
+        _ => throw new ArgumentOutOfRangeException(nameof(value), value, "The value has no schema spelling; set the Text property instead."),
+    };
+}
+
 /// <summary>Values of the schema simple type <c>ST_PathFillMode</c>. A value the schema does not list reads as <see cref="Unrecognized"/>; the attribute's <c>Text</c> property still has it.</summary>
 public enum PathFillModeValue
 {
@@ -5214,15 +5254,15 @@ public readonly struct AlphaInverseEffect : global::RecursiveAI.OneDocument.Sche
     public bool RemoveScrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
 
     /// <summary>The <c>a:srgbClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? RgbColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Returns the <c>a:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.AlphaInverseEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddRgbColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.AlphaInverseEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Removes every <c>a:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public bool RemoveRgbColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>The <c>a:hslClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.HslColor? HslClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
@@ -5236,26 +5276,26 @@ public readonly struct AlphaInverseEffect : global::RecursiveAI.OneDocument.Sche
     public bool RemoveHslClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
 
     /// <summary>The <c>a:sysClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SysClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SystemColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Returns the <c>a:sysClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSysClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.AlphaInverseEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSystemColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.AlphaInverseEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Removes every <c>a:sysClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSysClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public bool RemoveSystemColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>The <c>a:schemeClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Returns the <c>a:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.AlphaInverseEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.AlphaInverseEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Removes every <c>a:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public bool RemoveSchemeColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>The <c>a:prstClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor? PrstClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
@@ -6018,15 +6058,15 @@ public readonly struct AudioCD : global::RecursiveAI.OneDocument.Schema.IElement
     public bool RemoveEnd() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "end"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.AudioCD>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.AudioCD>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -6145,15 +6185,15 @@ public readonly struct AudioFile : global::RecursiveAI.OneDocument.Schema.IEleme
     public string? ContentType { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "contentType"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "contentType"u8, value); }
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.AudioFile>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.AudioFile>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -6248,15 +6288,15 @@ public readonly struct Backdrop : global::RecursiveAI.OneDocument.Schema.IElemen
     public bool RemoveUp() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "up"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.Backdrop>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.Backdrop>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -6265,7 +6305,134 @@ public readonly struct Backdrop : global::RecursiveAI.OneDocument.Schema.IElemen
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.Backdrop> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_BackgroundFormatting</c>, the type of <c>wpc:bg</c>, <c>wp:bg</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_BackgroundFillStyleList</c>, the type of <c>a:bgFillStyleLst</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct BackgroundFillStyleList : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFillStyleList>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public BackgroundFillStyleList(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFillStyleList Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingBackgroundFillStyleList;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("bgFillStyleLst"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("blipFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingBlipFillProperties; }
+            if (local.SequenceEqual("gradFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGradientFillProperties; }
+            if (local.SequenceEqual("grpFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGroupFillProperties; }
+            if (local.SequenceEqual("noFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingNoFillProperties; }
+            if (local.SequenceEqual("pattFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingPatternFillProperties; }
+            if (local.SequenceEqual("solidFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingSolidColorFillProperties; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:noFill</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties> NoFills => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "noFill"u8);
+
+    /// <summary>Adds a <c>a:noFill</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties AddNoFill() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFillStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "noFill"u8);
+
+    /// <summary>Removes every <c>a:noFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveNoFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "noFill"u8);
+
+    /// <summary>The <c>a:solidFill</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties> SolidFills => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "solidFill"u8);
+
+    /// <summary>Adds a <c>a:solidFill</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties AddSolidFill() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFillStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "solidFill"u8);
+
+    /// <summary>Removes every <c>a:solidFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveSolidFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "solidFill"u8);
+
+    /// <summary>The <c>a:gradFill</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.GradientFillProperties> GradFills => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "gradFill"u8);
+
+    /// <summary>Adds a <c>a:gradFill</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GradientFillProperties AddGradFill() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GradientFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFillStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "gradFill"u8);
+
+    /// <summary>Removes every <c>a:gradFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveGradFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "gradFill"u8);
+
+    /// <summary>The <c>a:blipFill</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties> BlipFills => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "blipFill"u8);
+
+    /// <summary>Adds a <c>a:blipFill</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties AddBlipFill() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFillStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "blipFill"u8);
+
+    /// <summary>Removes every <c>a:blipFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveBlipFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "blipFill"u8);
+
+    /// <summary>The <c>a:pattFill</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.PatternFillProperties> PattFills => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pattFill"u8);
+
+    /// <summary>Adds a <c>a:pattFill</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PatternFillProperties AddPattFill() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.PatternFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFillStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pattFill"u8);
+
+    /// <summary>Removes every <c>a:pattFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemovePattFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pattFill"u8);
+
+    /// <summary>The <c>a:grpFill</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.GroupFillProperties> GrpFills => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpFill"u8);
+
+    /// <summary>Adds a <c>a:grpFill</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GroupFillProperties AddGrpFill() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GroupFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFillStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpFill"u8);
+
+    /// <summary>Removes every <c>a:grpFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveGrpFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpFill"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFillStyleList> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_BackgroundFormatting</c>, the type of <c>wpc:bg</c>, <c>dgm:bg</c>, <c>wp:bg</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct BackgroundFormatting : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFormatting>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -6287,6 +6454,7 @@ public readonly struct BackgroundFormatting : global::RecursiveAI.OneDocument.Sc
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingCanvas) return local.SequenceEqual("bg"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Diagram) return local.SequenceEqual("bg"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingDrawing) return local.SequenceEqual("bg"u8);
         return false;
     }
@@ -6417,7 +6585,201 @@ public readonly struct BackgroundFormatting : global::RecursiveAI.OneDocument.Sc
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFormatting> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Bevel</c>, the type of <c>a:bevelB</c>, <c>a:bevelT</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_BaseStyles</c>, the type of <c>a:themeElements</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct BaseStyles : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public BaseStyles(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingBaseStyles;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("themeElements"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("clrScheme"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColorScheme; }
+            if (local.SequenceEqual("extLst"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("fmtScheme"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingStyleMatrix; }
+            if (local.SequenceEqual("fontScheme"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingFontScheme; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 4;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:clrScheme</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme? ColorScheme => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "clrScheme"u8);
+
+    /// <summary>Returns the <c>a:clrScheme</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme GetOrAddColorScheme() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme, global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "clrScheme"u8);
+
+    /// <summary>Removes every <c>a:clrScheme</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveColorScheme() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "clrScheme"u8);
+
+    /// <summary>The <c>a:fontScheme</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FontScheme? FontScheme => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.FontScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fontScheme"u8);
+
+    /// <summary>Returns the <c>a:fontScheme</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FontScheme GetOrAddFontScheme() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.FontScheme, global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fontScheme"u8);
+
+    /// <summary>Removes every <c>a:fontScheme</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveFontScheme() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fontScheme"u8);
+
+    /// <summary>The <c>a:fmtScheme</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix? FormatScheme => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fmtScheme"u8);
+
+    /// <summary>Returns the <c>a:fmtScheme</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix GetOrAddFormatScheme() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix, global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fmtScheme"u8);
+
+    /// <summary>Removes every <c>a:fmtScheme</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveFormatScheme() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fmtScheme"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_BaseStylesOverride</c>, the type of <c>a:themeOverride</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct BaseStylesOverride : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.BaseStylesOverride>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public BaseStylesOverride(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.BaseStylesOverride Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingBaseStylesOverride;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("themeOverride"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("clrScheme"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColorScheme; }
+            if (local.SequenceEqual("fmtScheme"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingStyleMatrix; }
+            if (local.SequenceEqual("fontScheme"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingFontScheme; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:clrScheme</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme? ColorScheme => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "clrScheme"u8);
+
+    /// <summary>Returns the <c>a:clrScheme</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme GetOrAddColorScheme() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme, global::RecursiveAI.OneDocument.Schema.Drawing.BaseStylesOverride>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "clrScheme"u8);
+
+    /// <summary>Removes every <c>a:clrScheme</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveColorScheme() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "clrScheme"u8);
+
+    /// <summary>The <c>a:fontScheme</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FontScheme? FontScheme => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.FontScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fontScheme"u8);
+
+    /// <summary>Returns the <c>a:fontScheme</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FontScheme GetOrAddFontScheme() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.FontScheme, global::RecursiveAI.OneDocument.Schema.Drawing.BaseStylesOverride>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fontScheme"u8);
+
+    /// <summary>Removes every <c>a:fontScheme</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveFontScheme() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fontScheme"u8);
+
+    /// <summary>The <c>a:fmtScheme</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix? FormatScheme => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fmtScheme"u8);
+
+    /// <summary>Returns the <c>a:fmtScheme</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix GetOrAddFormatScheme() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix, global::RecursiveAI.OneDocument.Schema.Drawing.BaseStylesOverride>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fmtScheme"u8);
+
+    /// <summary>Removes every <c>a:fmtScheme</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveFormatScheme() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fmtScheme"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.BaseStylesOverride> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_Bevel</c>, the type of <c>a:bevel</c>, <c>a:bevelB</c>, <c>a:bevelT</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Bevel : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.Bevel>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -6438,7 +6800,7 @@ public readonly struct Bevel : global::RecursiveAI.OneDocument.Schema.IElementVi
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("bevelB"u8) || local.SequenceEqual("bevelT"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("bevel"u8) || local.SequenceEqual("bevelB"u8) || local.SequenceEqual("bevelT"u8);
         return false;
     }
 
@@ -6609,7 +6971,7 @@ public readonly struct BlendEffect : global::RecursiveAI.OneDocument.Schema.IEle
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.BlendEffect> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Blip</c>, the type of <c>a:blip</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_Blip</c>, the type of <c>am3d:blip</c>, <c>a:blip</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Blip : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.Blip>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -6630,6 +6992,7 @@ public readonly struct Blip : global::RecursiveAI.OneDocument.Schema.IElementVie
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Model3D) return local.SequenceEqual("blip"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("blip"u8);
         return false;
     }
@@ -6881,15 +7244,15 @@ public readonly struct Blip : global::RecursiveAI.OneDocument.Schema.IElementVie
     public bool RemoveTint() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tint"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.Blip>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.Blip>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -6898,7 +7261,7 @@ public readonly struct Blip : global::RecursiveAI.OneDocument.Schema.IElementVie
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.Blip> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_BlipFillProperties</c>, the type of <c>p166:blipFill</c>, <c>a:blipFill</c>, <c>pic:blipFill</c>, <c>p:blipFill</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_BlipFillProperties</c>, the type of <c>p166:blipFill</c>, <c>cdr:blipFill</c>, <c>a:blipFill</c>, <c>pic:blipFill</c>, <c>xdr:blipFill</c>, <c>p:blipFill</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct BlipFillProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -6920,8 +7283,10 @@ public readonly struct BlipFillProperties : global::RecursiveAI.OneDocument.Sche
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2016Six) return local.SequenceEqual("blipFill"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing) return local.SequenceEqual("blipFill"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("blipFill"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Picture) return local.SequenceEqual("blipFill"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing) return local.SequenceEqual("blipFill"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("blipFill"u8);
         return false;
     }
@@ -7199,7 +7564,187 @@ public readonly struct Camera : global::RecursiveAI.OneDocument.Schema.IElementV
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.Camera> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Color</c>, the type of <c>p14:laserClr</c>, <c>p15:clr</c>, <c>a:bgClr</c>, <c>a:buClr</c>, <c>a:clrFrom</c>, <c>a:clrTo</c>, <c>a:contourClr</c>, <c>a:extrusionClr</c>, <c>a:fgClr</c>, <c>a:highlight</c>, <c>p:clrVal</c>, <c>p:from</c>, <c>p:penClr</c>, <c>p:to</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_Cell3D</c>, the type of <c>a:cell3D</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct Cell3D : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.Cell3D>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public Cell3D(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.Cell3D Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCell3D;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("cell3D"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("bevel"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingBevel; }
+            if (local.SequenceEqual("extLst"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("lightRig"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingLightRig; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None) return local.SequenceEqual("prstMaterial"u8);
+        return false;
+    }
+
+    /// <summary>Attribute <c>prstMaterial</c> (a:ST_PresetMaterialType, default <c>plastic</c>). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="PrstMaterialText"/> keeps it.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PresetMaterialTypeValue? PrstMaterial
+    {
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Drawing.PresetMaterialTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "prstMaterial"u8, global::RecursiveAI.OneDocument.Schema.Drawing.PresetMaterialTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "prstMaterial"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Drawing.PresetMaterialTypeValueText.ToText(value.Value));
+    }
+
+    /// <summary>The raw text of <c>prstMaterial</c>, whatever it is.</summary>
+    public string? PrstMaterialText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "prstMaterial"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "prstMaterial"u8, value); }
+
+    /// <summary>The <c>a:bevel</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Bevel? Bevel => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Bevel>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bevel"u8);
+
+    /// <summary>Returns the <c>a:bevel</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Bevel GetOrAddBevel() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Bevel, global::RecursiveAI.OneDocument.Schema.Drawing.Cell3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bevel"u8);
+
+    /// <summary>Removes every <c>a:bevel</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveBevel() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bevel"u8);
+
+    /// <summary>The <c>a:lightRig</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LightRig? LightRig => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.LightRig>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lightRig"u8);
+
+    /// <summary>Returns the <c>a:lightRig</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LightRig GetOrAddLightRig() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.LightRig, global::RecursiveAI.OneDocument.Schema.Drawing.Cell3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lightRig"u8);
+
+    /// <summary>Removes every <c>a:lightRig</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLightRig() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lightRig"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.Cell3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.Cell3D> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_ClipboardStyleSheet</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct ClipboardStyleSheet : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.ClipboardStyleSheet>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public ClipboardStyleSheet(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.ClipboardStyleSheet Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingClipboardStyleSheet;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("clrMap"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColorMapping; }
+            if (local.SequenceEqual("themeElements"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingBaseStyles; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:themeElements</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles? ThemeElements => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "themeElements"u8);
+
+    /// <summary>Returns the <c>a:themeElements</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles GetOrAddThemeElements() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles, global::RecursiveAI.OneDocument.Schema.Drawing.ClipboardStyleSheet>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "themeElements"u8);
+
+    /// <summary>Removes every <c>a:themeElements</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveThemeElements() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "themeElements"u8);
+
+    /// <summary>The <c>a:clrMap</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ColorMapping? ClrMap => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ColorMapping>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "clrMap"u8);
+
+    /// <summary>Returns the <c>a:clrMap</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ColorMapping GetOrAddClrMap() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ColorMapping, global::RecursiveAI.OneDocument.Schema.Drawing.ClipboardStyleSheet>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "clrMap"u8);
+
+    /// <summary>Removes every <c>a:clrMap</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveClrMap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "clrMap"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.ClipboardStyleSheet> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_Color</c>, the type of <c>am3d:clr</c>, <c>p14:laserClr</c>, <c>p15:clr</c>, <c>a:accent1</c>, <c>a:accent2</c>, <c>a:accent3</c>, <c>a:accent4</c>, <c>a:accent5</c>, <c>a:accent6</c>, <c>a:bgClr</c>, <c>a:buClr</c>, <c>a:clrFrom</c>, <c>a:clrTo</c>, <c>a:contourClr</c>, <c>a:dk1</c>, <c>a:dk2</c>, <c>a:extrusionClr</c>, <c>a:fgClr</c>, <c>a:folHlink</c>, <c>a:highlight</c>, <c>a:hlink</c>, <c>a:lt1</c>, <c>a:lt2</c>, <c>p:clrVal</c>, <c>p:from</c>, <c>p:penClr</c>, <c>p:to</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Color : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.Color>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -7220,9 +7765,10 @@ public readonly struct Color : global::RecursiveAI.OneDocument.Schema.IElementVi
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Model3D) return local.SequenceEqual("clr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2010) return local.SequenceEqual("laserClr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2012) return local.SequenceEqual("clr"u8);
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("bgClr"u8) || local.SequenceEqual("buClr"u8) || local.SequenceEqual("clrFrom"u8) || local.SequenceEqual("clrTo"u8) || local.SequenceEqual("contourClr"u8) || local.SequenceEqual("extrusionClr"u8) || local.SequenceEqual("fgClr"u8) || local.SequenceEqual("highlight"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("accent1"u8) || local.SequenceEqual("accent2"u8) || local.SequenceEqual("accent3"u8) || local.SequenceEqual("accent4"u8) || local.SequenceEqual("accent5"u8) || local.SequenceEqual("accent6"u8) || local.SequenceEqual("bgClr"u8) || local.SequenceEqual("buClr"u8) || local.SequenceEqual("clrFrom"u8) || local.SequenceEqual("clrTo"u8) || local.SequenceEqual("contourClr"u8) || local.SequenceEqual("dk1"u8) || local.SequenceEqual("dk2"u8) || local.SequenceEqual("extrusionClr"u8) || local.SequenceEqual("fgClr"u8) || local.SequenceEqual("folHlink"u8) || local.SequenceEqual("highlight"u8) || local.SequenceEqual("hlink"u8) || local.SequenceEqual("lt1"u8) || local.SequenceEqual("lt2"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("clrVal"u8) || local.SequenceEqual("from"u8) || local.SequenceEqual("penClr"u8) || local.SequenceEqual("to"u8);
         return false;
     }
@@ -7268,15 +7814,15 @@ public readonly struct Color : global::RecursiveAI.OneDocument.Schema.IElementVi
     public bool RemoveScrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
 
     /// <summary>The <c>a:srgbClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? RgbColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Returns the <c>a:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddRgbColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Removes every <c>a:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public bool RemoveRgbColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>The <c>a:hslClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.HslColor? HslClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
@@ -7290,26 +7836,26 @@ public readonly struct Color : global::RecursiveAI.OneDocument.Schema.IElementVi
     public bool RemoveHslClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
 
     /// <summary>The <c>a:sysClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SysClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SystemColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Returns the <c>a:sysClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSysClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSystemColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Removes every <c>a:sysClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSysClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public bool RemoveSystemColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>The <c>a:schemeClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Returns the <c>a:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Removes every <c>a:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public bool RemoveSchemeColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>The <c>a:prstClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor? PrstClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
@@ -7478,15 +8024,15 @@ public readonly struct ColorMRU : global::RecursiveAI.OneDocument.Schema.IElemen
     public bool RemoveScrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
 
     /// <summary>The <c>a:srgbClr</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor> SrgbClrs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor> RgbColors => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Adds a <c>a:srgbClr</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor AddSrgbClr() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.ColorMRU>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor AddRgbColor() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.ColorMRU>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Removes every <c>a:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public bool RemoveRgbColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>The <c>a:hslClr</c> children, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor> HslClrs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
@@ -7500,26 +8046,26 @@ public readonly struct ColorMRU : global::RecursiveAI.OneDocument.Schema.IElemen
     public bool RemoveHslClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
 
     /// <summary>The <c>a:sysClr</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor> SysClrs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor> SystemColors => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Adds a <c>a:sysClr</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor AddSysClr() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.ColorMRU>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor AddSystemColor() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.ColorMRU>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Removes every <c>a:sysClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSysClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public bool RemoveSystemColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>The <c>a:schemeClr</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor> SchemeClrs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor> SchemeColors => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Adds a <c>a:schemeClr</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor AddSchemeClr() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.ColorMRU>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor AddSchemeColor() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.ColorMRU>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Removes every <c>a:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public bool RemoveSchemeColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>The <c>a:prstClr</c> children, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor> PrstClrs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
@@ -7539,7 +8085,7 @@ public readonly struct ColorMRU : global::RecursiveAI.OneDocument.Schema.IElemen
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.ColorMRU> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_ColorMapping</c>, the type of <c>a:overrideClrMapping</c>, <c>p:clrMap</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_ColorMapping</c>, the type of <c>cx:clrMapOvr</c>, <c>c:clrMapOvr</c>, <c>a:clrMap</c>, <c>a:overrideClrMapping</c>, <c>p:clrMap</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct ColorMapping : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.ColorMapping>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -7560,7 +8106,9 @@ public readonly struct ColorMapping : global::RecursiveAI.OneDocument.Schema.IEl
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("overrideClrMapping"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartEx) return local.SequenceEqual("clrMapOvr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Chart) return local.SequenceEqual("clrMapOvr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("clrMap"u8) || local.SequenceEqual("overrideClrMapping"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("clrMap"u8);
         return false;
     }
@@ -7711,15 +8259,15 @@ public readonly struct ColorMapping : global::RecursiveAI.OneDocument.Schema.IEl
     public string? FolHlinkText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "folHlink"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "folHlink"u8, value); }
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.ColorMapping>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.ColorMapping>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -7873,15 +8421,15 @@ public readonly struct ColorReplaceEffect : global::RecursiveAI.OneDocument.Sche
     public bool RemoveScrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
 
     /// <summary>The <c>a:srgbClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? RgbColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Returns the <c>a:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.ColorReplaceEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddRgbColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.ColorReplaceEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Removes every <c>a:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public bool RemoveRgbColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>The <c>a:hslClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.HslColor? HslClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
@@ -7895,26 +8443,26 @@ public readonly struct ColorReplaceEffect : global::RecursiveAI.OneDocument.Sche
     public bool RemoveHslClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
 
     /// <summary>The <c>a:sysClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SysClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SystemColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Returns the <c>a:sysClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSysClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.ColorReplaceEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSystemColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.ColorReplaceEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Removes every <c>a:sysClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSysClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public bool RemoveSystemColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>The <c>a:schemeClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Returns the <c>a:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.ColorReplaceEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.ColorReplaceEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Removes every <c>a:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public bool RemoveSchemeColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>The <c>a:prstClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor? PrstClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
@@ -7932,6 +8480,367 @@ public readonly struct ColorReplaceEffect : global::RecursiveAI.OneDocument.Sche
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.ColorReplaceEffect> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_ColorScheme</c>, the type of <c>a:clrScheme</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct ColorScheme : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public ColorScheme(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColorScheme;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("clrScheme"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("accent1"u8)) { rank = 4; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColor; }
+            if (local.SequenceEqual("accent2"u8)) { rank = 5; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColor; }
+            if (local.SequenceEqual("accent3"u8)) { rank = 6; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColor; }
+            if (local.SequenceEqual("accent4"u8)) { rank = 7; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColor; }
+            if (local.SequenceEqual("accent5"u8)) { rank = 8; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColor; }
+            if (local.SequenceEqual("accent6"u8)) { rank = 9; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColor; }
+            if (local.SequenceEqual("dk1"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColor; }
+            if (local.SequenceEqual("dk2"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColor; }
+            if (local.SequenceEqual("extLst"u8)) { rank = 12; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("folHlink"u8)) { rank = 11; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColor; }
+            if (local.SequenceEqual("hlink"u8)) { rank = 10; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColor; }
+            if (local.SequenceEqual("lt1"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColor; }
+            if (local.SequenceEqual("lt2"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColor; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 13;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None) return local.SequenceEqual("name"u8);
+        return false;
+    }
+
+    /// <summary>Attribute <c>name</c> (xsd:string, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
+    public string? Name { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "name"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "name"u8, value); }
+
+    /// <summary>The <c>a:dk1</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color? Dk1 => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "dk1"u8);
+
+    /// <summary>Returns the <c>a:dk1</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color GetOrAddDk1() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color, global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "dk1"u8);
+
+    /// <summary>Removes every <c>a:dk1</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveDk1() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "dk1"u8);
+
+    /// <summary>The <c>a:lt1</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color? Lt1 => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lt1"u8);
+
+    /// <summary>Returns the <c>a:lt1</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color GetOrAddLt1() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color, global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lt1"u8);
+
+    /// <summary>Removes every <c>a:lt1</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLt1() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lt1"u8);
+
+    /// <summary>The <c>a:dk2</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color? Dk2 => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "dk2"u8);
+
+    /// <summary>Returns the <c>a:dk2</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color GetOrAddDk2() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color, global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "dk2"u8);
+
+    /// <summary>Removes every <c>a:dk2</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveDk2() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "dk2"u8);
+
+    /// <summary>The <c>a:lt2</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color? Lt2 => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lt2"u8);
+
+    /// <summary>Returns the <c>a:lt2</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color GetOrAddLt2() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color, global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lt2"u8);
+
+    /// <summary>Removes every <c>a:lt2</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLt2() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lt2"u8);
+
+    /// <summary>The <c>a:accent1</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color? Accent1 => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent1"u8);
+
+    /// <summary>Returns the <c>a:accent1</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color GetOrAddAccent1() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color, global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent1"u8);
+
+    /// <summary>Removes every <c>a:accent1</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveAccent1() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent1"u8);
+
+    /// <summary>The <c>a:accent2</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color? Accent2 => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent2"u8);
+
+    /// <summary>Returns the <c>a:accent2</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color GetOrAddAccent2() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color, global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent2"u8);
+
+    /// <summary>Removes every <c>a:accent2</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveAccent2() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent2"u8);
+
+    /// <summary>The <c>a:accent3</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color? Accent3 => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent3"u8);
+
+    /// <summary>Returns the <c>a:accent3</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color GetOrAddAccent3() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color, global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent3"u8);
+
+    /// <summary>Removes every <c>a:accent3</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveAccent3() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent3"u8);
+
+    /// <summary>The <c>a:accent4</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color? Accent4 => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent4"u8);
+
+    /// <summary>Returns the <c>a:accent4</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color GetOrAddAccent4() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color, global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent4"u8);
+
+    /// <summary>Removes every <c>a:accent4</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveAccent4() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent4"u8);
+
+    /// <summary>The <c>a:accent5</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color? Accent5 => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent5"u8);
+
+    /// <summary>Returns the <c>a:accent5</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color GetOrAddAccent5() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color, global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent5"u8);
+
+    /// <summary>Removes every <c>a:accent5</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveAccent5() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent5"u8);
+
+    /// <summary>The <c>a:accent6</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color? Accent6 => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent6"u8);
+
+    /// <summary>Returns the <c>a:accent6</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color GetOrAddAccent6() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color, global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent6"u8);
+
+    /// <summary>Removes every <c>a:accent6</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveAccent6() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "accent6"u8);
+
+    /// <summary>The <c>a:hlink</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color? Hlink => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hlink"u8);
+
+    /// <summary>Returns the <c>a:hlink</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color GetOrAddHlink() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color, global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hlink"u8);
+
+    /// <summary>Removes every <c>a:hlink</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveHlink() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hlink"u8);
+
+    /// <summary>The <c>a:folHlink</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color? FolHlink => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "folHlink"u8);
+
+    /// <summary>Returns the <c>a:folHlink</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Color GetOrAddFolHlink() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Color, global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "folHlink"u8);
+
+    /// <summary>Removes every <c>a:folHlink</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveFolHlink() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "folHlink"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_ColorSchemeAndMapping</c>, the type of <c>a:extraClrScheme</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct ColorSchemeAndMapping : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeAndMapping>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public ColorSchemeAndMapping(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeAndMapping Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColorSchemeAndMapping;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("extraClrScheme"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("clrMap"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColorMapping; }
+            if (local.SequenceEqual("clrScheme"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColorScheme; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:clrScheme</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme? ColorScheme => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "clrScheme"u8);
+
+    /// <summary>Returns the <c>a:clrScheme</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme GetOrAddColorScheme() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ColorScheme, global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeAndMapping>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "clrScheme"u8);
+
+    /// <summary>Removes every <c>a:clrScheme</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveColorScheme() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "clrScheme"u8);
+
+    /// <summary>The <c>a:clrMap</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ColorMapping? ClrMap => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ColorMapping>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "clrMap"u8);
+
+    /// <summary>Returns the <c>a:clrMap</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ColorMapping GetOrAddClrMap() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ColorMapping, global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeAndMapping>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "clrMap"u8);
+
+    /// <summary>Removes every <c>a:clrMap</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveClrMap() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "clrMap"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeAndMapping> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_ColorSchemeList</c>, the type of <c>a:extraClrSchemeLst</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct ColorSchemeList : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeList>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public ColorSchemeList(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeList Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColorSchemeList;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("extraClrSchemeLst"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("extraClrScheme"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColorSchemeAndMapping; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:extraClrScheme</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeAndMapping> ExtraClrSchemes => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extraClrScheme"u8);
+
+    /// <summary>Adds a <c>a:extraClrScheme</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeAndMapping AddExtraClrScheme() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeAndMapping, global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extraClrScheme"u8);
+
+    /// <summary>Removes every <c>a:extraClrScheme</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtraClrScheme() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extraClrScheme"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeList> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_ComplementTransform</c>, the type of <c>a:comp</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
@@ -8253,15 +9162,15 @@ public readonly struct ConnectorLocking : global::RecursiveAI.OneDocument.Schema
     public bool? NoChangeShapeType { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "noChangeShapeType"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "noChangeShapeType"u8, value); }
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.ConnectorLocking>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.ConnectorLocking>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -8351,21 +9260,219 @@ public readonly struct ContentPartLocking : global::RecursiveAI.OneDocument.Sche
     public bool? NoChangeShapeType { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "noChangeShapeType"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "noChangeShapeType"u8, value); }
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.ContentPartLocking>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.ContentPartLocking>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.ContentPartLocking> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_CustomColor</c>, the type of <c>a:custClr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct CustomColor : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.CustomColor>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public CustomColor(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.CustomColor Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCustomColor;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("custClr"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("hslClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingHslColor; }
+            if (local.SequenceEqual("prstClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingPresetColor; }
+            if (local.SequenceEqual("schemeClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingSchemeColor; }
+            if (local.SequenceEqual("scrgbClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingScRgbColor; }
+            if (local.SequenceEqual("srgbClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingSRgbColor; }
+            if (local.SequenceEqual("sysClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingSystemColor; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None) return local.SequenceEqual("name"u8);
+        return false;
+    }
+
+    /// <summary>Attribute <c>name</c> (xsd:string, default <c></c>). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
+    public string? Name { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "name"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "name"u8, value); }
+
+    /// <summary>The <c>a:scrgbClr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ScRgbColor? ScrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ScRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
+
+    /// <summary>Returns the <c>a:scrgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ScRgbColor GetOrAddScrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ScRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.CustomColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
+
+    /// <summary>Removes every <c>a:scrgbClr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveScrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
+
+    /// <summary>The <c>a:srgbClr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? RgbColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+
+    /// <summary>Returns the <c>a:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddRgbColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.CustomColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+
+    /// <summary>Removes every <c>a:srgbClr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveRgbColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+
+    /// <summary>The <c>a:hslClr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.HslColor? HslClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
+
+    /// <summary>Returns the <c>a:hslClr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.HslColor GetOrAddHslClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor, global::RecursiveAI.OneDocument.Schema.Drawing.CustomColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
+
+    /// <summary>Removes every <c>a:hslClr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveHslClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
+
+    /// <summary>The <c>a:sysClr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SystemColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+
+    /// <summary>Returns the <c>a:sysClr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSystemColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.CustomColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+
+    /// <summary>Removes every <c>a:sysClr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveSystemColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+
+    /// <summary>The <c>a:schemeClr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+
+    /// <summary>Returns the <c>a:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.CustomColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+
+    /// <summary>Removes every <c>a:schemeClr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveSchemeColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+
+    /// <summary>The <c>a:prstClr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor? PrstClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
+
+    /// <summary>Returns the <c>a:prstClr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor GetOrAddPrstClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor, global::RecursiveAI.OneDocument.Schema.Drawing.CustomColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
+
+    /// <summary>Removes every <c>a:prstClr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemovePrstClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.CustomColor> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_CustomColorList</c>, the type of <c>a:custClrLst</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct CustomColorList : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.CustomColorList>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public CustomColorList(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.CustomColorList Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCustomColorList;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("custClrLst"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("custClr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCustomColor; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:custClr</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.CustomColor> CustClrs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "custClr"u8);
+
+    /// <summary>Adds a <c>a:custClr</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.CustomColor AddCustClr() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.CustomColor, global::RecursiveAI.OneDocument.Schema.Drawing.CustomColorList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "custClr"u8);
+
+    /// <summary>Removes every <c>a:custClr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCustClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "custClr"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.CustomColorList> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_CustomGeometry2D</c>, the type of <c>a:custGeom</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
@@ -8620,6 +9727,121 @@ public readonly struct DashStopList : global::RecursiveAI.OneDocument.Schema.IEl
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.DashStopList> UnknownChildren => new(_markup);
 }
 
+/// <summary>View of the schema type <c>CT_DefaultShapeDefinition</c>, the type of <c>a:lnDef</c>, <c>a:spDef</c>, <c>a:txDef</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct DefaultShapeDefinition : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public DefaultShapeDefinition(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingDefaultShapeDefinition;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("lnDef"u8) || local.SequenceEqual("spDef"u8) || local.SequenceEqual("txDef"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("bodyPr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTextBodyProperties; }
+            if (local.SequenceEqual("extLst"u8)) { rank = 4; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("lstStyle"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTextListStyle; }
+            if (local.SequenceEqual("spPr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingShapeProperties; }
+            if (local.SequenceEqual("style"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingShapeStyle; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 5;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:spPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties? ShapeProperties => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "spPr"u8);
+
+    /// <summary>Returns the <c>a:spPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties GetOrAddShapeProperties() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties, global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "spPr"u8);
+
+    /// <summary>Removes every <c>a:spPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveShapeProperties() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "spPr"u8);
+
+    /// <summary>The <c>a:bodyPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextBodyProperties? BodyProperties => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextBodyProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bodyPr"u8);
+
+    /// <summary>Returns the <c>a:bodyPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextBodyProperties GetOrAddBodyProperties() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextBodyProperties, global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bodyPr"u8);
+
+    /// <summary>Removes every <c>a:bodyPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveBodyProperties() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bodyPr"u8);
+
+    /// <summary>The <c>a:lstStyle</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextListStyle? ListStyle => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextListStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lstStyle"u8);
+
+    /// <summary>Returns the <c>a:lstStyle</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextListStyle GetOrAddListStyle() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextListStyle, global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lstStyle"u8);
+
+    /// <summary>Removes every <c>a:lstStyle</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveListStyle() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lstStyle"u8);
+
+    /// <summary>The <c>a:style</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle? Style => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "style"u8);
+
+    /// <summary>Returns the <c>a:style</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle GetOrAddStyle() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle, global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "style"u8);
+
+    /// <summary>Removes every <c>a:style</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveStyle() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "style"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition> UnknownChildren => new(_markup);
+}
+
 /// <summary>View of the schema type <c>CT_DuotoneEffect</c>, the type of <c>a:duotone</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct DuotoneEffect : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.DuotoneEffect>
 {
@@ -8686,15 +9908,15 @@ public readonly struct DuotoneEffect : global::RecursiveAI.OneDocument.Schema.IE
     public bool RemoveScrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
 
     /// <summary>The <c>a:srgbClr</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor> SrgbClrs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor> RgbColors => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Adds a <c>a:srgbClr</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor AddSrgbClr() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.DuotoneEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor AddRgbColor() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.DuotoneEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Removes every <c>a:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public bool RemoveRgbColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>The <c>a:hslClr</c> children, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor> HslClrs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
@@ -8708,26 +9930,26 @@ public readonly struct DuotoneEffect : global::RecursiveAI.OneDocument.Schema.IE
     public bool RemoveHslClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
 
     /// <summary>The <c>a:sysClr</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor> SysClrs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor> SystemColors => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Adds a <c>a:sysClr</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor AddSysClr() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.DuotoneEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor AddSystemColor() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.DuotoneEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Removes every <c>a:sysClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSysClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public bool RemoveSystemColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>The <c>a:schemeClr</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor> SchemeClrs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor> SchemeColors => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Adds a <c>a:schemeClr</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor AddSchemeClr() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.DuotoneEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor AddSchemeColor() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.DuotoneEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Removes every <c>a:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public bool RemoveSchemeColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>The <c>a:prstClr</c> children, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor> PrstClrs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
@@ -9159,15 +10381,15 @@ public readonly struct EffectContainer : global::RecursiveAI.OneDocument.Schema.
     public bool RemoveTint() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tint"u8);
 
     /// <summary>The <c>a:xfrm</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.TransformEffect> Xfrms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.TransformEffect> Transforms => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
 
     /// <summary>Adds a <c>a:xfrm</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TransformEffect AddXfrm() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TransformEffect, global::RecursiveAI.OneDocument.Schema.Drawing.EffectContainer>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TransformEffect AddTransform() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TransformEffect, global::RecursiveAI.OneDocument.Schema.Drawing.EffectContainer>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
 
     /// <summary>Removes every <c>a:xfrm</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveXfrm() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
+    public bool RemoveTransform() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -9327,7 +10549,7 @@ public readonly struct EffectList : global::RecursiveAI.OneDocument.Schema.IElem
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.EffectList> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_EffectProperties</c>, the type of <c>a14:hiddenEffects</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_EffectProperties</c>, the type of <c>a14:hiddenEffects</c>, <c>a:effect</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct EffectProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.EffectProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -9349,6 +10571,7 @@ public readonly struct EffectProperties : global::RecursiveAI.OneDocument.Schema
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing2010) return local.SequenceEqual("hiddenEffects"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("effect"u8);
         return false;
     }
 
@@ -9455,6 +10678,176 @@ public readonly struct EffectReference : global::RecursiveAI.OneDocument.Schema.
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.EffectReference> UnknownChildren => new(_markup);
 }
 
+/// <summary>View of the schema type <c>CT_EffectStyleItem</c>, the type of <c>a:effectStyle</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct EffectStyleItem : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleItem>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public EffectStyleItem(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleItem Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingEffectStyleItem;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("effectStyle"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("effectDag"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingEffectContainer; }
+            if (local.SequenceEqual("effectLst"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingEffectList; }
+            if (local.SequenceEqual("scene3d"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingScene3D; }
+            if (local.SequenceEqual("sp3d"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingShape3D; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:effectLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.EffectList? EffectLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.EffectList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectLst"u8);
+
+    /// <summary>Returns the <c>a:effectLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.EffectList GetOrAddEffectLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.EffectList, global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleItem>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectLst"u8);
+
+    /// <summary>Removes every <c>a:effectLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveEffectLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectLst"u8);
+
+    /// <summary>The <c>a:effectDag</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.EffectContainer? EffectDag => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.EffectContainer>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectDag"u8);
+
+    /// <summary>Returns the <c>a:effectDag</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.EffectContainer GetOrAddEffectDag() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.EffectContainer, global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleItem>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectDag"u8);
+
+    /// <summary>Removes every <c>a:effectDag</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveEffectDag() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectDag"u8);
+
+    /// <summary>The <c>a:scene3d</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Scene3D? Scene3d => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Scene3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scene3d"u8);
+
+    /// <summary>Returns the <c>a:scene3d</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Scene3D GetOrAddScene3d() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Scene3D, global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleItem>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scene3d"u8);
+
+    /// <summary>Removes every <c>a:scene3d</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveScene3d() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scene3d"u8);
+
+    /// <summary>The <c>a:sp3d</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Shape3D? Sp3d => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Shape3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sp3d"u8);
+
+    /// <summary>Returns the <c>a:sp3d</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Shape3D GetOrAddSp3d() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Shape3D, global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleItem>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sp3d"u8);
+
+    /// <summary>Removes every <c>a:sp3d</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveSp3d() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sp3d"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleItem> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_EffectStyleList</c>, the type of <c>a:effectStyleLst</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct EffectStyleList : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleList>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public EffectStyleList(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleList Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingEffectStyleList;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("effectStyleLst"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("effectStyle"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingEffectStyleItem; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:effectStyle</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleItem> EffectStyles => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectStyle"u8);
+
+    /// <summary>Adds a <c>a:effectStyle</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleItem AddEffectStyle() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleItem, global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectStyle"u8);
+
+    /// <summary>Removes every <c>a:effectStyle</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveEffectStyle() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectStyle"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleList> UnknownChildren => new(_markup);
+}
+
 /// <summary>View of the schema type <c>CT_EmbeddedWAVAudioFile</c>, the type of <c>a:snd</c>, <c>a:wavAudioFile</c>, <c>p:snd</c>, <c>p:sndTgt</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct EmbeddedWAVAudioFile : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.EmbeddedWAVAudioFile>
 {
@@ -9509,7 +10902,7 @@ public readonly struct EmbeddedWAVAudioFile : global::RecursiveAI.OneDocument.Sc
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.EmbeddedWAVAudioFile> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_EmptyElement</c>, the type of <c>a:masterClrMapping</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_EmptyElement</c>, the type of <c>a:masterClrMapping</c>, <c>a:themeManager</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct EmptyElement : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.EmptyElement>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -9530,7 +10923,7 @@ public readonly struct EmptyElement : global::RecursiveAI.OneDocument.Schema.IEl
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("masterClrMapping"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("masterClrMapping"u8) || local.SequenceEqual("themeManager"u8);
         return false;
     }
 
@@ -9819,7 +11212,7 @@ public readonly struct FillOverlayEffect : global::RecursiveAI.OneDocument.Schem
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.FillOverlayEffect> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_FillProperties</c>, the type of <c>a14:hiddenFill</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_FillProperties</c>, the type of <c>a14:hiddenFill</c>, <c>a:fill</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct FillProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.FillProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -9841,6 +11234,7 @@ public readonly struct FillProperties : global::RecursiveAI.OneDocument.Schema.I
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing2010) return local.SequenceEqual("hiddenFill"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("fill"u8);
         return false;
     }
 
@@ -9944,6 +11338,133 @@ public readonly struct FillProperties : global::RecursiveAI.OneDocument.Schema.I
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.FillProperties> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_FillStyleList</c>, the type of <c>a:fillStyleLst</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct FillStyleList : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.FillStyleList>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public FillStyleList(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.FillStyleList Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingFillStyleList;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("fillStyleLst"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("blipFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingBlipFillProperties; }
+            if (local.SequenceEqual("gradFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGradientFillProperties; }
+            if (local.SequenceEqual("grpFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGroupFillProperties; }
+            if (local.SequenceEqual("noFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingNoFillProperties; }
+            if (local.SequenceEqual("pattFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingPatternFillProperties; }
+            if (local.SequenceEqual("solidFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingSolidColorFillProperties; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:noFill</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties> NoFills => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "noFill"u8);
+
+    /// <summary>Adds a <c>a:noFill</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties AddNoFill() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.FillStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "noFill"u8);
+
+    /// <summary>Removes every <c>a:noFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveNoFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "noFill"u8);
+
+    /// <summary>The <c>a:solidFill</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties> SolidFills => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "solidFill"u8);
+
+    /// <summary>Adds a <c>a:solidFill</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties AddSolidFill() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.FillStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "solidFill"u8);
+
+    /// <summary>Removes every <c>a:solidFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveSolidFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "solidFill"u8);
+
+    /// <summary>The <c>a:gradFill</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.GradientFillProperties> GradFills => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "gradFill"u8);
+
+    /// <summary>Adds a <c>a:gradFill</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GradientFillProperties AddGradFill() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GradientFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.FillStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "gradFill"u8);
+
+    /// <summary>Removes every <c>a:gradFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveGradFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "gradFill"u8);
+
+    /// <summary>The <c>a:blipFill</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties> BlipFills => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "blipFill"u8);
+
+    /// <summary>Adds a <c>a:blipFill</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties AddBlipFill() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.FillStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "blipFill"u8);
+
+    /// <summary>Removes every <c>a:blipFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveBlipFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "blipFill"u8);
+
+    /// <summary>The <c>a:pattFill</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.PatternFillProperties> PattFills => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pattFill"u8);
+
+    /// <summary>Adds a <c>a:pattFill</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PatternFillProperties AddPattFill() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.PatternFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.FillStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pattFill"u8);
+
+    /// <summary>Removes every <c>a:pattFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemovePattFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pattFill"u8);
+
+    /// <summary>The <c>a:grpFill</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.GroupFillProperties> GrpFills => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpFill"u8);
+
+    /// <summary>Adds a <c>a:grpFill</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GroupFillProperties AddGrpFill() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GroupFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.FillStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpFill"u8);
+
+    /// <summary>Removes every <c>a:grpFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveGrpFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpFill"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.FillStyleList> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_FixedPercentage</c>, the type of <c>a:alphaOff</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
@@ -10050,6 +11571,121 @@ public readonly struct FlatText : global::RecursiveAI.OneDocument.Schema.IElemen
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.FlatText> UnknownChildren => new(_markup);
 }
 
+/// <summary>View of the schema type <c>CT_FontCollection</c>, the type of <c>a:font</c>, <c>a:majorFont</c>, <c>a:minorFont</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct FontCollection : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public FontCollection(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingFontCollection;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("font"u8) || local.SequenceEqual("majorFont"u8) || local.SequenceEqual("minorFont"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("cs"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTextFont; }
+            if (local.SequenceEqual("ea"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTextFont; }
+            if (local.SequenceEqual("extLst"u8)) { rank = 4; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("font"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingSupplementalFont; }
+            if (local.SequenceEqual("latin"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTextFont; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 5;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:latin</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextFont? Latin => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextFont>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "latin"u8);
+
+    /// <summary>Returns the <c>a:latin</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextFont GetOrAddLatin() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextFont, global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "latin"u8);
+
+    /// <summary>Removes every <c>a:latin</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLatin() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "latin"u8);
+
+    /// <summary>The <c>a:ea</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextFont? Ea => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextFont>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ea"u8);
+
+    /// <summary>Returns the <c>a:ea</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextFont GetOrAddEa() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextFont, global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ea"u8);
+
+    /// <summary>Removes every <c>a:ea</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveEa() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ea"u8);
+
+    /// <summary>The <c>a:cs</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextFont? Cs => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextFont>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cs"u8);
+
+    /// <summary>Returns the <c>a:cs</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextFont GetOrAddCs() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextFont, global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cs"u8);
+
+    /// <summary>Removes every <c>a:cs</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCs() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cs"u8);
+
+    /// <summary>The <c>a:font</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.SupplementalFont> Fonts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "font"u8);
+
+    /// <summary>Adds a <c>a:font</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SupplementalFont AddFont() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SupplementalFont, global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "font"u8);
+
+    /// <summary>Removes every <c>a:font</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveFont() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "font"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection> UnknownChildren => new(_markup);
+}
+
 /// <summary>View of the schema type <c>CT_FontReference</c>, the type of <c>a:fontRef</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct FontReference : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.FontReference>
 {
@@ -10127,15 +11763,15 @@ public readonly struct FontReference : global::RecursiveAI.OneDocument.Schema.IE
     public bool RemoveScrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
 
     /// <summary>The <c>a:srgbClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? RgbColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Returns the <c>a:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.FontReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddRgbColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.FontReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Removes every <c>a:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public bool RemoveRgbColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>The <c>a:hslClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.HslColor? HslClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
@@ -10149,26 +11785,26 @@ public readonly struct FontReference : global::RecursiveAI.OneDocument.Schema.IE
     public bool RemoveHslClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
 
     /// <summary>The <c>a:sysClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SysClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SystemColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Returns the <c>a:sysClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSysClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.FontReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSystemColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.FontReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Removes every <c>a:sysClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSysClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public bool RemoveSystemColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>The <c>a:schemeClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Returns the <c>a:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.FontReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.FontReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Removes every <c>a:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public bool RemoveSchemeColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>The <c>a:prstClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor? PrstClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
@@ -10186,6 +11822,101 @@ public readonly struct FontReference : global::RecursiveAI.OneDocument.Schema.IE
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.FontReference> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_FontScheme</c>, the type of <c>a:fontScheme</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct FontScheme : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.FontScheme>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public FontScheme(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.FontScheme Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingFontScheme;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("fontScheme"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("extLst"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("majorFont"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingFontCollection; }
+            if (local.SequenceEqual("minorFont"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingFontCollection; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None) return local.SequenceEqual("name"u8);
+        return false;
+    }
+
+    /// <summary>Attribute <c>name</c> (xsd:string, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
+    public string? Name { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "name"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "name"u8, value); }
+
+    /// <summary>The <c>a:majorFont</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection? MajorFont => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "majorFont"u8);
+
+    /// <summary>Returns the <c>a:majorFont</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection GetOrAddMajorFont() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection, global::RecursiveAI.OneDocument.Schema.Drawing.FontScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "majorFont"u8);
+
+    /// <summary>Removes every <c>a:majorFont</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveMajorFont() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "majorFont"u8);
+
+    /// <summary>The <c>a:minorFont</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection? MinorFont => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "minorFont"u8);
+
+    /// <summary>Returns the <c>a:minorFont</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection GetOrAddMinorFont() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection, global::RecursiveAI.OneDocument.Schema.Drawing.FontScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "minorFont"u8);
+
+    /// <summary>Removes every <c>a:minorFont</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveMinorFont() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "minorFont"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.FontScheme>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.FontScheme> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_GammaTransform</c>, the type of <c>a:gamma</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
@@ -10480,15 +12211,15 @@ public readonly struct GlowEffect : global::RecursiveAI.OneDocument.Schema.IElem
     public bool RemoveScrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
 
     /// <summary>The <c>a:srgbClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? RgbColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Returns the <c>a:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.GlowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddRgbColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.GlowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Removes every <c>a:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public bool RemoveRgbColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>The <c>a:hslClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.HslColor? HslClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
@@ -10502,26 +12233,26 @@ public readonly struct GlowEffect : global::RecursiveAI.OneDocument.Schema.IElem
     public bool RemoveHslClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
 
     /// <summary>The <c>a:sysClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SysClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SystemColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Returns the <c>a:sysClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSysClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.GlowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSystemColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.GlowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Removes every <c>a:sysClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSysClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public bool RemoveSystemColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>The <c>a:schemeClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Returns the <c>a:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.GlowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.GlowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Removes every <c>a:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public bool RemoveSchemeColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>The <c>a:prstClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor? PrstClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
@@ -10731,15 +12462,15 @@ public readonly struct GradientStop : global::RecursiveAI.OneDocument.Schema.IEl
     public bool RemoveScrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
 
     /// <summary>The <c>a:srgbClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? RgbColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Returns the <c>a:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.GradientStop>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddRgbColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.GradientStop>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Removes every <c>a:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public bool RemoveRgbColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>The <c>a:hslClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.HslColor? HslClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
@@ -10753,26 +12484,26 @@ public readonly struct GradientStop : global::RecursiveAI.OneDocument.Schema.IEl
     public bool RemoveHslClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
 
     /// <summary>The <c>a:sysClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SysClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SystemColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Returns the <c>a:sysClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSysClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.GradientStop>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSystemColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.GradientStop>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Removes every <c>a:sysClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSysClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public bool RemoveSystemColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>The <c>a:schemeClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Returns the <c>a:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.GradientStop>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.GradientStop>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Removes every <c>a:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public bool RemoveSchemeColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>The <c>a:prstClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor? PrstClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
@@ -11051,15 +12782,15 @@ public readonly struct GraphicalObjectFrameLocking : global::RecursiveAI.OneDocu
     public bool? NoResize { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "noResize"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "noResize"u8, value); }
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.GraphicalObjectFrameLocking>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.GraphicalObjectFrameLocking>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -11275,15 +13006,15 @@ public readonly struct GroupLocking : global::RecursiveAI.OneDocument.Schema.IEl
     public bool? NoResize { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "noResize"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "noResize"u8, value); }
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.GroupLocking>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.GroupLocking>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -11292,7 +13023,7 @@ public readonly struct GroupLocking : global::RecursiveAI.OneDocument.Schema.IEl
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.GroupLocking> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_GroupShapeProperties</c>, the type of <c>wpg:grpSpPr</c>, <c>wp:grpSpPr</c>, <c>p:grpSpPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_GroupShapeProperties</c>, the type of <c>dsp:grpSpPr</c>, <c>wpg:grpSpPr</c>, <c>cdr:grpSpPr</c>, <c>a:grpSpPr</c>, <c>xdr:grpSpPr</c>, <c>wp:grpSpPr</c>, <c>p:grpSpPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct GroupShapeProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.GroupShapeProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -11313,7 +13044,11 @@ public readonly struct GroupShapeProperties : global::RecursiveAI.OneDocument.Sc
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DiagramDrawing) return local.SequenceEqual("grpSpPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingGroup) return local.SequenceEqual("grpSpPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing) return local.SequenceEqual("grpSpPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("grpSpPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing) return local.SequenceEqual("grpSpPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingDrawing) return local.SequenceEqual("grpSpPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("grpSpPr"u8);
         return false;
@@ -11365,15 +13100,15 @@ public readonly struct GroupShapeProperties : global::RecursiveAI.OneDocument.Sc
     public string? BwModeText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "bwMode"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "bwMode"u8, value); }
 
     /// <summary>The <c>a:xfrm</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.GroupTransform2D? Xfrm => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.GroupTransform2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GroupTransform2D? Transform => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.GroupTransform2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
 
     /// <summary>Returns the <c>a:xfrm</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.GroupTransform2D GetOrAddXfrm() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GroupTransform2D, global::RecursiveAI.OneDocument.Schema.Drawing.GroupShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GroupTransform2D GetOrAddTransform() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GroupTransform2D, global::RecursiveAI.OneDocument.Schema.Drawing.GroupShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
 
     /// <summary>Removes every <c>a:xfrm</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveXfrm() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
+    public bool RemoveTransform() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
 
     /// <summary>The <c>a:noFill</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties? NoFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "noFill"u8);
@@ -11475,15 +13210,15 @@ public readonly struct GroupShapeProperties : global::RecursiveAI.OneDocument.Sc
     public bool RemoveScene3d() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scene3d"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.GroupShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.GroupShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -11566,15 +13301,15 @@ public readonly struct GroupTransform2D : global::RecursiveAI.OneDocument.Schema
     public bool RemoveOff() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "off"u8);
 
     /// <summary>The <c>a:ext</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D? Ext => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D? Extension => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
 
     /// <summary>Returns the <c>a:ext</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D GetOrAddExt() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D, global::RecursiveAI.OneDocument.Schema.Drawing.GroupTransform2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D GetOrAddExtension() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D, global::RecursiveAI.OneDocument.Schema.Drawing.GroupTransform2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
 
     /// <summary>Removes every <c>a:ext</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExt() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
+    public bool RemoveExtension() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
 
     /// <summary>The <c>a:chOff</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.Point2D? ChOff => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Point2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "chOff"u8);
@@ -11603,6 +13338,1149 @@ public readonly struct GroupTransform2D : global::RecursiveAI.OneDocument.Schema
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.GroupTransform2D> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_GvmlConnector</c>, the type of <c>a:cxnSp</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct GvmlConnector : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnector>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public GvmlConnector(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnector Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlConnector;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("cxnSp"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("extLst"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("nvCxnSpPr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlConnectorNonVisual; }
+            if (local.SequenceEqual("spPr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingShapeProperties; }
+            if (local.SequenceEqual("style"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingShapeStyle; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 4;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:nvCxnSpPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnectorNonVisual? NvCxnSpPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnectorNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nvCxnSpPr"u8);
+
+    /// <summary>Returns the <c>a:nvCxnSpPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnectorNonVisual GetOrAddNvCxnSpPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnectorNonVisual, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnector>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nvCxnSpPr"u8);
+
+    /// <summary>Removes every <c>a:nvCxnSpPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveNvCxnSpPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nvCxnSpPr"u8);
+
+    /// <summary>The <c>a:spPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties? ShapeProperties => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "spPr"u8);
+
+    /// <summary>Returns the <c>a:spPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties GetOrAddShapeProperties() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnector>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "spPr"u8);
+
+    /// <summary>Removes every <c>a:spPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveShapeProperties() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "spPr"u8);
+
+    /// <summary>The <c>a:style</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle? Style => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "style"u8);
+
+    /// <summary>Returns the <c>a:style</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle GetOrAddStyle() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnector>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "style"u8);
+
+    /// <summary>Removes every <c>a:style</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveStyle() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "style"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnector>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnector> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_GvmlConnectorNonVisual</c>, the type of <c>a:nvCxnSpPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct GvmlConnectorNonVisual : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnectorNonVisual>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public GvmlConnectorNonVisual(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnectorNonVisual Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlConnectorNonVisual;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("nvCxnSpPr"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("cNvCxnSpPr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingNonVisualConnectorProperties; }
+            if (local.SequenceEqual("cNvPr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingNonVisualDrawingProps; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:cNvPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps? CNvPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPr"u8);
+
+    /// <summary>Returns the <c>a:cNvPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps GetOrAddCNvPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnectorNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPr"u8);
+
+    /// <summary>Removes every <c>a:cNvPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCNvPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPr"u8);
+
+    /// <summary>The <c>a:cNvCxnSpPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualConnectorProperties? CNvCxnSpPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualConnectorProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvCxnSpPr"u8);
+
+    /// <summary>Returns the <c>a:cNvCxnSpPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualConnectorProperties GetOrAddCNvCxnSpPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualConnectorProperties, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnectorNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvCxnSpPr"u8);
+
+    /// <summary>Removes every <c>a:cNvCxnSpPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCNvCxnSpPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvCxnSpPr"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnectorNonVisual> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_GvmlGraphicFrameNonVisual</c>, the type of <c>a:nvGraphicFramePr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct GvmlGraphicFrameNonVisual : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicFrameNonVisual>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public GvmlGraphicFrameNonVisual(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicFrameNonVisual Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlGraphicFrameNonVisual;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("nvGraphicFramePr"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("cNvGraphicFramePr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingNonVisualGraphicFrameProperties; }
+            if (local.SequenceEqual("cNvPr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingNonVisualDrawingProps; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:cNvPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps? CNvPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPr"u8);
+
+    /// <summary>Returns the <c>a:cNvPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps GetOrAddCNvPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicFrameNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPr"u8);
+
+    /// <summary>Removes every <c>a:cNvPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCNvPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPr"u8);
+
+    /// <summary>The <c>a:cNvGraphicFramePr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGraphicFrameProperties? CNvGraphicFramePr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGraphicFrameProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvGraphicFramePr"u8);
+
+    /// <summary>Returns the <c>a:cNvGraphicFramePr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGraphicFrameProperties GetOrAddCNvGraphicFramePr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGraphicFrameProperties, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicFrameNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvGraphicFramePr"u8);
+
+    /// <summary>Removes every <c>a:cNvGraphicFramePr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCNvGraphicFramePr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvGraphicFramePr"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicFrameNonVisual> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_GvmlGraphicalObjectFrame</c>, the type of <c>a:graphicFrame</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct GvmlGraphicalObjectFrame : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicalObjectFrame>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public GvmlGraphicalObjectFrame(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicalObjectFrame Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlGraphicalObjectFrame;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("graphicFrame"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("extLst"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("graphic"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGraphicalObject; }
+            if (local.SequenceEqual("nvGraphicFramePr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlGraphicFrameNonVisual; }
+            if (local.SequenceEqual("xfrm"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTransform2D; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 4;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:nvGraphicFramePr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicFrameNonVisual? NvGraphicFramePr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicFrameNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nvGraphicFramePr"u8);
+
+    /// <summary>Returns the <c>a:nvGraphicFramePr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicFrameNonVisual GetOrAddNvGraphicFramePr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicFrameNonVisual, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicalObjectFrame>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nvGraphicFramePr"u8);
+
+    /// <summary>Removes every <c>a:nvGraphicFramePr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveNvGraphicFramePr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nvGraphicFramePr"u8);
+
+    /// <summary>The <c>a:graphic</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GraphicalObject? Graphic => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.GraphicalObject>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "graphic"u8);
+
+    /// <summary>Returns the <c>a:graphic</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GraphicalObject GetOrAddGraphic() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GraphicalObject, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicalObjectFrame>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "graphic"u8);
+
+    /// <summary>Removes every <c>a:graphic</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveGraphic() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "graphic"u8);
+
+    /// <summary>The <c>a:xfrm</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D? Transform => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
+
+    /// <summary>Returns the <c>a:xfrm</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D GetOrAddTransform() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicalObjectFrame>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
+
+    /// <summary>Removes every <c>a:xfrm</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTransform() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicalObjectFrame>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicalObjectFrame> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_GvmlGroupShape</c>, the type of <c>lc:lockedCanvas</c>, <c>a:grpSp</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct GvmlGroupShape : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public GvmlGroupShape(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlGroupShape;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.LockedCanvas) return local.SequenceEqual("lockedCanvas"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("grpSp"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("cxnSp"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlConnector; }
+            if (local.SequenceEqual("extLst"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("graphicFrame"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlGraphicalObjectFrame; }
+            if (local.SequenceEqual("grpSp"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlGroupShape; }
+            if (local.SequenceEqual("grpSpPr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGroupShapeProperties; }
+            if (local.SequenceEqual("nvGrpSpPr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlGroupShapeNonVisual; }
+            if (local.SequenceEqual("pic"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlPicture; }
+            if (local.SequenceEqual("sp"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlShape; }
+            if (local.SequenceEqual("txSp"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlTextShape; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 4;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:nvGrpSpPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShapeNonVisual? NvGrpSpPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShapeNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nvGrpSpPr"u8);
+
+    /// <summary>Returns the <c>a:nvGrpSpPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShapeNonVisual GetOrAddNvGrpSpPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShapeNonVisual, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nvGrpSpPr"u8);
+
+    /// <summary>Removes every <c>a:nvGrpSpPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveNvGrpSpPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nvGrpSpPr"u8);
+
+    /// <summary>The <c>a:grpSpPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GroupShapeProperties? GrpSpPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.GroupShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpSpPr"u8);
+
+    /// <summary>Returns the <c>a:grpSpPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GroupShapeProperties GetOrAddGrpSpPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GroupShapeProperties, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpSpPr"u8);
+
+    /// <summary>Removes every <c>a:grpSpPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveGrpSpPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpSpPr"u8);
+
+    /// <summary>The <c>a:txSp</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlTextShape> TxSps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "txSp"u8);
+
+    /// <summary>Adds a <c>a:txSp</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlTextShape AddTxSp() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlTextShape, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "txSp"u8);
+
+    /// <summary>Removes every <c>a:txSp</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTxSp() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "txSp"u8);
+
+    /// <summary>The <c>a:sp</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShape> Sps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sp"u8);
+
+    /// <summary>Adds a <c>a:sp</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShape AddSp() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShape, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sp"u8);
+
+    /// <summary>Removes every <c>a:sp</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveSp() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sp"u8);
+
+    /// <summary>The <c>a:cxnSp</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnector> CxnSps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cxnSp"u8);
+
+    /// <summary>Adds a <c>a:cxnSp</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnector AddCxnSp() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlConnector, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cxnSp"u8);
+
+    /// <summary>Removes every <c>a:cxnSp</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCxnSp() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cxnSp"u8);
+
+    /// <summary>The <c>a:pic</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPicture> Pics => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pic"u8);
+
+    /// <summary>Adds a <c>a:pic</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPicture AddPic() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPicture, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pic"u8);
+
+    /// <summary>Removes every <c>a:pic</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemovePic() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pic"u8);
+
+    /// <summary>The <c>a:graphicFrame</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicalObjectFrame> GraphicFrames => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "graphicFrame"u8);
+
+    /// <summary>Adds a <c>a:graphicFrame</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicalObjectFrame AddGraphicFrame() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGraphicalObjectFrame, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "graphicFrame"u8);
+
+    /// <summary>Removes every <c>a:graphicFrame</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveGraphicFrame() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "graphicFrame"u8);
+
+    /// <summary>The <c>a:grpSp</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape> GrpSps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpSp"u8);
+
+    /// <summary>Adds a <c>a:grpSp</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape AddGrpSp() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpSp"u8);
+
+    /// <summary>Removes every <c>a:grpSp</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveGrpSp() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpSp"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShape> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_GvmlGroupShapeNonVisual</c>, the type of <c>a:nvGrpSpPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct GvmlGroupShapeNonVisual : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShapeNonVisual>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public GvmlGroupShapeNonVisual(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShapeNonVisual Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlGroupShapeNonVisual;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("nvGrpSpPr"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("cNvGrpSpPr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingNonVisualGroupDrawingShapeProps; }
+            if (local.SequenceEqual("cNvPr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingNonVisualDrawingProps; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:cNvPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps? CNvPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPr"u8);
+
+    /// <summary>Returns the <c>a:cNvPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps GetOrAddCNvPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShapeNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPr"u8);
+
+    /// <summary>Removes every <c>a:cNvPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCNvPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPr"u8);
+
+    /// <summary>The <c>a:cNvGrpSpPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGroupDrawingShapeProps? CNvGrpSpPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGroupDrawingShapeProps>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvGrpSpPr"u8);
+
+    /// <summary>Returns the <c>a:cNvGrpSpPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGroupDrawingShapeProps GetOrAddCNvGrpSpPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGroupDrawingShapeProps, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShapeNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvGrpSpPr"u8);
+
+    /// <summary>Removes every <c>a:cNvGrpSpPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCNvGrpSpPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvGrpSpPr"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlGroupShapeNonVisual> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_GvmlPicture</c>, the type of <c>a:pic</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct GvmlPicture : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPicture>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public GvmlPicture(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPicture Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlPicture;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("pic"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("blipFill"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingBlipFillProperties; }
+            if (local.SequenceEqual("extLst"u8)) { rank = 4; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("nvPicPr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlPictureNonVisual; }
+            if (local.SequenceEqual("spPr"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingShapeProperties; }
+            if (local.SequenceEqual("style"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingShapeStyle; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 5;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:nvPicPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPictureNonVisual? NvPicPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPictureNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nvPicPr"u8);
+
+    /// <summary>Returns the <c>a:nvPicPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPictureNonVisual GetOrAddNvPicPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPictureNonVisual, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPicture>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nvPicPr"u8);
+
+    /// <summary>Removes every <c>a:nvPicPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveNvPicPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nvPicPr"u8);
+
+    /// <summary>The <c>a:blipFill</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties? BlipFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "blipFill"u8);
+
+    /// <summary>Returns the <c>a:blipFill</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties GetOrAddBlipFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPicture>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "blipFill"u8);
+
+    /// <summary>Removes every <c>a:blipFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveBlipFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "blipFill"u8);
+
+    /// <summary>The <c>a:spPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties? ShapeProperties => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "spPr"u8);
+
+    /// <summary>Returns the <c>a:spPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties GetOrAddShapeProperties() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPicture>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "spPr"u8);
+
+    /// <summary>Removes every <c>a:spPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveShapeProperties() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "spPr"u8);
+
+    /// <summary>The <c>a:style</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle? Style => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "style"u8);
+
+    /// <summary>Returns the <c>a:style</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle GetOrAddStyle() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPicture>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "style"u8);
+
+    /// <summary>Removes every <c>a:style</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveStyle() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "style"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPicture>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPicture> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_GvmlPictureNonVisual</c>, the type of <c>a:nvPicPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct GvmlPictureNonVisual : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPictureNonVisual>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public GvmlPictureNonVisual(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPictureNonVisual Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlPictureNonVisual;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("nvPicPr"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("cNvPicPr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingNonVisualPictureProperties; }
+            if (local.SequenceEqual("cNvPr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingNonVisualDrawingProps; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:cNvPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps? CNvPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPr"u8);
+
+    /// <summary>Returns the <c>a:cNvPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps GetOrAddCNvPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPictureNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPr"u8);
+
+    /// <summary>Removes every <c>a:cNvPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCNvPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPr"u8);
+
+    /// <summary>The <c>a:cNvPicPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualPictureProperties? CNvPicPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualPictureProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPicPr"u8);
+
+    /// <summary>Returns the <c>a:cNvPicPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualPictureProperties GetOrAddCNvPicPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualPictureProperties, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPictureNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPicPr"u8);
+
+    /// <summary>Removes every <c>a:cNvPicPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCNvPicPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPicPr"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlPictureNonVisual> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_GvmlShape</c>, the type of <c>a:sp</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct GvmlShape : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShape>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public GvmlShape(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShape Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlShape;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("sp"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("extLst"u8)) { rank = 4; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("nvSpPr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlShapeNonVisual; }
+            if (local.SequenceEqual("spPr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingShapeProperties; }
+            if (local.SequenceEqual("style"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingShapeStyle; }
+            if (local.SequenceEqual("txSp"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlTextShape; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 5;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:nvSpPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShapeNonVisual? NvSpPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShapeNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nvSpPr"u8);
+
+    /// <summary>Returns the <c>a:nvSpPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShapeNonVisual GetOrAddNvSpPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShapeNonVisual, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nvSpPr"u8);
+
+    /// <summary>Removes every <c>a:nvSpPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveNvSpPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nvSpPr"u8);
+
+    /// <summary>The <c>a:spPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties? ShapeProperties => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "spPr"u8);
+
+    /// <summary>Returns the <c>a:spPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties GetOrAddShapeProperties() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "spPr"u8);
+
+    /// <summary>Removes every <c>a:spPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveShapeProperties() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "spPr"u8);
+
+    /// <summary>The <c>a:txSp</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlTextShape? TxSp => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlTextShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "txSp"u8);
+
+    /// <summary>Returns the <c>a:txSp</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlTextShape GetOrAddTxSp() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlTextShape, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "txSp"u8);
+
+    /// <summary>Removes every <c>a:txSp</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTxSp() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "txSp"u8);
+
+    /// <summary>The <c>a:style</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle? Style => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "style"u8);
+
+    /// <summary>Returns the <c>a:style</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle GetOrAddStyle() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "style"u8);
+
+    /// <summary>Removes every <c>a:style</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveStyle() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "style"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShape> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_GvmlShapeNonVisual</c>, the type of <c>a:nvSpPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct GvmlShapeNonVisual : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShapeNonVisual>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public GvmlShapeNonVisual(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShapeNonVisual Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlShapeNonVisual;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("nvSpPr"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("cNvPr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingNonVisualDrawingProps; }
+            if (local.SequenceEqual("cNvSpPr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingNonVisualDrawingShapeProps; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:cNvPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps? CNvPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPr"u8);
+
+    /// <summary>Returns the <c>a:cNvPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps GetOrAddCNvPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShapeNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPr"u8);
+
+    /// <summary>Removes every <c>a:cNvPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCNvPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvPr"u8);
+
+    /// <summary>The <c>a:cNvSpPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingShapeProps? CNvSpPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingShapeProps>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvSpPr"u8);
+
+    /// <summary>Returns the <c>a:cNvSpPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingShapeProps GetOrAddCNvSpPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingShapeProps, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShapeNonVisual>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvSpPr"u8);
+
+    /// <summary>Removes every <c>a:cNvSpPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCNvSpPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cNvSpPr"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlShapeNonVisual> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_GvmlTextShape</c>, the type of <c>a:txSp</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct GvmlTextShape : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlTextShape>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public GvmlTextShape(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.GvmlTextShape Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlTextShape;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("txSp"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("extLst"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("txBody"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTextBody; }
+            if (local.SequenceEqual("useSpRect"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlUseShapeRectangle; }
+            if (local.SequenceEqual("xfrm"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTransform2D; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:txBody</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextBody? TextBody => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextBody>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "txBody"u8);
+
+    /// <summary>Returns the <c>a:txBody</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextBody GetOrAddTextBody() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextBody, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlTextShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "txBody"u8);
+
+    /// <summary>Removes every <c>a:txBody</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTextBody() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "txBody"u8);
+
+    /// <summary>The <c>a:useSpRect</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlUseShapeRectangle? UseSpRect => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlUseShapeRectangle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "useSpRect"u8);
+
+    /// <summary>Returns the <c>a:useSpRect</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GvmlUseShapeRectangle GetOrAddUseSpRect() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlUseShapeRectangle, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlTextShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "useSpRect"u8);
+
+    /// <summary>Removes every <c>a:useSpRect</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveUseSpRect() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "useSpRect"u8);
+
+    /// <summary>The <c>a:xfrm</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D? Transform => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
+
+    /// <summary>Returns the <c>a:xfrm</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D GetOrAddTransform() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlTextShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
+
+    /// <summary>Removes every <c>a:xfrm</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTransform() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.GvmlTextShape>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlTextShape> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_GvmlUseShapeRectangle</c>, the type of <c>a:useSpRect</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct GvmlUseShapeRectangle : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlUseShapeRectangle>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public GvmlUseShapeRectangle(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.GvmlUseShapeRectangle Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGvmlUseShapeRectangle;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("useSpRect"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.GvmlUseShapeRectangle> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_HSLEffect</c>, the type of <c>a:hsl</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
@@ -11664,6 +14542,73 @@ public readonly struct HSLEffect : global::RecursiveAI.OneDocument.Schema.IEleme
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.HSLEffect> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_Headers</c>, the type of <c>a:headers</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct Headers : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.Headers>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public Headers(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.Headers Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingHeaders;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("headers"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("header"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The first <c>a:header</c> child as a raw element (its content is not modelled); null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? Header => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "header"u8);
+
+    /// <summary>Adds a <c>a:header</c> child where the content model puts it.</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddHeader() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Drawing.Headers>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "header"u8);
+
+    /// <summary>Removes every <c>a:header</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveHeader() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "header"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.Headers> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_HslColor</c>, the type of <c>a:hslClr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
@@ -12161,15 +15106,15 @@ public readonly struct Hyperlink : global::RecursiveAI.OneDocument.Schema.IEleme
     public bool RemoveSnd() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "snd"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.Hyperlink>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.Hyperlink>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -12254,15 +15199,15 @@ public readonly struct InnerShadowEffect : global::RecursiveAI.OneDocument.Schem
     public bool RemoveScrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
 
     /// <summary>The <c>a:srgbClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? RgbColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Returns the <c>a:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.InnerShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddRgbColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.InnerShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Removes every <c>a:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public bool RemoveRgbColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>The <c>a:hslClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.HslColor? HslClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
@@ -12276,26 +15221,26 @@ public readonly struct InnerShadowEffect : global::RecursiveAI.OneDocument.Schem
     public bool RemoveHslClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
 
     /// <summary>The <c>a:sysClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SysClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SystemColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Returns the <c>a:sysClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSysClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.InnerShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSystemColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.InnerShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Removes every <c>a:sysClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSysClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public bool RemoveSystemColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>The <c>a:schemeClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Returns the <c>a:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.InnerShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.InnerShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Removes every <c>a:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public bool RemoveSchemeColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>The <c>a:prstClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor? PrstClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
@@ -12711,7 +15656,7 @@ public readonly struct LineJoinRound : global::RecursiveAI.OneDocument.Schema.IE
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.LineJoinRound> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_LineProperties</c>, the type of <c>a14:hiddenLine</c>, <c>a:ln</c>, <c>a:uLn</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_LineProperties</c>, the type of <c>a14:hiddenLine</c>, <c>a:ln</c>, <c>a:lnB</c>, <c>a:lnBlToTr</c>, <c>a:lnL</c>, <c>a:lnR</c>, <c>a:lnT</c>, <c>a:lnTlToBr</c>, <c>a:uLn</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct LineProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -12733,7 +15678,7 @@ public readonly struct LineProperties : global::RecursiveAI.OneDocument.Schema.I
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing2010) return local.SequenceEqual("hiddenLine"u8);
-        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("ln"u8) || local.SequenceEqual("uLn"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("ln"u8) || local.SequenceEqual("lnB"u8) || local.SequenceEqual("lnBlToTr"u8) || local.SequenceEqual("lnL"u8) || local.SequenceEqual("lnR"u8) || local.SequenceEqual("lnT"u8) || local.SequenceEqual("lnTlToBr"u8) || local.SequenceEqual("uLn"u8);
         return false;
     }
 
@@ -12928,21 +15873,88 @@ public readonly struct LineProperties : global::RecursiveAI.OneDocument.Schema.I
     public bool RemoveTailEnd() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tailEnd"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_LineStyleList</c>, the type of <c>a:lnStyleLst</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct LineStyleList : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.LineStyleList>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public LineStyleList(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.LineStyleList Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingLineStyleList;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("lnStyleLst"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("ln"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingLineProperties; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:ln</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties> Lines => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
+
+    /// <summary>Adds a <c>a:ln</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties AddLine() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties, global::RecursiveAI.OneDocument.Schema.Drawing.LineStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
+
+    /// <summary>Removes every <c>a:ln</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLine() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.LineStyleList> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_LinearShadeProperties</c>, the type of <c>a:lin</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
@@ -13100,7 +16112,7 @@ public readonly struct NoFillProperties : global::RecursiveAI.OneDocument.Schema
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_NonVisualConnectorProperties</c>, the type of <c>wps:cNvCnPr</c>, <c>wp:cNvCnPr</c>, <c>p:cNvCxnSpPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_NonVisualConnectorProperties</c>, the type of <c>wps:cNvCnPr</c>, <c>cdr:cNvCxnSpPr</c>, <c>a:cNvCxnSpPr</c>, <c>xdr:cNvCxnSpPr</c>, <c>wp:cNvCnPr</c>, <c>p:cNvCxnSpPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct NonVisualConnectorProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualConnectorProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -13122,6 +16134,9 @@ public readonly struct NonVisualConnectorProperties : global::RecursiveAI.OneDoc
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingShape) return local.SequenceEqual("cNvCnPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing) return local.SequenceEqual("cNvCxnSpPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("cNvCxnSpPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing) return local.SequenceEqual("cNvCxnSpPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingDrawing) return local.SequenceEqual("cNvCnPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("cNvCxnSpPr"u8);
         return false;
@@ -13188,15 +16203,15 @@ public readonly struct NonVisualConnectorProperties : global::RecursiveAI.OneDoc
     public bool RemoveEndCxn() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "endCxn"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualConnectorProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualConnectorProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -13271,15 +16286,15 @@ public readonly struct NonVisualContentPartProperties : global::RecursiveAI.OneD
     public bool RemoveCpLocks() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cpLocks"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualContentPartProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualContentPartProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -13288,7 +16303,7 @@ public readonly struct NonVisualContentPartProperties : global::RecursiveAI.OneD
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualContentPartProperties> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_NonVisualDrawingProps</c>, the type of <c>a14:cNvPr</c>, <c>p14:cNvPr</c>, <c>w14:cNvPr</c>, <c>wpg:cNvPr</c>, <c>wps:cNvPr</c>, <c>pic:cNvPr</c>, <c>wp:cNvPr</c>, <c>wp:docPr</c>, <c>p:cNvPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_NonVisualDrawingProps</c>, the type of <c>dsp:cNvPr</c>, <c>cdr14:cNvPr</c>, <c>dgm14:cNvPr</c>, <c>a14:cNvPr</c>, <c>xdr14:cNvPr</c>, <c>p14:cNvPr</c>, <c>w14:cNvPr</c>, <c>wpg:cNvPr</c>, <c>wps:cNvPr</c>, <c>cdr:cNvPr</c>, <c>a:cNvPr</c>, <c>pic:cNvPr</c>, <c>xdr:cNvPr</c>, <c>wp:cNvPr</c>, <c>wp:docPr</c>, <c>p:cNvPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct NonVisualDrawingProps : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -13309,12 +16324,19 @@ public readonly struct NonVisualDrawingProps : global::RecursiveAI.OneDocument.S
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DiagramDrawing) return local.SequenceEqual("cNvPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing2010) return local.SequenceEqual("cNvPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Diagram2010) return local.SequenceEqual("cNvPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing2010) return local.SequenceEqual("cNvPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing2010) return local.SequenceEqual("cNvPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2010) return local.SequenceEqual("cNvPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("cNvPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingGroup) return local.SequenceEqual("cNvPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingShape) return local.SequenceEqual("cNvPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing) return local.SequenceEqual("cNvPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("cNvPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Picture) return local.SequenceEqual("cNvPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing) return local.SequenceEqual("cNvPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingDrawing) return local.SequenceEqual("cNvPr"u8) || local.SequenceEqual("docPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("cNvPr"u8);
         return false;
@@ -13385,15 +16407,15 @@ public readonly struct NonVisualDrawingProps : global::RecursiveAI.OneDocument.S
     public bool RemoveHlinkHover() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hlinkHover"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -13402,7 +16424,7 @@ public readonly struct NonVisualDrawingProps : global::RecursiveAI.OneDocument.S
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingProps> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_NonVisualDrawingShapeProps</c>, the type of <c>wps:cNvSpPr</c>, <c>wp:cNvSpPr</c>, <c>p:cNvSpPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_NonVisualDrawingShapeProps</c>, the type of <c>dsp:cNvSpPr</c>, <c>wps:cNvSpPr</c>, <c>cdr:cNvSpPr</c>, <c>a:cNvSpPr</c>, <c>xdr:cNvSpPr</c>, <c>wp:cNvSpPr</c>, <c>p:cNvSpPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct NonVisualDrawingShapeProps : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingShapeProps>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -13423,7 +16445,11 @@ public readonly struct NonVisualDrawingShapeProps : global::RecursiveAI.OneDocum
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DiagramDrawing) return local.SequenceEqual("cNvSpPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingShape) return local.SequenceEqual("cNvSpPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing) return local.SequenceEqual("cNvSpPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("cNvSpPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing) return local.SequenceEqual("cNvSpPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingDrawing) return local.SequenceEqual("cNvSpPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("cNvSpPr"u8);
         return false;
@@ -13470,15 +16496,15 @@ public readonly struct NonVisualDrawingShapeProps : global::RecursiveAI.OneDocum
     public bool RemoveSpLocks() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "spLocks"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingShapeProps>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingShapeProps>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -13487,7 +16513,7 @@ public readonly struct NonVisualDrawingShapeProps : global::RecursiveAI.OneDocum
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualDrawingShapeProps> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_NonVisualGraphicFrameProperties</c>, the type of <c>wpg:cNvFrPr</c>, <c>wp:cNvFrPr</c>, <c>wp:cNvGraphicFramePr</c>, <c>p:cNvGraphicFramePr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_NonVisualGraphicFrameProperties</c>, the type of <c>wpg:cNvFrPr</c>, <c>cdr:cNvGraphicFramePr</c>, <c>a:cNvGraphicFramePr</c>, <c>xdr:cNvGraphicFramePr</c>, <c>wp:cNvFrPr</c>, <c>wp:cNvGraphicFramePr</c>, <c>p:cNvGraphicFramePr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct NonVisualGraphicFrameProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGraphicFrameProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -13509,6 +16535,9 @@ public readonly struct NonVisualGraphicFrameProperties : global::RecursiveAI.One
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingGroup) return local.SequenceEqual("cNvFrPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing) return local.SequenceEqual("cNvGraphicFramePr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("cNvGraphicFramePr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing) return local.SequenceEqual("cNvGraphicFramePr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingDrawing) return local.SequenceEqual("cNvFrPr"u8) || local.SequenceEqual("cNvGraphicFramePr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("cNvGraphicFramePr"u8);
         return false;
@@ -13551,15 +16580,15 @@ public readonly struct NonVisualGraphicFrameProperties : global::RecursiveAI.One
     public bool RemoveGraphicFrameLocks() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "graphicFrameLocks"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGraphicFrameProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGraphicFrameProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -13568,7 +16597,7 @@ public readonly struct NonVisualGraphicFrameProperties : global::RecursiveAI.One
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGraphicFrameProperties> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_NonVisualGroupDrawingShapeProps</c>, the type of <c>wpg:cNvGrpSpPr</c>, <c>wp:cNvGrpSpPr</c>, <c>p:cNvGrpSpPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_NonVisualGroupDrawingShapeProps</c>, the type of <c>dsp:cNvGrpSpPr</c>, <c>wpg:cNvGrpSpPr</c>, <c>cdr:cNvGrpSpPr</c>, <c>a:cNvGrpSpPr</c>, <c>xdr:cNvGrpSpPr</c>, <c>wp:cNvGrpSpPr</c>, <c>p:cNvGrpSpPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct NonVisualGroupDrawingShapeProps : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGroupDrawingShapeProps>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -13589,7 +16618,11 @@ public readonly struct NonVisualGroupDrawingShapeProps : global::RecursiveAI.One
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DiagramDrawing) return local.SequenceEqual("cNvGrpSpPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingGroup) return local.SequenceEqual("cNvGrpSpPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing) return local.SequenceEqual("cNvGrpSpPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("cNvGrpSpPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing) return local.SequenceEqual("cNvGrpSpPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingDrawing) return local.SequenceEqual("cNvGrpSpPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("cNvGrpSpPr"u8);
         return false;
@@ -13632,15 +16665,15 @@ public readonly struct NonVisualGroupDrawingShapeProps : global::RecursiveAI.One
     public bool RemoveGrpSpLocks() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpSpLocks"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGroupDrawingShapeProps>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGroupDrawingShapeProps>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -13649,7 +16682,7 @@ public readonly struct NonVisualGroupDrawingShapeProps : global::RecursiveAI.One
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualGroupDrawingShapeProps> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_NonVisualPictureProperties</c>, the type of <c>pic:cNvPicPr</c>, <c>p:cNvPicPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_NonVisualPictureProperties</c>, the type of <c>cdr:cNvPicPr</c>, <c>a:cNvPicPr</c>, <c>pic:cNvPicPr</c>, <c>xdr:cNvPicPr</c>, <c>p:cNvPicPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct NonVisualPictureProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualPictureProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -13670,7 +16703,10 @@ public readonly struct NonVisualPictureProperties : global::RecursiveAI.OneDocum
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing) return local.SequenceEqual("cNvPicPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("cNvPicPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Picture) return local.SequenceEqual("cNvPicPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing) return local.SequenceEqual("cNvPicPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("cNvPicPr"u8);
         return false;
     }
@@ -13716,21 +16752,124 @@ public readonly struct NonVisualPictureProperties : global::RecursiveAI.OneDocum
     public bool RemovePicLocks() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "picLocks"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualPictureProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualPictureProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.NonVisualPictureProperties> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_ObjectStyleDefaults</c>, the type of <c>a:objectDefaults</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct ObjectStyleDefaults : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.ObjectStyleDefaults>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public ObjectStyleDefaults(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.ObjectStyleDefaults Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingObjectStyleDefaults;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("objectDefaults"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("extLst"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("lnDef"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingDefaultShapeDefinition; }
+            if (local.SequenceEqual("spDef"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingDefaultShapeDefinition; }
+            if (local.SequenceEqual("txDef"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingDefaultShapeDefinition; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 4;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:spDef</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition? SpDef => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "spDef"u8);
+
+    /// <summary>Returns the <c>a:spDef</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition GetOrAddSpDef() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition, global::RecursiveAI.OneDocument.Schema.Drawing.ObjectStyleDefaults>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "spDef"u8);
+
+    /// <summary>Removes every <c>a:spDef</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveSpDef() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "spDef"u8);
+
+    /// <summary>The <c>a:lnDef</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition? LnDef => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnDef"u8);
+
+    /// <summary>Returns the <c>a:lnDef</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition GetOrAddLnDef() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition, global::RecursiveAI.OneDocument.Schema.Drawing.ObjectStyleDefaults>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnDef"u8);
+
+    /// <summary>Removes every <c>a:lnDef</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLnDef() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnDef"u8);
+
+    /// <summary>The <c>a:txDef</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition? TxDef => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "txDef"u8);
+
+    /// <summary>Returns the <c>a:txDef</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition GetOrAddTxDef() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.DefaultShapeDefinition, global::RecursiveAI.OneDocument.Schema.Drawing.ObjectStyleDefaults>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "txDef"u8);
+
+    /// <summary>Removes every <c>a:txDef</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTxDef() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "txDef"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.ObjectStyleDefaults>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.ObjectStyleDefaults> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_OfficeArtExtension</c>, the type of <c>a:ext</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
@@ -13789,7 +16928,7 @@ public readonly struct OfficeArtExtension : global::RecursiveAI.OneDocument.Sche
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtension> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_OfficeArtExtensionList</c>, the type of <c>a14:extLst</c>, <c>pic14:extLst</c>, <c>w14:extLst</c>, <c>wpc:extLst</c>, <c>wpg:extLst</c>, <c>wps:extLst</c>, <c>a:extLst</c>, <c>wp:extLst</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_OfficeArtExtensionList</c>, the type of <c>dsp:extLst</c>, <c>cdr14:extLst</c>, <c>a14:extLst</c>, <c>pic14:extLst</c>, <c>sle:extLst</c>, <c>cs:extLst</c>, <c>tsle:extLst</c>, <c>a13:extLst</c>, <c>am3d:extLst</c>, <c>aanim:extLst</c>, <c>aanim3d:extLst</c>, <c>ask:extLst</c>, <c>alf:extLst</c>, <c>asl:extLst</c>, <c>xdr14:extLst</c>, <c>thm15:extLst</c>, <c>w14:extLst</c>, <c>wpc:extLst</c>, <c>wpg:extLst</c>, <c>wps:extLst</c>, <c>dgm:extLst</c>, <c>a:extLst</c>, <c>wp:extLst</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct OfficeArtExtensionList : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -13810,12 +16949,27 @@ public readonly struct OfficeArtExtensionList : global::RecursiveAI.OneDocument.
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DiagramDrawing) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing2010) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing2010) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Picture2010) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Slicer2010) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartStyle2012) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.TimeSlicer2012) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DrawingCommand2013) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Model3D) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DrawingAnimation) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DrawingAnimationModel3D) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SketchyShapes) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.LiveFeed) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ScriptLink) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing2010) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ThemeMl2012) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingCanvas) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingGroup) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingShape) return local.SequenceEqual("extLst"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Diagram) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("extLst"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingDrawing) return local.SequenceEqual("extLst"u8);
         return false;
@@ -13846,21 +17000,140 @@ public readonly struct OfficeArtExtensionList : global::RecursiveAI.OneDocument.
     }
 
     /// <summary>The <c>a:ext</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtension> Exts => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtension> Extensions => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
 
     /// <summary>Adds a <c>a:ext</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtension AddExt() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtension, global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtension AddExtension() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtension, global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
 
     /// <summary>Removes every <c>a:ext</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExt() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
+    public bool RemoveExtension() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_OfficeStyleSheet</c>, the type of <c>a:theme</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct OfficeStyleSheet : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeStyleSheet>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public OfficeStyleSheet(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.OfficeStyleSheet Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeStyleSheet;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("theme"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("custClrLst"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCustomColorList; }
+            if (local.SequenceEqual("extLst"u8)) { rank = 4; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("extraClrSchemeLst"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingColorSchemeList; }
+            if (local.SequenceEqual("objectDefaults"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingObjectStyleDefaults; }
+            if (local.SequenceEqual("themeElements"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingBaseStyles; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 5;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None) return local.SequenceEqual("name"u8);
+        return false;
+    }
+
+    /// <summary>Attribute <c>name</c> (xsd:string, default <c></c>). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
+    public string? Name { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "name"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "name"u8, value); }
+
+    /// <summary>The <c>a:themeElements</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles? ThemeElements => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "themeElements"u8);
+
+    /// <summary>Returns the <c>a:themeElements</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles GetOrAddThemeElements() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.BaseStyles, global::RecursiveAI.OneDocument.Schema.Drawing.OfficeStyleSheet>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "themeElements"u8);
+
+    /// <summary>Removes every <c>a:themeElements</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveThemeElements() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "themeElements"u8);
+
+    /// <summary>The <c>a:objectDefaults</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ObjectStyleDefaults? ObjectDefaults => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ObjectStyleDefaults>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "objectDefaults"u8);
+
+    /// <summary>Returns the <c>a:objectDefaults</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ObjectStyleDefaults GetOrAddObjectDefaults() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ObjectStyleDefaults, global::RecursiveAI.OneDocument.Schema.Drawing.OfficeStyleSheet>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "objectDefaults"u8);
+
+    /// <summary>Removes every <c>a:objectDefaults</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveObjectDefaults() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "objectDefaults"u8);
+
+    /// <summary>The <c>a:extraClrSchemeLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeList? ExtraClrSchemeLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extraClrSchemeLst"u8);
+
+    /// <summary>Returns the <c>a:extraClrSchemeLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeList GetOrAddExtraClrSchemeLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ColorSchemeList, global::RecursiveAI.OneDocument.Schema.Drawing.OfficeStyleSheet>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extraClrSchemeLst"u8);
+
+    /// <summary>Removes every <c>a:extraClrSchemeLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtraClrSchemeLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extraClrSchemeLst"u8);
+
+    /// <summary>The <c>a:custClrLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.CustomColorList? CustClrLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.CustomColorList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "custClrLst"u8);
+
+    /// <summary>Returns the <c>a:custClrLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.CustomColorList GetOrAddCustClrLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.CustomColorList, global::RecursiveAI.OneDocument.Schema.Drawing.OfficeStyleSheet>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "custClrLst"u8);
+
+    /// <summary>Removes every <c>a:custClrLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCustClrLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "custClrLst"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.OfficeStyleSheet>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeStyleSheet> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_OuterShadowEffect</c>, the type of <c>a:outerShdw</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
@@ -13970,15 +17243,15 @@ public readonly struct OuterShadowEffect : global::RecursiveAI.OneDocument.Schem
     public bool RemoveScrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
 
     /// <summary>The <c>a:srgbClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? RgbColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Returns the <c>a:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.OuterShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddRgbColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.OuterShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Removes every <c>a:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public bool RemoveRgbColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>The <c>a:hslClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.HslColor? HslClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
@@ -13992,26 +17265,26 @@ public readonly struct OuterShadowEffect : global::RecursiveAI.OneDocument.Schem
     public bool RemoveHslClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
 
     /// <summary>The <c>a:sysClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SysClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SystemColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Returns the <c>a:sysClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSysClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.OuterShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSystemColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.OuterShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Removes every <c>a:sysClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSysClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public bool RemoveSystemColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>The <c>a:schemeClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Returns the <c>a:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.OuterShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.OuterShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Removes every <c>a:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public bool RemoveSchemeColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>The <c>a:prstClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor? PrstClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
@@ -14929,15 +18202,15 @@ public readonly struct PictureLocking : global::RecursiveAI.OneDocument.Schema.I
     public bool? NoCrop { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "noCrop"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "noCrop"u8, value); }
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.PictureLocking>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.PictureLocking>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -14946,7 +18219,7 @@ public readonly struct PictureLocking : global::RecursiveAI.OneDocument.Schema.I
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.PictureLocking> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Point2D</c>, the type of <c>p188:pos</c>, <c>a:chOff</c>, <c>a:off</c>, <c>wp:lineTo</c>, <c>wp:simplePos</c>, <c>wp:start</c>, <c>p:origin</c>, <c>p:pos</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_Point2D</c>, the type of <c>p188:pos</c>, <c>a:chOff</c>, <c>a:off</c>, <c>xdr:pos</c>, <c>wp:lineTo</c>, <c>wp:simplePos</c>, <c>wp:start</c>, <c>p:origin</c>, <c>p:pos</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Point2D : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.Point2D>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -14969,6 +18242,7 @@ public readonly struct Point2D : global::RecursiveAI.OneDocument.Schema.IElement
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation201808) return local.SequenceEqual("pos"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("chOff"u8) || local.SequenceEqual("off"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing) return local.SequenceEqual("pos"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingDrawing) return local.SequenceEqual("lineTo"u8) || local.SequenceEqual("simplePos"u8) || local.SequenceEqual("start"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("origin"u8) || local.SequenceEqual("pos"u8);
         return false;
@@ -15007,7 +18281,7 @@ public readonly struct Point2D : global::RecursiveAI.OneDocument.Schema.IElement
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.Point2D> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Point3D</c>, the type of <c>a:anchor</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_Point3D</c>, the type of <c>am3d:lookAt</c>, <c>am3d:pos</c>, <c>a:anchor</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Point3D : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.Point3D>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -15028,6 +18302,7 @@ public readonly struct Point3D : global::RecursiveAI.OneDocument.Schema.IElement
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Model3D) return local.SequenceEqual("lookAt"u8) || local.SequenceEqual("pos"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("anchor"u8);
         return false;
     }
@@ -15316,7 +18591,7 @@ public readonly struct PositivePercentage : global::RecursiveAI.OneDocument.Sche
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.PositivePercentage> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_PositiveSize2D</c>, the type of <c>a:chExt</c>, <c>a:ext</c>, <c>wp:extent</c>, <c>p:gridSpacing</c>, <c>p:notesSz</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_PositiveSize2D</c>, the type of <c>cdr:ext</c>, <c>a:chExt</c>, <c>a:ext</c>, <c>xdr:ext</c>, <c>wp:extent</c>, <c>p:gridSpacing</c>, <c>p:notesSz</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct PositiveSize2D : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -15337,7 +18612,9 @@ public readonly struct PositiveSize2D : global::RecursiveAI.OneDocument.Schema.I
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing) return local.SequenceEqual("ext"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("chExt"u8) || local.SequenceEqual("ext"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing) return local.SequenceEqual("ext"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingDrawing) return local.SequenceEqual("extent"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("gridSpacing"u8) || local.SequenceEqual("notesSz"u8);
         return false;
@@ -15989,15 +19266,15 @@ public readonly struct PresetShadowEffect : global::RecursiveAI.OneDocument.Sche
     public bool RemoveScrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
 
     /// <summary>The <c>a:srgbClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? RgbColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Returns the <c>a:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.PresetShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddRgbColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.PresetShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Removes every <c>a:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public bool RemoveRgbColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>The <c>a:hslClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.HslColor? HslClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
@@ -16011,26 +19288,26 @@ public readonly struct PresetShadowEffect : global::RecursiveAI.OneDocument.Sche
     public bool RemoveHslClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
 
     /// <summary>The <c>a:sysClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SysClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SystemColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Returns the <c>a:sysClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSysClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.PresetShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSystemColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.PresetShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Removes every <c>a:sysClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSysClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public bool RemoveSystemColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>The <c>a:schemeClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Returns the <c>a:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.PresetShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.PresetShadowEffect>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Removes every <c>a:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public bool RemoveSchemeColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>The <c>a:prstClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor? PrstClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
@@ -16182,15 +19459,15 @@ public readonly struct QuickTimeFile : global::RecursiveAI.OneDocument.Schema.IE
     public string? Link { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Relationships, "link"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Relationships, "link"u8, value); }
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.QuickTimeFile>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.QuickTimeFile>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -16199,7 +19476,7 @@ public readonly struct QuickTimeFile : global::RecursiveAI.OneDocument.Schema.IE
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.QuickTimeFile> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Ratio</c>, the type of <c>a:sx</c>, <c>a:sy</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_Ratio</c>, the type of <c>am3d:sx</c>, <c>am3d:sy</c>, <c>am3d:sz</c>, <c>a:sx</c>, <c>a:sy</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Ratio : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.Ratio>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -16220,6 +19497,7 @@ public readonly struct Ratio : global::RecursiveAI.OneDocument.Schema.IElementVi
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Model3D) return local.SequenceEqual("sx"u8) || local.SequenceEqual("sy"u8) || local.SequenceEqual("sz"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("sx"u8) || local.SequenceEqual("sy"u8);
         return false;
     }
@@ -16415,15 +19693,15 @@ public readonly struct RegularTextRun : global::RecursiveAI.OneDocument.Schema.I
     }
 
     /// <summary>The <c>a:rPr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties? RPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties? RunProperties => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
 
     /// <summary>Returns the <c>a:rPr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties GetOrAddRPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties, global::RecursiveAI.OneDocument.Schema.Drawing.RegularTextRun>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties GetOrAddRunProperties() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties, global::RecursiveAI.OneDocument.Schema.Drawing.RegularTextRun>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
 
     /// <summary>Removes every <c>a:rPr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveRPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
+    public bool RemoveRunProperties() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
 
     /// <summary>The first <c>a:t</c> child as a raw element (its content is not modelled); null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.MarkupRef? T => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "t"u8);
@@ -17455,7 +20733,7 @@ public readonly struct Scale2D : global::RecursiveAI.OneDocument.Schema.IElement
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.Scale2D> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Scene3D</c>, the type of <c>a14:hiddenScene3d</c>, <c>a:scene3d</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_Scene3D</c>, the type of <c>a14:hiddenScene3d</c>, <c>dgm:scene3d</c>, <c>a:scene3d</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Scene3D : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.Scene3D>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -17477,6 +20755,7 @@ public readonly struct Scene3D : global::RecursiveAI.OneDocument.Schema.IElement
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing2010) return local.SequenceEqual("hiddenScene3d"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Diagram) return local.SequenceEqual("scene3d"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("scene3d"u8);
         return false;
     }
@@ -17542,15 +20821,15 @@ public readonly struct Scene3D : global::RecursiveAI.OneDocument.Schema.IElement
     public bool RemoveBackdrop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "backdrop"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.Scene3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.Scene3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -17961,7 +21240,7 @@ public readonly struct SchemeColor : global::RecursiveAI.OneDocument.Schema.IEle
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Shape3D</c>, the type of <c>a14:hiddenSp3d</c>, <c>a:sp3d</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_Shape3D</c>, the type of <c>a14:hiddenSp3d</c>, <c>dgm:sp3d</c>, <c>a:sp3d</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Shape3D : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.Shape3D>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -17983,6 +21262,7 @@ public readonly struct Shape3D : global::RecursiveAI.OneDocument.Schema.IElement
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing2010) return local.SequenceEqual("hiddenSp3d"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Diagram) return local.SequenceEqual("sp3d"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("sp3d"u8);
         return false;
     }
@@ -18083,15 +21363,15 @@ public readonly struct Shape3D : global::RecursiveAI.OneDocument.Schema.IElement
     public bool RemoveContourClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "contourClr"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.Shape3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.Shape3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -18184,15 +21464,15 @@ public readonly struct ShapeLocking : global::RecursiveAI.OneDocument.Schema.IEl
     public bool? NoTextEdit { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "noTextEdit"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "noTextEdit"u8, value); }
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.ShapeLocking>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.ShapeLocking>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -18201,7 +21481,7 @@ public readonly struct ShapeLocking : global::RecursiveAI.OneDocument.Schema.IEl
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeLocking> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_ShapeProperties</c>, the type of <c>p166:spPr</c>, <c>wps:spPr</c>, <c>pic:spPr</c>, <c>wp:spPr</c>, <c>p:spPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_ShapeProperties</c>, the type of <c>c14:spPr</c>, <c>dsp:spPr</c>, <c>c15:spPr</c>, <c>cs:spPr</c>, <c>c16:spPr</c>, <c>cx:spPr</c>, <c>dgm1612:spPr</c>, <c>am3d:spPr</c>, <c>p166:spPr</c>, <c>wps:spPr</c>, <c>c:spPr</c>, <c>cdr:spPr</c>, <c>dgm:spPr</c>, <c>a:spPr</c>, <c>pic:spPr</c>, <c>xdr:spPr</c>, <c>wp:spPr</c>, <c>p:spPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct ShapeProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -18222,9 +21502,22 @@ public readonly struct ShapeProperties : global::RecursiveAI.OneDocument.Schema.
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Chart2007) return local.SequenceEqual("spPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DiagramDrawing) return local.SequenceEqual("spPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Chart2012) return local.SequenceEqual("spPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartStyle2012) return local.SequenceEqual("spPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Chart2014) return local.SequenceEqual("spPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartEx) return local.SequenceEqual("spPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Diagram201612) return local.SequenceEqual("spPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Model3D) return local.SequenceEqual("spPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2016Six) return local.SequenceEqual("spPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingShape) return local.SequenceEqual("spPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Chart) return local.SequenceEqual("spPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing) return local.SequenceEqual("spPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Diagram) return local.SequenceEqual("spPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("spPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Picture) return local.SequenceEqual("spPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing) return local.SequenceEqual("spPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingDrawing) return local.SequenceEqual("spPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("spPr"u8);
         return false;
@@ -18280,37 +21573,37 @@ public readonly struct ShapeProperties : global::RecursiveAI.OneDocument.Schema.
     public string? BwModeText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "bwMode"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "bwMode"u8, value); }
 
     /// <summary>The <c>a:xfrm</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D? Xfrm => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D? Transform => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
 
     /// <summary>Returns the <c>a:xfrm</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D GetOrAddXfrm() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D, global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D GetOrAddTransform() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D, global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
 
     /// <summary>Removes every <c>a:xfrm</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveXfrm() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
+    public bool RemoveTransform() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "xfrm"u8);
 
     /// <summary>The <c>a:custGeom</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.CustomGeometry2D? CustGeom => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.CustomGeometry2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "custGeom"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.CustomGeometry2D? CustomGeometry => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.CustomGeometry2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "custGeom"u8);
 
     /// <summary>Returns the <c>a:custGeom</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.CustomGeometry2D GetOrAddCustGeom() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.CustomGeometry2D, global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "custGeom"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.CustomGeometry2D GetOrAddCustomGeometry() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.CustomGeometry2D, global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "custGeom"u8);
 
     /// <summary>Removes every <c>a:custGeom</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveCustGeom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "custGeom"u8);
+    public bool RemoveCustomGeometry() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "custGeom"u8);
 
     /// <summary>The <c>a:prstGeom</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.PresetGeometry2D? PrstGeom => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetGeometry2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstGeom"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PresetGeometry2D? PresetGeometry => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetGeometry2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstGeom"u8);
 
     /// <summary>Returns the <c>a:prstGeom</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.PresetGeometry2D GetOrAddPrstGeom() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetGeometry2D, global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstGeom"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PresetGeometry2D GetOrAddPresetGeometry() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetGeometry2D, global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstGeom"u8);
 
     /// <summary>Removes every <c>a:prstGeom</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemovePrstGeom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstGeom"u8);
+    public bool RemovePresetGeometry() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstGeom"u8);
 
     /// <summary>The <c>a:noFill</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties? NoFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "noFill"u8);
@@ -18379,15 +21672,15 @@ public readonly struct ShapeProperties : global::RecursiveAI.OneDocument.Schema.
     public bool RemoveGrpFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpFill"u8);
 
     /// <summary>The <c>a:ln</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties? Ln => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties? Line => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
 
     /// <summary>Returns the <c>a:ln</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties GetOrAddLn() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties, global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties GetOrAddLine() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties, global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
 
     /// <summary>Removes every <c>a:ln</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveLn() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
+    public bool RemoveLine() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
 
     /// <summary>The <c>a:effectLst</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.EffectList? EffectLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.EffectList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectLst"u8);
@@ -18434,15 +21727,15 @@ public readonly struct ShapeProperties : global::RecursiveAI.OneDocument.Schema.
     public bool RemoveSp3d() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sp3d"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -18451,7 +21744,7 @@ public readonly struct ShapeProperties : global::RecursiveAI.OneDocument.Schema.
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeProperties> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_ShapeStyle</c>, the type of <c>pic14:style</c>, <c>wps:style</c>, <c>wp:style</c>, <c>p:style</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_ShapeStyle</c>, the type of <c>dsp:style</c>, <c>pic14:style</c>, <c>wps:style</c>, <c>cdr:style</c>, <c>dgm:style</c>, <c>a:style</c>, <c>xdr:style</c>, <c>wp:style</c>, <c>p:style</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct ShapeStyle : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.ShapeStyle>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -18472,8 +21765,13 @@ public readonly struct ShapeStyle : global::RecursiveAI.OneDocument.Schema.IElem
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DiagramDrawing) return local.SequenceEqual("style"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Picture2010) return local.SequenceEqual("style"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingShape) return local.SequenceEqual("style"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing) return local.SequenceEqual("style"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Diagram) return local.SequenceEqual("style"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("style"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing) return local.SequenceEqual("style"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingDrawing) return local.SequenceEqual("style"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("style"u8);
         return false;
@@ -18606,7 +21904,7 @@ public readonly struct SoftEdgesEffect : global::RecursiveAI.OneDocument.Schema.
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.SoftEdgesEffect> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_SolidColorFillProperties</c>, the type of <c>a:solidFill</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_SolidColorFillProperties</c>, the type of <c>cx:maxColor</c>, <c>cx:midColor</c>, <c>cx:minColor</c>, <c>a:solidFill</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct SolidColorFillProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -18627,6 +21925,7 @@ public readonly struct SolidColorFillProperties : global::RecursiveAI.OneDocumen
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartEx) return local.SequenceEqual("maxColor"u8) || local.SequenceEqual("midColor"u8) || local.SequenceEqual("minColor"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("solidFill"u8);
         return false;
     }
@@ -18672,15 +21971,15 @@ public readonly struct SolidColorFillProperties : global::RecursiveAI.OneDocumen
     public bool RemoveScrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
 
     /// <summary>The <c>a:srgbClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? RgbColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Returns the <c>a:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddRgbColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Removes every <c>a:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public bool RemoveRgbColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>The <c>a:hslClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.HslColor? HslClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
@@ -18694,26 +21993,26 @@ public readonly struct SolidColorFillProperties : global::RecursiveAI.OneDocumen
     public bool RemoveHslClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
 
     /// <summary>The <c>a:sysClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SysClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SystemColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Returns the <c>a:sysClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSysClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSystemColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Removes every <c>a:sysClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSysClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public bool RemoveSystemColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>The <c>a:schemeClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Returns the <c>a:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Removes every <c>a:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public bool RemoveSchemeColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>The <c>a:prstClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor? PrstClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
@@ -18855,6 +22154,113 @@ public readonly struct StretchInfoProperties : global::RecursiveAI.OneDocument.S
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.StretchInfoProperties> UnknownChildren => new(_markup);
 }
 
+/// <summary>View of the schema type <c>CT_StyleMatrix</c>, the type of <c>a:fmtScheme</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct StyleMatrix : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public StyleMatrix(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingStyleMatrix;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("fmtScheme"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("bgFillStyleLst"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingBackgroundFillStyleList; }
+            if (local.SequenceEqual("effectStyleLst"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingEffectStyleList; }
+            if (local.SequenceEqual("fillStyleLst"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingFillStyleList; }
+            if (local.SequenceEqual("lnStyleLst"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingLineStyleList; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 4;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None) return local.SequenceEqual("name"u8);
+        return false;
+    }
+
+    /// <summary>Attribute <c>name</c> (xsd:string, default <c></c>). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
+    public string? Name { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "name"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "name"u8, value); }
+
+    /// <summary>The <c>a:fillStyleLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FillStyleList? FillStyleLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.FillStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fillStyleLst"u8);
+
+    /// <summary>Returns the <c>a:fillStyleLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FillStyleList GetOrAddFillStyleLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.FillStyleList, global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fillStyleLst"u8);
+
+    /// <summary>Removes every <c>a:fillStyleLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveFillStyleLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fillStyleLst"u8);
+
+    /// <summary>The <c>a:lnStyleLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineStyleList? LnStyleLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnStyleLst"u8);
+
+    /// <summary>Returns the <c>a:lnStyleLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineStyleList GetOrAddLnStyleLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineStyleList, global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnStyleLst"u8);
+
+    /// <summary>Removes every <c>a:lnStyleLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLnStyleLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnStyleLst"u8);
+
+    /// <summary>The <c>a:effectStyleLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleList? EffectStyleLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectStyleLst"u8);
+
+    /// <summary>Returns the <c>a:effectStyleLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleList GetOrAddEffectStyleLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.EffectStyleList, global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectStyleLst"u8);
+
+    /// <summary>Removes every <c>a:effectStyleLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveEffectStyleLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectStyleLst"u8);
+
+    /// <summary>The <c>a:bgFillStyleLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFillStyleList? BgFillStyleLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFillStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bgFillStyleLst"u8);
+
+    /// <summary>Returns the <c>a:bgFillStyleLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFillStyleList GetOrAddBgFillStyleLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.BackgroundFillStyleList, global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bgFillStyleLst"u8);
+
+    /// <summary>Removes every <c>a:bgFillStyleLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveBgFillStyleLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bgFillStyleLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrix> UnknownChildren => new(_markup);
+}
+
 /// <summary>View of the schema type <c>CT_StyleMatrixReference</c>, the type of <c>a:effectRef</c>, <c>a:fillRef</c>, <c>a:lnRef</c>, <c>p:bgRef</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct StyleMatrixReference : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference>
 {
@@ -18926,15 +22332,15 @@ public readonly struct StyleMatrixReference : global::RecursiveAI.OneDocument.Sc
     public bool RemoveScrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
 
     /// <summary>The <c>a:srgbClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? SrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? RgbColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Returns the <c>a:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddSrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddRgbColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>Removes every <c>a:srgbClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+    public bool RemoveRgbColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
 
     /// <summary>The <c>a:hslClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.HslColor? HslClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
@@ -18948,26 +22354,26 @@ public readonly struct StyleMatrixReference : global::RecursiveAI.OneDocument.Sc
     public bool RemoveHslClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
 
     /// <summary>The <c>a:sysClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SysClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SystemColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Returns the <c>a:sysClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSysClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSystemColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>Removes every <c>a:sysClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSysClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+    public bool RemoveSystemColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
 
     /// <summary>The <c>a:schemeClr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Returns the <c>a:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>Removes every <c>a:schemeClr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveSchemeClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+    public bool RemoveSchemeColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
 
     /// <summary>The <c>a:prstClr</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor? PrstClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
@@ -18985,6 +22391,58 @@ public readonly struct StyleMatrixReference : global::RecursiveAI.OneDocument.Sc
 
     /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_SupplementalFont</c>, the type of <c>a:font</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct SupplementalFont : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.SupplementalFont>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public SupplementalFont(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.SupplementalFont Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingSupplementalFont;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("font"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None) return local.SequenceEqual("script"u8) || local.SequenceEqual("typeface"u8);
+        return false;
+    }
+
+    /// <summary>Attribute <c>script</c> (xsd:string, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
+    public string? Script { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "script"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "script"u8, value); }
+
+    /// <summary>Attribute <c>typeface</c> (a:ST_TextTypeface, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
+    public string? Typeface { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "typeface"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "typeface"u8, value); }
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.SupplementalFont> UnknownChildren => new(_markup);
 }
 
 /// <summary>View of the schema type <c>CT_SystemColor</c>, the type of <c>a:sysClr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
@@ -19392,6 +22850,1878 @@ public readonly struct SystemColor : global::RecursiveAI.OneDocument.Schema.IEle
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor> UnknownChildren => new(_markup);
 }
 
+/// <summary>View of the schema type <c>CT_Table</c>, the type of <c>a:tbl</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct Table : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.Table>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public Table(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.Table Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTable;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("tbl"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("tblGrid"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableGrid; }
+            if (local.SequenceEqual("tblPr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableProperties; }
+            if (local.SequenceEqual("tr"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableRow; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:tblPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties? TblPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tblPr"u8);
+
+    /// <summary>Returns the <c>a:tblPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties GetOrAddTblPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties, global::RecursiveAI.OneDocument.Schema.Drawing.Table>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tblPr"u8);
+
+    /// <summary>Removes every <c>a:tblPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTblPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tblPr"u8);
+
+    /// <summary>The <c>a:tblGrid</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableGrid? TblGrid => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableGrid>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tblGrid"u8);
+
+    /// <summary>Returns the <c>a:tblGrid</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableGrid GetOrAddTblGrid() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableGrid, global::RecursiveAI.OneDocument.Schema.Drawing.Table>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tblGrid"u8);
+
+    /// <summary>Removes every <c>a:tblGrid</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTblGrid() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tblGrid"u8);
+
+    /// <summary>The <c>a:tr</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.TableRow> Trs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tr"u8);
+
+    /// <summary>Adds a <c>a:tr</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableRow AddTr() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableRow, global::RecursiveAI.OneDocument.Schema.Drawing.Table>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tr"u8);
+
+    /// <summary>Removes every <c>a:tr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tr"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.Table> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_TableBackgroundStyle</c>, the type of <c>a:tblBg</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct TableBackgroundStyle : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TableBackgroundStyle>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public TableBackgroundStyle(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.TableBackgroundStyle Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableBackgroundStyle;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("tblBg"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("effect"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingEffectProperties; }
+            if (local.SequenceEqual("effectRef"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingStyleMatrixReference; }
+            if (local.SequenceEqual("fill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingFillProperties; }
+            if (local.SequenceEqual("fillRef"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingStyleMatrixReference; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:fill</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FillProperties? Fill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.FillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fill"u8);
+
+    /// <summary>Returns the <c>a:fill</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FillProperties GetOrAddFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.FillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableBackgroundStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fill"u8);
+
+    /// <summary>Removes every <c>a:fill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fill"u8);
+
+    /// <summary>The <c>a:fillRef</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference? FillRef => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fillRef"u8);
+
+    /// <summary>Returns the <c>a:fillRef</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference GetOrAddFillRef() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference, global::RecursiveAI.OneDocument.Schema.Drawing.TableBackgroundStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fillRef"u8);
+
+    /// <summary>Removes every <c>a:fillRef</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveFillRef() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fillRef"u8);
+
+    /// <summary>The <c>a:effect</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.EffectProperties? Effect => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.EffectProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effect"u8);
+
+    /// <summary>Returns the <c>a:effect</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.EffectProperties GetOrAddEffect() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.EffectProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableBackgroundStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effect"u8);
+
+    /// <summary>Removes every <c>a:effect</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveEffect() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effect"u8);
+
+    /// <summary>The <c>a:effectRef</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference? EffectRef => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectRef"u8);
+
+    /// <summary>Returns the <c>a:effectRef</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference GetOrAddEffectRef() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference, global::RecursiveAI.OneDocument.Schema.Drawing.TableBackgroundStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectRef"u8);
+
+    /// <summary>Removes every <c>a:effectRef</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveEffectRef() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectRef"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TableBackgroundStyle> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_TableCell</c>, the type of <c>a:tc</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct TableCell : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TableCell>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public TableCell(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.TableCell Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableCell;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("tc"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("extLst"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("tcPr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableCellProperties; }
+            if (local.SequenceEqual("txBody"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTextBody; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None) return local.SequenceEqual("gridSpan"u8) || local.SequenceEqual("hMerge"u8) || local.SequenceEqual("id"u8) || local.SequenceEqual("rowSpan"u8) || local.SequenceEqual("vMerge"u8);
+        return false;
+    }
+
+    /// <summary>Attribute <c>rowSpan</c> (xsd:int, default <c>1</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
+    public long? RowSpan { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "rowSpan"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "rowSpan"u8, value); }
+
+    /// <summary>Attribute <c>gridSpan</c> (xsd:int, default <c>1</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
+    public long? GridSpan { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "gridSpan"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "gridSpan"u8, value); }
+
+    /// <summary>Attribute <c>hMerge</c> (xsd:boolean, default <c>false</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads true/false/1/0/on/off; other text reads as null.</summary>
+    public bool? HMerge { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "hMerge"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "hMerge"u8, value); }
+
+    /// <summary>Attribute <c>vMerge</c> (xsd:boolean, default <c>false</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads true/false/1/0/on/off; other text reads as null.</summary>
+    public bool? VMerge { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "vMerge"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "vMerge"u8, value); }
+
+    /// <summary>Attribute <c>id</c> (xsd:string). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
+    public string? Id { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "id"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "id"u8, value); }
+
+    /// <summary>The <c>a:txBody</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextBody? TextBody => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextBody>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "txBody"u8);
+
+    /// <summary>Returns the <c>a:txBody</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextBody GetOrAddTextBody() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextBody, global::RecursiveAI.OneDocument.Schema.Drawing.TableCell>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "txBody"u8);
+
+    /// <summary>Removes every <c>a:txBody</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTextBody() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "txBody"u8);
+
+    /// <summary>The <c>a:tcPr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties? TcPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tcPr"u8);
+
+    /// <summary>Returns the <c>a:tcPr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties GetOrAddTcPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableCell>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tcPr"u8);
+
+    /// <summary>Removes every <c>a:tcPr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTcPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tcPr"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.TableCell>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TableCell> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_TableCellBorderStyle</c>, the type of <c>a:tcBdr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct TableCellBorderStyle : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public TableCellBorderStyle(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableCellBorderStyle;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("tcBdr"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("bottom"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingThemeableLineStyle; }
+            if (local.SequenceEqual("extLst"u8)) { rank = 8; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("insideH"u8)) { rank = 4; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingThemeableLineStyle; }
+            if (local.SequenceEqual("insideV"u8)) { rank = 5; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingThemeableLineStyle; }
+            if (local.SequenceEqual("left"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingThemeableLineStyle; }
+            if (local.SequenceEqual("right"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingThemeableLineStyle; }
+            if (local.SequenceEqual("tl2br"u8)) { rank = 6; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingThemeableLineStyle; }
+            if (local.SequenceEqual("top"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingThemeableLineStyle; }
+            if (local.SequenceEqual("tr2bl"u8)) { rank = 7; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingThemeableLineStyle; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 9;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:left</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle? Left => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "left"u8);
+
+    /// <summary>Returns the <c>a:left</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle GetOrAddLeft() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "left"u8);
+
+    /// <summary>Removes every <c>a:left</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLeft() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "left"u8);
+
+    /// <summary>The <c>a:right</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle? Right => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "right"u8);
+
+    /// <summary>Returns the <c>a:right</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle GetOrAddRight() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "right"u8);
+
+    /// <summary>Removes every <c>a:right</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveRight() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "right"u8);
+
+    /// <summary>The <c>a:top</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle? Top => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "top"u8);
+
+    /// <summary>Returns the <c>a:top</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle GetOrAddTop() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "top"u8);
+
+    /// <summary>Removes every <c>a:top</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTop() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "top"u8);
+
+    /// <summary>The <c>a:bottom</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle? Bottom => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bottom"u8);
+
+    /// <summary>Returns the <c>a:bottom</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle GetOrAddBottom() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bottom"u8);
+
+    /// <summary>Removes every <c>a:bottom</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveBottom() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bottom"u8);
+
+    /// <summary>The <c>a:insideH</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle? InsideH => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "insideH"u8);
+
+    /// <summary>Returns the <c>a:insideH</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle GetOrAddInsideH() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "insideH"u8);
+
+    /// <summary>Removes every <c>a:insideH</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveInsideH() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "insideH"u8);
+
+    /// <summary>The <c>a:insideV</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle? InsideV => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "insideV"u8);
+
+    /// <summary>Returns the <c>a:insideV</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle GetOrAddInsideV() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "insideV"u8);
+
+    /// <summary>Removes every <c>a:insideV</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveInsideV() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "insideV"u8);
+
+    /// <summary>The <c>a:tl2br</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle? Tl2br => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tl2br"u8);
+
+    /// <summary>Returns the <c>a:tl2br</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle GetOrAddTl2br() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tl2br"u8);
+
+    /// <summary>Removes every <c>a:tl2br</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTl2br() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tl2br"u8);
+
+    /// <summary>The <c>a:tr2bl</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle? Tr2bl => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tr2bl"u8);
+
+    /// <summary>Returns the <c>a:tr2bl</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle GetOrAddTr2bl() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tr2bl"u8);
+
+    /// <summary>Removes every <c>a:tr2bl</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTr2bl() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tr2bl"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_TableCellProperties</c>, the type of <c>a:tcPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct TableCellProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public TableCellProperties(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableCellProperties;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("tcPr"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("blipFill"u8)) { rank = 7; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingBlipFillProperties; }
+            if (local.SequenceEqual("cell3D"u8)) { rank = 6; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCell3D; }
+            if (local.SequenceEqual("extLst"u8)) { rank = 9; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("gradFill"u8)) { rank = 7; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGradientFillProperties; }
+            if (local.SequenceEqual("grpFill"u8)) { rank = 7; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGroupFillProperties; }
+            if (local.SequenceEqual("headers"u8)) { rank = 8; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingHeaders; }
+            if (local.SequenceEqual("lnB"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingLineProperties; }
+            if (local.SequenceEqual("lnBlToTr"u8)) { rank = 5; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingLineProperties; }
+            if (local.SequenceEqual("lnL"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingLineProperties; }
+            if (local.SequenceEqual("lnR"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingLineProperties; }
+            if (local.SequenceEqual("lnT"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingLineProperties; }
+            if (local.SequenceEqual("lnTlToBr"u8)) { rank = 4; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingLineProperties; }
+            if (local.SequenceEqual("noFill"u8)) { rank = 7; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingNoFillProperties; }
+            if (local.SequenceEqual("pattFill"u8)) { rank = 7; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingPatternFillProperties; }
+            if (local.SequenceEqual("solidFill"u8)) { rank = 7; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingSolidColorFillProperties; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 10;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None) return local.SequenceEqual("anchor"u8) || local.SequenceEqual("anchorCtr"u8) || local.SequenceEqual("horzOverflow"u8) || local.SequenceEqual("marB"u8) || local.SequenceEqual("marL"u8) || local.SequenceEqual("marR"u8) || local.SequenceEqual("marT"u8) || local.SequenceEqual("vert"u8);
+        return false;
+    }
+
+    /// <summary>Attribute <c>marL</c> (a:ST_Coordinate32, default <c>91440</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
+    public long? MarL { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "marL"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "marL"u8, value); }
+
+    /// <summary>The raw text of <c>marL</c>, for values that are not whole numbers (such as measures with units).</summary>
+    public string? MarLText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "marL"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "marL"u8, value); }
+
+    /// <summary>Attribute <c>marR</c> (a:ST_Coordinate32, default <c>91440</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
+    public long? MarR { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "marR"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "marR"u8, value); }
+
+    /// <summary>The raw text of <c>marR</c>, for values that are not whole numbers (such as measures with units).</summary>
+    public string? MarRText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "marR"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "marR"u8, value); }
+
+    /// <summary>Attribute <c>marT</c> (a:ST_Coordinate32, default <c>45720</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
+    public long? MarT { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "marT"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "marT"u8, value); }
+
+    /// <summary>The raw text of <c>marT</c>, for values that are not whole numbers (such as measures with units).</summary>
+    public string? MarTText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "marT"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "marT"u8, value); }
+
+    /// <summary>Attribute <c>marB</c> (a:ST_Coordinate32, default <c>45720</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
+    public long? MarB { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "marB"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "marB"u8, value); }
+
+    /// <summary>The raw text of <c>marB</c>, for values that are not whole numbers (such as measures with units).</summary>
+    public string? MarBText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "marB"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "marB"u8, value); }
+
+    /// <summary>Attribute <c>vert</c> (a:ST_TextVerticalType, default <c>horz</c>). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="VertText"/> keeps it.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextVerticalTypeValue? Vert
+    {
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Drawing.TextVerticalTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "vert"u8, global::RecursiveAI.OneDocument.Schema.Drawing.TextVerticalTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "vert"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Drawing.TextVerticalTypeValueText.ToText(value.Value));
+    }
+
+    /// <summary>The raw text of <c>vert</c>, whatever it is.</summary>
+    public string? VertText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "vert"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "vert"u8, value); }
+
+    /// <summary>Attribute <c>anchor</c> (a:ST_TextAnchoringType, default <c>t</c>). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="AnchorText"/> keeps it.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextAnchoringTypeValue? Anchor
+    {
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Drawing.TextAnchoringTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "anchor"u8, global::RecursiveAI.OneDocument.Schema.Drawing.TextAnchoringTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "anchor"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Drawing.TextAnchoringTypeValueText.ToText(value.Value));
+    }
+
+    /// <summary>The raw text of <c>anchor</c>, whatever it is.</summary>
+    public string? AnchorText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "anchor"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "anchor"u8, value); }
+
+    /// <summary>Attribute <c>anchorCtr</c> (xsd:boolean, default <c>false</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads true/false/1/0/on/off; other text reads as null.</summary>
+    public bool? AnchorCtr { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "anchorCtr"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "anchorCtr"u8, value); }
+
+    /// <summary>Attribute <c>horzOverflow</c> (a:ST_TextHorzOverflowType, default <c>clip</c>). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="HorzOverflowText"/> keeps it.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextHorzOverflowTypeValue? HorzOverflow
+    {
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Drawing.TextHorzOverflowTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "horzOverflow"u8, global::RecursiveAI.OneDocument.Schema.Drawing.TextHorzOverflowTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "horzOverflow"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Drawing.TextHorzOverflowTypeValueText.ToText(value.Value));
+    }
+
+    /// <summary>The raw text of <c>horzOverflow</c>, whatever it is.</summary>
+    public string? HorzOverflowText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "horzOverflow"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "horzOverflow"u8, value); }
+
+    /// <summary>The <c>a:lnL</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties? LnL => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnL"u8);
+
+    /// <summary>Returns the <c>a:lnL</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties GetOrAddLnL() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnL"u8);
+
+    /// <summary>Removes every <c>a:lnL</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLnL() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnL"u8);
+
+    /// <summary>The <c>a:lnR</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties? LnR => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnR"u8);
+
+    /// <summary>Returns the <c>a:lnR</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties GetOrAddLnR() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnR"u8);
+
+    /// <summary>Removes every <c>a:lnR</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLnR() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnR"u8);
+
+    /// <summary>The <c>a:lnT</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties? LnT => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnT"u8);
+
+    /// <summary>Returns the <c>a:lnT</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties GetOrAddLnT() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnT"u8);
+
+    /// <summary>Removes every <c>a:lnT</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLnT() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnT"u8);
+
+    /// <summary>The <c>a:lnB</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties? LnB => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnB"u8);
+
+    /// <summary>Returns the <c>a:lnB</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties GetOrAddLnB() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnB"u8);
+
+    /// <summary>Removes every <c>a:lnB</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLnB() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnB"u8);
+
+    /// <summary>The <c>a:lnTlToBr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties? LnTlToBr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnTlToBr"u8);
+
+    /// <summary>Returns the <c>a:lnTlToBr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties GetOrAddLnTlToBr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnTlToBr"u8);
+
+    /// <summary>Removes every <c>a:lnTlToBr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLnTlToBr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnTlToBr"u8);
+
+    /// <summary>The <c>a:lnBlToTr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties? LnBlToTr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnBlToTr"u8);
+
+    /// <summary>Returns the <c>a:lnBlToTr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties GetOrAddLnBlToTr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnBlToTr"u8);
+
+    /// <summary>Removes every <c>a:lnBlToTr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLnBlToTr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnBlToTr"u8);
+
+    /// <summary>The <c>a:cell3D</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Cell3D? Cell3D => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Cell3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cell3D"u8);
+
+    /// <summary>Returns the <c>a:cell3D</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Cell3D GetOrAddCell3D() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Cell3D, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cell3D"u8);
+
+    /// <summary>Removes every <c>a:cell3D</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCell3D() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cell3D"u8);
+
+    /// <summary>The <c>a:noFill</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties? NoFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "noFill"u8);
+
+    /// <summary>Returns the <c>a:noFill</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties GetOrAddNoFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "noFill"u8);
+
+    /// <summary>Removes every <c>a:noFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveNoFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "noFill"u8);
+
+    /// <summary>The <c>a:solidFill</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties? SolidFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "solidFill"u8);
+
+    /// <summary>Returns the <c>a:solidFill</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties GetOrAddSolidFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "solidFill"u8);
+
+    /// <summary>Removes every <c>a:solidFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveSolidFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "solidFill"u8);
+
+    /// <summary>The <c>a:gradFill</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GradientFillProperties? GradFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.GradientFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "gradFill"u8);
+
+    /// <summary>Returns the <c>a:gradFill</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GradientFillProperties GetOrAddGradFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GradientFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "gradFill"u8);
+
+    /// <summary>Removes every <c>a:gradFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveGradFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "gradFill"u8);
+
+    /// <summary>The <c>a:blipFill</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties? BlipFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "blipFill"u8);
+
+    /// <summary>Returns the <c>a:blipFill</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties GetOrAddBlipFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "blipFill"u8);
+
+    /// <summary>Removes every <c>a:blipFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveBlipFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "blipFill"u8);
+
+    /// <summary>The <c>a:pattFill</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PatternFillProperties? PattFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PatternFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pattFill"u8);
+
+    /// <summary>Returns the <c>a:pattFill</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PatternFillProperties GetOrAddPattFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.PatternFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pattFill"u8);
+
+    /// <summary>Removes every <c>a:pattFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemovePattFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pattFill"u8);
+
+    /// <summary>The <c>a:grpFill</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GroupFillProperties? GrpFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.GroupFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpFill"u8);
+
+    /// <summary>Returns the <c>a:grpFill</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GroupFillProperties GetOrAddGrpFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GroupFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpFill"u8);
+
+    /// <summary>Removes every <c>a:grpFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveGrpFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpFill"u8);
+
+    /// <summary>The <c>a:headers</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Headers? Headers => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Headers>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "headers"u8);
+
+    /// <summary>Returns the <c>a:headers</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Headers GetOrAddHeaders() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Headers, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "headers"u8);
+
+    /// <summary>Removes every <c>a:headers</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveHeaders() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "headers"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TableCellProperties> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_TableCol</c>, the type of <c>a:gridCol</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct TableCol : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TableCol>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public TableCol(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.TableCol Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableCol;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("gridCol"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("extLst"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None) return local.SequenceEqual("w"u8);
+        return false;
+    }
+
+    /// <summary>Attribute <c>w</c> (a:ST_Coordinate, required). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
+    public long? W { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "w"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "w"u8, value); }
+
+    /// <summary>The raw text of <c>w</c>, for values that are not whole numbers (such as measures with units).</summary>
+    public string? WText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "w"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "w"u8, value); }
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.TableCol>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TableCol> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_TableGrid</c>, the type of <c>a:tblGrid</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct TableGrid : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TableGrid>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public TableGrid(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.TableGrid Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableGrid;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("tblGrid"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("gridCol"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableCol; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:gridCol</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.TableCol> GridCols => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "gridCol"u8);
+
+    /// <summary>Adds a <c>a:gridCol</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableCol AddGridCol() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableCol, global::RecursiveAI.OneDocument.Schema.Drawing.TableGrid>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "gridCol"u8);
+
+    /// <summary>Removes every <c>a:gridCol</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveGridCol() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "gridCol"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TableGrid> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_TablePartStyle</c>, the type of <c>a:band1H</c>, <c>a:band1V</c>, <c>a:band2H</c>, <c>a:band2V</c>, <c>a:firstCol</c>, <c>a:firstRow</c>, <c>a:lastCol</c>, <c>a:lastRow</c>, <c>a:neCell</c>, <c>a:nwCell</c>, <c>a:seCell</c>, <c>a:swCell</c>, <c>a:wholeTbl</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct TablePartStyle : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public TablePartStyle(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTablePartStyle;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("band1H"u8) || local.SequenceEqual("band1V"u8) || local.SequenceEqual("band2H"u8) || local.SequenceEqual("band2V"u8) || local.SequenceEqual("firstCol"u8) || local.SequenceEqual("firstRow"u8) || local.SequenceEqual("lastCol"u8) || local.SequenceEqual("lastRow"u8) || local.SequenceEqual("neCell"u8) || local.SequenceEqual("nwCell"u8) || local.SequenceEqual("seCell"u8) || local.SequenceEqual("swCell"u8) || local.SequenceEqual("wholeTbl"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("tcStyle"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableStyleCellStyle; }
+            if (local.SequenceEqual("tcTxStyle"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableStyleTextStyle; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:tcTxStyle</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle? TcTxStyle => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tcTxStyle"u8);
+
+    /// <summary>Returns the <c>a:tcTxStyle</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle GetOrAddTcTxStyle() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tcTxStyle"u8);
+
+    /// <summary>Removes every <c>a:tcTxStyle</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTcTxStyle() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tcTxStyle"u8);
+
+    /// <summary>The <c>a:tcStyle</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleCellStyle? TcStyle => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleCellStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tcStyle"u8);
+
+    /// <summary>Returns the <c>a:tcStyle</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleCellStyle GetOrAddTcStyle() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleCellStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tcStyle"u8);
+
+    /// <summary>Removes every <c>a:tcStyle</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTcStyle() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tcStyle"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_TableProperties</c>, the type of <c>a:tblPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct TableProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public TableProperties(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableProperties;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("tblPr"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("blipFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingBlipFillProperties; }
+            if (local.SequenceEqual("effectDag"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingEffectContainer; }
+            if (local.SequenceEqual("effectLst"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingEffectList; }
+            if (local.SequenceEqual("extLst"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("gradFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGradientFillProperties; }
+            if (local.SequenceEqual("grpFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingGroupFillProperties; }
+            if (local.SequenceEqual("noFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingNoFillProperties; }
+            if (local.SequenceEqual("pattFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingPatternFillProperties; }
+            if (local.SequenceEqual("solidFill"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingSolidColorFillProperties; }
+            if (local.SequenceEqual("tableStyle"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableStyle; }
+            if (local.SequenceEqual("tableStyleId"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.Simple; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 4;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None) return local.SequenceEqual("bandCol"u8) || local.SequenceEqual("bandRow"u8) || local.SequenceEqual("firstCol"u8) || local.SequenceEqual("firstRow"u8) || local.SequenceEqual("lastCol"u8) || local.SequenceEqual("lastRow"u8) || local.SequenceEqual("rtl"u8);
+        return false;
+    }
+
+    /// <summary>Attribute <c>rtl</c> (xsd:boolean, default <c>false</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads true/false/1/0/on/off; other text reads as null.</summary>
+    public bool? Rtl { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "rtl"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "rtl"u8, value); }
+
+    /// <summary>Attribute <c>firstRow</c> (xsd:boolean, default <c>false</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads true/false/1/0/on/off; other text reads as null.</summary>
+    public bool? FirstRow { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "firstRow"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "firstRow"u8, value); }
+
+    /// <summary>Attribute <c>firstCol</c> (xsd:boolean, default <c>false</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads true/false/1/0/on/off; other text reads as null.</summary>
+    public bool? FirstCol { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "firstCol"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "firstCol"u8, value); }
+
+    /// <summary>Attribute <c>lastRow</c> (xsd:boolean, default <c>false</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads true/false/1/0/on/off; other text reads as null.</summary>
+    public bool? LastRow { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "lastRow"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "lastRow"u8, value); }
+
+    /// <summary>Attribute <c>lastCol</c> (xsd:boolean, default <c>false</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads true/false/1/0/on/off; other text reads as null.</summary>
+    public bool? LastCol { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "lastCol"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "lastCol"u8, value); }
+
+    /// <summary>Attribute <c>bandRow</c> (xsd:boolean, default <c>false</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads true/false/1/0/on/off; other text reads as null.</summary>
+    public bool? BandRow { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "bandRow"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "bandRow"u8, value); }
+
+    /// <summary>Attribute <c>bandCol</c> (xsd:boolean, default <c>false</c>). Null when absent; the default is not applied here. Setting null removes the attribute. Reads true/false/1/0/on/off; other text reads as null.</summary>
+    public bool? BandCol { get => _markup.GetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "bandCol"u8); set => _markup.SetBool(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "bandCol"u8, value); }
+
+    /// <summary>The <c>a:noFill</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties? NoFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "noFill"u8);
+
+    /// <summary>Returns the <c>a:noFill</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties GetOrAddNoFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "noFill"u8);
+
+    /// <summary>Removes every <c>a:noFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveNoFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "noFill"u8);
+
+    /// <summary>The <c>a:solidFill</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties? SolidFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "solidFill"u8);
+
+    /// <summary>Returns the <c>a:solidFill</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties GetOrAddSolidFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SolidColorFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "solidFill"u8);
+
+    /// <summary>Removes every <c>a:solidFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveSolidFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "solidFill"u8);
+
+    /// <summary>The <c>a:gradFill</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GradientFillProperties? GradFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.GradientFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "gradFill"u8);
+
+    /// <summary>Returns the <c>a:gradFill</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GradientFillProperties GetOrAddGradFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GradientFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "gradFill"u8);
+
+    /// <summary>Removes every <c>a:gradFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveGradFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "gradFill"u8);
+
+    /// <summary>The <c>a:blipFill</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties? BlipFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "blipFill"u8);
+
+    /// <summary>Returns the <c>a:blipFill</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties GetOrAddBlipFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.BlipFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "blipFill"u8);
+
+    /// <summary>Removes every <c>a:blipFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveBlipFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "blipFill"u8);
+
+    /// <summary>The <c>a:pattFill</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PatternFillProperties? PattFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PatternFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pattFill"u8);
+
+    /// <summary>Returns the <c>a:pattFill</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PatternFillProperties GetOrAddPattFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.PatternFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pattFill"u8);
+
+    /// <summary>Removes every <c>a:pattFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemovePattFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pattFill"u8);
+
+    /// <summary>The <c>a:grpFill</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GroupFillProperties? GrpFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.GroupFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpFill"u8);
+
+    /// <summary>Returns the <c>a:grpFill</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.GroupFillProperties GetOrAddGrpFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.GroupFillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpFill"u8);
+
+    /// <summary>Removes every <c>a:grpFill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveGrpFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "grpFill"u8);
+
+    /// <summary>The <c>a:effectLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.EffectList? EffectLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.EffectList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectLst"u8);
+
+    /// <summary>Returns the <c>a:effectLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.EffectList GetOrAddEffectLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.EffectList, global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectLst"u8);
+
+    /// <summary>Removes every <c>a:effectLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveEffectLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectLst"u8);
+
+    /// <summary>The <c>a:effectDag</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.EffectContainer? EffectDag => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.EffectContainer>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectDag"u8);
+
+    /// <summary>Returns the <c>a:effectDag</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.EffectContainer GetOrAddEffectDag() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.EffectContainer, global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectDag"u8);
+
+    /// <summary>Removes every <c>a:effectDag</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveEffectDag() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectDag"u8);
+
+    /// <summary>The <c>a:tableStyle</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle? TableStyle => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tableStyle"u8);
+
+    /// <summary>Returns the <c>a:tableStyle</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle GetOrAddTableStyle() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tableStyle"u8);
+
+    /// <summary>Removes every <c>a:tableStyle</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTableStyle() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tableStyle"u8);
+
+    /// <summary>The first <c>a:tableStyleId</c> child as a raw element (its content is not modelled); null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef? TableStyleId => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tableStyleId"u8);
+
+    /// <summary>Adds a <c>a:tableStyleId</c> child where the content model puts it.</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef AddTableStyleId() => _markup.AddChildElement<global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tableStyleId"u8);
+
+    /// <summary>Removes every <c>a:tableStyleId</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTableStyleId() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tableStyleId"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TableProperties> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_TableRow</c>, the type of <c>a:tr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct TableRow : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TableRow>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public TableRow(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.TableRow Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableRow;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("tr"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("extLst"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("tc"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableCell; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 2;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None) return local.SequenceEqual("h"u8);
+        return false;
+    }
+
+    /// <summary>Attribute <c>h</c> (a:ST_Coordinate, required). Null when absent; the default is not applied here. Setting null removes the attribute. Reads null when the text is not a whole number.</summary>
+    public long? H { get => _markup.GetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "h"u8); set => _markup.SetInt64(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "h"u8, value); }
+
+    /// <summary>The raw text of <c>h</c>, for values that are not whole numbers (such as measures with units).</summary>
+    public string? HText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "h"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "h"u8, value); }
+
+    /// <summary>The <c>a:tc</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.TableCell> Tcs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tc"u8);
+
+    /// <summary>Adds a <c>a:tc</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableCell AddTc() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableCell, global::RecursiveAI.OneDocument.Schema.Drawing.TableRow>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tc"u8);
+
+    /// <summary>Removes every <c>a:tc</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTc() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tc"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.TableRow>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TableRow> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_TableStyle</c>, the type of <c>a:tableStyle</c>, <c>a:tblStyle</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct TableStyle : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public TableStyle(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableStyle;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("tableStyle"u8) || local.SequenceEqual("tblStyle"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("band1H"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTablePartStyle; }
+            if (local.SequenceEqual("band1V"u8)) { rank = 4; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTablePartStyle; }
+            if (local.SequenceEqual("band2H"u8)) { rank = 3; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTablePartStyle; }
+            if (local.SequenceEqual("band2V"u8)) { rank = 5; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTablePartStyle; }
+            if (local.SequenceEqual("extLst"u8)) { rank = 14; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("firstCol"u8)) { rank = 7; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTablePartStyle; }
+            if (local.SequenceEqual("firstRow"u8)) { rank = 11; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTablePartStyle; }
+            if (local.SequenceEqual("lastCol"u8)) { rank = 6; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTablePartStyle; }
+            if (local.SequenceEqual("lastRow"u8)) { rank = 8; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTablePartStyle; }
+            if (local.SequenceEqual("neCell"u8)) { rank = 12; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTablePartStyle; }
+            if (local.SequenceEqual("nwCell"u8)) { rank = 13; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTablePartStyle; }
+            if (local.SequenceEqual("seCell"u8)) { rank = 9; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTablePartStyle; }
+            if (local.SequenceEqual("swCell"u8)) { rank = 10; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTablePartStyle; }
+            if (local.SequenceEqual("tblBg"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableBackgroundStyle; }
+            if (local.SequenceEqual("wholeTbl"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTablePartStyle; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 15;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None) return local.SequenceEqual("styleId"u8) || local.SequenceEqual("styleName"u8);
+        return false;
+    }
+
+    /// <summary>Attribute <c>styleId</c> (s:ST_Guid, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
+    public string? StyleId { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "styleId"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "styleId"u8, value); }
+
+    /// <summary>Attribute <c>styleName</c> (xsd:string, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
+    public string? StyleName { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "styleName"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "styleName"u8, value); }
+
+    /// <summary>The <c>a:tblBg</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableBackgroundStyle? TblBg => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableBackgroundStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tblBg"u8);
+
+    /// <summary>Returns the <c>a:tblBg</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableBackgroundStyle GetOrAddTblBg() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableBackgroundStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tblBg"u8);
+
+    /// <summary>Removes every <c>a:tblBg</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTblBg() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tblBg"u8);
+
+    /// <summary>The <c>a:wholeTbl</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle? WholeTbl => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "wholeTbl"u8);
+
+    /// <summary>Returns the <c>a:wholeTbl</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle GetOrAddWholeTbl() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "wholeTbl"u8);
+
+    /// <summary>Removes every <c>a:wholeTbl</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveWholeTbl() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "wholeTbl"u8);
+
+    /// <summary>The <c>a:band1H</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle? Band1H => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "band1H"u8);
+
+    /// <summary>Returns the <c>a:band1H</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle GetOrAddBand1H() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "band1H"u8);
+
+    /// <summary>Removes every <c>a:band1H</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveBand1H() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "band1H"u8);
+
+    /// <summary>The <c>a:band2H</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle? Band2H => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "band2H"u8);
+
+    /// <summary>Returns the <c>a:band2H</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle GetOrAddBand2H() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "band2H"u8);
+
+    /// <summary>Removes every <c>a:band2H</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveBand2H() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "band2H"u8);
+
+    /// <summary>The <c>a:band1V</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle? Band1V => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "band1V"u8);
+
+    /// <summary>Returns the <c>a:band1V</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle GetOrAddBand1V() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "band1V"u8);
+
+    /// <summary>Removes every <c>a:band1V</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveBand1V() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "band1V"u8);
+
+    /// <summary>The <c>a:band2V</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle? Band2V => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "band2V"u8);
+
+    /// <summary>Returns the <c>a:band2V</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle GetOrAddBand2V() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "band2V"u8);
+
+    /// <summary>Removes every <c>a:band2V</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveBand2V() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "band2V"u8);
+
+    /// <summary>The <c>a:lastCol</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle? LastCol => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lastCol"u8);
+
+    /// <summary>Returns the <c>a:lastCol</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle GetOrAddLastCol() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lastCol"u8);
+
+    /// <summary>Removes every <c>a:lastCol</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLastCol() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lastCol"u8);
+
+    /// <summary>The <c>a:firstCol</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle? FirstCol => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "firstCol"u8);
+
+    /// <summary>Returns the <c>a:firstCol</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle GetOrAddFirstCol() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "firstCol"u8);
+
+    /// <summary>Removes every <c>a:firstCol</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveFirstCol() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "firstCol"u8);
+
+    /// <summary>The <c>a:lastRow</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle? LastRow => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lastRow"u8);
+
+    /// <summary>Returns the <c>a:lastRow</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle GetOrAddLastRow() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lastRow"u8);
+
+    /// <summary>Removes every <c>a:lastRow</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLastRow() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lastRow"u8);
+
+    /// <summary>The <c>a:seCell</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle? SeCell => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "seCell"u8);
+
+    /// <summary>Returns the <c>a:seCell</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle GetOrAddSeCell() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "seCell"u8);
+
+    /// <summary>Removes every <c>a:seCell</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveSeCell() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "seCell"u8);
+
+    /// <summary>The <c>a:swCell</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle? SwCell => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "swCell"u8);
+
+    /// <summary>Returns the <c>a:swCell</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle GetOrAddSwCell() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "swCell"u8);
+
+    /// <summary>Removes every <c>a:swCell</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveSwCell() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "swCell"u8);
+
+    /// <summary>The <c>a:firstRow</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle? FirstRow => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "firstRow"u8);
+
+    /// <summary>Returns the <c>a:firstRow</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle GetOrAddFirstRow() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "firstRow"u8);
+
+    /// <summary>Removes every <c>a:firstRow</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveFirstRow() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "firstRow"u8);
+
+    /// <summary>The <c>a:neCell</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle? NeCell => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "neCell"u8);
+
+    /// <summary>Returns the <c>a:neCell</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle GetOrAddNeCell() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "neCell"u8);
+
+    /// <summary>Removes every <c>a:neCell</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveNeCell() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "neCell"u8);
+
+    /// <summary>The <c>a:nwCell</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle? NwCell => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nwCell"u8);
+
+    /// <summary>Returns the <c>a:nwCell</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle GetOrAddNwCell() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TablePartStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nwCell"u8);
+
+    /// <summary>Removes every <c>a:nwCell</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveNwCell() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "nwCell"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_TableStyleCellStyle</c>, the type of <c>a:tcStyle</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct TableStyleCellStyle : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleCellStyle>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public TableStyleCellStyle(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleCellStyle Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableStyleCellStyle;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("tcStyle"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("cell3D"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingCell3D; }
+            if (local.SequenceEqual("fill"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingFillProperties; }
+            if (local.SequenceEqual("fillRef"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingStyleMatrixReference; }
+            if (local.SequenceEqual("tcBdr"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableCellBorderStyle; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:tcBdr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle? TcBdr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tcBdr"u8);
+
+    /// <summary>Returns the <c>a:tcBdr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle GetOrAddTcBdr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableCellBorderStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleCellStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tcBdr"u8);
+
+    /// <summary>Removes every <c>a:tcBdr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTcBdr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tcBdr"u8);
+
+    /// <summary>The <c>a:fill</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FillProperties? Fill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.FillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fill"u8);
+
+    /// <summary>Returns the <c>a:fill</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FillProperties GetOrAddFill() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.FillProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleCellStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fill"u8);
+
+    /// <summary>Removes every <c>a:fill</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveFill() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fill"u8);
+
+    /// <summary>The <c>a:fillRef</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference? FillRef => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fillRef"u8);
+
+    /// <summary>Returns the <c>a:fillRef</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference GetOrAddFillRef() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleCellStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fillRef"u8);
+
+    /// <summary>Removes every <c>a:fillRef</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveFillRef() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fillRef"u8);
+
+    /// <summary>The <c>a:cell3D</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Cell3D? Cell3D => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.Cell3D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cell3D"u8);
+
+    /// <summary>Returns the <c>a:cell3D</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.Cell3D GetOrAddCell3D() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.Cell3D, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleCellStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cell3D"u8);
+
+    /// <summary>Removes every <c>a:cell3D</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveCell3D() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "cell3D"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleCellStyle> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_TableStyleList</c>, the type of <c>a:tblStyleLst</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct TableStyleList : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleList>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public TableStyleList(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleList Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableStyleList;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("tblStyleLst"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("tblStyle"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableStyle; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None) return local.SequenceEqual("def"u8);
+        return false;
+    }
+
+    /// <summary>Attribute <c>def</c> (s:ST_Guid, required). Null when absent; the default is not applied here. Setting null removes the attribute.</summary>
+    public string? Def { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "def"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "def"u8, value); }
+
+    /// <summary>The <c>a:tblStyle</c> children, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle> TblStyles => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tblStyle"u8);
+
+    /// <summary>Adds a <c>a:tblStyle</c> child where the content model puts it (after the elements that must precede it).</summary>
+    /// <returns>The new, empty element.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle AddTblStyle() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TableStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tblStyle"u8);
+
+    /// <summary>Removes every <c>a:tblStyle</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveTblStyle() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "tblStyle"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleList> UnknownChildren => new(_markup);
+}
+
+/// <summary>View of the schema type <c>CT_TableStyleTextStyle</c>, the type of <c>a:tcTxStyle</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct TableStyleTextStyle : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public TableStyleTextStyle(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingTableStyleTextStyle;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("tcTxStyle"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("extLst"u8)) { rank = 2; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingOfficeArtExtensionList; }
+            if (local.SequenceEqual("font"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingFontCollection; }
+            if (local.SequenceEqual("fontRef"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingFontReference; }
+            if (local.SequenceEqual("hslClr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingHslColor; }
+            if (local.SequenceEqual("prstClr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingPresetColor; }
+            if (local.SequenceEqual("schemeClr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingSchemeColor; }
+            if (local.SequenceEqual("scrgbClr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingScRgbColor; }
+            if (local.SequenceEqual("srgbClr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingSRgbColor; }
+            if (local.SequenceEqual("sysClr"u8)) { rank = 1; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingSystemColor; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 3;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None) return local.SequenceEqual("b"u8) || local.SequenceEqual("i"u8);
+        return false;
+    }
+
+    /// <summary>Attribute <c>b</c> (a:ST_OnOffStyleType, default <c>def</c>). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="BText"/> keeps it.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OnOffStyleTypeValue? B
+    {
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Drawing.OnOffStyleTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "b"u8, global::RecursiveAI.OneDocument.Schema.Drawing.OnOffStyleTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "b"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Drawing.OnOffStyleTypeValueText.ToText(value.Value));
+    }
+
+    /// <summary>The raw text of <c>b</c>, whatever it is.</summary>
+    public string? BText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "b"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "b"u8, value); }
+
+    /// <summary>Attribute <c>i</c> (a:ST_OnOffStyleType, default <c>def</c>). Null when absent; the default is not applied here. Setting null removes the attribute. A value the schema does not list reads as <c>Unrecognized</c>; <see cref="IText"/> keeps it.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OnOffStyleTypeValue? I
+    {
+        get => _markup.GetEnum<global::RecursiveAI.OneDocument.Schema.Drawing.OnOffStyleTypeValue>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "i"u8, global::RecursiveAI.OneDocument.Schema.Drawing.OnOffStyleTypeValueText.Parse);
+        set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "i"u8, value is null ? null : global::RecursiveAI.OneDocument.Schema.Drawing.OnOffStyleTypeValueText.ToText(value.Value));
+    }
+
+    /// <summary>The raw text of <c>i</c>, whatever it is.</summary>
+    public string? IText { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "i"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "i"u8, value); }
+
+    /// <summary>The <c>a:font</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection? Font => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "font"u8);
+
+    /// <summary>Returns the <c>a:font</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection GetOrAddFont() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.FontCollection, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "font"u8);
+
+    /// <summary>Removes every <c>a:font</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveFont() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "font"u8);
+
+    /// <summary>The <c>a:fontRef</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FontReference? FontRef => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.FontReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fontRef"u8);
+
+    /// <summary>Returns the <c>a:fontRef</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.FontReference GetOrAddFontRef() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.FontReference, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fontRef"u8);
+
+    /// <summary>Removes every <c>a:fontRef</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveFontRef() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fontRef"u8);
+
+    /// <summary>The <c>a:scrgbClr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ScRgbColor? ScrgbClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.ScRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
+
+    /// <summary>Returns the <c>a:scrgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.ScRgbColor GetOrAddScrgbClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.ScRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
+
+    /// <summary>Removes every <c>a:scrgbClr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveScrgbClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "scrgbClr"u8);
+
+    /// <summary>The <c>a:srgbClr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor? RgbColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+
+    /// <summary>Returns the <c>a:srgbClr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor GetOrAddRgbColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SRgbColor, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+
+    /// <summary>Removes every <c>a:srgbClr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveRgbColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "srgbClr"u8);
+
+    /// <summary>The <c>a:hslClr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.HslColor? HslClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
+
+    /// <summary>Returns the <c>a:hslClr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.HslColor GetOrAddHslClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.HslColor, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
+
+    /// <summary>Removes every <c>a:hslClr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveHslClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "hslClr"u8);
+
+    /// <summary>The <c>a:sysClr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor? SystemColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+
+    /// <summary>Returns the <c>a:sysClr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor GetOrAddSystemColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SystemColor, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+
+    /// <summary>Removes every <c>a:sysClr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveSystemColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "sysClr"u8);
+
+    /// <summary>The <c>a:schemeClr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor? SchemeColor => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+
+    /// <summary>Returns the <c>a:schemeClr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor GetOrAddSchemeColor() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.SchemeColor, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+
+    /// <summary>Removes every <c>a:schemeClr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveSchemeColor() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "schemeClr"u8);
+
+    /// <summary>The <c>a:prstClr</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor? PrstClr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
+
+    /// <summary>Returns the <c>a:prstClr</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor GetOrAddPrstClr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.PresetColor, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
+
+    /// <summary>Removes every <c>a:prstClr</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemovePrstClr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "prstClr"u8);
+
+    /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Removes every <c>a:extLst</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TableStyleTextStyle> UnknownChildren => new(_markup);
+}
+
 /// <summary>View of the schema type <c>CT_TextAutonumberBullet</c>, the type of <c>a:buAutoNum</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct TextAutonumberBullet : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TextAutonumberBullet>
 {
@@ -19518,7 +24848,7 @@ public readonly struct TextBlipBullet : global::RecursiveAI.OneDocument.Schema.I
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TextBlipBullet> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_TextBody</c>, the type of <c>p188:txBody</c>, <c>p:txBody</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_TextBody</c>, the type of <c>dsp:txBody</c>, <c>cx:rich</c>, <c>cx:txPr</c>, <c>p188:txBody</c>, <c>c:rich</c>, <c>c:txPr</c>, <c>cdr:txBody</c>, <c>dgm:t</c>, <c>a:txBody</c>, <c>xdr:txBody</c>, <c>p:txBody</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct TextBody : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TextBody>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -19539,7 +24869,14 @@ public readonly struct TextBody : global::RecursiveAI.OneDocument.Schema.IElemen
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DiagramDrawing) return local.SequenceEqual("txBody"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartEx) return local.SequenceEqual("rich"u8) || local.SequenceEqual("txPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation201808) return local.SequenceEqual("txBody"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Chart) return local.SequenceEqual("rich"u8) || local.SequenceEqual("txPr"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing) return local.SequenceEqual("txBody"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Diagram) return local.SequenceEqual("t"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("txBody"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing) return local.SequenceEqual("txBody"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("txBody"u8);
         return false;
     }
@@ -19571,37 +24908,37 @@ public readonly struct TextBody : global::RecursiveAI.OneDocument.Schema.IElemen
     }
 
     /// <summary>The <c>a:bodyPr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextBodyProperties? BodyPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextBodyProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bodyPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextBodyProperties? BodyProperties => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextBodyProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bodyPr"u8);
 
     /// <summary>Returns the <c>a:bodyPr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextBodyProperties GetOrAddBodyPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextBodyProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TextBody>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bodyPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextBodyProperties GetOrAddBodyProperties() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextBodyProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TextBody>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bodyPr"u8);
 
     /// <summary>Removes every <c>a:bodyPr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveBodyPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bodyPr"u8);
+    public bool RemoveBodyProperties() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "bodyPr"u8);
 
     /// <summary>The <c>a:lstStyle</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextListStyle? LstStyle => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextListStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lstStyle"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextListStyle? ListStyle => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextListStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lstStyle"u8);
 
     /// <summary>Returns the <c>a:lstStyle</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextListStyle GetOrAddLstStyle() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextListStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TextBody>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lstStyle"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextListStyle GetOrAddListStyle() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextListStyle, global::RecursiveAI.OneDocument.Schema.Drawing.TextBody>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lstStyle"u8);
 
     /// <summary>Removes every <c>a:lstStyle</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveLstStyle() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lstStyle"u8);
+    public bool RemoveListStyle() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lstStyle"u8);
 
     /// <summary>The <c>a:p</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraph> Ps => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "p"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraph> Paragraphs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "p"u8);
 
     /// <summary>Adds a <c>a:p</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraph AddP() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraph, global::RecursiveAI.OneDocument.Schema.Drawing.TextBody>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "p"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraph AddParagraph() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraph, global::RecursiveAI.OneDocument.Schema.Drawing.TextBody>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "p"u8);
 
     /// <summary>Removes every <c>a:p</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveP() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "p"u8);
+    public bool RemoveParagraph() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "p"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -19610,7 +24947,7 @@ public readonly struct TextBody : global::RecursiveAI.OneDocument.Schema.IElemen
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TextBody> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_TextBodyProperties</c>, the type of <c>wps:bodyPr</c>, <c>a:bodyPr</c>, <c>wp:bodyPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_TextBodyProperties</c>, the type of <c>cs:bodyPr</c>, <c>wps:bodyPr</c>, <c>a:bodyPr</c>, <c>wp:bodyPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct TextBodyProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TextBodyProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -19631,6 +24968,7 @@ public readonly struct TextBodyProperties : global::RecursiveAI.OneDocument.Sche
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartStyle2012) return local.SequenceEqual("bodyPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingShape) return local.SequenceEqual("bodyPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("bodyPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingDrawing) return local.SequenceEqual("bodyPr"u8);
@@ -19851,15 +25189,15 @@ public readonly struct TextBodyProperties : global::RecursiveAI.OneDocument.Sche
     public bool RemoveFlatTx() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "flatTx"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.TextBodyProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.TextBodyProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -20150,7 +25488,7 @@ public readonly struct TextCharBullet : global::RecursiveAI.OneDocument.Schema.I
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharBullet> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_TextCharacterProperties</c>, the type of <c>a:defRPr</c>, <c>a:endParaRPr</c>, <c>a:rPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_TextCharacterProperties</c>, the type of <c>cs:defRPr</c>, <c>a:defRPr</c>, <c>a:endParaRPr</c>, <c>a:rPr</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct TextCharacterProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -20171,6 +25509,7 @@ public readonly struct TextCharacterProperties : global::RecursiveAI.OneDocument
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartStyle2012) return local.SequenceEqual("defRPr"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("defRPr"u8) || local.SequenceEqual("endParaRPr"u8) || local.SequenceEqual("rPr"u8);
         return false;
     }
@@ -20306,15 +25645,15 @@ public readonly struct TextCharacterProperties : global::RecursiveAI.OneDocument
     public string? Bmk { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "bmk"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "bmk"u8, value); }
 
     /// <summary>The <c>a:ln</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties? Ln => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties? Line => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
 
     /// <summary>Returns the <c>a:ln</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties GetOrAddLn() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties GetOrAddLine() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
 
     /// <summary>Removes every <c>a:ln</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveLn() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
+    public bool RemoveLine() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
 
     /// <summary>The <c>a:noFill</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties? NoFill => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.NoFillProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "noFill"u8);
@@ -20537,15 +25876,15 @@ public readonly struct TextCharacterProperties : global::RecursiveAI.OneDocument
     public bool RemoveRtl() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rtl"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -20613,26 +25952,26 @@ public readonly struct TextField : global::RecursiveAI.OneDocument.Schema.IEleme
     public string? Type { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "type"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "type"u8, value); }
 
     /// <summary>The <c>a:rPr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties? RPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties? RunProperties => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
 
     /// <summary>Returns the <c>a:rPr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties GetOrAddRPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TextField>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties GetOrAddRunProperties() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TextField>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
 
     /// <summary>Removes every <c>a:rPr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveRPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
+    public bool RemoveRunProperties() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
 
     /// <summary>The <c>a:pPr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties? PPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties? ParagraphProperties => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pPr"u8);
 
     /// <summary>Returns the <c>a:pPr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties GetOrAddPPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TextField>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties GetOrAddParagraphProperties() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TextField>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pPr"u8);
 
     /// <summary>Removes every <c>a:pPr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemovePPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pPr"u8);
+    public bool RemoveParagraphProperties() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pPr"u8);
 
     /// <summary>The first <c>a:t</c> child as a raw element (its content is not modelled); null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.MarkupRef? T => _markup.FindChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "t"u8);
@@ -20761,15 +26100,15 @@ public readonly struct TextLineBreak : global::RecursiveAI.OneDocument.Schema.IE
     }
 
     /// <summary>The <c>a:rPr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties? RPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties? RunProperties => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
 
     /// <summary>Returns the <c>a:rPr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties GetOrAddRPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TextLineBreak>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties GetOrAddRunProperties() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TextLineBreak>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
 
     /// <summary>Removes every <c>a:rPr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveRPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
+    public bool RemoveRunProperties() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "rPr"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -20778,7 +26117,7 @@ public readonly struct TextLineBreak : global::RecursiveAI.OneDocument.Schema.IE
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TextLineBreak> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_TextListStyle</c>, the type of <c>a:lstStyle</c>, <c>p:bodyStyle</c>, <c>p:defaultTextStyle</c>, <c>p:notesStyle</c>, <c>p:otherStyle</c>, <c>p:titleStyle</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_TextListStyle</c>, the type of <c>dgm1612:lstStyle</c>, <c>a:lstStyle</c>, <c>p:bodyStyle</c>, <c>p:defaultTextStyle</c>, <c>p:notesStyle</c>, <c>p:otherStyle</c>, <c>p:titleStyle</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct TextListStyle : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TextListStyle>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -20799,6 +26138,7 @@ public readonly struct TextListStyle : global::RecursiveAI.OneDocument.Schema.IE
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Diagram201612) return local.SequenceEqual("lstStyle"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("lstStyle"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("bodyStyle"u8) || local.SequenceEqual("defaultTextStyle"u8) || local.SequenceEqual("notesStyle"u8) || local.SequenceEqual("otherStyle"u8) || local.SequenceEqual("titleStyle"u8);
         return false;
@@ -20949,15 +26289,15 @@ public readonly struct TextListStyle : global::RecursiveAI.OneDocument.Schema.IE
     public bool RemoveLvl9pPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lvl9pPr"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.TextListStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.TextListStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -21168,26 +26508,26 @@ public readonly struct TextParagraph : global::RecursiveAI.OneDocument.Schema.IE
     }
 
     /// <summary>The <c>a:pPr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties? PPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties? ParagraphProperties => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pPr"u8);
 
     /// <summary>Returns the <c>a:pPr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties GetOrAddPPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraph>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties GetOrAddParagraphProperties() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraph>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pPr"u8);
 
     /// <summary>Removes every <c>a:pPr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemovePPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pPr"u8);
+    public bool RemoveParagraphProperties() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "pPr"u8);
 
     /// <summary>The <c>a:r</c> children, in document order.</summary>
-    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.RegularTextRun> Rs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "r"u8);
+    public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.RegularTextRun> Runs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "r"u8);
 
     /// <summary>Adds a <c>a:r</c> child where the content model puts it (after the elements that must precede it).</summary>
     /// <returns>The new, empty element.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.RegularTextRun AddR() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.RegularTextRun, global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraph>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "r"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.RegularTextRun AddRun() => _markup.AddChild<global::RecursiveAI.OneDocument.Schema.Drawing.RegularTextRun, global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraph>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "r"u8);
 
     /// <summary>Removes every <c>a:r</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveR() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "r"u8);
+    public bool RemoveRun() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "r"u8);
 
     /// <summary>The <c>a:br</c> children, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildList<global::RecursiveAI.OneDocument.Schema.Drawing.TextLineBreak> Brs => new(_markup, global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "br"u8);
@@ -21212,15 +26552,15 @@ public readonly struct TextParagraph : global::RecursiveAI.OneDocument.Schema.IE
     public bool RemoveFld() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "fld"u8);
 
     /// <summary>The <c>a:endParaRPr</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties? EndParaRPr => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "endParaRPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties? EndParagraphRunProperties => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "endParaRPr"u8);
 
     /// <summary>Returns the <c>a:endParaRPr</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties GetOrAddEndParaRPr() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraph>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "endParaRPr"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties GetOrAddEndParagraphRunProperties() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.TextCharacterProperties, global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraph>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "endParaRPr"u8);
 
     /// <summary>Removes every <c>a:endParaRPr</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveEndParaRPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "endParaRPr"u8);
+    public bool RemoveEndParagraphRunProperties() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "endParaRPr"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -21522,15 +26862,15 @@ public readonly struct TextParagraphProperties : global::RecursiveAI.OneDocument
     public bool RemoveDefRPr() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "defRPr"u8);
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.TextParagraphProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -22110,6 +27450,85 @@ public readonly struct TextUnderlineLineFollowText : global::RecursiveAI.OneDocu
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TextUnderlineLineFollowText> UnknownChildren => new(_markup);
 }
 
+/// <summary>View of the schema type <c>CT_ThemeableLineStyle</c>, the type of <c>a:bottom</c>, <c>a:insideH</c>, <c>a:insideV</c>, <c>a:left</c>, <c>a:right</c>, <c>a:tl2br</c>, <c>a:top</c>, <c>a:tr2bl</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+public readonly struct ThemeableLineStyle : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle>
+{
+    private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
+
+    /// <summary>Wraps an element; the element's name is not checked.</summary>
+    /// <param name="markup">The element.</param>
+    public ThemeableLineStyle(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) { _markup = markup; }
+
+    /// <inheritdoc/>
+    public global::RecursiveAI.OneDocument.Schema.MarkupRef Markup => _markup;
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle Create(global::RecursiveAI.OneDocument.Schema.MarkupRef markup) => new(markup);
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind Kind => global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingThemeableLineStyle;
+
+    /// <inheritdoc/>
+    public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("bottom"u8) || local.SequenceEqual("insideH"u8) || local.SequenceEqual("insideV"u8) || local.SequenceEqual("left"u8) || local.SequenceEqual("right"u8) || local.SequenceEqual("tl2br"u8) || local.SequenceEqual("top"u8) || local.SequenceEqual("tr2bl"u8);
+        return false;
+    }
+
+    /// <inheritdoc/>
+    public static global::RecursiveAI.OneDocument.Schema.ViewKind ChildKind(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local, out int rank)
+    {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing)
+        {
+            if (local.SequenceEqual("ln"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingLineProperties; }
+            if (local.SequenceEqual("lnRef"u8)) { rank = 0; return global::RecursiveAI.OneDocument.Schema.ViewKind.DrawingStyleMatrixReference; }
+        }
+        var any = global::RecursiveAI.OneDocument.Schema.ViewFactory.IsExtensionNamespace(ns) ? global::RecursiveAI.OneDocument.Schema.ViewFactory.RootKind(ns, local) : global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+        if (any != global::RecursiveAI.OneDocument.Schema.ViewKind.None)
+        {
+            rank = 1;
+            return any;
+        }
+
+        rank = -1;
+        return global::RecursiveAI.OneDocument.Schema.ViewKind.None;
+    }
+
+    /// <inheritdoc/>
+    public static bool IsKnownAttribute(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
+    {
+        return false;
+    }
+
+    /// <summary>The <c>a:ln</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties? Line => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
+
+    /// <summary>Returns the <c>a:ln</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties GetOrAddLine() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties, global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
+
+    /// <summary>Removes every <c>a:ln</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLine() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
+
+    /// <summary>The <c>a:lnRef</c> child; null when absent.</summary>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference? LnRef => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnRef"u8);
+
+    /// <summary>Returns the <c>a:lnRef</c> child, adding an empty one where the content model puts it when absent.</summary>
+    /// <returns>The child.</returns>
+    public global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference GetOrAddLnRef() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.StyleMatrixReference, global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnRef"u8);
+
+    /// <summary>Removes every <c>a:lnRef</c> child.</summary>
+    /// <returns>True when any was removed.</returns>
+    public bool RemoveLnRef() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "lnRef"u8);
+
+    /// <summary>Every child element, declared or not, in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
+
+    /// <summary>The child elements this type's content model does not declare (extensions, alternate content, foreign markup), in document order.</summary>
+    public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.ThemeableLineStyle> UnknownChildren => new(_markup);
+}
+
 /// <summary>View of the schema type <c>CT_TileInfoProperties</c>, the type of <c>a:tile</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct TileInfoProperties : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.TileInfoProperties>
 {
@@ -22255,7 +27674,7 @@ public readonly struct TintEffect : global::RecursiveAI.OneDocument.Schema.IElem
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TintEffect> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Transform2D</c>, the type of <c>a14:xfrm</c>, <c>p14:xfrm</c>, <c>w14:xfrm</c>, <c>wpg:xfrm</c>, <c>a:xfrm</c>, <c>wp:xfrm</c>, <c>p:xfrm</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_Transform2D</c>, the type of <c>dsp:txXfrm</c>, <c>cdr14:xfrm</c>, <c>a14:xfrm</c>, <c>xdr14:xfrm</c>, <c>p14:xfrm</c>, <c>w14:xfrm</c>, <c>wpg:xfrm</c>, <c>cdr:xfrm</c>, <c>a:xfrm</c>, <c>xdr:xfrm</c>, <c>wp:xfrm</c>, <c>p:xfrm</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Transform2D : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -22276,11 +27695,16 @@ public readonly struct Transform2D : global::RecursiveAI.OneDocument.Schema.IEle
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.DiagramDrawing) return local.SequenceEqual("txXfrm"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing2010) return local.SequenceEqual("xfrm"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing2010) return local.SequenceEqual("xfrm"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing2010) return local.SequenceEqual("xfrm"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation2010) return local.SequenceEqual("xfrm"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Word2010) return local.SequenceEqual("xfrm"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingGroup) return local.SequenceEqual("xfrm"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.ChartDrawing) return local.SequenceEqual("xfrm"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("xfrm"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.SpreadsheetDrawing) return local.SequenceEqual("xfrm"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingDrawing) return local.SequenceEqual("xfrm"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Presentation) return local.SequenceEqual("xfrm"u8);
         return false;
@@ -22333,15 +27757,15 @@ public readonly struct Transform2D : global::RecursiveAI.OneDocument.Schema.IEle
     public bool RemoveOff() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "off"u8);
 
     /// <summary>The <c>a:ext</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D? Ext => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D? Extension => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
 
     /// <summary>Returns the <c>a:ext</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D GetOrAddExt() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D, global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D GetOrAddExtension() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.PositiveSize2D, global::RecursiveAI.OneDocument.Schema.Drawing.Transform2D>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
 
     /// <summary>Removes every <c>a:ext</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExt() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
+    public bool RemoveExtension() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ext"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -22426,7 +27850,7 @@ public readonly struct TransformEffect : global::RecursiveAI.OneDocument.Schema.
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.TransformEffect> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_Vector3D</c>, the type of <c>a:norm</c>, <c>a:up</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_Vector3D</c>, the type of <c>am3d:postTrans</c>, <c>am3d:preTrans</c>, <c>am3d:up</c>, <c>a:norm</c>, <c>a:up</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct Vector3D : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.Vector3D>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -22447,6 +27871,7 @@ public readonly struct Vector3D : global::RecursiveAI.OneDocument.Schema.IElemen
     /// <inheritdoc/>
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Model3D) return local.SequenceEqual("postTrans"u8) || local.SequenceEqual("preTrans"u8) || local.SequenceEqual("up"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing) return local.SequenceEqual("norm"u8) || local.SequenceEqual("up"u8);
         return false;
     }
@@ -22548,15 +27973,15 @@ public readonly struct VideoFile : global::RecursiveAI.OneDocument.Schema.IEleme
     public string? ContentType { get => _markup.GetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "contentType"u8); set => _markup.SetString(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.None, "contentType"u8, value); }
 
     /// <summary>The <c>a:extLst</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList? ExtensionList => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Returns the <c>a:extLst</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtLst() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.VideoFile>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList GetOrAddExtensionList() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.OfficeArtExtensionList, global::RecursiveAI.OneDocument.Schema.Drawing.VideoFile>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Removes every <c>a:extLst</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveExtLst() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
+    public bool RemoveExtensionList() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "extLst"u8);
 
     /// <summary>Every child element, declared or not, in document order.</summary>
     public global::RecursiveAI.OneDocument.Schema.ChildElements Children => _markup.Children;
@@ -22565,7 +27990,7 @@ public readonly struct VideoFile : global::RecursiveAI.OneDocument.Schema.IEleme
     public global::RecursiveAI.OneDocument.Schema.UnknownChildren<global::RecursiveAI.OneDocument.Schema.Drawing.VideoFile> UnknownChildren => new(_markup);
 }
 
-/// <summary>View of the schema type <c>CT_WholeE2oFormatting</c>, the type of <c>wpc:whole</c>, <c>wp:whole</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
+/// <summary>View of the schema type <c>CT_WholeE2oFormatting</c>, the type of <c>wpc:whole</c>, <c>dgm:whole</c>, <c>wp:whole</c>. A zero-copy wrapper over a markup element: reading parses on demand, writing edits the tree.</summary>
 public readonly struct WholeE2oFormatting : global::RecursiveAI.OneDocument.Schema.IElementView<global::RecursiveAI.OneDocument.Schema.Drawing.WholeE2oFormatting>
 {
     private readonly global::RecursiveAI.OneDocument.Schema.MarkupRef _markup;
@@ -22587,6 +28012,7 @@ public readonly struct WholeE2oFormatting : global::RecursiveAI.OneDocument.Sche
     public static bool Accepts(global::RecursiveAI.OneDocument.Schema.SchemaNamespace ns, ReadOnlySpan<byte> local)
     {
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingCanvas) return local.SequenceEqual("whole"u8);
+        if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Diagram) return local.SequenceEqual("whole"u8);
         if (ns == global::RecursiveAI.OneDocument.Schema.SchemaNamespace.WordprocessingDrawing) return local.SequenceEqual("whole"u8);
         return false;
     }
@@ -22618,15 +28044,15 @@ public readonly struct WholeE2oFormatting : global::RecursiveAI.OneDocument.Sche
     }
 
     /// <summary>The <c>a:ln</c> child; null when absent.</summary>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties? Ln => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties? Line => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
 
     /// <summary>Returns the <c>a:ln</c> child, adding an empty one where the content model puts it when absent.</summary>
     /// <returns>The child.</returns>
-    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties GetOrAddLn() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties, global::RecursiveAI.OneDocument.Schema.Drawing.WholeE2oFormatting>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
+    public global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties GetOrAddLine() => _markup.GetOrAddChild<global::RecursiveAI.OneDocument.Schema.Drawing.LineProperties, global::RecursiveAI.OneDocument.Schema.Drawing.WholeE2oFormatting>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
 
     /// <summary>Removes every <c>a:ln</c> child.</summary>
     /// <returns>True when any was removed.</returns>
-    public bool RemoveLn() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
+    public bool RemoveLine() => _markup.RemoveChild(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "ln"u8);
 
     /// <summary>The <c>a:effectLst</c> child; null when absent.</summary>
     public global::RecursiveAI.OneDocument.Schema.Drawing.EffectList? EffectLst => _markup.GetChild<global::RecursiveAI.OneDocument.Schema.Drawing.EffectList>(global::RecursiveAI.OneDocument.Schema.SchemaNamespace.Drawing, "effectLst"u8);
