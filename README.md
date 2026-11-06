@@ -24,7 +24,11 @@ Each sample under [`samples/`](samples) is a small console program that generate
 | Rows of plain objects to and from a workbook | [`SpreadsheetRows`](samples/SpreadsheetRows) | `Spreadsheet.Write(path, orders)`, `Spreadsheet.Read<Order>(path)` |
 | Text of a legacy `.doc` | [`LegacyDocText`](samples/LegacyDocText) | `Office.ExtractText("old.doc")` |
 | Edit a cell, recalculate, save as PDF | [`WorkbookRecalcPdf`](samples/WorkbookRecalcPdf) | `Workbook.Open`, `cell.Value =`, `wb.Recalculate()`, `wb.SaveAs("x.pdf")` |
-| Filter paragraphs by style, accept tracked changes, save | [`DocumentRevisions`](samples/DocumentRevisions) | `doc.Paragraphs.Where(...)`, `doc.Revisions.AcceptAll()`, `doc.SaveAs(...)` |
+| Filter paragraphs by style, accept tracked changes, save | [`DocumentRevisions`](samples/DocumentRevisions) | `doc.Paragraphs.Where(p => p.Style == "Heading 1")`, `doc.Revisions.AcceptAll()`, `doc.SaveAs(...)` |
+| Sanitise in memory, then save | [`HappyPath`](samples/HappyPath) | `doc.Sanitize()`, `doc.SaveAs("clean.docx")` |
+| Build a document, a workbook and a deck from nothing | [`Authoring`](samples/Authoring) | `body.AddParagraph(...)`, `body.AddTable(rows)`, `sheet.Range("A1:C3").Values = ...`, `deck.AddSlide("Title Slide")` |
+
+[`HappyPath`](samples/HappyPath) runs the introduction's sketch as written, one or two lines per task.
 
 ```csharp
 using RecursiveAI.OneDocument;

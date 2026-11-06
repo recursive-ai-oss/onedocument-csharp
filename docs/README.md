@@ -25,6 +25,7 @@ Normative notes on how OneDocument behaves, one page per area. The code's XML do
 | Note | What it covers |
 |---|---|
 | [docx-styles-numbering.md](docx-styles-numbering.md) | Style resolution and list labels |
+| [authoring.md](authoring.md) | Building content with the hub: styles by name, runs, links, pictures, tables, ranges, slides; sanitising in memory |
 | [docx-tables-sections.md](docx-tables-sections.md) | Tables, sections, headers and footers |
 | [docx-fields-notes-comments.md](docx-fields-notes-comments.md) | Fields, footnotes and endnotes, comments |
 | [docx-content-controls.md](docx-content-controls.md) | Content controls and custom XML binding |

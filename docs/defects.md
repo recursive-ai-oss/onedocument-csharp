@@ -157,6 +157,8 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `pptx.slide-part-missing` | dropped | A slide listed in `p:sldIdLst` has no relationship or no part; it is skipped. |
 | `pptx.slide-listed-twice` | dropped | The same slide part is listed twice in `p:sldIdLst`; the second entry is skipped. |
 | `pptx.slide-id-duplicate` | repaired | Two slides carry the same id in `p:sldIdLst`; both are kept. |
+| `pptx.layout-not-found` | fatal | `Presentation.AddSlide(string)` was given a layout name no master has. Raised as `PresentationAuthoringException`; the message lists the names there are, and no slide is added. |
+| `pptx.placeholder-not-found` | fatal | `Slide.SetPlaceholderText` found no text placeholder of the type or index. Raised as `PresentationAuthoringException`; the message lists the placeholders the slide has. |
 | `pptx.layout-missing` | repaired / dropped | A slide has no layout (repaired: its placeholders inherit nothing), or a layout listed by the master has no part (dropped). |
 | `pptx.master-missing` | repaired / dropped | A layout has no master (repaired), or a master listed in `p:sldMasterIdLst` has no part (dropped). |
 | `pptx.template-scope-unsupported` | dropped | A `scope=` the presentation binder cannot use (`sheet`, `row`, `column`, `section`), or `table-row`/`table` with tags that are not in a table. The scope the structure implies is used instead. |
@@ -170,6 +172,7 @@ A defect's `Code` is a stable, lower-case, dot-separated identifier: `<layer>.<p
 | `docx.no-body` | repaired | The document has no `w:body`; it reads as an empty body and the tree is left as it was. |
 | `docx.part-unreadable` | dropped | An optional part (styles, numbering, theme, …) is not well-formed or is damaged; the document reads as if it were absent. The location holds the part and offset. |
 | `docx.style-duplicate-id` | repaired | Two styles have the same `w:styleId`; the first is used. |
+| `docx.style-not-found` | fatal | A style was asked for by name (`Paragraph.Style`, `Run.Style`, `Table.Style`, the `StyleSheet` indexer) and the document has no style of that name and type. Raised as `StyleNotFoundException`; nothing is created and nothing changes. |
 | `docx.style-base-missing` | repaired | A style is based on a style that does not exist; its chain ends there. |
 | `docx.style-cycle` | repaired | `w:basedOn` links form a cycle; the chain is cut where it closes. |
 | `docx.style-unknown` | repaired | A paragraph, run or table names a style that is not defined; the default style of that type applies (none for runs without a default character style). |
