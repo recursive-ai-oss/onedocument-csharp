@@ -41,9 +41,10 @@ public sealed partial class RevisionAuthor
     }
 
     /// <summary>
-    /// Replaces a stretch of the paragraph's current text without tracking: the runs are split at its edges, the text inside is
-    /// removed (anything that is not text, such as a field mark or a drawing, stays) and a new run goes where the first removed run was.
-    /// The new run has the first replaced character's run properties, with <paramref name="runPropertiesXml"/> merged over them.
+    /// Replaces a stretch of the paragraph's current text without tracking: the runs are split at its edges, the new text is written into
+    /// the first run of the stretch where its first character was (so it keeps that run's properties and stays inside whatever wraps it,
+    /// a hyperlink or another author's insertion), and the text of the stretch is removed from the runs it was in. Anything that is not
+    /// text, such as a field mark or a drawing, stays. <paramref name="runPropertiesXml"/> is merged over that run's properties.
     /// </summary>
     internal static void ReplacePlain(MarkupNode paragraph, int offset, int length, string text, string? runPropertiesXml)
     {
@@ -55,7 +56,6 @@ public sealed partial class RevisionAuthor
         }
 
         WmlWriter w = WmlWriter.For(paragraph);
-        string props = MergedProperties(paragraph, offset, runPropertiesXml, w);
         IsolateBoundary(paragraph, offset + length);
         IsolateBoundary(paragraph, offset);
         var inRange = new List<Atom>();
@@ -72,10 +72,11 @@ public sealed partial class RevisionAuthor
             return;
         }
 
-        MarkupNode first = inRange[0].Run;
+        // The new content goes in front of the first removed child, in the same run: nothing is moved, so no handle in the list goes stale.
+        Atom first = inRange[0];
         if (text.Length > 0)
         {
-            PlaceBefore(first, w.Wrap("r", string.Empty, props + RunContent(w, text)));
+            first.Child.InsertXmlBefore(WordXml.Bytes(RunContent(w, text)));
         }
 
         var runs = new List<MarkupNode>();
@@ -87,6 +88,20 @@ public sealed partial class RevisionAuthor
             }
 
             a.Child.Remove();
+        }
+
+        if (!string.IsNullOrEmpty(runPropertiesXml))
+        {
+            string merged = MergedProperties(first.Run, runPropertiesXml, w);
+            MarkupNode rPr = WordXml.Child(first.Run, "rPr");
+            if (rPr.IsNull)
+            {
+                first.Run.PrependXml(WordXml.Bytes(merged));
+            }
+            else
+            {
+                rPr.ReplaceWithXml(WordXml.Bytes(merged));
+            }
         }
 
         foreach (MarkupNode run in runs)
@@ -115,28 +130,22 @@ public sealed partial class RevisionAuthor
         }
     }
 
-    // The run properties of the first character in the range, as they are, with the caller's elements replacing those of the same name.
-    private static string MergedProperties(MarkupNode paragraph, int offset, string? format, WmlWriter w)
+    // The run's own properties, minus pending changes and revision marks, with the caller's elements replacing those of the same name.
+    private static string MergedProperties(MarkupNode run, string format, WmlWriter w)
     {
-        string source = FormattingSource(paragraph, offset + 1);
-        if (string.IsNullOrEmpty(format))
-        {
-            return source;
-        }
-
-        var names = ElementNames(format, w);
+        HashSet<string> names = ElementNames(format, w);
         var keep = new StringBuilder();
-        if (source.Length > 0)
+        MarkupNode rPr = WordXml.Child(run, "rPr");
+        if (!rPr.IsNull)
         {
-            string prefix = w.Name("")[..^1];
-            MarkupDocument doc = MarkupDocument.Parse(WordXml.Bytes("<wrap xmlns:" + prefix + "=\"" + (w.IsStrict ? WordXml.MainStrict : WordXml.Main) + "\">" + source + "</wrap>"));
-            MarkupNode rPr = WordXml.Child(doc.Root, "rPr");
             foreach (MarkupNode c in rPr.ChildElements)
             {
-                if (!WordXml.InMain(c) || !names.Contains(c.LocalNameString))
+                if (WordXml.InMain(c) && (names.Contains(c.LocalNameString) || WordXml.IsAny(c, "rPrChange", "ins", "del", "moveFrom", "moveTo")))
                 {
-                    keep.Append(WordXml.Portable(c));
+                    continue;
                 }
+
+                keep.Append(WordXml.Portable(c));
             }
         }
 

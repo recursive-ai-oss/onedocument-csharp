@@ -73,6 +73,22 @@ public class DocumentFindReplaceTests
     }
 
     [Fact]
+    public void ReplacingInsideAnotherAuthorsInsertionKeepsItAroundTheNewText()
+    {
+        // Found in a corpus run: every run of the paragraph sits in one w:ins, and the match is in the middle of it.
+        Document d = TestDocs.Open("<w:p>" + Fixture.Ins(5, "Ann", Run("ab ") + Run("o") + Run("f cd")) + "</w:p>");
+        Assert.Equal(1, d.Replace("of", "X").Count);
+        Assert.Equal("ab X cd", AllText(d));
+        Assert.Equal(1, Count(Xml(d), "<w:ins "));
+        Assert.Contains("<w:t xml:space=\"preserve\">X</w:t>", Xml(d));
+        // and the same replacement tracked: accepting gives the new text, rejecting everything gives the paragraph without Ann's text
+        Document t = TestDocs.Open("<w:p>" + Fixture.Ins(5, "Ann", Run("ab ") + Run("o") + Run("f cd")) + "</w:p>");
+        Assert.Equal(1, t.Replace("of", "X", new DocumentReplaceOptions { TrackedAuthor = "Bob" }).Count);
+        t.Revisions.AcceptAll();
+        Assert.Equal("ab X cd", AllText(t));
+    }
+
+    [Fact]
     public void RegexGroupsWholeWordAndCase()
     {
         Document d = TestDocs.Open("<w:p>" + Run("Order 123-45 and cat, concat, Cat") + "</w:p>");

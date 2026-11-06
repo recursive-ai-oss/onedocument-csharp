@@ -39,12 +39,15 @@ internal static class Program
         int shard = 0;
         int shards = 1;
         string? list = null;
-        for (int i = 2; i < args.Length - 1; i++)
+        for (int i = 2; i < args.Length; i++)
         {
             switch (args[i])
             {
                 case "--pattern":
                     pattern = args[++i];
+                    break;
+                case "--verbose":
+                    Verbose = true;
                     break;
                 case "--list":
                     list = args[++i];
@@ -85,6 +88,31 @@ internal static class Program
         return bad == 0 ? 0 : 1;
     }
 
+    private static bool Verbose;
+
+    // The markup of the first paragraph whose text differs, with letters and digits masked: the structure without the content.
+    private static void ShowShape(Func<Document> open, string[] actual, string[] expected, string pattern)
+    {
+        int k = 0;
+        while (k < actual.Length && k < expected.Length && actual[k] == expected[k])
+        {
+            k++;
+        }
+
+        using Document d = open();
+        TextHit? hit = d.Find(@"[\s\S]+", new DocumentFindOptions { Search = new SearchOptions { UseRegex = true } }).ElementAtOrDefault(k);
+        if (hit is null || hit.Location.Story != "body")
+        {
+            Console.Error.WriteLine("SHAPE paragraph " + k + " story " + hit?.Location.Story);
+            return;
+        }
+
+        Paragraph p = d.Body.Paragraphs().ElementAt(hit.Location.Index);
+        string xml = new string([.. p.Markup.Node.OuterXml.Select(c => char.IsLetter(c) && !char.IsAscii(c) ? 'a' : c)]);
+        string masked = Regex.Replace(xml, @"(?<=>)[^<]+(?=<)", m => Regex.Replace(m.Value, @"[A-Za-z]", "a"));
+        Console.Error.WriteLine("SHAPE paragraph " + k + " text " + Regex.Replace(hit.Text.Length > 0 ? new string('.', 0) : string.Empty, ".", string.Empty) + masked);
+    }
+
     private static string Check(string path, string root, string pattern)
     {
         byte[] bytes = File.ReadAllBytes(path);
@@ -112,6 +140,11 @@ internal static class Program
                 issues = r.Issues.Count;
                 issueNote ??= r.Issues.Count > 0 ? r.Issues[0].Code + ": " + r.Issues[0].Message : null;
                 Compare("replace", snapNow(d0), expected, failed);
+                if (Verbose && !snapNow(d0).SequenceEqual(expected, StringComparer.Ordinal))
+                {
+                    ShowShape(open, snapNow(d0), expected, pattern);
+                }
+
                 using var ms = new MemoryStream();
                 d0.SaveAs(ms, OfficeFormat.Docx);
                 ms.Position = 0;
@@ -229,6 +262,21 @@ internal static class Program
     private static void Compare(string name, string[] actual, string[] expected, List<string> failed, bool joined = false)
     {
         bool same = joined ? string.Concat(actual) == string.Concat(expected) : actual.SequenceEqual(expected, StringComparer.Ordinal);
+        if (!same && Verbose)
+        {
+            // Only positions, lengths and code points are printed: the corpus text itself stays where it is.
+            string a = joined ? string.Concat(actual) : string.Join("\u0001", actual);
+            string e = joined ? string.Concat(expected) : string.Join("\u0001", expected);
+            int k = 0;
+            while (k < a.Length && k < e.Length && a[k] == e[k])
+            {
+                k++;
+            }
+
+            string Cp(string x) => string.Join(" ", x.Skip(Math.Max(0, k - 3)).Take(10).Select(c => ((int)c).ToString("X4", System.Globalization.CultureInfo.InvariantCulture)));
+            Console.Error.WriteLine("DIFF " + name + " at " + k + " lengths " + a.Length + "/" + e.Length + " counts " + actual.Length + "/" + expected.Length + " actual[" + Cp(a) + "] expected[" + Cp(e) + "]");
+        }
+
         if (!same)
         {
             failed.Add(name);
