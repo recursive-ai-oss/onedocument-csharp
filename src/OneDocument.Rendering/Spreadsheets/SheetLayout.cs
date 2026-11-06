@@ -54,6 +54,9 @@ public sealed class SheetRenderOptions
     /// <summary>Gets or sets the fonts. Null uses the library's default fonts (metric-compatible stand-ins for the Office fonts).</summary>
     public IFontProvider? Fonts { get; set; }
 
+    /// <summary>Gets or sets how SmartArt diagrams on sheets are painted (stored drawing, or the layout run again) and a report callback. Null: the stored drawing unless it is missing or stale.</summary>
+    public SmartArt.DiagramOptions? Diagrams { get; set; }
+
     /// <summary>Gets or sets whether semantic tags (a table per printed range, rows, header and data cells) are written. Default true.</summary>
     public bool Tagged { get; set; } = true;
 
