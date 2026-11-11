@@ -9,7 +9,7 @@ OneDocument is a clean-room document processor for `net10.0` that depends only o
 - **Tolerant reading, typed defects.** Damage is repaired where Office repairs it and reported as a located defect (`docs/defects.md`); resource limits are on by default; nothing touches the network or runs code.
 - **Conversions say what they lose.** Every conversion between formats can return a loss report.
 
-## Status: 1.0
+## Status
 
 The tables below say what the code does and what has been checked, with the note or test that holds each number. A check that could not be run says so and is listed under [Gaps](#gaps); nothing here claims what was not measured. Measurements were taken on the code at the 1.0 freeze.
 
